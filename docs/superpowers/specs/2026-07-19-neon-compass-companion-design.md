@@ -144,6 +144,24 @@ L'Actu est l'écran d'accueil par défaut ; les réglages sont une icône dans l
 
 **Interdits** : datamining/extraction des fichiers du jeu, scraping automatisé massif d'un site tiers (veille manuelle/semi-manuelle uniquement), copier-coller de textes de wikis ou de guides.
 
+### Registre des sources (audit 20 juillet 2026)
+
+Principe : un **fait** (emplacement, séquence de cheat, nom, stat) est libre ; une **rédaction, un artwork, une base structurée** ne le sont pas. Une seule source est réutilisable directement ; tout le reste est référence factuelle à recouper (≥ 2 sources) puis réécrire.
+
+| Source | Donnée | Licence / statut | Usage |
+|---|---|---|---|
+| **OpenStreetMap** (extrait Floride, Geofabrik) | Littoral, routes, plans d'eau réels | ODbL 1.0 — attribution « © OpenStreetMap contributors » obligatoire ; share-alike sur la base dérivée, pas sur le rendu illustré | ✅ **Seule réutilisation directe** : trame du layout vectoriel du fond de carte |
+| Trailers, site officiel, Rockstar Newswire | Lieux, personnages, activités, annonces | Assets protégés Rockstar | ✅ Observation → faits reformulés, jamais l'asset |
+| Jeu en main (dès le 19 nov.) | POI, collectibles, cheats vérifiés | — | ✅ Source primaire n°1, via le mode éditeur intégré |
+| GTA Wiki Fandom (`gta.fandom.com`) | Personnages, véhicules, armes, radio | CC BY-SA (texte) | ✅ Exhaustivité factuelle ; rédaction refaite systématiquement |
+| Cartes communautaires (State of Leonida, gta6map.*, gtamaps.io) | Landmarks localisés | Artwork + base = propriété des auteurs ; robots.txt de SoL : `ai-train=no`, bots IA bannis | ⚠️ Référence factuelle uniquement — jamais leur artwork, leurs tuiles ni leur base de markers |
+| Repos GitHub de cartes (`gta6map/gta6map.github.io`, etc.) | Landmarks, reconstitution 3D | **`license: null` = tous droits réservés** — « open sur GitHub » ≠ réutilisable | ⚠️ Référence factuelle uniquement |
+| Sites cheats (GTABOOM, Leonidaverse, GTACodes.io, GTA6.gg) | Cheat codes post-lancement (aucun code réel avant) | Séquences = faits libres ; rédaction protégée | ✅ Agrégation recoupée, libellés réécrits |
+| OpenXBL (`xbl.io`) | Succès Xbox : listes, progression, rareté | API non officielle, free tier 150 req/h, OAuth Microsoft | ✅ v1.2 auto-cochage Xbox (consentement explicite) |
+| IGDB (API Twitch) | Métadonnées jeu (dates, éditions) | Gratuit **non-commercial** uniquement — or l'app est ad-funded | ❌ **Écarté en prod** ; outil interne de préparation au plus |
+| Endpoints PSN non officiels | Trophées PSN | Violation ToS Sony, risque Apple 5.2.2 | ❌ Écarté (décision §« Trophées ») |
+| r/GTA6, YouTube, GTAForums, presse | Veille, découvertes | Textes protégés ; ToS des plateformes | ✅ Veille semi-manuelle, faits recoupés puis réécrits |
+
 ### Tuyauterie de publication
 
 - Le contenu vit dans un **repo git `content/`** : JSON (POI, cheats) + Markdown (guides), versionné et relisible.
