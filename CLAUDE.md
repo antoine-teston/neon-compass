@@ -11,9 +11,10 @@ Style of this file: Karpathy-minimal. High signal only. If a rule doesn't change
 ## Hard constraints
 
 - **IP**: This is an unofficial fan project. Never ship or commit Rockstar/Take-Two assets (logos, artwork, audio, ripped data). All content must be original or clearly transformative fan work. No Rockstar trademarks (GTA, Grand Theft Auto, Vice City, Leonida) in the app name, icon, App Store subtitle, or bundle ID. Aggregated facts are always rewritten in our own words. Generated-image prompts never reference GTA/Rockstar/its characters, and prompts + sources are archived as proof of originality.
-- **Target**: iOS 26+, iPhone only (no iPad/Mac Catalyst until asked). iOS 26 minimum is deliberate: native Liquid Glass everywhere, no fallback paths.
+- **Target**: iOS/iPadOS 26+, universal iPhone + iPad (no Mac Catalyst). iPad is first-class — companion-beside-the-TV is the core tablet use case; adaptive layouts (`.sidebarAdaptable` tabs, side panel instead of sheets on regular width), never a scaled-up phone UI. iOS 26 minimum is deliberate: native Liquid Glass everywhere, no fallback paths.
 - **Design language**: Liquid Glass for all chrome (system tab bar/toolbars, `.glassEffect()` surfaces in `GlassEffectContainer`s); retro synthwave lives in the content layer only. Restraint over decoration — glow on at most three accents per screen.
 - **Language**: Swift 6, strict concurrency enabled. SwiftUI only — no UIKit unless a specific API forces it, and then wrapped in one file.
+- **Localization**: FR, EN, ES, IT, DE from v1. Development language is English; every user-facing string goes through the String Catalog — no hardcoded literals. Firestore content uses per-language fields with English fallback.
 
 ## Stack decisions (don't relitigate)
 

@@ -31,7 +31,9 @@ Fondement : **les faits ne sont pas protégés par le droit d'auteur** (cheat co
 
 ## 4. Architecture technique
 
-Client conforme au CLAUDE.md : Swift 6 (strict concurrency), SwiftUI + `@Observable`, SwiftData, **iOS 26+**, iPhone only. Le minimum iOS 26 est un choix délibéré : à la sortie (nov. 2026), iOS 26 aura plus d'un an, le public gamer iPhone est massivement à jour, et cela donne Liquid Glass natif partout sans fallback à maintenir. Backend : **Firebase** (Firestore, Auth anonyme, Remote Config, Analytics) + **AdMob**. Dérogation assumée à la règle « pas de dépendance tierce » : la monétisation pub impose le SDK Google, autant capitaliser sur l'écosystème.
+Client conforme au CLAUDE.md : Swift 6 (strict concurrency), SwiftUI + `@Observable`, SwiftData, **iOS/iPadOS 26+**, iPhone + iPad. Le minimum iOS 26 est un choix délibéré : à la sortie (nov. 2026), iOS 26 aura plus d'un an, le public gamer est massivement à jour, et cela donne Liquid Glass natif partout sans fallback à maintenir.
+
+**iPad — cas d'usage prioritaire** : la tablette posée à côté de la télé pendant qu'on joue sur console est le scénario naturel d'une app compagnon ; l'iPad est donc traité en première classe, pas en portage. Concrètement : mêmes features, layouts adaptatifs — `TabView` en `.sidebarAdaptable` (sidebar Liquid Glass native sur iPadOS 26), et sur la carte la fiche POI s'affiche en panneau latéral persistant plutôt qu'en sheet, pour garder la carte visible en permanence. Le viewer de carte tuilé est dimensionné pour les résolutions iPad dès sa conception. Une seule app universelle, pas de code spécifique par plateforme au-delà des layouts adaptatifs (`horizontalSizeClass`). Backend : **Firebase** (Firestore, Auth anonyme, Remote Config, Analytics) + **AdMob**. Dérogation assumée à la règle « pas de dépendance tierce » : la monétisation pub impose le SDK Google, autant capitaliser sur l'écosystème.
 
 ```
 NeonCompass/
@@ -65,6 +67,12 @@ NeonCompass/
 **Progression.** Checklists auto-générées depuis le contenu, pourcentages global et par catégorie, anneau de progression néon. Même enregistrement SwiftData que le « Trouvé » de la carte.
 
 **Publicité.** Bannière adaptative en bas des écrans de liste — jamais sur la carte en interaction. Interstitiel plafonné (max 1/session, jamais pendant une contribution), fréquence via Remote Config.
+
+**Localisation (FR, EN, ES, IT, DE).** Cinq langues dès la v1 — le pic de sortie est mondial, c'est un multiplicateur d'audience direct pour un coût contenu maîtrisé :
+- **UI** : String Catalogs Xcode (`.xcstrings`), anglais comme langue de développement, traductions relues.
+- **Contenu éditorial** : champs localisés dans le modèle Firestore (`title.fr`, `title.en`, …) avec **fallback anglais** si une langue manque. La rédaction source se fait en FR ou EN ; le script d'admin intègre une étape de **traduction automatique par IA vers les autres langues** au moment de la publication (relecture par sondage). Pendant le sprint jour J, l'anglais peut être publié seul, les autres langues suivent en heures.
+- **Contributions communautaires** : affichées dans la langue de l'auteur avec un tag de langue, pas de traduction en v1.
+- **App Store** : fiche localisée dans les cinq langues.
 
 ## 6. Direction artistique
 
@@ -104,7 +112,7 @@ NeonCompass/
 ### Tuyauterie de publication
 
 - Le contenu vit dans un **repo git `content/`** : JSON (POI, cheats) + Markdown (guides), versionné et relisible.
-- Un **script CLI d'admin** valide le schéma, pousse vers Firestore et incrémente `contentVersion` dans Remote Config ; l'app ne relit que le delta. Pas de back-office en v1.
+- Un **script CLI d'admin** valide le schéma, **génère les traductions manquantes par IA (EN/ES/IT/DE)**, pousse vers Firestore et incrémente `contentVersion` dans Remote Config ; l'app ne relit que le delta. Pas de back-office en v1.
 - Objectif du sprint jour J : carte schématique + premiers POI utilisables en 72 h, enrichissement continu ensuite.
 
 ### Modération
@@ -116,8 +124,8 @@ Notification par contribution `pending`, traitement < 24 h, votes communautaires
 | Période | Livrable |
 |---|---|
 | Fin juillet → août | Scaffolding, design system, moteur de carte (viewer + POI, carte placeholder), modèles de contenu + cache |
-| Septembre | Guides/cheats, progression, sync Firestore + Remote Config, script d'admin, mode éditeur interne |
-| Octobre | Communautaire, pub (AdMob + ATT/UMP), polish, bêta TestFlight, **soumission App Store fin octobre** |
+| Septembre | Guides/cheats, progression, sync Firestore + Remote Config, script d'admin (traductions IA incluses), mode éditeur interne |
+| Octobre | Communautaire, pub (AdMob + ATT/UMP), UI traduite en 5 langues + fiches App Store localisées, polish + QA des layouts iPad, bêta TestFlight, **soumission App Store fin octobre** |
 | Novembre | Release visée ~15 nov, sprint contenu à partir du 19 |
 
 La soumission fin octobre est la marge de sécurité pour encaisser un rejet et resoumettre. Si Rockstar redécale la sortie, seul le sprint contenu glisse.
@@ -138,4 +146,4 @@ Niveau retenu : **pragmatique ciblé** (Swift Testing). Unitaires sur la logique
 
 ## 11. Hors périmètre v1 (explicitement)
 
-Fil social complet, upload de photos/screenshots, iPad/Mac, Android/web (sauf plan B), comptes utilisateurs nommés, synchronisation cloud de la progression, mode clair.
+Fil social complet, upload de photos/screenshots, Mac, Android/web (sauf plan B), comptes utilisateurs nommés, synchronisation cloud de la progression, mode clair.
