@@ -4,7 +4,7 @@
 
 ## 1. Vision produit
 
-App iOS compagnon pour la sortie de GTA VI (19 novembre 2026), publiée sur l'App Store, gratuite et financée par la publicité. Quatre piliers au lancement : carte interactive stylisée, guide cheats & astuces, suivi de progression, contributions communautaires sur la carte. Le modèle publicitaire impose une app à usage quotidien pendant les semaines post-sortie : la rétention (progression, contenu frais) est un objectif produit de premier rang, pas un bonus.
+App iOS/iPadOS compagnon pour la sortie de GTA VI (19 novembre 2026), publiée sur l'App Store, gratuite, financée par la publicité et un achat unique « Pro » (confort et outils — jamais les faits). Quatre piliers au lancement : carte interactive stylisée, guide cheats & astuces, suivi de progression, contributions communautaires sur la carte. Le modèle publicitaire impose une app à usage quotidien pendant les semaines post-sortie : la rétention (progression, contenu frais) est un objectif produit de premier rang, pas un bonus.
 
 **Critères de succès** : app approuvée par Apple et disponible avant le 19 novembre ; carte utilisable (schématique + premiers POI) dans les 72 h suivant la sortie ; contributions modérées en < 24 h.
 
@@ -27,7 +27,7 @@ Fondement : **les faits ne sont pas protégés par le droit d'auteur** (cheat co
 - **Classement** : 17+.
 - **Publicité** : AdMob avec prompt ATT + consentement UMP (UE), politique de confidentialité hébergée. Sans opt-in IDFA, AdMob sert des pubs contextuelles — le revenu repose sur le volume du pic de sortie.
 - **UGC (Apple 1.2)** : signalement de contenu, blocage d'utilisateur, modération réactive, conditions d'utilisation.
-- **RGPD minimal by design** : auth anonyme, progression stockée en local uniquement, aucune donnée personnelle collectée hors identifiant anonyme et consentements pub.
+- **RGPD sobre by design** : progression stockée en local uniquement ; côté serveur, uniquement l'identifiant Sign in with Apple (e-mail masquable), le pseudo choisi et les données de contribution/niveau. Suppression de compte in-app = effacement complet. Consentements pub (ATT/UMP) à part.
 
 ## 4. Architecture technique
 
@@ -51,7 +51,8 @@ NeonCompass/
 **Flux de données**
 - Contenu éditorial (POI, guides, cheats) : Firestore → cache SwiftData local. Lecture réseau en delta seulement (champ `contentVersion` piloté par Remote Config). L'app est pleinement utilisable hors-ligne.
 - Progression utilisateur : SwiftData local uniquement, une seule source de vérité partagée entre carte et checklists. Jamais envoyée au serveur.
-- Contributions : Firestore `contributions` avec statut `pending` → modération → `approved` → visibles. Auth anonyme, aucun compte requis.
+- Contributions et votes : **jamais d'écriture directe du client** — tout passe par des Cloud Functions callable (`submitContribution`, `castVote`), les Security Rules interdisant l'écriture directe sur ces collections. Statuts : `pending` → modération → `approved` → visibles. Cloud Functions ⇒ plan Firebase Blaze (pay-as-you-go).
+- Authentification : **Sign in with Apple, requis uniquement pour contribuer, voter et avoir un profil/niveau** — l'identité stable rend les bans définitifs et porte le système de points. Toute la consultation (carte, cheats, guides, actu) fonctionne sans compte. Seule option de connexion proposée. Suppression de compte in-app (guideline Apple 5.1.1).
 - Firebase est isolé derrière des protocoles dans `Core/` : les features sont testables sans I/O.
 
 **Moteur de carte** (pièce technique principale) : illustration originale découpée en tuiles de zoom, rendue dans un viewer zoom/pan custom (SwiftUI wrappant `CATiledLayer`). POI positionnés en **coordonnées normalisées (0-1), indépendantes de l'artwork** — on peut remplacer le dessin sans toucher aux données.
@@ -60,13 +61,47 @@ NeonCompass/
 
 ## 5. Features
 
-**Carte** (onglet principal). Zoom/pan, filtres par catégorie (collectibles, activités, planques, véhicules rares, événements), recherche. Fiche POI : description, astuce, bouton « Trouvé » alimentant la progression. Contribution : appui long → proposer un spot (catégorie, titre, note ≤ 280 caractères, position) ; spots approuvés badgés communauté, votes ▲▼, signalement. Les spots très votés sont promouvables en contenu éditorial.
+### Navigation
 
-**Guides & cheats.** Cheat codes avec recherche et filtre plateforme (PS5/Xbox), séquences en glyphes manette. Guides Markdown rendus nativement, chapitres : histoire, side content, débutant, argent. Lisible hors-ligne après cache.
+Navbar basse à 5 emplacements avec la **carte en bouton central proéminent** (cercle en verre teinté magenta, légèrement surélevé — `glassEffect` dans le `GlassEffectContainer` de la barre) :
+
+**[ Actu ] [ Cheats & Guides ] [ ● CARTE ] [ Progression ] [ Profil ]**
+
+L'Actu est l'écran d'accueil par défaut ; les réglages sont une icône dans l'Actu. Sur iPad, la barre devient la sidebar adaptative (`.sidebarAdaptable`) — le bouton central est un concept iPhone uniquement.
+
+**Actu (feed).** Flux chronologique alimenté par Firestore (même pipeline que le reste du contenu) : nouveaux POI et guides publiés, actualités officielles reformulées (annonces Rockstar, patchs/title updates, événements in-game), spots communautaires les plus votés de la semaine. C'est le moteur de rétention quotidienne — et l'emplacement publicitaire principal (bannière + cellules sponsorisées natives plafonnées).
+
+### Les features
+
+**Carte** (bouton central). Zoom/pan, filtres par catégorie (collectibles, activités, planques, véhicules rares, événements), recherche. Fiche POI : description, astuce, bouton « Trouvé » alimentant la progression. Contribution : appui long → proposer un spot (catégorie, titre, note ≤ 280 caractères, position) ; spots approuvés badgés communauté, votes ▲▼, signalement. Les spots très votés sont promouvables en contenu éditorial.
+
+**Cheats & Guides** (un onglet, deux sections — les cheats d'abord : le cas d'usage est « je suis en jeu, il me faut ce code en 5 secondes »).
+
+*Format de lecture des cheats* :
+- **Carte par code** : nom + effet en une ligne, séquence en **chips de glyphes manette** (SF Symbols PlayStation/Xbox), toggle global PS5/Xbox qui bascule toutes les séquences, badge « bloque les trophées » (flag par cheat), recherche et catégories, favoris épinglés en tête.
+- **Mode lecture plein écran** : tap sur une carte → glyphes énormes sur 2-3 lignes lisibles à 2 m, fond assombri, **écran maintenu allumé** (`isIdleTimerDisabled`) pendant la saisie manette, swipe horizontal vers le cheat suivant de la catégorie.
+- **Modèle en tokens abstraits** : séquence stockée `["circle","l1","triangle",…]`, rendue en glyphes selon la plateforme — indépendant de la langue. Champ `type` extensible : `sequence` (boutons), `phoneNumber` (numéro in-game façon GTA V, affiché en gros), `text` — on ne parie pas sur le mécanisme exact avant la sortie du jeu.
+
+*Guides* : Markdown rendu nativement, chapitres : histoire, side content, débutant, argent. Lisible hors-ligne après cache.
 
 **Progression.** Checklists auto-générées depuis le contenu, pourcentages global et par catégorie, anneau de progression néon. Même enregistrement SwiftData que le « Trouvé » de la carte.
 
-**Publicité.** Bannière adaptative en bas des écrans de liste — jamais sur la carte en interaction. Interstitiel plafonné (max 1/session, jamais pendant une contribution), fréquence via Remote Config.
+**Profil & leveling.** Accessible après Sign in with Apple : pseudo choisi, XP gagnée par contribution approuvée et par vote reçu, grades à thème synthwave **originaux** (jamais les rangs de GTA), badges, historique de mes contributions avec leurs statuts, badge premium, réglages (langue, plateforme manette par défaut, suppression de compte). Le niveau est calculé côté serveur (Cloud Function à l'approbation) — jamais par le client.
+
+**Monétisation.**
+- **Publicité** : bannière adaptative en bas des écrans de liste et du feed — jamais sur la carte en interaction. Interstitiel plafonné (max 1/session, jamais pendant une contribution), fréquence via Remote Config.
+- **Pro (achat unique ~5-6 €, StoreKit 2)** — principe : le premium vend du confort et des outils, **jamais des faits** (cheats, données de carte et guides restent intégralement gratuits — paywaller des infos disponibles sur les wikis pousserait les utilisateurs ailleurs et ruinerait la réputation de l'app ; option « limiter certains cheats » examinée et écartée volontairement) et **jamais d'XP** (un ranking achetable ne vaut rien). Contenu du pack :
+  - Suppression des pubs.
+  - **Sync cloud de la progression iPhone↔iPad** (nécessite le compte).
+  - **Planificateur d'itinéraire de collecte** : route optimisée par proximité sur les collectibles restants (tri glouton sur les coordonnées normalisées).
+  - **Mode « reste à faire »** : toggle qui masque tout le déjà-trouvé sur la carte.
+  - **Widgets** écran d'accueil/verrouillé : anneau de progression, cheat favori épinglé (rendu accented Liquid Glass).
+  - **Notifications suivies** : push quand un spot est publié dans une catégorie/zone suivie (FCM topics — les notifications générales restent gratuites).
+  - Icônes d'app et thèmes néon exclusifs + badge profil.
+  - L'entitlement StoreKit signé par Apple est la **source de vérité locale** ; le compte n'en est qu'un miroir serveur (App Store Server API) pour le badge et les features liées au compte. L'achat ne requiert jamais de connexion.
+  - V1.1+ : **Live Activity « session de jeu »** — au démarrage d'une session, l'utilisateur choisit un objectif (catégorie de checklist ou route du planificateur Pro) ; écran verrouillé : objectif, progression, prochain POI, chrono ; Dynamic Island étendue : bouton « Trouvé ✓ » interactif (`LiveActivityIntent` écrivant dans le même enregistrement SwiftData que la carte) — cocher sans déverrouiller. Mises à jour locales, fin auto à la complétion (limite système 8 h). Également v1.1+ : app Apple Watch cheats, export d'image de sa carte annotée.
+
+**Trophées & succès.** V1 : **checklists manuelles** intégrées à la Progression — la liste des trophées est un fait librement reproductible, le cochage manuel couvre l'essentiel du besoin. V1.2 : exploration de l'auto-cochage **Xbox uniquement** (OAuth Microsoft via service établi type OpenXBL, consentement explicite). **PSN : écarté** — pas d'API officielle, et les endpoints non officiels (violation des ToS Sony, token NPSSO utilisateur, risque Apple 5.2.2) cumuleraient une zone grise de trop pour cette app. Décision : réévalué uniquement si Sony publie un jour une API officielle.
 
 **Localisation (FR, EN, ES, IT, DE).** Cinq langues dès la v1 — le pic de sortie est mondial, c'est un multiplicateur d'audience direct pour un coût contenu maîtrisé :
 - **UI** : String Catalogs Xcode (`.xcstrings`), anglais comme langue de développement, traductions relues.
@@ -114,6 +149,17 @@ NeonCompass/
 - Le contenu vit dans un **repo git `content/`** : JSON (POI, cheats) + Markdown (guides), versionné et relisible.
 - Un **script CLI d'admin** valide le schéma, **génère les traductions manquantes par IA (EN/ES/IT/DE)**, pousse vers Firestore et incrémente `contentVersion` dans Remote Config ; l'app ne relit que le delta. Pas de back-office en v1.
 - Objectif du sprint jour J : carte schématique + premiers POI utilisables en 72 h, enrichissement continu ensuite.
+
+### Anti-spam & anti-abus
+
+Défense en couches sur les soumissions et votes :
+
+1. **App Check (App Attest)** : toute requête doit prouver qu'elle vient du binaire signé sur un vrai appareil — élimine scripts et bots hors app.
+2. **Chemin d'écriture unique** : Cloud Functions callable avec validation serveur — schéma, longueurs, filtre de vocabulaire, **déduplication géographique** (rejet si un spot approuvé de même catégorie existe à proximité).
+3. **Cooldown court** entre deux soumissions (ordre de la minute) — pas de plafond journalier ni de limite de contributions en attente : un contributeur légitime prolifique n'est jamais bridé, c'est la ressource la plus précieuse au pic de sortie.
+4. **Votes uniques par construction** : ID de document `{spotId}_{uid}` — revoter réécrit le même document. Compteurs agrégés côté serveur uniquement.
+5. **Monitoring de vélocité au lieu de caps** : un burst anormal (volume, régularité machinale, doublons proches) marque les soumissions pour revue prioritaire et peut déclencher un **shadow-ban** — jamais un blocage automatique d'utilisateur légitime. L'identité Sign in with Apple rend les bans définitifs : réinstaller ne crée pas une nouvelle identité.
+6. **Filets** : rien de public avant modération, kill-switch Remote Config, alertes de budget Firebase.
 
 ### Modération
 
