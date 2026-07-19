@@ -31,7 +31,7 @@ Fondement : **les faits ne sont pas protégés par le droit d'auteur** (cheat co
 
 ## 4. Architecture technique
 
-Client conforme au CLAUDE.md : Swift 6 (strict concurrency), SwiftUI + `@Observable`, SwiftData, iOS 18+, iPhone only. Backend : **Firebase** (Firestore, Auth anonyme, Remote Config, Analytics) + **AdMob**. Dérogation assumée à la règle « pas de dépendance tierce » : la monétisation pub impose le SDK Google, autant capitaliser sur l'écosystème.
+Client conforme au CLAUDE.md : Swift 6 (strict concurrency), SwiftUI + `@Observable`, SwiftData, **iOS 26+**, iPhone only. Le minimum iOS 26 est un choix délibéré : à la sortie (nov. 2026), iOS 26 aura plus d'un an, le public gamer iPhone est massivement à jour, et cela donne Liquid Glass natif partout sans fallback à maintenir. Backend : **Firebase** (Firestore, Auth anonyme, Remote Config, Analytics) + **AdMob**. Dérogation assumée à la règle « pas de dépendance tierce » : la monétisation pub impose le SDK Google, autant capitaliser sur l'écosystème.
 
 ```
 NeonCompass/
@@ -68,25 +68,55 @@ NeonCompass/
 
 ## 6. Direction artistique
 
-**Langage** : néon synthwave 80s — fond nuit bleu-noir, dégradés sunset magenta→violet→orange, accents cyan néon avec glow. Typo display 80s open source (licence OFL, type Orbitron/Monoton — jamais Pricedown), SF Pro en texte courant. Mode sombre uniquement. Les néons sont des accents ; le texte courant respecte un contraste AA.
+**Principe directeur : le néon est le contenu, le verre est le chrome.** Deux couches strictement séparées :
+- **Couche contenu (rétro)** : fonds en dégradés sunset magenta→violet→orange sur nuit bleu-noir, illustrations synthwave générées, typo display 80s open source (licence OFL, type Orbitron — jamais Pricedown) réservée aux titres d'écran, SF Pro partout ailleurs. Mode sombre uniquement.
+- **Couche interface (Liquid Glass, iOS 26)** : toutes les surfaces de contrôle — tab bar, toolbars, fiche POI, boutons flottants de la carte — sont en Liquid Glass et laissent transparaître le néon en dessous. C'est ce qui donne le côté **épuré** : l'UI n'ajoute presque aucune couleur propre, elle réfracte celles du fond.
 
-**Design system d'abord** : `Core/DesignSystem` (tokens sémantiques, styles de glow, fiche POI, boutons, anneau de progression, tab bar) construit avant les features.
+**Sobriété rétro assumée** : pas de skeuomorphisme chargé (pas de scanlines/CRT généralisés), le glow est réservé à trois accents — l'anneau de progression, le POI sélectionné, l'action principale. Beaucoup d'air, listes sobres sur verre.
+
+**Implémentation Liquid Glass** :
+- Tab bar et navigation : composants système standard — le Liquid Glass y est natif sur iOS 26, zéro code.
+- Contrôles flottants de la carte (filtres, recentrage, contribution) : grappe de boutons `.glassEffect(.regular.interactive())` dans un `GlassEffectContainer` — le morphing natif (via `glassEffectID`) anime l'ouverture du panneau de filtres depuis le bouton.
+- Fiche POI : sheet en `.glassEffect(.regular, in: .rect(cornerRadius:))`, teinte magenta/cyan très légère uniquement pour les états (sélectionné, communautaire).
+- Règles : `.interactive()` seulement sur l'interactif ; jamais de fond opaque derrière un verre ; pas de verre sur verre ; contraste AA vérifié sur les artworks les plus chargés (si le fond est trop actif sous un texte, on assombrit la teinte du verre, pas le texte).
+
+**Design system d'abord** : `Core/DesignSystem` (tokens sémantiques, styles de glow, extensions de teintes glass, fiche POI, boutons, anneau de progression) construit avant les features.
 
 **Pipeline d'images générées** : illustrations d'ambiance, en-têtes de catégories, onboarding, icône (palmier/soleil néon, unicité vérifiée). La carte n'est pas générée d'un bloc : **layout vectoriel schématique** (routes, quartiers, littoral d'après la géographie factuelle du jeu) habillé de textures générées. Aucun prompt ne cite GTA/Rockstar/personnages ; prompts et sources archivés.
 
-## 7. Contenu & opérations
+## 7. Acquisition des données & opérations
 
-- Publication via script CLI d'admin (Mac → Firestore), pas de back-office en v1.
-- **Pré-sortie** : contenu factuel public reformulé (setting, personnages annoncés, infos officielles) — pas d'images des trailers.
-- **Jour J (19 nov)** : sprint contenu — toi en jeu + agrégation reformulée + IA pour structurer. Objectif : carte schématique + premiers POI en 72 h, enrichissement continu.
-- **Modération** : notification par contribution `pending`, traitement < 24 h, votes communautaires comme pré-filtre, kill-switch si débordement.
+### D'où viennent les données
+
+**Avant la sortie** (dès maintenant) :
+- **Sources officielles publiques** : Rockstar Newswire, site officiel GTA VI, posts sociaux officiels → personnages, lieux, activités annoncés, en faits reformulés.
+- **Presse et communauté** : previews presse, r/GTA6, et les projets communautaires de reconstitution de la carte depuis les trailers — utilisés comme **référence factuelle** pour dessiner notre layout vectoriel ; on ne copie jamais leur artwork (leur dessin leur appartient, la géographie non).
+- **Préparation structurelle** : le schéma de contenu (catégories de POI, format guide, format cheat) est défini et testé avant la sortie avec des données factices — au jour J on ne remplit que des cases déjà prêtes.
+
+**À partir du jour J** :
+- **Jeu en main (source primaire)** : sessions de jeu dédiées à la collecte. Outil clé : un **mode éditeur intégré à l'app** (builds debug/TestFlight interne uniquement) — console d'un côté, iPhone de l'autre : appui long sur la carte → formulaire de saisie (catégorie, titre, note) → écriture directe en Firestore. Le placement se fait par repères visuels (landmarks) sur notre carte schématique. C'est le chemin le plus rapide entre « je découvre un spot en jeu » et « il est publié ».
+- **Veille communautaire (exhaustivité)** : wikis (GTA Wiki/Fandom), Reddit, guides YouTube, sites spécialisés — veille quotidienne semi-manuelle pendant le premier mois. Les faits sont repris, la rédaction est toujours originale ; l'IA sert à reformuler et structurer en masse.
+- **Cheat codes** : découverts et publiés par la communauté dans les premiers jours ; des séquences de touches sont des faits, librement réutilisables.
+- **Contributions utilisateurs** : appoint une fois la base amorcée — jamais le plan A du démarrage.
+
+**Interdits** : datamining/extraction des fichiers du jeu, scraping automatisé massif d'un site tiers (veille manuelle/semi-manuelle uniquement), copier-coller de textes de wikis ou de guides.
+
+### Tuyauterie de publication
+
+- Le contenu vit dans un **repo git `content/`** : JSON (POI, cheats) + Markdown (guides), versionné et relisible.
+- Un **script CLI d'admin** valide le schéma, pousse vers Firestore et incrémente `contentVersion` dans Remote Config ; l'app ne relit que le delta. Pas de back-office en v1.
+- Objectif du sprint jour J : carte schématique + premiers POI utilisables en 72 h, enrichissement continu ensuite.
+
+### Modération
+
+Notification par contribution `pending`, traitement < 24 h, votes communautaires comme pré-filtre, kill-switch Remote Config si débordement.
 
 ## 8. Planning
 
 | Période | Livrable |
 |---|---|
 | Fin juillet → août | Scaffolding, design system, moteur de carte (viewer + POI, carte placeholder), modèles de contenu + cache |
-| Septembre | Guides/cheats, progression, sync Firestore + Remote Config, script d'admin |
+| Septembre | Guides/cheats, progression, sync Firestore + Remote Config, script d'admin, mode éditeur interne |
 | Octobre | Communautaire, pub (AdMob + ATT/UMP), polish, bêta TestFlight, **soumission App Store fin octobre** |
 | Novembre | Release visée ~15 nov, sprint contenu à partir du 19 |
 
