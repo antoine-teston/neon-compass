@@ -26,7 +26,7 @@ Fondement : **les faits ne sont pas protégés par le droit d'auteur** (cheat co
 - **Nom de travail** : Neon Compass (critère : évocateur Miami/néon, sans citer l'univers). Projet Xcode `NeonCompass` (le CLAUDE.md est mis à jour en conséquence).
 - **Classement** : 17+.
 - **Publicité** : AdMob avec prompt ATT + consentement UMP (UE), politique de confidentialité hébergée. Sans opt-in IDFA, AdMob sert des pubs contextuelles — le revenu repose sur le volume du pic de sortie.
-- **UGC (Apple 1.2)** : signalement de contenu, blocage d'utilisateur, modération réactive, conditions d'utilisation.
+- **UGC (Apple 1.2)** : les quatre exigences couvertes — pré-modération (plus forte que le filtrage exigé), signalement de contenu, **blocage d'utilisateur par l'utilisateur** (masquer tous les spots d'un contributeur : liste de blocage locale + filtre à l'affichage, réversible dans les réglages), conditions d'utilisation acceptées avant la première contribution.
 - **RGPD sobre by design** : progression stockée en local uniquement ; côté serveur, uniquement l'identifiant Sign in with Apple (e-mail masquable), le pseudo choisi et les données de contribution/niveau. Suppression de compte in-app = effacement complet. Consentements pub (ATT/UMP) à part.
 
 ## 4. Architecture technique
@@ -73,7 +73,7 @@ L'Actu est l'écran d'accueil par défaut ; les réglages sont une icône dans l
 
 ### Les features
 
-**Carte** (bouton central). Zoom/pan, filtres par catégorie (collectibles, activités, planques, véhicules rares, événements), recherche. Fiche POI : description, astuce, bouton « Trouvé » alimentant la progression. Contribution : appui long → proposer un spot (catégorie, titre, note ≤ 280 caractères, position) ; spots approuvés badgés communauté, votes ▲▼, signalement. Les spots très votés sont promouvables en contenu éditorial.
+**Carte** (bouton central). Zoom/pan, filtres par catégorie (collectibles, activités, planques, véhicules rares, événements), recherche. Fiche POI : description, astuce, bouton « Trouvé » alimentant la progression. Contribution : appui long → proposer un spot (catégorie, titre, note ≤ 280 caractères, position) ; spots approuvés badgés communauté, votes ▲▼, signalement, et **« masquer les spots de ce contributeur »** (blocage utilisateur, exigence Apple 1.2 — liste locale, gérable dans les réglages). Les spots très votés sont promouvables en contenu éditorial.
 
 **Cheats & Guides** (un onglet, deux sections — les cheats d'abord : le cas d'usage est « je suis en jeu, il me faut ce code en 5 secondes »).
 
@@ -86,7 +86,7 @@ L'Actu est l'écran d'accueil par défaut ; les réglages sont une icône dans l
 
 **Progression.** Checklists auto-générées depuis le contenu, pourcentages global et par catégorie, anneau de progression néon. Même enregistrement SwiftData que le « Trouvé » de la carte.
 
-**Profil & leveling.** Accessible après Sign in with Apple : pseudo choisi, XP gagnée par contribution approuvée et par vote reçu, grades à thème synthwave **originaux** (jamais les rangs de GTA), badges, historique de mes contributions avec leurs statuts, badge premium, réglages (langue, plateforme manette par défaut, suppression de compte). Le niveau est calculé côté serveur (Cloud Function à l'approbation) — jamais par le client.
+**Profil & leveling.** Accessible après Sign in with Apple : **handle auto-généré à consonance synthwave** (ex. « NEON-FALCON-88 », regénérable — jamais de pseudo libre : supprime la modération des noms, le risque d'usurpation type « Rockstar_Official » et du data personnel), XP gagnée par contribution approuvée et par vote reçu, grades à thème synthwave **originaux** (jamais les rangs de GTA), badges, historique de mes contributions avec leurs statuts, badge premium, réglages (langue, plateforme manette par défaut, suppression de compte). Le niveau est calculé côté serveur (Cloud Function à l'approbation) — jamais par le client.
 
 **Monétisation.**
 - **Publicité** : bannière adaptative en bas des écrans de liste et du feed — jamais sur la carte en interaction. Interstitiel plafonné (max 1/session, jamais pendant une contribution), fréquence via Remote Config.
@@ -223,7 +223,7 @@ Lecture honnête : le pic de revenus dure 6-10 semaines puis décroît fortement
 | Donnée | Où | Base légale | Rétention |
 |---|---|---|---|
 | Progression de jeu | Appareil (SwiftData) ; Firestore si Pro sync | Contrat | Locale ; effacée avec le compte |
-| Compte (Apple user ID, e-mail relay optionnel, pseudo) | Firestore | Contrat | Jusqu'à suppression du compte |
+| Compte (Apple user ID, e-mail relay optionnel, handle auto-généré) | Firestore | Contrat | Jusqu'à suppression du compte |
 | Contributions, votes, XP | Firestore | Contrat | Jusqu'à suppression (voir ci-dessous) |
 | Analytics produit (événements agrégés, sans IDFA) | Firebase Analytics | Intérêt légitime | 14 mois |
 | Pub personnalisée (IDFA) | AdMob | **Consentement** (ATT + UMP) | Géré par Google |
@@ -248,3 +248,25 @@ Lecture honnête : le pic de revenus dure 6-10 semaines puis décroît fortement
 **Dimensionnement & coûts.** Profil read-heavy avec un poste dominant : l'egress des tuiles de carte. Mitigation structurante : **le jeu de tuiles de base est embarqué dans le binaire** (pas de téléchargement initial), le CDN ne sert que les mises à jour d'artwork. Lectures Firestore maîtrisées par la sync delta (`contentVersion`) — un client à jour ne lit quasi rien. Au scénario médian (20 k DAU), coût Firebase estimé < 100 €/mois ; alerte de budget à 50 €, plafonds configurés — une attaque ou un bug de boucle ne peut pas générer une facture surprise.
 
 **Environnements & sauvegardes.** Deux projets Firebase (`dev`, `prod`), `GoogleService-Info` par environnement via xcconfig. Le contenu éditorial est reconstructible depuis le repo git (source de vérité) ; la seule donnée irremplaçable est communautaire (profils, contributions) → **export Firestore hebdomadaire** vers Cloud Storage + PITR activé. CI : Xcode Cloud plus tard, build locale + TestFlight en v1.
+
+## 16. Dossier de review App Store
+
+Objectif unique : **éviter le rejet** — chaque élément ci-dessous ferme un motif de rejet documenté.
+
+**Guidelines critiques et réponses** :
+
+| Guideline | Risque | Notre réponse |
+|---|---|---|
+| 5.2.1/5.2.2 (PI) | Le mur principal pour une app fan | Zéro asset Rockstar, nom/icône/screenshots originaux, usage nominatif limité à la description, disclaimer, archive des prompts comme preuve d'originalité |
+| 4.1 (Copycats) | Confusion avec la marque | DA genre synthwave, jamais le style signature Rockstar (pas de Pricedown) |
+| 1.2 (UGC) | Checklist mécanique du reviewer | Pré-modération + signalement + **blocage utilisateur** (masquer les spots d'un contributeur, liste locale) + CGU avant première contribution. Dossier renforcé par : pas de messagerie, pas de pseudo libre (handles auto-générés), texte pré-modéré uniquement |
+| 5.1.1(v) | Compte sans suppression | Suppression in-app en cascade |
+| 5.1.1 | Compte exigé abusivement | Consultation intégralement sans compte |
+| 5.1.2/ATT | Labels privacy inexacts avec AdMob | Labels alignés sur les SDK réels, prompt ATT + UMP |
+| 3.1.1 (IAP) | Achat hors StoreKit, restauration absente | StoreKit 2 uniquement, bouton « Restaurer les achats » visible |
+| 2.1/4.2 | App « vide » soumise avant la sortie du jeu | Chaque onglet fonctionnel avec le contenu pré-sortie — jamais d'écran « coming soon » |
+| DSA (UE) | Statut de commerçant non déclaré | Déclaré dans App Store Connect avant soumission |
+
+**Notes au reviewer** (rédigées avec le binaire) : caractère non officiel et disclaimer, absence totale d'assets Rockstar (artwork 100 % original, preuve disponible), nature factuelle du contenu, fonctionnement de la pré-modération, où trouver blocage/signalement/suppression de compte. Un reviewer qui comprend en 30 secondes ne sur-escalade pas.
+
+**Checklist de soumission (fin octobre)** : classement 17+ honnête · labels App Privacy vérifiés contre les SDK · statut commerçant DSA · politique de confidentialité et CGU en ligne (5 langues) · bouton restaurer les achats · suppression de compte testée · signalement + blocage testés · aucun « GTA » hors description · pré-commande demandée tôt · notes au reviewer jointes. En cas de rejet : corriger et resoumettre d'abord ; **appel au Review Board** si le rejet est infondé ; un rejet métadonnées se corrige sans re-review du binaire.
