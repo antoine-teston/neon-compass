@@ -192,4 +192,59 @@ Niveau retenu : **pragmatique ciblé** (Swift Testing). Unitaires sur la logique
 
 ## 11. Hors périmètre v1 (explicitement)
 
-Fil social complet, upload de photos/screenshots, Mac, Android/web (sauf plan B), comptes utilisateurs nommés, synchronisation cloud de la progression, mode clair.
+Fil social complet, upload de photos/screenshots, Mac, Android/web (sauf plan B), mode clair, Live Activity, Apple Watch, auto-cochage Xbox (v1.2), trophées PSN (écarté sauf API officielle).
+
+## 12. Marketing & marque
+
+**Naming.** Contrainte structurante : le nom ne peut porter aucune marque Rockstar, donc la découvrabilité ne viendra pas du nom. Process : shortlist (« Neon Compass » en tête, alternatives à générer sur les critères Miami/néon/boussole-guide), vérification systématique EUIPO/USPTO + recherche App Store avant de trancher, et dépôt du nom retenu si le budget le permet. Champ mots-clés App Store : uniquement des termes factuels (« carte, guide, cheats, companion ») — y glisser « GTA » est une pratique répandue mais c'est un motif de rejet documenté ; on s'en abstient pour la review de lancement, réévaluation ensuite.
+
+**Identité marketing.** L'icône (palmier/soleil néon) est l'actif n°1 — testée en A/B sur les fiches produit si possible. Screenshots App Store : mockups synthwave montrant carte → cheats plein écran → progression, textes courts dans les 5 langues. Vidéo preview 30 s centrée sur le geste signature (appui long → contribution). Ton de voix : années 80, second degré, jamais le vocabulaire maison de Rockstar.
+
+**Acquisition.** Dans l'ordre de rendement attendu : (1) **pré-commande App Store** ouverte 2-3 semaines avant la sortie — elle cumule l'intention pendant le pic de hype et convertit le jour J ; (2) **créateurs de contenu** : accès TestFlight anticipé à des youtubeurs/streamers GTA francophones et anglophones — une vidéo « la meilleure app compagnon » vaut tout le reste ; (3) **présence authentique** sur r/GTA6 et TikTok (format « spot du jour » : 15 s de carte + découverte) ; (4) **site vitrine one-page** (SEO « carte interactive GTA VI », capture d'e-mails « préviens-moi », fondation du plan B PWA) ; (5) communiqué presse spécialisée à la sortie. Aucun budget pub payant en v1 — le pic organique est l'opportunité, l'ASO et les créateurs sont les multiplicateurs.
+
+## 13. Stratégie de revenus & projections
+
+**Sources v1** : (1) AdMob — bannières, interstitiels plafonnés, natives dans le feed ; (2) Pro one-shot 5,99 € (commission Apple 15 % via Small Business Program, net ≈ 5,09 €). **Sources futures** (v1.1+) : packs cosmétiques additionnels (thèmes/icônes), version web financée par la pub (si plan B activé ou en complément), tip jar. **Écartés** : abonnement (churn post-pic rédhibitoire), affiliation/sponsoring (dilue la confiance), vente de données (jamais).
+
+**Projections à 3 mois post-sortie** — hypothèses transparentes, variance énorme assumée (tout dépend du classement ASO et d'un éventuel relais créateur) :
+
+| Scénario | Installs cumulés | DAU moyen | Pub (ARPDAU 0,015-0,025 €) | Conversion Pro (1,5-2,5 %) | Total ~3 mois |
+|---|---|---|---|---|---|
+| Pessimiste | 50 k | 4 k | ≈ 5 k€ | ≈ 4 k€ | **≈ 9 k€** |
+| Médian | 250 k | 20 k | ≈ 36 k€ | ≈ 25 k€ | **≈ 60 k€** |
+| Optimiste | 1 M | 80 k | ≈ 180 k€ | ≈ 127 k€ | **≈ 300 k€** |
+
+Lecture honnête : le pic de revenus dure 6-10 semaines puis décroît fortement ; la longue traîne dépendra du mode online de GTA VI et du rythme de nos mises à jour. À anticiper côté admin : statut (micro-entreprise vs société — au scénario médian, le plafond micro-BNC est dépassé), TVA sur services électroniques, inscription au Small Business Program avant la sortie.
+
+## 14. Données, tracking, sécurité & RGPD
+
+**Principe : minimisation.** Inventaire exhaustif des données :
+
+| Donnée | Où | Base légale | Rétention |
+|---|---|---|---|
+| Progression de jeu | Appareil (SwiftData) ; Firestore si Pro sync | Contrat | Locale ; effacée avec le compte |
+| Compte (Apple user ID, e-mail relay optionnel, pseudo) | Firestore | Contrat | Jusqu'à suppression du compte |
+| Contributions, votes, XP | Firestore | Contrat | Jusqu'à suppression (voir ci-dessous) |
+| Analytics produit (événements agrégés, sans IDFA) | Firebase Analytics | Intérêt légitime | 14 mois |
+| Pub personnalisée (IDFA) | AdMob | **Consentement** (ATT + UMP) | Géré par Google |
+| Crash & performance | Crashlytics | Intérêt légitime | 90 jours |
+
+**Droits & suppression.** Suppression de compte in-app (Cloud Function en cascade) : profil et votes effacés ; les contributions approuvées sont **anonymisées** (« auteur supprimé ») plutôt qu'effacées — l'anonymisation irréversible sort la donnée du champ RGPD tout en préservant la carte communautaire. Politique de confidentialité dans les 5 langues ; App Privacy labels App Store déclarés en conséquence ; registre de traitement simple tenu dans le repo (`docs/privacy/`). Pas de DPO requis à cette échelle.
+
+**Tracing & observabilité.** Crashlytics + Firebase Performance côté client ; logs structurés des Cloud Functions (request ID, jamais de PII dans les logs), rétention 30 jours ; alertes sur taux d'erreur des Functions et taux de crash. Export BigQuery : plus tard, seulement si un besoin analytique le justifie.
+
+**Sécurité.** Deny-by-default sur toutes les Security Rules ; App Check exigé sur Firestore, Functions et Hosting ; tokens en Keychain uniquement ; secrets du CLI admin dans le trousseau macOS, jamais dans le repo ; comptes de service au moindre privilège ; chiffrement at-rest et TLS gérés par Firebase ; revue des dépendances SPM à chaque ajout (politique : Google/Apple uniquement en v1).
+
+## 15. Infrastructure & flux
+
+**Composants** : Firestore (multi-région **eur3** — posture RGPD et proximité du cœur d'audience UE), Cloud Functions (europe-west1), Remote Config, App Check, FCM, Firebase Hosting comme CDN d'assets, App Store Server Notifications V2 → Function (miroir premium).
+
+**Flux principaux** :
+- Lecture : client → App Check → Firestore (contenu + communauté `approved`) ; tuiles de carte et images → Hosting/CDN (fichiers à nom hashé, cache long).
+- Écriture : client → Functions callable (`submitContribution`, `castVote`, `deleteAccount`) → Firestore. Aucune écriture directe.
+- Publication : repo git `content/` → CLI admin (validation, traductions IA) → Firestore + bump `contentVersion` (Remote Config).
+- Premium : App Store → Server Notification → Function → champ `isPremium` du profil.
+
+**Dimensionnement & coûts.** Profil read-heavy avec un poste dominant : l'egress des tuiles de carte. Mitigation structurante : **le jeu de tuiles de base est embarqué dans le binaire** (pas de téléchargement initial), le CDN ne sert que les mises à jour d'artwork. Lectures Firestore maîtrisées par la sync delta (`contentVersion`) — un client à jour ne lit quasi rien. Au scénario médian (20 k DAU), coût Firebase estimé < 100 €/mois ; alerte de budget à 50 €, plafonds configurés — une attaque ou un bug de boucle ne peut pas générer une facture surprise.
+
+**Environnements & sauvegardes.** Deux projets Firebase (`dev`, `prod`), `GoogleService-Info` par environnement via xcconfig. Le contenu éditorial est reconstructible depuis le repo git (source de vérité) ; la seule donnée irremplaçable est communautaire (profils, contributions) → **export Firestore hebdomadaire** vers Cloud Storage + PITR activé. CI : Xcode Cloud plus tard, build locale + TestFlight en v1.
