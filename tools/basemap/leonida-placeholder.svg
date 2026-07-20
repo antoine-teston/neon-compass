@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Placeholder 100% original : île abstraite synthwave pour tester le pipeline
+       de tuiles. Sera remplacé par l'artwork final (leonida.svg, dessin manuel). -->
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A081A"/>
+      <stop offset="1" stop-color="#141033"/>
+    </linearGradient>
+    <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E1547"/>
+      <stop offset="1" stop-color="#2A1B66"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#sea)"/>
+  <path d="M 380 120 C 560 90 720 180 760 320 C 800 460 740 560 780 680
+           C 810 780 700 900 560 910 C 420 920 330 840 300 720
+           C 270 600 330 520 290 400 C 250 280 260 140 380 120 Z"
+        fill="url(#land)" stroke="#FF3388" stroke-width="6" stroke-opacity="0.85"/>
+  <path d="M 420 200 C 520 260 560 420 540 560 C 525 670 470 760 430 820"
+        fill="none" stroke="#26F2F2" stroke-width="8" stroke-linecap="round" stroke-opacity="0.9"/>
+  <path d="M 340 480 C 450 460 620 500 720 470" fill="none"
+        stroke="#FF8C40" stroke-width="6" stroke-linecap="round" stroke-opacity="0.8"/>
+  <circle cx="560" cy="560" r="14" fill="#FF3388"/>
+  <circle cx="430" cy="300" r="10" fill="#26F2F2"/>
+  <circle cx="660" cy="720" r="10" fill="#FF8C40"/>
+</svg>
