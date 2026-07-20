@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "poi.schema.json",
+  "title": "Neon Compass POI",
+  "type": "object",
+  "required": ["id", "category", "position", "title", "status", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^poi_[a-z0-9_]+$" },
+    "category": {
+      "enum": ["landmark", "collectible", "activity", "safehouse", "vehicle", "event"]
+    },
+    "position": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["x", "y"],
+          "additionalProperties": false,
+          "properties": {
+            "x": { "type": "number", "minimum": 0, "maximum": 1 },
+            "y": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      ]
+    },
+    "title": { "$ref": "#/$defs/localized" },
+    "note": { "$ref": "#/$defs/localized" },
+    "status": { "enum": ["draft", "published"] },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "processedFrom": { "type": "string" }
+  },
+  "$defs": {
+    "localized": {
+      "type": "object",
+      "required": ["en"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "fr": { "type": "string" },
+        "es": { "type": "string" },
+        "it": { "type": "string" },
+        "de": { "type": "string" }
+      }
+    }
+  }
+}

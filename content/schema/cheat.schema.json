@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cheat.schema.json",
+  "title": "Neon Compass Cheat",
+  "type": "object",
+  "required": ["id", "category", "effect", "sequence", "blocksTrophies", "status", "verifiedBy"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^cheat_[a-z0-9_]+$" },
+    "category": {
+      "enum": ["player", "weapons", "vehicles", "world", "misc"]
+    },
+    "effect": {
+      "type": "object",
+      "required": ["en"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "fr": { "type": "string" },
+        "es": { "type": "string" },
+        "it": { "type": "string" },
+        "de": { "type": "string" }
+      }
+    },
+    "sequence": {
+      "type": "object",
+      "required": ["ps5", "xbox"],
+      "additionalProperties": false,
+      "properties": {
+        "ps5": { "$ref": "#/$defs/buttons" },
+        "xbox": { "$ref": "#/$defs/buttons" }
+      }
+    },
+    "blocksTrophies": { "type": "boolean" },
+    "status": { "enum": ["draft", "published"] },
+    "verifiedBy": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "processedFrom": { "type": "string" }
+  },
+  "$defs": {
+    "buttons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "up", "down", "left", "right",
+          "cross", "circle", "square", "triangle",
+          "a", "b", "x", "y",
+          "l1", "l2", "r1", "r2",
+          "lb", "lt", "rb", "rt"
+        ]
+      }
+    }
+  }
+}

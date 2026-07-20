@@ -1,0 +1,15 @@
+{
+  "id": "poi_sample_lighthouse",
+  "category": "landmark",
+  "position": { "x": 0.7312, "y": 0.4147 },
+  "title": {
+    "en": "Old Harbor Lighthouse",
+    "fr": "Phare du vieux port"
+  },
+  "note": {
+    "en": "Sample POI used to validate the pipeline before launch. Not real game data.",
+    "fr": "POI factice servant à valider le pipeline avant la sortie. Pas une donnée réelle."
+  },
+  "status": "draft",
+  "sources": ["internal:fixture"]
+}
