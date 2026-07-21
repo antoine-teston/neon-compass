@@ -2,11 +2,14 @@ import SwiftUI
 
 struct RootView: View {
     @State private var model = AppModel()
+    @State private var onboarding = OnboardingModel()
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
         Group {
-            if sizeClass == .compact {
+            if onboarding.needsDisclaimer {
+                DisclaimerView { onboarding.acceptDisclaimer() }
+            } else if sizeClass == .compact {
                 compactLayout
             } else {
                 regularLayout

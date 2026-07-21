@@ -1,17 +1,39 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "tab.feed" : {
+    "disclaimer.accept" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "News"
+            "value" : "Got it"
+          }
+        }
+      }
+    },
+    "disclaimer.body" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This app is a fan project. It is not affiliated with, endorsed by, or connected to Rockstar Games or Take-Two Interactive. All artwork is original."
+          }
+        }
+      }
+    },
+    "disclaimer.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unofficial companion"
           }
         }
       }
     },
     "tab.cheats" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21,7 +43,19 @@
         }
       }
     },
+    "tab.feed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "News"
+          }
+        }
+      }
+    },
     "tab.map" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -31,22 +65,24 @@
         }
       }
     },
-    "tab.progress" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progress"
-          }
-        }
-      }
-    },
     "tab.profile" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profile"
+          }
+        }
+      }
+    },
+    "tab.progress" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress"
           }
         }
       }
