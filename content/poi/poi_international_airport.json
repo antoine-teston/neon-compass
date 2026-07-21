@@ -1,0 +1,15 @@
+{
+  "id": "poi_international_airport",
+  "category": "landmark",
+  "position": null,
+  "title": {
+    "en": "International Airport",
+    "fr": "Aéroport international"
+  },
+  "note": {
+    "en": "The international airport serving the main city and its county shows up in official promo material. Its exact spot on the map is pending — no full official map has been released yet.",
+    "fr": "L'aéroport international qui dessert la ville principale et son comté apparaît dans le matériel promotionnel officiel. Sa position exacte sur la carte reste en attente : aucun plan complet n'a encore été publié."
+  },
+  "status": "draft",
+  "sources": ["https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"]
+}
