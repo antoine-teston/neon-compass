@@ -28,8 +28,13 @@ private final class TiledCanvasView: UIView {
         super.init(frame: .zero)
         let tiled = layer as! CATiledLayer
         tiled.tileSize = CGSize(width: manifest.tileSize, height: manifest.tileSize)
-        tiled.levelsOfDetail = 1
-        tiled.levelsOfDetailBias = manifest.maxZoom
+        // levelsOfDetail = total pyramid levels (magnified + normal + reduced);
+        // levelsOfDetailBias = how many of those are magnified (scale > 1).
+        // maximumZoomScale is 1 here (no magnification), so bias stays 0;
+        // minimumZoomScale is 1/2^maxZoom, so we need maxZoom reduced levels
+        // below the normal-resolution level, i.e. levelsOfDetail = maxZoom + 1.
+        tiled.levelsOfDetail = manifest.maxZoom + 1
+        tiled.levelsOfDetailBias = 0
         contentScaleFactor = 1
         isOpaque = true
         backgroundColor = .black
@@ -41,7 +46,7 @@ private final class TiledCanvasView: UIView {
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
         let scale = ctx.ctm.a
         guard scale > 0 else { return }
-        let z = max(0, min(manifest.maxZoom, Int(round(log2(scale)))))
+        let z = max(0, min(manifest.maxZoom, Int(round(log2(scale))) + manifest.maxZoom))
         let tileSizeInPoints = CGFloat(manifest.tileSize) / scale
         let x = Int(rect.origin.x / tileSizeInPoints)
         let y = Int(rect.origin.y / tileSizeInPoints)
