@@ -32,6 +32,26 @@
         }
       }
     },
+    "poi.detail.found" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found"
+          }
+        }
+      }
+    },
+    "poi.detail.markFound" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark as found"
+          }
+        }
+      }
+    },
     "tab.cheats" : {
       "extractionState" : "stale",
       "localizations" : {
