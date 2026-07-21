@@ -1,0 +1,25 @@
+name: NeonCompass
+options:
+  bundleIdPrefix: co.antoineteston
+  deploymentTarget:
+    iOS: "26.0"
+  developmentLanguage: en
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    TARGETED_DEVICE_FAMILY: "1,2"
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_UILaunchScreen_Generation: YES
+    INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+targets:
+  NeonCompass:
+    type: application
+    platform: iOS
+    sources: [NeonCompass]
+  NeonCompassTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [NeonCompassTests]
+    dependencies:
+      - target: NeonCompass
