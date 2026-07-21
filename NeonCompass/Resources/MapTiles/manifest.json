@@ -2,6 +2,6 @@
   "tileSize": 256,
   "maxZoom": 3,
   "tileCount": 85,
-  "source": "leonida-placeholder.svg",
+  "source": "island-placeholder.svg",
   "sourceSha256": "3fd8c2cbc50103a2"
 }
