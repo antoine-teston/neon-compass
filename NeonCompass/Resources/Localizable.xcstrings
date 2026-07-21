@@ -32,6 +32,16 @@
         }
       }
     },
+    "map.search.placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search the map"
+          }
+        }
+      }
+    },
     "poi.detail.found" : {
       "localizations" : {
         "en" : {
