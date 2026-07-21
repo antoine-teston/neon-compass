@@ -1,0 +1,23 @@
+[
+  {
+    "id": "poi_sample_lighthouse",
+    "category": "landmark",
+    "position": { "x": 0.62, "y": 0.30 },
+    "title": { "en": "Old Harbor Lighthouse", "fr": "Phare du vieux port" },
+    "note": { "en": "Sample POI used to validate the map engine before launch." }
+  },
+  {
+    "id": "poi_sample_dock",
+    "category": "activity",
+    "position": { "x": 0.55, "y": 0.55 },
+    "title": { "en": "Fishing Dock", "fr": "Quai de pêche" },
+    "note": { "en": "Sample POI used to validate the map engine before launch." }
+  },
+  {
+    "id": "poi_sample_overlook",
+    "category": "collectible",
+    "position": { "x": 0.40, "y": 0.20 },
+    "title": { "en": "Hillside Overlook", "fr": "Point de vue" },
+    "note": { "en": "Sample POI used to validate the map engine before launch." }
+  }
+]
