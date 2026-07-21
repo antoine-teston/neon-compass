@@ -16,7 +16,12 @@ targets:
   NeonCompass:
     type: application
     platform: iOS
-    sources: [NeonCompass]
+    sources:
+      - path: NeonCompass
+        excludes:
+          - "Resources/MapTiles/**"
+      - path: NeonCompass/Resources/MapTiles
+        type: folder
   NeonCompassTests:
     type: bundle.unit-test
     platform: iOS
