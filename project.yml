@@ -28,6 +28,8 @@ targets:
         type: folder
     dependencies:
       - package: Firebase
+        product: FirebaseCore
+      - package: Firebase
         product: FirebaseFirestore
       - package: Firebase
         product: FirebaseRemoteConfig
