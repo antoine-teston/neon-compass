@@ -1,6 +1,56 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "cheats.blocksTrophies" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocks trophies"
+          }
+        }
+      }
+    },
+    "cheats.platform.picker" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platform"
+          }
+        }
+      }
+    },
+    "cheats.platform.ps5" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PS5"
+          }
+        }
+      }
+    },
+    "cheats.platform.xbox" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xbox"
+          }
+        }
+      }
+    },
+    "cheats.search.placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search cheats"
+          }
+        }
+      }
+    },
     "disclaimer.accept" : {
       "extractionState" : "stale",
       "localizations" : {
