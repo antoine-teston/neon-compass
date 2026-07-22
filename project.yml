@@ -20,6 +20,9 @@ targets:
   NeonCompass:
     type: application
     platform: iOS
+    settings:
+      base:
+        CODE_SIGN_ENTITLEMENTS: NeonCompass/NeonCompass.entitlements
     sources:
       - path: NeonCompass
         excludes:
@@ -33,6 +36,10 @@ targets:
         product: FirebaseFirestore
       - package: Firebase
         product: FirebaseRemoteConfig
+      - package: Firebase
+        product: FirebaseAuth
+      - package: Firebase
+        product: FirebaseFunctions
   NeonCompassTests:
     type: bundle.unit-test
     platform: iOS
