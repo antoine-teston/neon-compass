@@ -102,18 +102,23 @@ const [cmd, ...flags] = process.argv.slice(2);
 const dry = flags.includes('--dry-run');
 const entries = loadAll();
 
-const ok = await (async () => {
-  switch (cmd) {
-    case 'validate':
-      return validate(entries);
-    case 'check-publishable':
-      return checkPublishable(entries);
-    case 'translate':
-      if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); return false; }
-      return translateDryRun(entries);
-    case 'publish':
-      if (dry) return validate(entries) && checkPublishable(entries) && publishDryRun(entries);
-      if (!(validate(entries) && checkPublishable(entries))) return false;
+let ok;
+
+switch (cmd) {
+  case 'validate':
+    ok = validate(entries);
+    break;
+  case 'check-publishable':
+    ok = checkPublishable(entries);
+    break;
+  case 'translate':
+    if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); ok = false; break; }
+    ok = translateDryRun(entries);
+    break;
+  case 'publish':
+    if (dry) { ok = validate(entries) && checkPublishable(entries) && publishDryRun(entries); break; }
+    if (!(validate(entries) && checkPublishable(entries))) { ok = false; break; }
+    try {
       const publishable = entries.filter((e) => e.data.status === 'published');
       const { pushDocuments, incrementContentVersion } = await import('./firestore-client.js');
       const byKind = { poi: [], cheats: [] };
@@ -123,11 +128,15 @@ const ok = await (async () => {
       }
       const newVersion = await incrementContentVersion();
       console.log(`publish: pushed ${publishable.length} document(s), contentVersion → ${newVersion}`);
-      return true;
-    default:
-      console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run>');
-      return false;
-  }
-})();
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  default:
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run>');
+    ok = false;
+}
 
 process.exit(ok ? 0 : 1);
