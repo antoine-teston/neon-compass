@@ -14,7 +14,8 @@ Style of this file: Karpathy-minimal. High signal only. If a rule doesn't change
 - **Target**: iOS/iPadOS 26+, universal iPhone + iPad (no Mac Catalyst). iPad is first-class — companion-beside-the-TV is the core tablet use case; adaptive layouts (`.sidebarAdaptable` tabs, side panel instead of sheets on regular width), never a scaled-up phone UI. iOS 26 minimum is deliberate: native Liquid Glass everywhere, no fallback paths.
 - **Design language**: Liquid Glass for all chrome (system tab bar/toolbars, `.glassEffect()` surfaces in `GlassEffectContainer`s); retro synthwave lives in the content layer only. Restraint over decoration — glow on at most three accents per screen.
 - **Language**: Swift 6, strict concurrency enabled. SwiftUI only — no UIKit unless a specific API forces it, and then wrapped in one file.
-- **Localization**: FR, EN, ES, IT, DE from v1. Development language is English; every user-facing string goes through the String Catalog — no hardcoded literals. Firestore content uses per-language fields with English fallback.
+- **Localization**: FR, EN, ES, IT, DE from v1. Every user-facing string goes through the String Catalog — no hardcoded literals.
+  - **Direction decided 2026-07-22, not yet migrated**: French becomes the primary/base language (English falls back to it, not the other way around). Today's actual state — `project.yml`'s `developmentLanguage: en`, `LocalizedText`'s required `en` field with fallback-to-`en`, and `content/schema/*.json`'s required `en` field — is still English-primary (built across plans 1-3b before this decision). Do not silently flip individual call sites; the migration is a dedicated future plan touching `LocalizedText`, the content schemas, `project.yml`, and every `resolved(for:)` call site at once.
 
 ## Stack decisions (don't relitigate)
 
