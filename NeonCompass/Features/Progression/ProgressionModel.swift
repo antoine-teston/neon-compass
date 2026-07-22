@@ -9,7 +9,7 @@ final class ProgressionModel {
     private(set) var trophies: [Trophy]
     private(set) var checkedTrophyIDs: Set<String>
 
-    private let foundPOIIDs: Set<String>
+    private(set) var foundPOIIDs: Set<String>
     private let modelContext: ModelContext
 
     init(pois: [POI], trophies: [Trophy], modelContext: ModelContext) {
@@ -18,6 +18,10 @@ final class ProgressionModel {
         self.modelContext = modelContext
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
         self.checkedTrophyIDs = Set((try? modelContext.fetch(FetchDescriptor<TrophyProgress>()))?.map(\.trophyID) ?? [])
+    }
+
+    func refreshFoundState() {
+        foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
     }
 
     func updatePOIs(_ newPOIs: [POI]) {

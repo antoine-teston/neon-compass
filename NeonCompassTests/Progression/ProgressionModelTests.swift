@@ -56,6 +56,21 @@ struct ProgressionModelTests {
         #expect(!model.isTrophyChecked(trophy))
     }
 
+    @Test func refreshFoundStatePicksUpEntriesInsertedAfterConstruction() {
+        let context = makeContext()
+        let model = ProgressionModel(pois: samplePOIs(), trophies: [], modelContext: context)
+        #expect(model.overallProgress == 0)
+
+        context.insert(FoundEntry(poiID: "a"))
+        try? context.save()
+
+        // Without a refresh, the model's snapshot is stale.
+        #expect(model.overallProgress == 0)
+
+        model.refreshFoundState()
+        #expect(abs(model.overallProgress - (1.0 / 3.0)) < 0.0001)
+    }
+
     @Test func updatePOIsAndUpdateTrophiesReplaceContent() {
         let model = ProgressionModel(pois: [], trophies: [], modelContext: makeContext())
         model.updatePOIs(samplePOIs())

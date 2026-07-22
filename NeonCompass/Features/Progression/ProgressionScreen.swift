@@ -14,6 +14,9 @@ struct ProgressionScreen: View {
                     .task { await loadModel() }
             }
         }
+        .onAppear {
+            model?.refreshFoundState()
+        }
     }
 
     private func loadModel() async {
