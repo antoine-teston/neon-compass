@@ -61,6 +61,36 @@
         }
       }
     },
+    "cheatsGuides.section.cheats" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cheats"
+          }
+        }
+      }
+    },
+    "cheatsGuides.section.guides" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guides"
+          }
+        }
+      }
+    },
+    "cheatsGuides.section.picker" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Section"
+          }
+        }
+      }
+    },
     "disclaimer.accept" : {
       "extractionState" : "stale",
       "localizations" : {
