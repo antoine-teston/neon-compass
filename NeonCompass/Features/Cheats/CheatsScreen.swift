@@ -81,13 +81,14 @@ struct CheatsScreen: View {
 
     private func loadGuidesModel() async {
         guard guidesModel == nil else { return }
-        let contentStore = GuideContentStore(
-            remote: FirestoreGuideRepository(),
+        let contentStore = ContentStore<Guide>(
+            collectionName: "guides",
+            remote: FirestoreContentRepository<Guide>(collectionName: "guides"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        guidesModel = GuidesModel(guides: contentStore.guides)
+        guidesModel = GuidesModel(guides: contentStore.items)
         try? await contentStore.syncIfNeeded()
-        guidesModel?.updateGuides(contentStore.guides)
+        guidesModel?.updateGuides(contentStore.items)
     }
 }
