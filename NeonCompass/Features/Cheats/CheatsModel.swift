@@ -31,10 +31,16 @@ final class CheatsModel {
         cheats = newCheats
     }
 
+    private var currentLanguageCode: String {
+        Locale.current.language.languageCode?.identifier ?? "en"
+    }
+
     var filteredCheats: [Cheat] {
+        let languageCode = currentLanguageCode
         let matching = cheats.filter { cheat in
             activeCategories.contains(cheat.category)
-                && (searchQuery.isEmpty || cheat.effect.en.localizedCaseInsensitiveContains(searchQuery))
+                && (searchQuery.isEmpty
+                    || cheat.effect.resolved(for: languageCode).localizedCaseInsensitiveContains(searchQuery))
         }
         return matching.sorted { isFavorite($0) && !isFavorite($1) }
     }

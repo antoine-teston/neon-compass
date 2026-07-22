@@ -7,11 +7,15 @@ struct CheatCard: View {
     let onTap: () -> Void
     let onToggleFavorite: () -> Void
 
+    private var currentLanguageCode: String {
+        Locale.current.language.languageCode?.identifier ?? "en"
+    }
+
     var body: some View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    Text(cheat.effect.en)
+                    Text(cheat.effect.resolved(for: currentLanguageCode))
                         .font(NCTypography.body.bold())
                         .foregroundStyle(.white)
                     Spacer()

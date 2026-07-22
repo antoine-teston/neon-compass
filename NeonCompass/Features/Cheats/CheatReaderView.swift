@@ -15,12 +15,16 @@ struct CheatReaderView: View {
         _currentIndex = State(initialValue: startIndex)
     }
 
+    private var currentLanguageCode: String {
+        Locale.current.language.languageCode?.identifier ?? "en"
+    }
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
 
             VStack(spacing: 40) {
-                Text(cheats[currentIndex].effect.en)
+                Text(cheats[currentIndex].effect.resolved(for: currentLanguageCode))
                     .font(NCTypography.displayTitle)
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
