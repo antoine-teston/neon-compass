@@ -105,7 +105,23 @@ struct MapScreen: View {
 
     private func loadModel() {
         guard model == nil else { return }
-        let pois = (try? POILoader.loadSeed()) ?? []
-        model = MapModel(pois: pois, modelContext: modelContext)
+        guard FirebaseAvailability.isConfigured else {
+            // Firebase not yet activated (Task 7 of Plan 3) — load with no
+            // remote content rather than crashing. The map still works with
+            // zero POIs; personal pins and "found" tracking are unaffected
+            // since those go through FoundEntry/PersonalPin, not this path.
+            model = MapModel(pois: [], modelContext: modelContext)
+            return
+        }
+        let contentStore = POIContentStore(
+            remote: FirestorePOIRepository(),
+            versionProvider: RemoteConfigVersionProvider(),
+            modelContext: modelContext
+        )
+        model = MapModel(pois: contentStore.pois, modelContext: modelContext)
+        Task {
+            try? await contentStore.syncIfNeeded()
+            model?.updatePOIs(contentStore.pois)
+        }
     }
 }

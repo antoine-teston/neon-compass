@@ -62,4 +62,8 @@ final class MapModel {
         modelContext.delete(pin)
         try? modelContext.save()
     }
+
+    func updatePOIs(_ newPOIs: [POI]) {
+        pois = newPOIs
+    }
 }
