@@ -5,7 +5,12 @@
 //   check-publishable      règles éditoriales (cheats: verifiedBy >= 2, marques déposées)
 //   translate --dry-run    liste les champs ES/IT/DE manquants (l'appel IA arrive avec Firebase)
 //   publish --dry-run      montre le diff qui partirait vers Firestore
-// Firestore n'étant pas encore provisionné, publish sans --dry-run refuse de tourner.
+//   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
+//                          contentVersion dans Remote Config ; nécessite
+//                          FIREBASE_SERVICE_ACCOUNT_PATH.
+//   deploy-rules           déploie firestore.rules (racine du repo) comme ruleset actif
+//                          sur le projet Firestore live ; nécessite
+//                          FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -100,22 +105,53 @@ const [cmd, ...flags] = process.argv.slice(2);
 const dry = flags.includes('--dry-run');
 const entries = loadAll();
 
-const ok = (() => {
-  switch (cmd) {
-    case 'validate':
-      return validate(entries);
-    case 'check-publishable':
-      return checkPublishable(entries);
-    case 'translate':
-      if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); return false; }
-      return translateDryRun(entries);
-    case 'publish':
-      if (!dry) { console.error('publish: refusing — Firestore is not provisioned yet. Use --dry-run.'); return false; }
-      return validate(entries) && checkPublishable(entries) && publishDryRun(entries);
-    default:
-      console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run>');
-      return false;
-  }
-})();
+let ok;
+
+switch (cmd) {
+  case 'validate':
+    ok = validate(entries);
+    break;
+  case 'check-publishable':
+    ok = checkPublishable(entries);
+    break;
+  case 'translate':
+    if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); ok = false; break; }
+    ok = translateDryRun(entries);
+    break;
+  case 'publish':
+    if (dry) { ok = validate(entries) && checkPublishable(entries) && publishDryRun(entries); break; }
+    if (!(validate(entries) && checkPublishable(entries))) { ok = false; break; }
+    try {
+      const publishable = entries.filter((e) => e.data.status === 'published');
+      const { pushDocuments, incrementContentVersion } = await import('./firestore-client.js');
+      const byKind = { poi: [], cheats: [] };
+      publishable.forEach((e) => byKind[e.kind].push(e.data));
+      for (const [kind, docs] of Object.entries(byKind)) {
+        if (docs.length) await pushDocuments(kind, docs);
+      }
+      const newVersion = await incrementContentVersion();
+      console.log(`publish: pushed ${publishable.length} document(s), contentVersion → ${newVersion}`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  case 'deploy-rules':
+    try {
+      const rulesSource = readFileSync(join(ROOT, 'firestore.rules'), 'utf8');
+      const { deployFirestoreRules } = await import('./firestore-client.js');
+      await deployFirestoreRules(rulesSource);
+      console.log('deploy-rules: firestore.rules released as the active Firestore ruleset');
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  default:
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules>');
+    ok = false;
+}
 
 process.exit(ok ? 0 : 1);

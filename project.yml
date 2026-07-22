@@ -12,6 +12,10 @@ settings:
     GENERATE_INFOPLIST_FILE: YES
     INFOPLIST_KEY_UILaunchScreen_Generation: YES
     INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: 11.0.0
 targets:
   NeonCompass:
     type: application
@@ -22,6 +26,13 @@ targets:
           - "Resources/MapTiles/**"
       - path: NeonCompass/Resources/MapTiles
         type: folder
+    dependencies:
+      - package: Firebase
+        product: FirebaseCore
+      - package: Firebase
+        product: FirebaseFirestore
+      - package: Firebase
+        product: FirebaseRemoteConfig
   NeonCompassTests:
     type: bundle.unit-test
     platform: iOS
