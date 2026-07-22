@@ -3,7 +3,7 @@
 // plans/2026-07-20-data-pipeline-pseudocode.md). Rend un SVG carré en tuiles
 // 256px pour le viewer CATiledLayer de l'app.
 //   node tile.js [input.svg] [outDir] [maxZoom]
-// Défauts : leonida-placeholder.svg → ./out, maxZoom 3.
+// Défauts : island-placeholder.svg → ./out, maxZoom 3.
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -14,7 +14,7 @@ import sharp from 'sharp';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const TILE = 256;
 
-const input = process.argv[2] ?? join(HERE, 'leonida-placeholder.svg');
+const input = process.argv[2] ?? join(HERE, 'island-placeholder.svg');
 const outDir = process.argv[3] ?? join(HERE, 'out');
 const maxZoom = Number(process.argv[4] ?? 3);
 

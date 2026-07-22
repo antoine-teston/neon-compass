@@ -20,7 +20,7 @@ struct RootView: View {
 
     private var compactLayout: some View {
         ZStack(alignment: .bottom) {
-            PlaceholderScreen(tab: model.selectedTab)
+            screen(for: model.selectedTab)
             CompactTabBar(selection: $model.selectedTab)
         }
     }
@@ -29,12 +29,21 @@ struct RootView: View {
         TabView(selection: $model.selectedTab) {
             ForEach(AppTab.allCases) { tab in
                 Tab(value: tab) {
-                    PlaceholderScreen(tab: tab)
+                    screen(for: tab)
                 } label: {
                     Label(tab.titleKey, systemImage: tab.systemImage)
                 }
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+    }
+
+    @ViewBuilder
+    private func screen(for tab: AppTab) -> some View {
+        if tab == .map {
+            MapScreen()
+        } else {
+            PlaceholderScreen(tab: tab)
+        }
     }
 }
