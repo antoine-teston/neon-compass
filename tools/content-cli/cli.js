@@ -8,6 +8,9 @@
 //   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
 //                          contentVersion dans Remote Config ; nécessite
 //                          FIREBASE_SERVICE_ACCOUNT_PATH.
+//   deploy-rules           déploie firestore.rules (racine du repo) comme ruleset actif
+//                          sur le projet Firestore live ; nécessite
+//                          FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -134,8 +137,20 @@ switch (cmd) {
       ok = false;
     }
     break;
+  case 'deploy-rules':
+    try {
+      const rulesSource = readFileSync(join(ROOT, 'firestore.rules'), 'utf8');
+      const { deployFirestoreRules } = await import('./firestore-client.js');
+      await deployFirestoreRules(rulesSource);
+      console.log('deploy-rules: firestore.rules released as the active Firestore ruleset');
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run>');
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules>');
     ok = false;
 }
 

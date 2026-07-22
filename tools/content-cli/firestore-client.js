@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs';
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getRemoteConfig } from 'firebase-admin/remote-config';
+import { getSecurityRules } from 'firebase-admin/security-rules';
 
 let appInstance = null;
 
@@ -39,4 +40,12 @@ export async function incrementContentVersion() {
   };
   await rc.publishTemplate(template);
   return current + 1;
+}
+
+// Déploie firestore.rules (à la racine du repo) comme le ruleset actif de
+// Cloud Firestore sur le projet live. Un seul appel crée le Ruleset et
+// l'applique (pas de release séparée nécessaire).
+export async function deployFirestoreRules(rulesSource) {
+  const securityRules = getSecurityRules(app());
+  await securityRules.releaseFirestoreRulesetFromSource(rulesSource);
 }
