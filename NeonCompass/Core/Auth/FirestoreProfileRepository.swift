@@ -13,8 +13,7 @@ final class FirestoreProfileRepository: ProfileRepository {
 
     func fetchProfile(uid: String) async throws -> Profile? {
         let document = try await firestore.collection("profiles").document(uid).getDocument()
-        guard document.exists, let data = document.data() else { return nil }
-        let json = try JSONSerialization.data(withJSONObject: data)
-        return try JSONDecoder().decode(Profile.self, from: json)
+        guard document.exists else { return nil }
+        return try document.data(as: Profile.self)
     }
 }
