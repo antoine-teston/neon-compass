@@ -9,6 +9,22 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+    match /guides/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /news/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /trophies/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /profiles/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
     match /{document=**} {
       allow read, write: if false;
     }
