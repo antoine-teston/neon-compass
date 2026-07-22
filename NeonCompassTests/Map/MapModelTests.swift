@@ -50,6 +50,16 @@ struct MapModelTests {
         #expect(!model.isFound(poi))
     }
 
+    @Test func foundPOIIDsReflectsToggleImmediately() {
+        let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
+        let poi = samplePOIs()[0]
+        #expect(!model.foundPOIIDs.contains(poi.id))
+        model.toggleFound(poi)
+        #expect(model.foundPOIIDs.contains(poi.id))
+        model.toggleFound(poi)
+        #expect(!model.foundPOIIDs.contains(poi.id))
+    }
+
     @Test func addAndDeletePersonalPin() {
         let model = MapModel(pois: [], modelContext: makeContext())
         #expect(model.personalPins.isEmpty)

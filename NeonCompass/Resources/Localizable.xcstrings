@@ -344,6 +344,26 @@
         }
       }
     },
+    "progress.trophies.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No trophies published yet — check back closer to launch."
+          }
+        }
+      }
+    },
+    "progress.trophies.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trophies"
+          }
+        }
+      }
+    },
     "tab.cheats" : {
       "extractionState" : "stale",
       "localizations" : {
