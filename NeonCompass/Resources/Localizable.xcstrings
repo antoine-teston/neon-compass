@@ -98,6 +98,46 @@
         }
       }
     },
+    "map.personalPins.addPrompt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name this pin"
+          }
+        }
+      }
+    },
+    "map.personalPins.cancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "map.personalPins.save" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "map.personalPins.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My pins"
+          }
+        }
+      }
+    },
     "map.search.placeholder" : {
       "extractionState" : "stale",
       "localizations" : {
