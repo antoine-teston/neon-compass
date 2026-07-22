@@ -49,6 +49,16 @@ struct CheatsModelTests {
         #expect(model.filteredCheats.first?.id == "b")
     }
 
+    @Test func favoriteCheatIDsReflectsToggleImmediately() {
+        let model = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: freshDefaults())
+        let cheat = sampleCheats()[0]
+        #expect(!model.favoriteCheatIDs.contains(cheat.id))
+        model.toggleFavorite(cheat)
+        #expect(model.favoriteCheatIDs.contains(cheat.id))
+        model.toggleFavorite(cheat)
+        #expect(!model.favoriteCheatIDs.contains(cheat.id))
+    }
+
     @Test func filtersByCategoryAndSearch() {
         let model = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: freshDefaults())
         model.activeCategories = [.weapons]

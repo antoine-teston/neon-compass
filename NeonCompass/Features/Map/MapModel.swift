@@ -9,6 +9,7 @@ final class MapModel {
     var activeCategories: Set<POICategory>
     var searchQuery: String = ""
     var selectedPOI: POI?
+    private(set) var foundPOIIDs: Set<String>
 
     private let modelContext: ModelContext
 
@@ -16,6 +17,7 @@ final class MapModel {
         self.pois = pois
         self.activeCategories = Set(POICategory.allCases)
         self.modelContext = modelContext
+        self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
     }
 
     private var currentLanguageCode: String {
@@ -33,9 +35,7 @@ final class MapModel {
     }
 
     func isFound(_ poi: POI) -> Bool {
-        let poiID = poi.id
-        let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
-        return ((try? modelContext.fetchCount(descriptor)) ?? 0) > 0
+        foundPOIIDs.contains(poi.id)
     }
 
     func toggleFound(_ poi: POI) {
@@ -43,8 +43,10 @@ final class MapModel {
         let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
         if let existing = try? modelContext.fetch(descriptor).first {
             modelContext.delete(existing)
+            foundPOIIDs.remove(poiID)
         } else {
             modelContext.insert(FoundEntry(poiID: poi.id))
+            foundPOIIDs.insert(poiID)
         }
         try? modelContext.save()
     }

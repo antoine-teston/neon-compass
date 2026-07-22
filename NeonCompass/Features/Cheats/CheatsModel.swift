@@ -10,6 +10,7 @@ final class CheatsModel {
     private(set) var cheats: [Cheat]
     var searchQuery: String = ""
     var activeCategories: Set<CheatCategory>
+    private(set) var favoriteCheatIDs: Set<String>
 
     var activePlatform: Platform {
         didSet { defaults.set(activePlatform.rawValue, forKey: Self.platformKey) }
@@ -23,6 +24,7 @@ final class CheatsModel {
         self.modelContext = modelContext
         self.defaults = defaults
         self.activeCategories = Set(CheatCategory.allCases)
+        self.favoriteCheatIDs = Set((try? modelContext.fetch(FetchDescriptor<FavoriteCheat>()))?.map(\.cheatID) ?? [])
         let stored = defaults.string(forKey: Self.platformKey).flatMap(Platform.init(rawValue:))
         self.activePlatform = stored ?? .ps5
     }
@@ -46,9 +48,7 @@ final class CheatsModel {
     }
 
     func isFavorite(_ cheat: Cheat) -> Bool {
-        let cheatID = cheat.id
-        let descriptor = FetchDescriptor<FavoriteCheat>(predicate: #Predicate { $0.cheatID == cheatID })
-        return ((try? modelContext.fetchCount(descriptor)) ?? 0) > 0
+        favoriteCheatIDs.contains(cheat.id)
     }
 
     func toggleFavorite(_ cheat: Cheat) {
@@ -56,8 +56,10 @@ final class CheatsModel {
         let descriptor = FetchDescriptor<FavoriteCheat>(predicate: #Predicate { $0.cheatID == cheatID })
         if let existing = try? modelContext.fetch(descriptor).first {
             modelContext.delete(existing)
+            favoriteCheatIDs.remove(cheatID)
         } else {
             modelContext.insert(FavoriteCheat(cheatID: cheat.id))
+            favoriteCheatIDs.insert(cheatID)
         }
         try? modelContext.save()
     }
