@@ -41,6 +41,7 @@ struct RootView: View {
     @ViewBuilder
     private func screen(for tab: AppTab) -> some View {
         switch tab {
+        case .feed: FeedScreen()
         case .map: MapScreen()
         case .cheats: CheatsScreen()
         default: PlaceholderScreen(tab: tab)
