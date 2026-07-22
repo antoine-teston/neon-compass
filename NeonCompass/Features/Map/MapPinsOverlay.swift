@@ -6,6 +6,10 @@ struct MapPinsOverlay: View {
     let viewport: MapViewport
     let onTap: (POI) -> Void
 
+    private var currentLanguageCode: String {
+        Locale.current.language.languageCode?.identifier ?? "en"
+    }
+
     var body: some View {
         ForEach(pois) { poi in
             let position = MapGeometry.screenPosition(for: poi.position, manifest: manifest, viewport: viewport)
@@ -18,7 +22,7 @@ struct MapPinsOverlay: View {
                     .shadow(color: NCColor.neonCyan.opacity(0.6), radius: 4)
             }
             .position(position)
-            .accessibilityLabel(Text(poi.title.en))
+            .accessibilityLabel(Text(poi.title.resolved(for: currentLanguageCode)))
         }
     }
 }

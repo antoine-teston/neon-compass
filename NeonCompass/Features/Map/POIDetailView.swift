@@ -6,10 +6,14 @@ struct POIDetailView: View {
     let onToggleFound: () -> Void
     let onDismiss: () -> Void
 
+    private var currentLanguageCode: String {
+        Locale.current.language.languageCode?.identifier ?? "en"
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text(poi.title.en)
+                Text(poi.title.resolved(for: currentLanguageCode))
                     .font(NCTypography.displayTitle)
                     .foregroundStyle(.white)
                 Spacer()
@@ -22,7 +26,7 @@ struct POIDetailView: View {
             }
 
             if let note = poi.note {
-                Text(note.en)
+                Text(note.resolved(for: currentLanguageCode))
                     .font(NCTypography.body)
                     .foregroundStyle(.secondary)
             }
@@ -30,10 +34,13 @@ struct POIDetailView: View {
             Button {
                 onToggleFound()
             } label: {
-                Label(
-                    isFound ? "poi.detail.found" : "poi.detail.markFound",
-                    systemImage: isFound ? "checkmark.circle.fill" : "circle"
-                )
+                Group {
+                    if isFound {
+                        Label("poi.detail.found", systemImage: "checkmark.circle.fill")
+                    } else {
+                        Label("poi.detail.markFound", systemImage: "circle")
+                    }
+                }
                 .frame(maxWidth: .infinity)
             }
             .buttonStyle(.glassProminent)

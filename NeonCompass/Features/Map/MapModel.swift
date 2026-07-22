@@ -18,10 +18,16 @@ final class MapModel {
         self.modelContext = modelContext
     }
 
+    private var currentLanguageCode: String {
+        Locale.current.language.languageCode?.identifier ?? "en"
+    }
+
     var filteredPOIs: [POI] {
-        pois.filter { poi in
+        let languageCode = currentLanguageCode
+        return pois.filter { poi in
             activeCategories.contains(poi.category)
-                && (searchQuery.isEmpty || poi.title.en.localizedCaseInsensitiveContains(searchQuery))
+                && (searchQuery.isEmpty
+                    || poi.title.resolved(for: languageCode).localizedCaseInsensitiveContains(searchQuery))
         }
     }
 
