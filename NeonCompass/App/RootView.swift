@@ -40,10 +40,10 @@ struct RootView: View {
 
     @ViewBuilder
     private func screen(for tab: AppTab) -> some View {
-        if tab == .map {
-            MapScreen()
-        } else {
-            PlaceholderScreen(tab: tab)
+        switch tab {
+        case .map: MapScreen()
+        case .cheats: CheatsScreen()
+        default: PlaceholderScreen(tab: tab)
         }
     }
 }
