@@ -75,7 +75,7 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
     /// défaut produirait un tableau plat `[clé, valeur, clé, valeur, …]` au
     /// lieu de l'objet `{"ps5": [...], "xbox": [...]}` que `init(from:)`
     /// attend en lecture — cassant le round-trip encode/decode utilisé par
-    /// le cache SwiftData de `CheatContentStore`.
+    /// le cache SwiftData de `ContentStore<Cheat>`.
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)

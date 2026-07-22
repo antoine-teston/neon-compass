@@ -68,25 +68,27 @@ struct CheatsScreen: View {
 
     private func loadCheatsModel() async {
         guard model == nil else { return }
-        let contentStore = CheatContentStore(
-            remote: FirestoreCheatRepository(),
+        let contentStore = ContentStore<Cheat>(
+            collectionName: "cheats",
+            remote: FirestoreContentRepository<Cheat>(collectionName: "cheats"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        model = CheatsModel(cheats: contentStore.cheats, modelContext: modelContext)
+        model = CheatsModel(cheats: contentStore.items, modelContext: modelContext)
         try? await contentStore.syncIfNeeded()
-        model?.updateCheats(contentStore.cheats)
+        model?.updateCheats(contentStore.items)
     }
 
     private func loadGuidesModel() async {
         guard guidesModel == nil else { return }
-        let contentStore = GuideContentStore(
-            remote: FirestoreGuideRepository(),
+        let contentStore = ContentStore<Guide>(
+            collectionName: "guides",
+            remote: FirestoreContentRepository<Guide>(collectionName: "guides"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        guidesModel = GuidesModel(guides: contentStore.guides)
+        guidesModel = GuidesModel(guides: contentStore.items)
         try? await contentStore.syncIfNeeded()
-        guidesModel?.updateGuides(contentStore.guides)
+        guidesModel?.updateGuides(contentStore.items)
     }
 }
