@@ -113,15 +113,16 @@ struct MapScreen: View {
             model = MapModel(pois: [], modelContext: modelContext)
             return
         }
-        let contentStore = POIContentStore(
-            remote: FirestorePOIRepository(),
+        let contentStore = ContentStore<POI>(
+            collectionName: "poi",
+            remote: FirestoreContentRepository<POI>(collectionName: "poi"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        model = MapModel(pois: contentStore.pois, modelContext: modelContext)
+        model = MapModel(pois: contentStore.items, modelContext: modelContext)
         Task {
             try? await contentStore.syncIfNeeded()
-            model?.updatePOIs(contentStore.pois)
+            model?.updatePOIs(contentStore.items)
         }
     }
 }
