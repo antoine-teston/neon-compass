@@ -99,6 +99,7 @@
       }
     },
     "map.personalPins.addPrompt" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -109,6 +110,7 @@
       }
     },
     "map.personalPins.cancel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -119,6 +121,7 @@
       }
     },
     "map.personalPins.save" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
