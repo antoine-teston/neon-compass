@@ -10,8 +10,9 @@ struct PersonalPinListSheet: View {
                     Text(pin.title)
                 }
                 .onDelete { offsets in
+                    let pins = model.personalPins
                     for index in offsets {
-                        model.deletePersonalPin(model.personalPins[index])
+                        model.deletePersonalPin(pins[index])
                     }
                 }
             }
