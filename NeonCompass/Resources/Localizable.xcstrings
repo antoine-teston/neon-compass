@@ -41,6 +41,16 @@
         }
       }
     },
+    "cheats.reader.close" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
     "cheats.search.placeholder" : {
       "localizations" : {
         "en" : {
