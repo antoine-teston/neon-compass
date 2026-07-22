@@ -61,6 +61,36 @@
         }
       }
     },
+    "cheatsGuides.section.cheats" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cheats"
+          }
+        }
+      }
+    },
+    "cheatsGuides.section.guides" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guides"
+          }
+        }
+      }
+    },
+    "cheatsGuides.section.picker" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Section"
+          }
+        }
+      }
+    },
     "disclaimer.accept" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -88,6 +118,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unofficial companion"
+          }
+        }
+      }
+    },
+    "guides.chapter.beginner" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beginner"
+          }
+        }
+      }
+    },
+    "guides.chapter.money" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Money"
+          }
+        }
+      }
+    },
+    "guides.chapter.sideContent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Side Content"
+          }
+        }
+      }
+    },
+    "guides.chapter.story" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Story"
           }
         }
       }
