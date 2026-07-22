@@ -1,0 +1,84 @@
+{
+  "run": {
+    "date": "2026-07-21",
+    "sources_visited": [
+      "https://gta.fandom.com/wiki/Grand_Theft_Auto_VI",
+      "https://gta.fandom.com/wiki/Vice_City_(HD_Universe)",
+      "https://www.gtaboom.com/gta-6-locations-5163",
+      "https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far",
+      "https://www.rockstargames.com/VI",
+      "https://www.gtaboom.com/when-is-gta-6-trailer-3-coming-the-window-is-clearer-19a0"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Les deux personnages jouables principaux du jeu sont un duo nommé Jason et Lucia, dont l'histoire se déroule dans l'État fictif de Leonida.",
+      "kind": "game-fact",
+      "source_url": "https://gta.fandom.com/wiki/Grand_Theft_Auto_VI",
+      "source_date": "2026-07-21",
+      "confidence": "confirmed-official"
+    },
+    {
+      "claim": "La ville principale, Vice City, se situe dans un comté fictif appelé Vice-Dale County, au sud-est de l'État de Leonida.",
+      "kind": "game-fact",
+      "source_url": "https://gta.fandom.com/wiki/Vice_City_(HD_Universe)",
+      "source_date": "2026-07-21",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un des quartiers côtiers montrés dans les bandes-annonces, à l'ambiance balnéaire détendue, comprend un poste de police, une base militaire et une promenade en bord de mer ; il est présenté comme accessible tôt dans l'histoire.",
+      "kind": "poi",
+      "source_url": "https://www.gtaboom.com/gta-6-locations-5163",
+      "source_date": "2026-07-21",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Le centre-ville de Vice City est décrit dans les bandes-annonces comme un quartier d'affaires dense, avec immeubles de grande hauteur et enseignes lumineuses au néon.",
+      "kind": "poi",
+      "source_url": "https://www.gtaboom.com/gta-6-locations-5163",
+      "source_date": "2026-07-21",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un aéroport international dessert Vice City et son comté, visible dans le matériel promotionnel officiel.",
+      "kind": "poi",
+      "source_url": "https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far",
+      "source_date": "2026-07-21",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Plusieurs autres repères urbains apparaissent dans les bandes-annonces officielles, dont une grande salle de spectacle/arène, un centre culturel dédié aux arts, et au moins deux hôtels distincts en bord de plage.",
+      "kind": "poi",
+      "source_url": "https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far",
+      "source_date": "2026-07-21",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Au 21 juillet 2026, Rockstar n'a toujours pas dévoilé de plan officiel complet de la carte de Leonida ; seuls des fragments de zones apparaissent dans les bandes-annonces publiées.",
+      "kind": "game-fact",
+      "source_url": "https://www.gtaboom.com/gta-6-locations-5163",
+      "source_date": "2026-07-21",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Le jeu est prévu pour le 19 novembre 2026 sur PS5 et Xbox Series X|S, avec des précommandes ouvertes depuis le 25 juin 2026 pour une édition standard à 79,99$ et une édition ultime à 99,99$.",
+      "kind": "news",
+      "source_url": "https://www.rockstargames.com/VI",
+      "source_date": "2026-06-25",
+      "confidence": "confirmed-official"
+    },
+    {
+      "claim": "Un troisième trailer officiel n'était toujours pas sorti au 21 juillet 2026 ; la presse spécialisée évoquait une fenêtre probable autour de mi-juillet, sans confirmation de Rockstar.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/when-is-gta-6-trailer-3-coming-the-window-is-clearer-19a0",
+      "source_date": "2026-07-19",
+      "confidence": "rumor"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "poi_concert_arena",
+  "category": "landmark",
+  "position": null,
+  "title": {
+    "en": "Concert Arena",
+    "fr": "Salle de spectacle"
+  },
+  "note": {
+    "en": "A large concert hall / arena shows up across the official trailers. Map pin pending an official reveal — no full map yet.",
+    "fr": "Une grande salle de spectacle apparaît dans plusieurs bandes-annonces officielles. Le placement sur la carte reste à confirmer, faute de plan officiel complet."
+  },
+  "status": "draft",
+  "sources": ["https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"]
+}
