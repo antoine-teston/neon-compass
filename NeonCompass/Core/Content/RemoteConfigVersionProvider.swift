@@ -9,7 +9,8 @@ final class RemoteConfigVersionProvider: ContentVersionProviding {
         self.remoteConfig = remoteConfig
     }
 
-    func currentVersion() -> Int {
-        Int(remoteConfig.configValue(forKey: "contentVersion").numberValue.intValue)
+    func currentVersion() async throws -> Int {
+        _ = try await remoteConfig.fetchAndActivate()
+        return Int(remoteConfig.configValue(forKey: "contentVersion").numberValue.intValue)
     }
 }

@@ -21,7 +21,7 @@ final class POIContentStore {
     }
 
     func syncIfNeeded() async throws {
-        let remoteVersion = versionProvider.currentVersion()
+        let remoteVersion = try await versionProvider.currentVersion()
         let localVersion = Self.cachedVersion(from: modelContext)
         guard remoteVersion > localVersion else { return }
 

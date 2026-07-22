@@ -4,5 +4,5 @@ import Foundation
 /// contenu sans dépendre du SDK Firebase (spec §3 : "Firebase isolé derrière
 /// des protocoles dans Core/").
 protocol ContentVersionProviding: Sendable {
-    func currentVersion() -> Int
+    func currentVersion() async throws -> Int
 }

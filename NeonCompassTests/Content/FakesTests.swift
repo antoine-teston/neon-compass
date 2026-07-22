@@ -3,7 +3,7 @@ import Testing
 
 final class FakeContentVersionProvider: ContentVersionProviding {
     nonisolated(unsafe) var version: Int = 0
-    func currentVersion() -> Int { version }
+    func currentVersion() async throws -> Int { version }
 }
 
 final class FakePOIRemoteRepository: POIRemoteRepository {
@@ -17,10 +17,10 @@ final class FakePOIRemoteRepository: POIRemoteRepository {
 }
 
 struct FakesTests {
-    @Test func versionProviderReturnsSetValue() {
+    @Test func versionProviderReturnsSetValue() async throws {
         let fake = FakeContentVersionProvider()
         fake.version = 5
-        #expect(fake.currentVersion() == 5)
+        #expect(try await fake.currentVersion() == 5)
     }
 
     @Test func remoteRepositoryTracksFetchCallsAndReturnsSetPOIs() async throws {
