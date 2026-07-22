@@ -1,7 +1,19 @@
 import Foundation
+import SwiftUI
 
 enum POICategory: String, CaseIterable, Codable, Sendable {
     case landmark, collectible, activity, safehouse, vehicle, event
+
+    var localizedNameKey: LocalizedStringKey {
+        switch self {
+        case .landmark: "map.category.landmark"
+        case .collectible: "map.category.collectible"
+        case .activity: "map.category.activity"
+        case .safehouse: "map.category.safehouse"
+        case .vehicle: "map.category.vehicle"
+        case .event: "map.category.event"
+        }
+    }
 }
 
 struct NormalizedPoint: Codable, Equatable, Sendable {

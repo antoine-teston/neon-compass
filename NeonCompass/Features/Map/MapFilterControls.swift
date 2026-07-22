@@ -45,7 +45,7 @@ struct MapFilterControls: View {
             Button {
                 toggle(category)
             } label: {
-                Text(category.rawValue)
+                Text(category.localizedNameKey)
                     .font(.caption)
                     .foregroundStyle(isActive ? NCColor.neonCyan : .secondary)
                     .padding(.horizontal, 12)
