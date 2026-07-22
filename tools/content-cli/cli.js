@@ -5,7 +5,9 @@
 //   check-publishable      règles éditoriales (cheats: verifiedBy >= 2, marques déposées)
 //   translate --dry-run    liste les champs ES/IT/DE manquants (l'appel IA arrive avec Firebase)
 //   publish --dry-run      montre le diff qui partirait vers Firestore
-// Firestore n'étant pas encore provisionné, publish sans --dry-run refuse de tourner.
+//   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
+//                          contentVersion dans Remote Config ; nécessite
+//                          FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -100,7 +102,7 @@ const [cmd, ...flags] = process.argv.slice(2);
 const dry = flags.includes('--dry-run');
 const entries = loadAll();
 
-const ok = (() => {
+const ok = await (async () => {
   switch (cmd) {
     case 'validate':
       return validate(entries);
@@ -110,8 +112,18 @@ const ok = (() => {
       if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); return false; }
       return translateDryRun(entries);
     case 'publish':
-      if (!dry) { console.error('publish: refusing — Firestore is not provisioned yet. Use --dry-run.'); return false; }
-      return validate(entries) && checkPublishable(entries) && publishDryRun(entries);
+      if (dry) return validate(entries) && checkPublishable(entries) && publishDryRun(entries);
+      if (!(validate(entries) && checkPublishable(entries))) return false;
+      const publishable = entries.filter((e) => e.data.status === 'published');
+      const { pushDocuments, incrementContentVersion } = await import('./firestore-client.js');
+      const byKind = { poi: [], cheats: [] };
+      publishable.forEach((e) => byKind[e.kind].push(e.data));
+      for (const [kind, docs] of Object.entries(byKind)) {
+        if (docs.length) await pushDocuments(kind, docs);
+      }
+      const newVersion = await incrementContentVersion();
+      console.log(`publish: pushed ${publishable.length} document(s), contentVersion → ${newVersion}`);
+      return true;
     default:
       console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run>');
       return false;
