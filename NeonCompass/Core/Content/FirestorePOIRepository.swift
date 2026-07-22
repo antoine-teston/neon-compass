@@ -17,9 +17,19 @@ final class FirestorePOIRepository: POIRemoteRepository {
 
     func fetchAll() async throws -> [POI] {
         let snapshot = try await collection.getDocuments()
-        return try snapshot.documents.compactMap { document in
-            let data = try JSONSerialization.data(withJSONObject: document.data())
-            return try JSONDecoder().decode(POI.self, from: data)
+        return snapshot.documents.compactMap { document in
+            do {
+                let data = try JSONSerialization.data(withJSONObject: document.data())
+                return try JSONDecoder().decode(POI.self, from: data)
+            } catch {
+                // A single malformed document (bad manual edit, future schema
+                // drift) must not blank the entire map — skip it and keep the
+                // rest. Firestore-side validation at publish time (content-cli's
+                // validate/check-publishable) is the primary defense; this is
+                // defense-in-depth for whatever slips through.
+                print("FirestorePOIRepository: skipping undecodable document \(document.documentID): \(error)")
+                return nil
+            }
         }
     }
 }
