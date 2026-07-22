@@ -29,6 +29,15 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
         case id, category, effect, sequence, blocksTrophies
     }
 
+    init(id: String, category: CheatCategory, effect: LocalizedText,
+         sequence: [Platform: [GamepadButton]], blocksTrophies: Bool) {
+        self.id = id
+        self.category = category
+        self.effect = effect
+        self.sequence = sequence
+        self.blocksTrophies = blocksTrophies
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
@@ -59,5 +68,25 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
             sequence[platform] = buttons
         }
         self.sequence = sequence
+    }
+
+    /// Miroir manuel de `init(from:)` : `[Platform: [GamepadButton]]` n'est pas
+    /// une clé `String`/`Int`, donc l'encodage `Dictionary` synthétisé par
+    /// défaut produirait un tableau plat `[clé, valeur, clé, valeur, …]` au
+    /// lieu de l'objet `{"ps5": [...], "xbox": [...]}` que `init(from:)`
+    /// attend en lecture — cassant le round-trip encode/decode utilisé par
+    /// le cache SwiftData de `CheatContentStore`.
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(category, forKey: .category)
+        try container.encode(effect, forKey: .effect)
+        try container.encode(blocksTrophies, forKey: .blocksTrophies)
+
+        var sequenceDict: [String: [String]] = [:]
+        for (platform, buttons) in sequence {
+            sequenceDict[platform.rawValue] = buttons.map(\.rawValue)
+        }
+        try container.encode(sequenceDict, forKey: .sequence)
     }
 }
