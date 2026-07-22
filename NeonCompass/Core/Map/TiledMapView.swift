@@ -73,10 +73,10 @@ struct TiledMapRepresentable: UIViewRepresentable {
         scrollView.addSubview(canvas)
         scrollView.minimumZoomScale = 1 / CGFloat(1 << manifest.maxZoom)
         scrollView.maximumZoomScale = 1
-        scrollView.zoomScale = scrollView.minimumZoomScale
         scrollView.delegate = context.coordinator
-        scrollView.backgroundColor = .black
         context.coordinator.canvas = canvas
+        scrollView.zoomScale = scrollView.minimumZoomScale
+        scrollView.backgroundColor = .black
 
         let longPress = UILongPressGestureRecognizer(
             target: context.coordinator,
