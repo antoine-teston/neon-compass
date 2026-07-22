@@ -26,8 +26,25 @@ struct POITests {
         #expect(pois.count == 1)
         #expect(pois[0].id == "poi_sample_lighthouse")
         #expect(pois[0].category == .landmark)
-        #expect(abs(pois[0].position.x - 0.7312) < 0.0001)
+        #expect(abs((pois[0].position?.x ?? -1) - 0.7312) < 0.0001)
         #expect(pois[0].title.resolved(for: "fr") == "Phare du vieux port")
+    }
+
+    @Test func decodesPOIWithNullPositionAsPending() throws {
+        let json = Data("""
+        [{
+            "id": "poi_arts_center",
+            "category": "landmark",
+            "position": null,
+            "title": {"en": "Arts Center", "fr": "Centre culturel des arts"},
+            "note": {"en": "Sample note"},
+            "status": "draft",
+            "sources": ["internal:fixture"]
+        }]
+        """.utf8)
+        let pois = try POILoader.decode(json)
+        #expect(pois.count == 1)
+        #expect(pois[0].position == nil)
     }
 
     @Test func seedFileIsValidJSON() throws {

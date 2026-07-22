@@ -46,7 +46,7 @@ struct LocalizedText: Codable, Equatable, Sendable {
 struct POI: Codable, Equatable, Identifiable, Sendable {
     let id: String
     let category: POICategory
-    let position: NormalizedPoint
+    let position: NormalizedPoint?
     let title: LocalizedText
     let note: LocalizedText?
 }
