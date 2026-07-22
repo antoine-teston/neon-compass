@@ -42,7 +42,7 @@ private final class TiledCanvasView: UIView {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) not supported") }
 
-    override func draw(_ rect: CGRect) {
+    nonisolated override func draw(_ rect: CGRect) {
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
         let scale = ctx.ctm.a
         guard scale > 0 else { return }
