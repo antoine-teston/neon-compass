@@ -25,7 +25,8 @@ final class MapModel {
     var filteredPOIs: [POI] {
         let languageCode = currentLanguageCode
         return pois.filter { poi in
-            activeCategories.contains(poi.category)
+            poi.position != nil
+                && activeCategories.contains(poi.category)
                 && (searchQuery.isEmpty
                     || poi.title.resolved(for: languageCode).localizedCaseInsensitiveContains(searchQuery))
         }

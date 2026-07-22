@@ -32,6 +32,14 @@ struct MapModelTests {
         #expect(model.filteredPOIs.map(\.id) == ["b"])
     }
 
+    @Test func filteredPOIsExcludesPositionPendingPOIs() {
+        let pending = POI(id: "c", category: .landmark, position: nil,
+                           title: LocalizedText(en: "Pending", fr: nil, es: nil, it: nil, de: nil), note: nil)
+        let model = MapModel(pois: samplePOIs() + [pending], modelContext: makeContext())
+        #expect(model.filteredPOIs.map(\.id) == ["a", "b"])
+        #expect(model.pois.map(\.id) == ["a", "b", "c"])
+    }
+
     @Test func toggleFoundPersistsAndIsIdempotentPerPOI() {
         let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
         let poi = samplePOIs()[0]
