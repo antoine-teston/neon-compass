@@ -77,6 +77,17 @@ struct TiledMapRepresentable: UIViewRepresentable {
         context.coordinator.canvas = canvas
         scrollView.zoomScale = scrollView.minimumZoomScale
         scrollView.backgroundColor = .black
+        // Deferred to the next run-loop turn: mutating the `@Binding var viewport`
+        // synchronously here (still inside SwiftUI's makeUIView/update pass) is the
+        // classic "modifying state during view update" hazard — sibling views in the
+        // same ZStack (e.g. PersonalPinsOverlay/MapPinsOverlay) have already captured
+        // the stale viewport for this render pass, and no further pass reliably picks
+        // up the new value. Dispatching async lets this pass finish first, so the
+        // resulting state change triggers a proper, fresh SwiftUI re-render.
+        DispatchQueue.main.async { [weak scrollView] in
+            guard let scrollView else { return }
+            context.coordinator.sync(scrollView)
+        }
 
         let longPress = UILongPressGestureRecognizer(
             target: context.coordinator,
@@ -104,7 +115,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
         func scrollViewDidZoom(_ scrollView: UIScrollView) { sync(scrollView) }
         func scrollViewDidScroll(_ scrollView: UIScrollView) { sync(scrollView) }
 
-        private func sync(_ scrollView: UIScrollView) {
+        fileprivate func sync(_ scrollView: UIScrollView) {
             viewport = MapViewport(zoomScale: scrollView.zoomScale, contentOffset: scrollView.contentOffset)
         }
 
