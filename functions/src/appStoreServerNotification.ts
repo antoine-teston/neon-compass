@@ -66,9 +66,11 @@ const APP_APPLE_ID = process.env.APP_STORE_APPLE_ID ? Number(process.env.APP_STO
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Loaded once per function instance (module-level), not per request — the
-// certificate file never changes at runtime and re-reading it on every
-// invocation would be wasted I/O under load.
+// Called lazily on first request (from getVerifier(), which caches the
+// resulting SignedDataVerifier) rather than at module load — the
+// certificate file never changes at runtime, so it's still only ever
+// read once per function instance; re-reading it on every invocation
+// would be wasted I/O under load.
 function loadAppleRootCertificates(): Buffer[] {
   // Vendored from https://www.apple.com/certificateauthority/ — see this
   // file's header comment. Resolved relative to the compiled lib/ output
