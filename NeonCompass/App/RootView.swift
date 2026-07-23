@@ -5,8 +5,21 @@ struct RootView: View {
     @State private var model = AppModel()
     @State private var onboarding = OnboardingModel()
     @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
-    @State private var proEntitlementModel = ProEntitlementModel(provider: StoreKitProProvider())
+    @State private var proEntitlementModel: ProEntitlementModel
+    // Constructed with a reference to proEntitlementModel, so it can't be a
+    // plain `@State private var x = ...` default (those can't reference
+    // `self`/sibling properties) — built in `init()` instead.
+    @State private var widgetSummaryCoordinator: WidgetSummaryCoordinator
     @Environment(\.horizontalSizeClass) private var sizeClass
+
+    init() {
+        let proEntitlementModel = ProEntitlementModel(provider: StoreKitProProvider())
+        _proEntitlementModel = State(initialValue: proEntitlementModel)
+        _widgetSummaryCoordinator = State(initialValue: WidgetSummaryCoordinator(
+            writer: AppGroupWidgetSummaryWriter(),
+            proEntitlementModel: proEntitlementModel
+        ))
+    }
 
     var body: some View {
         Group {
@@ -26,6 +39,7 @@ struct RootView: View {
         }
         .environment(authModel)
         .environment(proEntitlementModel)
+        .environment(widgetSummaryCoordinator)
         .preferredColorScheme(.dark)
         // Starts Mobile Ads only once every onboarding gate (disclaimer,
         // ATT, UMP consent) has cleared — never before consent is resolved

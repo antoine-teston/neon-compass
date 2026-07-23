@@ -918,6 +918,36 @@
           }
         }
       }
+    },
+    "widget.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your collection progress and favorite cheat, at a glance."
+          }
+        }
+      }
+    },
+    "widget.displayName" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neon Compass Progress"
+          }
+        }
+      }
+    },
+    "widget.upsell" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Pro for widgets"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

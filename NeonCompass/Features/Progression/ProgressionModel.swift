@@ -11,21 +11,35 @@ final class ProgressionModel {
 
     private(set) var foundPOIIDs: Set<String>
     private let modelContext: ModelContext
+    private let widgetSummaryCoordinator: WidgetSummaryCoordinator?
 
-    init(pois: [POI], trophies: [Trophy], modelContext: ModelContext) {
+    init(
+        pois: [POI],
+        trophies: [Trophy],
+        modelContext: ModelContext,
+        widgetSummaryCoordinator: WidgetSummaryCoordinator? = nil
+    ) {
         self.pois = pois
         self.trophies = trophies
         self.modelContext = modelContext
+        self.widgetSummaryCoordinator = widgetSummaryCoordinator
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
         self.checkedTrophyIDs = Set((try? modelContext.fetch(FetchDescriptor<TrophyProgress>()))?.map(\.trophyID) ?? [])
+        notifyWidgetProgress()
     }
 
     func refreshFoundState() {
         foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
+        notifyWidgetProgress()
     }
 
     func updatePOIs(_ newPOIs: [POI]) {
         pois = newPOIs
+        notifyWidgetProgress()
+    }
+
+    private func notifyWidgetProgress() {
+        widgetSummaryCoordinator?.updateProgress(overallProgress)
     }
 
     func updateTrophies(_ newTrophies: [Trophy]) {

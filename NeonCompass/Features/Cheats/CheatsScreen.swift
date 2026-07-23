@@ -7,6 +7,7 @@ private enum CheatsGuidesSection: String, CaseIterable {
 
 struct CheatsScreen: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
     @State private var model: CheatsModel?
     @State private var guidesModel: GuidesModel?
     @State private var readerCheat: Cheat?
@@ -74,7 +75,11 @@ struct CheatsScreen: View {
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        model = CheatsModel(cheats: contentStore.items, modelContext: modelContext)
+        model = CheatsModel(
+            cheats: contentStore.items,
+            modelContext: modelContext,
+            widgetSummaryCoordinator: widgetSummaryCoordinator
+        )
         try? await contentStore.syncIfNeeded()
         model?.updateCheats(contentStore.items)
     }

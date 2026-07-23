@@ -3,6 +3,7 @@ import SwiftData
 
 struct ProgressionScreen: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
     @State private var model: ProgressionModel?
 
     var body: some View {
@@ -33,7 +34,12 @@ struct ProgressionScreen: View {
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        model = ProgressionModel(pois: poiStore.items, trophies: trophyStore.items, modelContext: modelContext)
+        model = ProgressionModel(
+            pois: poiStore.items,
+            trophies: trophyStore.items,
+            modelContext: modelContext,
+            widgetSummaryCoordinator: widgetSummaryCoordinator
+        )
         try? await poiStore.syncIfNeeded()
         try? await trophyStore.syncIfNeeded()
         model?.updatePOIs(poiStore.items)
