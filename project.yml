@@ -68,6 +68,8 @@ targets:
         product: FirebaseFunctions
       - package: Firebase
         product: FirebaseAppCheck
+      - package: Firebase
+        product: FirebaseMessaging
       - package: GoogleMobileAds
         product: GoogleMobileAds
       - package: GoogleUserMessagingPlatform

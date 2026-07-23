@@ -10,5 +10,10 @@
 	<array>
 		<string>group.co.antoineteston.neoncompass</string>
 	</array>
+	<!-- Switch to "production" at release-build time; XcodeGen has no clean
+	     per-configuration entitlement-value mechanism, so this is checked in
+	     as "development" with the flip noted in the release ops doc. -->
+	<key>aps-environment</key>
+	<string>development</string>
 </dict>
 </plist>
