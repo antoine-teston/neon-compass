@@ -1,8 +1,9 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { applyVoteDelta, VoteDirection } from './vote.js';
+import { awardXP, XP_PER_UPVOTE_RECEIVED } from './xp.js';
 
-export const castVote = onCall({ region: 'europe-west1' }, async (request) => {
+export const castVote = onCall({ region: 'europe-west1', enforceAppCheck: true }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Sign in required.');
   }
@@ -41,8 +42,22 @@ export const castVote = onCall({ region: 'europe-west1' }, async (request) => {
     transaction.set(voteRef, { spotId, uid, direction, updatedAt: FieldValue.serverTimestamp() });
     transaction.update(contributionRef, { upvotes, downvotes });
 
-    return { upvotes, downvotes };
+    const authorUid = contributionSnapshot.data()?.authorUid as string | undefined;
+
+    return { upvotes, downvotes, authorUid, delta, previousDirection };
   });
 
-  return result;
+  const { upvotes, downvotes, authorUid, previousDirection } = result;
+
+  // Award XP only on a genuine first-ever upvote for this (spot, voter)
+  // pair — never on a down→up re-toggle (that's the same delta.upvoteDelta
+  // as a first upvote, which would let a voter farm unlimited XP for the
+  // author by looping down/up), and never when the voter is the author
+  // (no self-farming).
+  const isGenuineFirstUpvote = previousDirection === null && direction === 'up';
+  if (isGenuineFirstUpvote && authorUid && authorUid !== uid) {
+    await awardXP(db, authorUid, XP_PER_UPVOTE_RECEIVED);
+  }
+
+  return { upvotes, downvotes };
 });

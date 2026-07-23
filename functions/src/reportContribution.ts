@@ -6,7 +6,7 @@ const MAX_REASON_LENGTH = 280;
 // Apple 1.2 (UGC) requires the reporting mechanism to exist even before
 // there's an active moderation queue reading `reports` — triage of this
 // collection is Plan 5c's job, not this task's.
-export const reportContribution = onCall({ region: 'europe-west1' }, async (request) => {
+export const reportContribution = onCall({ region: 'europe-west1', enforceAppCheck: true }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Sign in required.');
   }

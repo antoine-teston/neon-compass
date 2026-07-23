@@ -31,6 +31,12 @@ final class FakeContributionFunctions: ContributionFunctionsCalling {
     }
 }
 
+final class FakeCommunityGateProvider: CommunityGateProviding {
+    nonisolated(unsafe) var enabledToReturn = true
+
+    func isEnabled() async throws -> Bool { enabledToReturn }
+}
+
 private func makeSpot(id: String, authorUid: String?) -> Contribution {
     Contribution(
         id: id,
@@ -52,7 +58,7 @@ struct CommunityFakesTests {
         let repository = FakeContributionRepository()
         repository.approvedToReturn = [makeSpot(id: "1", authorUid: "author-a"), makeSpot(id: "2", authorUid: "author-b")]
         let container = try ModelContainer(for: BlockedContributor.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-        let model = CommunityModel(repository: repository, functions: FakeContributionFunctions(), modelContext: ModelContext(container))
+        let model = CommunityModel(repository: repository, functions: FakeContributionFunctions(), gateProvider: FakeCommunityGateProvider(), modelContext: ModelContext(container))
 
         await model.loadApprovedSpots()
         model.block(authorUid: "author-a")
@@ -63,7 +69,7 @@ struct CommunityFakesTests {
     @Test func voteCallsCastVoteWithSpotIDAndDirection() async throws {
         let functions = FakeContributionFunctions()
         let container = try ModelContainer(for: BlockedContributor.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-        let model = CommunityModel(repository: FakeContributionRepository(), functions: functions, modelContext: ModelContext(container))
+        let model = CommunityModel(repository: FakeContributionRepository(), functions: functions, gateProvider: FakeCommunityGateProvider(), modelContext: ModelContext(container))
         let spot = makeSpot(id: "spot-1", authorUid: "author-a")
 
         await model.vote(on: spot, direction: .up)
@@ -74,7 +80,7 @@ struct CommunityFakesTests {
 
     @Test func blockThenUnblockRestoresVisibility() throws {
         let container = try ModelContainer(for: BlockedContributor.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-        let model = CommunityModel(repository: FakeContributionRepository(), functions: FakeContributionFunctions(), modelContext: ModelContext(container))
+        let model = CommunityModel(repository: FakeContributionRepository(), functions: FakeContributionFunctions(), gateProvider: FakeCommunityGateProvider(), modelContext: ModelContext(container))
 
         model.block(authorUid: "author-a")
         #expect(model.isBlocked(authorUid: "author-a"))

@@ -26,7 +26,7 @@ service cloud.firestore {
       allow write: if false;
     }
     match /contributions/{id} {
-      allow read: if resource.data.status == 'approved'
+      allow read: if (resource.data.status == 'approved' && resource.data.shadowHidden != true)
         || (request.auth != null && request.auth.uid == resource.data.authorUid);
       allow write: if false;
     }
