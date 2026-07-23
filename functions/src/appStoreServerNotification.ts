@@ -46,11 +46,11 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { Environment, SignedDataVerifier } from '@apple/app-store-server-library';
 
-// process.env.GCLOUD_PROJECT distinguishes emulator/staging from the
-// production Firebase project at deploy time; App Store notifications from
-// Apple's sandbox (used for TestFlight/local testing) must be verified
-// against Environment.SANDBOX rather than PRODUCTION, or verification fails
-// even for a genuinely-signed sandbox payload.
+// process.env.APP_STORE_ENVIRONMENT (set at deploy time) distinguishes
+// TestFlight/sandbox from production; App Store notifications from Apple's
+// sandbox (used for TestFlight/local testing) must be verified against
+// Environment.SANDBOX rather than PRODUCTION, or verification fails even
+// for a genuinely-signed sandbox payload.
 const APP_STORE_ENVIRONMENT =
   process.env.APP_STORE_ENVIRONMENT === 'sandbox' ? Environment.SANDBOX : Environment.PRODUCTION;
 
