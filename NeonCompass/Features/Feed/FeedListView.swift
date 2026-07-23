@@ -13,6 +13,8 @@ struct FeedListView: View {
                         card(for: item)
                     }
                 }
+                BannerAdView()
+                    .frame(height: 50)
             }
             .padding(16)
         }
