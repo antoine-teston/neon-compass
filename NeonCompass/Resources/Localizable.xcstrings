@@ -744,6 +744,16 @@
         }
       }
     },
+    "profile.followedCategories.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notify me about"
+          }
+        }
+      }
+    },
     "profile.handle.regenerate" : {
       "localizations" : {
         "en" : {

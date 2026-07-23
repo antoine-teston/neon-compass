@@ -15,6 +15,7 @@ struct ProfileScreen: View {
     @State private var currentNonce: String?
     @State private var showDeleteConfirmation = false
     @State private var showPaywall = false
+    @State private var followedCategoriesStore = FollowedCategoriesStore(notifier: FirebaseFollowedCategoryNotifier())
 
     var body: some View {
         ZStack {
@@ -23,6 +24,7 @@ struct ProfileScreen: View {
                 if proEntitlementModel.isProEntitled {
                     Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
                         .foregroundStyle(NCColor.neonCyan)
+                    followedCategoriesSection
                 } else {
                     Button("profile.pro.upgradeButton") { showPaywall = true }
                 }
@@ -154,6 +156,26 @@ struct ProfileScreen: View {
                             communityModel.unblock(authorUid: authorUid)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private var followedCategoriesSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("profile.followedCategories.title")
+                .font(NCTypography.body)
+                .foregroundStyle(.white)
+            ForEach(POICategory.allCases, id: \.self) { category in
+                Toggle(
+                    isOn: Binding(
+                        get: { followedCategoriesStore.followedCategories.contains(category) },
+                        set: { _ in
+                            Task { await followedCategoriesStore.toggle(category) }
+                        }
+                    )
+                ) {
+                    Text(category.localizedNameKey)
                 }
             }
         }
