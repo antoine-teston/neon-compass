@@ -1,6 +1,6 @@
 // Neon Compass Cloud Functions — account lifecycle (Plan 5) plus
-// community contributions (Plan 5b). castVote/moderation are still a
-// future plan, not here.
+// community contributions and voting (Plan 5b). Moderation triage of the
+// `reports` collection is Plan 5c, not here.
 //
 // Deviation from brief (discovered during Task 3's emulator smoke test):
 // no file in this codebase called initializeApp() — every Admin SDK call
@@ -17,3 +17,5 @@ export { createUserProfile } from './createUserProfile.js';
 export { regenerateHandle } from './regenerateHandle.js';
 export { deleteAccount } from './deleteAccount.js';
 export { submitContribution } from './submitContribution.js';
+export { castVote } from './castVote.js';
+export { reportContribution } from './reportContribution.js';
