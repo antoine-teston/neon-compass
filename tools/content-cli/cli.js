@@ -149,8 +149,97 @@ switch (cmd) {
       ok = false;
     }
     break;
+  case 'moderate:list':
+    try {
+      const { listPendingContributions } = await import('./firestore-client.js');
+      const pending = await listPendingContributions();
+      if (!pending.length) {
+        console.log('moderate:list: nothing pending');
+      } else {
+        pending.forEach((c) => {
+          const flag = c.flaggedForReview ? ' [FLAGGED]' : '';
+          console.log(`${c.id}${flag} — [${c.category}] "${c.title}" by ${c.authorHandle}`);
+        });
+      }
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  case 'moderate:approve':
+    try {
+      const [id] = flags;
+      if (!id) throw new Error('usage: cli.js moderate:approve <contributionId>');
+      const { approveContribution } = await import('./firestore-client.js');
+      await approveContribution(id);
+      console.log(`moderate:approve: ${id} approved`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  case 'moderate:reject':
+    try {
+      const [id] = flags;
+      if (!id) throw new Error('usage: cli.js moderate:reject <contributionId>');
+      const { rejectContribution } = await import('./firestore-client.js');
+      await rejectContribution(id);
+      console.log(`moderate:reject: ${id} rejected`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  case 'shadow-ban':
+    try {
+      const [uid] = flags;
+      if (!uid) throw new Error('usage: cli.js shadow-ban <uid>');
+      const { shadowBanUser } = await import('./firestore-client.js');
+      await shadowBanUser(uid);
+      console.log(`shadow-ban: ${uid} shadow-banned, existing approved spots hidden`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  case 'lift-shadow-ban':
+    try {
+      const [uid] = flags;
+      if (!uid) throw new Error('usage: cli.js lift-shadow-ban <uid>');
+      const { liftShadowBan } = await import('./firestore-client.js');
+      await liftShadowBan(uid);
+      console.log(`lift-shadow-ban: ${uid} restored, existing spots visible again`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  case 'kill-switch':
+    try {
+      const [state] = flags.filter((f) => f !== '--dry-run');
+      const { getCommunityContributionsEnabled, setCommunityContributionsEnabled } = await import('./firestore-client.js');
+      if (!state) {
+        const enabled = await getCommunityContributionsEnabled();
+        console.log(`kill-switch: community contributions currently ${enabled ? 'ENABLED' : 'DISABLED'}`);
+      } else if (state === 'on' || state === 'off') {
+        await setCommunityContributionsEnabled(state === 'on');
+        console.log(`kill-switch: community contributions now ${state === 'on' ? 'ENABLED' : 'DISABLED'}`);
+      } else {
+        throw new Error("usage: cli.js kill-switch [on|off]  (no argument = show current state)");
+      }
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules>');
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
     ok = false;
 }
 
