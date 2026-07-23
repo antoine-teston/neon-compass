@@ -129,7 +129,11 @@ struct MapScreen: View {
         .sheet(isPresented: $showRoutePlanner) {
             RoutePlannerSheet(
                 route: RoutePlanner.greedyRoute(
-                    from: model.filteredPOIs.filter { $0.category == .collectible && !model.isFound($0) }
+                    // Deliberately computed from the full, unfiltered `pois`
+                    // array rather than `filteredPOIs` — the route planner
+                    // must never be silently narrowed by the map's category
+                    // chips or search text (see plan 6b-2 final-review fix).
+                    from: model.pois.filter { $0.category == .collectible && $0.position != nil && !model.isFound($0) }
                 ),
                 languageCode: Self.currentLanguageCode()
             )

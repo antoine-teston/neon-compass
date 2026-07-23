@@ -2,13 +2,13 @@ import Foundation
 import Observation
 import UIKit
 
-/// Pure local `UserDefaults`-backed state for the Pro-exclusive accent theme
-/// and alternate app icon selection. Deliberately NOT injected via
-/// `.environment` (unlike `AuthModel`/`ProEntitlementModel`): this plan has no
-/// other screen that reads the current theme, and there's no cross-screen
-/// synchronization need — it's a per-screen `@State` instance constructed
-/// directly in `ProfileScreen`. If a future plan extends theming to other
-/// screens, that's the point to reconsider environment injection, not before.
+/// `UserDefaults`-backed state for the Pro-exclusive accent theme and
+/// alternate app icon selection. Constructed exactly once at `RootView` and
+/// injected via `.environment(themeStore)`, same as `AuthModel`/
+/// `ProEntitlementModel` — never a second per-screen instance. `RootView`
+/// applies `themeStore.selectedTheme.accent` as the app-wide `.tint(...)`, so
+/// this is what makes a Pro user's theme choice actually visible everywhere,
+/// not just a persisted preference nobody reads.
 @Observable
 @MainActor
 final class ThemeStore {

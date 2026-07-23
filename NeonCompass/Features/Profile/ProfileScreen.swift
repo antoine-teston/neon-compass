@@ -16,12 +16,7 @@ struct ProfileScreen: View {
     @State private var currentNonce: String?
     @State private var showDeleteConfirmation = false
     @State private var showPaywall = false
-    // ThemeStore is deliberately a per-screen @State instance, not injected via
-    // .environment like AuthModel/ProEntitlementModel above: it's pure local
-    // UserDefaults state with no cross-screen synchronization need in this
-    // plan's scope (no other screen reads the current theme yet). If a future
-    // plan extends theming elsewhere, reconsider environment injection then.
-    @State private var themeStore = ThemeStore()
+    @Environment(ThemeStore.self) private var themeStore
 
     var body: some View {
         ZStack {
