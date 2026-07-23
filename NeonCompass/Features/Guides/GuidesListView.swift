@@ -13,6 +13,8 @@ struct GuidesListView: View {
                         chapterSection(chapter, guides: chapterGuides)
                     }
                 }
+                BannerAdView()
+                    .frame(height: 50)
             }
             .padding(16)
         }

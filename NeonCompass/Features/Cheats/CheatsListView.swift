@@ -22,6 +22,8 @@ struct CheatsListView: View {
                         onToggleFavorite: { model.toggleFavorite(cheat) }
                     )
                 }
+                BannerAdView()
+                    .frame(height: 50)
             }
             .padding(16)
         }
