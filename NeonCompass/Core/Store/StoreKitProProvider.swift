@@ -46,21 +46,23 @@ import StoreKit
 /// Revisit if Neon Compass ever supports true iPad multi-window and users
 /// report the sheet anchoring to the wrong window.
 ///
-/// Isolation: unlike `UMPConsentProvider` (`@MainActor`, because UMP's
-/// headers explicitly document "must be called on the main thread") or
-/// `AdMobInterstitialProvider` (mixed isolation, because
-/// `-presentFromRootViewController:` is `NS_SWIFT_UI_ACTOR`), no source
-/// found here documents any main-thread/main-actor requirement for
-/// `Product.products(for:)`, `Product.purchase()` (the argument-less
-/// overload used here), `AppStore.sync()`, or the `Transaction` async
-/// sequences — StoreKit 2's whole API was designed around Swift
-/// concurrency from its iOS 15 introduction (WWDC21 "Meet StoreKit 2") to
-/// be callable from any execution context, and `Product`/`Transaction`/
-/// `VerificationResult` are all plain `Sendable` value types. This type
-/// therefore needs no `@MainActor` isolation and no stored SDK handle
-/// needing `nonisolated(unsafe)` — it holds no mutable instance state at
-/// all (only the `static let` product ID), so it is trivially `Sendable`
-/// without `@unchecked`.
+/// Isolation: confirmed directly against the resolved iOS 26 SDK's
+/// `StoreKit.swiftinterface` (not a secondary source) —
+/// `Product.purchase(options:)` IS `@MainActor`-isolated in the shipping
+/// SDK, unlike what an earlier pass of this comment claimed. This does not
+/// require `StoreKitProProvider` itself to be `@MainActor`, unlike
+/// `UMPConsentProvider`: `purchase()` here is `async`, and Swift's
+/// concurrency runtime automatically inserts an actor hop at the call site
+/// for an `async` `@MainActor` function called from any context — no
+/// physical-main-thread enforcement is needed the way UMP/AdMob's
+/// synchronous, `NS_SWIFT_UI_ACTOR`-annotated ObjC methods require. Only
+/// `purchase()` carries this annotation — `Product.products(for:)`,
+/// `AppStore.sync()`, and the `Transaction` async sequences are confirmed
+/// unisolated in the same `.swiftinterface`. This type therefore needs no
+/// `@MainActor` isolation and no stored SDK handle needing
+/// `nonisolated(unsafe)` — it holds no mutable instance state at all (only
+/// the `static let` product ID), so it is trivially `Sendable` without
+/// `@unchecked`.
 final class StoreKitProProvider: ProEntitlementProviding, Sendable {
     static let proProductID = "co.antoineteston.neoncompass.pro"
 
