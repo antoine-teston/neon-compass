@@ -804,6 +804,16 @@
         }
       }
     },
+    "profile.icon.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Icon"
+          }
+        }
+      }
+    },
     "profile.myContributions.empty" : {
       "localizations" : {
         "en" : {
@@ -894,6 +904,16 @@
         }
       }
     },
+    "profile.theme.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        }
+      }
+    },
     "progress.trophies.empty" : {
       "localizations" : {
         "en" : {
@@ -965,6 +985,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Progress"
+          }
+        }
+      }
+    },
+    "theme.cyanPulse" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cyan Pulse"
+          }
+        }
+      }
+    },
+    "theme.magentaDrift" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Magenta Drift"
+          }
+        }
+      }
+    },
+    "theme.sunsetOverdrive" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunset Overdrive"
           }
         }
       }
