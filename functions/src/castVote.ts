@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { applyVoteDelta, VoteDirection } from './vote.js';
+import { awardXP, XP_PER_UPVOTE_RECEIVED } from './xp.js';
 
 export const castVote = onCall({ region: 'europe-west1', enforceAppCheck: true }, async (request) => {
   if (!request.auth) {
@@ -41,8 +42,16 @@ export const castVote = onCall({ region: 'europe-west1', enforceAppCheck: true }
     transaction.set(voteRef, { spotId, uid, direction, updatedAt: FieldValue.serverTimestamp() });
     transaction.update(contributionRef, { upvotes, downvotes });
 
-    return { upvotes, downvotes };
+    const authorUid = contributionSnapshot.data()?.authorUid as string | undefined;
+
+    return { upvotes, downvotes, authorUid, delta };
   });
 
-  return result;
+  const { upvotes, downvotes, authorUid, delta } = result;
+
+  if (delta.upvoteDelta > 0 && authorUid) {
+    await awardXP(db, authorUid, XP_PER_UPVOTE_RECEIVED * delta.upvoteDelta);
+  }
+
+  return { upvotes, downvotes };
 });

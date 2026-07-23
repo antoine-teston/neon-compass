@@ -28,6 +28,7 @@ export const submitContribution = onCall({ region: 'europe-west1', enforceAppChe
   }
 
   const profileData = profileSnapshot.data();
+  const isShadowBanned = profileData?.isShadowBanned === true;
 
   // Cooldown (spec point 3): minute-order gap between two submissions, no
   // daily cap, no pending-submission limit — see this plan's Global
@@ -64,6 +65,7 @@ export const submitContribution = onCall({ region: 'europe-west1', enforceAppChe
     status: 'pending',
     upvotes: 0,
     downvotes: 0,
+    shadowHidden: isShadowBanned,
     createdAt: FieldValue.serverTimestamp(),
   });
 
