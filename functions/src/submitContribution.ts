@@ -1,6 +1,6 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
-import { validateSubmission } from './contribution.js';
+import { validateSubmission, containsBannedVocabulary, isTooCloseToExistingSpot, COOLDOWN_SECONDS } from './contribution.js';
 
 export const submitContribution = onCall({ region: 'europe-west1', enforceAppCheck: true }, async (request) => {
   if (!request.auth) {
@@ -27,6 +27,33 @@ export const submitContribution = onCall({ region: 'europe-west1', enforceAppChe
     throw new HttpsError('failed-precondition', 'Profile not ready yet — try again shortly.');
   }
 
+  const profileData = profileSnapshot.data();
+
+  // Cooldown (spec point 3): minute-order gap between two submissions, no
+  // daily cap, no pending-submission limit — see this plan's Global
+  // Constraints for why that's deliberate, not a gap to close later.
+  const lastSubmissionAt = profileData?.lastSubmissionAt as FirebaseFirestore.Timestamp | undefined;
+  if (lastSubmissionAt) {
+    const secondsSinceLastSubmission = (Date.now() - lastSubmissionAt.toMillis()) / 1000;
+    if (secondsSinceLastSubmission < COOLDOWN_SECONDS) {
+      throw new HttpsError('resource-exhausted', `Please wait before submitting again (${Math.ceil(COOLDOWN_SECONDS - secondsSinceLastSubmission)}s).`);
+    }
+  }
+
+  if (containsBannedVocabulary(input.title)) {
+    throw new HttpsError('invalid-argument', 'Submission contains disallowed content.');
+  }
+
+  const nearbySnapshot = await db
+    .collection('contributions')
+    .where('status', '==', 'approved')
+    .where('category', '==', input.category)
+    .get();
+  const nearbyPositions = nearbySnapshot.docs.map((doc) => doc.data().position as { x: number; y: number });
+  if (isTooCloseToExistingSpot(input.position, nearbyPositions)) {
+    throw new HttpsError('already-exists', 'A spot of this category already exists nearby.');
+  }
+
   const docRef = await db.collection('contributions').add({
     authorUid: uid,
     authorHandle,
@@ -39,6 +66,8 @@ export const submitContribution = onCall({ region: 'europe-west1', enforceAppChe
     downvotes: 0,
     createdAt: FieldValue.serverTimestamp(),
   });
+
+  await db.doc(`profiles/${uid}`).update({ lastSubmissionAt: FieldValue.serverTimestamp() });
 
   return { id: docRef.id };
 });

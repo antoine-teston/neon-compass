@@ -62,3 +62,34 @@ export function validateSubmission(input: unknown): SubmissionInput {
     languageCode: languageCode as ContributionLanguage,
   };
 }
+
+// Minimal, hand-curated banned-vocabulary list — same philosophy as
+// handle.ts's word lists: small, deliberately curated, extend by hand.
+// This is NOT a moderation replacement, just a first-pass filter to catch
+// the most obvious spam/abuse before a human ever sees it (spec point 2).
+const BANNED_VOCABULARY = [/\bfuck\b/i, /\bshit\b/i, /\bnigger\b/i, /\bcunt\b/i, /https?:\/\//i];
+
+export function containsBannedVocabulary(text: string): boolean {
+  return BANNED_VOCABULARY.some((pattern) => pattern.test(text));
+}
+
+export const DEDUP_THRESHOLD_NORMALIZED = 0.02;
+
+// Rejects a submission if an existing (already-approved) spot of the same
+// category sits within a small radius in normalized [0,1] map coordinates
+// (spec point 2: "déduplication géographique"). Plain Euclidean distance is
+// sufficient — the map is a single schematic image, not a geographic
+// projection needing haversine-style math.
+export function isTooCloseToExistingSpot(
+  candidate: { x: number; y: number },
+  existing: Array<{ x: number; y: number }>,
+  thresholdNormalized: number = DEDUP_THRESHOLD_NORMALIZED
+): boolean {
+  return existing.some((point) => {
+    const dx = point.x - candidate.x;
+    const dy = point.y - candidate.y;
+    return Math.sqrt(dx * dx + dy * dy) < thresholdNormalized;
+  });
+}
+
+export const COOLDOWN_SECONDS = 60;
