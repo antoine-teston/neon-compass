@@ -12,7 +12,7 @@ final class MapModel {
     private(set) var foundPOIIDs: Set<String>
 
     private let modelContext: ModelContext
-    private let sync: ProgressionSyncing?
+    private var sync: ProgressionSyncing?
 
     init(pois: [POI], modelContext: ModelContext, sync: ProgressionSyncing? = nil) {
         self.pois = pois
@@ -74,6 +74,19 @@ final class MapModel {
 
     func updatePOIs(_ newPOIs: [POI]) {
         pois = newPOIs
+    }
+
+    /// Attaches sync after construction if it wasn't available yet at init
+    /// time (closes the race where the Pro entitlement/auth gate becomes
+    /// true only after `loadModel()` already ran once with `sync == nil`).
+    /// Idempotent: a no-op if sync is already attached. Returns whether this
+    /// call actually attached sync, so the caller knows whether it also
+    /// needs to trigger an initial pull + reconcile.
+    @discardableResult
+    func attachSyncIfNeeded(_ sync: ProgressionSyncing) -> Bool {
+        guard self.sync == nil else { return false }
+        self.sync = sync
+        return true
     }
 
     /// Last-write-wins-per-item reconciliation of remote progression into the

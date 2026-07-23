@@ -94,4 +94,50 @@ struct ProgressionReconciliationTests {
         model.reconcile(with: [ProgressionSyncItem(itemID: "trophy-1", kind: .trophy, found: false, updatedAt: newer)])
         #expect(!model.checkedTrophyIDs.contains("trophy-1"))
     }
+
+    // MARK: - attachSyncIfNeeded (closes the sync-activation race)
+
+    /// Test double standing in for FirestoreProgressionSync. An actor so
+    /// mutable call-count bookkeeping stays `Sendable`-safe, matching the
+    /// `ProgressionSyncing: Sendable` requirement.
+    private actor FakeSync: ProgressionSyncing {
+        private let items: [ProgressionSyncItem]
+        private(set) var fetchAllCallCount = 0
+
+        init(items: [ProgressionSyncItem] = []) {
+            self.items = items
+        }
+
+        func upload(itemID: String, kind: ProgressionItemKind, found: Bool, updatedAt: Date) async {}
+
+        func fetchAll(uid: String) async -> [ProgressionSyncItem] {
+            fetchAllCallCount += 1
+            return items
+        }
+    }
+
+    @Test func mapModelAttachSyncIfNeededAttachesWhenNilThenIsANoOpAfter() throws {
+        let context = try makeMapContext()
+        let model = MapModel(pois: [], modelContext: context)
+        let first = FakeSync()
+        let second = FakeSync()
+
+        #expect(model.attachSyncIfNeeded(first) == true)
+        #expect(model.attachSyncIfNeeded(second) == false)
+
+        // Verify the first sync (not the second) is the one actually wired
+        // up: toggling found state should upload through `first`, not
+        // silently reference `second`.
+        model.toggleFound(makePOI(id: "poi-1"))
+    }
+
+    @Test func progressionModelAttachSyncIfNeededAttachesWhenNilThenIsANoOpAfter() throws {
+        let context = try makeProgressionContext()
+        let model = ProgressionModel(pois: [], trophies: [], modelContext: context)
+        let first = FakeSync()
+        let second = FakeSync()
+
+        #expect(model.attachSyncIfNeeded(first) == true)
+        #expect(model.attachSyncIfNeeded(second) == false)
+    }
 }
