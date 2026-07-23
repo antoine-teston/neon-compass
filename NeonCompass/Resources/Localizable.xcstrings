@@ -544,6 +544,36 @@
         }
       }
     },
+    "profile.blockedContributors.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven't hidden anyone."
+          }
+        }
+      }
+    },
+    "profile.blockedContributors.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hidden contributors"
+          }
+        }
+      }
+    },
+    "profile.blockedContributors.unblock" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unhide"
+          }
+        }
+      }
+    },
     "profile.deleteAccount" : {
       "localizations" : {
         "en" : {
@@ -600,6 +630,56 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Regenerate handle"
+          }
+        }
+      }
+    },
+    "profile.myContributions.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No contributions yet."
+          }
+        }
+      }
+    },
+    "profile.myContributions.status.approved" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approved"
+          }
+        }
+      }
+    },
+    "profile.myContributions.status.pending" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pending review"
+          }
+        }
+      }
+    },
+    "profile.myContributions.status.rejected" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rejected"
+          }
+        }
+      }
+    },
+    "profile.myContributions.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My contributions"
           }
         }
       }
