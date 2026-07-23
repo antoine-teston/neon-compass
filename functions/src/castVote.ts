@@ -2,7 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { applyVoteDelta, VoteDirection } from './vote.js';
 
-export const castVote = onCall({ region: 'europe-west1' }, async (request) => {
+export const castVote = onCall({ region: 'europe-west1', enforceAppCheck: true }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Sign in required.');
   }

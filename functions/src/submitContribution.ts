@@ -2,7 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { validateSubmission } from './contribution.js';
 
-export const submitContribution = onCall({ region: 'europe-west1' }, async (request) => {
+export const submitContribution = onCall({ region: 'europe-west1', enforceAppCheck: true }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Sign in required.');
   }

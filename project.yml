@@ -40,6 +40,8 @@ targets:
         product: FirebaseAuth
       - package: Firebase
         product: FirebaseFunctions
+      - package: Firebase
+        product: FirebaseAppCheck
   NeonCompassTests:
     type: bundle.unit-test
     platform: iOS
