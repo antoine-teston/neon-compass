@@ -10,6 +10,9 @@ struct RootView: View {
         Group {
             if onboarding.needsDisclaimer {
                 DisclaimerView { onboarding.acceptDisclaimer() }
+            } else if onboarding.needsATTPrompt {
+                ProgressView()
+                    .task { await onboarding.requestTrackingAuthorization() }
             } else if sizeClass == .compact {
                 compactLayout
             } else {

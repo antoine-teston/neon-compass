@@ -22,4 +22,16 @@ struct OnboardingModelTests {
         #expect(!model.needsDisclaimer)
         #expect(!OnboardingModel(defaults: defaults).needsDisclaimer)
     }
+
+    @Test func needsATTPromptDefaultsTrueOnFreshInstall() {
+        let model = OnboardingModel(defaults: freshDefaults())
+        #expect(model.needsATTPrompt)
+    }
+
+    @Test func needsATTPromptFalseAfterPreviouslyShown() {
+        let defaults = freshDefaults()
+        defaults.set(true, forKey: "hasShownATTPrompt")
+        let model = OnboardingModel(defaults: defaults)
+        #expect(!model.needsATTPrompt)
+    }
 }
