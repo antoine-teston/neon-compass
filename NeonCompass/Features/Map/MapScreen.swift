@@ -14,6 +14,7 @@ struct MapScreen: View {
     @State private var pendingContributionLocation: NormalizedPoint?
     @State private var communityModel: CommunityModel?
     @Environment(AuthModel.self) private var authModel
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
     private let manifest = TileManifest.load() ?? TileManifest(tileSize: 256, maxZoom: 3, tileCount: 85)
 
@@ -178,7 +179,11 @@ struct MapScreen: View {
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        model = MapModel(pois: contentStore.items, modelContext: modelContext)
+        // Cloud progression sync is Pro + signed-in only (spec: "nécessite
+        // le compte") — never constructed for free or signed-out users.
+        let userID = authModel.userID
+        let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
+        model = MapModel(pois: contentStore.items, modelContext: modelContext, sync: sync)
         communityModel = CommunityModel(
             repository: FirestoreContributionRepository(),
             functions: FirebaseContributionFunctions(),
@@ -190,6 +195,10 @@ struct MapScreen: View {
             model?.updatePOIs(contentStore.items)
             await communityModel?.loadApprovedSpots()
             await communityModel?.refreshContributionsEnabled()
+            if let sync, let userID {
+                let remoteItems = await sync.fetchAll(uid: userID)
+                model?.reconcile(with: remoteItems)
+            }
         }
     }
 }

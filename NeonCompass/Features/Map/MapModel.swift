@@ -75,4 +75,33 @@ final class MapModel {
     func updatePOIs(_ newPOIs: [POI]) {
         pois = newPOIs
     }
+
+    /// Last-write-wins-per-item reconciliation of remote progression into the
+    /// local FoundEntry store. Pure/testable independent of Firestore — the
+    /// caller (MapScreen) is responsible for fetching remoteItems and gating
+    /// this on Pro + signed-in.
+    func reconcile(with remoteItems: [ProgressionSyncItem]) {
+        for item in remoteItems where item.kind == .poi {
+            let poiID = item.itemID
+            let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
+            let existing = try? modelContext.fetch(descriptor).first
+
+            if let existing, existing.updatedAt >= item.updatedAt {
+                continue // local is at least as recent, local wins
+            }
+
+            if item.found {
+                if let existing {
+                    existing.updatedAt = item.updatedAt
+                } else {
+                    modelContext.insert(FoundEntry(poiID: poiID, foundAt: item.updatedAt, updatedAt: item.updatedAt))
+                }
+                foundPOIIDs.insert(poiID)
+            } else if let existing {
+                modelContext.delete(existing)
+                foundPOIIDs.remove(poiID)
+            }
+        }
+        try? modelContext.save()
+    }
 }

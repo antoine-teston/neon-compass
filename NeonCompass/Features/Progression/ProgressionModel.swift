@@ -66,4 +66,33 @@ final class ProgressionModel {
             Task { await sync?.upload(itemID: trophyID, kind: .trophy, found: true, updatedAt: now) }
         }
     }
+
+    /// Last-write-wins-per-item reconciliation of remote progression into the
+    /// local TrophyProgress store. Pure/testable independent of Firestore —
+    /// the caller (ProgressionScreen) is responsible for fetching remoteItems
+    /// and gating this on Pro + signed-in.
+    func reconcile(with remoteItems: [ProgressionSyncItem]) {
+        for item in remoteItems where item.kind == .trophy {
+            let trophyID = item.itemID
+            let descriptor = FetchDescriptor<TrophyProgress>(predicate: #Predicate { $0.trophyID == trophyID })
+            let existing = try? modelContext.fetch(descriptor).first
+
+            if let existing, existing.updatedAt >= item.updatedAt {
+                continue // local is at least as recent, local wins
+            }
+
+            if item.found {
+                if let existing {
+                    existing.updatedAt = item.updatedAt
+                } else {
+                    modelContext.insert(TrophyProgress(trophyID: trophyID, updatedAt: item.updatedAt))
+                }
+                checkedTrophyIDs.insert(trophyID)
+            } else if let existing {
+                modelContext.delete(existing)
+                checkedTrophyIDs.remove(trophyID)
+            }
+        }
+        try? modelContext.save()
+    }
 }
