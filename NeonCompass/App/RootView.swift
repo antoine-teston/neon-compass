@@ -54,6 +54,15 @@ struct RootView: View {
         .task {
             await proEntitlementModel.refresh()
         }
+        // Nothing else subscribes to entitlement changes on their own —
+        // `WidgetSummaryCoordinator` otherwise only rewrites the widget
+        // summary as a side effect of unrelated Progression/Cheats updates.
+        // Without this, buying Pro (or restoring a purchase) wouldn't
+        // unlock the widget until one of those unrelated events happened
+        // to fire.
+        .onChange(of: proEntitlementModel.isProEntitled) { _, _ in
+            widgetSummaryCoordinator.refresh()
+        }
     }
 
     private var compactLayout: some View {

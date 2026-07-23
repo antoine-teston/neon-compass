@@ -36,6 +36,17 @@ final class WidgetSummaryCoordinator {
         writeSummary()
     }
 
+    /// Re-writes the summary using the cached progress/favorite-cheat but a
+    /// FRESH read of `proEntitlementModel.isProEntitled` (done live inside
+    /// `writeSummary()`). Call this whenever entitlement changes independently
+    /// of Progression/Cheats — e.g. `RootView`'s
+    /// `.onChange(of: proEntitlementModel.isProEntitled)` — so a Pro purchase
+    /// or restore is reflected in the widget immediately, not only whenever
+    /// some unrelated Progression/Cheats event happens to fire a rewrite.
+    func refresh() {
+        writeSummary()
+    }
+
     private func writeSummary() {
         writer.write(
             WidgetSummary(
