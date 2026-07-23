@@ -12,10 +12,17 @@ settings:
     GENERATE_INFOPLIST_FILE: YES
     INFOPLIST_KEY_UILaunchScreen_Generation: YES
     INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+    INFOPLIST_KEY_NSUserTrackingUsageDescription: "This lets us show ads relevant to you instead of generic ones."
 packages:
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk
     from: 11.0.0
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads
+    from: 13.0.0
+  GoogleUserMessagingPlatform:
+    url: https://github.com/googleads/swift-package-manager-google-user-messaging-platform
+    from: 3.0.0
 targets:
   NeonCompass:
     type: application
@@ -23,6 +30,11 @@ targets:
     settings:
       base:
         CODE_SIGN_ENTITLEMENTS: NeonCompass/NeonCompass.entitlements
+        # GADApplicationIdentifier has no Apple-recognized INFOPLIST_KEY_* mapping, so it can't be
+        # synthesized via GENERATE_INFOPLIST_FILE alone (verified: INFOPLIST_KEY_GADApplicationIdentifier
+        # is silently dropped). Xcode merges GENERATE_INFOPLIST_FILE's synthesized keys with a
+        # partial INFOPLIST_FILE when both are set, so this small file carries only that one key.
+        INFOPLIST_FILE: NeonCompass/Support/Info-Ads.plist
     sources:
       - path: NeonCompass
         excludes:
@@ -42,6 +54,10 @@ targets:
         product: FirebaseFunctions
       - package: Firebase
         product: FirebaseAppCheck
+      - package: GoogleMobileAds
+        product: GoogleMobileAds
+      - package: GoogleUserMessagingPlatform
+        product: GoogleUserMessagingPlatform
   NeonCompassTests:
     type: bundle.unit-test
     platform: iOS
