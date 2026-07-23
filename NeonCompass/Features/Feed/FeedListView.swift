@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FeedListView: View {
     @Bindable var model: FeedModel
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
     var body: some View {
         ScrollView {
@@ -13,8 +14,10 @@ struct FeedListView: View {
                         card(for: item)
                     }
                 }
-                BannerAdView()
-                    .frame(height: 50)
+                if !proEntitlementModel.isProEntitled {
+                    BannerAdView()
+                        .frame(height: 50)
+                }
             }
             .padding(16)
         }

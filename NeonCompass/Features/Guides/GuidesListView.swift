@@ -3,6 +3,7 @@ import SwiftUI
 struct GuidesListView: View {
     @Bindable var model: GuidesModel
     let onSelect: (Guide) -> Void
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
     var body: some View {
         ScrollView {
@@ -13,8 +14,10 @@ struct GuidesListView: View {
                         chapterSection(chapter, guides: chapterGuides)
                     }
                 }
-                BannerAdView()
-                    .frame(height: 50)
+                if !proEntitlementModel.isProEntitled {
+                    BannerAdView()
+                        .frame(height: 50)
+                }
             }
             .padding(16)
         }
