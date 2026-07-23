@@ -1,12 +1,29 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
+import { getRemoteConfig } from 'firebase-admin/remote-config';
 import { validateSubmission, containsBannedVocabulary, isTooCloseToExistingSpot, COOLDOWN_SECONDS } from './contribution.js';
+
+// Mirrors tools/content-cli/firestore-client.js's getCommunityContributionsEnabled
+// (same "not equal to the string 'false'" fail-open check), re-implemented
+// for the Cloud Functions Admin SDK context. This is the actual enforcement
+// point for the kill-switch — the client UI hiding the submit button is
+// only a UX nicety, not a security boundary.
+async function isCommunityContributionsEnabled(): Promise<boolean> {
+  const template = await getRemoteConfig().getTemplate();
+  const defaultValue = template.parameters.communityContributionsEnabled?.defaultValue;
+  const value = defaultValue && 'value' in defaultValue ? defaultValue.value : undefined;
+  return value !== 'false';
+}
 
 export const submitContribution = onCall({ region: 'europe-west1', enforceAppCheck: true }, async (request) => {
   if (!request.auth) {
     throw new HttpsError('unauthenticated', 'Sign in required.');
   }
   const uid = request.auth.uid;
+
+  if (!(await isCommunityContributionsEnabled())) {
+    throw new HttpsError('failed-precondition', 'Community contributions are temporarily disabled.');
+  }
 
   let input;
   try {

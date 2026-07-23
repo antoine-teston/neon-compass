@@ -44,13 +44,19 @@ export const castVote = onCall({ region: 'europe-west1', enforceAppCheck: true }
 
     const authorUid = contributionSnapshot.data()?.authorUid as string | undefined;
 
-    return { upvotes, downvotes, authorUid, delta };
+    return { upvotes, downvotes, authorUid, delta, previousDirection };
   });
 
-  const { upvotes, downvotes, authorUid, delta } = result;
+  const { upvotes, downvotes, authorUid, previousDirection } = result;
 
-  if (delta.upvoteDelta > 0 && authorUid) {
-    await awardXP(db, authorUid, XP_PER_UPVOTE_RECEIVED * delta.upvoteDelta);
+  // Award XP only on a genuine first-ever upvote for this (spot, voter)
+  // pair — never on a down→up re-toggle (that's the same delta.upvoteDelta
+  // as a first upvote, which would let a voter farm unlimited XP for the
+  // author by looping down/up), and never when the voter is the author
+  // (no self-farming).
+  const isGenuineFirstUpvote = previousDirection === null && direction === 'up';
+  if (isGenuineFirstUpvote && authorUid && authorUid !== uid) {
+    await awardXP(db, authorUid, XP_PER_UPVOTE_RECEIVED);
   }
 
   return { upvotes, downvotes };

@@ -41,6 +41,15 @@ export const flagSuspiciousContribution = onDocumentCreated(
     const alreadyFlaggedCount = (profileSnapshot.data()?.flaggedBurstCount as number | undefined) ?? 0;
     if (alreadyFlaggedCount >= 1) {
       await profileRef.update({ isShadowBanned: true, flaggedBurstCount: alreadyFlaggedCount + 1 });
+      // Retroactively hide this author's already-approved spots too — a
+      // shadow-ban that only affects future submissions would leave every
+      // previously-approved spot publicly visible, contradicting this
+      // function's own guarantee (see the file-level comment above).
+      // Mirrors tools/content-cli/firestore-client.js's shadowBanUser.
+      const ownContributions = await db.collection('contributions').where('authorUid', '==', authorUid).get();
+      const batch = db.batch();
+      ownContributions.docs.forEach((doc) => batch.update(doc.ref, { shadowHidden: true }));
+      await batch.commit();
     } else {
       await profileRef.update({ flaggedBurstCount: alreadyFlaggedCount + 1 });
     }
