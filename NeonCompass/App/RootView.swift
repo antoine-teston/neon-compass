@@ -45,7 +45,7 @@ struct RootView: View {
         case .map: MapScreen()
         case .cheats: CheatsScreen()
         case .progress: ProgressionScreen()
-        default: PlaceholderScreen(tab: tab)
+        case .profile: ProfileScreen()
         }
     }
 }
