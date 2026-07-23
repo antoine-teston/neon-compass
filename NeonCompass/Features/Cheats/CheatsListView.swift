@@ -3,6 +3,7 @@ import SwiftUI
 struct CheatsListView: View {
     @Bindable var model: CheatsModel
     let onSelect: (Cheat) -> Void
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
     var body: some View {
         ScrollView {
@@ -22,8 +23,10 @@ struct CheatsListView: View {
                         onToggleFavorite: { model.toggleFavorite(cheat) }
                     )
                 }
-                BannerAdView()
-                    .frame(height: 50)
+                if !proEntitlementModel.isProEntitled {
+                    BannerAdView()
+                        .frame(height: 50)
+                }
             }
             .padding(16)
         }
