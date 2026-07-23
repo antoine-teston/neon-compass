@@ -13,6 +13,7 @@ struct MapScreen: View {
     @State private var showPersonalPinAlert = false
     @State private var pendingContributionLocation: NormalizedPoint?
     @State private var communityModel: CommunityModel?
+    @State private var showRoutePlanner = false
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
@@ -93,15 +94,29 @@ struct MapScreen: View {
                 }
             }
 
-            Button {
-                showPersonalPinList = true
-            } label: {
-                Image(systemName: "star.circle")
-                    .font(.system(size: 20))
-                    .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
+            VStack(spacing: 12) {
+                Button {
+                    showPersonalPinList = true
+                } label: {
+                    Image(systemName: "star.circle")
+                        .font(.system(size: 20))
+                        .foregroundStyle(.white)
+                        .frame(width: 44, height: 44)
+                }
+                .glassEffect(.regular.interactive(), in: .circle)
+
+                if proEntitlementModel.isProEntitled {
+                    Button {
+                        showRoutePlanner = true
+                    } label: {
+                        Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.white)
+                            .frame(width: 44, height: 44)
+                    }
+                    .glassEffect(.regular.interactive(), in: .circle)
+                }
             }
-            .glassEffect(.regular.interactive(), in: .circle)
             .padding(16)
         }
         .onAppear {
@@ -110,6 +125,14 @@ struct MapScreen: View {
         }
         .sheet(isPresented: $showPersonalPinList) {
             PersonalPinListSheet(model: model)
+        }
+        .sheet(isPresented: $showRoutePlanner) {
+            RoutePlannerSheet(
+                route: RoutePlanner.greedyRoute(
+                    from: model.filteredPOIs.filter { $0.category == .collectible && !model.isFound($0) }
+                ),
+                languageCode: Self.currentLanguageCode()
+            )
         }
         .alert(
             "map.personalPins.addPrompt",

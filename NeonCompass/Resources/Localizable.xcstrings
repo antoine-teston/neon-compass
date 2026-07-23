@@ -431,6 +431,46 @@
         }
       }
     },
+    "map.routePlanner.button" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan route"
+          }
+        }
+      }
+    },
+    "map.routePlanner.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything's found — nothing left to route!"
+          }
+        }
+      }
+    },
+    "map.routePlanner.stepFormat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %d"
+          }
+        }
+      }
+    },
+    "map.routePlanner.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimized route"
+          }
+        }
+      }
+    },
     "map.search.placeholder" : {
       "extractionState" : "stale",
       "localizations" : {
