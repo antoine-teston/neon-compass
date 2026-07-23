@@ -33,13 +33,22 @@ import UIKit
 /// would make `interstitial` MainActor-isolated and `isReady` would then be
 /// unable to read it synchronously from a nonisolated context. Instead only
 /// the UI-presenting members (`show()`, `topViewController()`) are
-/// `@MainActor`, matching the SDK's own `NS_SWIFT_UI_ACTOR` boundary, and the
-/// backing storage is `nonisolated(unsafe)` — the same pattern already used
-/// for non-Sendable SDK handles elsewhere in this codebase (e.g.
-/// `FirestoreProfileRepository`). In practice both writers (`load()`'s
-/// completion and `show()`'s clear) are expected to run on the main thread
-/// per AdMob's own delivery behavior, but this is not statically enforced —
-/// see Self-Review in the task report.
+/// `@MainActor`, matching the SDK's own `NS_SWIFT_UI_ACTOR` boundary.
+///
+/// `interstitial` is read synchronously via `isReady` from a nonisolated
+/// context (required by `InterstitialAdProviding`'s protocol shape), so it
+/// can't be stored as `@MainActor`-isolated state — this is a genuine
+/// Swift 6 constraint, not an oversight. Both WRITES to it (`load()`'s
+/// assignment and `show()`'s nil-out) are pinned to the main actor via
+/// `MainActor.run`/the method's own `@MainActor` isolation, so there is no
+/// write/write race. A read via `isReady` racing a concurrent main-actor
+/// write is still possible in principle — `nonisolated(unsafe)` gives the
+/// compiler no enforcement here — but this codebase's only caller today
+/// never invokes `load()` and `show()`/`isReady` concurrently. If a future
+/// caller adds retry-on-failure or pre-fetch-next-ad logic that could
+/// overlap those calls, revisit this with a lock (e.g.
+/// `OSAllocatedUnfairLock`) rather than assuming the current single-caller
+/// pattern still holds.
 final class AdMobInterstitialProvider: NSObject, InterstitialAdProviding {
     private static let adUnitID = "ca-app-pub-3940256099942544/4411468910" // AdMob's public test interstitial ID — replace with the real unit ID once provisioned in the AdMob console (same TODO pattern as Task 1's GADApplicationIdentifier placeholder).
 
@@ -48,7 +57,8 @@ final class AdMobInterstitialProvider: NSObject, InterstitialAdProviding {
     var isReady: Bool { interstitial != nil }
 
     func load() async throws {
-        interstitial = try await InterstitialAd.load(with: Self.adUnitID, request: Request())
+        let ad = try await InterstitialAd.load(with: Self.adUnitID, request: Request())
+        await MainActor.run { self.interstitial = ad }
     }
 
     @MainActor
