@@ -8,17 +8,29 @@ final class CommunityModel {
     private(set) var approvedSpots: [Contribution] = []
     private(set) var myContributions: [Contribution] = []
     private(set) var blockedAuthorUIDs: Set<String>
+    private(set) var contributionsEnabled = true
 
     private let repository: ContributionRepository
     private let functions: ContributionFunctionsCalling
+    private let gateProvider: CommunityGateProviding
     private let modelContext: ModelContext
 
-    init(repository: ContributionRepository, functions: ContributionFunctionsCalling, modelContext: ModelContext) {
+    init(
+        repository: ContributionRepository,
+        functions: ContributionFunctionsCalling,
+        gateProvider: CommunityGateProviding,
+        modelContext: ModelContext
+    ) {
         self.repository = repository
         self.functions = functions
+        self.gateProvider = gateProvider
         self.modelContext = modelContext
         self.blockedAuthorUIDs = []
         self.refreshBlockedAuthors()
+    }
+
+    func refreshContributionsEnabled() async {
+        contributionsEnabled = (try? await gateProvider.isEnabled()) ?? true
     }
 
     func refreshBlockedAuthors() {

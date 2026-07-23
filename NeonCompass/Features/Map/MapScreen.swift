@@ -132,11 +132,13 @@ struct MapScreen: View {
                 // pendingPinLocation was already set on long-press.
                 showPersonalPinAlert = true
             }
-            Button("map.longPress.proposeSpot") {
-                if authModel.userID != nil {
-                    pendingContributionLocation = pendingPinLocation
+            if communityModel?.contributionsEnabled != false {
+                Button("map.longPress.proposeSpot") {
+                    if authModel.userID != nil {
+                        pendingContributionLocation = pendingPinLocation
+                    }
+                    pendingPinLocation = nil
                 }
-                pendingPinLocation = nil
             }
             Button("map.longPress.cancel", role: .cancel) {
                 pendingPinLocation = nil
@@ -180,12 +182,14 @@ struct MapScreen: View {
         communityModel = CommunityModel(
             repository: FirestoreContributionRepository(),
             functions: FirebaseContributionFunctions(),
+            gateProvider: RemoteConfigCommunityGateProvider(),
             modelContext: modelContext
         )
         Task {
             try? await contentStore.syncIfNeeded()
             model?.updatePOIs(contentStore.items)
             await communityModel?.loadApprovedSpots()
+            await communityModel?.refreshContributionsEnabled()
         }
     }
 }

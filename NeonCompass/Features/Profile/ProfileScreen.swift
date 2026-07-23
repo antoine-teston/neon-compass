@@ -33,6 +33,7 @@ struct ProfileScreen: View {
                     communityModel = CommunityModel(
                         repository: FirestoreContributionRepository(),
                         functions: FirebaseContributionFunctions(),
+                        gateProvider: RemoteConfigCommunityGateProvider(),
                         modelContext: modelContext
                     )
                 }
