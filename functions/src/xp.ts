@@ -19,9 +19,10 @@ export const XP_PER_APPROVED_CONTRIBUTION = 20;
 export const XP_PER_UPVOTE_RECEIVED = 2;
 
 // Applies an XP delta to a profile and recomputes its level in the same
-// transaction — the only place in this codebase that mutates
-// profiles/{uid}.xp or .level (spec: level is server-computed, never by the
-// client, on both approval and votes-received).
+// transaction — the votes-received path (spec: level is server-computed,
+// never by the client). The moderation CLI (tools/content-cli) has its own
+// duplicated levelForXP for the approval path, since it's a separate Node
+// package not built alongside functions/ — see that file's comment.
 export async function awardXP(
   db: FirebaseFirestore.Firestore,
   uid: string,
