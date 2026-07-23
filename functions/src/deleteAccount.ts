@@ -4,6 +4,25 @@ import { getAuth } from 'firebase-admin/auth';
 
 const ANONYMIZED_HANDLE = 'DELETED-AUTHOR';
 
+// Firestore caps a single batch at 500 write operations. An active user's
+// vote count alone can exceed that (Plan 5b intentionally ships without
+// submission cooldowns or caps — see Plan 5c). Chunk writes across as many
+// batches as needed so account deletion never silently fails once a user's
+// contributions+votes cross the limit.
+async function commitInChunks(
+  db: FirebaseFirestore.Firestore,
+  ops: Array<(batch: FirebaseFirestore.WriteBatch) => void>
+): Promise<void> {
+  const CHUNK_SIZE = 500;
+  for (let i = 0; i < ops.length; i += CHUNK_SIZE) {
+    const batch = db.batch();
+    for (const op of ops.slice(i, i + CHUNK_SIZE)) {
+      op(batch);
+    }
+    await batch.commit();
+  }
+}
+
 // Plan 5b cascade (was a known gap flagged in Plan 5's self-review):
 // - approved contributions are ANONYMIZED, never deleted (spec: the
 //   community map data is preserved, only the identifying author fields
@@ -27,18 +46,18 @@ export const deleteAccount = onCall({ region: 'europe-west1' }, async (request) 
     db.collection('votes').where('uid', '==', uid).get(),
   ]);
 
-  const batch = db.batch();
+  const ops: Array<(batch: FirebaseFirestore.WriteBatch) => void> = [];
   for (const doc of ownedContributions.docs) {
     if (doc.data().status === 'approved') {
-      batch.update(doc.ref, { authorUid: null, authorHandle: ANONYMIZED_HANDLE });
+      ops.push((batch) => batch.update(doc.ref, { authorUid: null, authorHandle: ANONYMIZED_HANDLE }));
     } else {
-      batch.delete(doc.ref);
+      ops.push((batch) => batch.delete(doc.ref));
     }
   }
   for (const doc of ownedVotes.docs) {
-    batch.delete(doc.ref);
+    ops.push((batch) => batch.delete(doc.ref));
   }
-  await batch.commit();
+  await commitInChunks(db, ops);
 
   await db.doc(`profiles/${uid}`).delete();
   await getAuth().deleteUser(uid);

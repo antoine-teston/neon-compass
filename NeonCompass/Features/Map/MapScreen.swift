@@ -103,6 +103,7 @@ struct MapScreen: View {
             .glassEffect(.regular.interactive(), in: .circle)
             .padding(16)
         }
+        .onAppear { communityModel?.refreshBlockedAuthors() }
         .sheet(isPresented: $showPersonalPinList) {
             PersonalPinListSheet(model: model)
         }

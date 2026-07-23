@@ -56,7 +56,7 @@ struct ContributionAnnotationView: View {
                         showBlockConfirmation = true
                     }
                     .confirmationDialog(
-                        Text("map.spot.blockConfirmTitle \(spot.authorHandle)"),
+                        Text(String(format: String(localized: "map.spot.blockConfirmTitle"), spot.authorHandle)),
                         isPresented: $showBlockConfirmation,
                         titleVisibility: .visible
                     ) {

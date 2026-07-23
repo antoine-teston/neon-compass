@@ -17,7 +17,12 @@ final class CommunityModel {
         self.repository = repository
         self.functions = functions
         self.modelContext = modelContext
-        self.blockedAuthorUIDs = Set((try? modelContext.fetch(FetchDescriptor<BlockedContributor>()))?.map(\.authorUid) ?? [])
+        self.blockedAuthorUIDs = []
+        self.refreshBlockedAuthors()
+    }
+
+    func refreshBlockedAuthors() {
+        blockedAuthorUIDs = Set((try? modelContext.fetch(FetchDescriptor<BlockedContributor>()))?.map(\.authorUid) ?? [])
     }
 
     var visibleSpots: [Contribution] {
@@ -40,7 +45,10 @@ final class CommunityModel {
     }
 
     func vote(on spot: Contribution, direction: VoteDirection) async {
-        try? await functions.castVote(spotId: spot.id, direction: direction)
+        guard let counts = try? await functions.castVote(spotId: spot.id, direction: direction) else { return }
+        guard let index = approvedSpots.firstIndex(where: { $0.id == spot.id }) else { return }
+        approvedSpots[index].upvotes = counts.upvotes
+        approvedSpots[index].downvotes = counts.downvotes
     }
 
     func report(_ spot: Contribution, reason: String?) async {

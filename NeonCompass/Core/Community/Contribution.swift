@@ -21,6 +21,6 @@ struct Contribution: Identifiable, Equatable, Sendable {
     let languageCode: String
     let position: NormalizedPoint
     let status: Status
-    let upvotes: Int
-    let downvotes: Int
+    var upvotes: Int
+    var downvotes: Int
 }

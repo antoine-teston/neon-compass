@@ -19,8 +19,11 @@ final class FakeContributionFunctions: ContributionFunctionsCalling {
         submitCallCount += 1
     }
 
-    func castVote(spotId: String, direction: VoteDirection) async throws {
+    nonisolated(unsafe) var voteResultToReturn: (upvotes: Int, downvotes: Int) = (0, 0)
+
+    func castVote(spotId: String, direction: VoteDirection) async throws -> (upvotes: Int, downvotes: Int) {
         lastVote = (spotId, direction)
+        return voteResultToReturn
     }
 
     func reportContribution(spotId: String, reason: String?) async throws {

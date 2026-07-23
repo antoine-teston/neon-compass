@@ -20,11 +20,17 @@ final class FirebaseContributionFunctions: ContributionFunctionsCalling {
         ])
     }
 
-    func castVote(spotId: String, direction: VoteDirection) async throws {
-        _ = try await functions.httpsCallable("castVote").call([
+    func castVote(spotId: String, direction: VoteDirection) async throws -> (upvotes: Int, downvotes: Int) {
+        let result = try await functions.httpsCallable("castVote").call([
             "spotId": spotId,
             "direction": direction.rawValue,
         ])
+        guard let data = result.data as? [String: Any],
+              let upvotes = data["upvotes"] as? Int,
+              let downvotes = data["downvotes"] as? Int else {
+            throw URLError(.cannotParseResponse)
+        }
+        return (upvotes, downvotes)
     }
 
     func reportContribution(spotId: String, reason: String?) async throws {

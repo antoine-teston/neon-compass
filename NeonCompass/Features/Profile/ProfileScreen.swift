@@ -39,6 +39,7 @@ struct ProfileScreen: View {
                 await communityModel?.loadMyContributions(uid: userID)
             }
         }
+        .onAppear { communityModel?.refreshBlockedAuthors() }
         .alert(
             "profile.deleteAccount.confirmTitle",
             isPresented: $showDeleteConfirmation
