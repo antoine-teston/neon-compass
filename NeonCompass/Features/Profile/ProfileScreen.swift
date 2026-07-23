@@ -5,6 +5,7 @@ import CryptoKit
 
 struct ProfileScreen: View {
     @Environment(AuthModel.self) private var authModel
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.modelContext) private var modelContext
     @State private var profileModel = ProfileModel(
         repository: FirestoreProfileRepository(),
@@ -13,11 +14,18 @@ struct ProfileScreen: View {
     @State private var communityModel: CommunityModel?
     @State private var currentNonce: String?
     @State private var showDeleteConfirmation = false
+    @State private var showPaywall = false
 
     var body: some View {
         ZStack {
             NCColor.nightSky.ignoresSafeArea()
             VStack(spacing: 24) {
+                if proEntitlementModel.isProEntitled {
+                    Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
+                        .foregroundStyle(NCColor.neonCyan)
+                } else {
+                    Button("profile.pro.upgradeButton") { showPaywall = true }
+                }
                 if let userID = authModel.userID {
                     signedInContent(userID: userID)
                 } else {
@@ -25,6 +33,9 @@ struct ProfileScreen: View {
                 }
             }
             .padding(24)
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
         }
         .task(id: authModel.userID) {
             if let userID = authModel.userID {

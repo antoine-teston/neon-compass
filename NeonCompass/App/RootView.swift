@@ -5,6 +5,7 @@ struct RootView: View {
     @State private var model = AppModel()
     @State private var onboarding = OnboardingModel()
     @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
+    @State private var proEntitlementModel = ProEntitlementModel(provider: StoreKitProProvider())
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
@@ -24,6 +25,7 @@ struct RootView: View {
             }
         }
         .environment(authModel)
+        .environment(proEntitlementModel)
         .preferredColorScheme(.dark)
         // Starts Mobile Ads only once every onboarding gate (disclaimer,
         // ATT, UMP consent) has cleared — never before consent is resolved
@@ -34,6 +36,9 @@ struct RootView: View {
         .task(id: onboarding.needsConsentPrompt) {
             guard !onboarding.needsDisclaimer, !onboarding.needsATTPrompt, !onboarding.needsConsentPrompt else { return }
             MobileAds.shared.start()
+        }
+        .task {
+            await proEntitlementModel.refresh()
         }
     }
 
