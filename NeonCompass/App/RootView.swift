@@ -3,6 +3,7 @@ import SwiftUI
 struct RootView: View {
     @State private var model = AppModel()
     @State private var onboarding = OnboardingModel()
+    @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
@@ -15,6 +16,7 @@ struct RootView: View {
                 regularLayout
             }
         }
+        .environment(authModel)
         .preferredColorScheme(.dark)
     }
 

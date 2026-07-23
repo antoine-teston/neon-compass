@@ -1,13 +1,16 @@
 import SwiftUI
+import SwiftData
 import AuthenticationServices
 import CryptoKit
 
 struct ProfileScreen: View {
-    @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
+    @Environment(AuthModel.self) private var authModel
+    @Environment(\.modelContext) private var modelContext
     @State private var profileModel = ProfileModel(
         repository: FirestoreProfileRepository(),
         functions: FirebaseAccountFunctions()
     )
+    @State private var communityModel: CommunityModel?
     @State private var currentNonce: String?
     @State private var showDeleteConfirmation = false
 
@@ -26,8 +29,17 @@ struct ProfileScreen: View {
         .task(id: authModel.userID) {
             if let userID = authModel.userID {
                 await profileModel.loadProfile(uid: userID)
+                if communityModel == nil {
+                    communityModel = CommunityModel(
+                        repository: FirestoreContributionRepository(),
+                        functions: FirebaseContributionFunctions(),
+                        modelContext: modelContext
+                    )
+                }
+                await communityModel?.loadMyContributions(uid: userID)
             }
         }
+        .onAppear { communityModel?.refreshBlockedAuthors() }
         .alert(
             "profile.deleteAccount.confirmTitle",
             isPresented: $showDeleteConfirmation
@@ -74,6 +86,11 @@ struct ProfileScreen: View {
                 Task { try? await profileModel.regenerateHandle() }
             }
 
+            if let communityModel {
+                myContributionsSection(communityModel)
+                blockedContributorsSection(communityModel)
+            }
+
             Button("profile.signOut") {
                 try? authModel.signOut()
             }
@@ -81,6 +98,60 @@ struct ProfileScreen: View {
             Button("profile.deleteAccount", role: .destructive) {
                 showDeleteConfirmation = true
             }
+        }
+    }
+
+    private func myContributionsSection(_ communityModel: CommunityModel) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("profile.myContributions.title")
+                .font(NCTypography.body)
+                .foregroundStyle(.white)
+            if communityModel.myContributions.isEmpty {
+                Text("profile.myContributions.empty")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(communityModel.myContributions) { contribution in
+                    HStack {
+                        Text(contribution.title)
+                        Spacer()
+                        Text(statusKey(contribution.status))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+    }
+
+    private func blockedContributorsSection(_ communityModel: CommunityModel) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("profile.blockedContributors.title")
+                .font(NCTypography.body)
+                .foregroundStyle(.white)
+            if communityModel.blockedAuthorUIDs.isEmpty {
+                Text("profile.blockedContributors.empty")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(Array(communityModel.blockedAuthorUIDs), id: \.self) { authorUid in
+                    HStack {
+                        Text(authorUid)
+                        Spacer()
+                        Button("profile.blockedContributors.unblock") {
+                            communityModel.unblock(authorUid: authorUid)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func statusKey(_ status: Contribution.Status) -> LocalizedStringKey {
+        switch status {
+        case .pending: "profile.myContributions.status.pending"
+        case .approved: "profile.myContributions.status.approved"
+        case .rejected: "profile.myContributions.status.rejected"
         }
     }
 

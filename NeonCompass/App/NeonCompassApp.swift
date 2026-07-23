@@ -12,6 +12,6 @@ struct NeonCompassApp: App {
         WindowGroup {
             RootView()
         }
-        .modelContainer(for: [FoundEntry.self, PersonalPin.self, FavoriteCheat.self, ContentCacheEntry.self, TrophyProgress.self])
+        .modelContainer(for: [FoundEntry.self, PersonalPin.self, FavoriteCheat.self, ContentCacheEntry.self, TrophyProgress.self, BlockedContributor.self])
     }
 }
