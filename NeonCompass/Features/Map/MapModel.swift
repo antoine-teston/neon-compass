@@ -10,6 +10,7 @@ final class MapModel {
     var searchQuery: String = ""
     var selectedPOI: POI?
     private(set) var foundPOIIDs: Set<String>
+    var hideFoundPOIs = false
 
     private let modelContext: ModelContext
     private var sync: ProgressionSyncing?
@@ -31,6 +32,7 @@ final class MapModel {
         return pois.filter { poi in
             poi.position != nil
                 && activeCategories.contains(poi.category)
+                && !(hideFoundPOIs && isFound(poi))
                 && (searchQuery.isEmpty
                     || poi.title.resolved(for: languageCode).localizedCaseInsensitiveContains(searchQuery))
         }

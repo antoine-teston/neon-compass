@@ -348,6 +348,16 @@
         }
       }
     },
+    "map.hideFound.toggle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show only what's left"
+          }
+        }
+      }
+    },
     "map.longPress.addPersonalPin" : {
       "localizations" : {
         "en" : {
