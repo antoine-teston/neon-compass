@@ -3,7 +3,7 @@ import AuthenticationServices
 import CryptoKit
 
 struct ProfileScreen: View {
-    @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
+    @Environment(AuthModel.self) private var authModel
     @State private var profileModel = ProfileModel(
         repository: FirestoreProfileRepository(),
         functions: FirebaseAccountFunctions()

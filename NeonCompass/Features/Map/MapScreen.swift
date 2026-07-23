@@ -10,9 +10,10 @@ struct MapScreen: View {
     @State private var pendingPinLocation: NormalizedPoint?
     @State private var pendingPinTitle = ""
     @State private var showLongPressMenu = false
+    @State private var showPersonalPinAlert = false
     @State private var pendingContributionLocation: NormalizedPoint?
     @State private var communityModel: CommunityModel?
-    @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
+    @Environment(AuthModel.self) private var authModel
 
     private let manifest = TileManifest.load() ?? TileManifest(tileSize: 256, maxZoom: 3, tileCount: 85)
 
@@ -107,7 +108,7 @@ struct MapScreen: View {
         }
         .alert(
             "map.personalPins.addPrompt",
-            isPresented: Binding(get: { pendingPinLocation != nil }, set: { if !$0 { pendingPinLocation = nil } })
+            isPresented: $showPersonalPinAlert
         ) {
             TextField("map.personalPins.addPrompt", text: $pendingPinTitle)
             Button("map.personalPins.save") {
@@ -116,16 +117,19 @@ struct MapScreen: View {
                 }
                 pendingPinTitle = ""
                 pendingPinLocation = nil
+                showPersonalPinAlert = false
             }
             Button("map.personalPins.cancel", role: .cancel) {
                 pendingPinLocation = nil
                 pendingPinTitle = ""
+                showPersonalPinAlert = false
             }
         }
         .confirmationDialog("map.longPress.menuTitle", isPresented: $showLongPressMenu, titleVisibility: .visible) {
             Button("map.longPress.addPersonalPin") {
-                // pendingPinLocation is already set — the existing
-                // .alert(isPresented: pendingPinLocation != nil) below fires next.
+                // Arms the alert now that the user explicitly chose this option —
+                // pendingPinLocation was already set on long-press.
+                showPersonalPinAlert = true
             }
             Button("map.longPress.proposeSpot") {
                 if authModel.userID != nil {
