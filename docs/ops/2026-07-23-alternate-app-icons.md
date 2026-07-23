@@ -27,40 +27,56 @@ different from `GADApplicationIdentifier` (Plan 6a Task 1): that key has no
 first-class build-setting path — no manual Info.plist merge needed once the
 asset exists.
 
-**The catch:** `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` requires each
-named icon set (e.g. `AppIcon-Neon`) to actually exist as a separate "App
-Icon" asset catalog entry in `Assets.xcassets`. Unlike a plain Info.plist
-string key (which can reference a nonexistent name without breaking
-compilation), this is a build setting consumed by `actool`, which fails the
-build if the referenced icon set is missing.
+**Correction (found during this task's review, verified empirically against
+this project's exact Xcode/SDK version by building a minimal test project
+with `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` pointed at a
+nonexistent icon set):** the original version of this doc claimed `actool`
+fails the build if the referenced icon set is missing. That's wrong —
+`actool` degrades gracefully: a nonexistent alternate-icon name is silently
+dropped from the synthesized `CFBundleIcons`, with zero errors or warnings,
+and the build succeeds regardless. So the build setting genuinely could be
+added now, safely, without waiting for the asset — this project's precedent
+for "harmless-if-unresolved" additions (like `GADApplicationIdentifier`)
+does extend to this case too, contrary to what this doc originally implied.
 
-**Decision:** since no alternate icon asset exists yet (confirmed — this
-plan has no image-generation capability), this build setting was
-**deliberately left out of `project.yml`** to keep `Scripts/build.sh` green.
-`NCTheme.swift` and `ThemeStore.setAlternateIcon(named:)` were still wired
-(Swift compiles fine against an icon-set *name* string — it's only resolved
-at runtime by UIKit, not at compile time), and the Profile UI's icon picker
-calls that method assuming `AppIcon-Neon` will exist eventually. Until the
-step below is done, tapping the icon picker in a build will silently no-op
+**A bigger, separate, pre-existing gap found during the same review:** this
+project has **no `Assets.xcassets` catalog at all yet** — not just no
+`AppIcon-Neon`, but no primary `AppIcon` either. That's out of this task's
+scope to fix (it predates Plan 6b-2 entirely), but it means the
+`ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` build setting has nothing to
+attach to structurally until an asset catalog exists at all, not just until
+the alternate icon specifically is designed.
+
+**Decision:** this build setting is still left out of `project.yml` for
+now — not because adding it would break the build (it wouldn't), but simply
+because it would be inert until an asset catalog (and the primary `AppIcon`
+within it) exists in the first place. `NCTheme.swift` and
+`ThemeStore.setAlternateIcon(named:)` were still wired (Swift compiles fine
+against an icon-set *name* string — it's only resolved at runtime by UIKit,
+not at compile time), and the Profile UI's icon picker calls that method
+assuming `AppIcon-Neon` will exist eventually. Until the steps below are
+done, tapping the icon picker in a build will silently no-op
 (`setAlternateIconName` fails via its completion handler; UIKit has no
 `CFBundleAlternateIcons` entry to switch to).
 
-## 1. Create the icon asset (human/designer follow-up)
+## 1. Create the asset catalog + icon sets (human/designer follow-up)
 
-1. Design a full icon set (all required sizes) as original artwork — no
+1. Create `NeonCompass/Resources/Assets.xcassets` — this project doesn't
+   have one yet at all, so this also needs to include a primary `AppIcon`
+   entry, not just the alternate.
+2. Design a full icon set (all required sizes) as original artwork — no
    Rockstar/GTA imagery, per this project's hard IP constraint (CLAUDE.md).
-2. Add it to `NeonCompass/Resources/Assets.xcassets` as a **separate** "App
-   Icon" asset catalog entry named `AppIcon-Neon` (not the primary
-   `AppIcon`).
-3. Add to `project.yml`, under `targets.NeonCompass.settings.base`:
+3. Add the alternate as a **separate** "App Icon" asset catalog entry named
+   `AppIcon-Neon` (not the primary `AppIcon`).
+4. Add to `project.yml`, under `targets.NeonCompass.settings.base`:
    ```yaml
    ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: AppIcon-Neon
    ```
-   (Space-separate multiple names if more themed icons are added later.)
-4. Regenerate the Xcode project (`xcodegen generate` or via `Scripts/build.sh`
-   if it does so) and confirm `Scripts/build.sh` still succeeds — this is the
-   point where a missing/misnamed asset would first surface as a build
-   failure.
+   (Space-separate multiple names if more themed icons are added later. Per
+   the correction above, this line is safe to add in the same PR that adds
+   the assets — it doesn't need to be staged separately out of caution.)
+5. Regenerate the Xcode project (`xcodegen generate` or via `Scripts/build.sh`
+   if it does so) and confirm `Scripts/build.sh` still succeeds.
 
 ## 2. Verify in TestFlight
 
