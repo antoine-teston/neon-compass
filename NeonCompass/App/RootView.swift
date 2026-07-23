@@ -1,4 +1,5 @@
 import GoogleMobileAds
+import SwiftData
 import SwiftUI
 
 struct RootView: View {
@@ -11,6 +12,7 @@ struct RootView: View {
     // `self`/sibling properties) — built in `init()` instead.
     @State private var widgetSummaryCoordinator: WidgetSummaryCoordinator
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.modelContext) private var modelContext
 
     init() {
         let proEntitlementModel = ProEntitlementModel(provider: StoreKitProProvider())
@@ -52,6 +54,13 @@ struct RootView: View {
             MobileAds.shared.start()
         }
         .task {
+            // Seeds the widget with real data at launch, BEFORE the user ever
+            // visits Progression/Cheats (those screens only construct their
+            // models lazily on first appearance — see `WidgetSummaryCoordinator`'s
+            // doc comment). Without this, a Pro user who adds the widget but
+            // starts on the default Feed tab would see 0%/no-favorite-cheat
+            // even if real `FoundEntry`/`FavoriteCheat` data already exists.
+            hydrateWidgetSummaryFromCache()
             await proEntitlementModel.refresh()
         }
         // Nothing else subscribes to entitlement changes on their own —
@@ -83,6 +92,44 @@ struct RootView: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+    }
+
+    /// Seeds `widgetSummaryCoordinator` from cached SwiftData/`ContentStore`
+    /// state, independent of whether Progression or Cheats has ever been
+    /// visited this app-lifetime. Reuses `ProgressionModel`/`CheatsModel`
+    /// themselves (rather than re-deriving `overallProgress`/favorite-cheat-
+    /// title logic here) so there's exactly one place that formula lives.
+    /// Both instances are read-only in effect here (never awaited on
+    /// `syncIfNeeded()`, never mutated) and are discarded immediately after
+    /// their `init` notifies the coordinator — they don't race with the
+    /// screens' own later, independent construction: whichever write lands
+    /// last (this one now, or a tab visit later with freshly-synced content)
+    /// simply wins, and both always write the full coherent `WidgetSummary`.
+    private func hydrateWidgetSummaryFromCache() {
+        let poiStore = ContentStore<POI>(
+            collectionName: "poi",
+            remote: FirestoreContentRepository<POI>(collectionName: "poi"),
+            versionProvider: RemoteConfigVersionProvider(),
+            modelContext: modelContext
+        )
+        _ = ProgressionModel(
+            pois: poiStore.items,
+            trophies: [],
+            modelContext: modelContext,
+            widgetSummaryCoordinator: widgetSummaryCoordinator
+        )
+
+        let cheatStore = ContentStore<Cheat>(
+            collectionName: "cheats",
+            remote: FirestoreContentRepository<Cheat>(collectionName: "cheats"),
+            versionProvider: RemoteConfigVersionProvider(),
+            modelContext: modelContext
+        )
+        _ = CheatsModel(
+            cheats: cheatStore.items,
+            modelContext: modelContext,
+            widgetSummaryCoordinator: widgetSummaryCoordinator
+        )
     }
 
     @ViewBuilder
