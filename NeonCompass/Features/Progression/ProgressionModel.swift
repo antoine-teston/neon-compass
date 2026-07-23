@@ -11,11 +11,13 @@ final class ProgressionModel {
 
     private(set) var foundPOIIDs: Set<String>
     private let modelContext: ModelContext
+    private let sync: ProgressionSyncing?
 
-    init(pois: [POI], trophies: [Trophy], modelContext: ModelContext) {
+    init(pois: [POI], trophies: [Trophy], modelContext: ModelContext, sync: ProgressionSyncing? = nil) {
         self.pois = pois
         self.trophies = trophies
         self.modelContext = modelContext
+        self.sync = sync
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
         self.checkedTrophyIDs = Set((try? modelContext.fetch(FetchDescriptor<TrophyProgress>()))?.map(\.trophyID) ?? [])
     }
@@ -51,13 +53,17 @@ final class ProgressionModel {
     func toggleTrophy(_ trophy: Trophy) {
         let trophyID = trophy.id
         let descriptor = FetchDescriptor<TrophyProgress>(predicate: #Predicate { $0.trophyID == trophyID })
+        let now = Date.now
         if let existing = try? modelContext.fetch(descriptor).first {
             modelContext.delete(existing)
             checkedTrophyIDs.remove(trophyID)
+            try? modelContext.save()
+            Task { await sync?.upload(itemID: trophyID, kind: .trophy, found: false, updatedAt: now) }
         } else {
-            modelContext.insert(TrophyProgress(trophyID: trophyID))
+            modelContext.insert(TrophyProgress(trophyID: trophyID, updatedAt: now))
             checkedTrophyIDs.insert(trophyID)
+            try? modelContext.save()
+            Task { await sync?.upload(itemID: trophyID, kind: .trophy, found: true, updatedAt: now) }
         }
-        try? modelContext.save()
     }
 }

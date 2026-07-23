@@ -12,11 +12,13 @@ final class MapModel {
     private(set) var foundPOIIDs: Set<String>
 
     private let modelContext: ModelContext
+    private let sync: ProgressionSyncing?
 
-    init(pois: [POI], modelContext: ModelContext) {
+    init(pois: [POI], modelContext: ModelContext, sync: ProgressionSyncing? = nil) {
         self.pois = pois
         self.activeCategories = Set(POICategory.allCases)
         self.modelContext = modelContext
+        self.sync = sync
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
     }
 
@@ -41,14 +43,18 @@ final class MapModel {
     func toggleFound(_ poi: POI) {
         let poiID = poi.id
         let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
+        let now = Date.now
         if let existing = try? modelContext.fetch(descriptor).first {
             modelContext.delete(existing)
             foundPOIIDs.remove(poiID)
+            try? modelContext.save()
+            Task { await sync?.upload(itemID: poiID, kind: .poi, found: false, updatedAt: now) }
         } else {
-            modelContext.insert(FoundEntry(poiID: poi.id))
+            modelContext.insert(FoundEntry(poiID: poi.id, updatedAt: now))
             foundPOIIDs.insert(poiID)
+            try? modelContext.save()
+            Task { await sync?.upload(itemID: poiID, kind: .poi, found: true, updatedAt: now) }
         }
-        try? modelContext.save()
     }
 
     var personalPins: [PersonalPin] {

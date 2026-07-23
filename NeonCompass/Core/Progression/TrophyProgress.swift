@@ -6,8 +6,10 @@ import SwiftData
 @Model
 final class TrophyProgress {
     @Attribute(.unique) var trophyID: String
+    var updatedAt: Date = Date.now
 
-    init(trophyID: String) {
+    init(trophyID: String, updatedAt: Date = .now) {
         self.trophyID = trophyID
+        self.updatedAt = updatedAt
     }
 }
