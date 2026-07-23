@@ -47,19 +47,12 @@ final class UMPConsentProvider: ConsentProviding {
 
         try await ConsentInformation.shared.requestConsentInfoUpdate(with: parameters)
 
-        let rootViewController = Self.topViewController()
+        let rootViewController = AdPresentationContext.topViewController()
         try await ConsentForm.loadAndPresentIfRequired(from: rootViewController)
 
         // canRequestAds is the SDK's own recommended gate (not a manual
         // consentStatus comparison) — true once consent has been gathered
         // aligned with the app's configured messages, or wasn't required.
         return ConsentInformation.shared.canRequestAds
-    }
-
-    private static func topViewController() -> UIViewController? {
-        UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .first?.windows
-            .first { $0.isKeyWindow }?.rootViewController
     }
 }

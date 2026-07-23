@@ -63,17 +63,9 @@ final class AdMobInterstitialProvider: NSObject, InterstitialAdProviding {
 
     @MainActor
     func show() async -> Bool {
-        guard let interstitial, let rootViewController = Self.topViewController() else { return false }
+        guard let interstitial, let rootViewController = AdPresentationContext.topViewController() else { return false }
         interstitial.present(from: rootViewController)
         self.interstitial = nil
         return true
-    }
-
-    @MainActor
-    private static func topViewController() -> UIViewController? {
-        UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .first?.windows
-            .first { $0.isKeyWindow }?.rootViewController
     }
 }

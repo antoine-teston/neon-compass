@@ -34,23 +34,46 @@ import UIKit
 ///   protocol itself — no extra `@MainActor` annotation is needed here,
 ///   unlike `AdMobInterstitialProvider`'s manually-isolated members (that
 ///   type doesn't conform to a MainActor-isolated protocol).
-struct BannerAdView: UIViewRepresentable {
+///
+/// Sizing note: the adaptive width MUST come from SwiftUI's own layout
+/// (`GeometryReader`), not `UIScreen.main.bounds.width` — the latter is the
+/// full physical screen width, which is wrong wherever the banner's
+/// container is narrower than the screen (e.g. iPad's `.sidebarAdaptable`
+/// tab layout, where the content column sizing `FeedListView`/
+/// `CheatsListView`/`GuidesListView` — and therefore this banner — is
+/// narrower than the full screen). `BannerAdView` is therefore a thin
+/// SwiftUI `View` wrapping a private `UIViewRepresentable` that receives the
+/// real container width via `GeometryReader`.
+struct BannerAdView: View {
     var adUnitID: String = "ca-app-pub-3940256099942544/2934735716" // AdMob's public test adaptive-banner ID — replace once provisioned.
 
+    var body: some View {
+        GeometryReader { geometry in
+            BannerAdRepresentable(adUnitID: adUnitID, width: geometry.size.width)
+        }
+    }
+}
+
+private struct BannerAdRepresentable: UIViewRepresentable {
+    let adUnitID: String
+    let width: CGFloat
+
     func makeUIView(context: Context) -> BannerView {
-        let banner = BannerView(adSize: largeAnchoredAdaptiveBanner(width: UIScreen.main.bounds.width))
+        let banner = BannerView(adSize: largeAnchoredAdaptiveBanner(width: width > 0 ? width : UIScreen.main.bounds.width))
         banner.adUnitID = adUnitID
-        banner.rootViewController = Self.topViewController()
+        banner.rootViewController = AdPresentationContext.topViewController()
         banner.load(Request())
         return banner
     }
 
-    func updateUIView(_ uiView: BannerView, context: Context) {}
-
-    private static func topViewController() -> UIViewController? {
-        UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .first?.windows
-            .first { $0.isKeyWindow }?.rootViewController
+    func updateUIView(_ uiView: BannerView, context: Context) {
+        // Re-adapt when the available width actually changes (rotation,
+        // iPad Split View resize, sidebar collapse/expand) — this also
+        // closes a second, related gap the same review flagged: the
+        // previous updateUIView was a no-op, so the banner never
+        // re-adapted after creation.
+        guard width > 0, uiView.adSize.size.width != width else { return }
+        uiView.adSize = largeAnchoredAdaptiveBanner(width: width)
+        uiView.load(Request())
     }
 }
