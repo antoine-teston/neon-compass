@@ -9,6 +9,10 @@ struct MapScreen: View {
     @State private var showPersonalPinList = false
     @State private var pendingPinLocation: NormalizedPoint?
     @State private var pendingPinTitle = ""
+    @State private var showLongPressMenu = false
+    @State private var pendingContributionLocation: NormalizedPoint?
+    @State private var communityModel: CommunityModel?
+    @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
 
     private let manifest = TileManifest.load() ?? TileManifest(tileSize: 256, maxZoom: 3, tileCount: 85)
 
@@ -64,11 +68,28 @@ struct MapScreen: View {
         ZStack(alignment: .topLeading) {
             TiledMapRepresentable(manifest: manifest, viewport: $viewport) { canvasPoint in
                 pendingPinLocation = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
+                showLongPressMenu = true
             }
             MapPinsOverlay(pois: model.filteredPOIs, manifest: manifest, viewport: viewport) { poi in
                 model.selectedPOI = poi
             }
             PersonalPinsOverlay(pins: model.personalPins, manifest: manifest, viewport: viewport)
+
+            if let communityModel {
+                ForEach(communityModel.visibleSpots) { spot in
+                    let point = spot.position
+                    let position = MapGeometry.screenPosition(for: point, manifest: manifest, viewport: viewport)
+                    ContributionAnnotationView(
+                        spot: spot,
+                        onVote: { direction in Task { await communityModel.vote(on: spot, direction: direction) } },
+                        onReport: { Task { await communityModel.report(spot, reason: nil) } },
+                        onBlockAuthor: {
+                            if let authorUid = spot.authorUid { communityModel.block(authorUid: authorUid) }
+                        }
+                    )
+                    .position(position)
+                }
+            }
 
             Button {
                 showPersonalPinList = true
@@ -101,6 +122,37 @@ struct MapScreen: View {
                 pendingPinTitle = ""
             }
         }
+        .confirmationDialog("map.longPress.menuTitle", isPresented: $showLongPressMenu, titleVisibility: .visible) {
+            Button("map.longPress.addPersonalPin") {
+                // pendingPinLocation is already set — the existing
+                // .alert(isPresented: pendingPinLocation != nil) below fires next.
+            }
+            Button("map.longPress.proposeSpot") {
+                if authModel.userID != nil {
+                    pendingContributionLocation = pendingPinLocation
+                }
+                pendingPinLocation = nil
+            }
+            Button("map.longPress.cancel", role: .cancel) {
+                pendingPinLocation = nil
+            }
+        }
+        .sheet(item: Binding(
+            get: { pendingContributionLocation.map { ContributionLocationBox(location: $0) } },
+            set: { pendingContributionLocation = $0?.location }
+        )) { box in
+            if let communityModel {
+                ContributionSubmissionSheet(
+                    position: box.location,
+                    onSubmit: { category, title in
+                        try? await communityModel.submit(category: category, title: title, position: box.location, languageCode: Self.currentLanguageCode())
+                        pendingContributionLocation = nil
+                    },
+                    onDismiss: { pendingContributionLocation = nil }
+                )
+                .presentationDetents([.medium])
+            }
+        }
     }
 
     private func loadModel() {
@@ -120,9 +172,28 @@ struct MapScreen: View {
             modelContext: modelContext
         )
         model = MapModel(pois: contentStore.items, modelContext: modelContext)
+        communityModel = CommunityModel(
+            repository: FirestoreContributionRepository(),
+            functions: FirebaseContributionFunctions(),
+            modelContext: modelContext
+        )
         Task {
             try? await contentStore.syncIfNeeded()
             model?.updatePOIs(contentStore.items)
+            await communityModel?.loadApprovedSpots()
         }
+    }
+}
+
+private struct ContributionLocationBox: Identifiable {
+    let location: NormalizedPoint
+    var id: String { "\(location.x)-\(location.y)" }
+}
+
+extension MapScreen {
+    static func currentLanguageCode() -> String {
+        let code = Locale.current.language.languageCode?.identifier ?? "en"
+        let supported = ["en", "fr", "es", "it", "de"]
+        return supported.contains(code) ? code : "en"
     }
 }

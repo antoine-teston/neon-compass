@@ -268,6 +268,126 @@
         }
       }
     },
+    "map.contribution.cancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "map.contribution.categoryLabel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
+          }
+        }
+      }
+    },
+    "map.contribution.error" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong — try again."
+          }
+        }
+      }
+    },
+    "map.contribution.sheetTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Propose a spot"
+          }
+        }
+      }
+    },
+    "map.contribution.signInRequired" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to propose a spot."
+          }
+        }
+      }
+    },
+    "map.contribution.submit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submit"
+          }
+        }
+      }
+    },
+    "map.contribution.submitted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submitted for review — thanks!"
+          }
+        }
+      }
+    },
+    "map.contribution.titlePlaceholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's here? (280 characters max)"
+          }
+        }
+      }
+    },
+    "map.longPress.addPersonalPin" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a personal pin"
+          }
+        }
+      }
+    },
+    "map.longPress.cancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "map.longPress.menuTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do you want to do here?"
+          }
+        }
+      }
+    },
+    "map.longPress.proposeSpot" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Propose a spot"
+          }
+        }
+      }
+    },
     "map.personalPins.addPrompt" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -318,6 +438,86 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search the map"
+          }
+        }
+      }
+    },
+    "map.spot.blockAuthor" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide this contributor's spots"
+          }
+        }
+      }
+    },
+    "map.spot.blockCancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "map.spot.blockConfirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide"
+          }
+        }
+      }
+    },
+    "map.spot.blockConfirmMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You won't see their spots anymore. You can undo this in Settings."
+          }
+        }
+      }
+    },
+    "map.spot.blockConfirmTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide %@'s spots?"
+          }
+        }
+      }
+    },
+    "map.spot.communityBadge" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Community"
+          }
+        }
+      }
+    },
+    "map.spot.report" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "map.spot.reportSent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reported — thanks for flagging it."
           }
         }
       }
