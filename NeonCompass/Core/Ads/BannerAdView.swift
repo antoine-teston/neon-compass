@@ -35,22 +35,54 @@ import UIKit
 ///   unlike `AdMobInterstitialProvider`'s manually-isolated members (that
 ///   type doesn't conform to a MainActor-isolated protocol).
 ///
-/// Sizing note: the adaptive width MUST come from SwiftUI's own layout
-/// (`GeometryReader`), not `UIScreen.main.bounds.width` — the latter is the
-/// full physical screen width, which is wrong wherever the banner's
-/// container is narrower than the screen (e.g. iPad's `.sidebarAdaptable`
-/// tab layout, where the content column sizing `FeedListView`/
-/// `CheatsListView`/`GuidesListView` — and therefore this banner — is
-/// narrower than the full screen). `BannerAdView` is therefore a thin
-/// SwiftUI `View` wrapping a private `UIViewRepresentable` that receives the
-/// real container width via `GeometryReader`.
+/// Sizing note: `BannerAdView` self-sizes to the REAL adaptive-banner height
+/// Google computes for its own available width, rather than a caller-guessed
+/// fixed height — a caller wrapping this in a fixed-height container (as the
+/// first UI-polish round did) risks clipping or leaving dead space whenever
+/// the actual ad format is taller/shorter than the guess. Width is measured
+/// via a `.background`-attached `GeometryReader` rather than making this
+/// view's own body a `GeometryReader` — the latter greedily expands to fill
+/// all available height in its container (a well-known SwiftUI pitfall),
+/// which is exactly wrong for a view meant to report its OWN natural height
+/// back to the caller.
+///
+/// Verified-by-running correction to the original plan sketch: the
+/// conditional content MUST have a real `else` branch (`Color.clear` below),
+/// not just `if measuredWidth > 0 { ... }` with no `else`. Empirically
+/// confirmed on-device (iOS 26.5 Simulator) that when a `Group`'s ViewBuilder
+/// content resolves to the "false" case of an `if` with no `else`, SwiftUI
+/// never lays out or composites a `.background(GeometryReader { ... })`
+/// attached to that group — the `GeometryReader`'s closure is never even
+/// invoked, so its `onAppear`/`onChange` never fire and `measuredWidth` can
+/// never leave its initial 0, permanently hiding the ad. Isolated with a
+/// minimal repro (`Group { if x { Color.blue } }` vs. the same with
+/// `else { Color.clear }`) — only the `else` version's `GeometryReader`
+/// closure ever ran. Giving the `Group` a real view in both branches sidesteps
+/// this: the `.background` now always has concrete content to size against,
+/// so the `GeometryReader` reliably measures width from the first render.
 struct BannerAdView: View {
     var adUnitID: String = "ca-app-pub-3940256099942544/2934735716" // AdMob's public test adaptive-banner ID — replace once provisioned.
+    @State private var measuredWidth: CGFloat = 0
 
     var body: some View {
-        GeometryReader { geometry in
-            BannerAdRepresentable(adUnitID: adUnitID, width: geometry.size.width)
+        Group {
+            if measuredWidth > 0 {
+                BannerAdRepresentable(adUnitID: adUnitID, width: measuredWidth)
+                    .frame(height: largeAnchoredAdaptiveBanner(width: measuredWidth).size.height)
+            } else {
+                Color.clear
+            }
         }
+        .frame(maxWidth: .infinity)
+        .background(
+            GeometryReader { proxy in
+                Color.clear
+                    .onAppear { measuredWidth = proxy.size.width }
+                    .onChange(of: proxy.size.width) { _, newValue in
+                        if newValue > 0 { measuredWidth = newValue }
+                    }
+            }
+        )
     }
 }
 

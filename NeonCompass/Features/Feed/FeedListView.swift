@@ -27,16 +27,17 @@ struct FeedListView: View {
         .background(NCColor.nightSky.ignoresSafeArea())
     }
 
-    /// Room reserved at the bottom of the scrolling content so the last card
-    /// never sits behind the floating ad bubble (≈50pt banner + its own
-    /// padding) stacked above the compact tab bar.
+    /// 110pt covers the tallest realistic `largeAnchoredAdaptiveBanner`
+    /// result on a phone-width screen plus the bubble's own padding — the
+    /// exact ad height is only known at runtime (it depends on device
+    /// width), so this reserved-space constant is a deliberately
+    /// conservative upper-bound estimate, not a measurement.
     private var bannerClearance: CGFloat {
-        (sizeClass == .compact ? NCLayout.compactTabBarClearance : 0) + 74
+        (sizeClass == .compact ? NCLayout.compactTabBarClearance : 0) + 110
     }
 
     private var adBanner: some View {
         BannerAdView()
-            .frame(height: 50)
             .padding(12)
             .glassEffect(.regular, in: .rect(cornerRadius: 20))
             .padding(.horizontal, 16)
