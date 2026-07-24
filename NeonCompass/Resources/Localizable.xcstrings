@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : "Blocks trophies"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactive les trophées"
+          }
         }
       }
     },
@@ -18,12 +24,24 @@
             "state" : "translated",
             "value" : "Platform"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plateforme"
+          }
         }
       }
     },
     "cheats.platform.ps5" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PS5"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PS5"
@@ -38,6 +56,12 @@
             "state" : "translated",
             "value" : "Xbox"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xbox"
+          }
         }
       }
     },
@@ -47,6 +71,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
           }
         }
       }
@@ -58,6 +88,12 @@
             "state" : "translated",
             "value" : "Search cheats"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher des codes"
+          }
         }
       }
     },
@@ -67,6 +103,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cheats"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codes"
           }
         }
       }
@@ -78,12 +120,24 @@
             "state" : "translated",
             "value" : "Guides"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guides"
+          }
         }
       }
     },
     "cheatsGuides.section.picker" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Section"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Section"
@@ -99,6 +153,12 @@
             "state" : "translated",
             "value" : "Got it"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compris"
+          }
         }
       }
     },
@@ -108,6 +168,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This app is a fan project. It is not affiliated with, endorsed by, or connected to Rockstar Games or Take-Two Interactive. All artwork is original."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette application est un projet de fan. Elle n'est ni affiliée à, ni approuvée par, ni liée à Rockstar Games ou Take-Two Interactive. Tous les visuels sont originaux."
           }
         }
       }
@@ -119,6 +185,12 @@
             "state" : "translated",
             "value" : "Unofficial companion"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compagnon non officiel"
+          }
         }
       }
     },
@@ -128,6 +200,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Announcement"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annonce"
           }
         }
       }
@@ -139,6 +217,12 @@
             "state" : "translated",
             "value" : "Event"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Événement"
+          }
         }
       }
     },
@@ -148,6 +232,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Patch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mise à jour"
           }
         }
       }
@@ -159,6 +249,12 @@
             "state" : "translated",
             "value" : "No news yet — check back soon."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore d'actu — revenez bientôt."
+          }
         }
       }
     },
@@ -168,6 +264,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beginner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débutant"
           }
         }
       }
@@ -179,6 +281,12 @@
             "state" : "translated",
             "value" : "Money"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Argent"
+          }
         }
       }
     },
@@ -189,6 +297,12 @@
             "state" : "translated",
             "value" : "Side Content"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contenu annexe"
+          }
         }
       }
     },
@@ -198,6 +312,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Story"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Histoire"
           }
         }
       }
@@ -210,6 +330,12 @@
             "state" : "translated",
             "value" : "Activities"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activités"
+          }
         }
       }
     },
@@ -220,6 +346,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Collectibles"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objets à collectionner"
           }
         }
       }
@@ -232,6 +364,12 @@
             "state" : "translated",
             "value" : "Events"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Événements"
+          }
         }
       }
     },
@@ -242,6 +380,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Landmarks"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieux emblématiques"
           }
         }
       }
@@ -254,6 +398,12 @@
             "state" : "translated",
             "value" : "Safehouses"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planques"
+          }
         }
       }
     },
@@ -265,6 +415,12 @@
             "state" : "translated",
             "value" : "Vehicles"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Véhicules"
+          }
         }
       }
     },
@@ -274,6 +430,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         }
       }
@@ -285,6 +447,12 @@
             "state" : "translated",
             "value" : "Category"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catégorie"
+          }
         }
       }
     },
@@ -294,6 +462,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Something went wrong — try again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une erreur est survenue — réessayez."
           }
         }
       }
@@ -305,6 +479,12 @@
             "state" : "translated",
             "value" : "Propose a spot"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposer un lieu"
+          }
         }
       }
     },
@@ -314,6 +494,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sign in to propose a spot."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour proposer un lieu."
           }
         }
       }
@@ -325,6 +511,12 @@
             "state" : "translated",
             "value" : "Submit"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyer"
+          }
         }
       }
     },
@@ -334,6 +526,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Submitted for review — thanks!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyé pour vérification — merci !"
           }
         }
       }
@@ -345,6 +543,12 @@
             "state" : "translated",
             "value" : "What's here? (280 characters max)"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qu'y a-t-il ici ? (280 caractères max)"
+          }
         }
       }
     },
@@ -354,6 +558,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show only what's left"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher seulement ce qu'il reste"
           }
         }
       }
@@ -365,6 +575,12 @@
             "state" : "translated",
             "value" : "Add a personal pin"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une épingle personnelle"
+          }
         }
       }
     },
@@ -374,6 +590,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         }
       }
@@ -385,6 +607,12 @@
             "state" : "translated",
             "value" : "What do you want to do here?"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Que voulez-vous faire ici ?"
+          }
         }
       }
     },
@@ -394,6 +622,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Propose a spot"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposer un lieu"
           }
         }
       }
@@ -406,6 +640,12 @@
             "state" : "translated",
             "value" : "Name this pin"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nommez cette épingle"
+          }
         }
       }
     },
@@ -416,6 +656,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         }
       }
@@ -428,6 +674,12 @@
             "state" : "translated",
             "value" : "Save"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
+          }
         }
       }
     },
@@ -437,6 +689,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "My pins"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes épingles"
           }
         }
       }
@@ -448,6 +706,12 @@
             "state" : "translated",
             "value" : "Plan route"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifier l'itinéraire"
+          }
         }
       }
     },
@@ -457,6 +721,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Everything's found — nothing left to route!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout a été trouvé — plus rien à parcourir !"
           }
         }
       }
@@ -468,6 +738,12 @@
             "state" : "translated",
             "value" : "Stop %d"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape %d"
+          }
         }
       }
     },
@@ -477,6 +753,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Optimized route"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Itinéraire optimisé"
           }
         }
       }
@@ -489,6 +771,12 @@
             "state" : "translated",
             "value" : "Search the map"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher sur la carte"
+          }
         }
       }
     },
@@ -498,6 +786,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hide this contributor's spots"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer les lieux de ce contributeur"
           }
         }
       }
@@ -509,6 +803,12 @@
             "state" : "translated",
             "value" : "Cancel"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
         }
       }
     },
@@ -518,6 +818,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hide"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer"
           }
         }
       }
@@ -529,6 +835,12 @@
             "state" : "translated",
             "value" : "You won't see their spots anymore. You can undo this in Settings."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous ne verrez plus ses lieux. Vous pouvez annuler cette action dans les réglages."
+          }
         }
       }
     },
@@ -538,6 +850,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hide %@'s spots?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer les lieux de %@ ?"
           }
         }
       }
@@ -549,6 +867,12 @@
             "state" : "translated",
             "value" : "Community"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Communauté"
+          }
         }
       }
     },
@@ -558,6 +882,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Report"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signaler"
           }
         }
       }
@@ -569,6 +899,12 @@
             "state" : "translated",
             "value" : "Reported — thanks for flagging it."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signalé — merci de nous l'avoir signalé."
+          }
         }
       }
     },
@@ -578,6 +914,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unlock Pro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloquer Pro"
           }
         }
       }
@@ -589,6 +931,12 @@
             "state" : "translated",
             "value" : "Close"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
         }
       }
     },
@@ -598,6 +946,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No ads"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans publicité"
           }
         }
       }
@@ -609,6 +963,12 @@
             "state" : "translated",
             "value" : "Followed-spot notifications"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications pour les lieux suivis"
+          }
         }
       }
     },
@@ -618,6 +978,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "\"What's left to do\" map mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode carte « Ce qu'il reste à faire »"
           }
         }
       }
@@ -629,6 +995,12 @@
             "state" : "translated",
             "value" : "Optimized collectible route planner"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planificateur d'itinéraire optimisé pour les objets à collectionner"
+          }
         }
       }
     },
@@ -638,6 +1010,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cloud sync between iPhone and iPad"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronisation cloud entre iPhone et iPad"
           }
         }
       }
@@ -649,6 +1027,12 @@
             "state" : "translated",
             "value" : "Exclusive app icons & themes"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icônes et thèmes exclusifs"
+          }
         }
       }
     },
@@ -658,6 +1042,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Home screen & Lock Screen widgets"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets pour l'écran d'accueil et l'écran verrouillé"
           }
         }
       }
@@ -669,6 +1059,12 @@
             "state" : "translated",
             "value" : "Restore Purchases"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer les achats"
+          }
         }
       }
     },
@@ -679,12 +1075,24 @@
             "state" : "translated",
             "value" : "Comfort and tools — never the facts."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du confort et des outils — jamais les informations."
+          }
         }
       }
     },
     "paywall.title" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neon Compass Pro"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Neon Compass Pro"
@@ -700,6 +1108,12 @@
             "state" : "translated",
             "value" : "Found"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouvé"
+          }
         }
       }
     },
@@ -711,6 +1125,12 @@
             "state" : "translated",
             "value" : "Mark as found"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer comme trouvé"
+          }
         }
       }
     },
@@ -720,6 +1140,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You haven't hidden anyone."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous n'avez masqué personne."
           }
         }
       }
@@ -731,6 +1157,12 @@
             "state" : "translated",
             "value" : "Hidden contributors"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contributeurs masqués"
+          }
         }
       }
     },
@@ -740,6 +1172,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unhide"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réafficher"
           }
         }
       }
@@ -751,6 +1189,12 @@
             "state" : "translated",
             "value" : "Delete account"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le compte"
+          }
         }
       }
     },
@@ -760,6 +1204,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         }
       }
@@ -771,6 +1221,12 @@
             "state" : "translated",
             "value" : "Delete"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
         }
       }
     },
@@ -780,6 +1236,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This permanently deletes your profile. This cannot be undone."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela supprime définitivement votre profil. Cette action est irréversible."
           }
         }
       }
@@ -791,6 +1253,12 @@
             "state" : "translated",
             "value" : "Delete your account?"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer votre compte ?"
+          }
         }
       }
     },
@@ -800,6 +1268,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notify me about"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "M'avertir pour"
           }
         }
       }
@@ -811,6 +1285,12 @@
             "state" : "translated",
             "value" : "Regenerate handle"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Régénérer le pseudo"
+          }
         }
       }
     },
@@ -820,6 +1300,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App Icon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icône de l'app"
           }
         }
       }
@@ -831,6 +1317,12 @@
             "state" : "translated",
             "value" : "No contributions yet."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune contribution pour l'instant."
+          }
         }
       }
     },
@@ -840,6 +1332,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Approved"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approuvé"
           }
         }
       }
@@ -851,6 +1349,12 @@
             "state" : "translated",
             "value" : "Pending review"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente de vérification"
+          }
         }
       }
     },
@@ -860,6 +1364,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rejected"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refusé"
           }
         }
       }
@@ -871,12 +1381,24 @@
             "state" : "translated",
             "value" : "My contributions"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes contributions"
+          }
         }
       }
     },
     "profile.pro.badge" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PRO"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PRO"
@@ -891,6 +1413,12 @@
             "state" : "translated",
             "value" : "Upgrade to Pro"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer à Pro"
+          }
         }
       }
     },
@@ -900,6 +1428,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sign in to save your progress across devices and contribute to the map."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous pour sauvegarder votre progression sur tous vos appareils et contribuer à la carte."
           }
         }
       }
@@ -911,6 +1445,12 @@
             "state" : "translated",
             "value" : "Sign out"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se déconnecter"
+          }
         }
       }
     },
@@ -920,6 +1460,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Theme"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thème"
           }
         }
       }
@@ -931,6 +1477,12 @@
             "state" : "translated",
             "value" : "No trophies published yet — check back closer to launch."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun trophée publié pour l'instant — revenez plus près de la sortie."
+          }
         }
       }
     },
@@ -940,6 +1492,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trophies"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trophées"
           }
         }
       }
@@ -952,6 +1510,12 @@
             "state" : "translated",
             "value" : "Cheats"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codes"
+          }
         }
       }
     },
@@ -962,6 +1526,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "News"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actu"
           }
         }
       }
@@ -974,6 +1544,12 @@
             "state" : "translated",
             "value" : "Map"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carte"
+          }
         }
       }
     },
@@ -984,6 +1560,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profile"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
           }
         }
       }
@@ -996,6 +1578,12 @@
             "state" : "translated",
             "value" : "Progress"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progression"
+          }
         }
       }
     },
@@ -1005,6 +1593,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cyan Pulse"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulsation Cyan"
           }
         }
       }
@@ -1016,6 +1610,12 @@
             "state" : "translated",
             "value" : "Magenta Drift"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dérive Magenta"
+          }
         }
       }
     },
@@ -1025,6 +1625,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunset Overdrive"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Surtension Crépuscule"
           }
         }
       }
@@ -1036,6 +1642,12 @@
             "state" : "translated",
             "value" : "Your collection progress and favorite cheat, at a glance."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre progression de collection et votre code favori, en un coup d'œil."
+          }
         }
       }
     },
@@ -1046,6 +1658,12 @@
             "state" : "translated",
             "value" : "Neon Compass Progress"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progression Neon Compass"
+          }
         }
       }
     },
@@ -1055,6 +1673,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unlock Pro for widgets"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloquez Pro pour les widgets"
           }
         }
       }
