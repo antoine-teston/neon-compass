@@ -3,10 +3,10 @@ import CoreGraphics
 @testable import NeonCompass
 
 struct MapGeometryTests {
-    let manifest = TileManifest(tileSize: 256, maxZoom: 3, tileCount: 85)
+    let manifest = MapManifest(size: 2048)
 
-    @Test func fullSizeIsTileSizeTimesTwoPowMaxZoom() {
-        #expect(MapGeometry.fullSize(for: manifest) == CGFloat(256 * 8))
+    @Test func fullSizeMatchesTheManifestSize() {
+        #expect(MapGeometry.fullSize(for: manifest) == 2048)
     }
 
     @Test func screenPositionAtOriginNoZoomNoOffset() {

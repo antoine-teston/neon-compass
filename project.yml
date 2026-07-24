@@ -47,8 +47,8 @@ targets:
     sources:
       - path: NeonCompass
         excludes:
-          - "Resources/MapTiles/**"
-      - path: NeonCompass/Resources/MapTiles
+          - "Resources/MapArt/**"
+      - path: NeonCompass/Resources/MapArt
         type: folder
       # WidgetSummary.swift lives under NeonCompassWidgets/ on disk (its natural home
       # alongside the rest of the widget extension) but is compiled into BOTH targets —

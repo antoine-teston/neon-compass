@@ -18,11 +18,11 @@ struct ContentInsets: Equatable, Sendable {
 }
 
 enum MapGeometry {
-    static func fullSize(for manifest: TileManifest) -> CGFloat {
-        CGFloat(manifest.tileSize * (1 << manifest.maxZoom))
+    static func fullSize(for manifest: MapManifest) -> CGFloat {
+        CGFloat(manifest.size)
     }
 
-    static func screenPosition(for point: NormalizedPoint, manifest: TileManifest, viewport: MapViewport) -> CGPoint {
+    static func screenPosition(for point: NormalizedPoint, manifest: MapManifest, viewport: MapViewport) -> CGPoint {
         let full = fullSize(for: manifest)
         return CGPoint(
             x: CGFloat(point.x) * full * viewport.zoomScale - viewport.contentOffset.x,
@@ -32,7 +32,7 @@ enum MapGeometry {
 
     /// `point` est en coordonnées du canvas UIKit plein-résolution (Task 5),
     /// pas du viewport visible — indépendant du zoom/pan courant.
-    static func normalizedPoint(fromCanvasPoint point: CGPoint, manifest: TileManifest) -> NormalizedPoint {
+    static func normalizedPoint(fromCanvasPoint point: CGPoint, manifest: MapManifest) -> NormalizedPoint {
         let full = fullSize(for: manifest)
         return NormalizedPoint(x: Double(point.x / full), y: Double(point.y / full))
     }

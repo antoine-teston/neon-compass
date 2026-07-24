@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PersonalPinsOverlay: View {
     let pins: [PersonalPin]
-    let manifest: TileManifest
+    let manifest: MapManifest
     let viewport: MapViewport
 
     var body: some View {

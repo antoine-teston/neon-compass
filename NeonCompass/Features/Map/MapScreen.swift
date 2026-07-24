@@ -17,7 +17,7 @@ struct MapScreen: View {
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
-    private let manifest = TileManifest.load() ?? TileManifest(tileSize: 256, maxZoom: 3, tileCount: 85)
+    private let manifest = MapManifest.load() ?? MapManifest(size: 2048)
 
     var body: some View {
         Group {

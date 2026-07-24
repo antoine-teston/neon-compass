@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MapPinsOverlay: View {
     let pois: [POI]
-    let manifest: TileManifest
+    let manifest: MapManifest
     let viewport: MapViewport
     let onTap: (POI) -> Void
 

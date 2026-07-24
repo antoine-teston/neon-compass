@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-// Générateur de pyramide de tuiles — brique A3 du pipeline (docs/superpowers/
-// plans/2026-07-20-data-pipeline-pseudocode.md). Rend un SVG carré en tuiles
-// 256px pour le viewer CATiledLayer de l'app.
-//   node tile.js [input.svg] [outDir] [maxZoom]
-// Défauts : island-placeholder.svg → ./out, maxZoom 3.
+// Générateur d'image de carte — brique A3 du pipeline (docs/superpowers/
+// plans/2026-07-20-data-pipeline-pseudocode.md). Rend un SVG carré en une
+// image plate unique — la pyramide de tuiles CATiledLayer a été retirée
+// (docs/superpowers/plans/2026-07-24-plan-map-engine-rebuild.md) : la carte
+// est une image unique bornée (~500 Ko), pas un document gigapixel, donc pas
+// besoin de streaming par tuiles.
+//   node tile.js [input.svg] [outDir] [size]
+// Défauts : island-placeholder.svg → ./out, size 2048.
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -12,39 +15,23 @@ import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const TILE = 256;
 
 const input = process.argv[2] ?? join(HERE, 'island-placeholder.svg');
 const outDir = process.argv[3] ?? join(HERE, 'out');
-const maxZoom = Number(process.argv[4] ?? 3);
+const size = Number(process.argv[4] ?? 2048);
 
-let total = 0;
-for (let z = 0; z <= maxZoom; z++) {
-  const grid = 2 ** z;
-  const size = TILE * grid;
-  // Un seul rendu plein cadre par niveau, puis découpe — sharp re-rasterise le
-  // SVG à la densité voulue, donc les traits restent nets à tous les zooms.
-  const full = await sharp(input, { density: 72 * grid }).resize(size, size).png().toBuffer();
-  for (let x = 0; x < grid; x++) {
-    for (let y = 0; y < grid; y++) {
-      const dir = join(outDir, String(z), String(x));
-      mkdirSync(dir, { recursive: true });
-      await sharp(full)
-        .extract({ left: x * TILE, top: y * TILE, width: TILE, height: TILE })
-        .png()
-        .toFile(join(dir, `${y}.png`));
-      total++;
-    }
-  }
-  console.log(`z${z}: ${grid}×${grid} tiles`);
-}
+mkdirSync(outDir, { recursive: true });
+// sharp re-rasterise le SVG à la densité voulue, donc les traits restent
+// nets à la résolution cible — même technique que l'ancienne pyramide de
+// tuiles pour son niveau de zoom le plus détaillé.
+const density = 72 * (size / 256);
+const image = await sharp(input, { density }).resize(size, size).png().toBuffer();
+await sharp(image).toFile(join(outDir, 'island.png'));
 
 const manifest = {
-  tileSize: TILE,
-  maxZoom,
-  tileCount: total,
+  size,
   source: input.split('/').pop(),
   sourceSha256: createHash('sha256').update(await sharp(input).toBuffer()).digest('hex').slice(0, 16),
 };
 writeFileSync(join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
-console.log(`${total} tiles + manifest.json → ${outDir}`);
+console.log(`island.png (${size}×${size}) + manifest.json → ${outDir}`);

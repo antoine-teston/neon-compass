@@ -5,10 +5,18 @@ import UIKit
 /// SwiftUI. Toute la logique zoom/pan/tuiles est isolée ici (CLAUDE.md :
 /// "UIKit seulement si une API l'impose, wrapped in one file").
 
-/// Charge une tuile PNG pré-rendue depuis le folder reference bundlé (Task 1).
+/// Tuile fixe utilisée pour dériver un pseudo-pyramide de zoom à partir de
+/// l'image plate unique (Task 1 : docs/superpowers/plans/2026-07-24-
+/// plan-map-engine-rebuild.md) — la vraie pyramide CATiledLayer a été
+/// retirée avec `NeonCompass/Resources/MapTiles`. `TiledCanvasView` ci-dessous
+/// est retiré en entier par Task 2 ; ceci ne fait que garder ce fichier
+/// compilable entre-temps, plus de découpage réel en tuiles bundlées.
+private let tilePyramidTileSize = 256
+
+/// Charge l'image de carte plate bundlée (Task 1).
 private enum TilePyramid {
-    static func image(z: Int, x: Int, y: Int, bundle: Bundle = .main) -> UIImage? {
-        guard let url = bundle.url(forResource: "\(y)", withExtension: "png", subdirectory: "MapTiles/\(z)/\(x)") else {
+    static func image(bundle: Bundle = .main) -> UIImage? {
+        guard let url = bundle.url(forResource: "island", withExtension: "png", subdirectory: "MapArt") else {
             return nil
         }
         return UIImage(contentsOfFile: url.path)
@@ -21,20 +29,21 @@ private enum TilePyramid {
 private final class TiledCanvasView: UIView {
     override class var layerClass: AnyClass { CATiledLayer.self }
 
-    private let manifest: TileManifest
+    private let manifest: MapManifest
 
-    init(manifest: TileManifest) {
+    init(manifest: MapManifest) {
         self.manifest = manifest
         super.init(frame: .zero)
         let tiled = layer as! CATiledLayer
-        tiled.tileSize = CGSize(width: manifest.tileSize, height: manifest.tileSize)
+        tiled.tileSize = CGSize(width: tilePyramidTileSize, height: tilePyramidTileSize)
         // levelsOfDetail = total pyramid levels (magnified + normal + reduced);
         // levelsOfDetailBias = how many of those are magnified (scale > 1).
         // maximumZoomScale is 1 here (no magnification), so bias stays 0;
         // minimumZoomScale is computed dynamically to fit the real viewport,
-        // so we still need maxZoom reduced levels below normal resolution,
-        // i.e. levelsOfDetail = maxZoom + 1.
-        tiled.levelsOfDetail = manifest.maxZoom + 1
+        // so we still need reduced levels below normal resolution, derived
+        // from the flat image's size instead of a bundled tile pyramid depth
+        // (Task 1 — Task 2 removes this CATiledLayer canvas entirely).
+        tiled.levelsOfDetail = Self.maxZoom(for: manifest) + 1
         tiled.levelsOfDetailBias = 0
         contentScaleFactor = 1
         isOpaque = true
@@ -43,16 +52,18 @@ private final class TiledCanvasView: UIView {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) not supported") }
 
+    private static func maxZoom(for manifest: MapManifest) -> Int {
+        max(0, Int(log2(Double(manifest.size) / Double(tilePyramidTileSize))))
+    }
+
+    /// `draw(_:)` is invoked by `CATiledLayer` with the graphics context
+    /// already clipped to the requested tile's `rect`, so drawing the whole
+    /// flat image into the canvas' full bounds each call still only paints
+    /// the clipped tile region — no per-tile image lookup needed since
+    /// there's only one bundled image now (Task 1).
     nonisolated override func draw(_ rect: CGRect) {
-        guard let ctx = UIGraphicsGetCurrentContext() else { return }
-        let scale = ctx.ctm.a
-        guard scale > 0 else { return }
-        let z = max(0, min(manifest.maxZoom, Int(round(log2(scale))) + manifest.maxZoom))
-        let tileSizeInPoints = CGFloat(manifest.tileSize) / scale
-        let x = Int(rect.origin.x / tileSizeInPoints)
-        let y = Int(rect.origin.y / tileSizeInPoints)
-        guard let image = TilePyramid.image(z: z, x: x, y: y) else { return }
-        image.draw(in: rect)
+        guard let image = TilePyramid.image() else { return }
+        image.draw(in: CGRect(x: 0, y: 0, width: CGFloat(manifest.size), height: CGFloat(manifest.size)))
     }
 }
 
@@ -112,7 +123,7 @@ private final class FitToBoundsScrollView: UIScrollView {
 }
 
 struct TiledMapRepresentable: UIViewRepresentable {
-    let manifest: TileManifest
+    let manifest: MapManifest
     @Binding var viewport: MapViewport
     let onLongPress: (CGPoint) -> Void
 
