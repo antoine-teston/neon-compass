@@ -1,0 +1,8 @@
+{
+  "name": "xcstrings-locale",
+  "version": "1.0.0",
+  "description": "Surgically inserts locale translations into NeonCompass/Resources/Localizable.xcstrings without reserializing the whole file.",
+  "type": "module",
+  "main": "apply-locale.js",
+  "license": "ISC"
+}
