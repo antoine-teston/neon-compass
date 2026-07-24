@@ -1,54 +1,26 @@
 import SwiftUI
 import SwiftData
 
-private enum CheatsGuidesSection: String, CaseIterable {
-    case cheats, guides
-}
-
 struct CheatsScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
     @State private var model: CheatsModel?
-    @State private var guidesModel: GuidesModel?
     @State private var readerCheat: Cheat?
-    @State private var selectedGuide: Guide?
-    @State private var section: CheatsGuidesSection = .cheats
+
+    // Guides is temporarily removed from this screen pending a redesign of
+    // how users switch between Cheats and Guides (the previous segmented
+    // Picker wasn't the right UX) — GuidesModel/GuidesListView/
+    // GuideDetailView/Guide.swift are untouched and ready to be reattached
+    // once that design exists.
 
     var body: some View {
-        VStack(spacing: 0) {
-            sectionPicker
-
-            Group {
-                switch section {
-                case .cheats:
-                    if let model {
-                        cheatsContent(model: model)
-                    } else {
-                        ProgressView().task { await loadCheatsModel() }
-                    }
-                case .guides:
-                    if let guidesModel {
-                        GuidesListView(model: guidesModel) { guide in
-                            selectedGuide = guide
-                        }
-                        .sheet(item: $selectedGuide) { guide in
-                            GuideDetailView(guide: guide)
-                        }
-                    } else {
-                        ProgressView().task { await loadGuidesModel() }
-                    }
-                }
+        Group {
+            if let model {
+                cheatsContent(model: model)
+            } else {
+                ProgressView().task { await loadCheatsModel() }
             }
         }
-    }
-
-    private var sectionPicker: some View {
-        Picker("cheatsGuides.section.picker", selection: $section) {
-            Text("cheatsGuides.section.cheats").tag(CheatsGuidesSection.cheats)
-            Text("cheatsGuides.section.guides").tag(CheatsGuidesSection.guides)
-        }
-        .pickerStyle(.segmented)
-        .padding(16)
     }
 
     private func cheatsContent(model: CheatsModel) -> some View {
@@ -82,18 +54,5 @@ struct CheatsScreen: View {
         )
         try? await contentStore.syncIfNeeded()
         model?.updateCheats(contentStore.items)
-    }
-
-    private func loadGuidesModel() async {
-        guard guidesModel == nil else { return }
-        let contentStore = ContentStore<Guide>(
-            collectionName: "guides",
-            remote: FirestoreContentRepository<Guide>(collectionName: "guides"),
-            versionProvider: RemoteConfigVersionProvider(),
-            modelContext: modelContext
-        )
-        guidesModel = GuidesModel(guides: contentStore.items)
-        try? await contentStore.syncIfNeeded()
-        guidesModel?.updateGuides(contentStore.items)
     }
 }
