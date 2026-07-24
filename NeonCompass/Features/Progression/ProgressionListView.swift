@@ -5,39 +5,50 @@ struct ProgressionListView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
-                ProgressRing(progress: model.overallProgress)
-                    .frame(width: 140, height: 140)
-
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(POICategory.allCases, id: \.self) { category in
-                        categoryRow(category)
-                    }
-                }
-                .padding(16)
-                .glassEffect(.regular, in: .rect(cornerRadius: 16))
-
-                trophySection
+            VStack(spacing: 20) {
+                overviewCard
+                trophyCard
             }
             .padding(16)
         }
         .background(NCColor.nightSky.ignoresSafeArea())
     }
 
+    private var overviewCard: some View {
+        VStack(spacing: 20) {
+            ProgressRing(progress: model.overallProgress)
+                .frame(width: 140, height: 140)
+
+            VStack(spacing: 14) {
+                ForEach(POICategory.allCases, id: \.self) { category in
+                    categoryRow(category)
+                }
+            }
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity)
+        .glassEffect(.regular, in: .rect(cornerRadius: 20))
+    }
+
     private func categoryRow(_ category: POICategory) -> some View {
-        HStack {
-            Text(category.localizedNameKey)
-                .font(NCTypography.body)
-                .foregroundStyle(.white)
-            Spacer()
-            Text("\(Int((model.progress(in: category) * 100).rounded()))%")
-                .font(NCTypography.body.bold())
-                .foregroundStyle(.white.opacity(0.7))
+        let percent = model.progress(in: category)
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(category.localizedNameKey)
+                    .font(NCTypography.body)
+                    .foregroundStyle(.white)
+                Spacer()
+                Text("\(Int((percent * 100).rounded()))%")
+                    .font(NCTypography.body.bold())
+                    .foregroundStyle(.white.opacity(0.7))
+            }
+            ProgressView(value: percent)
+                .tint(NCColor.neonCyan)
         }
     }
 
-    private var trophySection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+    private var trophyCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
             Text("progress.trophies.title")
                 .font(NCTypography.body.bold())
                 .foregroundStyle(NCColor.neonCyan)
@@ -47,12 +58,20 @@ struct ProgressionListView: View {
                     .font(NCTypography.body)
                     .foregroundStyle(.white.opacity(0.7))
             } else {
-                ForEach(model.trophies) { trophy in
-                    trophyRow(trophy)
+                VStack(spacing: 0) {
+                    ForEach(Array(model.trophies.enumerated()), id: \.element.id) { index, trophy in
+                        trophyRow(trophy)
+                        if index < model.trophies.count - 1 {
+                            Divider()
+                                .overlay(Color.white.opacity(0.08))
+                        }
+                    }
                 }
             }
         }
+        .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .glassEffect(.regular, in: .rect(cornerRadius: 20))
     }
 
     private func trophyRow(_ trophy: Trophy) -> some View {
@@ -67,10 +86,10 @@ struct ProgressionListView: View {
                     .foregroundStyle(.white)
                 Spacer()
             }
-            .padding(14)
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .glassEffect(.regular, in: .rect(cornerRadius: 16))
     }
 
     private var currentLanguageCode: String {
