@@ -31,8 +31,9 @@ private final class TiledCanvasView: UIView {
         // levelsOfDetail = total pyramid levels (magnified + normal + reduced);
         // levelsOfDetailBias = how many of those are magnified (scale > 1).
         // maximumZoomScale is 1 here (no magnification), so bias stays 0;
-        // minimumZoomScale is 1/2^maxZoom, so we need maxZoom reduced levels
-        // below the normal-resolution level, i.e. levelsOfDetail = maxZoom + 1.
+        // minimumZoomScale is computed dynamically to fit the real viewport,
+        // so we still need maxZoom reduced levels below normal resolution,
+        // i.e. levelsOfDetail = maxZoom + 1.
         tiled.levelsOfDetail = manifest.maxZoom + 1
         tiled.levelsOfDetailBias = 0
         contentScaleFactor = 1
@@ -55,6 +56,35 @@ private final class TiledCanvasView: UIView {
     }
 }
 
+/// Computes and applies a fit-to-bounds zoom scale + centering inset once the
+/// scroll view's real bounds are known — `minimumZoomScale`/`zoomScale` can't
+/// be set correctly in `makeUIView` because SwiftUI hasn't laid the view out
+/// yet at that point (bounds is still `.zero`). Only recomputes when
+/// `bounds.size` genuinely changes (first layout, or a rotation) — never on
+/// every layout pass, so it never fights a live pinch-zoom/pan gesture (those
+/// change `zoomScale`/`contentOffset` directly without changing `bounds.size`,
+/// so the guard below simply skips them).
+private final class FitToBoundsScrollView: UIScrollView {
+    var contentNativeSize: CGSize = .zero
+    private var lastFittedBoundsSize: CGSize = .zero
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard bounds.size != lastFittedBoundsSize,
+              bounds.width > 0, bounds.height > 0,
+              contentNativeSize != .zero else { return }
+        lastFittedBoundsSize = bounds.size
+
+        let fitScale = MapGeometry.fitZoomScale(contentSize: contentNativeSize, in: bounds.size)
+        minimumZoomScale = fitScale
+        zoomScale = fitScale
+
+        let insets = MapGeometry.centeringInsets(contentSize: contentNativeSize, zoomScale: fitScale, in: bounds.size)
+        contentInset = UIEdgeInsets(top: insets.top, left: insets.left, bottom: insets.bottom, right: insets.right)
+        contentOffset = CGPoint(x: -insets.left, y: -insets.top)
+    }
+}
+
 struct TiledMapRepresentable: UIViewRepresentable {
     let manifest: TileManifest
     @Binding var viewport: MapViewport
@@ -65,17 +95,16 @@ struct TiledMapRepresentable: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> UIScrollView {
-        let scrollView = UIScrollView()
+        let scrollView = FitToBoundsScrollView()
         let fullSize = MapGeometry.fullSize(for: manifest)
         let canvas = TiledCanvasView(manifest: manifest)
         canvas.frame = CGRect(x: 0, y: 0, width: fullSize, height: fullSize)
         scrollView.contentSize = canvas.frame.size
+        scrollView.contentNativeSize = canvas.frame.size
         scrollView.addSubview(canvas)
-        scrollView.minimumZoomScale = 1 / CGFloat(1 << manifest.maxZoom)
         scrollView.maximumZoomScale = 1
         scrollView.delegate = context.coordinator
         context.coordinator.canvas = canvas
-        scrollView.zoomScale = scrollView.minimumZoomScale
         scrollView.backgroundColor = .black
         // Deferred to the next run-loop turn: mutating the `@Binding var viewport`
         // synchronously here (still inside SwiftUI's makeUIView/update pass) is the
