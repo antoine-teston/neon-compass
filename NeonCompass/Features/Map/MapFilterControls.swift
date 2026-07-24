@@ -2,25 +2,59 @@ import SwiftUI
 
 struct MapFilterControls: View {
     @Bindable var model: MapModel
+    @Binding var showPersonalPinList: Bool
+    @Binding var showRoutePlanner: Bool
     @State private var showFilters = false
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
     var body: some View {
-        GlassEffectContainer(spacing: 12) {
-            VStack(alignment: .trailing, spacing: 12) {
+        VStack(alignment: .trailing, spacing: 12) {
+            GlassEffectContainer(spacing: 12) {
                 HStack(spacing: 12) {
+                    favoritesButton
+                    if proEntitlementModel.isProEntitled {
+                        routePlannerButton
+                    }
                     searchField
                     filterToggleButton
                 }
-                if showFilters {
-                    categoryChips
-                }
-                if proEntitlementModel.isProEntitled {
-                    hideFoundButton
+            }
+            GlassEffectContainer(spacing: 12) {
+                VStack(alignment: .trailing, spacing: 12) {
+                    if showFilters {
+                        categoryChips
+                    }
+                    if proEntitlementModel.isProEntitled {
+                        hideFoundButton
+                    }
                 }
             }
         }
         .padding(16)
+    }
+
+    private var favoritesButton: some View {
+        Button {
+            showPersonalPinList = true
+        } label: {
+            Image(systemName: "star.circle")
+                .font(.system(size: 20))
+                .foregroundStyle(.white)
+                .frame(width: 44, height: 44)
+        }
+        .glassEffect(.regular.interactive(), in: .circle)
+    }
+
+    private var routePlannerButton: some View {
+        Button {
+            showRoutePlanner = true
+        } label: {
+            Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
+                .font(.system(size: 20))
+                .foregroundStyle(.white)
+                .frame(width: 44, height: 44)
+        }
+        .glassEffect(.regular.interactive(), in: .circle)
     }
 
     private var filterToggleButton: some View {
@@ -52,7 +86,8 @@ struct MapFilterControls: View {
         TextField("map.search.placeholder", text: $model.searchQuery)
             .textFieldStyle(.plain)
             .padding(.horizontal, 12)
-            .frame(width: 200, height: 44)
+            .frame(maxWidth: .infinity)
+            .frame(height: 44)
             .glassEffect(.regular, in: .capsule)
     }
 

@@ -34,9 +34,13 @@ struct MapScreen: View {
     @ViewBuilder
     private func content(model: MapModel) -> some View {
         if sizeClass == .compact {
-            ZStack(alignment: .topTrailing) {
+            ZStack(alignment: .top) {
                 mapCanvas(model: model)
-                MapFilterControls(model: model)
+                MapFilterControls(
+                    model: model,
+                    showPersonalPinList: $showPersonalPinList,
+                    showRoutePlanner: $showRoutePlanner
+                )
             }
             .sheet(item: Binding(get: { model.selectedPOI }, set: { model.selectedPOI = $0 })) { poi in
                 POIDetailView(
@@ -49,9 +53,13 @@ struct MapScreen: View {
             }
         } else {
             HStack(spacing: 0) {
-                ZStack(alignment: .topTrailing) {
+                ZStack(alignment: .top) {
                     mapCanvas(model: model)
-                    MapFilterControls(model: model)
+                    MapFilterControls(
+                        model: model,
+                        showPersonalPinList: $showPersonalPinList,
+                        showRoutePlanner: $showRoutePlanner
+                    )
                 }
                 if let selected = model.selectedPOI {
                     POIDetailView(
@@ -93,31 +101,6 @@ struct MapScreen: View {
                     .position(position)
                 }
             }
-
-            VStack(spacing: 12) {
-                Button {
-                    showPersonalPinList = true
-                } label: {
-                    Image(systemName: "star.circle")
-                        .font(.system(size: 20))
-                        .foregroundStyle(.white)
-                        .frame(width: 44, height: 44)
-                }
-                .glassEffect(.regular.interactive(), in: .circle)
-
-                if proEntitlementModel.isProEntitled {
-                    Button {
-                        showRoutePlanner = true
-                    } label: {
-                        Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
-                            .font(.system(size: 20))
-                            .foregroundStyle(.white)
-                            .frame(width: 44, height: 44)
-                    }
-                    .glassEffect(.regular.interactive(), in: .circle)
-                }
-            }
-            .padding(16)
         }
         .onAppear {
             communityModel?.refreshBlockedAuthors()
