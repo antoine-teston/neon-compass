@@ -64,16 +64,46 @@ struct BannerAdView: View {
     var adUnitID: String = "ca-app-pub-3940256099942544/2934735716" // AdMob's public test adaptive-banner ID — replace once provisioned.
     @State private var measuredWidth: CGFloat = 0
 
+    /// Defensive upper bound on the banner's on-screen height. A correctly
+    /// served anchored adaptive banner is 50–150pt (see `GADAdSize.h`), so a
+    /// value above this is never a legitimate banner — it's a misbehaving
+    /// creative that must not be allowed to dictate our layout. Observed
+    /// concretely on the iOS 26.5 Simulator with AdMob's *test* creatives: a
+    /// 346×108 anchored-adaptive request comes back, on `didReceiveAd`, with
+    /// the `BannerView` having resized *itself* to exactly 2× (692×216) and
+    /// reporting 692×216 as its `intrinsicContentSize`. Left unpinned, SwiftUI
+    /// honours that inflated intrinsic size: the ad overflows its frame, spills
+    /// past the horizontal padding full-width, and paints over the compact tab
+    /// bar (the "gros zoom sur les ads et le menu du bas" regression). We pin
+    /// the layout size below and clamp/clip here so no creative — test or
+    /// real — can blow up the layout.
+    private static let maxAdHeight: CGFloat = 120
+
+    /// Height the banner occupies once a width is known, clamped so a
+    /// misbehaving creative can't exceed a sane banner height. While the width
+    /// is still being measured we reserve `maxAdHeight` rather than letting the
+    /// placeholder be vertically greedy (a bare `Color.clear` expands to fill
+    /// whatever the container offers — in Feed/Cheats' bottom-aligned `ZStack`
+    /// that's the whole screen).
+    private var slotHeight: CGFloat {
+        guard measuredWidth > 0 else { return Self.maxAdHeight }
+        return min(largeAnchoredAdaptiveBanner(width: measuredWidth).size.height, Self.maxAdHeight)
+    }
+
     var body: some View {
         Group {
             if measuredWidth > 0 {
-                BannerAdRepresentable(adUnitID: adUnitID, width: measuredWidth)
-                    .frame(height: largeAnchoredAdaptiveBanner(width: measuredWidth).size.height)
+                BannerAdRepresentable(adUnitID: adUnitID, width: measuredWidth, height: slotHeight)
             } else {
                 Color.clear
             }
         }
         .frame(maxWidth: .infinity)
+        .frame(height: slotHeight)
+        // Belt-and-suspenders: even with the representable's layout size pinned
+        // below, the underlying UIKit `BannerView` can still *draw* a creative
+        // larger than the slot; clip so nothing escapes the reserved rectangle.
+        .clipped()
         .background(
             GeometryReader { proxy in
                 Color.clear
@@ -89,12 +119,25 @@ struct BannerAdView: View {
 private struct BannerAdRepresentable: UIViewRepresentable {
     let adUnitID: String
     let width: CGFloat
+    let height: CGFloat
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    /// Tracks the width we last requested an ad for, so `updateUIView` can tell
+    /// a real width change (rotation / resize) apart from the SDK having
+    /// mutated `adSize` to the loaded creative's own (possibly inflated) size.
+    /// Comparing against `uiView.adSize` instead would re-request on every
+    /// update once a test creative reports a doubled size.
+    final class Coordinator: NSObject {
+        var requestedWidth: CGFloat = 0
+    }
 
     func makeUIView(context: Context) -> BannerView {
         let banner = BannerView(adSize: largeAnchoredAdaptiveBanner(width: width > 0 ? width : UIScreen.main.bounds.width))
         banner.adUnitID = adUnitID
         banner.rootViewController = AdPresentationContext.topViewController()
         banner.load(Request())
+        context.coordinator.requestedWidth = width
         return banner
     }
 
@@ -104,8 +147,17 @@ private struct BannerAdRepresentable: UIViewRepresentable {
         // closes a second, related gap the same review flagged: the
         // previous updateUIView was a no-op, so the banner never
         // re-adapted after creation.
-        guard width > 0, uiView.adSize.size.width != width else { return }
+        guard width > 0, width != context.coordinator.requestedWidth else { return }
         uiView.adSize = largeAnchoredAdaptiveBanner(width: width)
         uiView.load(Request())
+        context.coordinator.requestedWidth = width
+    }
+
+    // Pin the SwiftUI layout size to the *requested* adaptive slot. Without
+    // this, SwiftUI sizes the representable from the UIKit view's
+    // `intrinsicContentSize`, which the loaded creative can inflate well beyond
+    // the requested banner size — the direct cause of the overflow regression.
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: BannerView, context: Context) -> CGSize? {
+        CGSize(width: width, height: height)
     }
 }
