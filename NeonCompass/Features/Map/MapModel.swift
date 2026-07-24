@@ -10,13 +10,16 @@ final class MapModel {
     var searchQuery: String = ""
     var selectedPOI: POI?
     private(set) var foundPOIIDs: Set<String>
+    var hideFoundPOIs = false
 
     private let modelContext: ModelContext
+    private var sync: ProgressionSyncing?
 
-    init(pois: [POI], modelContext: ModelContext) {
+    init(pois: [POI], modelContext: ModelContext, sync: ProgressionSyncing? = nil) {
         self.pois = pois
         self.activeCategories = Set(POICategory.allCases)
         self.modelContext = modelContext
+        self.sync = sync
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
     }
 
@@ -29,6 +32,7 @@ final class MapModel {
         return pois.filter { poi in
             poi.position != nil
                 && activeCategories.contains(poi.category)
+                && !(hideFoundPOIs && isFound(poi))
                 && (searchQuery.isEmpty
                     || poi.title.resolved(for: languageCode).localizedCaseInsensitiveContains(searchQuery))
         }
@@ -41,14 +45,18 @@ final class MapModel {
     func toggleFound(_ poi: POI) {
         let poiID = poi.id
         let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
+        let now = Date.now
         if let existing = try? modelContext.fetch(descriptor).first {
             modelContext.delete(existing)
             foundPOIIDs.remove(poiID)
+            try? modelContext.save()
+            Task { await sync?.upload(itemID: poiID, kind: .poi, found: false, updatedAt: now) }
         } else {
-            modelContext.insert(FoundEntry(poiID: poi.id))
+            modelContext.insert(FoundEntry(poiID: poi.id, updatedAt: now))
             foundPOIIDs.insert(poiID)
+            try? modelContext.save()
+            Task { await sync?.upload(itemID: poiID, kind: .poi, found: true, updatedAt: now) }
         }
-        try? modelContext.save()
     }
 
     var personalPins: [PersonalPin] {
@@ -68,5 +76,47 @@ final class MapModel {
 
     func updatePOIs(_ newPOIs: [POI]) {
         pois = newPOIs
+    }
+
+    /// Attaches sync after construction if it wasn't available yet at init
+    /// time (closes the race where the Pro entitlement/auth gate becomes
+    /// true only after `loadModel()` already ran once with `sync == nil`).
+    /// Idempotent: a no-op if sync is already attached. Returns whether this
+    /// call actually attached sync, so the caller knows whether it also
+    /// needs to trigger an initial pull + reconcile.
+    @discardableResult
+    func attachSyncIfNeeded(_ sync: ProgressionSyncing) -> Bool {
+        guard self.sync == nil else { return false }
+        self.sync = sync
+        return true
+    }
+
+    /// Last-write-wins-per-item reconciliation of remote progression into the
+    /// local FoundEntry store. Pure/testable independent of Firestore — the
+    /// caller (MapScreen) is responsible for fetching remoteItems and gating
+    /// this on Pro + signed-in.
+    func reconcile(with remoteItems: [ProgressionSyncItem]) {
+        for item in remoteItems where item.kind == .poi {
+            let poiID = item.itemID
+            let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
+            let existing = try? modelContext.fetch(descriptor).first
+
+            if let existing, existing.updatedAt >= item.updatedAt {
+                continue // local is at least as recent, local wins
+            }
+
+            if item.found {
+                if let existing {
+                    existing.updatedAt = item.updatedAt
+                } else {
+                    modelContext.insert(FoundEntry(poiID: poiID, foundAt: item.updatedAt, updatedAt: item.updatedAt))
+                }
+                foundPOIIDs.insert(poiID)
+            } else if let existing {
+                modelContext.delete(existing)
+                foundPOIIDs.remove(poiID)
+            }
+        }
+        try? modelContext.save()
     }
 }

@@ -13,7 +13,9 @@ struct MapScreen: View {
     @State private var showPersonalPinAlert = false
     @State private var pendingContributionLocation: NormalizedPoint?
     @State private var communityModel: CommunityModel?
+    @State private var showRoutePlanner = false
     @Environment(AuthModel.self) private var authModel
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
     private let manifest = TileManifest.load() ?? TileManifest(tileSize: 256, maxZoom: 3, tileCount: 85)
 
@@ -92,20 +94,49 @@ struct MapScreen: View {
                 }
             }
 
-            Button {
-                showPersonalPinList = true
-            } label: {
-                Image(systemName: "star.circle")
-                    .font(.system(size: 20))
-                    .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
+            VStack(spacing: 12) {
+                Button {
+                    showPersonalPinList = true
+                } label: {
+                    Image(systemName: "star.circle")
+                        .font(.system(size: 20))
+                        .foregroundStyle(.white)
+                        .frame(width: 44, height: 44)
+                }
+                .glassEffect(.regular.interactive(), in: .circle)
+
+                if proEntitlementModel.isProEntitled {
+                    Button {
+                        showRoutePlanner = true
+                    } label: {
+                        Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.white)
+                            .frame(width: 44, height: 44)
+                    }
+                    .glassEffect(.regular.interactive(), in: .circle)
+                }
             }
-            .glassEffect(.regular.interactive(), in: .circle)
             .padding(16)
         }
-        .onAppear { communityModel?.refreshBlockedAuthors() }
+        .onAppear {
+            communityModel?.refreshBlockedAuthors()
+            reattachSyncIfNeeded()
+        }
         .sheet(isPresented: $showPersonalPinList) {
             PersonalPinListSheet(model: model)
+        }
+        .sheet(isPresented: $showRoutePlanner) {
+            RoutePlannerSheet(
+                route: RoutePlanner.greedyRoute(
+                    // Deliberately computed from the full, unfiltered `pois`
+                    // array rather than `filteredPOIs` — the route planner
+                    // must never be silently narrowed by the map's category
+                    // chips or search text (see plan 6b-2 final-review fix).
+                    from: model.pois.filter { $0.category == .collectible && $0.position != nil && !model.isFound($0) }
+                ),
+                languageCode: Self.currentLanguageCode()
+            )
         }
         .alert(
             "map.personalPins.addPrompt",
@@ -178,7 +209,11 @@ struct MapScreen: View {
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        model = MapModel(pois: contentStore.items, modelContext: modelContext)
+        // Cloud progression sync is Pro + signed-in only (spec: "nécessite
+        // le compte") — never constructed for free or signed-out users.
+        let userID = authModel.userID
+        let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
+        model = MapModel(pois: contentStore.items, modelContext: modelContext, sync: sync)
         communityModel = CommunityModel(
             repository: FirestoreContributionRepository(),
             functions: FirebaseContributionFunctions(),
@@ -190,6 +225,25 @@ struct MapScreen: View {
             model?.updatePOIs(contentStore.items)
             await communityModel?.loadApprovedSpots()
             await communityModel?.refreshContributionsEnabled()
+            if let sync, let userID {
+                let remoteItems = await sync.fetchAll(uid: userID)
+                model?.reconcile(with: remoteItems)
+            }
+        }
+    }
+
+    /// Closes the race where `loadModel()` ran once before
+    /// `ProEntitlementModel.refresh()` completed at app launch, capturing
+    /// `sync == nil` permanently for this screen instance (SwiftUI retains
+    /// `@State` across iPad tab switches, so `loadModel()` itself never
+    /// re-runs). Cheap no-op whenever the Pro/auth gate is still false.
+    private func reattachSyncIfNeeded() {
+        guard let model, proEntitlementModel.isProEntitled, let userID = authModel.userID else { return }
+        let sync = FirestoreProgressionSync()
+        guard model.attachSyncIfNeeded(sync) else { return }
+        Task {
+            let remoteItems = await sync.fetchAll(uid: userID)
+            model.reconcile(with: remoteItems)
         }
     }
 }

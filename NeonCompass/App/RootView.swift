@@ -11,6 +11,7 @@ struct RootView: View {
     // plain `@State private var x = ...` default (those can't reference
     // `self`/sibling properties) — built in `init()` instead.
     @State private var widgetSummaryCoordinator: WidgetSummaryCoordinator
+    @State private var themeStore = ThemeStore()
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.modelContext) private var modelContext
 
@@ -42,7 +43,15 @@ struct RootView: View {
         .environment(authModel)
         .environment(proEntitlementModel)
         .environment(widgetSummaryCoordinator)
+        .environment(themeStore)
         .preferredColorScheme(.dark)
+        // Makes the Pro theme picker's selection a real, app-wide effect:
+        // the selected accent becomes the default tint for any control that
+        // doesn't already have a more specific, explicit `.tint(...)` override
+        // (e.g. the deliberate sunsetMagenta/neonCyan call sites elsewhere
+        // stay as-is). `ThemeStore` is `@Observable`, so this recomputes
+        // whenever `selectTheme(_:)` mutates `selectedTheme`.
+        .tint(themeStore.selectedTheme.accent)
         // Starts Mobile Ads only once every onboarding gate (disclaimer,
         // ATT, UMP consent) has cleared — never before consent is resolved
         // (spec §RGPD: consent gate is mandatory, not bypassable). Keyed on

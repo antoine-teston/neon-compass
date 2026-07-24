@@ -6,9 +6,11 @@ import SwiftData
 final class FoundEntry {
     @Attribute(.unique) var poiID: String
     var foundAt: Date
+    var updatedAt: Date = Date.now
 
-    init(poiID: String, foundAt: Date = .now) {
+    init(poiID: String, foundAt: Date = .now, updatedAt: Date = .now) {
         self.poiID = poiID
         self.foundAt = foundAt
+        self.updatedAt = updatedAt
     }
 }

@@ -348,6 +348,16 @@
         }
       }
     },
+    "map.hideFound.toggle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show only what's left"
+          }
+        }
+      }
+    },
     "map.longPress.addPersonalPin" : {
       "localizations" : {
         "en" : {
@@ -427,6 +437,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "My pins"
+          }
+        }
+      }
+    },
+    "map.routePlanner.button" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan route"
+          }
+        }
+      }
+    },
+    "map.routePlanner.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything's found — nothing left to route!"
+          }
+        }
+      }
+    },
+    "map.routePlanner.stepFormat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %d"
+          }
+        }
+      }
+    },
+    "map.routePlanner.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimized route"
           }
         }
       }
@@ -764,6 +814,16 @@
         }
       }
     },
+    "profile.icon.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Icon"
+          }
+        }
+      }
+    },
     "profile.myContributions.empty" : {
       "localizations" : {
         "en" : {
@@ -854,6 +914,16 @@
         }
       }
     },
+    "profile.theme.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        }
+      }
+    },
     "progress.trophies.empty" : {
       "localizations" : {
         "en" : {
@@ -925,6 +995,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Progress"
+          }
+        }
+      }
+    },
+    "theme.cyanPulse" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cyan Pulse"
+          }
+        }
+      }
+    },
+    "theme.magentaDrift" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Magenta Drift"
+          }
+        }
+      }
+    },
+    "theme.sunsetOverdrive" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunset Overdrive"
           }
         }
       }
