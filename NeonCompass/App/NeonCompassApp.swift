@@ -5,6 +5,8 @@ import SwiftUI
 
 @main
 struct NeonCompassApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
     init() {
         // App Check must be configured BEFORE FirebaseApp.configure() —
         // registering the provider factory late means the first few

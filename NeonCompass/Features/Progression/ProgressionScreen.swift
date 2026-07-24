@@ -3,6 +3,7 @@ import SwiftData
 
 struct ProgressionScreen: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @State private var model: ProgressionModel?
@@ -55,7 +56,13 @@ struct ProgressionScreen: View {
         // le compte") — never constructed for free or signed-out users.
         let userID = authModel.userID
         let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
-        model = ProgressionModel(pois: poiStore.items, trophies: trophyStore.items, modelContext: modelContext, sync: sync)
+        model = ProgressionModel(
+            pois: poiStore.items,
+            trophies: trophyStore.items,
+            modelContext: modelContext,
+            sync: sync,
+            widgetSummaryCoordinator: widgetSummaryCoordinator
+        )
         try? await poiStore.syncIfNeeded()
         try? await trophyStore.syncIfNeeded()
         model?.updatePOIs(poiStore.items)

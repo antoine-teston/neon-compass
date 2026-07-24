@@ -10,6 +10,15 @@ settings:
     SWIFT_STRICT_CONCURRENCY: complete
     TARGETED_DEVICE_FAMILY: "1,2"
     GENERATE_INFOPLIST_FILE: YES
+    # Previously unset (relying on Xcode/xcodebuild's implicit defaults), which silently
+    # produced an Info.plist with no CFBundleVersion/CFBundleShortVersionString at all.
+    # The main app tolerated this for local installs, but adding the widget extension
+    # target surfaced it as a hard failure: the simulator's app-extension placeholder
+    # validation requires CFBundleVersion (com.apple.CoreSimulator: "bundleVersion must be
+    # set in placeholder attributes for an app extension placeholder"), and an extension's
+    # CFBundleVersion must match its containing app's — so both need this set explicitly.
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
     INFOPLIST_KEY_UILaunchScreen_Generation: YES
     INFOPLIST_KEY_UIUserInterfaceStyle: Dark
     INFOPLIST_KEY_NSUserTrackingUsageDescription: "This lets us show ads relevant to you instead of generic ones."
@@ -41,6 +50,11 @@ targets:
           - "Resources/MapTiles/**"
       - path: NeonCompass/Resources/MapTiles
         type: folder
+      # WidgetSummary.swift lives under NeonCompassWidgets/ on disk (its natural home
+      # alongside the rest of the widget extension) but is compiled into BOTH targets —
+      # XcodeGen supports the same file path appearing in two targets' `sources:` without
+      # duplicating it on disk.
+      - path: NeonCompassWidgets/WidgetSummary.swift
     dependencies:
       - package: Firebase
         product: FirebaseCore
@@ -54,10 +68,33 @@ targets:
         product: FirebaseFunctions
       - package: Firebase
         product: FirebaseAppCheck
+      - package: Firebase
+        product: FirebaseMessaging
       - package: GoogleMobileAds
         product: GoogleMobileAds
       - package: GoogleUserMessagingPlatform
         product: GoogleUserMessagingPlatform
+      - target: NeonCompassWidgets
+        embed: true
+  NeonCompassWidgets:
+    type: app-extension
+    platform: iOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.antoineteston.NeonCompass.NeonCompassWidgets
+        CODE_SIGN_ENTITLEMENTS: NeonCompassWidgets/NeonCompassWidgets.entitlements
+        # NSExtension has no INFOPLIST_KEY_* mapping either (same reasoning as
+        # GADApplicationIdentifier above) — see NeonCompassWidgets/Support/Info-Extension.plist.
+        INFOPLIST_FILE: NeonCompassWidgets/Support/Info-Extension.plist
+    sources:
+      - path: NeonCompassWidgets
+      # Shared design-system views/colors/type used by the widget's UI. Verified
+      # Firebase/UIKit-free (pure SwiftUI + Foundation), so safe to compile into this
+      # target too rather than duplicating a widget-local copy.
+      - path: NeonCompass/Core/DesignSystem/ProgressRing.swift
+      - path: NeonCompass/Core/DesignSystem/NCColor.swift
+      - path: NeonCompass/Core/DesignSystem/NCTypography.swift
+      - path: NeonCompass/Resources/Localizable.xcstrings
   NeonCompassTests:
     type: bundle.unit-test
     platform: iOS

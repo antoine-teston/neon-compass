@@ -18,19 +18,35 @@ final class CheatsModel {
 
     private let modelContext: ModelContext
     private let defaults: UserDefaults
+    private let widgetSummaryCoordinator: WidgetSummaryCoordinator?
 
-    init(cheats: [Cheat], modelContext: ModelContext, defaults: UserDefaults = .standard) {
+    init(
+        cheats: [Cheat],
+        modelContext: ModelContext,
+        defaults: UserDefaults = .standard,
+        widgetSummaryCoordinator: WidgetSummaryCoordinator? = nil
+    ) {
         self.cheats = cheats
         self.modelContext = modelContext
         self.defaults = defaults
+        self.widgetSummaryCoordinator = widgetSummaryCoordinator
         self.activeCategories = Set(CheatCategory.allCases)
         self.favoriteCheatIDs = Set((try? modelContext.fetch(FetchDescriptor<FavoriteCheat>()))?.map(\.cheatID) ?? [])
         let stored = defaults.string(forKey: Self.platformKey).flatMap(Platform.init(rawValue:))
         self.activePlatform = stored ?? .ps5
+        notifyWidgetFavoriteCheat()
     }
 
     func updateCheats(_ newCheats: [Cheat]) {
         cheats = newCheats
+        notifyWidgetFavoriteCheat()
+    }
+
+    private func notifyWidgetFavoriteCheat() {
+        let title = favoriteCheatIDs.first
+            .flatMap { favoriteID in cheats.first { $0.id == favoriteID } }
+            .map { $0.effect.resolved(for: currentLanguageCode) }
+        widgetSummaryCoordinator?.updateFavoriteCheat(title)
     }
 
     private var currentLanguageCode: String {
@@ -62,5 +78,6 @@ final class CheatsModel {
             favoriteCheatIDs.insert(cheatID)
         }
         try? modelContext.save()
+        notifyWidgetFavoriteCheat()
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- NSExtension has no Apple-recognized INFOPLIST_KEY_* mapping (same situation as
+	     GADApplicationIdentifier in NeonCompass/Support/Info-Ads.plist), so it can't be
+	     synthesized via GENERATE_INFOPLIST_FILE alone. Xcode merges GENERATE_INFOPLIST_FILE's
+	     synthesized keys with a partial INFOPLIST_FILE when both are set, so this small file
+	     carries only that one key. A @main WidgetBundle entry point means no
+	     NSExtensionPrincipalClass/NSExtensionMainStoryboard is needed — only the point identifier. -->
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.widgetkit-extension</string>
+	</dict>
+</dict>
+</plist>
