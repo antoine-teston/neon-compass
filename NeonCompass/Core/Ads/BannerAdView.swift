@@ -77,7 +77,7 @@ struct BannerAdView: View {
     /// bar (the "gros zoom sur les ads et le menu du bas" regression). We pin
     /// the layout size below and clamp/clip here so no creative — test or
     /// real — can blow up the layout.
-    private static let maxAdHeight: CGFloat = 120
+    private static let maxAdHeight: CGFloat = 150
 
     /// Height the banner occupies once a width is known, clamped so a
     /// misbehaving creative can't exceed a sane banner height. While the width
