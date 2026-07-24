@@ -8,12 +8,12 @@ struct MapFilterControls: View {
     var body: some View {
         GlassEffectContainer(spacing: 12) {
             VStack(alignment: .trailing, spacing: 12) {
-                if showFilters {
-                    categoryChips
-                }
                 HStack(spacing: 12) {
                     searchField
                     filterToggleButton
+                }
+                if showFilters {
+                    categoryChips
                 }
                 if proEntitlementModel.isProEntitled {
                     hideFoundButton
@@ -52,7 +52,7 @@ struct MapFilterControls: View {
         TextField("map.search.placeholder", text: $model.searchQuery)
             .textFieldStyle(.plain)
             .padding(.horizontal, 12)
-            .frame(height: 44)
+            .frame(width: 200, height: 44)
             .glassEffect(.regular, in: .capsule)
     }
 
