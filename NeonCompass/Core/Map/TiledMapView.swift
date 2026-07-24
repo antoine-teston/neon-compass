@@ -67,6 +67,7 @@ private final class TiledCanvasView: UIView {
 private final class FitToBoundsScrollView: UIScrollView {
     var contentNativeSize: CGSize = .zero
     private var lastFittedBoundsSize: CGSize = .zero
+    private var hasPerformedInitialFit = false
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -77,11 +78,24 @@ private final class FitToBoundsScrollView: UIScrollView {
 
         let fitScale = MapGeometry.fitZoomScale(contentSize: contentNativeSize, in: bounds.size)
         minimumZoomScale = fitScale
-        zoomScale = fitScale
 
-        let insets = MapGeometry.centeringInsets(contentSize: contentNativeSize, zoomScale: fitScale, in: bounds.size)
-        contentInset = UIEdgeInsets(top: insets.top, left: insets.left, bottom: insets.bottom, right: insets.right)
-        contentOffset = CGPoint(x: -insets.left, y: -insets.top)
+        if !hasPerformedInitialFit {
+            hasPerformedInitialFit = true
+            zoomScale = fitScale
+            let insets = MapGeometry.centeringInsets(contentSize: contentNativeSize, zoomScale: fitScale, in: bounds.size)
+            contentInset = UIEdgeInsets(top: insets.top, left: insets.left, bottom: insets.bottom, right: insets.right)
+            contentOffset = CGPoint(x: -insets.left, y: -insets.top)
+        } else {
+            // Bounds changed after the user may have already zoomed/panned
+            // (e.g. iPad's POI detail side panel resizing the map's column,
+            // or a rotation) — never yank zoom back to fit-scale here, only
+            // keep the zoom range valid and re-center the inset margin so
+            // any now-smaller-than-viewport content stays centered without
+            // discarding the user's current zoomScale/contentOffset.
+            zoomScale = max(zoomScale, minimumZoomScale)
+            let insets = MapGeometry.centeringInsets(contentSize: contentNativeSize, zoomScale: zoomScale, in: bounds.size)
+            contentInset = UIEdgeInsets(top: insets.top, left: insets.left, bottom: insets.bottom, right: insets.right)
+        }
     }
 }
 
@@ -96,6 +110,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIScrollView {
         let scrollView = FitToBoundsScrollView()
+        // The map canvas manages its own centering entirely via computed
+        // contentInset (see FitToBoundsScrollView.layoutSubviews) — letting
+        // the system additionally stack safe-area insets on top (the
+        // .automatic default) would make the resting position asymmetric.
+        scrollView.contentInsetAdjustmentBehavior = .never
         let fullSize = MapGeometry.fullSize(for: manifest)
         let canvas = TiledCanvasView(manifest: manifest)
         canvas.frame = CGRect(x: 0, y: 0, width: fullSize, height: fullSize)

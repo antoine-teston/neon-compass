@@ -70,4 +70,17 @@ struct MapGeometryTests {
         )
         #expect(insets == ContentInsets(top: 0, left: 0, bottom: 0, right: 0))
     }
+
+    @Test func centeringInsetsScalesContentSizeByZoomScale() {
+        // contentSize 2048x2048 at zoomScale 0.2 -> scaled 409.6x409.6,
+        // inside a 800x600 viewport: horizontal margin (800-409.6)/2=195.2,
+        // vertical margin (600-409.6)/2=95.2.
+        let insets = MapGeometry.centeringInsets(
+            contentSize: CGSize(width: 2048, height: 2048),
+            zoomScale: 0.2,
+            in: CGSize(width: 800, height: 600)
+        )
+        #expect(abs(insets.left - 195.2) < 0.01)
+        #expect(abs(insets.top - 95.2) < 0.01)
+    }
 }
