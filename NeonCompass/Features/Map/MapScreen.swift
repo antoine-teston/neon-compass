@@ -77,30 +77,28 @@ struct MapScreen: View {
 
     private func mapCanvas(model: MapModel) -> some View {
         ZStack(alignment: .topLeading) {
-            TiledMapRepresentable(manifest: manifest, viewport: $viewport) { canvasPoint in
-                pendingPinLocation = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
-                showLongPressMenu = true
-            }
-            MapPinsOverlay(pois: model.filteredPOIs, manifest: manifest, viewport: viewport) { poi in
-                model.selectedPOI = poi
-            }
-            PersonalPinsOverlay(pins: model.personalPins, manifest: manifest, viewport: viewport)
-
-            if let communityModel {
-                ForEach(communityModel.visibleSpots) { spot in
-                    let point = spot.position
-                    let position = MapGeometry.screenPosition(for: point, manifest: manifest, viewport: viewport)
-                    ContributionAnnotationView(
-                        spot: spot,
-                        onVote: { direction in Task { await communityModel.vote(on: spot, direction: direction) } },
-                        onReport: { Task { await communityModel.report(spot, reason: nil) } },
-                        onBlockAuthor: {
-                            if let authorUid = spot.authorUid { communityModel.block(authorUid: authorUid) }
-                        }
-                    )
-                    .position(position)
+            TiledMapRepresentable(
+                manifest: manifest,
+                pois: model.filteredPOIs,
+                personalPins: model.personalPins,
+                communitySpots: communityModel?.visibleSpots ?? [],
+                isFound: model.isFound,
+                viewport: $viewport,
+                onLongPress: { canvasPoint in
+                    pendingPinLocation = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
+                    showLongPressMenu = true
+                },
+                onTapPOI: { poi in model.selectedPOI = poi },
+                onVote: { spot, direction in
+                    Task { await communityModel?.vote(on: spot, direction: direction) }
+                },
+                onReport: { spot in
+                    Task { await communityModel?.report(spot, reason: nil) }
+                },
+                onBlockAuthor: { spot in
+                    if let authorUid = spot.authorUid { communityModel?.block(authorUid: authorUid) }
                 }
-            }
+            )
         }
         .onAppear {
             communityModel?.refreshBlockedAuthors()

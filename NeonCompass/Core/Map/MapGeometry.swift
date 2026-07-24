@@ -30,6 +30,17 @@ enum MapGeometry {
         )
     }
 
+    /// A point's position in content-space (full-resolution, un-zoomed) —
+    /// ALL pin positioning needs now that pins live inside the same view the
+    /// scroll view zooms/pans (see Plan: map-engine-rebuild). Deliberately
+    /// takes no `MapViewport` — no `zoomScale`/`contentOffset` — because the
+    /// content view's own transform IS the zoom/pan, applied uniformly to
+    /// everything inside it, pins included.
+    static func contentPoint(for point: NormalizedPoint, manifest: MapManifest) -> CGPoint {
+        let full = fullSize(for: manifest)
+        return CGPoint(x: CGFloat(point.x) * full, y: CGFloat(point.y) * full)
+    }
+
     /// `point` est en coordonnées du canvas UIKit plein-résolution (Task 5),
     /// pas du viewport visible — indépendant du zoom/pan courant.
     static func normalizedPoint(fromCanvasPoint point: CGPoint, manifest: MapManifest) -> NormalizedPoint {

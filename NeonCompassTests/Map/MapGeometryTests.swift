@@ -124,6 +124,22 @@ struct MapGeometryTests {
         #expect(offset == CGPoint(x: 100, y: 50))
     }
 
+    @Test func contentPointAtOriginIsOrigin() {
+        let point = MapGeometry.contentPoint(for: NormalizedPoint(x: 0, y: 0), manifest: manifest)
+        #expect(point == .zero)
+    }
+
+    @Test func contentPointScalesByFullSizeOnly() {
+        // manifest.size == 2048 (Task 1's fixture) — no zoom/offset involved.
+        let point = MapGeometry.contentPoint(for: NormalizedPoint(x: 0.5, y: 0.25), manifest: manifest)
+        #expect(point == CGPoint(x: 1024, y: 512))
+    }
+
+    @Test func contentPointAtBottomRightIsFullSize() {
+        let point = MapGeometry.contentPoint(for: NormalizedPoint(x: 1, y: 1), manifest: manifest)
+        #expect(point == CGPoint(x: 2048, y: 2048))
+    }
+
     @Test func centeredContentOffsetForARealCoverFitScenario() {
         // The exact cover-fit scenario from coverZoomScaleGrowsToFillTheLargerDimension:
         // content 2048x2048 at scale 844/2048 -> scaled 844x844 exactly.
