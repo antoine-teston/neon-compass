@@ -66,8 +66,8 @@ private struct MapContentSwiftUIView: View {
                     onReport: { onReport(spot) },
                     onBlockAuthor: { onBlockAuthor(spot) }
                 )
-                .position(MapGeometry.contentPoint(for: spot.position, manifest: manifest))
                 .scaleEffect(pinScale)
+                .position(MapGeometry.contentPoint(for: spot.position, manifest: manifest))
             }
         }
         .frame(width: fullSize, height: fullSize)
@@ -83,8 +83,8 @@ private struct MapContentSwiftUIView: View {
                 .foregroundStyle(found ? NCColor.neonCyan.opacity(0.4) : NCColor.neonCyan)
                 .shadow(color: NCColor.neonCyan.opacity(found ? 0.2 : 0.6), radius: 4)
         }
-        .position(MapGeometry.contentPoint(for: position, manifest: manifest))
         .scaleEffect(pinScale)
+        .position(MapGeometry.contentPoint(for: position, manifest: manifest))
         .accessibilityLabel(Text(poi.title.resolved(for: Self.currentLanguageCode)))
     }
 
@@ -92,8 +92,8 @@ private struct MapContentSwiftUIView: View {
         Image(systemName: "star.circle.fill")
             .font(.system(size: 20))
             .foregroundStyle(NCColor.sunsetOrange)
-            .position(MapGeometry.contentPoint(for: NormalizedPoint(x: pin.x, y: pin.y), manifest: manifest))
             .scaleEffect(pinScale)
+            .position(MapGeometry.contentPoint(for: NormalizedPoint(x: pin.x, y: pin.y), manifest: manifest))
             .accessibilityLabel(Text(pin.title))
     }
 
