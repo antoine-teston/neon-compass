@@ -22,14 +22,6 @@ enum MapGeometry {
         CGFloat(manifest.size)
     }
 
-    static func screenPosition(for point: NormalizedPoint, manifest: MapManifest, viewport: MapViewport) -> CGPoint {
-        let full = fullSize(for: manifest)
-        return CGPoint(
-            x: CGFloat(point.x) * full * viewport.zoomScale - viewport.contentOffset.x,
-            y: CGFloat(point.y) * full * viewport.zoomScale - viewport.contentOffset.y
-        )
-    }
-
     /// A point's position in content-space (full-resolution, un-zoomed) —
     /// ALL pin positioning needs now that pins live inside the same view the
     /// scroll view zooms/pans (see Plan: map-engine-rebuild). Deliberately
