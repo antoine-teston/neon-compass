@@ -76,15 +76,27 @@ private final class FitToBoundsScrollView: UIScrollView {
               contentNativeSize != .zero else { return }
         lastFittedBoundsSize = bounds.size
 
-        let fitScale = MapGeometry.fitZoomScale(contentSize: contentNativeSize, in: bounds.size)
-        minimumZoomScale = fitScale
+        // minimumZoomScale always allows pinching all the way out to see the
+        // ENTIRE map (aspect-fit / "contain") — the initial view below fills
+        // the screen edge-to-edge instead, but the user can still zoom out
+        // to this contain-scale at any time.
+        let containScale = MapGeometry.fitZoomScale(contentSize: contentNativeSize, in: bounds.size)
+        minimumZoomScale = containScale
 
         if !hasPerformedInitialFit {
             hasPerformedInitialFit = true
-            zoomScale = fitScale
-            let insets = MapGeometry.centeringInsets(contentSize: contentNativeSize, zoomScale: fitScale, in: bounds.size)
+            // The initial view fills the whole screen edge-to-edge ("cover"),
+            // cropping the excess on whichever axis has slack, instead of
+            // shrinking to show the entire map letterboxed — a "contain"
+            // start left nothing new to reveal by panning and nothing to
+            // zoom out to (already at the minimum), which read as "the map
+            // doesn't move." This gives real, immediate pan/zoom room from
+            // the first frame.
+            let coverScale = MapGeometry.coverZoomScale(contentSize: contentNativeSize, in: bounds.size)
+            zoomScale = coverScale
+            let insets = MapGeometry.centeringInsets(contentSize: contentNativeSize, zoomScale: coverScale, in: bounds.size)
             contentInset = UIEdgeInsets(top: insets.top, left: insets.left, bottom: insets.bottom, right: insets.right)
-            contentOffset = CGPoint(x: -insets.left, y: -insets.top)
+            contentOffset = MapGeometry.centeredContentOffset(contentSize: contentNativeSize, zoomScale: coverScale, in: bounds.size)
         } else {
             // Bounds changed after the user may have already zoomed/panned
             // (e.g. iPad's POI detail side panel resizing the map's column,

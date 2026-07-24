@@ -83,4 +83,60 @@ struct MapGeometryTests {
         #expect(abs(insets.left - 195.2) < 0.01)
         #expect(abs(insets.top - 95.2) < 0.01)
     }
+
+    @Test func coverZoomScaleGrowsToFillTheLargerDimension() {
+        // contentSize 2048x2048, bounds 390x844 (iPhone-shaped) — height is
+        // the binding constraint this time (opposite of fitZoomScale, which
+        // picks width): 844/2048 > 390/2048.
+        let scale = MapGeometry.coverZoomScale(contentSize: CGSize(width: 2048, height: 2048), in: CGSize(width: 390, height: 844))
+        #expect(abs(scale - 844.0 / 2048.0) < 0.0001)
+    }
+
+    @Test func coverZoomScaleNeverUpscalesPastOne() {
+        let scale = MapGeometry.coverZoomScale(contentSize: CGSize(width: 100, height: 100), in: CGSize(width: 390, height: 844))
+        #expect(scale == 1)
+    }
+
+    @Test func coverZoomScaleIsOneForDegenerateInput() {
+        #expect(MapGeometry.coverZoomScale(contentSize: .zero, in: CGSize(width: 390, height: 844)) == 1)
+        #expect(MapGeometry.coverZoomScale(contentSize: CGSize(width: 2048, height: 2048), in: .zero) == 1)
+    }
+
+    @Test func centeredContentOffsetIsNegativeWhenContentFitsInsideTheViewport() {
+        // Scaled content 200x200 inside a 300x400 viewport — matches the
+        // negative, inset-driven offset a "contain" fit produces.
+        let offset = MapGeometry.centeredContentOffset(
+            contentSize: CGSize(width: 200, height: 200),
+            zoomScale: 1,
+            in: CGSize(width: 300, height: 400)
+        )
+        #expect(offset == CGPoint(x: -50, y: -100))
+    }
+
+    @Test func centeredContentOffsetIsPositiveWhenContentIsCroppedByTheViewport() {
+        // Scaled content 500x500 exceeds both axes of a 300x400 viewport —
+        // must be a POSITIVE offset that centers the crop, not zero.
+        let offset = MapGeometry.centeredContentOffset(
+            contentSize: CGSize(width: 500, height: 500),
+            zoomScale: 1,
+            in: CGSize(width: 300, height: 400)
+        )
+        #expect(offset == CGPoint(x: 100, y: 50))
+    }
+
+    @Test func centeredContentOffsetForARealCoverFitScenario() {
+        // The exact cover-fit scenario from coverZoomScaleGrowsToFillTheLargerDimension:
+        // content 2048x2048 at scale 844/2048 -> scaled 844x844 exactly.
+        // Width (844) exceeds the 390pt viewport (cropped, centered positive
+        // offset); height (844) matches the 844pt viewport exactly (zero
+        // offset, zero crop).
+        let scale = 844.0 / 2048.0
+        let offset = MapGeometry.centeredContentOffset(
+            contentSize: CGSize(width: 2048, height: 2048),
+            zoomScale: scale,
+            in: CGSize(width: 390, height: 844)
+        )
+        #expect(abs(offset.x - 227) < 0.01)
+        #expect(abs(offset.y - 0) < 0.01)
+    }
 }
