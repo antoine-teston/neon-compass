@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import AuthenticationServices
 import CryptoKit
+import UIKit
 
 struct ProfileScreen: View {
     @Environment(AuthModel.self) private var authModel
@@ -15,6 +16,7 @@ struct ProfileScreen: View {
     @State private var currentNonce: String?
     @State private var showDeleteConfirmation = false
     @State private var showPaywall = false
+    @Environment(ThemeStore.self) private var themeStore
 
     var body: some View {
         ZStack {
@@ -23,6 +25,8 @@ struct ProfileScreen: View {
                 if proEntitlementModel.isProEntitled {
                     Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
                         .foregroundStyle(NCColor.neonCyan)
+                    themeSection
+                    iconSection
                 } else {
                     Button("profile.pro.upgradeButton") { showPaywall = true }
                 }
@@ -112,6 +116,49 @@ struct ProfileScreen: View {
             }
         }
     }
+
+    private var themeSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("profile.theme.title")
+                .font(NCTypography.body)
+                .foregroundStyle(.white)
+            Picker(
+                selection: Binding(
+                    get: { themeStore.selectedTheme },
+                    set: { themeStore.selectTheme($0) }
+                )
+            ) {
+                ForEach(NCTheme.allCases) { theme in
+                    Text(theme.nameKey)
+                        .tag(theme)
+                        .foregroundStyle(theme.accent)
+                }
+            } label: {
+                Text("profile.theme.title")
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
+    private var iconSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle(
+                "profile.icon.title",
+                isOn: Binding(
+                    get: { UIApplication.shared.alternateIconName != nil },
+                    set: { themeStore.setAlternateIcon(named: $0 ? Self.neonIconName : nil) }
+                )
+            )
+            .foregroundStyle(.white)
+        }
+    }
+
+    // Assumes the "AppIcon-Neon" asset-catalog icon set will exist once a
+    // designer creates it (see docs/ops/2026-07-23-alternate-app-icons.md);
+    // this string is not yet declared anywhere in project.yml/Info.plist, so
+    // toggling this on a current build silently no-ops via UIKit's
+    // completion handler until that follow-up ships.
+    private static let neonIconName = "AppIcon-Neon"
 
     private func myContributionsSection(_ communityModel: CommunityModel) -> some View {
         VStack(alignment: .leading, spacing: 8) {
