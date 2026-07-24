@@ -26,6 +26,12 @@
             "state" : "translated",
             "value" : "Disattiva i trofei"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deaktiviert Trophäen"
+          }
         }
       }
     },
@@ -54,6 +60,12 @@
             "state" : "translated",
             "value" : "Piattaforma"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plattform"
+          }
         }
       }
     },
@@ -78,6 +90,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PS5"
+          }
+        },
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PS5"
@@ -110,6 +128,12 @@
             "state" : "translated",
             "value" : "Xbox"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xbox"
+          }
         }
       }
     },
@@ -137,6 +161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fatto"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
           }
         }
       }
@@ -166,6 +196,12 @@
             "state" : "translated",
             "value" : "Cerca trucchi"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cheats durchsuchen"
+          }
         }
       }
     },
@@ -193,6 +229,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trucchi"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cheats"
           }
         }
       }
@@ -222,6 +264,12 @@
             "state" : "translated",
             "value" : "Guide"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guides"
+          }
         }
       }
     },
@@ -249,6 +297,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sezione"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereich"
           }
         }
       }
@@ -279,6 +333,12 @@
             "state" : "translated",
             "value" : "Ho capito"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verstanden"
+          }
         }
       }
     },
@@ -306,6 +366,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Questa app è un progetto di fan. Non è affiliata, sponsorizzata né collegata a Rockstar Games o Take-Two Interactive. Tutti i contenuti grafici sono originali."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese App ist ein Fanprojekt. Sie steht in keiner Verbindung zu Rockstar Games oder Take-Two Interactive und wird von diesen weder unterstützt noch anerkannt. Alle Grafiken sind Originalwerke."
           }
         }
       }
@@ -335,6 +401,12 @@
             "state" : "translated",
             "value" : "Companion non ufficiale"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inoffizieller Begleiter"
+          }
         }
       }
     },
@@ -362,6 +434,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annuncio"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ankündigung"
           }
         }
       }
@@ -391,6 +469,12 @@
             "state" : "translated",
             "value" : "Evento"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event"
+          }
         }
       }
     },
@@ -418,6 +502,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Patch"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update"
           }
         }
       }
@@ -447,6 +537,12 @@
             "state" : "translated",
             "value" : "Ancora nessuna novità — ricontrolla presto."
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine News — schau bald wieder vorbei."
+          }
         }
       }
     },
@@ -474,6 +570,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Principiante"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einsteiger"
           }
         }
       }
@@ -503,6 +605,12 @@
             "state" : "translated",
             "value" : "Denaro"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geld"
+          }
         }
       }
     },
@@ -531,6 +639,12 @@
             "state" : "translated",
             "value" : "Contenuti secondari"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nebeninhalte"
+          }
         }
       }
     },
@@ -558,6 +672,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Storia"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Story"
           }
         }
       }
@@ -588,6 +708,12 @@
             "state" : "translated",
             "value" : "Attività"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivitäten"
+          }
         }
       }
     },
@@ -616,6 +742,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oggetti da collezione"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sammelobjekte"
           }
         }
       }
@@ -646,6 +778,12 @@
             "state" : "translated",
             "value" : "Eventi"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Events"
+          }
         }
       }
     },
@@ -674,6 +812,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Punti di riferimento"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sehenswürdigkeiten"
           }
         }
       }
@@ -704,6 +848,12 @@
             "state" : "translated",
             "value" : "Rifugi"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unterschlüpfe"
+          }
         }
       }
     },
@@ -733,6 +883,12 @@
             "state" : "translated",
             "value" : "Veicoli"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fahrzeuge"
+          }
         }
       }
     },
@@ -760,6 +916,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annulla"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
           }
         }
       }
@@ -789,6 +951,12 @@
             "state" : "translated",
             "value" : "Categoria"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
+          }
         }
       }
     },
@@ -816,6 +984,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Qualcosa è andato storto — riprova."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etwas ist schiefgelaufen — versuch es erneut."
           }
         }
       }
@@ -845,6 +1019,12 @@
             "state" : "translated",
             "value" : "Proponi un luogo"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ort vorschlagen"
+          }
         }
       }
     },
@@ -872,6 +1052,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accedi per proporre un luogo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melde dich an, um einen Ort vorzuschlagen."
           }
         }
       }
@@ -901,6 +1087,12 @@
             "state" : "translated",
             "value" : "Invia"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Absenden"
+          }
         }
       }
     },
@@ -928,6 +1120,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inviato per la revisione — grazie!"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zur Prüfung eingereicht — danke!"
           }
         }
       }
@@ -957,6 +1155,12 @@
             "state" : "translated",
             "value" : "Cosa c'è qui? (max 280 caratteri)"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was ist hier? (max. 280 Zeichen)"
+          }
         }
       }
     },
@@ -984,6 +1188,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostra solo ciò che manca"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Verbleibendes anzeigen"
           }
         }
       }
@@ -1013,6 +1223,12 @@
             "state" : "translated",
             "value" : "Aggiungi un segnaposto personale"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persönliche Markierung hinzufügen"
+          }
         }
       }
     },
@@ -1040,6 +1256,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annulla"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
           }
         }
       }
@@ -1069,6 +1291,12 @@
             "state" : "translated",
             "value" : "Cosa vuoi fare qui?"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was möchtest du hier tun?"
+          }
         }
       }
     },
@@ -1096,6 +1324,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Proponi un luogo"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ort vorschlagen"
           }
         }
       }
@@ -1126,6 +1360,12 @@
             "state" : "translated",
             "value" : "Assegna un nome a questo segnaposto"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markierung benennen"
+          }
         }
       }
     },
@@ -1154,6 +1394,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annulla"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
           }
         }
       }
@@ -1184,6 +1430,12 @@
             "state" : "translated",
             "value" : "Salva"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern"
+          }
         }
       }
     },
@@ -1211,6 +1463,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "I miei segnaposti"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meine Markierungen"
           }
         }
       }
@@ -1240,6 +1498,12 @@
             "state" : "translated",
             "value" : "Pianifica percorso"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Route planen"
+          }
         }
       }
     },
@@ -1267,6 +1531,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hai trovato tutto — nessun percorso da tracciare!"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles gefunden — keine Route mehr nötig!"
           }
         }
       }
@@ -1296,6 +1566,12 @@
             "state" : "translated",
             "value" : "Tappa %d"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopp %d"
+          }
         }
       }
     },
@@ -1323,6 +1599,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Percorso ottimizzato"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimierte Route"
           }
         }
       }
@@ -1353,6 +1635,12 @@
             "state" : "translated",
             "value" : "Cerca sulla mappa"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karte durchsuchen"
+          }
         }
       }
     },
@@ -1380,6 +1668,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nascondi i luoghi di questo collaboratore"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orte dieses Mitwirkenden ausblenden"
           }
         }
       }
@@ -1409,6 +1703,12 @@
             "state" : "translated",
             "value" : "Annulla"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
+          }
         }
       }
     },
@@ -1436,6 +1736,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nascondi"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausblenden"
           }
         }
       }
@@ -1465,6 +1771,12 @@
             "state" : "translated",
             "value" : "Non vedrai più i suoi luoghi. Puoi annullare questa scelta nelle Impostazioni."
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du siehst die Orte dieser Person nicht mehr. Du kannst das in den Einstellungen rückgängig machen."
+          }
         }
       }
     },
@@ -1493,6 +1805,12 @@
             "state" : "translated",
             "value" : "Nascondere i luoghi di %@?"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orte von %@ ausblenden?"
+          }
         }
       }
     },
@@ -1517,6 +1835,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Community"
+          }
+        },
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Community"
@@ -1549,6 +1873,12 @@
             "state" : "translated",
             "value" : "Segnala"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melden"
+          }
         }
       }
     },
@@ -1576,6 +1906,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Segnalato — grazie per averlo indicato."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemeldet — danke für den Hinweis."
           }
         }
       }
@@ -1605,6 +1941,12 @@
             "state" : "translated",
             "value" : "Sblocca Pro"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro freischalten"
+          }
         }
       }
     },
@@ -1632,6 +1974,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chiudi"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
           }
         }
       }
@@ -1661,6 +2009,12 @@
             "state" : "translated",
             "value" : "Nessuna pubblicità"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Werbung"
+          }
         }
       }
     },
@@ -1688,6 +2042,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifiche per i luoghi seguiti"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtigungen für verfolgte Orte"
           }
         }
       }
@@ -1717,6 +2077,12 @@
             "state" : "translated",
             "value" : "Modalità mappa \"Cosa manca da fare\""
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartenmodus „Was noch zu tun ist“"
+          }
         }
       }
     },
@@ -1744,6 +2110,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pianificatore di percorsi ottimizzato per gli oggetti da collezione"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimierter Routenplaner für Sammelobjekte"
           }
         }
       }
@@ -1773,6 +2145,12 @@
             "state" : "translated",
             "value" : "Sincronizzazione cloud tra iPhone e iPad"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud-Synchronisierung zwischen iPhone und iPad"
+          }
         }
       }
     },
@@ -1800,6 +2178,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icone e temi esclusivi"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exklusive App-Icons und Designs"
           }
         }
       }
@@ -1829,6 +2213,12 @@
             "state" : "translated",
             "value" : "Widget per schermata Home e schermata di blocco"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets für Home- und Sperrbildschirm"
+          }
         }
       }
     },
@@ -1856,6 +2246,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ripristina acquisti"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Käufe wiederherstellen"
           }
         }
       }
@@ -1885,6 +2281,12 @@
             "state" : "translated",
             "value" : "Comodità e strumenti — mai i contenuti informativi."
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komfort und Werkzeuge — niemals die Fakten."
+          }
         }
       }
     },
@@ -1909,6 +2311,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neon Compass Pro"
+          }
+        },
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Neon Compass Pro"
@@ -1942,6 +2350,12 @@
             "state" : "translated",
             "value" : "Trovato"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefunden"
+          }
         }
       }
     },
@@ -1971,6 +2385,12 @@
             "state" : "translated",
             "value" : "Segna come trovato"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als gefunden markieren"
+          }
         }
       }
     },
@@ -1998,6 +2418,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Non hai nascosto nessuno."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du hast noch niemanden ausgeblendet."
           }
         }
       }
@@ -2027,6 +2453,12 @@
             "state" : "translated",
             "value" : "Collaboratori nascosti"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgeblendete Mitwirkende"
+          }
         }
       }
     },
@@ -2054,6 +2486,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostra di nuovo"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wieder einblenden"
           }
         }
       }
@@ -2083,6 +2521,12 @@
             "state" : "translated",
             "value" : "Elimina account"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konto löschen"
+          }
         }
       }
     },
@@ -2110,6 +2554,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annulla"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
           }
         }
       }
@@ -2139,6 +2589,12 @@
             "state" : "translated",
             "value" : "Elimina"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
         }
       }
     },
@@ -2166,6 +2622,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Questa azione elimina definitivamente il tuo profilo e non può essere annullata."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dadurch wird dein Profil dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden."
           }
         }
       }
@@ -2195,6 +2657,12 @@
             "state" : "translated",
             "value" : "Eliminare il tuo account?"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konto löschen?"
+          }
         }
       }
     },
@@ -2222,6 +2690,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avvisami per"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtige mich über"
           }
         }
       }
@@ -2251,6 +2725,12 @@
             "state" : "translated",
             "value" : "Rigenera il nome utente"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namen neu generieren"
+          }
         }
       }
     },
@@ -2278,6 +2758,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icona dell'app"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Symbol"
           }
         }
       }
@@ -2307,6 +2793,12 @@
             "state" : "translated",
             "value" : "Ancora nessun contributo."
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Beiträge."
+          }
         }
       }
     },
@@ -2334,6 +2826,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Approvato"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genehmigt"
           }
         }
       }
@@ -2363,6 +2861,12 @@
             "state" : "translated",
             "value" : "In attesa di revisione"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung ausstehend"
+          }
         }
       }
     },
@@ -2390,6 +2894,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rifiutato"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abgelehnt"
           }
         }
       }
@@ -2419,6 +2929,12 @@
             "state" : "translated",
             "value" : "I miei contributi"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meine Beiträge"
+          }
         }
       }
     },
@@ -2443,6 +2959,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PRO"
+          }
+        },
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PRO"
@@ -2475,6 +2997,12 @@
             "state" : "translated",
             "value" : "Passa a Pro"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Pro upgraden"
+          }
         }
       }
     },
@@ -2502,6 +3030,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accedi per salvare i tuoi progressi su tutti i dispositivi e contribuire alla mappa."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melde dich an, um deinen Fortschritt geräteübergreifend zu speichern und zur Karte beizutragen."
           }
         }
       }
@@ -2531,6 +3065,12 @@
             "state" : "translated",
             "value" : "Esci"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abmelden"
+          }
         }
       }
     },
@@ -2558,6 +3098,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tema"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Design"
           }
         }
       }
@@ -2587,6 +3133,12 @@
             "state" : "translated",
             "value" : "Nessun trofeo pubblicato ancora — ricontrolla più vicino al lancio."
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Trophäen veröffentlicht — schau näher am Release wieder vorbei."
+          }
         }
       }
     },
@@ -2614,6 +3166,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trofei"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trophäen"
           }
         }
       }
@@ -2644,6 +3202,12 @@
             "state" : "translated",
             "value" : "Trucchi"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cheats"
+          }
         }
       }
     },
@@ -2672,6 +3236,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Novità"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "News"
           }
         }
       }
@@ -2702,6 +3272,12 @@
             "state" : "translated",
             "value" : "Mappa"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karte"
+          }
         }
       }
     },
@@ -2730,6 +3306,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profilo"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
           }
         }
       }
@@ -2760,6 +3342,12 @@
             "state" : "translated",
             "value" : "Progressi"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortschritt"
+          }
         }
       }
     },
@@ -2787,6 +3375,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impulso Ciano"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cyan-Puls"
           }
         }
       }
@@ -2816,6 +3410,12 @@
             "state" : "translated",
             "value" : "Deriva Magenta"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Magenta-Drift"
+          }
         }
       }
     },
@@ -2843,6 +3443,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sovraccarico al Tramonto"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonnenuntergangs-Overdrive"
           }
         }
       }
@@ -2872,6 +3478,12 @@
             "state" : "translated",
             "value" : "I tuoi progressi di raccolta e il trucco preferito, in un colpo d'occhio."
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Sammelfortschritt und dein Lieblings-Cheat auf einen Blick."
+          }
         }
       }
     },
@@ -2900,6 +3512,12 @@
             "state" : "translated",
             "value" : "Progressi Neon Compass"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neon Compass Fortschritt"
+          }
         }
       }
     },
@@ -2927,6 +3545,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sblocca Pro per i widget"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro freischalten für Widgets"
           }
         }
       }
