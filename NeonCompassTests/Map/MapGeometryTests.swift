@@ -79,6 +79,32 @@ struct MapGeometryTests {
         #expect(abs(scale - 844.0 / 2048.0) < 0.0001)
     }
 
+    /// Le plancher de zoom de la carte est l'échelle « cover » et non plus
+    /// « contain » : c'est ce qui garantit qu'on ne peut jamais dézoomer
+    /// jusqu'à faire apparaître des bandes vides autour de la carte. Vrai pour
+    /// tout viewport non carré, et égal pour un viewport carré.
+    @Test func coverIsNeverSmallerThanFitSoTheFloorLeavesNoLetterboxing() {
+        let content = CGSize(width: 2048, height: 2048)
+        for bounds in [CGSize(width: 402, height: 874),   // iPhone portrait
+                       CGSize(width: 874, height: 402),   // paysage
+                       CGSize(width: 1024, height: 1366), // iPad portrait
+                       CGSize(width: 500, height: 500)] { // carré
+            let fit = MapGeometry.fitZoomScale(contentSize: content, in: bounds)
+            let cover = MapGeometry.coverZoomScale(contentSize: content, in: bounds)
+            #expect(cover >= fit, "cover doit couvrir au moins autant que fit pour \(bounds)")
+        }
+    }
+
+    /// À l'échelle de repos, la carte remplit les deux axes : aucun inset de
+    /// centrage n'est nécessaire, donc aucune bande.
+    @Test func restingScaleLeavesNoCenteringInsets() {
+        let content = CGSize(width: 2048, height: 2048)
+        let bounds = CGSize(width: 402, height: 874)
+        let cover = MapGeometry.coverZoomScale(contentSize: content, in: bounds)
+        let insets = MapGeometry.centeringInsets(contentSize: content, zoomScale: cover, in: bounds)
+        #expect(insets == ContentInsets(top: 0, left: 0, bottom: 0, right: 0))
+    }
+
     @Test func coverZoomScaleNeverUpscalesPastOne() {
         let scale = MapGeometry.coverZoomScale(contentSize: CGSize(width: 100, height: 100), in: CGSize(width: 390, height: 844))
         #expect(scale == 1)

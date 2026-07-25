@@ -23,6 +23,24 @@ final class MapModel {
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
     }
 
+    /// Quels POI afficher pour la carte sélectionnée.
+    ///
+    /// La séparation est stricte et doit le rester : les positions de la
+    /// fixture sont normalisées SUR la carte de référence. Les afficher sur le
+    /// placeholder du jeu à venir poserait plus de mille pins à des endroits
+    /// qui ne veulent rien dire. C'est pourquoi il n'y a délibérément aucun
+    /// repli de l'un vers l'autre — une carte `leonida` sans contenu distant
+    /// reste vide, et c'est le comportement correct.
+    ///
+    /// `reference` est en `@autoclosure` : décoder la fixture coûte un parse
+    /// JSON de ~200 Ko, inutile quand on affiche l'autre carte.
+    static func pois(for game: MapGame, remote: [POI], reference: @autoclosure () -> [POI]) -> [POI] {
+        switch game {
+        case .leonida: remote
+        case .reference: reference()
+        }
+    }
+
     private var currentLanguageCode: String {
         Locale.current.language.languageCode?.identifier ?? "en"
     }

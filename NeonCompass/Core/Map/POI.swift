@@ -58,10 +58,16 @@ enum POILoader {
         try JSONDecoder().decode([POI].self, from: data)
     }
 
+    /// Le repli sans sous-dossier n'est pas cosmétique : selon que
+    /// `Resources/POI` est déclaré `type: folder` ou non dans project.yml,
+    /// XcodeGen place le fichier dans `POI/` ou à plat à la racine du bundle.
+    /// La variante folder est celle attendue (voir project.yml), mais un
+    /// lookup qui échoue ici vide silencieusement la carte de tous ses POI —
+    /// trop coûteux pour dépendre d'un seul chemin.
     static func loadSeed(from bundle: Bundle = .main) throws -> [POI] {
-        guard let url = bundle.url(forResource: "seed-poi", withExtension: "json", subdirectory: "POI") else {
-            throw LoaderError.missingResource
-        }
+        let url = bundle.url(forResource: "seed-poi", withExtension: "json", subdirectory: "POI")
+            ?? bundle.url(forResource: "seed-poi", withExtension: "json")
+        guard let url else { throw LoaderError.missingResource }
         return try decode(Data(contentsOf: url))
     }
 }

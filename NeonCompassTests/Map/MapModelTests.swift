@@ -60,6 +60,37 @@ struct MapModelTests {
         #expect(!model.foundPOIIDs.contains(poi.id))
     }
 
+    @Test func referenceMapUsesBundledFixture() {
+        let remote = [makePOI(id: "poi_remote", position: nil)]
+        let fixture = [makePOI(id: "poi_fixture", position: NormalizedPoint(x: 0.5, y: 0.5))]
+        #expect(MapModel.pois(for: .reference, remote: remote, reference: fixture).map(\.id) == ["poi_fixture"])
+    }
+
+    // Invariant de correction, pas de confort : les positions de la fixture
+    // sont normalisées sur la carte de référence. Un repli vers elle quand le
+    // contenu distant est vide poserait plus de mille pins n'importe où sur le
+    // placeholder. Une carte `leonida` sans contenu DOIT rester vide.
+    @Test func leonidaMapNeverFallsBackToFixture() {
+        let fixture = [makePOI(id: "poi_fixture", position: NormalizedPoint(x: 0.5, y: 0.5))]
+        #expect(MapModel.pois(for: .leonida, remote: [], reference: fixture).isEmpty)
+        let unplaceable = [makePOI(id: "poi_remote", position: nil)]
+        #expect(MapModel.pois(for: .leonida, remote: unplaceable, reference: fixture).map(\.id) == ["poi_remote"])
+    }
+
+    /// La fixture ne doit pas être décodée quand on affiche l'autre carte —
+    /// le parse JSON coûte ~200 Ko pour rien.
+    @Test func fixtureIsNotDecodedForLeonidaMap() {
+        final class Flag: @unchecked Sendable { var evaluated = false }
+        let flag = Flag()
+        _ = MapModel.pois(for: .leonida, remote: [], reference: { flag.evaluated = true; return [] }())
+        #expect(!flag.evaluated)
+    }
+
+    private func makePOI(id: String, position: NormalizedPoint?) -> POI {
+        POI(id: id, category: .landmark, position: position,
+            title: LocalizedText(en: "T", fr: nil, es: nil, it: nil, de: nil), note: nil)
+    }
+
     @Test func addAndDeletePersonalPin() {
         let model = MapModel(pois: [], modelContext: makeContext())
         #expect(model.personalPins.isEmpty)
