@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_spaceship_part_66",
+  "category": "collectible",
+  "position": {
+    "x": 0.412109,
+    "y": 0.557617
+  },
+  "title": {
+    "en": "Spaceship Part #35 - Vinewood Hills",
+    "fr": "Pièce de vaisseau #35 - Vinewood Hills"
+  },
+  "note": {
+    "en": "By the side of the lake is a small stone building. If you dive into the lake just to the right of the building, you should see the Spaceship Part behind you on the seafloor next to the side of the stone wall."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#66"
+}

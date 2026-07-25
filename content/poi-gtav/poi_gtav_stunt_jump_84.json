@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_84",
+  "category": "activity",
+  "position": {
+    "x": 0.432943,
+    "y": 0.649414
+  },
+  "title": {
+    "en": "Stunt Jump #3 - Textile City",
+    "fr": "Saut cascade #3 - Textile City"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#84"
+}

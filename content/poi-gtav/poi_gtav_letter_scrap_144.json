@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_144",
+  "category": "collectible",
+  "position": {
+    "x": 0.485677,
+    "y": 0.592773
+  },
+  "title": {
+    "en": "Letter Scrap #13 - Vinewood Racetrack",
+    "fr": "Fragment de lettre #13 - Vinewood Racetrack"
+  },
+  "note": {
+    "en": "This one is in the stand facing the racetrack. Go up the stairs in front of the “Information” entrance, and the Letter will be on the fifth row of seats up."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#144"
+}

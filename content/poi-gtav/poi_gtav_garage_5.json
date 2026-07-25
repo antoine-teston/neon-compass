@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_garage_5",
+  "category": "safehouse",
+  "position": {
+    "x": 0.409993,
+    "y": 0.566799
+  },
+  "title": {
+    "en": "Garage — Franklin - Hills",
+    "fr": "Garage — Franklin - Hills"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage#5"
+}

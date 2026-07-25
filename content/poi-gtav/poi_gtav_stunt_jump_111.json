@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_111",
+  "category": "activity",
+  "position": {
+    "x": 0.363607,
+    "y": 0.681966
+  },
+  "title": {
+    "en": "Stunt Jump #30 - Little Seoul/Adam's Apple Blvd",
+    "fr": "Saut cascade #30 - Little Seoul/Adam's Apple Blvd"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#111"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_glitch_77",
+  "category": "activity",
+  "position": {
+    "x": 0.291667,
+    "y": 0.683911
+  },
+  "title": {
+    "en": "Rollercoaster seat glitch"
+  },
+  "note": {
+    "en": "Go to Rollercoaster. Choose a seat on the Rollercoaster. Someone can choose the same seat as you and will sit \"inside\" of you. (More people can also sit in the same exact seat)"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#77"
+}

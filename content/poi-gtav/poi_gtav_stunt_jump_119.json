@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_119",
+  "category": "activity",
+  "position": {
+    "x": 0.332357,
+    "y": 0.603841
+  },
+  "title": {
+    "en": "Stunt Jump #38 - GWC Golfing Society",
+    "fr": "Saut cascade #38 - GWC Golfing Society"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#119"
+}

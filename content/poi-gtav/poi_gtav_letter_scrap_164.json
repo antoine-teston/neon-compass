@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_164",
+  "category": "collectible",
+  "position": {
+    "x": 0.190104,
+    "y": 0.59668
+  },
+  "title": {
+    "en": "Letter Scrap #33 - Pacific Bluffs",
+    "fr": "Fragment de lettre #33 - Pacific Bluffs"
+  },
+  "note": {
+    "en": "This is really easy to spot, located on the bar next to the swimming pool."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#164"
+}

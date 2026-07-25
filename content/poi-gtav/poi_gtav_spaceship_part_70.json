@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_spaceship_part_70",
+  "category": "collectible",
+  "position": {
+    "x": 0.272786,
+    "y": 0.50651
+  },
+  "title": {
+    "en": "Spaceship Part #39 - Tongva Hills",
+    "fr": "Pièce de vaisseau #39 - Tongva Hills"
+  },
+  "note": {
+    "en": "On your map you should see a stream going off from the side of the road. Follow this stream about halfway and you should see an opening in the rock face in front of you. Just inside the entrance is this Spaceship Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#70"
+}

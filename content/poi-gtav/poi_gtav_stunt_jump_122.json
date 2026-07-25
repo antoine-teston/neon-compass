@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_122",
+  "category": "activity",
+  "position": {
+    "x": 0.342773,
+    "y": 0.305339
+  },
+  "title": {
+    "en": "Stunt Jump #41 - Raton Canyon",
+    "fr": "Saut cascade #41 - Raton Canyon"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#122"
+}

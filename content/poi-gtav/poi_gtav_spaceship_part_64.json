@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_spaceship_part_64",
+  "category": "collectible",
+  "position": {
+    "x": 0.381185,
+    "y": 0.614909
+  },
+  "title": {
+    "en": "Spaceship Part #33 - Burton",
+    "fr": "Pièce de vaisseau #33 - Burton"
+  },
+  "note": {
+    "en": "[Helicopter Required] This Part is located in the empty swimming pool on the roof of the hotel. Fly up there and jump down into the pool to grab it."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#64"
+}

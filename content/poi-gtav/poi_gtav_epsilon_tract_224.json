@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_epsilon_tract_224",
+  "category": "collectible",
+  "position": {
+    "x": 0.405111,
+    "y": 0.66276
+  },
+  "title": {
+    "en": "Epsilon Tract #9",
+    "fr": "Tract Epsilon #9"
+  },
+  "note": {
+    "en": "“The tallest obelisk of glass and steel holds no comparison to the word of Kraff”."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#224"
+}

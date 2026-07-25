@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_133",
+  "category": "collectible",
+  "position": {
+    "x": 0.514974,
+    "y": 0.13151
+  },
+  "title": {
+    "en": "Letter Scrap #2 - Paleto Bay",
+    "fr": "Fragment de lettre #2 - Paleto Bay"
+  },
+  "note": {
+    "en": "By the side of the circular road is a small wooden building which seems to be a public toilet. On the left hand side, up a couple of steps and in front of the “Male” toilet sign, is this Letter."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#133"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_127",
+  "category": "activity",
+  "position": {
+    "x": 0.527344,
+    "y": 0.345052
+  },
+  "title": {
+    "en": "Stunt Jump #46 - Sandy Shores",
+    "fr": "Saut cascade #46 - Sandy Shores"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#127"
+}

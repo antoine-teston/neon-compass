@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_story_vehicle_2",
+  "category": "vehicle",
+  "position": {
+    "x": 0.624348,
+    "y": 0.403983
+  },
+  "title": {
+    "en": "Bulldozer"
+  },
+  "note": {
+    "en": "Located in the quarry in Tataviam Mountains."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#2"
+}

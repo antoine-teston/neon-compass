@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_91",
+  "category": "activity",
+  "position": {
+    "x": 0.516927,
+    "y": 0.766276
+  },
+  "title": {
+    "en": "Stunt Jump #10 - El Burro Heights",
+    "fr": "Saut cascade #10 - El Burro Heights"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#91"
+}

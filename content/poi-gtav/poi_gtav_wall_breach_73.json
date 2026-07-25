@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_wall_breach_73",
+  "category": "activity",
+  "position": {
+    "x": 0.344644,
+    "y": 0.695392
+  },
+  "title": {
+    "en": "Parking Garage Under Tennis Courts in La Puerta"
+  },
+  "note": {
+    "en": "Go to location indicated and locate the bushes to the right of the fenced-off entrance of the parking garage. Stand between the two bushes shown and press Box to climb in."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#73"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_137",
+  "category": "collectible",
+  "position": {
+    "x": 0.506185,
+    "y": 0.292643
+  },
+  "title": {
+    "en": "Letter Scrap #6 - Galilee",
+    "fr": "Fragment de lettre #6 - Galilee"
+  },
+  "note": {
+    "en": "There will be a few houses overlooking a jetty and a lake. In front of the one with the red door and a metal boat frame outside will be this Letter."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#137"
+}

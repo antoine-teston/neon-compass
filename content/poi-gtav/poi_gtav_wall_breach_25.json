@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_wall_breach_25",
+  "category": "activity",
+  "position": {
+    "x": 0.339193,
+    "y": 0.675125
+  },
+  "title": {
+    "en": "Vespucci Canals building"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Climb over the wall and walk straight into the building."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#25"
+}

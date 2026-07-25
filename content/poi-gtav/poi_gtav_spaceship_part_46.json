@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_spaceship_part_46",
+  "category": "collectible",
+  "position": {
+    "x": 0.552083,
+    "y": 0.564779
+  },
+  "title": {
+    "en": "Spaceship Part #15 - Tatavium Mountains",
+    "fr": "Pièce de vaisseau #15 - Tatavium Mountains"
+  },
+  "note": {
+    "en": "You will see five pipes running down into the water. In the left-hand pipe is the Spaceship Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#46"
+}

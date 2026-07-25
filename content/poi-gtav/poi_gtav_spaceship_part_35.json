@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_spaceship_part_35",
+  "category": "collectible",
+  "position": {
+    "x": 0.684896,
+    "y": 0.282878
+  },
+  "title": {
+    "en": "Spaceship Part #4 - San Chianski Mountain Range",
+    "fr": "Pièce de vaisseau #4 - San Chianski Mountain Range"
+  },
+  "note": {
+    "en": "At the top of the mountain trail there will be a circular road. By the side of it is a wrecked red boat next to a barn. Inside this barn is the Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#35"
+}

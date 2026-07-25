@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_garage_20",
+  "category": "safehouse",
+  "position": {
+    "x": 0.406281,
+    "y": 0.707544
+  },
+  "title": {
+    "en": "Garage — Franklin - Aunt",
+    "fr": "Garage — Franklin - Aunt"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage#20"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_garage_10",
+  "category": "safehouse",
+  "position": {
+    "x": 0.519058,
+    "y": 0.761345
+  },
+  "title": {
+    "en": "Garage — Lockup_CSY_02",
+    "fr": "Garage — Lockup_CSY_02"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage#10"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_129",
+  "category": "activity",
+  "position": {
+    "x": 0.533529,
+    "y": 0.439128
+  },
+  "title": {
+    "en": "Stunt Jump #48 - Grand Senora Desert",
+    "fr": "Saut cascade #48 - Grand Senora Desert"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#129"
+}

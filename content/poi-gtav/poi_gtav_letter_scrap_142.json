@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_142",
+  "category": "collectible",
+  "position": {
+    "x": 0.632161,
+    "y": 0.485026
+  },
+  "title": {
+    "en": "Letter Scrap #11 - Pacific Ocean",
+    "fr": "Fragment de lettre #11 - Pacific Ocean"
+  },
+  "note": {
+    "en": "This is located on the first island south of No.10. Swim or drive to the island and the Letter will be amongst the rocks on the northern section of the island."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#142"
+}

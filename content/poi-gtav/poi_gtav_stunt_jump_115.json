@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_115",
+  "category": "activity",
+  "position": {
+    "x": 0.294922,
+    "y": 0.658854
+  },
+  "title": {
+    "en": "Stunt Jump #34 - Del Perro/Equality Way",
+    "fr": "Saut cascade #34 - Del Perro/Equality Way"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#115"
+}

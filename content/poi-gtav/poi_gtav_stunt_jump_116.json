@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_116",
+  "category": "activity",
+  "position": {
+    "x": 0.262044,
+    "y": 0.625651
+  },
+  "title": {
+    "en": "Stunt Jump #35 - Pacific Bluffs",
+    "fr": "Saut cascade #35 - Pacific Bluffs"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#116"
+}

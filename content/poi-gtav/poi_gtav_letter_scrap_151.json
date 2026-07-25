@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_151",
+  "category": "collectible",
+  "position": {
+    "x": 0.518555,
+    "y": 0.757813
+  },
+  "title": {
+    "en": "Letter Scrap #20 - El Burro Heights",
+    "fr": "Fragment de lettre #20 - El Burro Heights"
+  },
+  "note": {
+    "en": "Inside the middle building in this area is a rusty sheltered area with a green roof and a skip next to it. In this small area is the Letter."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#151"
+}

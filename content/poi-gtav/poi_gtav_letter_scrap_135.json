@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_135",
+  "category": "collectible",
+  "position": {
+    "x": 0.547201,
+    "y": 0.239583
+  },
+  "title": {
+    "en": "Letter Scrap #4 - Mount Chiliad",
+    "fr": "Fragment de lettre #4 - Mount Chiliad"
+  },
+  "note": {
+    "en": "You will come across a farming area where crops are growing inside white canvas “tunnels”. Looking down the hill, the second tunnel on the left will contain the Letter, about halfway down."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#135"
+}

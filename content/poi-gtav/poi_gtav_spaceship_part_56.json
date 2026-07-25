@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_spaceship_part_56",
+  "category": "collectible",
+  "position": {
+    "x": 0.430664,
+    "y": 0.708008
+  },
+  "title": {
+    "en": "Spaceship Part #25 - Davis / Innocence Blvd",
+    "fr": "Pièce de vaisseau #25 - Davis / Innocence Blvd"
+  },
+  "note": {
+    "en": "This Part is located on the roof of Central Los Santos Medical Centre. Climb up the stairs to the top of the first roof, then up the ladder to get onto the highest roof. The Spaceship Part will be next to the helicopter on the right-hand side."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#56"
+}

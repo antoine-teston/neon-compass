@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_garage_8",
+  "category": "safehouse",
+  "position": {
+    "x": 0.575283,
+    "y": 0.382222
+  },
+  "title": {
+    "en": "Garage — Lockup_PSY_03",
+    "fr": "Garage — Lockup_PSY_03"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage#8"
+}

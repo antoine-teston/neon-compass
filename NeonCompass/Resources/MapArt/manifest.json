@@ -1,5 +1,9 @@
 {
   "size": 2048,
-  "source": "island-placeholder.svg",
-  "sourceSha256": "3fd8c2cbc50103a2"
+  "source": "gtav:atlas:z6",
+  "sourceSha256": "099954f0b083e247",
+  "classicSha256": "7a7acc69cc583530",
+  "pixels": 4096,
+  "fraction": 0.375,
+  "tiles": "24x24"
 }

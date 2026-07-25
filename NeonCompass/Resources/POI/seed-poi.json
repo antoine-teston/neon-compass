@@ -1,23 +1,7361 @@
 [
   {
-    "id": "poi_sample_lighthouse",
-    "category": "landmark",
-    "position": { "x": 0.62, "y": 0.30 },
-    "title": { "en": "Old Harbor Lighthouse", "fr": "Phare du vieux port" },
-    "note": { "en": "Sample POI used to validate the map engine before launch." }
-  },
-  {
-    "id": "poi_sample_dock",
-    "category": "activity",
-    "position": { "x": 0.55, "y": 0.55 },
-    "title": { "en": "Fishing Dock", "fr": "Quai de pêche" },
-    "note": { "en": "Sample POI used to validate the map engine before launch." }
-  },
-  {
-    "id": "poi_sample_overlook",
+    "id": "poi_gtav_nuclear_waste_1",
     "category": "collectible",
-    "position": { "x": 0.40, "y": 0.20 },
-    "title": { "en": "Hillside Overlook", "fr": "Point de vue" },
-    "note": { "en": "Sample POI used to validate the map engine before launch." }
+    "position": {
+      "x": 0.30753,
+      "y": 0.188965
+    },
+    "title": {
+      "en": "Nuclear Waste #1",
+      "fr": "Déchets nucléaires #1"
+    },
+    "note": {
+      "en": "Depth: 83"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_2",
+    "category": "collectible",
+    "position": {
+      "x": 0.328856,
+      "y": 0.154591
+    },
+    "title": {
+      "en": "Nuclear Waste #2",
+      "fr": "Déchets nucléaires #2"
+    },
+    "note": {
+      "en": "Depth: 96"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_3",
+    "category": "collectible",
+    "position": {
+      "x": 0.362637,
+      "y": 0.112599
+    },
+    "title": {
+      "en": "Nuclear Waste #3",
+      "fr": "Déchets nucléaires #3"
+    },
+    "note": {
+      "en": "Depth: 85"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_4",
+    "category": "collectible",
+    "position": {
+      "x": 0.489706,
+      "y": 0.094236
+    },
+    "title": {
+      "en": "Nuclear Waste #4",
+      "fr": "Déchets nucléaires #4"
+    },
+    "note": {
+      "en": "Depth: 443"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_5",
+    "category": "collectible",
+    "position": {
+      "x": 0.511111,
+      "y": 0.114093
+    },
+    "title": {
+      "en": "Nuclear Waste #5",
+      "fr": "Déchets nucléaires #5"
+    },
+    "note": {
+      "en": "Depth: 122"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_6",
+    "category": "collectible",
+    "position": {
+      "x": 0.531055,
+      "y": 0.105304
+    },
+    "title": {
+      "en": "Nuclear Waste #6",
+      "fr": "Déchets nucléaires #6"
+    },
+    "note": {
+      "en": "Depth: 432"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_7",
+    "category": "collectible",
+    "position": {
+      "x": 0.591616,
+      "y": 0.109535
+    },
+    "title": {
+      "en": "Nuclear Waste #7",
+      "fr": "Déchets nucléaires #7"
+    },
+    "note": {
+      "en": "Depth: 462"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_8",
+    "category": "collectible",
+    "position": {
+      "x": 0.603827,
+      "y": 0.10921
+    },
+    "title": {
+      "en": "Nuclear Waste #8",
+      "fr": "Déchets nucléaires #8"
+    },
+    "note": {
+      "en": "Depth: 496"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_9",
+    "category": "collectible",
+    "position": {
+      "x": 0.630035,
+      "y": 0.136362
+    },
+    "title": {
+      "en": "Nuclear Waste #9",
+      "fr": "Déchets nucléaires #9"
+    },
+    "note": {
+      "en": "Depth: 70"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_10",
+    "category": "collectible",
+    "position": {
+      "x": 0.638744,
+      "y": 0.137339
+    },
+    "title": {
+      "en": "Nuclear Waste #10",
+      "fr": "Déchets nucléaires #10"
+    },
+    "note": {
+      "en": "Depth: 97"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_11",
+    "category": "collectible",
+    "position": {
+      "x": 0.704355,
+      "y": 0.331247
+    },
+    "title": {
+      "en": "Nuclear Waste #11",
+      "fr": "Déchets nucléaires #11"
+    },
+    "note": {
+      "en": "Depth: 113"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_12",
+    "category": "collectible",
+    "position": {
+      "x": 0.68954,
+      "y": 0.335805
+    },
+    "title": {
+      "en": "Nuclear Waste #12",
+      "fr": "Déchets nucléaires #12"
+    },
+    "note": {
+      "en": "Depth: 32"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_13",
+    "category": "collectible",
+    "position": {
+      "x": 0.687261,
+      "y": 0.338409
+    },
+    "title": {
+      "en": "Nuclear Waste #13",
+      "fr": "Déchets nucléaires #13"
+    },
+    "note": {
+      "en": "Depth: 68"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_14",
+    "category": "collectible",
+    "position": {
+      "x": 0.608384,
+      "y": 0.692998
+    },
+    "title": {
+      "en": "Nuclear Waste #14",
+      "fr": "Déchets nucléaires #14"
+    },
+    "note": {
+      "en": "Depth: 55"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_15",
+    "category": "collectible",
+    "position": {
+      "x": 0.6324,
+      "y": 0.718345
+    },
+    "title": {
+      "en": "Nuclear Waste #15",
+      "fr": "Déchets nucléaires #15"
+    },
+    "note": {
+      "en": "Depth: 465"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_16",
+    "category": "collectible",
+    "position": {
+      "x": 0.592593,
+      "y": 0.774399
+    },
+    "title": {
+      "en": "Nuclear Waste #16",
+      "fr": "Déchets nucléaires #16"
+    },
+    "note": {
+      "en": "Depth: 351"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_17",
+    "category": "collectible",
+    "position": {
+      "x": 0.561907,
+      "y": 0.808171
+    },
+    "title": {
+      "en": "Nuclear Waste #17",
+      "fr": "Déchets nucléaires #17"
+    },
+    "note": {
+      "en": "Depth: 153"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_18",
+    "category": "collectible",
+    "position": {
+      "x": 0.541963,
+      "y": 0.821843
+    },
+    "title": {
+      "en": "Nuclear Waste #18",
+      "fr": "Déchets nucléaires #18"
+    },
+    "note": {
+      "en": "Depth: 144"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_19",
+    "category": "collectible",
+    "position": {
+      "x": 0.279854,
+      "y": 0.69723
+    },
+    "title": {
+      "en": "Nuclear Waste #19",
+      "fr": "Déchets nucléaires #19"
+    },
+    "note": {
+      "en": "Depth: 58"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_20",
+    "category": "collectible",
+    "position": {
+      "x": 0.269922,
+      "y": 0.684534
+    },
+    "title": {
+      "en": "Nuclear Waste #20",
+      "fr": "Déchets nucléaires #20"
+    },
+    "note": {
+      "en": "Depth: 109"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_21",
+    "category": "collectible",
+    "position": {
+      "x": 0.246398,
+      "y": 0.677086
+    },
+    "title": {
+      "en": "Nuclear Waste #21",
+      "fr": "Déchets nucléaires #21"
+    },
+    "note": {
+      "en": "Depth: 210"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_22",
+    "category": "collectible",
+    "position": {
+      "x": 0.222222,
+      "y": 0.638171
+    },
+    "title": {
+      "en": "Nuclear Waste #22",
+      "fr": "Déchets nucléaires #22"
+    },
+    "note": {
+      "en": "Depth: 84"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_23",
+    "category": "collectible",
+    "position": {
+      "x": 0.191536,
+      "y": 0.618607
+    },
+    "title": {
+      "en": "Nuclear Waste #23",
+      "fr": "Déchets nucléaires #23"
+    },
+    "note": {
+      "en": "Depth: 62"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_24",
+    "category": "collectible",
+    "position": {
+      "x": 0.163288,
+      "y": 0.547023
+    },
+    "title": {
+      "en": "Nuclear Waste #24",
+      "fr": "Déchets nucléaires #24"
+    },
+    "note": {
+      "en": "Depth: 30"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_25",
+    "category": "collectible",
+    "position": {
+      "x": 0.179977,
+      "y": 0.450037
+    },
+    "title": {
+      "en": "Nuclear Waste #25",
+      "fr": "Déchets nucléaires #25"
+    },
+    "note": {
+      "en": "Depth: 84"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_26",
+    "category": "collectible",
+    "position": {
+      "x": 0.193815,
+      "y": 0.393878
+    },
+    "title": {
+      "en": "Nuclear Waste #26",
+      "fr": "Déchets nucléaires #26"
+    },
+    "note": {
+      "en": "Depth: 82"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_27",
+    "category": "collectible",
+    "position": {
+      "x": 0.17037,
+      "y": 0.377214
+    },
+    "title": {
+      "en": "Nuclear Waste #27",
+      "fr": "Déchets nucléaires #27"
+    },
+    "note": {
+      "en": "Depth: 167"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_28",
+    "category": "collectible",
+    "position": {
+      "x": 0.175904,
+      "y": 0.347523
+    },
+    "title": {
+      "en": "Nuclear Waste #28",
+      "fr": "Déchets nucléaires #28"
+    },
+    "note": {
+      "en": "Depth: 181"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_29",
+    "category": "collectible",
+    "position": {
+      "x": 0.211068,
+      "y": 0.301637
+    },
+    "title": {
+      "en": "Nuclear Waste #29",
+      "fr": "Déchets nucléaires #29"
+    },
+    "note": {
+      "en": "Depth: 354"
+    }
+  },
+  {
+    "id": "poi_gtav_nuclear_waste_30",
+    "category": "collectible",
+    "position": {
+      "x": 0.213672,
+      "y": 0.299033
+    },
+    "title": {
+      "en": "Nuclear Waste #30",
+      "fr": "Déchets nucléaires #30"
+    },
+    "note": {
+      "en": "Depth: 477"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_31",
+    "category": "collectible",
+    "position": {
+      "x": 0.344401,
+      "y": 0.129557
+    },
+    "title": {
+      "en": "Hidden Package #1"
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_32",
+    "category": "collectible",
+    "position": {
+      "x": 0.440104,
+      "y": 0.138346
+    },
+    "title": {
+      "en": "Spaceship Part #1 - Mount Chiliad",
+      "fr": "Pièce de vaisseau #1 - Mount Chiliad"
+    },
+    "note": {
+      "en": "You will come to a farm area with two large barns. One of the barns has a “Zancudo Grain Growers” logo painted on the side of it, and in the back of this barn on the floor is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_33",
+    "category": "collectible",
+    "position": {
+      "x": 0.56901,
+      "y": 0.203451
+    },
+    "title": {
+      "en": "Spaceship Part #2 - Mount Chiliad",
+      "fr": "Pièce de vaisseau #2 - Mount Chiliad"
+    },
+    "note": {
+      "en": "This is located in another farm area. The Spaceship Part is located inside the large shed with a red crate outside the entrance."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_34",
+    "category": "collectible",
+    "position": {
+      "x": 0.585286,
+      "y": 0.260742
+    },
+    "title": {
+      "en": "Spaceship Part #3 - Grapeseed",
+      "fr": "Pièce de vaisseau #3 - Grapeseed"
+    },
+    "note": {
+      "en": "There will be a field filled with metal pens in which cows are grazing. In the middle of this area lying on the floor is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_35",
+    "category": "collectible",
+    "position": {
+      "x": 0.684896,
+      "y": 0.282878
+    },
+    "title": {
+      "en": "Spaceship Part #4 - San Chianski Mountain Range",
+      "fr": "Pièce de vaisseau #4 - San Chianski Mountain Range"
+    },
+    "note": {
+      "en": "At the top of the mountain trail there will be a circular road. By the side of it is a wrecked red boat next to a barn. Inside this barn is the Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_36",
+    "category": "collectible",
+    "position": {
+      "x": 0.589844,
+      "y": 0.330404
+    },
+    "title": {
+      "en": "Spaceship Part #5 - San Chianski Mountain Range",
+      "fr": "Pièce de vaisseau #5 - San Chianski Mountain Range"
+    },
+    "note": {
+      "en": "You will come across a small hill decorated in colourful graffiti by alien cultists. On the top of this hill on a small ledge is a Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_37",
+    "category": "collectible",
+    "position": {
+      "x": 0.517008,
+      "y": 0.326335
+    },
+    "title": {
+      "en": "Spaceship Part #6 - Sandy Shores",
+      "fr": "Pièce de vaisseau #6 - Sandy Shores"
+    },
+    "note": {
+      "en": "This Part is located underwater in the small bay on the north of Sandy Shores. Dive down underwater and you will see the Part glowing brightly against the seafloor, so it’s hard to miss."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_38",
+    "category": "collectible",
+    "position": {
+      "x": 0.548584,
+      "y": 0.355306
+    },
+    "title": {
+      "en": "Spaceship Part #7 - Grand Senora Desert",
+      "fr": "Pièce de vaisseau #7 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "Next to the off-road trail is a rock formation. Up the small hill underneath the face of the rock is this Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_39",
+    "category": "collectible",
+    "position": {
+      "x": 0.551432,
+      "y": 0.394857
+    },
+    "title": {
+      "en": "Spaceship Part #8 - Grand Senora Desert",
+      "fr": "Pièce de vaisseau #8 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "By the side of the road will be 5 huge satellite dishes. If you’re looking at them from the main road, the right-hand most dish will have the Part. Climb up the stairs on the dish to get it."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_40",
+    "category": "collectible",
+    "position": {
+      "x": 0.472656,
+      "y": 0.398112
+    },
+    "title": {
+      "en": "Spaceship Part #9 - Grand Senora Desert",
+      "fr": "Pièce de vaisseau #9 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "You should see a large boat with the initials “LS 4145 RS” on the side of it amongst a few rusty trailers. The Part is located next to the boat."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_41",
+    "category": "collectible",
+    "position": {
+      "x": 0.423828,
+      "y": 0.443034
+    },
+    "title": {
+      "en": "Spaceship Part #10 - Grand Senora Desert",
+      "fr": "Pièce de vaisseau #10 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "By the side of the road you will see a derelict house with boarded up windows. Behind the house where the back porch was is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_42",
+    "category": "collectible",
+    "position": {
+      "x": 0.469401,
+      "y": 0.47168
+    },
+    "title": {
+      "en": "Spaceship Part #11 - Grand Senora Desert",
+      "fr": "Pièce de vaisseau #11 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "This Part is located down in the small rocky valley beside the road. It will be amongst some rocks."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_43",
+    "category": "collectible",
+    "position": {
+      "x": 0.51237,
+      "y": 0.445964
+    },
+    "title": {
+      "en": "Spaceship Part #12 - Grand Senora Desert",
+      "fr": "Pièce de vaisseau #12 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "On the top of the hill is a small house with a green roof and a US flag outside the front. Behind the house is a white banner strung between two posts with “Welcome” written on it. The Part is located under this banner."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_44",
+    "category": "collectible",
+    "position": {
+      "x": 0.633464,
+      "y": 0.448242
+    },
+    "title": {
+      "en": "Spaceship Part #13 - Ron Alternates Wind Farm",
+      "fr": "Pièce de vaisseau #13 - Ron Alternates Wind Farm"
+    },
+    "note": {
+      "en": "This Part is located inside a cavern, so you will need to either swim or use a boat/jetski to get inside. Once inside, dive down underwater and you will easily see the Part glowing."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_45",
+    "category": "collectible",
+    "position": {
+      "x": 0.619141,
+      "y": 0.547201
+    },
+    "title": {
+      "en": "Spaceship Part #14 - Tatavium Mountains",
+      "fr": "Pièce de vaisseau #14 - Tatavium Mountains"
+    },
+    "note": {
+      "en": "To the right of the large cavern entrance, there is a tiny beach. On this beach is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_46",
+    "category": "collectible",
+    "position": {
+      "x": 0.552083,
+      "y": 0.564779
+    },
+    "title": {
+      "en": "Spaceship Part #15 - Tatavium Mountains",
+      "fr": "Pièce de vaisseau #15 - Tatavium Mountains"
+    },
+    "note": {
+      "en": "You will see five pipes running down into the water. In the left-hand pipe is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_47",
+    "category": "collectible",
+    "position": {
+      "x": 0.53125,
+      "y": 0.601237
+    },
+    "title": {
+      "en": "Spaceship Part #16 - Davis",
+      "fr": "Pièce de vaisseau #16 - Davis"
+    },
+    "note": {
+      "en": "Down by the rocks is a small wooden jetty with two red safety rings housed on it. Dive underneath this jetty and the Spaceship Part will be on the seafloor."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_48",
+    "category": "collectible",
+    "position": {
+      "x": 0.499023,
+      "y": 0.683919
+    },
+    "title": {
+      "en": "Spaceship Part #17 - Murreta Heights",
+      "fr": "Pièce de vaisseau #17 - Murreta Heights"
+    },
+    "note": {
+      "en": "By the side of the freeway is an area where water comes out and flows down under the freeway. You should see a brown metal walkway with three concrete pillars jutting out from underneath it. On the middle of these pillars is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_49",
+    "category": "collectible",
+    "position": {
+      "x": 0.535482,
+      "y": 0.721354
+    },
+    "title": {
+      "en": "Spaceship Part #18 - El Burro Heights",
+      "fr": "Pièce de vaisseau #18 - El Burro Heights"
+    },
+    "note": {
+      "en": "In the construction area you will find two freight containers side by side. The green one has an opening and inside it is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_50",
+    "category": "collectible",
+    "position": {
+      "x": 0.52474,
+      "y": 0.80599
+    },
+    "title": {
+      "en": "Spaceship Part #19 - Pacific Ocean",
+      "fr": "Pièce de vaisseau #19 - Pacific Ocean"
+    },
+    "note": {
+      "en": "This one is located on a small island out to sea. Just swim the small distance to the island and then climb onto the rocks. The Part will be amongst the rocks."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_51",
+    "category": "collectible",
+    "position": {
+      "x": 0.491862,
+      "y": 0.791341
+    },
+    "title": {
+      "en": "Spaceship Part #20 - El Burro Heights",
+      "fr": "Pièce de vaisseau #20 - El Burro Heights"
+    },
+    "note": {
+      "en": "In front of the freeway-supporting wall with the “VAGOS” graffiti on it is a sewer pipe that pumps water out to sea. Right next to the pipe opening is the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_52",
+    "category": "collectible",
+    "position": {
+      "x": 0.455729,
+      "y": 0.836589
+    },
+    "title": {
+      "en": "Spaceship Part #21 - Elysian Island",
+      "fr": "Pièce de vaisseau #21 - Elysian Island"
+    },
+    "note": {
+      "en": "Underwater here will be the ruins of a metal structure. In amongst it is this Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_53",
+    "category": "collectible",
+    "position": {
+      "x": 0.434896,
+      "y": 0.802734
+    },
+    "title": {
+      "en": "Spaceship Part #22 - Elysian Island",
+      "fr": "Pièce de vaisseau #22 - Elysian Island"
+    },
+    "note": {
+      "en": "In between the two huge domes is a set of stairs. Take the first flight up and at the fork take the left staircase. Keep following the stairs and you’ll eventually come to a building with a ladder on top of the dome. Climb the ladder and drop down onto the pipe. Run along the pipe, and halfway between the two domes on the pipe will be the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_54",
+    "category": "collectible",
+    "position": {
+      "x": 0.436198,
+      "y": 0.75651
+    },
+    "title": {
+      "en": "Spaceship Part #23 - Rancho / Dutch London St",
+      "fr": "Pièce de vaisseau #23 - Rancho / Dutch London St"
+    },
+    "note": {
+      "en": "In a fenced area you will see four decorated alien-like sculptures that look like futuristic towers. Go inside the entrance and the ledge around the bottom of the right-hand tower will have the Spaceship Part on it."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_55",
+    "category": "collectible",
+    "position": {
+      "x": 0.322917,
+      "y": 0.855469
+    },
+    "title": {
+      "en": "Spaceship Part #24 - Los Santos International Airport",
+      "fr": "Pièce de vaisseau #24 - Los Santos International Airport"
+    },
+    "note": {
+      "en": "Right in the southern-most section of the airport, just inside the fence. This Part is located next to a dumpster and a stack of red, white, green and blue crates."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_56",
+    "category": "collectible",
+    "position": {
+      "x": 0.430664,
+      "y": 0.708008
+    },
+    "title": {
+      "en": "Spaceship Part #25 - Davis / Innocence Blvd",
+      "fr": "Pièce de vaisseau #25 - Davis / Innocence Blvd"
+    },
+    "note": {
+      "en": "This Part is located on the roof of Central Los Santos Medical Centre. Climb up the stairs to the top of the first roof, then up the ladder to get onto the highest roof. The Spaceship Part will be next to the helicopter on the right-hand side."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_57",
+    "category": "collectible",
+    "position": {
+      "x": 0.413086,
+      "y": 0.691081
+    },
+    "title": {
+      "en": "Spaceship Part #26 - Strawberry / Elgin Ave",
+      "fr": "Pièce de vaisseau #26 - Strawberry / Elgin Ave"
+    },
+    "note": {
+      "en": "Underneath the freeway is a campsite where the homeless are dwelling. The Spaceship Part will be in front of a couch with a red and pink sleeping bag on it."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_58",
+    "category": "collectible",
+    "position": {
+      "x": 0.44401,
+      "y": 0.656901
+    },
+    "title": {
+      "en": "Spaceship Part #27 - Textile City",
+      "fr": "Pièce de vaisseau #27 - Textile City"
+    },
+    "note": {
+      "en": "In this alleyway there will be numerous shops and market stalls. Find the “Bean Machine” coffee shop, and just to the right of it will be a small alcove where this Part can be found."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_59",
+    "category": "collectible",
+    "position": {
+      "x": 0.426107,
+      "y": 0.645508
+    },
+    "title": {
+      "en": "Spaceship Part #28 - Pillbox Hill",
+      "fr": "Pièce de vaisseau #28 - Pillbox Hill"
+    },
+    "note": {
+      "en": "[Helicopter Required] You will need to fly up to the top of the “Penris” building for this one. Land on the roof and grab the clearly-visible Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_60",
+    "category": "collectible",
+    "position": {
+      "x": 0.421549,
+      "y": 0.644206
+    },
+    "title": {
+      "en": "Spaceship Part #29 - Pillbox Hill",
+      "fr": "Pièce de vaisseau #29 - Pillbox Hill"
+    },
+    "note": {
+      "en": "This Part is located in a tunnel, the entrance of which can be found in Textile City. Drive into the tunnel and take a right at the fork. Keep driving along the train tracks until you are met with two enclosed tunnels. Take the left tunnel and drive through it until you are met with another choice of two tunnels. Take the right one this time and drive through it a short way until you come out into a room. Go up the ramp to the right to find some constructions workers stood around. The Spaceship Part is located behind the red barrier next to a table with a blueprint on it."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_61",
+    "category": "collectible",
+    "position": {
+      "x": 0.345052,
+      "y": 0.688151
+    },
+    "title": {
+      "en": "Spaceship Part #30 - Vespucci Canals",
+      "fr": "Pièce de vaisseau #30 - Vespucci Canals"
+    },
+    "note": {
+      "en": "Next to the road you will see a huge “Destroy The Ring” billboard. Climb up the ladder that goes up the billboard’s supporting pole. Go up the short ramp and then climb the second ladder. The Spaceship Part will be on the platform at the top of the billboard."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_62",
+    "category": "collectible",
+    "position": {
+      "x": 0.325521,
+      "y": 0.641927
+    },
+    "title": {
+      "en": "Spaceship Part #31 - Little Seoul / Del Perro Fwy",
+      "fr": "Pièce de vaisseau #31 - Little Seoul / Del Perro Fwy"
+    },
+    "note": {
+      "en": "This is located inside the Vinewood studios. You will have to drive or run through the barrier at the entrance. Take the first left and then right in front of you will be an open doorway and some stairs. Go up the stairs, take a right and then a right again up another set of stairs. Climb over the wall in front of you and the Spaceship Part will be on the balcony here."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_63",
+    "category": "collectible",
+    "position": {
+      "x": 0.394531,
+      "y": 0.621419
+    },
+    "title": {
+      "en": "Spaceship Part #32 - Burton",
+      "fr": "Pièce de vaisseau #32 - Burton"
+    },
+    "note": {
+      "en": "The Spaceship Part will be right in the middle of the small grassy area in the middle of the circular road."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_64",
+    "category": "collectible",
+    "position": {
+      "x": 0.381185,
+      "y": 0.614909
+    },
+    "title": {
+      "en": "Spaceship Part #33 - Burton",
+      "fr": "Pièce de vaisseau #33 - Burton"
+    },
+    "note": {
+      "en": "[Helicopter Required] This Part is located in the empty swimming pool on the roof of the hotel. Fly up there and jump down into the pool to grab it."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_65",
+    "category": "collectible",
+    "position": {
+      "x": 0.325846,
+      "y": 0.608724
+    },
+    "title": {
+      "en": "Spaceship Part #34 - Rockford Hills",
+      "fr": "Pièce de vaisseau #34 - Rockford Hills"
+    },
+    "note": {
+      "en": "This Part is located on a tiny island in the south-western lake of the golf course. Jump into the water and swim to the island for it."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_66",
+    "category": "collectible",
+    "position": {
+      "x": 0.412109,
+      "y": 0.557617
+    },
+    "title": {
+      "en": "Spaceship Part #35 - Vinewood Hills",
+      "fr": "Pièce de vaisseau #35 - Vinewood Hills"
+    },
+    "note": {
+      "en": "By the side of the lake is a small stone building. If you dive into the lake just to the right of the building, you should see the Spaceship Part behind you on the seafloor next to the side of the stone wall."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_67",
+    "category": "collectible",
+    "position": {
+      "x": 0.417969,
+      "y": 0.545573
+    },
+    "title": {
+      "en": "Spaceship Part #36 - Vinewood Hills",
+      "fr": "Pièce de vaisseau #36 - Vinewood Hills"
+    },
+    "note": {
+      "en": "[Helicopter Required] You will see a concrete jetty sticking out from the side of the road with a circular building at the end of it. Unfortunately, the building is too high to climb up so you will need to delicately land a helicopter on top of it to grab the Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_68",
+    "category": "collectible",
+    "position": {
+      "x": 0.379883,
+      "y": 0.525391
+    },
+    "title": {
+      "en": "Spaceship Part #37 - Vinewood Hills",
+      "fr": "Pièce de vaisseau #37 - Vinewood Hills"
+    },
+    "note": {
+      "en": "[Helicopter Required] This is another one which requires a helicopter. You will need to land your helicopter on the roof of the Galileo Observatory, and the Spaceship Part will be located next to the dome on the left-hand side of the roof."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_69",
+    "category": "collectible",
+    "position": {
+      "x": 0.301107,
+      "y": 0.541667
+    },
+    "title": {
+      "en": "Spaceship Part #38 - Richman Glen",
+      "fr": "Pièce de vaisseau #38 - Richman Glen"
+    },
+    "note": {
+      "en": "In front of the house is a large tree next to a small circular fountain. The Spaceship Part is at the base of the tree."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_70",
+    "category": "collectible",
+    "position": {
+      "x": 0.272786,
+      "y": 0.50651
+    },
+    "title": {
+      "en": "Spaceship Part #39 - Tongva Hills",
+      "fr": "Pièce de vaisseau #39 - Tongva Hills"
+    },
+    "note": {
+      "en": "On your map you should see a stream going off from the side of the road. Follow this stream about halfway and you should see an opening in the rock face in front of you. Just inside the entrance is this Spaceship Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_71",
+    "category": "collectible",
+    "position": {
+      "x": 0.210286,
+      "y": 0.501302
+    },
+    "title": {
+      "en": "Spaceship Part #40 - Banham Canyon",
+      "fr": "Pièce de vaisseau #40 - Banham Canyon"
+    },
+    "note": {
+      "en": "Behind the house at the end of the short road is a swimming pool. Right next to this is small white concrete square on the ground that has a telescope erected on it at night. On the ground next to the telescope is this Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_72",
+    "category": "collectible",
+    "position": {
+      "x": 0.270833,
+      "y": 0.464193
+    },
+    "title": {
+      "en": "Spaceship Part #41 - Tongva Hills",
+      "fr": "Pièce de vaisseau #41 - Tongva Hills"
+    },
+    "note": {
+      "en": "On the side of a hill is a farm area with lots of hedges. The Spaceship Part is located halfway up the hill in between the rows of hedges. You won’t be able climb over them so you’ll have to find a gap in the side and run along the row."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_73",
+    "category": "collectible",
+    "position": {
+      "x": 0.307292,
+      "y": 0.451823
+    },
+    "title": {
+      "en": "Spaceship Part #42 - Tongva Hills",
+      "fr": "Pièce de vaisseau #42 - Tongva Hills"
+    },
+    "note": {
+      "en": "Underneath the bridge you will see a waterfall. Do not dive in off the bridge as you will die. Work your way down and in the small pool at the bottom of the waterfall, dive down and find the Spaceship Part underwater."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_74",
+    "category": "collectible",
+    "position": {
+      "x": 0.380208,
+      "y": 0.390951
+    },
+    "title": {
+      "en": "Spaceship Part #43 - Zancudo River",
+      "fr": "Pièce de vaisseau #43 - Zancudo River"
+    },
+    "note": {
+      "en": "Underneath the wooden bridge over the river, this one is located between the central support pillar and the small support at the end of the bridge."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_75",
+    "category": "collectible",
+    "position": {
+      "x": 0.417318,
+      "y": 0.367839
+    },
+    "title": {
+      "en": "Spaceship Part #44 - Zancudo River",
+      "fr": "Pièce de vaisseau #44 - Zancudo River"
+    },
+    "note": {
+      "en": "This one is located in a small alcove in the rocks on the river bank. The alcove will be on the left if you are looking at the bridge ahead of you in the distance."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_76",
+    "category": "collectible",
+    "position": {
+      "x": 0.366211,
+      "y": 0.342448
+    },
+    "title": {
+      "en": "Spaceship Part #45 - Mount Josiah",
+      "fr": "Pièce de vaisseau #45 - Mount Josiah"
+    },
+    "note": {
+      "en": "[Helicopter Required] This Part is quite tricky and requires a helicopter. Fly up to the side of Mount Josiah where you can see levels of rock, almost like giant steps. You should see the Part glowing on one of the ledges, so land your helicopter on the one above it and jump down."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_77",
+    "category": "collectible",
+    "position": {
+      "x": 0.275716,
+      "y": 0.270182
+    },
+    "title": {
+      "en": "Spaceship Part #46 - Pacific Ocean",
+      "fr": "Pièce de vaisseau #46 - Pacific Ocean"
+    },
+    "note": {
+      "en": "[Helicopter Required] This is by far the most difficult Spaceship Part to get. It will require extremely precise control with a helicopter, or pinpoint landing with a parachute. If you are using a helicopter like in the video, you will need to land perfectly in between the concrete support beam and the underside of the bridge. The Spaceship Part will be on a ledge."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_78",
+    "category": "collectible",
+    "position": {
+      "x": 0.372721,
+      "y": 0.285156
+    },
+    "title": {
+      "en": "Spaceship Part #47 - Cassoy Creek",
+      "fr": "Pièce de vaisseau #47 - Cassoy Creek"
+    },
+    "note": {
+      "en": "Directly underneath the bridge is a small outcropping of rock right next to a waterfall. The Spaceship Part is on this outcropping."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_79",
+    "category": "collectible",
+    "position": {
+      "x": 0.307292,
+      "y": 0.214518
+    },
+    "title": {
+      "en": "Spaceship Part #48 - Paleto Cove",
+      "fr": "Pièce de vaisseau #48 - Paleto Cove"
+    },
+    "note": {
+      "en": "This Part is easy to find, it’s in plain sight at the top of the small hill that extends out from the beach."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_80",
+    "category": "collectible",
+    "position": {
+      "x": 0.375651,
+      "y": 0.196289
+    },
+    "title": {
+      "en": "Spaceship Part #49 - Paleto Forest",
+      "fr": "Pièce de vaisseau #49 - Paleto Forest"
+    },
+    "note": {
+      "en": "You will see the entrance to a small concrete tunnel, with a fallen tree trunk across the entrance. Just inside the tunnel is this Part."
+    }
+  },
+  {
+    "id": "poi_gtav_spaceship_part_81",
+    "category": "collectible",
+    "position": {
+      "x": 0.38151,
+      "y": 0.166341
+    },
+    "title": {
+      "en": "Spaceship Part #50 - Paleto Forest",
+      "fr": "Pièce de vaisseau #50 - Paleto Forest"
+    },
+    "note": {
+      "en": "On this block you should see an ugly grey tower with a metal staircase around it. Climb up two flights of stairs, and jump inside the window. The Spaceship Part is on the floor inside this room."
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_82",
+    "category": "activity",
+    "position": {
+      "x": 0.39388,
+      "y": 0.620768
+    },
+    "title": {
+      "en": "Stunt Jump #1 - Burton",
+      "fr": "Saut cascade #1 - Burton"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_83",
+    "category": "activity",
+    "position": {
+      "x": 0.406576,
+      "y": 0.64388
+    },
+    "title": {
+      "en": "Stunt Jump #2 - Downtown",
+      "fr": "Saut cascade #2 - Downtown"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_84",
+    "category": "activity",
+    "position": {
+      "x": 0.432943,
+      "y": 0.649414
+    },
+    "title": {
+      "en": "Stunt Jump #3 - Textile City",
+      "fr": "Saut cascade #3 - Textile City"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_85",
+    "category": "activity",
+    "position": {
+      "x": 0.452474,
+      "y": 0.647461
+    },
+    "title": {
+      "en": "Stunt Jump #4 - La Mesa",
+      "fr": "Saut cascade #4 - La Mesa"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_86",
+    "category": "activity",
+    "position": {
+      "x": 0.413086,
+      "y": 0.659831
+    },
+    "title": {
+      "en": "Stunt Jump #5 - Pillbox Hill",
+      "fr": "Saut cascade #5 - Pillbox Hill"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_87",
+    "category": "activity",
+    "position": {
+      "x": 0.40918,
+      "y": 0.678711
+    },
+    "title": {
+      "en": "Stunt Jump #6 - Pillbox Hill/Elgin Ave",
+      "fr": "Saut cascade #6 - Pillbox Hill/Elgin Ave"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_88",
+    "category": "activity",
+    "position": {
+      "x": 0.437174,
+      "y": 0.689128
+    },
+    "title": {
+      "en": "Stunt Jump #7 - Strawberry",
+      "fr": "Saut cascade #7 - Strawberry"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_89",
+    "category": "activity",
+    "position": {
+      "x": 0.445964,
+      "y": 0.704102
+    },
+    "title": {
+      "en": "Stunt Jump #8 - Strawberry",
+      "fr": "Saut cascade #8 - Strawberry"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_90",
+    "category": "activity",
+    "position": {
+      "x": 0.440104,
+      "y": 0.722331
+    },
+    "title": {
+      "en": "Stunt Jump #9 - Rancho/Innocence Blvd",
+      "fr": "Saut cascade #9 - Rancho/Innocence Blvd"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_91",
+    "category": "activity",
+    "position": {
+      "x": 0.516927,
+      "y": 0.766276
+    },
+    "title": {
+      "en": "Stunt Jump #10 - El Burro Heights",
+      "fr": "Saut cascade #10 - El Burro Heights"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_92",
+    "category": "activity",
+    "position": {
+      "x": 0.469076,
+      "y": 0.815755
+    },
+    "title": {
+      "en": "Stunt Jump #11 - Terminal/Buccaneer Way",
+      "fr": "Saut cascade #11 - Terminal/Buccaneer Way"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_93",
+    "category": "activity",
+    "position": {
+      "x": 0.457357,
+      "y": 0.821289
+    },
+    "title": {
+      "en": "Stunt Jump #12 - Elysian Island",
+      "fr": "Saut cascade #12 - Elysian Island"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_94",
+    "category": "activity",
+    "position": {
+      "x": 0.437174,
+      "y": 0.785482
+    },
+    "title": {
+      "en": "Stunt Jump #13 - Elysian Island",
+      "fr": "Saut cascade #13 - Elysian Island"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_95",
+    "category": "activity",
+    "position": {
+      "x": 0.436523,
+      "y": 0.792318
+    },
+    "title": {
+      "en": "Stunt Jump #14 - Elysian Island/Plaice PL",
+      "fr": "Saut cascade #14 - Elysian Island/Plaice PL"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_96",
+    "category": "activity",
+    "position": {
+      "x": 0.424154,
+      "y": 0.806641
+    },
+    "title": {
+      "en": "Stunt Jump #15 - Elysian Island",
+      "fr": "Saut cascade #15 - Elysian Island"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_97",
+    "category": "activity",
+    "position": {
+      "x": 0.419596,
+      "y": 0.806966
+    },
+    "title": {
+      "en": "Stunt Jump #16 - Elysian Island",
+      "fr": "Saut cascade #16 - Elysian Island"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_98",
+    "category": "activity",
+    "position": {
+      "x": 0.423177,
+      "y": 0.819336
+    },
+    "title": {
+      "en": "Stunt Jump #17 - Elysian Island/Elysian Fields Fwy",
+      "fr": "Saut cascade #17 - Elysian Island/Elysian Fields Fwy"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_99",
+    "category": "activity",
+    "position": {
+      "x": 0.420247,
+      "y": 0.836914
+    },
+    "title": {
+      "en": "Stunt Jump #18 - Elysian Island",
+      "fr": "Saut cascade #18 - Elysian Island"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_100",
+    "category": "activity",
+    "position": {
+      "x": 0.425456,
+      "y": 0.823893
+    },
+    "title": {
+      "en": "Stunt Jump #19 - Elysian Island/Voodoo Place",
+      "fr": "Saut cascade #19 - Elysian Island/Voodoo Place"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_101",
+    "category": "activity",
+    "position": {
+      "x": 0.431966,
+      "y": 0.817383
+    },
+    "title": {
+      "en": "Stunt Jump #20 - Elysian Island/Voodoo Place",
+      "fr": "Saut cascade #20 - Elysian Island/Voodoo Place"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_102",
+    "category": "activity",
+    "position": {
+      "x": 0.418294,
+      "y": 0.76237
+    },
+    "title": {
+      "en": "Stunt Jump #21 - Banning",
+      "fr": "Saut cascade #21 - Banning"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_103",
+    "category": "activity",
+    "position": {
+      "x": 0.351563,
+      "y": 0.786458
+    },
+    "title": {
+      "en": "Stunt Jump #22 - Los Santos International Airport/New Empire Way",
+      "fr": "Saut cascade #22 - Los Santos International Airport/New Empire Way"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_104",
+    "category": "activity",
+    "position": {
+      "x": 0.34375,
+      "y": 0.80013
+    },
+    "title": {
+      "en": "Stunt Jump #23 - Los Santos International Airport/New Empire Way",
+      "fr": "Saut cascade #23 - Los Santos International Airport/New Empire Way"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_105",
+    "category": "activity",
+    "position": {
+      "x": 0.338542,
+      "y": 0.782552
+    },
+    "title": {
+      "en": "Stunt Jump #24 - Los Santos International Airport/New Empire Way",
+      "fr": "Saut cascade #24 - Los Santos International Airport/New Empire Way"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_106",
+    "category": "activity",
+    "position": {
+      "x": 0.380534,
+      "y": 0.716797
+    },
+    "title": {
+      "en": "Stunt Jump #25 - La Puerta",
+      "fr": "Saut cascade #25 - La Puerta"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_107",
+    "category": "activity",
+    "position": {
+      "x": 0.366211,
+      "y": 0.713867
+    },
+    "title": {
+      "en": "Stunt Jump #26 - La Puerta",
+      "fr": "Saut cascade #26 - La Puerta"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_108",
+    "category": "activity",
+    "position": {
+      "x": 0.372721,
+      "y": 0.712891
+    },
+    "title": {
+      "en": "Stunt Jump #27 - La Puerta/Dutch London St",
+      "fr": "Saut cascade #27 - La Puerta/Dutch London St"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_109",
+    "category": "activity",
+    "position": {
+      "x": 0.378581,
+      "y": 0.704753
+    },
+    "title": {
+      "en": "Stunt Jump #28 - Little Seoul",
+      "fr": "Saut cascade #28 - Little Seoul"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_110",
+    "category": "activity",
+    "position": {
+      "x": 0.379557,
+      "y": 0.688477
+    },
+    "title": {
+      "en": "Stunt Jump #29 - Little Seoul/La Puerta Fwy",
+      "fr": "Saut cascade #29 - Little Seoul/La Puerta Fwy"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_111",
+    "category": "activity",
+    "position": {
+      "x": 0.363607,
+      "y": 0.681966
+    },
+    "title": {
+      "en": "Stunt Jump #30 - Little Seoul/Adam's Apple Blvd",
+      "fr": "Saut cascade #30 - Little Seoul/Adam's Apple Blvd"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_112",
+    "category": "activity",
+    "position": {
+      "x": 0.389648,
+      "y": 0.658854
+    },
+    "title": {
+      "en": "Stunt Jump #31 - Pillbox Hill",
+      "fr": "Saut cascade #31 - Pillbox Hill"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_113",
+    "category": "activity",
+    "position": {
+      "x": 0.37793,
+      "y": 0.639974
+    },
+    "title": {
+      "en": "Stunt Jump #32 - Little Seoul",
+      "fr": "Saut cascade #32 - Little Seoul"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_114",
+    "category": "activity",
+    "position": {
+      "x": 0.347982,
+      "y": 0.666016
+    },
+    "title": {
+      "en": "Stunt Jump #33 - Little Seoul/Vespucci Blvd",
+      "fr": "Saut cascade #33 - Little Seoul/Vespucci Blvd"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_115",
+    "category": "activity",
+    "position": {
+      "x": 0.294922,
+      "y": 0.658854
+    },
+    "title": {
+      "en": "Stunt Jump #34 - Del Perro/Equality Way",
+      "fr": "Saut cascade #34 - Del Perro/Equality Way"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_116",
+    "category": "activity",
+    "position": {
+      "x": 0.262044,
+      "y": 0.625651
+    },
+    "title": {
+      "en": "Stunt Jump #35 - Pacific Bluffs",
+      "fr": "Saut cascade #35 - Pacific Bluffs"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_117",
+    "category": "activity",
+    "position": {
+      "x": 0.368815,
+      "y": 0.609049
+    },
+    "title": {
+      "en": "Stunt Jump #36 - Burton",
+      "fr": "Saut cascade #36 - Burton"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_118",
+    "category": "activity",
+    "position": {
+      "x": 0.353841,
+      "y": 0.611979
+    },
+    "title": {
+      "en": "Stunt Jump #37 - Rockford Hills",
+      "fr": "Saut cascade #37 - Rockford Hills"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_119",
+    "category": "activity",
+    "position": {
+      "x": 0.332357,
+      "y": 0.603841
+    },
+    "title": {
+      "en": "Stunt Jump #38 - GWC Golfing Society",
+      "fr": "Saut cascade #38 - GWC Golfing Society"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_120",
+    "category": "activity",
+    "position": {
+      "x": 0.306315,
+      "y": 0.575521
+    },
+    "title": {
+      "en": "Stunt Jump #39 - Richman",
+      "fr": "Saut cascade #39 - Richman"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_121",
+    "category": "activity",
+    "position": {
+      "x": 0.410807,
+      "y": 0.479492
+    },
+    "title": {
+      "en": "Stunt Jump #40 - Vinewood Hills",
+      "fr": "Saut cascade #40 - Vinewood Hills"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_122",
+    "category": "activity",
+    "position": {
+      "x": 0.342773,
+      "y": 0.305339
+    },
+    "title": {
+      "en": "Stunt Jump #41 - Raton Canyon",
+      "fr": "Saut cascade #41 - Raton Canyon"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_123",
+    "category": "activity",
+    "position": {
+      "x": 0.44694,
+      "y": 0.295247
+    },
+    "title": {
+      "en": "Stunt Jump #42 - Alamo Sea",
+      "fr": "Saut cascade #42 - Alamo Sea"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_124",
+    "category": "activity",
+    "position": {
+      "x": 0.398438,
+      "y": 0.13151
+    },
+    "title": {
+      "en": "Stunt Jump #43 - Paleto Bay/Procopio Promenade",
+      "fr": "Saut cascade #43 - Paleto Bay/Procopio Promenade"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_125",
+    "category": "activity",
+    "position": {
+      "x": 0.411133,
+      "y": 0.138021
+    },
+    "title": {
+      "en": "Stunt Jump #44 - Paleto Bay",
+      "fr": "Saut cascade #44 - Paleto Bay"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_126",
+    "category": "activity",
+    "position": {
+      "x": 0.651042,
+      "y": 0.232096
+    },
+    "title": {
+      "en": "Stunt Jump #45 - Mount Gordo",
+      "fr": "Saut cascade #45 - Mount Gordo"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_127",
+    "category": "activity",
+    "position": {
+      "x": 0.527344,
+      "y": 0.345052
+    },
+    "title": {
+      "en": "Stunt Jump #46 - Sandy Shores",
+      "fr": "Saut cascade #46 - Sandy Shores"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_128",
+    "category": "activity",
+    "position": {
+      "x": 0.531576,
+      "y": 0.37793
+    },
+    "title": {
+      "en": "Stunt Jump #47 - Grand Senora Desert",
+      "fr": "Saut cascade #47 - Grand Senora Desert"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_129",
+    "category": "activity",
+    "position": {
+      "x": 0.533529,
+      "y": 0.439128
+    },
+    "title": {
+      "en": "Stunt Jump #48 - Grand Senora Desert",
+      "fr": "Saut cascade #48 - Grand Senora Desert"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_130",
+    "category": "activity",
+    "position": {
+      "x": 0.537109,
+      "y": 0.458333
+    },
+    "title": {
+      "en": "Stunt Jump #49 - Grand Senora Desert",
+      "fr": "Saut cascade #49 - Grand Senora Desert"
+    }
+  },
+  {
+    "id": "poi_gtav_stunt_jump_131",
+    "category": "activity",
+    "position": {
+      "x": 0.554036,
+      "y": 0.464518
+    },
+    "title": {
+      "en": "Stunt Jump #50 - Ron Alternates Wind Farm",
+      "fr": "Saut cascade #50 - Ron Alternates Wind Farm"
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_132",
+    "category": "collectible",
+    "position": {
+      "x": 0.413086,
+      "y": 0.126302
+    },
+    "title": {
+      "en": "Letter Scrap #1 - Paleto Bay",
+      "fr": "Fragment de lettre #1 - Paleto Bay"
+    },
+    "note": {
+      "en": "By the side of the road is one wooden house which is abandoned and boarded up. Go around the back and through the door, and in this room is the Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_133",
+    "category": "collectible",
+    "position": {
+      "x": 0.514974,
+      "y": 0.13151
+    },
+    "title": {
+      "en": "Letter Scrap #2 - Paleto Bay",
+      "fr": "Fragment de lettre #2 - Paleto Bay"
+    },
+    "note": {
+      "en": "By the side of the circular road is a small wooden building which seems to be a public toilet. On the left hand side, up a couple of steps and in front of the “Male” toilet sign, is this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_134",
+    "category": "collectible",
+    "position": {
+      "x": 0.516276,
+      "y": 0.147135
+    },
+    "title": {
+      "en": "Letter Scrap #3 - Mount Chiliad",
+      "fr": "Fragment de lettre #3 - Mount Chiliad"
+    },
+    "note": {
+      "en": "In the campsite, which seems to be the home of an anti-capitalism protest, there will be a white tent with a “Social Justice For All” banner hanging outside of it along with some multi-coloured crates. In the entrance of this tent is the Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_135",
+    "category": "collectible",
+    "position": {
+      "x": 0.547201,
+      "y": 0.239583
+    },
+    "title": {
+      "en": "Letter Scrap #4 - Mount Chiliad",
+      "fr": "Fragment de lettre #4 - Mount Chiliad"
+    },
+    "note": {
+      "en": "You will come across a farming area where crops are growing inside white canvas “tunnels”. Looking down the hill, the second tunnel on the left will contain the Letter, about halfway down."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_136",
+    "category": "collectible",
+    "position": {
+      "x": 0.657878,
+      "y": 0.232422
+    },
+    "title": {
+      "en": "Letter Scrap #5 - El Gordo Lighthouse",
+      "fr": "Fragment de lettre #5 - El Gordo Lighthouse"
+    },
+    "note": {
+      "en": "Just off the shore is a lighthouse. Swim over across to it, and on the left-hand side of the circular base is a small ledge and some stairs. Climb up these and the Letter will be on the floor in front of you behind the lighthouse."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_137",
+    "category": "collectible",
+    "position": {
+      "x": 0.506185,
+      "y": 0.292643
+    },
+    "title": {
+      "en": "Letter Scrap #6 - Galilee",
+      "fr": "Fragment de lettre #6 - Galilee"
+    },
+    "note": {
+      "en": "There will be a few houses overlooking a jetty and a lake. In front of the one with the red door and a metal boat frame outside will be this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_138",
+    "category": "collectible",
+    "position": {
+      "x": 0.52474,
+      "y": 0.346029
+    },
+    "title": {
+      "en": "Letter Scrap #7 - Sandy Shores",
+      "fr": "Fragment de lettre #7 - Sandy Shores"
+    },
+    "note": {
+      "en": "In front of the derelict motel will be an abandoned area that used to be used for sporting activities. In the small dug-out section that used to be a swimming pool will be this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_139",
+    "category": "collectible",
+    "position": {
+      "x": 0.506836,
+      "y": 0.386719
+    },
+    "title": {
+      "en": "Letter Scrap #8 - Grand Senora Desert",
+      "fr": "Fragment de lettre #8 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "On the top of the three-tiered rock next to the runway is this Letter. You don’t actually need a helicopter to get up there, you can just climb up the rock with"
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_140",
+    "category": "collectible",
+    "position": {
+      "x": 0.477865,
+      "y": 0.428385
+    },
+    "title": {
+      "en": "Letter Scrap #9 - Grand Senora Desert",
+      "fr": "Fragment de lettre #9 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "On the construction site is the shell of a circular gas structure. In the very centre on some grating with construction poles sticking out of it is this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_141",
+    "category": "collectible",
+    "position": {
+      "x": 0.633464,
+      "y": 0.448568
+    },
+    "title": {
+      "en": "Letter Scrap #10 - Ron Alternates Wind Farm",
+      "fr": "Fragment de lettre #10 - Ron Alternates Wind Farm"
+    },
+    "note": {
+      "en": "You will have to either drive a boat or swim inside the cavern. In the back left is a small sandy section, on which this Letter lies."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_142",
+    "category": "collectible",
+    "position": {
+      "x": 0.632161,
+      "y": 0.485026
+    },
+    "title": {
+      "en": "Letter Scrap #11 - Pacific Ocean",
+      "fr": "Fragment de lettre #11 - Pacific Ocean"
+    },
+    "note": {
+      "en": "This is located on the first island south of No.10. Swim or drive to the island and the Letter will be amongst the rocks on the northern section of the island."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_143",
+    "category": "collectible",
+    "position": {
+      "x": 0.460286,
+      "y": 0.517578
+    },
+    "title": {
+      "en": "Letter Scrap #12 - Vinewood Hills",
+      "fr": "Fragment de lettre #12 - Vinewood Hills"
+    },
+    "note": {
+      "en": "On top of the “I” on the “VINEWOOD” sign. Climb up the ladder on the side of it to get up there."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_144",
+    "category": "collectible",
+    "position": {
+      "x": 0.485677,
+      "y": 0.592773
+    },
+    "title": {
+      "en": "Letter Scrap #13 - Vinewood Racetrack",
+      "fr": "Fragment de lettre #13 - Vinewood Racetrack"
+    },
+    "note": {
+      "en": "This one is in the stand facing the racetrack. Go up the stairs in front of the “Information” entrance, and the Letter will be on the fifth row of seats up."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_145",
+    "category": "collectible",
+    "position": {
+      "x": 0.488932,
+      "y": 0.620443
+    },
+    "title": {
+      "en": "Letter Scrap #14 - East Vinewood",
+      "fr": "Fragment de lettre #14 - East Vinewood"
+    },
+    "note": {
+      "en": "Underneath the bridge, this Letter is on the middle of the three platforms jutting out over the river."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_146",
+    "category": "collectible",
+    "position": {
+      "x": 0.429688,
+      "y": 0.619792
+    },
+    "title": {
+      "en": "Letter Scrap #15 - Hawick",
+      "fr": "Fragment de lettre #15 - Hawick"
+    },
+    "note": {
+      "en": "This one is inside the skate park, on the floor in the middle of the ramp."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_147",
+    "category": "collectible",
+    "position": {
+      "x": 0.418294,
+      "y": 0.634766
+    },
+    "title": {
+      "en": "Letter Scrap #16 - Alta",
+      "fr": "Fragment de lettre #16 - Alta"
+    },
+    "note": {
+      "en": "This Letter is in a hole on the construction site. You should easily be able to spot it by the number of red bollards around the hole."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_148",
+    "category": "collectible",
+    "position": {
+      "x": 0.401042,
+      "y": 0.678385
+    },
+    "title": {
+      "en": "Letter Scrap #17 - Pillbox Hill",
+      "fr": "Fragment de lettre #17 - Pillbox Hill"
+    },
+    "note": {
+      "en": "This is on top of the huge yellow crane in Los Santos. You can access the ladder underground in the construction site, then you’ll have to climb up all the way to the top which will take several minutes. At the very top is the Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_149",
+    "category": "collectible",
+    "position": {
+      "x": 0.454753,
+      "y": 0.680013
+    },
+    "title": {
+      "en": "Letter Scrap #18 - La Mesa",
+      "fr": "Fragment de lettre #18 - La Mesa"
+    },
+    "note": {
+      "en": "Either side of the bridge is an archway. Underneath the arch on the south side of the bridge is this letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_150",
+    "category": "collectible",
+    "position": {
+      "x": 0.617188,
+      "y": 0.698893
+    },
+    "title": {
+      "en": "Letter Scrap #19 - Pacific Ocean",
+      "fr": "Fragment de lettre #19 - Pacific Ocean"
+    },
+    "note": {
+      "en": "On the east side of the island is a beach. At the far end of it is this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_151",
+    "category": "collectible",
+    "position": {
+      "x": 0.518555,
+      "y": 0.757813
+    },
+    "title": {
+      "en": "Letter Scrap #20 - El Burro Heights",
+      "fr": "Fragment de lettre #20 - El Burro Heights"
+    },
+    "note": {
+      "en": "Inside the middle building in this area is a rusty sheltered area with a green roof and a skip next to it. In this small area is the Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_152",
+    "category": "collectible",
+    "position": {
+      "x": 0.465169,
+      "y": 0.76888
+    },
+    "title": {
+      "en": "Letter Scrap #21 - El Burro Heights",
+      "fr": "Fragment de lettre #21 - El Burro Heights"
+    },
+    "note": {
+      "en": "This Letter is located on a platform by the side of the train tunnel. To get in there, you will have to drive through the entrance to the tunnel which is further south."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_153",
+    "category": "collectible",
+    "position": {
+      "x": 0.484701,
+      "y": 0.822917
+    },
+    "title": {
+      "en": "Letter Scrap #22 - Terminal / Buccaneer Way",
+      "fr": "Fragment de lettre #22 - Terminal / Buccaneer Way"
+    },
+    "note": {
+      "en": "This one involves climbing quite a few containers in the shipment area. First climb up the yellow “Post Op” container, and then the grey “Jetsam” one. Jump over the small gap to the next container, then climb up the one either side to jump across to the blue on which the Letter sits on top of."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_154",
+    "category": "collectible",
+    "position": {
+      "x": 0.404297,
+      "y": 0.801758
+    },
+    "title": {
+      "en": "Letter Scrap #23 - Elysian Island",
+      "fr": "Fragment de lettre #23 - Elysian Island"
+    },
+    "note": {
+      "en": "This is located on the western-most boat on dry land in this area. Cross the small yellow bridge to get on the boat, then take the steps up to the captain’s bridge and the Letter is just behind the enclosed section."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_155",
+    "category": "collectible",
+    "position": {
+      "x": 0.414714,
+      "y": 0.748372
+    },
+    "title": {
+      "en": "Letter Scrap #24 - Davis / Grove St",
+      "fr": "Fragment de lettre #24 - Davis / Grove St"
+    },
+    "note": {
+      "en": "This is located behind one of the houses in Grove Street, on the doorstep of the back door. The particular house in question should be familiar to anyone who played San Andreas."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_156",
+    "category": "collectible",
+    "position": {
+      "x": 0.410482,
+      "y": 0.729492
+    },
+    "title": {
+      "en": "Letter Scrap #25 - Davis / Davis Ave",
+      "fr": "Fragment de lettre #25 - Davis / Davis Ave"
+    },
+    "note": {
+      "en": "This is located in a green container filled with rubbish outside the blue “Mega Mall” building."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_157",
+    "category": "collectible",
+    "position": {
+      "x": 0.344401,
+      "y": 0.785807
+    },
+    "title": {
+      "en": "Letter Scrap #26 - Los Santos International Airport",
+      "fr": "Fragment de lettre #26 - Los Santos International Airport"
+    },
+    "note": {
+      "en": "[Helicopter Required] You will need a helicopter to fly onto the circular structure inside the airport. In front of a door in the circular blue column is the Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_158",
+    "category": "collectible",
+    "position": {
+      "x": 0.334635,
+      "y": 0.803385
+    },
+    "title": {
+      "en": "Letter Scrap #27 - Los Santos International Airport",
+      "fr": "Fragment de lettre #27 - Los Santos International Airport"
+    },
+    "note": {
+      "en": "To the right of the steps leading down into the airport with the red “LSIA” sign above them. This Letter will be on the floor in front of 4 blue seats built into the wall."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_159",
+    "category": "collectible",
+    "position": {
+      "x": 0.312174,
+      "y": 0.705078
+    },
+    "title": {
+      "en": "Letter Scrap #28 - San Andreas",
+      "fr": "Fragment de lettre #28 - San Andreas"
+    },
+    "note": {
+      "en": "On the beach there is a concrete skate park. This Letter is located in one of the holes in the park."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_160",
+    "category": "collectible",
+    "position": {
+      "x": 0.336263,
+      "y": 0.696289
+    },
+    "title": {
+      "en": "Letter Scrap #29 - La Puerta",
+      "fr": "Fragment de lettre #29 - La Puerta"
+    },
+    "note": {
+      "en": "Underneath the bridge is a tunnel. Jump into the water and swim under the bridge. The Letter is on the platform in the centre of the tunnel."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_161",
+    "category": "collectible",
+    "position": {
+      "x": 0.278646,
+      "y": 0.69401
+    },
+    "title": {
+      "en": "Letter Scrap #30 - La Puerta / Palomino Ave",
+      "fr": "Fragment de lettre #30 - La Puerta / Palomino Ave"
+    },
+    "note": {
+      "en": "At the end of the pier is a large blue/grey building. Climb up the stairs on the left-hand side of the grey section and cross the bridge to the right of the toilets. The Letter will be next to a couple of blue umbrellas on the floor."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_162",
+    "category": "collectible",
+    "position": {
+      "x": 0.325846,
+      "y": 0.641602
+    },
+    "title": {
+      "en": "Letter Scrap #31 - Richards Majestic",
+      "fr": "Fragment de lettre #31 - Richards Majestic"
+    },
+    "note": {
+      "en": "Climb over the fence in front of the “Vinewood Zombie” sign and go up the stairs. Climb up onto the air condition unit and then over the railing to find this Letter between two more units."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_163",
+    "category": "collectible",
+    "position": {
+      "x": 0.286458,
+      "y": 0.618164
+    },
+    "title": {
+      "en": "Letter Scrap #32 - Pacific Bluffs",
+      "fr": "Fragment de lettre #32 - Pacific Bluffs"
+    },
+    "note": {
+      "en": "This is located in front of the sarcophagus with two rose wreaths laid against it, on the small island in the middle of the pond."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_164",
+    "category": "collectible",
+    "position": {
+      "x": 0.190104,
+      "y": 0.59668
+    },
+    "title": {
+      "en": "Letter Scrap #33 - Pacific Bluffs",
+      "fr": "Fragment de lettre #33 - Pacific Bluffs"
+    },
+    "note": {
+      "en": "This is really easy to spot, located on the bar next to the swimming pool."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_165",
+    "category": "collectible",
+    "position": {
+      "x": 0.248372,
+      "y": 0.588216
+    },
+    "title": {
+      "en": "Letter Scrap #34 - Pacific Bluffs",
+      "fr": "Fragment de lettre #34 - Pacific Bluffs"
+    },
+    "note": {
+      "en": "This is located in the maze. From the entrance, follow the path to the first fork. Then take a right, then the first left, then left again twice to come across this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_166",
+    "category": "collectible",
+    "position": {
+      "x": 0.38737,
+      "y": 0.599284
+    },
+    "title": {
+      "en": "Letter Scrap #35 - West Vinewood",
+      "fr": "Fragment de lettre #35 - West Vinewood"
+    },
+    "note": {
+      "en": "In front of some doors is a semicircular cobblestoned area with a sort of table next to it. On the table is this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_167",
+    "category": "collectible",
+    "position": {
+      "x": 0.402344,
+      "y": 0.541992
+    },
+    "title": {
+      "en": "Letter Scrap #36 - Pacific Bluffs",
+      "fr": "Fragment de lettre #36 - Pacific Bluffs"
+    },
+    "note": {
+      "en": "This one is inside the room next to the swimming pool, in front of a table tennis table."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_168",
+    "category": "collectible",
+    "position": {
+      "x": 0.300781,
+      "y": 0.504557
+    },
+    "title": {
+      "en": "Letter Scrap #37 - Tongva Valley",
+      "fr": "Fragment de lettre #37 - Tongva Valley"
+    },
+    "note": {
+      "en": "By the side of the road is a tourist information board. The Letter is right in front of it."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_169",
+    "category": "collectible",
+    "position": {
+      "x": 0.377604,
+      "y": 0.488607
+    },
+    "title": {
+      "en": "Letter Scrap #38 - Vinewood Hills",
+      "fr": "Fragment de lettre #38 - Vinewood Hills"
+    },
+    "note": {
+      "en": "This is located just to the right of the orange “Big” juice stand next to a set of four tables and benches."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_170",
+    "category": "collectible",
+    "position": {
+      "x": 0.365885,
+      "y": 0.450846
+    },
+    "title": {
+      "en": "Letter Scrap #39 - Great Chaparaal",
+      "fr": "Fragment de lettre #39 - Great Chaparaal"
+    },
+    "note": {
+      "en": "By the side of the road is an old mine entrance. Just to the left of it is the Letter Scrap."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_171",
+    "category": "collectible",
+    "position": {
+      "x": 0.423828,
+      "y": 0.439779
+    },
+    "title": {
+      "en": "Letter Scrap #40 - Grand Senora Desert",
+      "fr": "Fragment de lettre #40 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "Between the huge barn and the abandoned house is an old wooden billboard. The Letter is behind it."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_172",
+    "category": "collectible",
+    "position": {
+      "x": 0.43099,
+      "y": 0.398763
+    },
+    "title": {
+      "en": "Letter Scrap #41 - Grand Senora Desert",
+      "fr": "Fragment de lettre #41 - Grand Senora Desert"
+    },
+    "note": {
+      "en": "This is on top of the largest building in the quarry. To get up there, follow the series of ladders which begins on ground level next to the building on one of the support beams."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_173",
+    "category": "collectible",
+    "position": {
+      "x": 0.389648,
+      "y": 0.398437
+    },
+    "title": {
+      "en": "Letter Scrap #42 - Great Chaparaal",
+      "fr": "Fragment de lettre #42 - Great Chaparaal"
+    },
+    "note": {
+      "en": "In front of the church is a small graveyard. In the graveyard in front of three white crosses is the Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_174",
+    "category": "collectible",
+    "position": {
+      "x": 0.349935,
+      "y": 0.404948
+    },
+    "title": {
+      "en": "Letter Scrap #43 - Great Chaparaal",
+      "fr": "Fragment de lettre #43 - Great Chaparaal"
+    },
+    "note": {
+      "en": "Underneath the bridge is a rocky path, and this Letter Scrap is right in the middle of it."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_175",
+    "category": "collectible",
+    "position": {
+      "x": 0.240885,
+      "y": 0.413737
+    },
+    "title": {
+      "en": "Letter Scrap #44 - Zancudo River / Route 68",
+      "fr": "Fragment de lettre #44 - Zancudo River / Route 68"
+    },
+    "note": {
+      "en": "If the bridge is ahead of you in the distance, this Letter will be just in front of the stream amongst some reeds to the right."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_176",
+    "category": "collectible",
+    "position": {
+      "x": 0.295247,
+      "y": 0.296875
+    },
+    "title": {
+      "en": "Letter Scrap #45 - Raton Canyon",
+      "fr": "Fragment de lettre #45 - Raton Canyon"
+    },
+    "note": {
+      "en": "[Helicopter Required] This Letter is on top of a small rock that can only be accessed by a helicopter. Once you’re up there, it’s very easy to spot."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_177",
+    "category": "collectible",
+    "position": {
+      "x": 0.411784,
+      "y": 0.291667
+    },
+    "title": {
+      "en": "Letter Scrap #46 - Mount Chiliad",
+      "fr": "Fragment de lettre #46 - Mount Chiliad"
+    },
+    "note": {
+      "en": "On the small hill sticking out into the sea, this one is located down next to the sea."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_178",
+    "category": "collectible",
+    "position": {
+      "x": 0.338867,
+      "y": 0.256185
+    },
+    "title": {
+      "en": "Letter Scrap #47 - Chiliad Mountain State Wilderness",
+      "fr": "Fragment de lettre #47 - Chiliad Mountain State Wilderness"
+    },
+    "note": {
+      "en": "This is located in the Altruist’s camp. Once inside, climb up the stairs cut into the side of the hill and go up the trail to the hut. Climb up the two ladders and this will be on a ledge next to you."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_179",
+    "category": "collectible",
+    "position": {
+      "x": 0.369141,
+      "y": 0.210286
+    },
+    "title": {
+      "en": "Letter Scrap #48 - Paleto Forest",
+      "fr": "Fragment de lettre #48 - Paleto Forest"
+    },
+    "note": {
+      "en": "By the side of the road is a rock and a few trees together. Between two of the tress is this Letter."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_180",
+    "category": "collectible",
+    "position": {
+      "x": 0.443359,
+      "y": 0.203125
+    },
+    "title": {
+      "en": "Letter Scrap #49 - Mount Chiliad",
+      "fr": "Fragment de lettre #49 - Mount Chiliad"
+    },
+    "note": {
+      "en": "This Letter is located on the floor of the cable car station at the very summit of Mount Chiliad."
+    }
+  },
+  {
+    "id": "poi_gtav_letter_scrap_181",
+    "category": "collectible",
+    "position": {
+      "x": 0.379232,
+      "y": 0.14974
+    },
+    "title": {
+      "en": "Letter Scrap #50 - Paleto Bay / Proccopio Dr",
+      "fr": "Fragment de lettre #50 - Paleto Bay / Proccopio Dr"
+    },
+    "note": {
+      "en": "This Letter is on the roof of the house. Use the steps to get up there and it’ll be on the floor near a table with an umbrella over it."
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_182",
+    "category": "activity",
+    "position": {
+      "x": 0.427246,
+      "y": 0.601074
+    },
+    "title": {
+      "en": "Knife Flight #1",
+      "fr": "Vol en rase-mottes #1"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_183",
+    "category": "activity",
+    "position": {
+      "x": 0.4375,
+      "y": 0.60498
+    },
+    "title": {
+      "en": "Knife Flight #2",
+      "fr": "Vol en rase-mottes #2"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_184",
+    "category": "activity",
+    "position": {
+      "x": 0.420247,
+      "y": 0.654948
+    },
+    "title": {
+      "en": "Knife Flight #3",
+      "fr": "Vol en rase-mottes #3"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_185",
+    "category": "activity",
+    "position": {
+      "x": 0.404622,
+      "y": 0.658366
+    },
+    "title": {
+      "en": "Knife Flight #4",
+      "fr": "Vol en rase-mottes #4"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_186",
+    "category": "activity",
+    "position": {
+      "x": 0.395345,
+      "y": 0.660319
+    },
+    "title": {
+      "en": "Knife Flight #5",
+      "fr": "Vol en rase-mottes #5"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_187",
+    "category": "activity",
+    "position": {
+      "x": 0.390462,
+      "y": 0.66569
+    },
+    "title": {
+      "en": "Knife Flight #6",
+      "fr": "Vol en rase-mottes #6"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_188",
+    "category": "activity",
+    "position": {
+      "x": 0.393392,
+      "y": 0.652018
+    },
+    "title": {
+      "en": "Knife Flight #7",
+      "fr": "Vol en rase-mottes #7"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_189",
+    "category": "activity",
+    "position": {
+      "x": 0.359863,
+      "y": 0.647949
+    },
+    "title": {
+      "en": "Knife Flight #8",
+      "fr": "Vol en rase-mottes #8"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_190",
+    "category": "activity",
+    "position": {
+      "x": 0.342611,
+      "y": 0.624186
+    },
+    "title": {
+      "en": "Knife Flight #9",
+      "fr": "Vol en rase-mottes #9"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_191",
+    "category": "activity",
+    "position": {
+      "x": 0.32666,
+      "y": 0.629883
+    },
+    "title": {
+      "en": "Knife Flight #10",
+      "fr": "Vol en rase-mottes #10"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_192",
+    "category": "activity",
+    "position": {
+      "x": 0.303548,
+      "y": 0.645996
+    },
+    "title": {
+      "en": "Knife Flight #11",
+      "fr": "Vol en rase-mottes #11"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_193",
+    "category": "activity",
+    "position": {
+      "x": 0.299316,
+      "y": 0.643229
+    },
+    "title": {
+      "en": "Knife Flight #12",
+      "fr": "Vol en rase-mottes #12"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_194",
+    "category": "activity",
+    "position": {
+      "x": 0.277344,
+      "y": 0.625977
+    },
+    "title": {
+      "en": "Knife Flight #13",
+      "fr": "Vol en rase-mottes #13"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_195",
+    "category": "activity",
+    "position": {
+      "x": 0.357422,
+      "y": 0.586263
+    },
+    "title": {
+      "en": "Knife Flight #14",
+      "fr": "Vol en rase-mottes #14"
+    }
+  },
+  {
+    "id": "poi_gtav_knife_flight_196",
+    "category": "activity",
+    "position": {
+      "x": 0.356608,
+      "y": 0.584147
+    },
+    "title": {
+      "en": "Knife Flight #15",
+      "fr": "Vol en rase-mottes #15"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_197",
+    "category": "collectible",
+    "position": {
+      "x": 0.648112,
+      "y": 0.139648
+    },
+    "title": {
+      "en": "Hidden Package #2"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_198",
+    "category": "collectible",
+    "position": {
+      "x": 0.708008,
+      "y": 0.337565
+    },
+    "title": {
+      "en": "Hidden Package #3"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_199",
+    "category": "collectible",
+    "position": {
+      "x": 0.643066,
+      "y": 0.623861
+    },
+    "title": {
+      "en": "Hidden Package #4"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_200",
+    "category": "collectible",
+    "position": {
+      "x": 0.601562,
+      "y": 0.707682
+    },
+    "title": {
+      "en": "Hidden Package #5"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_201",
+    "category": "collectible",
+    "position": {
+      "x": 0.538737,
+      "y": 0.812174
+    },
+    "title": {
+      "en": "Hidden Package #6"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_202",
+    "category": "collectible",
+    "position": {
+      "x": 0.428711,
+      "y": 0.767904
+    },
+    "title": {
+      "en": "Hidden Package #7"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_203",
+    "category": "collectible",
+    "position": {
+      "x": 0.405599,
+      "y": 0.807617
+    },
+    "title": {
+      "en": "Hidden Package #8"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_204",
+    "category": "collectible",
+    "position": {
+      "x": 0.208659,
+      "y": 0.635986
+    },
+    "title": {
+      "en": "Hidden Package #9 - $25,000"
+    },
+    "note": {
+      "en": "This briefcase is exploitable for unlimited money"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_205",
+    "category": "collectible",
+    "position": {
+      "x": 0.182292,
+      "y": 0.380859
+    },
+    "title": {
+      "en": "Hidden Package #10"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_206",
+    "category": "collectible",
+    "position": {
+      "x": 0.176758,
+      "y": 0.342448
+    },
+    "title": {
+      "en": "Hidden Package #11"
+    }
+  },
+  {
+    "id": "poi_gtav_hidden_cash_207",
+    "category": "collectible",
+    "position": {
+      "x": 0.333903,
+      "y": 0.250244
+    },
+    "title": {
+      "en": "Hidden Package #12"
+    }
+  },
+  {
+    "id": "poi_gtav_vehicle_spawn_208",
+    "category": "vehicle",
+    "position": {
+      "x": 0.242513,
+      "y": 0.582682
+    },
+    "title": {
+      "en": "Rare Car Spawn"
+    },
+    "note": {
+      "en": "Number of different sports cars will spawn here regularly"
+    }
+  },
+  {
+    "id": "poi_gtav_vehicle_spawn_209",
+    "category": "vehicle",
+    "position": {
+      "x": 0.360921,
+      "y": 0.623698
+    },
+    "title": {
+      "en": "Adder"
+    },
+    "note": {
+      "en": "In-game version of the Bugatti"
+    }
+  },
+  {
+    "id": "poi_gtav_vehicle_spawn_210",
+    "category": "vehicle",
+    "position": {
+      "x": 0.559977,
+      "y": 0.39388
+    },
+    "title": {
+      "en": "Unmarked FIB Car"
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_car_211",
+    "category": "vehicle",
+    "position": {
+      "x": 0.449463,
+      "y": 0.616211
+    },
+    "title": {
+      "en": "Declasse Tornado"
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_car_212",
+    "category": "vehicle",
+    "position": {
+      "x": 0.405111,
+      "y": 0.569255
+    },
+    "title": {
+      "en": "Pegassi Vacca"
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_car_213",
+    "category": "vehicle",
+    "position": {
+      "x": 0.405192,
+      "y": 0.539714
+    },
+    "title": {
+      "en": "Benefactor Surano"
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_car_214",
+    "category": "vehicle",
+    "position": {
+      "x": 0.357992,
+      "y": 0.633626
+    },
+    "title": {
+      "en": "Enus Super Diamond"
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_car_215",
+    "category": "vehicle",
+    "position": {
+      "x": 0.332438,
+      "y": 0.621419
+    },
+    "title": {
+      "en": "Dinka Double-T"
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_216",
+    "category": "collectible",
+    "position": {
+      "x": 0.446615,
+      "y": 0.201416
+    },
+    "title": {
+      "en": "Epsilon Tract #1",
+      "fr": "Tract Epsilon #1"
+    },
+    "note": {
+      "en": "“We worship Kram where the earth reaches up to Kraff”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_217",
+    "category": "collectible",
+    "position": {
+      "x": 0.602214,
+      "y": 0.703451
+    },
+    "title": {
+      "en": "Epsilon Tract #2",
+      "fr": "Tract Epsilon #2"
+    },
+    "note": {
+      "en": "“Where the first one of the fleet succumbed to the waves, there the message is seeded”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_218",
+    "category": "collectible",
+    "position": {
+      "x": 0.412272,
+      "y": 0.053385
+    },
+    "title": {
+      "en": "Epsilon Tract #3",
+      "fr": "Tract Epsilon #3"
+    },
+    "note": {
+      "en": "“When they sail from the North, they will find this offering”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_219",
+    "category": "collectible",
+    "position": {
+      "x": 0.393311,
+      "y": 0.264323
+    },
+    "title": {
+      "en": "Epsilon Tract #4",
+      "fr": "Tract Epsilon #4"
+    },
+    "note": {
+      "en": "“In the core of the mountain, where the blast is not felt, you shall find it”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_220",
+    "category": "collectible",
+    "position": {
+      "x": 0.355713,
+      "y": 0.652669
+    },
+    "title": {
+      "en": "Epsilon Tract #5",
+      "fr": "Tract Epsilon #5"
+    },
+    "note": {
+      "en": "“In the rubble of the old religion, will be the basis for the new”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_221",
+    "category": "collectible",
+    "position": {
+      "x": 0.294596,
+      "y": 0.22526
+    },
+    "title": {
+      "en": "Epsilon Tract #6",
+      "fr": "Tract Epsilon #6"
+    },
+    "note": {
+      "en": "“When the first fleet sailed, the new fleet will find the map”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_222",
+    "category": "collectible",
+    "position": {
+      "x": 0.280762,
+      "y": 0.575439
+    },
+    "title": {
+      "en": "Epsilon Tract #7",
+      "fr": "Tract Epsilon #7"
+    },
+    "note": {
+      "en": "“What dwelling is worthy of Kraff? He is humble, yet we exalt him”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_223",
+    "category": "collectible",
+    "position": {
+      "x": 0.445638,
+      "y": 0.200358
+    },
+    "title": {
+      "en": "Epsilon Tract #8",
+      "fr": "Tract Epsilon #8"
+    },
+    "note": {
+      "en": "“We are not dinosaurs, or plants, but a tree in the jet stream may hold Kraff's true word”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_224",
+    "category": "collectible",
+    "position": {
+      "x": 0.405111,
+      "y": 0.66276
+    },
+    "title": {
+      "en": "Epsilon Tract #9",
+      "fr": "Tract Epsilon #9"
+    },
+    "note": {
+      "en": "“The tallest obelisk of glass and steel holds no comparison to the word of Kraff”."
+    }
+  },
+  {
+    "id": "poi_gtav_epsilon_tract_225",
+    "category": "collectible",
+    "position": {
+      "x": 0.286051,
+      "y": 0.617269
+    },
+    "title": {
+      "en": "Epsilon Tract #10",
+      "fr": "Tract Epsilon #10"
+    },
+    "note": {
+      "en": "“Where they discard their earthly prisons, there you may find the germ of higher civilization”."
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_226",
+    "category": "activity",
+    "position": {
+      "x": 0.55306,
+      "y": 0.157552
+    },
+    "title": {
+      "en": "Under the Bridge #1",
+      "fr": "Passage sous pont #1"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_227",
+    "category": "activity",
+    "position": {
+      "x": 0.61377,
+      "y": 0.245768
+    },
+    "title": {
+      "en": "Under the Bridge #2",
+      "fr": "Passage sous pont #2"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_228",
+    "category": "activity",
+    "position": {
+      "x": 0.604004,
+      "y": 0.254883
+    },
+    "title": {
+      "en": "Under the Bridge #3",
+      "fr": "Passage sous pont #3"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_229",
+    "category": "activity",
+    "position": {
+      "x": 0.583822,
+      "y": 0.394694
+    },
+    "title": {
+      "en": "Under the Bridge #4",
+      "fr": "Passage sous pont #4"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_230",
+    "category": "activity",
+    "position": {
+      "x": 0.594564,
+      "y": 0.445475
+    },
+    "title": {
+      "en": "Under the Bridge #5",
+      "fr": "Passage sous pont #5"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_231",
+    "category": "activity",
+    "position": {
+      "x": 0.542155,
+      "y": 0.458008
+    },
+    "title": {
+      "en": "Under the Bridge #6",
+      "fr": "Passage sous pont #6"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_232",
+    "category": "activity",
+    "position": {
+      "x": 0.580078,
+      "y": 0.519531
+    },
+    "title": {
+      "en": "Under the Bridge #7",
+      "fr": "Passage sous pont #7"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_233",
+    "category": "activity",
+    "position": {
+      "x": 0.576497,
+      "y": 0.522461
+    },
+    "title": {
+      "en": "Under the Bridge #8",
+      "fr": "Passage sous pont #8"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_234",
+    "category": "activity",
+    "position": {
+      "x": 0.625326,
+      "y": 0.543457
+    },
+    "title": {
+      "en": "Under the Bridge #9",
+      "fr": "Passage sous pont #9"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_235",
+    "category": "activity",
+    "position": {
+      "x": 0.580566,
+      "y": 0.63444
+    },
+    "title": {
+      "en": "Under the Bridge #10",
+      "fr": "Passage sous pont #10"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_236",
+    "category": "activity",
+    "position": {
+      "x": 0.547526,
+      "y": 0.658366
+    },
+    "title": {
+      "en": "Under the Bridge #11",
+      "fr": "Passage sous pont #11"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_237",
+    "category": "activity",
+    "position": {
+      "x": 0.488607,
+      "y": 0.621094
+    },
+    "title": {
+      "en": "Under the Bridge #12",
+      "fr": "Passage sous pont #12"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_238",
+    "category": "activity",
+    "position": {
+      "x": 0.484375,
+      "y": 0.627441
+    },
+    "title": {
+      "en": "Under the Bridge #13",
+      "fr": "Passage sous pont #13"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_239",
+    "category": "activity",
+    "position": {
+      "x": 0.462891,
+      "y": 0.636719
+    },
+    "title": {
+      "en": "Under the Bridge #14",
+      "fr": "Passage sous pont #14"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_240",
+    "category": "activity",
+    "position": {
+      "x": 0.455892,
+      "y": 0.643717
+    },
+    "title": {
+      "en": "Under the Bridge #15",
+      "fr": "Passage sous pont #15"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_241",
+    "category": "activity",
+    "position": {
+      "x": 0.453125,
+      "y": 0.665365
+    },
+    "title": {
+      "en": "Under the Bridge #16",
+      "fr": "Passage sous pont #16"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_242",
+    "category": "activity",
+    "position": {
+      "x": 0.482747,
+      "y": 0.664876
+    },
+    "title": {
+      "en": "Under the Bridge #17",
+      "fr": "Passage sous pont #17"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_243",
+    "category": "activity",
+    "position": {
+      "x": 0.485352,
+      "y": 0.674805
+    },
+    "title": {
+      "en": "Under the Bridge #18",
+      "fr": "Passage sous pont #18"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_244",
+    "category": "activity",
+    "position": {
+      "x": 0.499186,
+      "y": 0.687337
+    },
+    "title": {
+      "en": "Under the Bridge #19",
+      "fr": "Passage sous pont #19"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_245",
+    "category": "activity",
+    "position": {
+      "x": 0.453288,
+      "y": 0.677897
+    },
+    "title": {
+      "en": "Under the Bridge #20",
+      "fr": "Passage sous pont #20"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_246",
+    "category": "activity",
+    "position": {
+      "x": 0.452962,
+      "y": 0.690918
+    },
+    "title": {
+      "en": "Under the Bridge #21",
+      "fr": "Passage sous pont #21"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_247",
+    "category": "activity",
+    "position": {
+      "x": 0.456543,
+      "y": 0.707845
+    },
+    "title": {
+      "en": "Under the Bridge #22",
+      "fr": "Passage sous pont #22"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_248",
+    "category": "activity",
+    "position": {
+      "x": 0.458984,
+      "y": 0.729167
+    },
+    "title": {
+      "en": "Under the Bridge #23",
+      "fr": "Passage sous pont #23"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_249",
+    "category": "activity",
+    "position": {
+      "x": 0.456868,
+      "y": 0.751953
+    },
+    "title": {
+      "en": "Under the Bridge #24",
+      "fr": "Passage sous pont #24"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_250",
+    "category": "activity",
+    "position": {
+      "x": 0.454102,
+      "y": 0.78418
+    },
+    "title": {
+      "en": "Under the Bridge #25",
+      "fr": "Passage sous pont #25"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_251",
+    "category": "activity",
+    "position": {
+      "x": 0.458822,
+      "y": 0.789551
+    },
+    "title": {
+      "en": "Under the Bridge #26",
+      "fr": "Passage sous pont #26"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_252",
+    "category": "activity",
+    "position": {
+      "x": 0.462891,
+      "y": 0.790365
+    },
+    "title": {
+      "en": "Under the Bridge #27",
+      "fr": "Passage sous pont #27"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_253",
+    "category": "activity",
+    "position": {
+      "x": 0.467773,
+      "y": 0.792806
+    },
+    "title": {
+      "en": "Under the Bridge #28",
+      "fr": "Passage sous pont #28"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_254",
+    "category": "activity",
+    "position": {
+      "x": 0.436035,
+      "y": 0.770996
+    },
+    "title": {
+      "en": "Under the Bridge #29",
+      "fr": "Passage sous pont #29"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_255",
+    "category": "activity",
+    "position": {
+      "x": 0.42627,
+      "y": 0.770508
+    },
+    "title": {
+      "en": "Under the Bridge #30",
+      "fr": "Passage sous pont #30"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_256",
+    "category": "activity",
+    "position": {
+      "x": 0.383138,
+      "y": 0.773437
+    },
+    "title": {
+      "en": "Under the Bridge #31",
+      "fr": "Passage sous pont #31"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_257",
+    "category": "activity",
+    "position": {
+      "x": 0.414225,
+      "y": 0.751139
+    },
+    "title": {
+      "en": "Under the Bridge #32",
+      "fr": "Passage sous pont #32"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_258",
+    "category": "activity",
+    "position": {
+      "x": 0.396159,
+      "y": 0.733887
+    },
+    "title": {
+      "en": "Under the Bridge #33",
+      "fr": "Passage sous pont #33"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_259",
+    "category": "activity",
+    "position": {
+      "x": 0.384115,
+      "y": 0.724935
+    },
+    "title": {
+      "en": "Under the Bridge #34",
+      "fr": "Passage sous pont #34"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_260",
+    "category": "activity",
+    "position": {
+      "x": 0.378743,
+      "y": 0.71875
+    },
+    "title": {
+      "en": "Under the Bridge #35",
+      "fr": "Passage sous pont #35"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_261",
+    "category": "activity",
+    "position": {
+      "x": 0.365723,
+      "y": 0.712891
+    },
+    "title": {
+      "en": "Under the Bridge #36",
+      "fr": "Passage sous pont #36"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_262",
+    "category": "activity",
+    "position": {
+      "x": 0.362956,
+      "y": 0.713867
+    },
+    "title": {
+      "en": "Under the Bridge #37",
+      "fr": "Passage sous pont #37"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_263",
+    "category": "activity",
+    "position": {
+      "x": 0.359212,
+      "y": 0.715169
+    },
+    "title": {
+      "en": "Under the Bridge #38",
+      "fr": "Passage sous pont #38"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_264",
+    "category": "activity",
+    "position": {
+      "x": 0.189128,
+      "y": 0.549967
+    },
+    "title": {
+      "en": "Under the Bridge #39",
+      "fr": "Passage sous pont #39"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_265",
+    "category": "activity",
+    "position": {
+      "x": 0.304199,
+      "y": 0.431315
+    },
+    "title": {
+      "en": "Under the Bridge #40",
+      "fr": "Passage sous pont #40"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_266",
+    "category": "activity",
+    "position": {
+      "x": 0.309245,
+      "y": 0.415039
+    },
+    "title": {
+      "en": "Under the Bridge #41",
+      "fr": "Passage sous pont #41"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_267",
+    "category": "activity",
+    "position": {
+      "x": 0.397949,
+      "y": 0.398275
+    },
+    "title": {
+      "en": "Under the Bridge #42",
+      "fr": "Passage sous pont #42"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_268",
+    "category": "activity",
+    "position": {
+      "x": 0.381022,
+      "y": 0.390788
+    },
+    "title": {
+      "en": "Under the Bridge #43",
+      "fr": "Passage sous pont #43"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_269",
+    "category": "activity",
+    "position": {
+      "x": 0.21875,
+      "y": 0.416667
+    },
+    "title": {
+      "en": "Under the Bridge #44",
+      "fr": "Passage sous pont #44"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_270",
+    "category": "activity",
+    "position": {
+      "x": 0.419596,
+      "y": 0.361491
+    },
+    "title": {
+      "en": "Under the Bridge #45",
+      "fr": "Passage sous pont #45"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_271",
+    "category": "activity",
+    "position": {
+      "x": 0.420573,
+      "y": 0.358073
+    },
+    "title": {
+      "en": "Under the Bridge #46",
+      "fr": "Passage sous pont #46"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_272",
+    "category": "activity",
+    "position": {
+      "x": 0.3986,
+      "y": 0.298177
+    },
+    "title": {
+      "en": "Under the Bridge #47",
+      "fr": "Passage sous pont #47"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_273",
+    "category": "activity",
+    "position": {
+      "x": 0.373372,
+      "y": 0.285645
+    },
+    "title": {
+      "en": "Under the Bridge #48",
+      "fr": "Passage sous pont #48"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_274",
+    "category": "activity",
+    "position": {
+      "x": 0.275553,
+      "y": 0.269368
+    },
+    "title": {
+      "en": "Under the Bridge #49",
+      "fr": "Passage sous pont #49"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_under_bridge_275",
+    "category": "activity",
+    "position": {
+      "x": 0.335612,
+      "y": 0.26237
+    },
+    "title": {
+      "en": "Under the Bridge #50",
+      "fr": "Passage sous pont #50"
+    },
+    "note": {
+      "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_1",
+    "category": "vehicle",
+    "position": {
+      "x": 0.309407,
+      "y": 0.598788
+    },
+    "title": {
+      "en": "Obey Tailgator"
+    },
+    "note": {
+      "en": "You can find Michaels story car (Audi A6/A8) on the parking lot of the golf course."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_2",
+    "category": "vehicle",
+    "position": {
+      "x": 0.624348,
+      "y": 0.403983
+    },
+    "title": {
+      "en": "Bulldozer"
+    },
+    "note": {
+      "en": "Located in the quarry in Tataviam Mountains."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_3",
+    "category": "activity",
+    "position": {
+      "x": 0.460941,
+      "y": 0.675125
+    },
+    "title": {
+      "en": "East LSC bridge"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Push the trash bin with your car straight against the wall. Stand on the bin and now just jump and you will be inside and under the bridge. You'll be able to shoot anywhere through it."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_4",
+    "category": "activity",
+    "position": {
+      "x": 0.334963,
+      "y": 0.693676
+    },
+    "title": {
+      "en": "Bridge in Del Perro"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Swim under the bridge and hop up the rail on the left side. Turn left and straight run through the wall."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_5",
+    "category": "activity",
+    "position": {
+      "x": 0.354163,
+      "y": 0.646401
+    },
+    "title": {
+      "en": "Kayton Skyscraper"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get into a helicopter and fly about 15 meters above the ground. Fly straigt ahead the tower to wall breach. If you are inside just fly down and land your helicopter."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_6",
+    "category": "activity",
+    "position": {
+      "x": 0.322022,
+      "y": 0.711757
+    },
+    "title": {
+      "en": "Beach Store"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Turn to the open garage and drive straight throgh the wall. Note: during day time you need an bicycle because there are boxes that prevent you from entering the garage!"
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_7",
+    "category": "activity",
+    "position": {
+      "x": 0.35303,
+      "y": 0.583414
+    },
+    "title": {
+      "en": "Eclipse Tower"
+    },
+    "note": {
+      "en": "Go to the location as seen below with a decent siced vehicle. Open your phone and call Simeon. Once you see the \"Request a Job Invite\" HUD, do not press anything. Drive your truck to any corner of the garage door, get out, jump on top of the truck and jump inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_8",
+    "category": "activity",
+    "position": {
+      "x": 0.395911,
+      "y": 0.594716
+    },
+    "title": {
+      "en": "Parking lot in San Andreas"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Turn to the building, hop over the shrub, move about ten more meters and turn to the left wall. Jump to get inside the parking lot."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_9",
+    "category": "activity",
+    "position": {
+      "x": 0.403237,
+      "y": 0.600982
+    },
+    "title": {
+      "en": "Insurance store in San Andreas"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_10",
+    "category": "activity",
+    "position": {
+      "x": 0.410807,
+      "y": 0.62688
+    },
+    "title": {
+      "en": "Garage in San Andreas"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get into a decent sized vehicle and park it infront of the garage. Hop on it and jump to get inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_11",
+    "category": "activity",
+    "position": {
+      "x": 0.332681,
+      "y": 0.669599
+    },
+    "title": {
+      "en": "Residence near LSPD"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Turn around to the red residence house. Hop over the gate, run to the backyard, go upstairs to the second floor. Turn left to the red pillar and jump."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_12",
+    "category": "activity",
+    "position": {
+      "x": 0.418622,
+      "y": 0.657303
+    },
+    "title": {
+      "en": "FIB tower"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_13",
+    "category": "activity",
+    "position": {
+      "x": 0.384356,
+      "y": 0.662995
+    },
+    "title": {
+      "en": "Car park"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Drive into the wall about one meter besides the electricity box."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_14",
+    "category": "activity",
+    "position": {
+      "x": 0.351644,
+      "y": 0.584061
+    },
+    "title": {
+      "en": "Shrub near Eclipse tower"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk to the pillar and jump to get into the shrub."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_15",
+    "category": "activity",
+    "position": {
+      "x": 0.598793,
+      "y": 0.572255
+    },
+    "title": {
+      "en": "Bridge in Tataviam Mountains"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk towards the bridge wall. Turn right and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_16",
+    "category": "activity",
+    "position": {
+      "x": 0.391926,
+      "y": 0.615884
+    },
+    "title": {
+      "en": "Rockford Plaza"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Park your car against the railing. Hop onto your roof, run and jump into the wall."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_17",
+    "category": "activity",
+    "position": {
+      "x": 0.426267,
+      "y": 0.625967
+    },
+    "title": {
+      "en": "Example of \"Breach anywhere\" method"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Park your car against the railing. Hop onto your roof, run and jump into the wall."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_18",
+    "category": "activity",
+    "position": {
+      "x": 0.465822,
+      "y": 0.655116
+    },
+    "title": {
+      "en": "Industrial building"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Climb up the ladder, run across the roof and jump onto the roof of the building next to it. Run at the end of the roof to the left corner. Once you're there you'll fall through the roof."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_19",
+    "category": "activity",
+    "position": {
+      "x": 0.507,
+      "y": 0.687994
+    },
+    "title": {
+      "en": "Highway"
+    },
+    "note": {
+      "en": "Works the same like \"Bridge in Tataviam Mountains\". Go to the location as seen below. Walk towards the bridge wall. Turn left and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_20",
+    "category": "activity",
+    "position": {
+      "x": 0.55257,
+      "y": 0.335274
+    },
+    "title": {
+      "en": "Sandy Shores Store"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk towards the store right beside the entrance. Jump to get inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_21",
+    "category": "activity",
+    "position": {
+      "x": 0.421141,
+      "y": 0.659743
+    },
+    "title": {
+      "en": "FIB Tower"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get a helicopter and fly on top of the building. Get out and walk to the side of the building. Walk downstairs the ladder and turn right. At the end of that platform turn left and walk straight into the wall/border (not on the side with the big FIB logo). You should fall and end up on the next floor. After some seconds the textures should load and you should be inside the FIB building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_22",
+    "category": "activity",
+    "position": {
+      "x": 0.193119,
+      "y": 0.565178
+    },
+    "title": {
+      "en": "Beach house"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk behind the house, turn right and sprint into the house."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_23",
+    "category": "activity",
+    "position": {
+      "x": 0.27083,
+      "y": 0.828125
+    },
+    "title": {
+      "en": "Below Airport"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk to the stack of greenish pillars, make your way to the top of them. Walk straight ahead to the little space between them, get in there and run straight into the grey pillars until you glitch into them."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_24",
+    "category": "activity",
+    "position": {
+      "x": 0.511556,
+      "y": 0.344555
+    },
+    "title": {
+      "en": "Meth lab"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Back up your car to the wall where the generators are. Hop on your car and shoot out the window on the second floor. Climb up the fan and then climb up inside the window."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_25",
+    "category": "activity",
+    "position": {
+      "x": 0.339193,
+      "y": 0.675125
+    },
+    "title": {
+      "en": "Vespucci Canals building"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Climb over the wall and walk straight into the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_26",
+    "category": "activity",
+    "position": {
+      "x": 0.458252,
+      "y": 0.561281
+    },
+    "title": {
+      "en": "Vinewood Observatory"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Climb up the ladder and turn left. Run to the gap between the two roof elements. Try to fall between them to breach into the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_26_2",
+    "category": "activity",
+    "position": {
+      "x": 0.453289,
+      "y": 0.40762
+    },
+    "title": {
+      "en": "Dollar Pills"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Climb on top of the yellow cloth bin and jump again to get inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_27",
+    "category": "activity",
+    "position": {
+      "x": 0.364748,
+      "y": 0.612884
+    },
+    "title": {
+      "en": "City Hall"
+    },
+    "note": {
+      "en": "Go to the location as seen below and go up the stairs to Mike's left in the picture. Follow the path until you reach an intersection. Your going to want to take a left. Like before, keep following the path until you you find the corner. It should be on the right hand side if you went the way I told you. All you have to do now, is walk into it. Do not continually walk into the wall, let go of the left stick once you are behind the little rail thingy. If you did it correctly, you should slide down the wall, into a little room. The invisible wall to Mike's left is bullet proof, but the one in front of him you can shoot through. The only way to get out of this little room is to jump into the void of death (behind mike out of frame)."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_28",
+    "category": "activity",
+    "position": {
+      "x": 0.665852,
+      "y": 0.333898
+    },
+    "title": {
+      "en": "Humane Laboratory"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk upstairs and turn left. Run straight at the end of this to the generator. Hop on the generator and walk to the three blue pipes. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the laboratory."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_29",
+    "category": "activity",
+    "position": {
+      "x": 0.494304,
+      "y": 0.410401
+    },
+    "title": {
+      "en": "Flecca Bank"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get a decent sized vehicle and park it infront of the bank. Hop on it and climb up the roof of the bank. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the bank."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_30",
+    "category": "activity",
+    "position": {
+      "x": 0.44157,
+      "y": 0.673168
+    },
+    "title": {
+      "en": "LSPD police station"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk over the shrub and stand besides the building wall. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the police station."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_30_2",
+    "category": "activity",
+    "position": {
+      "x": 0.326822,
+      "y": 0.712802
+    },
+    "title": {
+      "en": "Floyd's house"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Walk upstairs and climb up the root. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Floyd's house."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_31",
+    "category": "activity",
+    "position": {
+      "x": 0.503415,
+      "y": 0.729658
+    },
+    "title": {
+      "en": "Lester's house"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Go to the backside of the house and try to jump on top the AC fan. Position yourself in the middle of the root. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Lester's house."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_32",
+    "category": "activity",
+    "position": {
+      "x": 0.419437,
+      "y": 0.695479
+    },
+    "title": {
+      "en": "Strip Club office"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Climb up the ladder and face the metal box on top of it. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Strip Club."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_32_2",
+    "category": "activity",
+    "position": {
+      "x": 0.421467,
+      "y": 0.762932
+    },
+    "title": {
+      "en": "Trevors torture room"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Climb up the ladder and face wall on the left jump on top the second roof. Walk in the middle of the roof and pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the room."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_33",
+    "category": "activity",
+    "position": {
+      "x": 0.410156,
+      "y": 0.564783
+    },
+    "title": {
+      "en": "Franklins mansion"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Drive your car under the porch on the right if you are facing the mansion. Hop on top of it and climb up the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Franklins mansion."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_34",
+    "category": "activity",
+    "position": {
+      "x": 0.351726,
+      "y": 0.591638
+    },
+    "title": {
+      "en": "Michaels mansion"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Use a helicopter to get ontop of the roof. Walk in the middle, pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Micheals mansion."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_35",
+    "category": "activity",
+    "position": {
+      "x": 0.577311,
+      "y": 0.419418
+    },
+    "title": {
+      "en": "Space Docker garage"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get a decent sized vehicle and drive it against the trailer. Get on top and climb on the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_36",
+    "category": "activity",
+    "position": {
+      "x": 0.367511,
+      "y": 0.722338
+    },
+    "title": {
+      "en": "Recycling Plant"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Climb up the ladders and walk in the middle of the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_37",
+    "category": "activity",
+    "position": {
+      "x": 0.430015,
+      "y": 0.645993
+    },
+    "title": {
+      "en": "Ambulance"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get in a vehicle than can hold you in the back like the van in the video. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside of the ambulance."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_38",
+    "category": "activity",
+    "position": {
+      "x": 0.387044,
+      "y": 0.613365
+    },
+    "title": {
+      "en": "Central LSC"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get in a vehicle than can hold you in the back like the van in the video. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside of the LSC building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_39",
+    "category": "activity",
+    "position": {
+      "x": 0.392904,
+      "y": 0.608895
+    },
+    "title": {
+      "en": "Rockford Plaza"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get in a vehicle than can hold you in the back like the van in the video. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_40",
+    "category": "activity",
+    "position": {
+      "x": 0.336911,
+      "y": 0.557538
+    },
+    "title": {
+      "en": "Martins mansion"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get the free van from the beach bum DLC and let your friend pick you up with a Cargobob. Once inside tell your friend to drop you on the balcony deck thingy. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_41",
+    "category": "activity",
+    "position": {
+      "x": 0.345215,
+      "y": 0.620039
+    },
+    "title": {
+      "en": "Helicopter under map"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get into a helicopter and fly towards the green and white building. Fly low enought to get between the gab on the white side of the building. Once you are there, fly straight up to get into the second part of the building. Fly towards the middle and then down the ground below the map."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_42",
+    "category": "activity",
+    "position": {
+      "x": 0.477133,
+      "y": 0.603763
+    },
+    "title": {
+      "en": "Casino"
+    },
+    "note": {
+      "en": "Go to the location as seen below. Get a Sanchez motor-bike and go the right corner of the building. Drive between the buildings and try to fall off to breach into the Casino."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_43",
+    "category": "activity",
+    "position": {
+      "x": 0.241452,
+      "y": 0.369304
+    },
+    "title": {
+      "en": "Military base tower"
+    },
+    "note": {
+      "en": "Withdraw all your money from your bank account. Go to Lester and demand a \"Blind Eye\". Go to the location as seen below, walk against the right side of the green door of the tower and go to Dynasty 8 website. Pretent you would buy a property, when the alert pops up, press A and immedietly jump inside the door."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_44",
+    "category": "activity",
+    "position": {
+      "x": 0.445474,
+      "y": 0.81478
+    },
+    "title": {
+      "en": "Ship at Merryweather docks"
+    },
+    "note": {
+      "en": "Go to the location as seen on the interactive map, get aboard the ship and walk towards the back of the ship where there's an overhang. Wace the wall and just jump."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_45",
+    "category": "activity",
+    "position": {
+      "x": 0.350422,
+      "y": 0.591463
+    },
+    "title": {
+      "en": "Michaels mansion (via garage)"
+    },
+    "note": {
+      "en": "Go to the location as seen below, drive your car next to the garage and hop onto it. Climb ontop the garage roof and walk to the little balcony of the main house. Run across the wall towards the balcony and jump to climb it up. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Michaels mansion."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_46",
+    "category": "vehicle",
+    "position": {
+      "x": 0.536785,
+      "y": 0.330895
+    },
+    "title": {
+      "en": "Ratloader"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_47",
+    "category": "vehicle",
+    "position": {
+      "x": 0.543785,
+      "y": 0.414965
+    },
+    "title": {
+      "en": "Sultan"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_48",
+    "category": "vehicle",
+    "position": {
+      "x": 0.32503,
+      "y": 0.746096
+    },
+    "title": {
+      "en": "BF Surfer"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_49",
+    "category": "vehicle",
+    "position": {
+      "x": 0.61003,
+      "y": 0.655592
+    },
+    "title": {
+      "en": "BF Surfer (with surfboard)"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_50",
+    "category": "vehicle",
+    "position": {
+      "x": 0.4834,
+      "y": 0.843422
+    },
+    "title": {
+      "en": "Vapid Bobcat XL"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_51",
+    "category": "vehicle",
+    "position": {
+      "x": 0.309896,
+      "y": 0.601968
+    },
+    "title": {
+      "en": "Western Daemon"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_52",
+    "category": "vehicle",
+    "position": {
+      "x": 0.331541,
+      "y": 0.636804
+    },
+    "title": {
+      "en": "Ocelot Jackal"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_53",
+    "category": "vehicle",
+    "position": {
+      "x": 0.326333,
+      "y": 0.290044
+    },
+    "title": {
+      "en": "Youga Van"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_54",
+    "category": "vehicle",
+    "position": {
+      "x": 0.366859,
+      "y": 0.692377
+    },
+    "title": {
+      "en": "Karin Intruder"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_55",
+    "category": "vehicle",
+    "position": {
+      "x": 0.501956,
+      "y": 0.729414
+    },
+    "title": {
+      "en": "Karin Intruder #2"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_55_2",
+    "category": "vehicle",
+    "position": {
+      "x": 0.543622,
+      "y": 0.419612
+    },
+    "title": {
+      "en": "Karin BeeJay XL"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_56",
+    "category": "vehicle",
+    "position": {
+      "x": 0.317304,
+      "y": 0.72128
+    },
+    "title": {
+      "en": "Ubermacht Sentinel XS"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_57",
+    "category": "vehicle",
+    "position": {
+      "x": 0.341474,
+      "y": 0.269694
+    },
+    "title": {
+      "en": "Mariachi"
+    },
+    "note": {
+      "en": "Go to the location as seen below _at 19:00_. Drive down the hill and with a bit of luck you can catch the car."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_58",
+    "category": "vehicle",
+    "position": {
+      "x": 0.289222,
+      "y": 0.668786
+    },
+    "title": {
+      "en": "Ocelot F620"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_59",
+    "category": "vehicle",
+    "position": {
+      "x": 0.397459,
+      "y": 0.72364
+    },
+    "title": {
+      "en": "Vapid Peyote"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_60",
+    "category": "vehicle",
+    "position": {
+      "x": 0.304852,
+      "y": 0.842284
+    },
+    "title": {
+      "en": "Albani Primo"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_61",
+    "category": "vehicle",
+    "position": {
+      "x": 0.499674,
+      "y": 0.750489
+    },
+    "title": {
+      "en": "Cheval Picador"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_62",
+    "category": "vehicle",
+    "position": {
+      "x": 0.291341,
+      "y": 0.625479
+    },
+    "title": {
+      "en": "Hearse"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_63",
+    "category": "vehicle",
+    "position": {
+      "x": 0.352378,
+      "y": 0.503098
+    },
+    "title": {
+      "en": "Benefactor Surano"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_64",
+    "category": "vehicle",
+    "position": {
+      "x": 0.407067,
+      "y": 0.730146
+    },
+    "title": {
+      "en": "Albani Manana"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_65",
+    "category": "vehicle",
+    "position": {
+      "x": 0.519533,
+      "y": 0.333662
+    },
+    "title": {
+      "en": "Declasse Voodoo"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_66",
+    "category": "vehicle",
+    "position": {
+      "x": 0.272948,
+      "y": 0.82389
+    },
+    "title": {
+      "en": "Declasse Rancher XL"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_67",
+    "category": "vehicle",
+    "position": {
+      "x": 0.31063,
+      "y": 0.599607
+    },
+    "title": {
+      "en": "Western Bagger"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_68",
+    "category": "vehicle",
+    "position": {
+      "x": 0.310304,
+      "y": 0.596757
+    },
+    "title": {
+      "en": "Benefactor Schafter"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_69",
+    "category": "vehicle",
+    "position": {
+      "x": 0.360511,
+      "y": 0.666504
+    },
+    "title": {
+      "en": "Principe Nemesis"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_story_vehicle_70",
+    "category": "vehicle",
+    "position": {
+      "x": 0.42057,
+      "y": 0.394056
+    },
+    "title": {
+      "en": "Duneloader"
+    },
+    "note": {
+      "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_71",
+    "category": "activity",
+    "position": {
+      "x": 0.404867,
+      "y": 0.572667
+    },
+    "title": {
+      "en": "House in West Vinewood"
+    },
+    "note": {
+      "en": "Go to location indicated and enter the yard through the entrance shown in the images. Take a right and follow the building until it meets a white wall near a tree. Climb this wall and go West (left) to reach the back of the house. Run up to the starting position, where the grass meets the dirt such that you are facing South towards the small part of the house. Run down towards and then against the wall shown while spamming X/A. You will then slide into the house. Don't forget a parachute for more fun!"
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_72",
+    "category": "activity",
+    "position": {
+      "x": 0.342607,
+      "y": 0.732914
+    },
+    "title": {
+      "en": "Road Near Airport LSC"
+    },
+    "note": {
+      "en": "Go to location indicated and find the group of trees shown as a guide. Locate the second support beam, that is jutting from the road, to the left of the group of trees and stand to the right of this beam. Run or jump such that you character falls into the small space to the right of the support beam. If done correctly your character will breach the wall after erecting him/herself."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_73",
+    "category": "activity",
+    "position": {
+      "x": 0.344644,
+      "y": 0.695392
+    },
+    "title": {
+      "en": "Parking Garage Under Tennis Courts in La Puerta"
+    },
+    "note": {
+      "en": "Go to location indicated and locate the bushes to the right of the fenced-off entrance of the parking garage. Stand between the two bushes shown and press Box to climb in."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_74",
+    "category": "activity",
+    "position": {
+      "x": 0.323163,
+      "y": 0.6329
+    },
+    "title": {
+      "en": "Parking Garage in Rockford Hills"
+    },
+    "note": {
+      "en": "Go to the location as seen on the interactive map--a parking garage across from the east-side Ammunation--enter the second level of the parking garage and walk to the red-brick structure as seen in the pictures. Walk to, and face, the western wall of this structure. Simply walk through the rightmost side of this wall to breach."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_75",
+    "category": "activity",
+    "position": {
+      "x": 0.456622,
+      "y": 0.676018
+    },
+    "title": {
+      "en": "Bridge in La Mesa"
+    },
+    "note": {
+      "en": "Go to location indicated and walk to the eastern-most strut on the northern side of the bridge. Walk where indicated and face west as shown. Walk up to the indicated wall and press Box to climb in."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_76",
+    "category": "activity",
+    "position": {
+      "x": 0.327311,
+      "y": 0.751546
+    },
+    "title": {
+      "en": "Airport LSC Wall-breach"
+    },
+    "note": {
+      "en": "Go to the location as noted and stand behind the LSC. Park a car between the two shutter-doors that are directly right of the small crane. Climb onto the car you parked, face the wall and press Box to breach the wall."
+    }
+  },
+  {
+    "id": "poi_gtav_glitch_77",
+    "category": "activity",
+    "position": {
+      "x": 0.291667,
+      "y": 0.683911
+    },
+    "title": {
+      "en": "Rollercoaster seat glitch"
+    },
+    "note": {
+      "en": "Go to Rollercoaster. Choose a seat on the Rollercoaster. Someone can choose the same seat as you and will sit \"inside\" of you. (More people can also sit in the same exact seat)"
+    }
+  },
+  {
+    "id": "poi_gtav_glitch_78",
+    "category": "activity",
+    "position": {
+      "x": 0.353437,
+      "y": 0.710117
+    },
+    "title": {
+      "en": "Walk on water/air"
+    },
+    "note": {
+      "en": "Head over to the helipad near Los Santos Customs. Walk over to the wall near the water and lean on it. Walk to your left until the gun is under the water. Aim the gun at the wall and it will switch to the knife (then you know the glitch worked). Head back to the ramp. Now turn around and walk back to the water. And now you'll be walking on water."
+    }
+  },
+  {
+    "id": "poi_gtav_glitch_79",
+    "category": "activity",
+    "position": {
+      "x": 0.400393,
+      "y": 0.535071
+    },
+    "title": {
+      "en": "Gate/swing set glitch"
+    },
+    "note": {
+      "en": "Go to the location as noted. Let your friend lean against the wall like you saw in the video. Now drive slowly into the gate."
+    }
+  },
+  {
+    "id": "poi_gtav_glitch_80",
+    "category": "activity",
+    "position": {
+      "x": 0.330081,
+      "y": 0.570973
+    },
+    "title": {
+      "en": "Gate/swing set glitch #2"
+    },
+    "note": {
+      "en": "Go to the location as noted. Let your friend lean against the wall like you saw in the video. Now drive slowly into the gate."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_81",
+    "category": "activity",
+    "position": {
+      "x": 0.404622,
+      "y": 0.578456
+    },
+    "title": {
+      "en": "Gentry Manor"
+    },
+    "note": {
+      "en": "Get a helicopter and fly up around the area of Eclipse Towers, When you see a Team Deathmatch that's where you need to be. If you're looking at the front on the right hand side on the roof, You'll see a smokestack and a corner by a terrace. Fly as high as you need to parachute, or land a bit and jump out if you're able. Run to the corner if you're not there already and walk into it or you'll fall through the building."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_82",
+    "category": "activity",
+    "position": {
+      "x": 0.239993,
+      "y": 0.370211
+    },
+    "title": {
+      "en": "Military base tower (easy)"
+    },
+    "note": {
+      "en": "Call Lester for blind eye. Walk up to the right side of the wall by the green door. Keep jumping/ punching the air."
+    }
+  },
+  {
+    "id": "poi_gtav_wall_breach_83",
+    "category": "activity",
+    "position": {
+      "x": 0.335696,
+      "y": 0.555572
+    },
+    "title": {
+      "en": "Martins mansion (with bike)"
+    },
+    "note": {
+      "en": "Reach the patio of the house just NW of Martin's house on a motorbike (you can use the slanted rock to the right of Martin's driveway as a ramp). Once on the patio of Martin's neighbor, position yourself so you are facing Martin's house (give yourself room to pick up speed). Begin driving towards Martin's roof while tilting backwards on the bike. If done correctly, you will hit the short wall and hop into the air, giving yourself enough airtime to reach Martin's roof. Drive slowly off the back of Martin's roof so that you land on his patio overlooking the city. Facing away from Martin's house, turn right and go as far as you can around the patio. You will reach a corner with those gray utility meters. Drive slowly through the corner to the right of the utility meters. You should go straight through the wall."
+    }
+  },
+  {
+    "id": "poi_gtav_glitch_84",
+    "category": "activity",
+    "position": {
+      "x": 0.286459,
+      "y": 0.655364
+    },
+    "title": {
+      "en": "Skateboard/Surfboard"
+    },
+    "note": {
+      "en": "Go to the location on the beach with lots of blue fences. Run anyone of them over. Stand in the center of the fence. Shoot at the top to go forward."
+    }
+  },
+  {
+    "id": "poi_gtav_gas_0",
+    "category": "landmark",
+    "position": {
+      "x": 0.497324,
+      "y": 0.711213
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_1",
+    "category": "landmark",
+    "position": {
+      "x": 0.497308,
+      "y": 0.711706
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_2",
+    "category": "landmark",
+    "position": {
+      "x": 0.494305,
+      "y": 0.705428
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_3",
+    "category": "landmark",
+    "position": {
+      "x": 0.49451,
+      "y": 0.705223
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_4",
+    "category": "landmark",
+    "position": {
+      "x": 0.49493,
+      "y": 0.705642
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_5",
+    "category": "landmark",
+    "position": {
+      "x": 0.493615,
+      "y": 0.704743
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_6",
+    "category": "landmark",
+    "position": {
+      "x": 0.494724,
+      "y": 0.705848
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_7",
+    "category": "landmark",
+    "position": {
+      "x": 0.493615,
+      "y": 0.705182
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_8",
+    "category": "landmark",
+    "position": {
+      "x": 0.466782,
+      "y": 0.67865
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_9",
+    "category": "landmark",
+    "position": {
+      "x": 0.466782,
+      "y": 0.678985
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_10",
+    "category": "landmark",
+    "position": {
+      "x": 0.46619,
+      "y": 0.67865
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_11",
+    "category": "landmark",
+    "position": {
+      "x": 0.46619,
+      "y": 0.678985
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_12",
+    "category": "landmark",
+    "position": {
+      "x": 0.467375,
+      "y": 0.67865
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_13",
+    "category": "landmark",
+    "position": {
+      "x": 0.467375,
+      "y": 0.678985
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_14",
+    "category": "landmark",
+    "position": {
+      "x": 0.493033,
+      "y": 0.629491
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_15",
+    "category": "landmark",
+    "position": {
+      "x": 0.492502,
+      "y": 0.629585
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_16",
+    "category": "landmark",
+    "position": {
+      "x": 0.492925,
+      "y": 0.628882
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_17",
+    "category": "landmark",
+    "position": {
+      "x": 0.492395,
+      "y": 0.628975
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_18",
+    "category": "landmark",
+    "position": {
+      "x": 0.4928,
+      "y": 0.62826
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_19",
+    "category": "landmark",
+    "position": {
+      "x": 0.492269,
+      "y": 0.628353
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_20",
+    "category": "landmark",
+    "position": {
+      "x": 0.403297,
+      "y": 0.786108
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_21",
+    "category": "landmark",
+    "position": {
+      "x": 0.403731,
+      "y": 0.786411
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_22",
+    "category": "landmark",
+    "position": {
+      "x": 0.403923,
+      "y": 0.786538
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_23",
+    "category": "landmark",
+    "position": {
+      "x": 0.403083,
+      "y": 0.785951
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_24",
+    "category": "landmark",
+    "position": {
+      "x": 0.494178,
+      "y": 0.815827
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_25",
+    "category": "landmark",
+    "position": {
+      "x": 0.429767,
+      "y": 0.816385
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_26",
+    "category": "landmark",
+    "position": {
+      "x": 0.427831,
+      "y": 0.695969
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_27",
+    "category": "landmark",
+    "position": {
+      "x": 0.427831,
+      "y": 0.695444
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_28",
+    "category": "landmark",
+    "position": {
+      "x": 0.427831,
+      "y": 0.694884
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_29",
+    "category": "landmark",
+    "position": {
+      "x": 0.427204,
+      "y": 0.694884
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_30",
+    "category": "landmark",
+    "position": {
+      "x": 0.427204,
+      "y": 0.695444
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_31",
+    "category": "landmark",
+    "position": {
+      "x": 0.427204,
+      "y": 0.695969
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_32",
+    "category": "landmark",
+    "position": {
+      "x": 0.426587,
+      "y": 0.694884
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_33",
+    "category": "landmark",
+    "position": {
+      "x": 0.426587,
+      "y": 0.695444
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_34",
+    "category": "landmark",
+    "position": {
+      "x": 0.426587,
+      "y": 0.695969
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_35",
+    "category": "landmark",
+    "position": {
+      "x": 0.385764,
+      "y": 0.709859
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_36",
+    "category": "landmark",
+    "position": {
+      "x": 0.386126,
+      "y": 0.710484
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_37",
+    "category": "landmark",
+    "position": {
+      "x": 0.385235,
+      "y": 0.710164
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_38",
+    "category": "landmark",
+    "position": {
+      "x": 0.385597,
+      "y": 0.710791
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_39",
+    "category": "landmark",
+    "position": {
+      "x": 0.3847,
+      "y": 0.710473
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_40",
+    "category": "landmark",
+    "position": {
+      "x": 0.385062,
+      "y": 0.7111
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_41",
+    "category": "landmark",
+    "position": {
+      "x": 0.384359,
+      "y": 0.709317
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_42",
+    "category": "landmark",
+    "position": {
+      "x": 0.420362,
+      "y": 0.716948
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_43",
+    "category": "landmark",
+    "position": {
+      "x": 0.420842,
+      "y": 0.716494
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_44",
+    "category": "landmark",
+    "position": {
+      "x": 0.421255,
+      "y": 0.716927
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_45",
+    "category": "landmark",
+    "position": {
+      "x": 0.420768,
+      "y": 0.71739
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_46",
+    "category": "landmark",
+    "position": {
+      "x": 0.402537,
+      "y": 0.73123
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_47",
+    "category": "landmark",
+    "position": {
+      "x": 0.402721,
+      "y": 0.730723
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_48",
+    "category": "landmark",
+    "position": {
+      "x": 0.403118,
+      "y": 0.731441
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_49",
+    "category": "landmark",
+    "position": {
+      "x": 0.403303,
+      "y": 0.730935
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_50",
+    "category": "landmark",
+    "position": {
+      "x": 0.40372,
+      "y": 0.731644
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_51",
+    "category": "landmark",
+    "position": {
+      "x": 0.403904,
+      "y": 0.731137
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_52",
+    "category": "landmark",
+    "position": {
+      "x": 0.305698,
+      "y": 0.625665
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_53",
+    "category": "landmark",
+    "position": {
+      "x": 0.306158,
+      "y": 0.62527
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_54",
+    "category": "landmark",
+    "position": {
+      "x": 0.305515,
+      "y": 0.624523
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_55",
+    "category": "landmark",
+    "position": {
+      "x": 0.305056,
+      "y": 0.624918
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_56",
+    "category": "landmark",
+    "position": {
+      "x": 0.355918,
+      "y": 0.672439
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_57",
+    "category": "landmark",
+    "position": {
+      "x": 0.355918,
+      "y": 0.671953
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_58",
+    "category": "landmark",
+    "position": {
+      "x": 0.356535,
+      "y": 0.671953
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_59",
+    "category": "landmark",
+    "position": {
+      "x": 0.356535,
+      "y": 0.672439
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_60",
+    "category": "landmark",
+    "position": {
+      "x": 0.357147,
+      "y": 0.671953
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_61",
+    "category": "landmark",
+    "position": {
+      "x": 0.357147,
+      "y": 0.672439
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_62",
+    "category": "landmark",
+    "position": {
+      "x": 0.356299,
+      "y": 0.670122
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_63",
+    "category": "landmark",
+    "position": {
+      "x": 0.370234,
+      "y": 0.691973
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_64",
+    "category": "landmark",
+    "position": {
+      "x": 0.370431,
+      "y": 0.692062
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_65",
+    "category": "landmark",
+    "position": {
+      "x": 0.370759,
+      "y": 0.692218
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_66",
+    "category": "landmark",
+    "position": {
+      "x": 0.370952,
+      "y": 0.692309
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_67",
+    "category": "landmark",
+    "position": {
+      "x": 0.370499,
+      "y": 0.691407
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_68",
+    "category": "landmark",
+    "position": {
+      "x": 0.370696,
+      "y": 0.691496
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_69",
+    "category": "landmark",
+    "position": {
+      "x": 0.371024,
+      "y": 0.691653
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_70",
+    "category": "landmark",
+    "position": {
+      "x": 0.371217,
+      "y": 0.691743
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_71",
+    "category": "landmark",
+    "position": {
+      "x": 0.369191,
+      "y": 0.692611
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_72",
+    "category": "landmark",
+    "position": {
+      "x": 0.368975,
+      "y": 0.693075
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_73",
+    "category": "landmark",
+    "position": {
+      "x": 0.291892,
+      "y": 0.662475
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_74",
+    "category": "landmark",
+    "position": {
+      "x": 0.259072,
+      "y": 0.628262
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_75",
+    "category": "landmark",
+    "position": {
+      "x": 0.259134,
+      "y": 0.627675
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_76",
+    "category": "landmark",
+    "position": {
+      "x": 0.258499,
+      "y": 0.62761
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_77",
+    "category": "landmark",
+    "position": {
+      "x": 0.258448,
+      "y": 0.628197
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_78",
+    "category": "landmark",
+    "position": {
+      "x": 0.257896,
+      "y": 0.627547
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_79",
+    "category": "landmark",
+    "position": {
+      "x": 0.257835,
+      "y": 0.628132
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_80",
+    "category": "landmark",
+    "position": {
+      "x": 0.259781,
+      "y": 0.626633
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_81",
+    "category": "landmark",
+    "position": {
+      "x": 0.259547,
+      "y": 0.626609
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_82",
+    "category": "landmark",
+    "position": {
+      "x": 0.259024,
+      "y": 0.628717
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_83",
+    "category": "landmark",
+    "position": {
+      "x": 0.2584,
+      "y": 0.628652
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_84",
+    "category": "landmark",
+    "position": {
+      "x": 0.257787,
+      "y": 0.628587
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_85",
+    "category": "landmark",
+    "position": {
+      "x": 0.353614,
+      "y": 0.707818
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_86",
+    "category": "landmark",
+    "position": {
+      "x": 0.357873,
+      "y": 0.709997
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_87",
+    "category": "landmark",
+    "position": {
+      "x": 0.225968,
+      "y": 0.439052
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_88",
+    "category": "landmark",
+    "position": {
+      "x": 0.225495,
+      "y": 0.439081
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_89",
+    "category": "landmark",
+    "position": {
+      "x": 0.225882,
+      "y": 0.438527
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_90",
+    "category": "landmark",
+    "position": {
+      "x": 0.225462,
+      "y": 0.438551
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_91",
+    "category": "landmark",
+    "position": {
+      "x": 0.225896,
+      "y": 0.437996
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_92",
+    "category": "landmark",
+    "position": {
+      "x": 0.225441,
+      "y": 0.438025
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_93",
+    "category": "landmark",
+    "position": {
+      "x": 0.279946,
+      "y": 0.54731
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_94",
+    "category": "landmark",
+    "position": {
+      "x": 0.28031,
+      "y": 0.547707
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_95",
+    "category": "landmark",
+    "position": {
+      "x": 0.27949,
+      "y": 0.547728
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_96",
+    "category": "landmark",
+    "position": {
+      "x": 0.279854,
+      "y": 0.548125
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_97",
+    "category": "landmark",
+    "position": {
+      "x": 0.279032,
+      "y": 0.548168
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_98",
+    "category": "landmark",
+    "position": {
+      "x": 0.279396,
+      "y": 0.548565
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_99",
+    "category": "landmark",
+    "position": {
+      "x": 0.452024,
+      "y": 0.586473
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_100",
+    "category": "landmark",
+    "position": {
+      "x": 0.452023,
+      "y": 0.58575
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_101",
+    "category": "landmark",
+    "position": {
+      "x": 0.452635,
+      "y": 0.586473
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_102",
+    "category": "landmark",
+    "position": {
+      "x": 0.452635,
+      "y": 0.585749
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_103",
+    "category": "landmark",
+    "position": {
+      "x": 0.453253,
+      "y": 0.586473
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_104",
+    "category": "landmark",
+    "position": {
+      "x": 0.453252,
+      "y": 0.585749
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_105",
+    "category": "landmark",
+    "position": {
+      "x": 0.45297,
+      "y": 0.587645
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_106",
+    "category": "landmark",
+    "position": {
+      "x": 0.589734,
+      "y": 0.419925
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_107",
+    "category": "landmark",
+    "position": {
+      "x": 0.589976,
+      "y": 0.416655
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_108",
+    "category": "landmark",
+    "position": {
+      "x": 0.59269,
+      "y": 0.579289
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_109",
+    "category": "landmark",
+    "position": {
+      "x": 0.592673,
+      "y": 0.579682
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_110",
+    "category": "landmark",
+    "position": {
+      "x": 0.593207,
+      "y": 0.579705
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_111",
+    "category": "landmark",
+    "position": {
+      "x": 0.593224,
+      "y": 0.579312
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_112",
+    "category": "landmark",
+    "position": {
+      "x": 0.592145,
+      "y": 0.579659
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_113",
+    "category": "landmark",
+    "position": {
+      "x": 0.592162,
+      "y": 0.579266
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_114",
+    "category": "landmark",
+    "position": {
+      "x": 0.590843,
+      "y": 0.580498
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_115",
+    "category": "landmark",
+    "position": {
+      "x": 0.420579,
+      "y": 0.133495
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_116",
+    "category": "landmark",
+    "position": {
+      "x": 0.420638,
+      "y": 0.133832
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_117",
+    "category": "landmark",
+    "position": {
+      "x": 0.421103,
+      "y": 0.133402
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_118",
+    "category": "landmark",
+    "position": {
+      "x": 0.421158,
+      "y": 0.13374
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_119",
+    "category": "landmark",
+    "position": {
+      "x": 0.421624,
+      "y": 0.13331
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_120",
+    "category": "landmark",
+    "position": {
+      "x": 0.421679,
+      "y": 0.133648
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_121",
+    "category": "landmark",
+    "position": {
+      "x": 0.419422,
+      "y": 0.131677
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_122",
+    "category": "landmark",
+    "position": {
+      "x": 0.419302,
+      "y": 0.131556
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_123",
+    "category": "landmark",
+    "position": {
+      "x": 0.419469,
+      "y": 0.131725
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_124",
+    "category": "landmark",
+    "position": {
+      "x": 0.401762,
+      "y": 0.148645
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_125",
+    "category": "landmark",
+    "position": {
+      "x": 0.401743,
+      "y": 0.146434
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_126",
+    "category": "landmark",
+    "position": {
+      "x": 0.40133,
+      "y": 0.146846
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_127",
+    "category": "landmark",
+    "position": {
+      "x": 0.528629,
+      "y": 0.252958
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_128",
+    "category": "landmark",
+    "position": {
+      "x": 0.529023,
+      "y": 0.253233
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_129",
+    "category": "landmark",
+    "position": {
+      "x": 0.529565,
+      "y": 0.253876
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_130",
+    "category": "landmark",
+    "position": {
+      "x": 0.529854,
+      "y": 0.146867
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_131",
+    "category": "landmark",
+    "position": {
+      "x": 0.52957,
+      "y": 0.146734
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_132",
+    "category": "landmark",
+    "position": {
+      "x": 0.53014,
+      "y": 0.147001
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_133",
+    "category": "landmark",
+    "position": {
+      "x": 0.60057,
+      "y": 0.371839
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_134",
+    "category": "landmark",
+    "position": {
+      "x": 0.600728,
+      "y": 0.37156
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_135",
+    "category": "landmark",
+    "position": {
+      "x": 0.599645,
+      "y": 0.37223
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_136",
+    "category": "landmark",
+    "position": {
+      "x": 0.599816,
+      "y": 0.37194
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_137",
+    "category": "landmark",
+    "position": {
+      "x": 0.535881,
+      "y": 0.367406
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_138",
+    "category": "landmark",
+    "position": {
+      "x": 0.535806,
+      "y": 0.36729
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_139",
+    "category": "landmark",
+    "position": {
+      "x": 0.551827,
+      "y": 0.335474
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_140",
+    "category": "landmark",
+    "position": {
+      "x": 0.551276,
+      "y": 0.335801
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_141",
+    "category": "landmark",
+    "position": {
+      "x": 0.551609,
+      "y": 0.335604
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_142",
+    "category": "landmark",
+    "position": {
+      "x": 0.551445,
+      "y": 0.33571
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_143",
+    "category": "landmark",
+    "position": {
+      "x": 0.427198,
+      "y": 0.419042
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_144",
+    "category": "landmark",
+    "position": {
+      "x": 0.427063,
+      "y": 0.419069
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_145",
+    "category": "landmark",
+    "position": {
+      "x": 0.480992,
+      "y": 0.415643
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_146",
+    "category": "landmark",
+    "position": {
+      "x": 0.482248,
+      "y": 0.414703
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_147",
+    "category": "landmark",
+    "position": {
+      "x": 0.482248,
+      "y": 0.414236
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_148",
+    "category": "landmark",
+    "position": {
+      "x": 0.482803,
+      "y": 0.414235
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_149",
+    "category": "landmark",
+    "position": {
+      "x": 0.482803,
+      "y": 0.414702
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_150",
+    "category": "landmark",
+    "position": {
+      "x": 0.496378,
+      "y": 0.41033
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_151",
+    "category": "landmark",
+    "position": {
+      "x": 0.49469,
+      "y": 0.415385
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_152",
+    "category": "landmark",
+    "position": {
+      "x": 0.494613,
+      "y": 0.415308
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_153",
+    "category": "landmark",
+    "position": {
+      "x": 0.494427,
+      "y": 0.415121
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_154",
+    "category": "landmark",
+    "position": {
+      "x": 0.41186,
+      "y": 0.406798
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_155",
+    "category": "landmark",
+    "position": {
+      "x": 0.41176,
+      "y": 0.406723
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_gas_156",
+    "category": "landmark",
+    "position": {
+      "x": 0.412737,
+      "y": 0.406073
+    },
+    "title": {
+      "en": "Gas Station",
+      "fr": "Station-service"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_0",
+    "category": "safehouse",
+    "position": {
+      "x": 0.350077,
+      "y": 0.592229
+    },
+    "title": {
+      "en": "Garage — Michael - Beverly Hills",
+      "fr": "Garage — Michael - Beverly Hills"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_1",
+    "category": "safehouse",
+    "position": {
+      "x": 0.548605,
+      "y": 0.33268
+    },
+    "title": {
+      "en": "Garage — Trevor - Countryside",
+      "fr": "Garage — Trevor - Countryside"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_2",
+    "category": "safehouse",
+    "position": {
+      "x": 0.326383,
+      "y": 0.715532
+    },
+    "title": {
+      "en": "Garage — Trevor - City",
+      "fr": "Garage — Trevor - City"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_3",
+    "category": "safehouse",
+    "position": {
+      "x": 0.418454,
+      "y": 0.697533
+    },
+    "title": {
+      "en": "Garage — Trevor - Stripclub",
+      "fr": "Garage — Trevor - Stripclub"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_4",
+    "category": "safehouse",
+    "position": {
+      "x": 0.406281,
+      "y": 0.707544
+    },
+    "title": {
+      "en": "Garage — Franklin - Aunt",
+      "fr": "Garage — Franklin - Aunt"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_5",
+    "category": "safehouse",
+    "position": {
+      "x": 0.409993,
+      "y": 0.566799
+    },
+    "title": {
+      "en": "Garage — Franklin - Hills",
+      "fr": "Garage — Franklin - Hills"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_6",
+    "category": "safehouse",
+    "position": {
+      "x": 0.575283,
+      "y": 0.382222
+    },
+    "title": {
+      "en": "Garage — Lockup_PSY_01",
+      "fr": "Garage — Lockup_PSY_01"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_7",
+    "category": "safehouse",
+    "position": {
+      "x": 0.575283,
+      "y": 0.382222
+    },
+    "title": {
+      "en": "Garage — Lockup_PSY_02",
+      "fr": "Garage — Lockup_PSY_02"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_8",
+    "category": "safehouse",
+    "position": {
+      "x": 0.575283,
+      "y": 0.382222
+    },
+    "title": {
+      "en": "Garage — Lockup_PSY_03",
+      "fr": "Garage — Lockup_PSY_03"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_9",
+    "category": "safehouse",
+    "position": {
+      "x": 0.519058,
+      "y": 0.761345
+    },
+    "title": {
+      "en": "Garage — Lockup_CSY_01",
+      "fr": "Garage — Lockup_CSY_01"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_10",
+    "category": "safehouse",
+    "position": {
+      "x": 0.519058,
+      "y": 0.761345
+    },
+    "title": {
+      "en": "Garage — Lockup_CSY_02",
+      "fr": "Garage — Lockup_CSY_02"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_11",
+    "category": "safehouse",
+    "position": {
+      "x": 0.519058,
+      "y": 0.761345
+    },
+    "title": {
+      "en": "Garage — Lockup_CSY_03",
+      "fr": "Garage — Lockup_CSY_03"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_12",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493738,
+      "y": 0.415036
+    },
+    "title": {
+      "en": "Garage — Lockup_CMS_01",
+      "fr": "Garage — Lockup_CMS_01"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_13",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493738,
+      "y": 0.415036
+    },
+    "title": {
+      "en": "Garage — Lockup_CMS_02",
+      "fr": "Garage — Lockup_CMS_02"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_14",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493738,
+      "y": 0.415036
+    },
+    "title": {
+      "en": "Garage — Lockup_CMS_03",
+      "fr": "Garage — Lockup_CMS_03"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_15",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493767,
+      "y": 0.82849
+    },
+    "title": {
+      "en": "Garage — MP_GAR_SIMEON",
+      "fr": "Garage — MP_GAR_SIMEON"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_16",
+    "category": "safehouse",
+    "position": {
+      "x": 0.350077,
+      "y": 0.592229
+    },
+    "title": {
+      "en": "Garage — Michael - Beverly Hills",
+      "fr": "Garage — Michael - Beverly Hills"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_17",
+    "category": "safehouse",
+    "position": {
+      "x": 0.548605,
+      "y": 0.33268
+    },
+    "title": {
+      "en": "Garage — Trevor - Countryside",
+      "fr": "Garage — Trevor - Countryside"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_18",
+    "category": "safehouse",
+    "position": {
+      "x": 0.326383,
+      "y": 0.715532
+    },
+    "title": {
+      "en": "Garage — Trevor - City",
+      "fr": "Garage — Trevor - City"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_19",
+    "category": "safehouse",
+    "position": {
+      "x": 0.418454,
+      "y": 0.697533
+    },
+    "title": {
+      "en": "Garage — Trevor - Stripclub",
+      "fr": "Garage — Trevor - Stripclub"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_20",
+    "category": "safehouse",
+    "position": {
+      "x": 0.406281,
+      "y": 0.707544
+    },
+    "title": {
+      "en": "Garage — Franklin - Aunt",
+      "fr": "Garage — Franklin - Aunt"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_21",
+    "category": "safehouse",
+    "position": {
+      "x": 0.410015,
+      "y": 0.566799
+    },
+    "title": {
+      "en": "Garage — Franklin - Hills",
+      "fr": "Garage — Franklin - Hills"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_22",
+    "category": "safehouse",
+    "position": {
+      "x": 0.575283,
+      "y": 0.382222
+    },
+    "title": {
+      "en": "Garage — Lockup_PSY_01",
+      "fr": "Garage — Lockup_PSY_01"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_23",
+    "category": "safehouse",
+    "position": {
+      "x": 0.575283,
+      "y": 0.382222
+    },
+    "title": {
+      "en": "Garage — Lockup_PSY_02",
+      "fr": "Garage — Lockup_PSY_02"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_24",
+    "category": "safehouse",
+    "position": {
+      "x": 0.575283,
+      "y": 0.382222
+    },
+    "title": {
+      "en": "Garage — Lockup_PSY_03",
+      "fr": "Garage — Lockup_PSY_03"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_25",
+    "category": "safehouse",
+    "position": {
+      "x": 0.519058,
+      "y": 0.761345
+    },
+    "title": {
+      "en": "Garage — Lockup_CSY_01",
+      "fr": "Garage — Lockup_CSY_01"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_26",
+    "category": "safehouse",
+    "position": {
+      "x": 0.519058,
+      "y": 0.761345
+    },
+    "title": {
+      "en": "Garage — Lockup_CSY_02",
+      "fr": "Garage — Lockup_CSY_02"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_27",
+    "category": "safehouse",
+    "position": {
+      "x": 0.519058,
+      "y": 0.761345
+    },
+    "title": {
+      "en": "Garage — Lockup_CSY_03",
+      "fr": "Garage — Lockup_CSY_03"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_28",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493738,
+      "y": 0.415036
+    },
+    "title": {
+      "en": "Garage — Lockup_CMS_01",
+      "fr": "Garage — Lockup_CMS_01"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_29",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493738,
+      "y": 0.415036
+    },
+    "title": {
+      "en": "Garage — Lockup_CMS_02",
+      "fr": "Garage — Lockup_CMS_02"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_30",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493738,
+      "y": 0.415036
+    },
+    "title": {
+      "en": "Garage — Lockup_CMS_03",
+      "fr": "Garage — Lockup_CMS_03"
+    }
+  },
+  {
+    "id": "poi_gtav_garage_31",
+    "category": "safehouse",
+    "position": {
+      "x": 0.493767,
+      "y": 0.82849
+    },
+    "title": {
+      "en": "Garage — MP_GAR_SIMEON",
+      "fr": "Garage — MP_GAR_SIMEON"
+    }
   }
 ]

@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_wall_breach_26_2",
+  "category": "activity",
+  "position": {
+    "x": 0.453289,
+    "y": 0.40762
+  },
+  "title": {
+    "en": "Dollar Pills"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Climb on top of the yellow cloth bin and jump again to get inside the building."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#26"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_knife_flight_190",
+  "category": "activity",
+  "position": {
+    "x": 0.342611,
+    "y": 0.624186
+  },
+  "title": {
+    "en": "Knife Flight #9",
+    "fr": "Vol en rase-mottes #9"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#190"
+}

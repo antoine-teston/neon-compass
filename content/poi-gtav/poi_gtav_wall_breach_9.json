@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_wall_breach_9",
+  "category": "activity",
+  "position": {
+    "x": 0.403237,
+    "y": 0.600982
+  },
+  "title": {
+    "en": "Insurance store in San Andreas"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#9"
+}

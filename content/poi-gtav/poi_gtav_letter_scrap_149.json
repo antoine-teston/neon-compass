@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_149",
+  "category": "collectible",
+  "position": {
+    "x": 0.454753,
+    "y": 0.680013
+  },
+  "title": {
+    "en": "Letter Scrap #18 - La Mesa",
+    "fr": "Fragment de lettre #18 - La Mesa"
+  },
+  "note": {
+    "en": "Either side of the bridge is an archway. Underneath the arch on the south side of the bridge is this letter."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#149"
+}

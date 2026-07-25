@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_wall_breach_4",
+  "category": "activity",
+  "position": {
+    "x": 0.334963,
+    "y": 0.693676
+  },
+  "title": {
+    "en": "Bridge in Del Perro"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Swim under the bridge and hop up the rail on the left side. Turn left and straight run through the wall."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#4"
+}

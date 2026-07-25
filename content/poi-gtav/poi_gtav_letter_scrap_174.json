@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_174",
+  "category": "collectible",
+  "position": {
+    "x": 0.349935,
+    "y": 0.404948
+  },
+  "title": {
+    "en": "Letter Scrap #43 - Great Chaparaal",
+    "fr": "Fragment de lettre #43 - Great Chaparaal"
+  },
+  "note": {
+    "en": "Underneath the bridge is a rocky path, and this Letter Scrap is right in the middle of it."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#174"
+}

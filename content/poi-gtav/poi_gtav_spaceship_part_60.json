@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_spaceship_part_60",
+  "category": "collectible",
+  "position": {
+    "x": 0.421549,
+    "y": 0.644206
+  },
+  "title": {
+    "en": "Spaceship Part #29 - Pillbox Hill",
+    "fr": "Pièce de vaisseau #29 - Pillbox Hill"
+  },
+  "note": {
+    "en": "This Part is located in a tunnel, the entrance of which can be found in Textile City. Drive into the tunnel and take a right at the fork. Keep driving along the train tracks until you are met with two enclosed tunnels. Take the left tunnel and drive through it until you are met with another choice of two tunnels. Take the right one this time and drive through it a short way until you come out into a room. Go up the ramp to the right to find some constructions workers stood around. The Spaceship Part is located behind the red barrier next to a table with a blueprint on it."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#60"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_172",
+  "category": "collectible",
+  "position": {
+    "x": 0.43099,
+    "y": 0.398763
+  },
+  "title": {
+    "en": "Letter Scrap #41 - Grand Senora Desert",
+    "fr": "Fragment de lettre #41 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "This is on top of the largest building in the quarry. To get up there, follow the series of ladders which begins on ground level next to the building on one of the support beams."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#172"
+}

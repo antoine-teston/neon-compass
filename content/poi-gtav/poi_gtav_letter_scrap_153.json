@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_153",
+  "category": "collectible",
+  "position": {
+    "x": 0.484701,
+    "y": 0.822917
+  },
+  "title": {
+    "en": "Letter Scrap #22 - Terminal / Buccaneer Way",
+    "fr": "Fragment de lettre #22 - Terminal / Buccaneer Way"
+  },
+  "note": {
+    "en": "This one involves climbing quite a few containers in the shipment area. First climb up the yellow “Post Op” container, and then the grey “Jetsam” one. Jump over the small gap to the next container, then climb up the one either side to jump across to the blue on which the Letter sits on top of."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#153"
+}

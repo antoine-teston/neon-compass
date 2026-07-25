@@ -48,7 +48,14 @@ targets:
       - path: NeonCompass
         excludes:
           - "Resources/MapArt/**"
+          - "Resources/POI/**"
       - path: NeonCompass/Resources/MapArt
+        type: folder
+      # Référence de dossier, comme MapArt : sans `type: folder` XcodeGen
+      # aplatit seed-poi.json à la racine du bundle, et le
+      # `subdirectory: "POI"` de POILoader.loadSeed ne le trouve jamais — la
+      # carte se retrouvait alors sans le moindre POI.
+      - path: NeonCompass/Resources/POI
         type: folder
       # WidgetSummary.swift lives under NeonCompassWidgets/ on disk (its natural home
       # alongside the rest of the widget extension) but is compiled into BOTH targets —

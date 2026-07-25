@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_stunt_jump_108",
+  "category": "activity",
+  "position": {
+    "x": 0.372721,
+    "y": 0.712891
+  },
+  "title": {
+    "en": "Stunt Jump #27 - La Puerta/Dutch London St",
+    "fr": "Saut cascade #27 - La Puerta/Dutch London St"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#108"
+}

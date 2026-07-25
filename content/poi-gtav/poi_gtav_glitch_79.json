@@ -1,0 +1,19 @@
+{
+  "id": "poi_gtav_glitch_79",
+  "category": "activity",
+  "position": {
+    "x": 0.400393,
+    "y": 0.535071
+  },
+  "title": {
+    "en": "Gate/swing set glitch"
+  },
+  "note": {
+    "en": "Go to the location as noted. Let your friend lean against the wall like you saw in the video. Now drive slowly into the gate."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map#79"
+}

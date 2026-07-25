@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_letter_scrap_160",
+  "category": "collectible",
+  "position": {
+    "x": 0.336263,
+    "y": 0.696289
+  },
+  "title": {
+    "en": "Letter Scrap #29 - La Puerta",
+    "fr": "Fragment de lettre #29 - La Puerta"
+  },
+  "note": {
+    "en": "Underneath the bridge is a tunnel. Jump into the water and swim under the bridge. The Letter is on the platform in the centre of the tunnel."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#160"
+}

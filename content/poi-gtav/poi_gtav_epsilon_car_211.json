@@ -1,0 +1,16 @@
+{
+  "id": "poi_gtav_epsilon_car_211",
+  "category": "vehicle",
+  "position": {
+    "x": 0.449463,
+    "y": 0.616211
+  },
+  "title": {
+    "en": "Declasse Tornado"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV#211"
+}
