@@ -21,10 +21,13 @@ const outDir = process.argv[3] ?? join(HERE, 'out');
 const size = Number(process.argv[4] ?? 2048);
 
 mkdirSync(outDir, { recursive: true });
-// sharp re-rasterise le SVG à la densité voulue, donc les traits restent
-// nets à la résolution cible — même technique que l'ancienne pyramide de
-// tuiles pour son niveau de zoom le plus détaillé.
-const density = 72 * (size / 256);
+// sharp re-rasterise le SVG à la densité voulue, donc les traits restent nets
+// à la résolution cible. La densité se calcule sur la taille INTRINSÈQUE du
+// SVG, pas sur un pas de tuile : l'ancienne formule (72 × size/256) héritait
+// de la pyramide de tuiles et rasterisait un SVG de 1 024 px à 16 384 px dès
+// qu'on demandait 4 096 — au-delà de la limite de pixels de sharp, donc échec.
+const intrinsic = (await sharp(input).metadata()).width || size;
+const density = Math.round(72 * (size / intrinsic));
 const image = await sharp(input, { density }).resize(size, size).png().toBuffer();
 await sharp(image).toFile(join(outDir, 'island.png'));
 
