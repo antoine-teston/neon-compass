@@ -62,6 +62,14 @@ export const ACTIONS = {
     argv: [CLI, 'bundle'],
     writesRepo: true,
   },
+  'pull-drafts': {
+    label: 'Récupérer les brouillons de l’éditeur',
+    group: 'local',
+    hint: 'Matérialise ce qui a été posé au doigt en fichiers content/poi',
+    argv: [CLI, 'pull-drafts'],
+    writesRepo: true,
+    needsCredentials: true,
+  },
   import: {
     label: 'Ré-importer la carte de référence',
     group: 'local',

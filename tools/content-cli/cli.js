@@ -16,13 +16,16 @@
 //   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
 //                          contentVersion dans Remote Config ; nécessite
 //                          FIREBASE_SERVICE_ACCOUNT_PATH.
+//   pull-drafts            matérialise les brouillons du mode éditeur (posés au doigt
+//                          dans le build debug) en fichiers content/poi/*.json ;
+//                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 //   rules-diff             compare firestore.rules au ruleset actif en ligne
 //   deploy-rules           affiche le diff PUIS déploie firestore.rules (racine du
 //                          repo) comme ruleset actif sur le projet Firestore live ;
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { execSync } from 'node:child_process';
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
@@ -389,6 +392,55 @@ switch (cmd) {
       ok = false;
     }
     break;
+  case 'pull-drafts':
+    try {
+      const { listEditorDrafts, markEditorDraftsApplied } = await import('./firestore-client.js');
+      const { materialize } = await import('./draft-to-poi.mjs');
+
+      const drafts = await listEditorDrafts();
+      if (!drafts.length) {
+        console.log('pull-drafts: aucun brouillon en attente');
+        ok = true;
+        break;
+      }
+
+      const dir = join(CONTENT, 'poi');
+      const existing = readdirSync(dir)
+        .filter((name) => name.endsWith('.json'))
+        .map((name) => ({
+          path: join('content', 'poi', name),
+          data: JSON.parse(readFileSync(join(dir, name), 'utf8')),
+        }));
+
+      const capturedOn = new Date().toISOString().slice(0, 10);
+      const result = materialize(drafts, existing, { capturedOn });
+
+      // Un lot en conflit n'est jamais appliqué à moitié : on signale et on sort.
+      if (result.conflicts.length) {
+        result.conflicts.forEach((c) => console.error(`  conflit ${c.id}: ${c.reason}`));
+        console.error("pull-drafts: rien appliqué — résoudre les conflits d'abord");
+        ok = false;
+        break;
+      }
+
+      result.writes.forEach(({ path, data }) => {
+        writeFileSync(join(ROOT, path), `${JSON.stringify(data, null, 2)}\n`);
+        console.log(`  écrit  ${path}`);
+      });
+      result.deletes.forEach((path) => {
+        rmSync(join(ROOT, path));
+        console.log(`  retiré ${path}`);
+      });
+      result.skipped.forEach((s) => console.log(`  ignoré ${s.id}: ${s.reason}`));
+
+      await markEditorDraftsApplied(result.applied);
+      console.log(`pull-drafts: ${result.applied.length} brouillon(s) appliqué(s) — relire puis committer`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
   case 'moderate:list':
     try {
       const { listPendingContributions } = await import('./firestore-client.js');
@@ -479,7 +531,7 @@ switch (cmd) {
     }
     break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|pull-drafts|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
     ok = false;
 }
 
