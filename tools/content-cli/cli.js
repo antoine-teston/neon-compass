@@ -19,6 +19,8 @@
 //   pull-drafts            matérialise les brouillons du mode éditeur (posés au doigt
 //                          dans le build debug) en fichiers content/poi/*.json ;
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
+//   pull-drafts --file X   même chose depuis un fichier exporté par l'app (repli sans
+//                          compte, cf. FileEditorDraftStore) ; aucun credential requis.
 //   build-cdn              construit le site statique de contenu dans dist/ (JSON
 //                          versionné, lisible sans SDK — voir cdn-build.mjs)
 //   content-source [url|off]  affiche ou change la source de contenu lue par l'app
@@ -29,7 +31,7 @@
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { execSync } from 'node:child_process';
-import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync, renameSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
@@ -448,10 +450,35 @@ switch (cmd) {
   }
   case 'pull-drafts':
     try {
-      const { listEditorDrafts, markEditorDraftsApplied } = await import('./firestore-client.js');
       const { materialize } = await import('./draft-to-poi.mjs');
 
-      const drafts = await listEditorDrafts();
+      // Deux sources, un seul traitement. Le fichier est le repli quand aucun
+      // compte n'existe (cf. FileEditorDraftStore côté app) : il ne demande
+      // aucun credential, donc il fonctionne même sans adhésion au programme
+      // développeur Apple.
+      const fileIndex = flags.indexOf('--file');
+      const draftFile = fileIndex >= 0 ? flags[fileIndex + 1] : null;
+      if (fileIndex >= 0 && !draftFile) throw new Error('usage: cli.js pull-drafts --file <chemin>');
+
+      let drafts;
+      let markApplied;
+      if (draftFile) {
+        drafts = JSON.parse(readFileSync(draftFile, 'utf8'));
+        if (!Array.isArray(drafts)) throw new Error(`${draftFile} ne contient pas un tableau de brouillons`);
+        // Le fichier est renommé plutôt que supprimé : une capture de terrain ne
+        // se refait pas, et l'idempotence par processedFrom rend un rejeu
+        // inoffensif de toute façon.
+        markApplied = async () => {
+          const archived = draftFile.replace(/\.json$/, '') + '.applied.json';
+          renameSync(draftFile, archived);
+          console.log(`  archivé ${archived}`);
+        };
+      } else {
+        const { listEditorDrafts, markEditorDraftsApplied } = await import('./firestore-client.js');
+        drafts = await listEditorDrafts();
+        markApplied = (ids) => markEditorDraftsApplied(ids);
+      }
+
       if (!drafts.length) {
         console.log('pull-drafts: aucun brouillon en attente');
         ok = true;
@@ -487,7 +514,7 @@ switch (cmd) {
       });
       result.skipped.forEach((s) => console.log(`  ignoré ${s.id}: ${s.reason}`));
 
-      await markEditorDraftsApplied(result.applied);
+      await markApplied(result.applied);
       console.log(`pull-drafts: ${result.applied.length} brouillon(s) appliqué(s) — relire puis committer`);
       ok = true;
     } catch (err) {
@@ -585,7 +612,7 @@ switch (cmd) {
     }
     break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|content-source [url|off]|pull-drafts|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|content-source [url|off]|pull-drafts [--file X]|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
     ok = false;
 }
 

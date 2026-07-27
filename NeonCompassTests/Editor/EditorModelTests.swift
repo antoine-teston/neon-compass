@@ -34,16 +34,9 @@ private let fixedDate = Date(timeIntervalSince1970: 1_763_000_000)
 
 @MainActor
 struct EditorModelTests {
-    /// `isBackendAvailable` forcé à vrai : les tests tournent sans Firebase
-    /// configuré, et l'armement en dépend.
-    private func makeModel(store: SpyDraftStore, backendAvailable: Bool = true) -> EditorModel {
+    private func makeModel(store: SpyDraftStore) -> EditorModel {
         let counter = IDCounter()
-        return EditorModel(
-            store: store,
-            makeID: { counter.next() },
-            now: { fixedDate },
-            isBackendAvailable: { backendAvailable }
-        )
+        return EditorModel(store: store, makeID: { counter.next() }, now: { fixedDate })
     }
 
     private func spot(id: String = "c7", category: POICategory = .activity, title: String = "Rampe derrière l'entrepôt") -> Contribution {
@@ -73,15 +66,15 @@ struct EditorModelTests {
         #expect(model.isArmed)
     }
 
-    /// Sans Firebase configuré, capturer enverrait les brouillons dans le vide —
-    /// et le premier appel au SDK planterait d'une erreur fatale non rattrapable.
-    /// Le bouton ne doit donc même pas apparaître.
-    @Test func refusesToArmWithoutABackend() {
-        let model = makeModel(store: SpyDraftStore(), backendAvailable: false)
-        #expect(!model.canArm(on: .leonida))
+    /// L'éditeur s'arme désormais SANS compte ni Firebase : le repli fichier
+    /// garantit qu'une capture atterrit toujours quelque part. C'est ce qui le
+    /// rend utilisable sans adhésion au programme développeur Apple.
+    @Test func armsEvenWithoutAnyBackend() {
+        let model = makeModel(store: SpyDraftStore())
+        #expect(model.canArm(on: .leonida))
 
         model.setArmed(true, on: .leonida)
-        #expect(!model.isArmed)
+        #expect(model.isArmed)
     }
 
     /// Basculer sur la carte de référence pendant que l'éditeur est armé doit le
