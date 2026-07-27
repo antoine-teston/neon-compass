@@ -64,30 +64,58 @@ struct BannerAdView: View {
     var adUnitID: String = "ca-app-pub-3940256099942544/2934735716" // AdMob's public test adaptive-banner ID — replace once provisioned.
     @State private var measuredWidth: CGFloat = 0
 
-    /// Defensive upper bound on the banner's on-screen height. A correctly
-    /// served anchored adaptive banner is 50–150pt (see `GADAdSize.h`), so a
-    /// value above this is never a legitimate banner — it's a misbehaving
-    /// creative that must not be allowed to dictate our layout. Observed
-    /// concretely on the iOS 26.5 Simulator with AdMob's *test* creatives: a
-    /// 346×108 anchored-adaptive request comes back, on `didReceiveAd`, with
-    /// the `BannerView` having resized *itself* to exactly 2× (692×216) and
-    /// reporting 692×216 as its `intrinsicContentSize`. Left unpinned, SwiftUI
-    /// honours that inflated intrinsic size: the ad overflows its frame, spills
-    /// past the horizontal padding full-width, and paints over the compact tab
-    /// bar (the "gros zoom sur les ads et le menu du bas" regression). We pin
-    /// the layout size below and clamp/clip here so no creative — test or
-    /// real — can blow up the layout.
-    private static let maxAdHeight: CGFloat = 150
+    /// Plafond de hauteur de l'emplacement, et **taille demandée à AdMob**.
+    ///
+    /// Historique : cette valeur était à 150, la borne haute documentée d'un
+    /// anchored adaptive banner, et le format demandé était
+    /// `largeAnchoredAdaptiveBanner` — qui sert ~100 pt sur iPhone. Vérifié en
+    /// simulateur : la créative de test rendue est un 320×100. Sur un écran de
+    /// 874 pt, l'encart occupait ~14 % de la hauteur, et les listes en
+    /// réservaient 150 (plus la garde de tab bar) : le quart de l'écran
+    /// soustrait au contenu en permanence, pour une annonce plus petite que la
+    /// réservation.
+    ///
+    /// Le SDK 13.7 a déprécié les fonctions anchored adaptive *standard* au
+    /// profit des variantes `Large...` (`GADAdSize.h:189`), il n'y a donc pas de
+    /// « anchored adaptive court » non déprécié à demander. On passe à
+    /// `inlineAdaptiveBanner(width:maxHeight:)`, qui n'est pas déprécié et qui
+    /// prend un plafond explicite : on garde un format adaptatif pleine largeur
+    /// (bien mieux rémunéré que le 320×50 fixe hérité, et correct sur iPad) tout
+    /// en choisissant sa hauteur.
+    ///
+    /// 50 pt, et pas 60 : un plafond plus haut que la créative servie la laisse
+    /// centrée dans son emplacement, avec un liseré noir au-dessus et en
+    /// dessous — vérifié en simulateur à 60. Un inline adaptive ne rend jamais
+    /// plus haut que son plafond, donc caler le plafond sur la hauteur standard
+    /// supprime le liseré sans rien rogner.
+    static let maxAdHeight: CGFloat = 50
 
-    /// Height the banner occupies once a width is known, clamped so a
-    /// misbehaving creative can't exceed a sane banner height. While the width
-    /// is still being measured we reserve `maxAdHeight` rather than letting the
-    /// placeholder be vertically greedy (a bare `Color.clear` expands to fill
-    /// whatever the container offers — in Feed/Cheats' bottom-aligned `ZStack`
-    /// that's the whole screen).
+    /// Espace qu'un écran hôte doit réserver sous son contenu : la hauteur
+    /// maximale de l'annonce plus le `padding(12)` de la bulle de verre qui
+    /// l'entoure.
+    ///
+    /// Exposé pour que les écrans cessent de deviner. La constante de 150 qu'ils
+    /// portaient en dur se décrivait elle-même comme « une estimation haute
+    /// délibérément conservatrice, pas une mesure » — et elle était fausse de
+    /// 50 pt. Ici la valeur ne peut pas dériver : c'est celle qu'on demande et
+    /// celle qu'on clampe.
+    static let reservedHeight: CGFloat = maxAdHeight + 24
+
+    /// Hauteur réellement occupée une fois la largeur connue, clampée pour
+    /// qu'une créative qui se gonflerait ne dicte pas la mise en page. Observé
+    /// concrètement sur le simulateur iOS 26.5 avec les créatives de *test* :
+    /// une demande 346×108 revient, sur `didReceiveAd`, avec la `BannerView`
+    /// redimensionnée d'elle-même au double (692×216) et annonçant cette taille
+    /// comme `intrinsicContentSize`. Sans épinglage, SwiftUI l'honore : l'annonce
+    /// déborde, dépasse les marges horizontales et peint par-dessus la tab bar.
+    ///
+    /// Tant que la largeur est en cours de mesure, on réserve `maxAdHeight`
+    /// plutôt que de laisser le remplaçant être vertialement gourmand (un
+    /// `Color.clear` nu s'étend à tout ce que le conteneur offre — dans le
+    /// `ZStack` aligné en bas de Feed/Cheats, c'est l'écran entier).
     private var slotHeight: CGFloat {
         guard measuredWidth > 0 else { return Self.maxAdHeight }
-        return min(largeAnchoredAdaptiveBanner(width: measuredWidth).size.height, Self.maxAdHeight)
+        return min(inlineAdaptiveBanner(width: measuredWidth, maxHeight: Self.maxAdHeight).size.height, Self.maxAdHeight)
     }
 
     var body: some View {
@@ -133,7 +161,7 @@ private struct BannerAdRepresentable: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> BannerView {
-        let banner = BannerView(adSize: largeAnchoredAdaptiveBanner(width: width > 0 ? width : UIScreen.main.bounds.width))
+        let banner = BannerView(adSize: inlineAdaptiveBanner(width: width > 0 ? width : UIScreen.main.bounds.width, maxHeight: BannerAdView.maxAdHeight))
         banner.adUnitID = adUnitID
         banner.rootViewController = AdPresentationContext.topViewController()
         banner.load(Request())
@@ -148,7 +176,7 @@ private struct BannerAdRepresentable: UIViewRepresentable {
         // previous updateUIView was a no-op, so the banner never
         // re-adapted after creation.
         guard width > 0, width != context.coordinator.requestedWidth else { return }
-        uiView.adSize = largeAnchoredAdaptiveBanner(width: width)
+        uiView.adSize = inlineAdaptiveBanner(width: width, maxHeight: BannerAdView.maxAdHeight)
         uiView.load(Request())
         context.coordinator.requestedWidth = width
     }
