@@ -127,21 +127,42 @@ Le job `publish` du workflow déploie aussi les règles, après la publication.
 | Workflow « Contenu » | ✅ validé par un run réel (`check` vert, `publish` correctement sauté) |
 | Environnement `production` | pas encore créé — GitHub le crée au premier run du job `publish`. Y attacher une approbation requise si tu veux un second regard humain. |
 | Credentials locaux | ✅ `~/.secrets/…` en 600, répertoire en 700, export dans `~/.zshenv` |
-| `workflow_dispatch` | ⚠️ ne sera déclenchable depuis l'UI que quand le workflow sera sur `main`. La PR #28 est mergée dans `plan-map-reference-polish`, pas encore dans `main` — quatre branches restent empilées. En attendant : `gh workflow run Contenu --ref <branche>`. |
+| `workflow_dispatch` | ✅ déclenchable depuis l'UI — le workflow est sur `main` depuis la PR #30 |
+| Clés de compte de service | ✅ une seule active (voir §8) |
 
-## 8. Deux clés existent — une seule est utilisée
+## 8. Une seule clé de compte de service
 
-Le compte de service `firebase-adminsdk-fbsvc@neoncompass-gt-vi` a **deux paires de clés actives** :
+Le compte `firebase-adminsdk-fbsvc@neoncompass-gt-vi` a porté deux paires de clés pendant un temps.
+Situation résolue :
 
-| Clé | Emplacement | Statut |
-|---|---|---|
-| `e55a3ee0…` | `~/.secrets/neon-compass-firebase-admin.json` | **la seule utilisée** — locale et secret GitHub |
-| `b52a5b59…` | `~/.secrets/neon-compass-firebase-admin-b52a5b59.json.unused` | plus référencée nulle part |
+| Clé | État |
+|---|---|
+| `e55a3ee0…` | **active**, `~/.secrets/neon-compass-firebase-admin.json` (mode 600) et secret GitHub |
+| `b52a5b59…` | **révoquée** le 2026-07-27 via `gcloud`, fichier local supprimé |
 
 La seconde traînait dans `~/Downloads` en mode `644`, lisible par tout ce qui parcourt ce répertoire.
-Elle a été sortie de là et remise en `600`, mais **pas détruite** : supprimer une clé privée est
-irréversible, et ce n'est pas à un outil de le décider.
 
-**À faire en console** — révoquer `b52a5b59…` dans IAM → Comptes de service → Clés, puis supprimer le
-fichier `.unused`. Deux paires actives pour un même compte, c'est deux fois la surface de fuite pour
-aucun bénéfice.
+**Comment vérifier une révocation** — l'API IAM n'est pas activée sur le projet, et le compte de
+service n'a ni le droit de l'activer ni celui de gérer les clés (c'est voulu : élargir durablement
+les droits d'une clé de production pour une action ponctuelle coûterait plus que ça ne rapporte). Le
+test qui marche sans rien activer est fonctionnel — une clé révoquée ne peut plus obtenir de jeton :
+
+```js
+// google-auth-library est déjà présent via firebase-admin
+const auth = new GoogleAuth({ keyFile: '<chemin>', scopes: ['https://www.googleapis.com/auth/cloud-platform'] });
+await (await auth.getClient()).getAccessToken();
+// clé révoquée -> invalid_grant: Invalid JWT Signature
+```
+
+Vérifié dans les deux sens au moment de la révocation : l'ancienne clé refusée, celle en usage
+toujours capable d'obtenir un jeton.
+
+## 9. Ménage de branches
+
+`main` contient désormais tout (PR #30). Ces branches distantes n'ont plus de contenu propre — leurs
+diffs à trois points contre `plan-map-reference-polish` étaient vides avant fusion :
+
+```
+plan-6c-localization  plan-ux-polish-2  plan-map-engine-rebuild
+plan-map-reference-polish  plan-poi-id-stability  ops/firebase-credentials
+```
