@@ -21,6 +21,7 @@ struct ProfileScreen: View {
     @Environment(ThemeStore.self) private var themeStore
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @State private var deletionFailed = false
+    @State private var signInError: String?
 
     var body: some View {
         ZStack {
@@ -74,6 +75,16 @@ struct ProfileScreen: View {
         }
         .alert("profile.deleteAccount.failed", isPresented: $deletionFailed) {
             Button("profile.deleteAccount.cancelButton", role: .cancel) {}
+        }
+        .alert(
+            "profile.signIn.failed",
+            isPresented: Binding(get: { signInError != nil }, set: { if !$0 { signInError = nil } })
+        ) {
+            Button("profile.deleteAccount.cancelButton", role: .cancel) { signInError = nil }
+        } message: {
+            // Le détail technique n'est pas traduit : il vient du système ou de
+            // Firebase, et c'est lui qui permet de comprendre le blocage.
+            Text(signInError ?? "")
         }
     }
 
@@ -285,17 +296,43 @@ struct ProfileScreen: View {
         }
     }
 
+    /// Chaque échec est désormais dit. La version précédente les avalait tous —
+    /// `guard … else { return }` puis `try?` — donc un utilisateur bloqué n'avait
+    /// aucun moyen de savoir pourquoi, et nous non plus. C'est la seule
+    /// connexion de l'app : elle ne peut pas échouer en silence.
     private func handleSignInResult(_ result: Result<ASAuthorization, Error>) {
-        guard case .success(let authorization) = result,
-              let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
-              let tokenData = credential.identityToken,
-              let idTokenString = String(data: tokenData, encoding: .utf8),
-              let nonce = currentNonce else {
-            return
+        switch result {
+        case .failure(let error):
+            // L'annulation volontaire n'est pas une erreur : refermer la feuille
+            // ne doit pas déclencher d'alerte.
+            if (error as? ASAuthorizationError)?.code == .canceled { return }
+            report(signInError: error.localizedDescription)
+        case .success(let authorization):
+            guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+                return report(signInError: "Identifiant Apple d'un type inattendu.")
+            }
+            guard let tokenData = credential.identityToken,
+                  let idTokenString = String(data: tokenData, encoding: .utf8) else {
+                return report(signInError: "Apple n'a pas renvoyé de jeton d'identité.")
+            }
+            guard let nonce = currentNonce else {
+                return report(signInError: "Nonce absent : la demande n'a pas été préparée.")
+            }
+            Task {
+                do {
+                    try await authModel.signIn(idTokenString: idTokenString, nonce: nonce)
+                } catch {
+                    report(signInError: error.localizedDescription)
+                }
+            }
         }
-        Task {
-            try? await authModel.signIn(idTokenString: idTokenString, nonce: nonce)
-        }
+    }
+
+    private func report(signInError message: String) {
+        // Imprimé en plus de l'alerte : c'est ce qui rend le diagnostic
+        // possible depuis les journaux du simulateur.
+        print("ProfileScreen: connexion refusée — \(message)")
+        signInError = message
     }
 
     // Standard Firebase + Sign in with Apple boilerplate: a random nonce is
