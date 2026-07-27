@@ -54,6 +54,11 @@ jobs:
       - name: Tests de frappe des identifiants
         run: node --test tools/basemap/gtav-poi-ids.test.mjs
 
+      # Surface d'attaque de la console web locale : liste blanche d'actions et
+      # refus des identifiants hostiles. Sans dépendance non plus.
+      - name: Tests de la console web
+        run: node --test tools/content-cli/ui/actions.test.mjs
+
       - name: Installer les dépendances du CLI
         working-directory: tools/content-cli
         run: npm ci

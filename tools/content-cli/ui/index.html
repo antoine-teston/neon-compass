@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neon Compass — console contenu</title>
+<style>
+  :root {
+    --bg: #0b0e17;
+    --panel: #141a28;
+    --panel-2: #1b2233;
+    --line: #263149;
+    --ink: #e8ecf5;
+    --muted: #8e9ab5;
+    --cyan: #35e6f0;
+    --magenta: #ff4fa8;
+    --lime: #b6f542;
+    --amber: #ffb63d;
+    --red: #ff5c5c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.5 ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
+  }
+  header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    align-items: baseline;
+  }
+  h1 { font-size: 17px; margin: 0; letter-spacing: .01em; }
+  h1 span { color: var(--cyan); }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+  .pill {
+    font-size: 12.5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pill b { color: var(--ink); font-weight: 600; }
+  .pill.ok { border-color: color-mix(in srgb, var(--lime) 45%, transparent); color: var(--lime); }
+  .pill.warn { border-color: color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber); }
+  .pill.bad { border-color: color-mix(in srgb, var(--red) 45%, transparent); color: var(--red); }
+
+  main { padding: 24px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
+  @media (max-width: 1020px) { main { grid-template-columns: minmax(0, 1fr); } }
+
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  section > h2 {
+    margin: 0;
+    padding: 12px 16px;
+    font-size: 12px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+    background: var(--panel-2);
+  }
+  .body { padding: 14px 16px; display: grid; gap: 10px; }
+
+  .action { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
+  .action .hint { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); margin-top: -2px; }
+  .action + .action { border-top: 1px solid var(--line); padding-top: 10px; }
+  .name { font-weight: 500; }
+  .tag { font-size: 11px; padding: 2px 7px; border-radius: 5px; margin-left: 8px; vertical-align: 1px; }
+  .tag.repo { background: color-mix(in srgb, var(--cyan) 16%, transparent); color: var(--cyan); }
+  .tag.prod { background: color-mix(in srgb, var(--magenta) 18%, transparent); color: var(--magenta); }
+  .tag.slow { background: color-mix(in srgb, var(--amber) 16%, transparent); color: var(--amber); }
+
+  button {
+    font: inherit;
+    font-size: 13.5px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    color: var(--ink);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  button.danger:hover:not(:disabled) { border-color: var(--magenta); color: var(--magenta); }
+
+  input {
+    font: inherit;
+    font-size: 13.5px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    min-width: 0;
+  }
+  input:focus { outline: none; border-color: var(--cyan); }
+  .row { display: flex; gap: 8px; }
+  .row input { flex: 1; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .dim { color: var(--muted); }
+
+  #console {
+    margin: 0;
+    padding: 14px 16px;
+    font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 46vh;
+    overflow-y: auto;
+    color: #cfd8ea;
+  }
+  #console:empty::after { content: "Aucune commande lancée."; color: var(--muted); }
+  .exit-ok { color: var(--lime); }
+  .exit-bad { color: var(--red); }
+  .cmd { color: var(--cyan); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Neon Compass <span>— console contenu</span></h1>
+  <div class="pills" id="pills"></div>
+</header>
+
+<main>
+  <div style="display:grid;gap:24px;min-width:0">
+    <section>
+      <h2>Contrôles — aucune écriture</h2>
+      <div class="body" id="g-checks"></div>
+    </section>
+    <section>
+      <h2>Écritures locales — le dépôt, pas la production</h2>
+      <div class="body" id="g-local"></div>
+    </section>
+    <section>
+      <h2>Inventaire</h2>
+      <div class="body"><div id="inventory"></div></div>
+    </section>
+  </div>
+
+  <div style="display:grid;gap:24px;min-width:0">
+    <section>
+      <h2>Production — écrit en ligne</h2>
+      <div class="body" id="g-prod"></div>
+    </section>
+    <section>
+      <h2>Modération</h2>
+      <div class="body" id="g-moderation"></div>
+    </section>
+    <section>
+      <h2>Sortie</h2>
+      <pre id="console"></pre>
+    </section>
+  </div>
+</main>
+
+<script>
+const out = document.getElementById('console');
+let running = false;
+let state = null;
+
+function log(text, cls) {
+  const node = cls ? Object.assign(document.createElement('span'), { className: cls, textContent: text }) : document.createTextNode(text);
+  out.appendChild(node);
+  out.scrollTop = out.scrollHeight;
+}
+
+function setRunning(value) {
+  running = value;
+  document.querySelectorAll('button[data-action]').forEach((b) => { b.disabled = value || b.dataset.blocked === '1'; });
+}
+
+async function run(name, id) {
+  if (running) return;
+  const action = state.actions[name];
+
+  // La confirmation est côté client ET côté serveur : celle-ci évite un clic
+  // malheureux, celle du serveur est la vraie barrière.
+  if (action.destructive) {
+    const what = id ? `${action.label} — ${id}` : action.label;
+    if (!confirm(`Action de production.\n\n${what}\n\nConfirmer ?`)) return;
+  }
+
+  setRunning(true);
+  out.textContent = '';
+  log(`$ ${name}${id ? ' ' + id : ''}\n\n`, 'cmd');
+
+  try {
+    const res = await fetch('/api/run', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: name, id, confirm: action.destructive ? true : undefined }),
+    });
+
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+      log(error + '\n', 'exit-bad');
+      return;
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let tail = '';
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      tail += decoder.decode(value, { stream: true });
+      // Le code retour arrive en dernière ligne, sous un marqueur : on l'extrait
+      // pour le colorer plutôt que de le laisser passer pour de la sortie.
+      const at = tail.indexOf('__EXIT__:');
+      if (at === -1) { log(tail); tail = ''; continue; }
+      log(tail.slice(0, at));
+      const code = Number(tail.slice(at + 9).trim());
+      log(code === 0 ? '\n✔ terminé\n' : `\n✘ code retour ${code}\n`, code === 0 ? 'exit-ok' : 'exit-bad');
+      tail = '';
+    }
+    if (tail) log(tail);
+  } catch (err) {
+    log(String(err) + '\n', 'exit-bad');
+  } finally {
+    setRunning(false);
+    refresh();
+  }
+}
+
+function actionRow(name, action) {
+  const row = document.createElement('div');
+  row.className = 'action';
+
+  const tags = [
+    action.writesRepo ? '<span class="tag repo">dépôt</span>' : '',
+    action.destructive ? '<span class="tag prod">prod</span>' : '',
+    action.slow ? '<span class="tag slow">long</span>' : '',
+  ].join('');
+  row.innerHTML = `<div class="name">${action.label}${tags}</div>`;
+
+  const blocked = action.needsCredentials && !state.credentials;
+
+  if (action.needsID) {
+    const wrap = document.createElement('div');
+    wrap.className = 'row';
+    wrap.style.gridColumn = '1 / -1';
+    const input = document.createElement('input');
+    input.placeholder = 'identifiant';
+    input.spellcheck = false;
+    const button = document.createElement('button');
+    button.textContent = action.label;
+    button.className = 'danger';
+    button.dataset.action = name;
+    if (blocked) button.dataset.blocked = '1';
+    button.onclick = () => {
+      const id = input.value.trim();
+      if (!id) { input.focus(); return; }
+      run(name, id);
+    };
+    wrap.append(input, button);
+    row.append(wrap);
+  } else {
+    const button = document.createElement('button');
+    button.textContent = 'Lancer';
+    button.dataset.action = name;
+    if (action.destructive) button.className = 'danger';
+    if (blocked) button.dataset.blocked = '1';
+    button.onclick = () => run(name);
+    row.append(button);
+  }
+
+  if (action.hint || blocked) {
+    const hint = document.createElement('div');
+    hint.className = 'hint';
+    hint.textContent = blocked ? 'Credentials Firebase absents — voir docs/ops/2026-07-27-content-publishing.md' : action.hint;
+    row.append(hint);
+  }
+  return row;
+}
+
+function renderPills() {
+  const { credentials, seedsUpToDate, git } = state;
+  const pills = [
+    [`branche <b>${git.branch}</b> · ${git.commit}`, ''],
+    [git.dirtyCount ? `<b>${git.dirtyCount}</b> fichier(s) non committé(s)` : 'arbre propre', git.dirtyCount ? 'warn' : 'ok'],
+    [seedsUpToDate ? 'socles à jour' : 'socles en retard sur content/', seedsUpToDate ? 'ok' : 'bad'],
+    [credentials ? 'credentials Firebase' : 'pas de credentials', credentials ? 'ok' : 'warn'],
+  ];
+  document.getElementById('pills').innerHTML = pills
+    .map(([html, cls]) => `<span class="pill ${cls}">${html}</span>`)
+    .join('');
+}
+
+function renderInventory() {
+  const rows = Object.entries(state.kinds)
+    .map(([kind, k]) => `<tr><td>content/${kind}</td><td class="num">${k.total}</td>
+      <td class="num">${k.published}</td><td class="num ${k.draft ? '' : 'dim'}">${k.draft}</td></tr>`)
+    .join('');
+
+  const challenges = state.collections.filter((c) => c.isChallenge);
+  const withTotal = challenges.filter((c) => c.expectedCount != null);
+  const collectionRows = state.collections
+    .map((c) => {
+      const kind = !c.isChallenge
+        ? '<span class="dim">calque</span>'
+        : c.expectedCount != null
+          ? `défi · ${c.expectedCount}`
+          : '<span style="color:var(--amber)">défi · total inconnu</span>';
+      return `<tr><td>${c.id}</td><td>${c.title.fr ?? c.title.en}</td><td>${kind}</td></tr>`;
+    })
+    .join('');
+
+  document.getElementById('inventory').innerHTML = `
+    <table>
+      <thead><tr><th>Répertoire</th><th class="num">Total</th><th class="num">Publiés</th><th class="num">Brouillons</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p class="dim" style="margin:14px 0 6px;font-size:13px">
+      ${state.collections.length} collections · ${challenges.length} défis, dont ${withTotal.length} à total connu
+    </p>
+    <table>
+      <thead><tr><th>Collection</th><th>Titre</th><th>Nature</th></tr></thead>
+      <tbody>${collectionRows}</tbody>
+    </table>`;
+}
+
+function renderActions() {
+  for (const group of ['checks', 'local', 'prod', 'moderation']) {
+    const host = document.getElementById('g-' + group);
+    host.textContent = '';
+    for (const [name, action] of Object.entries(state.actions)) {
+      if (action.group === group) host.append(actionRow(name, action));
+    }
+  }
+  setRunning(running);
+}
+
+async function refresh() {
+  state = await (await fetch('/api/state')).json();
+  renderPills();
+  renderInventory();
+  renderActions();
+}
+
+refresh();
+</script>
+</body>
+</html>
