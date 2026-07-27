@@ -20,11 +20,18 @@ Dans la console Firebase du projet `neoncompass-gt-vi` → Paramètres → Compt
 | Firebase Remote Config Admin | incrémenter `contentVersion`, écrire `contentCommit` |
 | Firebase Rules Admin | `deploy-rules` |
 
-Stocker la clé hors du dépôt (trousseau macOS, ou un fichier hors arborescence), puis :
+**Emplacement retenu** — `~/.secrets/neon-compass-firebase-admin.json`, en mode `600`, dans un
+répertoire en `700`. L'export vit dans **`~/.zshenv`** et non `~/.zshrc` : zsh ne source `.zshrc` que
+pour les shells *interactifs*, donc un export qui n'y serait que là resterait invisible aux scripts
+et aux outils.
 
 ```sh
-export FIREBASE_SERVICE_ACCOUNT_PATH=~/.config/neoncompass/service-account.json
+# ~/.zshenv
+export FIREBASE_SERVICE_ACCOUNT_PATH="$HOME/.secrets/neon-compass-firebase-admin.json"
 ```
+
+Le CLI, la console web et tout script lancé depuis n'importe quel shell y ont accès sans export
+explicite.
 
 ## 2. Secret GitHub Actions
 
@@ -119,8 +126,22 @@ Le job `publish` du workflow déploie aussi les règles, après la publication.
 | Secret `FIREBASE_SERVICE_ACCOUNT` | ✅ posé sur le dépôt |
 | Workflow « Contenu » | ✅ validé par un run réel (`check` vert, `publish` correctement sauté) |
 | Environnement `production` | pas encore créé — GitHub le crée au premier run du job `publish`. Y attacher une approbation requise si tu veux un second regard humain. |
-| `workflow_dispatch` | ⚠️ ne sera déclenchable que quand ce workflow sera sur la branche par défaut. Il est pour l'instant sur `plan-poi-id-stability`. |
+| Credentials locaux | ✅ `~/.secrets/…` en 600, répertoire en 700, export dans `~/.zshenv` |
+| `workflow_dispatch` | ⚠️ ne sera déclenchable depuis l'UI que quand le workflow sera sur `main`. La PR #28 est mergée dans `plan-map-reference-polish`, pas encore dans `main` — quatre branches restent empilées. En attendant : `gh workflow run Contenu --ref <branche>`. |
 
-**Note de sécurité.** La clé de compte de service traîne dans `~/Downloads`. Elle porte les droits
-Datastore, Remote Config et Rules sur le projet de production : la déplacer hors d'un répertoire que
-tout navigue, et exporter `FIREBASE_SERVICE_ACCOUNT_PATH` vers son nouvel emplacement.
+## 8. Deux clés existent — une seule est utilisée
+
+Le compte de service `firebase-adminsdk-fbsvc@neoncompass-gt-vi` a **deux paires de clés actives** :
+
+| Clé | Emplacement | Statut |
+|---|---|---|
+| `e55a3ee0…` | `~/.secrets/neon-compass-firebase-admin.json` | **la seule utilisée** — locale et secret GitHub |
+| `b52a5b59…` | `~/.secrets/neon-compass-firebase-admin-b52a5b59.json.unused` | plus référencée nulle part |
+
+La seconde traînait dans `~/Downloads` en mode `644`, lisible par tout ce qui parcourt ce répertoire.
+Elle a été sortie de là et remise en `600`, mais **pas détruite** : supprimer une clé privée est
+irréversible, et ce n'est pas à un outil de le décider.
+
+**À faire en console** — révoquer `b52a5b59…` dans IAM → Comptes de service → Clés, puis supprimer le
+fichier `.unused`. Deux paires actives pour un même compte, c'est deux fois la surface de fuite pour
+aucun bénéfice.
