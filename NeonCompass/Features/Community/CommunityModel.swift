@@ -14,19 +14,47 @@ final class CommunityModel {
     private let functions: ContributionFunctionsCalling
     private let gateProvider: CommunityGateProviding
     private let modelContext: ModelContext
+    /// Les spots approuvés viennent des fragments, avec garde de version et
+    /// cache SwiftData — plus d'une lecture par spot à chaque lancement.
+    private let approvedStore: ContentStore<Contribution>
 
     init(
         repository: ContributionRepository,
         functions: ContributionFunctionsCalling,
         gateProvider: CommunityGateProviding,
-        modelContext: ModelContext
+        modelContext: ModelContext,
+        approvedStore: ContentStore<Contribution>
     ) {
         self.repository = repository
         self.functions = functions
         self.gateProvider = gateProvider
         self.modelContext = modelContext
+        self.approvedStore = approvedStore
         self.blockedAuthorUIDs = []
+        // Le cache est disponible avant tout réseau : la carte porte ses spots
+        // dès le premier rendu, y compris hors-ligne.
+        self.approvedSpots = approvedStore.items
         self.refreshBlockedAuthors()
+    }
+
+    /// Câblage de production, en un seul endroit : les deux écrans qui
+    /// construisent un `CommunityModel` (carte et profil) passaient sinon la même
+    /// liste de dépendances, et le nom de collection des fragments s'y serait
+    /// dupliqué.
+    static func live(modelContext: ModelContext) -> CommunityModel {
+        let collectionName = CommunityBundleVersionProvider.collectionName
+        return CommunityModel(
+            repository: FirestoreContributionRepository(),
+            functions: FirebaseContributionFunctions(),
+            gateProvider: RemoteConfigCommunityGateProvider(),
+            modelContext: modelContext,
+            approvedStore: ContentStore<Contribution>(
+                collectionName: collectionName,
+                remote: ChunkedContentRepository<Contribution>(collectionName: collectionName),
+                versionProvider: CommunityBundleVersionProvider(),
+                modelContext: modelContext
+            )
+        )
     }
 
     func refreshContributionsEnabled() async {
@@ -44,8 +72,11 @@ final class CommunityModel {
         }
     }
 
+    /// Ne télécharge que si la version du manifeste a bougé — sinon la seule
+    /// lecture facturée est celle du manifeste lui-même.
     func loadApprovedSpots() async {
-        approvedSpots = (try? await repository.fetchApproved()) ?? []
+        try? await approvedStore.syncIfNeeded()
+        approvedSpots = approvedStore.items
     }
 
     func loadMyContributions(uid: String) async {

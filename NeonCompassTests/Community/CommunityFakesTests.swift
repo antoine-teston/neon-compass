@@ -1,12 +1,11 @@
+import Foundation
 import SwiftData
 import Testing
 @testable import NeonCompass
 
 final class FakeContributionRepository: ContributionRepository {
-    nonisolated(unsafe) var approvedToReturn: [Contribution] = []
     nonisolated(unsafe) var mineToReturn: [Contribution] = []
 
-    func fetchApproved() async throws -> [Contribution] { approvedToReturn }
     func fetchMine(uid: String) async throws -> [Contribution] { mineToReturn }
 }
 
@@ -54,11 +53,46 @@ private func makeSpot(id: String, authorUid: String?) -> Contribution {
 
 @MainActor
 struct CommunityFakesTests {
+    /// Le conteneur porte `ContentCacheEntry` en plus : les spots approuvés
+    /// transitent maintenant par `ContentStore`, qui y écrit son cache.
+    private func makeContainer() throws -> ModelContainer {
+        try ModelContainer(
+            for: BlockedContributor.self, ContentCacheEntry.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+    }
+
+    private func makeModel(
+        context: ModelContext,
+        repository: ContributionRepository = FakeContributionRepository(),
+        functions: ContributionFunctionsCalling = FakeContributionFunctions(),
+        spots: [Contribution] = [],
+        remoteVersion: Int = 1
+    ) -> CommunityModel {
+        let remote = FakeContentRepository<Contribution>()
+        remote.itemsToReturn = spots
+        let versionProvider = FakeContentVersionProvider()
+        versionProvider.version = remoteVersion
+        return CommunityModel(
+            repository: repository,
+            functions: functions,
+            gateProvider: FakeCommunityGateProvider(),
+            modelContext: context,
+            approvedStore: ContentStore<Contribution>(
+                collectionName: "community_spots",
+                remote: remote,
+                versionProvider: versionProvider,
+                modelContext: context
+            )
+        )
+    }
+
     @Test func visibleSpotsExcludesBlockedAuthors() async throws {
-        let repository = FakeContributionRepository()
-        repository.approvedToReturn = [makeSpot(id: "1", authorUid: "author-a"), makeSpot(id: "2", authorUid: "author-b")]
-        let container = try ModelContainer(for: BlockedContributor.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-        let model = CommunityModel(repository: repository, functions: FakeContributionFunctions(), gateProvider: FakeCommunityGateProvider(), modelContext: ModelContext(container))
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(
+            context: context,
+            spots: [makeSpot(id: "1", authorUid: "author-a"), makeSpot(id: "2", authorUid: "author-b")]
+        )
 
         await model.loadApprovedSpots()
         model.block(authorUid: "author-a")
@@ -66,10 +100,21 @@ struct CommunityFakesTests {
         #expect(model.visibleSpots.map(\.id) == ["2"])
     }
 
+    /// La garde de version est ce qui rend le lancement gratuit : sans nouvelle
+    /// version, aucun fragment n'est téléchargé.
+    @Test func doesNotDownloadWhenTheManifestVersionHasNotMoved() async throws {
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context, spots: [makeSpot(id: "1", authorUid: "a")], remoteVersion: 0)
+
+        await model.loadApprovedSpots()
+
+        #expect(model.visibleSpots.isEmpty)
+    }
+
     @Test func voteCallsCastVoteWithSpotIDAndDirection() async throws {
         let functions = FakeContributionFunctions()
-        let container = try ModelContainer(for: BlockedContributor.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-        let model = CommunityModel(repository: FakeContributionRepository(), functions: functions, gateProvider: FakeCommunityGateProvider(), modelContext: ModelContext(container))
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context, functions: functions)
         let spot = makeSpot(id: "spot-1", authorUid: "author-a")
 
         await model.vote(on: spot, direction: .up)
@@ -79,13 +124,43 @@ struct CommunityFakesTests {
     }
 
     @Test func blockThenUnblockRestoresVisibility() throws {
-        let container = try ModelContainer(for: BlockedContributor.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-        let model = CommunityModel(repository: FakeContributionRepository(), functions: FakeContributionFunctions(), gateProvider: FakeCommunityGateProvider(), modelContext: ModelContext(container))
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context)
 
         model.block(authorUid: "author-a")
         #expect(model.isBlocked(authorUid: "author-a"))
 
         model.unblock(authorUid: "author-a")
         #expect(!model.isBlocked(authorUid: "author-a"))
+    }
+
+    /// Le fragment est écrit par une Cloud Function et lu ici : les clés
+    /// traversent une frontière réseau, donc l'aller-retour doit être figé.
+    /// Les noms viennent de `bundleItem` dans `functions/src/communityBundles.ts`.
+    @Test func decodesTheShapeTheCloudFunctionWrites() throws {
+        let json = """
+        {"id":"c1","authorUid":"u1","authorHandle":"NEON-FALCON-88","category":"collectible",
+         "title":"Lettre sur le toit","languageCode":"fr","position":{"x":0.25,"y":0.5},
+         "status":"approved","upvotes":3,"downvotes":0}
+        """
+        let spot = try JSONDecoder().decode(Contribution.self, from: Data(json.utf8))
+
+        #expect(spot.id == "c1")
+        #expect(spot.category == .collectible)
+        #expect(spot.status == .approved)
+        #expect(spot.position == NormalizedPoint(x: 0.25, y: 0.5))
+        #expect(spot.upvotes == 3)
+    }
+
+    /// Un spot anonymisé (auteur supprimé) sort de la Function avec
+    /// `authorUid: null` — il doit rester décodable.
+    @Test func decodesAnAnonymisedSpot() throws {
+        let json = """
+        {"id":"c2","authorUid":null,"authorHandle":"auteur supprimé","category":"landmark",
+         "title":"Spot","languageCode":"en","position":{"x":0.1,"y":0.2},
+         "status":"approved","upvotes":0,"downvotes":0}
+        """
+        let spot = try JSONDecoder().decode(Contribution.self, from: Data(json.utf8))
+        #expect(spot.authorUid == nil)
     }
 }

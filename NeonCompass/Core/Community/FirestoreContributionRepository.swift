@@ -27,13 +27,12 @@ final class FirestoreContributionRepository: ContributionRepository {
         collection = firestore.collection("contributions")
     }
 
-    func fetchApproved() async throws -> [Contribution] {
-        let snapshot = try await collection
-            .whereField("status", isEqualTo: Contribution.Status.approved.rawValue)
-            .getDocuments()
-        return decode(snapshot.documents)
-    }
-
+    /// Plus de `fetchApproved` ici : cette requête lisait TOUTE la collection à
+    /// chaque lancement de l'app, sans pagination ni cache — Firestore facturant
+    /// une lecture par document, son coût valait
+    /// `utilisateurs × lancements × spots`. Les spots approuvés arrivent
+    /// maintenant par les fragments (`CommunityBundleVersionProvider`,
+    /// `ChunkedContentRepository`).
     func fetchMine(uid: String) async throws -> [Contribution] {
         let snapshot = try await collection
             .whereField("authorUid", isEqualTo: uid)
