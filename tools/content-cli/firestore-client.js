@@ -133,6 +133,29 @@ function levelForXP(xp) {
 }
 const XP_PER_APPROVED_CONTRIBUTION = 20;
 
+/// Brouillons du mode éditeur pas encore matérialisés en fichiers.
+///
+/// `appliedAt` absent plutôt qu'un booléen : la date sert aussi de trace de
+/// quand le dépôt les a absorbés. Le filtrage se fait en mémoire — la collection
+/// se compte en dizaines d'entrées entre deux `pull-drafts`, un index Firestore
+/// pour ça serait du cérémonial.
+export async function listEditorDrafts() {
+  const db = getFirestore(app());
+  const snapshot = await db.collection('editor_drafts').get();
+  return snapshot.docs
+    .map((doc) => ({ id: doc.id, ...doc.data() }))
+    .filter((draft) => !draft.appliedAt)
+    .sort((a, b) => (a.capturedAt?.toMillis?.() ?? 0) - (b.capturedAt?.toMillis?.() ?? 0));
+}
+
+export async function markEditorDraftsApplied(ids) {
+  if (!ids.length) return;
+  const db = getFirestore(app());
+  const batch = db.batch();
+  ids.forEach((id) => batch.update(db.collection('editor_drafts').doc(id), { appliedAt: new Date() }));
+  await batch.commit();
+}
+
 export async function listPendingContributions() {
   const db = getFirestore(app());
   const snapshot = await db.collection('contributions').where('status', '==', 'pending').get();

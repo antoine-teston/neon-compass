@@ -5,6 +5,12 @@ struct ContributionAnnotationView: View {
     let onVote: (VoteDirection) -> Void
     let onReport: () -> Void
     let onBlockAuthor: () -> Void
+#if DEBUG
+    /// Passerelle communauté → éditorial : non nil seulement quand le mode
+    /// éditeur est armé. La foule repère, on vérifie en jeu, un tap en fait du
+    /// contenu qui compte dans la progression et les défis.
+    var onAdopt: (() -> Void)?
+#endif
 
     @State private var showDetail = false
     @State private var showBlockConfirmation = false
@@ -71,6 +77,16 @@ struct ContributionAnnotationView: View {
                     .id(authorUid) // scope the confirmationDialog state to this spot's author
                 }
             }
+
+#if DEBUG
+            if let onAdopt {
+                Button("Adopter en POI éditorial", systemImage: "square.and.arrow.down") {
+                    onAdopt()
+                    showDetail = false
+                }
+                .font(.caption)
+            }
+#endif
         }
     }
 }

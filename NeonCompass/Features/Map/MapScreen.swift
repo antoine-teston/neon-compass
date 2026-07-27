@@ -23,6 +23,12 @@ struct MapScreen: View {
     // contenu éditorial aura de vraies positions.
     @State private var mapGame: MapGame = .reference
     @State private var remotePOIs: [POI] = []
+#if DEBUG
+    /// Mode éditeur interne : compilé hors du binaire soumis. Construit tout de
+    /// suite plutôt qu'à l'armement — il ne coûte rien tant qu'il dort, et son
+    /// état doit survivre aux bascules d'onglet comme le reste de l'écran.
+    @State private var editorModel = EditorModel(store: FirestoreEditorDraftStore())
+#endif
 
     /// Socle embarqué de la carte de référence, patché par l'overlay distant dès
     /// qu'il arrive. Initialisé au socle nu pour que la carte soit explorable au
@@ -59,13 +65,8 @@ struct MapScreen: View {
                 displayControls
             }
             .sheet(item: Binding(get: { model.selectedPOI }, set: { model.selectedPOI = $0 })) { poi in
-                POIDetailView(
-                    poi: poi,
-                    isFound: model.isFound(poi),
-                    onToggleFound: { model.toggleFound(poi) },
-                    onDismiss: { model.selectedPOI = nil }
-                )
-                .presentationDetents([.medium])
+                poiDetail(poi, model: model)
+                    .presentationDetents([.medium])
             }
         } else {
             HStack(spacing: 0) {
@@ -79,14 +80,9 @@ struct MapScreen: View {
                     displayControls
                 }
                 if let selected = model.selectedPOI {
-                    POIDetailView(
-                        poi: selected,
-                        isFound: model.isFound(selected),
-                        onToggleFound: { model.toggleFound(selected) },
-                        onDismiss: { model.selectedPOI = nil }
-                    )
-                    .frame(width: 340)
-                    .transition(.move(edge: .trailing))
+                    poiDetail(selected, model: model)
+                        .frame(width: 340)
+                        .transition(.move(edge: .trailing))
                 }
             }
         }
@@ -96,7 +92,16 @@ struct MapScreen: View {
     /// occupé par la recherche et les filtres. Le décalage bas dégage la tab
     /// bar flottante (~72 pt au-dessus de la safe area, cf. CompactTabBar).
     private var displayControls: some View {
-        MapDisplayControls(game: $mapGame, style: $mapStyle)
+        var controls = MapDisplayControls(game: $mapGame, style: $mapStyle)
+#if DEBUG
+        if editorModel.canArm(on: mapGame) {
+            controls.editorArmed = Binding(
+                get: { editorModel.isArmed },
+                set: { editorModel.setArmed($0, on: mapGame) }
+            )
+        }
+#endif
+        return controls
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             .padding(.trailing, 16)
             .padding(.bottom, 76)
@@ -111,10 +116,17 @@ struct MapScreen: View {
                 pois: model.filteredPOIs,
                 personalPins: model.personalPins,
                 communitySpots: communityModel?.visibleSpots ?? [],
+                draftPins: editorDraftPins,
                 isFound: model.isFound,
                 viewport: $viewport,
                 onLongPress: { canvasPoint in
-                    pendingPinLocation = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
+                    let normalized = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
+#if DEBUG
+                    // L'éditeur armé prend la main sur le menu habituel : c'est
+                    // la règle de geste — appui long sur le vide = créer.
+                    if editorModel.handleLongPress(at: normalized) != .ignored { return }
+#endif
+                    pendingPinLocation = normalized
                     showLongPressMenu = true
                 },
                 onTapPOI: { poi in model.selectedPOI = poi },
@@ -126,7 +138,8 @@ struct MapScreen: View {
                 },
                 onBlockAuthor: { spot in
                     if let authorUid = spot.authorUid { communityModel?.block(authorUid: authorUid) }
-                }
+                },
+                onAdopt: adoptHandler
             )
             // La carte passe SOUS la barre d'état et sous la tab bar : le
             // chrome est en Liquid Glass, il est fait pour flotter au-dessus du
@@ -140,6 +153,12 @@ struct MapScreen: View {
             reattachSyncIfNeeded()
         }
         .onChange(of: mapGame) { _, newGame in
+#if DEBUG
+            // Désarme si la carte d'arrivée n'accepte pas d'ajouts, avant tout
+            // le reste : un appui long entre-temps poserait un POI aux
+            // coordonnées de l'autre carte.
+            editorModel.mapChanged(to: newGame)
+#endif
             // Les deux cartes ont des jeux de POI disjoints : changer de carte
             // change la source, pas seulement l'image de fond.
             model.updatePOIs(pois(for: newGame))
@@ -213,7 +232,62 @@ struct MapScreen: View {
                 .presentationDetents([.medium])
             }
         }
+        // `#if` postfix (SE-0308) : l'éditeur ne laisse aucune trace dans la
+        // chaîne de modificateurs en Release, sans AnyView ni indirection.
+        #if DEBUG
+        .modifier(EditorLayer(model: editorModel, uid: authModel.userID))
+        #endif
     }
+
+    // MARK: - Mode éditeur (debug uniquement)
+
+    /// Les deux accès ci-dessous isolent la compilation conditionnelle : le
+    /// corps de `mapCanvas` reste lisible, et en Release ils se réduisent à une
+    /// liste vide et un nil, sur des types qui existent dans les deux
+    /// configurations.
+    private var editorDraftPins: [DraftPin] {
+#if DEBUG
+        editorModel.draftPins
+#else
+        []
+#endif
+    }
+
+    /// Fiche d'un POI, augmentée des actions d'édition quand l'éditeur est armé.
+    /// Construite ici plutôt qu'au site d'appel : les deux dispositions (feuille
+    /// en compact, panneau latéral en régulier) partagent ainsi exactement la
+    /// même fiche.
+    private func poiDetail(_ poi: POI, model: MapModel) -> some View {
+        var view = POIDetailView(
+            poi: poi,
+            isFound: model.isFound(poi),
+            onToggleFound: { model.toggleFound(poi) },
+            onDismiss: { model.selectedPOI = nil }
+        )
+#if DEBUG
+        if editorModel.isArmed {
+            view.onEditorMove = {
+                editorModel.beginMove(poiID: poi.id)
+                model.selectedPOI = nil
+            }
+            view.onEditorDelete = {
+                editorModel.delete(poiID: poi.id)
+                model.selectedPOI = nil
+            }
+        }
+#endif
+        return view
+    }
+
+    private var adoptHandler: ((Contribution) -> Void)? {
+#if DEBUG
+        guard editorModel.isArmed else { return nil }
+        return { spot in editorModel.adopt(spot) }
+#else
+        nil
+#endif
+    }
+
 
     /// Fixture embarquée de la carte de référence
     /// (`Resources/POI/seed-poi.json`, produite par
