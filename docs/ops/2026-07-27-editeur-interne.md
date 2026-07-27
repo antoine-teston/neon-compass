@@ -6,7 +6,35 @@
 L'éditeur est un **poseur de pins au doigt**, disponible uniquement dans le build debug lancé depuis
 Xcode. Il n'existe pas dans le binaire soumis à Apple.
 
-## 1. Mise en service (une fois)
+## 0. Repli sans compte — le mode par défaut aujourd'hui
+
+Écrire dans `editor_drafts` demande un compte, un compte demande Sign in with Apple, et Sign in with
+Apple demande l'**adhésion payante au programme développeur Apple** (elle seule permet de provisionner
+cette capacité, ainsi que les App Groups et les push). Vérifié le 2026-07-27 : sans elle, le build sur
+appareil s'arrête net sur `Signing for "NeonCompass" requires a development team`, et la connexion
+échoue en simulateur dans les services d'Apple eux-mêmes (`Failed to check in with IDMS`, 401 sur
+`gsas.apple.com`) — l'app n'est jamais rappelée.
+
+L'éditeur fonctionne donc **sans rien de tout ça** :
+
+1. Les brouillons sont écrits dans `Documents/editor-drafts.json`, visible depuis l'app **Fichiers**
+   (« Sur mon iPhone » → NeonCompass). Cette visibilité est activée **en Debug seulement** : l'app
+   publiée n'ouvre pas son dossier.
+2. Récupérer le fichier (AirDrop, iCloud Drive, câble), puis :
+
+```sh
+cd tools/content-cli && node cli.js pull-drafts --file ~/Downloads/editor-drafts.json
+```
+
+Aucun credential n'est requis sur ce chemin. Le fichier est ensuite renommé `.applied.json` plutôt que
+supprimé — une capture de terrain ne se refait pas, et l'idempotence par `processedFrom` rend un rejeu
+inoffensif de toute façon.
+
+`EditorDraftRouter` choisit **à chaque écriture** : Firestore si un compte existe, le fichier sinon.
+Le jour où l'adhésion est prise, rien à changer — le chemin distant se rallume tout seul, et un refus
+distant retombe malgré tout sur le fichier plutôt que de perdre une capture.
+
+## 1. Mise en service du chemin Firestore (le jour où un compte existe)
 
 L'écriture dans `editor_drafts` est réservée à un seul UID, et `firestore.rules` porte aujourd'hui un
 marqueur à remplacer :
