@@ -67,24 +67,43 @@ déclenche donc une resynchronisation (voulu) ; revenir en arrière laisse le ca
 jusqu'à ce que `contentVersion` dépasse ce nombre. Un repli sert à éteindre un incendie, pas à revenir
 au contenu d'avant.
 
-## Ce qui reste à faire, et qui demande une action de console
-
-Le déploiement lui-même :
+## En service depuis le 2026-07-27
 
 ```sh
-firebase deploy --only hosting
+cd tools/content-cli && node cli.js build-cdn
+GOOGLE_APPLICATION_CREDENTIALS="$FIREBASE_SERVICE_ACCOUNT_PATH" \
+  functions/node_modules/.bin/firebase deploy --only hosting --project neoncompass-gt-vi
+node cli.js content-source https://neoncompass-gt-vi.web.app
 ```
 
-Le compte de service actuel porte trois rôles — Cloud Datastore User, Firebase Remote Config Admin,
-Firebase Rules Admin — et **aucun ne permet de déployer Hosting**. Il faut donc, une fois :
+**Correction d'une affirmation antérieure de ce document** : il y était écrit que le compte de service
+ne pouvait pas déployer Hosting, faute du rôle idoine. C'était faux — le déploiement est passé du
+premier coup avec les credentials existants. La leçon vaut d'être notée : les trois rôles listés dans
+`docs/ops/2026-07-27-content-publishing.md` ne décrivent pas exhaustivement ce que le compte peut
+faire, et il vaut mieux essayer que déduire.
 
-1. Ajouter le rôle **Firebase Hosting Admin** au compte de service `firebase-adminsdk-fbsvc@…`
-   (console Google Cloud → IAM), ou déployer depuis un compte utilisateur (`firebase login`).
-2. Lancer un premier `firebase deploy --only hosting`.
-3. Renseigner `contentBaseURL` dans Remote Config avec l'URL rendue par le déploiement.
+Vérifié en ligne le jour même :
 
-Tant que l'étape 3 n'est pas faite, l'app continue de lire Firestore : la bascule est inerte, pas
-risquée.
+| | Attendu | Servi |
+|---|---|---|
+| `/content/manifest.json` | `max-age=60` | ✅ `public, max-age=60` |
+| `/content/v233/poi_gtav/0.json` | cache long, immuable | ✅ `public, max-age=31536000, immutable` |
+| Contenu | 537 entrées en 2 fragments | ✅ 500 + 37 |
+
+`contentBaseURL` pointe sur `https://neoncompass-gt-vi.web.app`, donc **les clients lisent le CDN**.
+Le repli tient dans une commande : `node cli.js content-source off`.
+
+## Changer de source, et revenir
+
+```sh
+node cli.js content-source                                   # où en est-on ?
+node cli.js content-source https://exemple.example           # basculer
+node cli.js content-source off                               # revenir à Firestore
+```
+
+La commande lit-modifie-republie le template Remote Config : les autres paramètres
+(`contentVersion`, coupe-circuit, drapeau serveur) survivent. Une écriture naïve les effacerait tous,
+`publishTemplate` remplaçant le template entier.
 
 ## Ce que ça ne change pas
 

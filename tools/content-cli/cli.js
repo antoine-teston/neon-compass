@@ -21,6 +21,8 @@
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 //   build-cdn              construit le site statique de contenu dans dist/ (JSON
 //                          versionné, lisible sans SDK — voir cdn-build.mjs)
+//   content-source [url|off]  affiche ou change la source de contenu lue par l'app
+//                          (contentBaseURL dans Remote Config ; `off` = Firestore)
 //   rules-diff             compare firestore.rules au ruleset actif en ligne
 //   deploy-rules           affiche le diff PUIS déploie firestore.rules (racine du
 //                          repo) comme ruleset actif sur le projet Firestore live ;
@@ -394,6 +396,33 @@ switch (cmd) {
       ok = false;
     }
     break;
+  case 'content-source':
+    try {
+      const { getRemoteConfigParameter, setRemoteConfigParameter } = await import('./firestore-client.js');
+      const [target] = flags;
+      if (!target) {
+        const current = await getRemoteConfigParameter('contentBaseURL');
+        console.log(current ? `content-source: CDN — ${current}` : 'content-source: Firestore (contentBaseURL vide)');
+        ok = true;
+        break;
+      }
+      // `off` efface la valeur plutôt que de la supprimer : le paramètre reste
+      // visible en console, ce qui rend le repli explicite au lieu d'être une
+      // absence qu'on interprète.
+      const value = target === 'off' ? '' : target;
+      if (value && !/^https:\/\/[^\s]+$/.test(value)) throw new Error(`URL refusée : ${target}`);
+      await setRemoteConfigParameter(
+        'contentBaseURL',
+        value,
+        "Base du contenu statique servi par CDN. Vide = l'app lit Firestore (repli sans mise à jour)."
+      );
+      console.log(value ? `content-source: les clients liront ${value}` : 'content-source: repli sur Firestore');
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
   case 'build-cdn': {
     // La version vient du nombre de commits : monotone, déterministe, et
     // calculable hors ligne — contrairement à `contentVersion` de Remote Config,
@@ -556,7 +585,7 @@ switch (cmd) {
     }
     break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|pull-drafts|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|content-source [url|off]|pull-drafts|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
     ok = false;
 }
 
