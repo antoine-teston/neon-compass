@@ -1,0 +1,19 @@
+{
+  "id": "poi_lakeside_refinery_town",
+  "category": "landmark",
+  "position": null,
+  "title": {
+    "en": "Lakeside Refinery Town",
+    "fr": "La ville-usine du lac"
+  },
+  "note": {
+    "en": "A small lakeside town in the middle of the map whose whole economy runs on one giant sugar refinery — smokestacks over flat farmland, a real company-town feel where everyone's paycheck traces back to the same factory. It's a clear stand-in for a real sugar-industry town in central Florida. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
+    "fr": "Petite ville posée au bord d'un lac, en plein centre de la carte, dont toute l'économie tient à une immense raffinerie de sucre : cheminées au-dessus des champs plats, ambiance de ville-usine où tous les salaires remontent à la même entreprise. Un clin d'œil assumé à une véritable ville sucrière du centre de la Floride. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+  },
+  "status": "draft",
+  "sources": [
+    "https://gta.fandom.com/wiki/Ambrosia",
+    "https://gta.fandom.com/wiki/Ambrosia_County",
+    "https://gta.fandom.com/wiki/Allied_Crystal_Sugar_Refinery"
+  ]
+}
