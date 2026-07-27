@@ -10,7 +10,7 @@
     "en": "Knife Flight #1",
     "fr": "Vol en rase-mottes #1"
   },
-  "status": "draft",
+  "status": "published",
   "sources": [
     "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
   ],

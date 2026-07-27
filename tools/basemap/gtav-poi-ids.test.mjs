@@ -12,10 +12,13 @@ import {
   reconcileIds,
 } from './gtav-poi-ids.mjs';
 
+// Mêmes champs que ceux qu'émet gtav-poi.mjs, `status: 'draft'` compris : c'est
+// le pipeline qui pose ce défaut, pas reconcileIds.
 const poi = (collection, processedFrom, en = 'x') => ({
   collection,
   processedFrom,
   title: { en },
+  status: 'draft',
 });
 
 test('formatWorldCoord arrondit au décimètre sans produire de -0.0', () => {
@@ -57,7 +60,7 @@ test('un second run consécutif ne frappe aucun id', () => {
   assert.equal(first.minted, 2);
   assert.equal(first.reused, 0);
 
-  const registry = new Map(first.pois.map((p) => [p.processedFrom, p.id]));
+  const registry = new Map(first.pois.map((p) => [p.processedFrom, p]));
   const second = reconcileIds(entries, registry);
   assert.equal(second.minted, 0);
   assert.equal(second.reused, 2);
@@ -72,7 +75,7 @@ test('un POI inséré en tête ne déplace pas les ids existants', () => {
     poi('gas', identityKey('DurtyFree', 'gas', worldDiscriminant(10, 10))),
     poi('gas', identityKey('DurtyFree', 'gas', worldDiscriminant(20, 20))),
   ];
-  const registry = new Map(reconcileIds(existingEntries, new Map()).pois.map((p) => [p.processedFrom, p.id]));
+  const registry = new Map(reconcileIds(existingEntries, new Map()).pois.map((p) => [p.processedFrom, p]));
 
   // C'est le scénario qui cassait tout avec des ids indexés sur le rang.
   const withInsertion = [
@@ -83,8 +86,8 @@ test('un POI inséré en tête ne déplace pas les ids existants', () => {
 
   assert.equal(run.minted, 1);
   assert.equal(run.reused, 2);
-  for (const [key, id] of registry) {
-    assert.equal(run.pois.find((p) => p.processedFrom === key).id, id);
+  for (const [key, doc] of registry) {
+    assert.equal(run.pois.find((p) => p.processedFrom === key).id, doc.id);
   }
 });
 
@@ -93,13 +96,37 @@ test('une clé disparue devient orpheline sans que son id soit recyclé', () => 
     poi('gas', identityKey('DurtyFree', 'gas', worldDiscriminant(10, 10))),
     poi('gas', identityKey('DurtyFree', 'gas', worldDiscriminant(20, 20))),
   ];
-  const registry = new Map(reconcileIds(before, new Map()).pois.map((p) => [p.processedFrom, p.id]));
+  const registry = new Map(reconcileIds(before, new Map()).pois.map((p) => [p.processedFrom, p]));
 
   const after = reconcileIds([before[0]], registry);
   assert.equal(after.orphaned.length, 1);
   assert.equal(after.orphaned[0].key, before[1].processedFrom);
   assert.equal(after.pois.length, 1);
-  assert.equal(after.pois[0].id, registry.get(before[0].processedFrom));
+  assert.equal(after.pois[0].id, registry.get(before[0].processedFrom).id);
+});
+
+test('un ré-import préserve les décisions humaines déjà prises', () => {
+  // Sans ça, relancer le pipeline remettrait les 537 POI en `draft` et
+  // effacerait toutes les pierres tombales — silencieusement.
+  const entry = poi('letter_scrap', identityKey('danharper/GTAV', 'letter_scrap', '412'));
+  const first = reconcileIds([entry], new Map());
+  const reviewed = { ...first.pois[0], status: 'published', mergedInto: 'poi_autre', deleted: false };
+  const registry = new Map([[reviewed.processedFrom, reviewed]]);
+
+  const second = reconcileIds([entry], registry);
+  assert.equal(second.pois[0].status, 'published');
+  assert.equal(second.pois[0].mergedInto, 'poi_autre');
+  assert.equal(second.pois[0].deleted, false);
+  assert.equal(second.pois[0].id, reviewed.id);
+});
+
+test('un POI neuf n’hérite d’aucun champ éditorial', () => {
+  // Une entrée fraîchement importée doit demander une décision explicite : le
+  // pipeline ne publie rien de lui-même.
+  const run = reconcileIds([poi('gas', identityKey('DurtyFree', 'gas', worldDiscriminant(1, 1)))], new Map());
+  assert.equal(run.pois[0].status, 'draft');
+  assert.equal(run.pois[0].mergedInto, undefined);
+  assert.equal(run.pois[0].deleted, undefined);
 });
 
 test('une entrée listée deux fois à l’identique n’est gardée qu’une fois', () => {

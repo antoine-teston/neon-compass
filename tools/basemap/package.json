@@ -4,7 +4,8 @@
   "description": "",
   "main": "tile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test gtav-poi-ids.test.mjs",
+    "import": "node gtav-poi.mjs"
   },
   "keywords": [],
   "author": "",

@@ -62,14 +62,23 @@ export function mintId(game, collection, key) {
   return `poi_${game}_${collection}_${digest}`;
 }
 
-/** Indexe les fichiers déjà présents : `processedFrom` -> id.
+/** Champs qui appartiennent au fichier, pas à la source.
+ *
+ *  Le pipeline est autorité sur ce qu'il DÉRIVE de l'amont (position, titre,
+ *  catégorie, collection, sources). Il ne l'est pas sur les décisions humaines :
+ *  publier une entrée, la marquer comme doublon d'une autre, la retirer. Sans
+ *  cette liste, un ré-import remettrait les 537 POI en `draft` et effacerait
+ *  toutes les pierres tombales — silencieusement. */
+export const EDITORIAL_FIELDS = ['status', 'mergedInto', 'deleted'];
+
+/** Indexe les fichiers déjà présents : `processedFrom` -> document complet.
  *  Renvoie une Map vide si le répertoire n'existe pas (premier run). */
-export function loadExistingIds(dir) {
+export function loadExisting(dir) {
   const index = new Map();
   if (!existsSync(dir)) return index;
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
     const data = JSON.parse(readFileSync(join(dir, file), 'utf8'));
-    if (data.processedFrom) index.set(data.processedFrom, data.id);
+    if (data.processedFrom) index.set(data.processedFrom, data);
   }
   return index;
 }
@@ -120,7 +129,7 @@ export function dedupeIdenticalEntries(pois) {
  */
 export function reconcileIds(pois, existing, { game = 'gtav' } = {}) {
   const seenKeys = new Map();
-  const mintedIds = new Set(existing.values());
+  const mintedIds = new Set([...existing.values()].map((doc) => doc.id));
   const resolved = [];
   let reused = 0;
   let minted = 0;
@@ -136,7 +145,8 @@ export function reconcileIds(pois, existing, { game = 'gtav' } = {}) {
     }
     seenKeys.set(key, poi.title.en);
 
-    let id = existing.get(key);
+    const previous = existing.get(key);
+    let id = previous?.id;
     if (id) {
       reused++;
     } else {
@@ -147,13 +157,19 @@ export function reconcileIds(pois, existing, { game = 'gtav' } = {}) {
       minted++;
     }
     mintedIds.add(id);
-    resolved.push({ id, ...poi });
+
+    // Les décisions humaines déjà prises sur ce POI survivent au ré-import.
+    const editorial = {};
+    for (const field of EDITORIAL_FIELDS) {
+      if (previous?.[field] !== undefined) editorial[field] = previous[field];
+    }
+    resolved.push({ id, ...poi, ...editorial });
   }
 
   const liveKeys = new Set(pois.map((p) => p.processedFrom));
   const orphaned = [...existing.entries()]
     .filter(([key]) => !liveKeys.has(key))
-    .map(([key, id]) => ({ key, id }));
+    .map(([key, doc]) => ({ key, id: doc.id }));
 
   return { pois: resolved, reused, minted, orphaned };
 }

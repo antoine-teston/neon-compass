@@ -83,13 +83,21 @@ export async function pushBundles(collectionName, documents) {
   return { chunks: chunks.length, pruned: stale.length };
 }
 
-export async function incrementContentVersion() {
+export async function incrementContentVersion(commit) {
   const rc = getRemoteConfig(app());
   const template = await rc.getTemplate();
   const current = Number(template.parameters.contentVersion?.defaultValue?.value ?? '0');
   template.parameters.contentVersion = {
     defaultValue: { value: String(current + 1) },
   };
+  // Le SHA du commit publié, à côté de la version. Sans lui, « quel contenu est
+  // en ligne ? » ne se répond qu'en comparant des documents à la main.
+  if (commit) {
+    template.parameters.contentCommit = {
+      defaultValue: { value: commit },
+      description: 'Commit git dont le contenu est actuellement publié (écrit par content-cli).',
+    };
+  }
   await rc.publishTemplate(template);
   return current + 1;
 }

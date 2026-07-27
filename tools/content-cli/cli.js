@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 // Neon Compass admin CLI — brique C du pipeline (docs/superpowers/plans/
 // 2026-07-20-data-pipeline-pseudocode.md). Commandes :
-//   validate               valide content/{poi,cheats,collections}/**.json contre les schémas
+//   validate               valide content/{poi,poi-gtav,cheats,collections}/**.json
 //   check-publishable      règles éditoriales (cheats: verifiedBy >= 2, marques déposées)
 //   bundle                 régénère NeonCompass/Resources/POI/collections.json depuis
 //                          content/collections (projection, jamais éditée à la main)
+//   bundle --dry-run       équivalent de check-seeds (n'écrit rien)
+//   check-seeds            vérifie que les socles embarqués (collections.json,
+//                          seed-poi.json) ne sont pas en retard sur content/
+//   release                LA commande à utiliser : arbre propre + validate +
+//                          check-publishable + check-seeds, puis publish + bump.
+//                          `release --dry-run` exécute les mêmes contrôles sans écrire.
 //   translate --dry-run    liste les champs ES/IT/DE manquants (l'appel IA arrive avec Firebase)
 //   publish --dry-run      montre le diff qui partirait vers Firestore
 //   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
@@ -14,6 +20,7 @@
 //                          sur le projet Firestore live ; nécessite
 //                          FIREBASE_SERVICE_ACCOUNT_PATH.
 
+import { execSync } from 'node:child_process';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,6 +32,10 @@ const LANGS = ['fr', 'es', 'it', 'de'];
 // Champs affichés dans l'UI : jamais de marque déposée (CLAUDE.md, spec §1).
 const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
 const UI_FIELDS = ['title', 'note', 'effect'];
+// Doit rester aligné sur BUNDLE_CHUNK_SIZE dans firestore-client.js et
+// ContentBundle.chunkSize côté Swift — ici uniquement pour annoncer le nombre de
+// fragments en dry-run.
+const BUNDLE_CHUNK_SIZE = 500;
 
 const ajv = new Ajv({ allErrors: true });
 const compiled = {
@@ -116,10 +127,31 @@ function translateDryRun(entries) {
 
 function publishDryRun(entries) {
   const publishable = entries.filter((e) => e.data.status === 'published');
-  console.log(`publish --dry-run: ${publishable.length} document(s) would be pushed:`);
-  publishable.forEach((e) => console.log(`  ${e.kind}/${e.data.id}`));
-  if (!publishable.length) console.log('  (nothing — all drafts)');
+  console.log(`publish --dry-run: ${publishable.length} document(s) would be pushed`);
+  if (!publishable.length) {
+    console.log('  (nothing — all drafts)');
+    return true;
+  }
+  // Résumé par collection, pas une ligne par document : à 539 entrées le détail
+  // exhaustif noyait le seul chiffre qu'on lit vraiment, le nombre de fragments.
+  for (const kind of Object.keys(KINDS)) {
+    const docs = publishable.filter((e) => e.kind === kind);
+    if (!docs.length) continue;
+    const chunks = Math.ceil(docs.length / BUNDLE_CHUNK_SIZE);
+    console.log(`  ${KINDS[kind].collection}: ${docs.length} doc(s) -> ${chunks} fragment(s)`);
+  }
   return true;
+}
+
+const COLLECTIONS_SEED = join(ROOT, 'NeonCompass', 'Resources', 'POI', 'collections.json');
+const POI_SEED = join(ROOT, 'NeonCompass', 'Resources', 'POI', 'seed-poi.json');
+
+function collectionsSeedContent(entries) {
+  const collections = entries
+    .filter((e) => e.kind === 'collections')
+    .map((e) => e.data)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  return JSON.stringify(collections, null, 2) + '\n';
 }
 
 /** Régénère le catalogue de collections embarqué que l'app lit au démarrage.
@@ -128,14 +160,108 @@ function publishDryRun(entries) {
  *  Le filtre draft/published ne s'applique pas ici : il gouverne la publication
  *  Firestore, pas ce que le binaire embarque. */
 function bundleCollections(entries) {
-  const collections = entries
-    .filter((e) => e.kind === 'collections')
-    .map((e) => e.data)
-    .sort((a, b) => a.id.localeCompare(b.id));
-  const out = join(ROOT, 'NeonCompass', 'Resources', 'POI', 'collections.json');
-  writeFileSync(out, JSON.stringify(collections, null, 2) + '\n');
-  console.log(`bundle: ${collections.length} collection(s) -> ${out}`);
+  const content = collectionsSeedContent(entries);
+  writeFileSync(COLLECTIONS_SEED, content);
+  console.log(`bundle: ${JSON.parse(content).length} collection(s) -> ${COLLECTIONS_SEED}`);
   return true;
+}
+
+/** Champs du POI que le socle embarqué porte réellement — les autres sont
+ *  pipeline-only et absents du modèle Swift. */
+function seedProjection(poi) {
+  const { id, category, collection, position, title, note } = poi;
+  return { id, category, collection, position, title, ...(note ? { note } : {}) };
+}
+
+/**
+ * Vérifie que les deux fichiers embarqués sont à jour vis-à-vis de content/.
+ *
+ * C'est le garde-fou qui manquait : éditer un POI sans régénérer `seed-poi.json`
+ * livre un binaire dont le socle est en retard sur le contenu publié, et rien ne
+ * le signale — l'overlay masque l'écart au premier sync, mais pas au premier
+ * lancement, ni hors ligne.
+ *
+ * Comparaison par identifiant et non par ordre : l'ordre d'émission du socle est
+ * celui du pipeline, il n'a pas à être reproduit ici.
+ */
+function checkSeeds(entries) {
+  let failures = 0;
+
+  if (collectionsSeedContent(entries) !== readFileSync(COLLECTIONS_SEED, 'utf8')) {
+    console.error(`FAIL ${COLLECTIONS_SEED} est en retard sur content/collections — lancer \`bundle\``);
+    failures++;
+  }
+
+  const expected = new Map(
+    entries
+      .filter((e) => e.kind === 'poi-gtav')
+      .map((e) => [e.data.id, JSON.stringify(seedProjection(e.data))]),
+  );
+  const actual = new Map(
+    JSON.parse(readFileSync(POI_SEED, 'utf8')).map((p) => [p.id, JSON.stringify(seedProjection(p))]),
+  );
+
+  const missing = [...expected.keys()].filter((id) => !actual.has(id));
+  const extra = [...actual.keys()].filter((id) => !expected.has(id));
+  const drifted = [...expected.entries()].filter(([id, json]) => actual.has(id) && actual.get(id) !== json);
+
+  for (const [label, ids] of [['absent(s) du socle', missing], ['en trop dans le socle', extra], ['divergent(s)', drifted.map(([id]) => id)]]) {
+    if (!ids.length) continue;
+    failures++;
+    console.error(`FAIL ${ids.length} POI ${label} — relancer \`node tools/basemap/gtav-poi.mjs\``);
+    ids.slice(0, 5).forEach((id) => console.error(`     ${id}`));
+  }
+
+  console.log(`check-seeds: ${failures === 0 ? 'socles à jour' : `${failures} écart(s)`}`);
+  return failures === 0;
+}
+
+/** Refuse de publier depuis un arbre de travail sale : ce qui part vers
+ *  Firestore doit correspondre à un commit, sinon on ne peut plus dire quelle
+ *  version du contenu est en ligne. */
+function requireCleanTree() {
+  const dirty = execSync('git status --porcelain', { cwd: ROOT, encoding: 'utf8' }).trim();
+  if (!dirty) return true;
+  console.error('FAIL arbre de travail sale — committer avant de publier :');
+  dirty.split('\n').slice(0, 10).forEach((l) => console.error(`     ${l}`));
+  return false;
+}
+
+function currentCommit() {
+  return execSync('git rev-parse --short HEAD', { cwd: ROOT, encoding: 'utf8' }).trim();
+}
+
+/** Écriture réelle vers Firestore + bump de version. Partagée par `publish` et
+ *  `release` : une seule implémentation, deux points d'entrée. */
+async function publishAll(entries) {
+  try {
+    const publishable = entries.filter((e) => e.data.status === 'published');
+    const { pushDocuments, pushBundles, incrementContentVersion } = await import('./firestore-client.js');
+    const byKind = Object.fromEntries(Object.keys(KINDS).map((k) => [k, []]));
+    publishable.forEach((e) => byKind[e.kind].push(e.data));
+
+    for (const [kind, docs] of Object.entries(byKind)) {
+      const { collection } = KINDS[kind];
+      // Les documents unitaires restent : ils sont la surface d'écriture du mode
+      // éditeur et ce qu'on inspecte dans la console. Mais l'app ne les lit plus
+      // — à une lecture facturée par document, un bump de version coûtait autant
+      // de lectures qu'il y a d'entrées, fois le nombre de clients. Elle lit les
+      // agrégats.
+      if (docs.length) await pushDocuments(collection, docs);
+      const { chunks, pruned } = await pushBundles(collection, docs);
+      console.log(`  ${collection}: ${docs.length} doc(s), ${chunks} fragment(s)${pruned ? `, ${pruned} périmé(s) supprimé(s)` : ''}`);
+    }
+
+    // Le SHA part avec la version : sans lui, « quelle version du contenu est en
+    // ligne ? » n'a aucune réponse vérifiable.
+    const commit = currentCommit();
+    const newVersion = await incrementContentVersion(commit);
+    console.log(`publish: ${publishable.length} document(s), contentVersion → ${newVersion} (${commit})`);
+    return true;
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
 }
 
 const [cmd, ...flags] = process.argv.slice(2);
@@ -152,7 +278,10 @@ switch (cmd) {
     ok = checkPublishable(entries);
     break;
   case 'bundle':
-    ok = validate(entries) && bundleCollections(entries);
+    ok = validate(entries) && (dry ? checkSeeds(entries) : bundleCollections(entries));
+    break;
+  case 'check-seeds':
+    ok = checkSeeds(entries);
     break;
   case 'translate':
     if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); ok = false; break; }
@@ -161,30 +290,39 @@ switch (cmd) {
   case 'publish':
     if (dry) { ok = validate(entries) && checkPublishable(entries) && publishDryRun(entries); break; }
     if (!(validate(entries) && checkPublishable(entries))) { ok = false; break; }
-    try {
-      const publishable = entries.filter((e) => e.data.status === 'published');
-      const { pushDocuments, pushBundles, incrementContentVersion } = await import('./firestore-client.js');
-      const byKind = Object.fromEntries(Object.keys(KINDS).map((k) => [k, []]));
-      publishable.forEach((e) => byKind[e.kind].push(e.data));
-      for (const [kind, docs] of Object.entries(byKind)) {
-        const { collection } = KINDS[kind];
-        // Les documents unitaires restent : ils sont la surface d'écriture du
-        // mode éditeur et ce qu'on inspecte dans la console. Mais l'app ne les
-        // lit plus — à une lecture facturée par document, un bump de version
-        // coûtait autant de lectures qu'il y a d'entrées, fois le nombre de
-        // clients. Elle lit les agrégats.
-        if (docs.length) await pushDocuments(collection, docs);
-        const { chunks, pruned } = await pushBundles(collection, docs);
-        console.log(`  ${collection}: ${docs.length} doc(s), ${chunks} fragment(s)${pruned ? `, ${pruned} périmé(s) supprimé(s)` : ''}`);
-      }
-      const newVersion = await incrementContentVersion();
-      console.log(`publish: pushed ${publishable.length} document(s), contentVersion → ${newVersion}`);
-      ok = true;
-    } catch (err) {
-      console.error(err.message);
-      ok = false;
-    }
+    ok = await publishAll(entries);
     break;
+  // Un seul point d'entrée pour toute la chaîne : valider, vérifier les règles
+  // éditoriales, s'assurer que les socles embarqués ne sont pas en retard sur
+  // content/, puis publier et bumper la version. Chaîner ces commandes à la main
+  // est exactement le genre de séquence dont on oublie une étape.
+  case 'release': {
+    const gates = [
+      ['validate', () => validate(entries)],
+      ['check-publishable', () => checkPublishable(entries)],
+      ['check-seeds', () => checkSeeds(entries)],
+    ];
+    // L'arbre propre n'est exigé qu'en publication réelle : un --dry-run doit
+    // rester utilisable en pleine édition.
+    if (!dry) gates.unshift(['clean-tree', requireCleanTree]);
+
+    ok = true;
+    for (const [name, run] of gates) {
+      if (run()) continue;
+      console.error(`release: arrêté à l'étape « ${name} »`);
+      ok = false;
+      break;
+    }
+    if (!ok) break;
+
+    if (dry) {
+      ok = publishDryRun(entries);
+      console.log('release --dry-run: aucune écriture, aucun bump de version');
+      break;
+    }
+    ok = await publishAll(entries);
+    break;
+  }
   case 'deploy-rules':
     try {
       const rulesSource = readFileSync(join(ROOT, 'firestore.rules'), 'utf8');

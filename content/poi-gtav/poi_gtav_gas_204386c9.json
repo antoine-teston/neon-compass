@@ -10,7 +10,7 @@
     "en": "Gas Station",
     "fr": "Station-service"
   },
-  "status": "draft",
+  "status": "published",
   "sources": [
     "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/objectslocations/worldGasPumps.json"
   ],

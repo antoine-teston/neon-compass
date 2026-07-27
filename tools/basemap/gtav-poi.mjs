@@ -36,7 +36,7 @@ import {
   dedupeIdenticalEntries,
   hasDuplicateUpstreamIds,
   identityKey,
-  loadExistingIds,
+  loadExisting,
   reconcileIds,
   worldDiscriminant,
 } from './gtav-poi-ids.mjs';
@@ -226,7 +226,7 @@ for (const set of WORLD_SETS) {
 const { pois: deduped, dropped: duplicates } = dedupeIdenticalEntries(pois);
 if (duplicates) console.log(`\ndoublons amont écartés : ${duplicates}`);
 
-const existingIds = loadExistingIds(outDir);
+const existingIds = loadExisting(outDir);
 const { pois: identified, reused, minted, orphaned } = reconcileIds(deduped, existingIds);
 console.log(`\nidentifiants : ${reused} réutilisés, ${minted} frappés, ${orphaned.length} orphelins`);
 for (const { key, id } of orphaned.slice(0, 10)) console.log(`  orphelin ${id}  (${key})`);

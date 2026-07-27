@@ -10,7 +10,7 @@
     "en": "Garage — Lockup_CMS_02",
     "fr": "Garage — Lockup_CMS_02"
   },
-  "status": "draft",
+  "status": "published",
   "sources": [
     "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
   ],

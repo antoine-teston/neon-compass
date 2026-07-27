@@ -10,7 +10,7 @@
     "en": "Garage — MP_GAR_SIMEON",
     "fr": "Garage — MP_GAR_SIMEON"
   },
-  "status": "draft",
+  "status": "published",
   "sources": [
     "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
   ],
