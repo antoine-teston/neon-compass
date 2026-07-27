@@ -41,10 +41,8 @@ struct CheatsScreen: View {
 
     private func loadCheatsModel() async {
         guard model == nil else { return }
-        let contentStore = ContentStore<Cheat>(
+        let contentStore = ContentStore<Cheat>.live(
             collectionName: "cheats",
-            remote: ChunkedContentRepository<Cheat>(collectionName: "cheats"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         model = CheatsModel(

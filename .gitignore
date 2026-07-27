@@ -3,3 +3,4 @@ xcuserdata/
 DerivedData/
 *.xcodeproj
 .build/
+tools/content-cli/dist/

@@ -74,6 +74,11 @@ struct RootView: View {
             // doc comment). Without this, a Pro user who adds the widget but
             // starts on the default Feed tab would see 0%/no-favorite-cheat
             // even if real `FoundEntry`/`FavoriteCheat` data already exists.
+            // AVANT toute lecture : configure la source de contenu (CDN ou
+            // Firestore) pour que la première synchronisation parte déjà du bon
+            // côté. Sans réseau, la valeur reste nil et tout retombe sur
+            // Firestore — le comportement d'avant.
+            await ContentSourceConfigurator.configureFromRemoteConfig()
             hydrateWidgetSummaryFromCache()
             await proEntitlementModel.refresh()
             await serverFeatures.refresh()
@@ -121,27 +126,21 @@ struct RootView: View {
     /// last (this one now, or a tab visit later with freshly-synced content)
     /// simply wins, and both always write the full coherent `WidgetSummary`.
     private func hydrateWidgetSummaryFromCache() {
-        let poiStore = ContentStore<POI>(
+        let poiStore = ContentStore<POI>.live(
             collectionName: "poi",
-            remote: ChunkedContentRepository<POI>(collectionName: "poi"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         // Socle + overlay en cache, comme l'écran de progression : ce chemin ne
         // fait aucun réseau, mais il doit voir le même contenu, sinon le widget
         // affiche un pourcentage qui saute dès la première visite de l'onglet.
-        let referenceStore = ContentStore<POI>(
+        let referenceStore = ContentStore<POI>.live(
             collectionName: "poi_gtav",
             seed: POILoader.bundled,
-            remote: ChunkedContentRepository<POI>(collectionName: "poi_gtav"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        let collectionStore = ContentStore<POICollection>(
+        let collectionStore = ContentStore<POICollection>.live(
             collectionName: "collections",
             seed: POICollectionLoader.bundled,
-            remote: ChunkedContentRepository<POICollection>(collectionName: "collections"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         _ = ProgressionModel(
@@ -152,10 +151,8 @@ struct RootView: View {
             widgetSummaryCoordinator: widgetSummaryCoordinator
         )
 
-        let cheatStore = ContentStore<Cheat>(
+        let cheatStore = ContentStore<Cheat>.live(
             collectionName: "cheats",
-            remote: ChunkedContentRepository<Cheat>(collectionName: "cheats"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         _ = CheatsModel(

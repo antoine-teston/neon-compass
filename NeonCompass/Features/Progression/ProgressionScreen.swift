@@ -40,32 +40,24 @@ struct ProgressionScreen: View {
 
     private func loadModel() async {
         guard model == nil else { return }
-        let poiStore = ContentStore<POI>(
+        let poiStore = ContentStore<POI>.live(
             collectionName: "poi",
-            remote: ChunkedContentRepository<POI>(collectionName: "poi"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         // Même socle + overlay que la carte : les défis de la carte de référence
         // doivent compter les mêmes POI que ceux qu'on peut y cocher.
-        let referenceStore = ContentStore<POI>(
+        let referenceStore = ContentStore<POI>.live(
             collectionName: "poi_gtav",
             seed: POILoader.bundled,
-            remote: ChunkedContentRepository<POI>(collectionName: "poi_gtav"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        let collectionStore = ContentStore<POICollection>(
+        let collectionStore = ContentStore<POICollection>.live(
             collectionName: "collections",
             seed: POICollectionLoader.bundled,
-            remote: ChunkedContentRepository<POICollection>(collectionName: "collections"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
-        let trophyStore = ContentStore<Trophy>(
+        let trophyStore = ContentStore<Trophy>.live(
             collectionName: "trophies",
-            remote: ChunkedContentRepository<Trophy>(collectionName: "trophies"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         // Cloud progression sync is Pro + signed-in only (spec: "nécessite
