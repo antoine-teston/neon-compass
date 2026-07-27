@@ -20,6 +20,10 @@
       "minimum": 1,
       "description": "Nombre réel d'éléments DANS LE JEU, pas dans nos données. Absent quand le total est encore inconnu (GTA VI au lancement) : l'app affiche alors un décompte sans pourcentage."
     },
+    "deleted": {
+      "type": "boolean",
+      "description": "Pierre tombale : annule la collection de même id du catalogue embarqué."
+    },
     "status": { "enum": ["draft", "published"] },
     "sources": {
       "type": "array",

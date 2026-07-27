@@ -9,6 +9,17 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+    match /poi_gtav/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // Ce que l'app lit réellement : les collections de contenu agrégées en
+    // fragments de 500 entrées. Les documents unitaires ci-dessus restent la
+    // surface d'écriture du mode éditeur et d'inspection.
+    match /content_bundles/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
     match /cheats/{document=**} {
       allow read: if true;
       allow write: if false;

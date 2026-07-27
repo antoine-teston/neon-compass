@@ -12,6 +12,10 @@
     },
     "collection": { "type": "string", "pattern": "^[a-z0-9_]+$" },
     "mergedInto": { "type": "string", "pattern": "^poi_[a-z0-9_]+$" },
+    "deleted": {
+      "type": "boolean",
+      "description": "Pierre tombale : annule l'entrée de même id du socle embarqué, qu'on ne peut pas retirer du binaire après coup."
+    },
     "position": {
       "oneOf": [
         { "type": "null" },

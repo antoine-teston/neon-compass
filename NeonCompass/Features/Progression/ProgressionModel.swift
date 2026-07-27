@@ -49,6 +49,14 @@ final class ProgressionModel {
         recomputeChallenges()
     }
 
+    /// Le catalogue arrive du canal de contenu : une collection GTA VI peut donc
+    /// être déclarée sans mise à jour de l'app, le jour où on saura ce que ses
+    /// POI sont.
+    func updateCollections(_ newCollections: [POICollection]) {
+        collections = newCollections
+        recomputeChallenges()
+    }
+
     private func recomputeChallenges() {
         challenges = ChallengeProgressCalculator.challenges(
             collections: collections,

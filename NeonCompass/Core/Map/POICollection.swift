@@ -28,6 +28,11 @@ struct POICollection: Codable, Equatable, Identifiable, Sendable {
     /// personne ne connaîtra les totaux avant plusieurs semaines.
     let expectedCount: Int?
 
+    /// Pierre tombale, comme sur `POI` : le catalogue est embarqué, donc retirer
+    /// une collection sans mise à jour de l'app demande de l'annuler depuis
+    /// l'overlay.
+    let deleted: Bool?
+
     /// Explicite pour la même raison que celui de `POI` : Swift ne donne pas de
     /// valeur par défaut aux optionnels déclarés `let`.
     init(
@@ -36,7 +41,8 @@ struct POICollection: Codable, Equatable, Identifiable, Sendable {
         title: LocalizedText,
         note: LocalizedText? = nil,
         isChallenge: Bool,
-        expectedCount: Int? = nil
+        expectedCount: Int? = nil,
+        deleted: Bool? = nil
     ) {
         self.id = id
         self.game = game
@@ -44,7 +50,12 @@ struct POICollection: Codable, Equatable, Identifiable, Sendable {
         self.note = note
         self.isChallenge = isChallenge
         self.expectedCount = expectedCount
+        self.deleted = deleted
     }
+}
+
+extension POICollection: ContentItem {
+    var isDeleted: Bool { deleted == true }
 }
 
 enum POICollectionLoader {

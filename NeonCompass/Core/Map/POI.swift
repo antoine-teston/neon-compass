@@ -61,6 +61,11 @@ struct POI: Codable, Equatable, Identifiable, Sendable {
     /// ceux qui l'avaient coché.
     let mergedInto: String?
 
+    /// Pierre tombale : seul moyen d'annuler une entrée du socle embarqué, qu'on
+    /// ne peut pas retirer du binaire après coup. Distinct de `mergedInto`, qui
+    /// conserve l'entrée comme alias au lieu de la faire disparaître.
+    let deleted: Bool?
+
     /// Explicite plutôt que synthétisé : Swift ne donne pas de valeur par défaut
     /// aux optionnels déclarés `let`, et sans ça chaque site de construction
     /// devrait passer `collection:` et `mergedInto:` à la main.
@@ -71,7 +76,8 @@ struct POI: Codable, Equatable, Identifiable, Sendable {
         position: NormalizedPoint?,
         title: LocalizedText,
         note: LocalizedText? = nil,
-        mergedInto: String? = nil
+        mergedInto: String? = nil,
+        deleted: Bool? = nil
     ) {
         self.id = id
         self.category = category
@@ -80,7 +86,12 @@ struct POI: Codable, Equatable, Identifiable, Sendable {
         self.title = title
         self.note = note
         self.mergedInto = mergedInto
+        self.deleted = deleted
     }
+}
+
+extension POI: ContentItem {
+    var isDeleted: Bool { deleted == true }
 }
 
 enum POILoader {

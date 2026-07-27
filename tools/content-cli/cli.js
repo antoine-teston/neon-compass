@@ -27,16 +27,33 @@ const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)
 const UI_FIELDS = ['title', 'note', 'effect'];
 
 const ajv = new Ajv({ allErrors: true });
-const schemas = {
+const compiled = {
   poi: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'poi.schema.json')))),
   cheats: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'cheat.schema.json')))),
   collections: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'collection.schema.json')))),
 };
-const KINDS = Object.keys(schemas);
+
+// Un « kind » est un répertoire de content/. Il porte son schéma et la
+// collection Firestore visée.
+//
+// `poi-gtav` et `poi` partagent le schéma mais PAS la collection : les positions
+// de la fixture sont normalisées sur la carte de référence, les afficher sur
+// celle du jeu à venir poserait des centaines de pins à des endroits qui ne
+// veulent rien dire. La séparation est délibérée côté app aussi
+// (NeonCompass/Features/Map/MapModel.swift, `pois(for:)`).
+const KINDS = {
+  poi: { schema: 'poi', collection: 'poi' },
+  'poi-gtav': { schema: 'poi', collection: 'poi_gtav' },
+  cheats: { schema: 'cheats', collection: 'cheats' },
+  collections: { schema: 'collections', collection: 'collections' },
+};
+const schemas = Object.fromEntries(
+  Object.entries(KINDS).map(([kind, { schema }]) => [kind, compiled[schema]]),
+);
 
 function loadAll() {
   const entries = [];
-  for (const kind of KINDS) {
+  for (const kind of Object.keys(KINDS)) {
     const dir = join(CONTENT, kind);
     for (const f of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
       entries.push({ kind, file: `${kind}/${f}`, data: JSON.parse(readFileSync(join(dir, f))) });
@@ -146,11 +163,19 @@ switch (cmd) {
     if (!(validate(entries) && checkPublishable(entries))) { ok = false; break; }
     try {
       const publishable = entries.filter((e) => e.data.status === 'published');
-      const { pushDocuments, incrementContentVersion } = await import('./firestore-client.js');
-      const byKind = Object.fromEntries(KINDS.map((k) => [k, []]));
+      const { pushDocuments, pushBundles, incrementContentVersion } = await import('./firestore-client.js');
+      const byKind = Object.fromEntries(Object.keys(KINDS).map((k) => [k, []]));
       publishable.forEach((e) => byKind[e.kind].push(e.data));
       for (const [kind, docs] of Object.entries(byKind)) {
-        if (docs.length) await pushDocuments(kind, docs);
+        const { collection } = KINDS[kind];
+        // Les documents unitaires restent : ils sont la surface d'écriture du
+        // mode éditeur et ce qu'on inspecte dans la console. Mais l'app ne les
+        // lit plus — à une lecture facturée par document, un bump de version
+        // coûtait autant de lectures qu'il y a d'entrées, fois le nombre de
+        // clients. Elle lit les agrégats.
+        if (docs.length) await pushDocuments(collection, docs);
+        const { chunks, pruned } = await pushBundles(collection, docs);
+        console.log(`  ${collection}: ${docs.length} doc(s), ${chunks} fragment(s)${pruned ? `, ${pruned} périmé(s) supprimé(s)` : ''}`);
       }
       const newVersion = await incrementContentVersion();
       console.log(`publish: pushed ${publishable.length} document(s), contentVersion → ${newVersion}`);
