@@ -107,6 +107,28 @@ export async function incrementContentVersion(commit) {
  *  Sert à regarder la cible avant de l'écraser : `deploy-rules` remplace le
  *  ruleset actif d'un bloc, donc une modification faite directement en console
  *  Firebase disparaîtrait sans laisser de trace. */
+/// Lit et écrit un paramètre Remote Config sans toucher aux autres.
+///
+/// `publishTemplate` remplace le template **entier** : lire, modifier, republier
+/// est le seul chemin sûr. Une écriture naïve effacerait `contentVersion`,
+/// `contentCommit` et le coupe-circuit communautaire d'un bloc.
+export async function getRemoteConfigParameter(key) {
+  const rc = getRemoteConfig(app());
+  const template = await rc.getTemplate();
+  return template.parameters[key]?.defaultValue?.value;
+}
+
+export async function setRemoteConfigParameter(key, value, description) {
+  const rc = getRemoteConfig(app());
+  const template = await rc.getTemplate();
+  template.parameters[key] = {
+    defaultValue: { value: String(value) },
+    ...(description ? { description } : {}),
+  };
+  await rc.publishTemplate(template);
+  return value;
+}
+
 export async function fetchFirestoreRules() {
   const ruleset = await getSecurityRules(app()).getFirestoreRuleset();
   return ruleset.source.map((file) => file.content).join('\n');
