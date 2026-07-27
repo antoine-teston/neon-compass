@@ -37,6 +37,7 @@ struct MapScreen: View {
     @State private var referencePOIs: [POI] = POILoader.bundled
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    @Environment(ServerFeaturesModel.self) private var serverFeatures
 
     private let manifest = MapManifest.load() ?? MapManifest(size: 2048)
 
@@ -204,7 +205,11 @@ struct MapScreen: View {
                 // pendingPinLocation was already set on long-press.
                 showPersonalPinAlert = true
             }
-            if communityModel?.contributionsEnabled != false {
+            // Le coupe-circuit communautaire échoue OUVERT (c'est un
+            // interrupteur d'urgence sur une capacité qui existe). Le drapeau
+            // serveur, lui, échoue fermé : sans submitContribution déployée,
+            // ce bouton mènerait à une erreur à chaque fois.
+            if serverFeatures.isEnabled, communityModel?.contributionsEnabled != false {
                 Button("map.longPress.proposeSpot") {
                     if authModel.userID != nil {
                         pendingContributionLocation = pendingPinLocation

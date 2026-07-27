@@ -12,6 +12,10 @@ struct RootView: View {
     // `self`/sibling properties) — built in `init()` instead.
     @State private var widgetSummaryCoordinator: WidgetSummaryCoordinator
     @State private var themeStore = ThemeStore()
+    /// Faux par défaut : sans Cloud Functions déployées, les écrans de compte et
+    /// de communauté ne mènent nulle part. Un paramètre Remote Config les
+    /// rallume tous d'un coup, sans mise à jour de l'app.
+    @State private var serverFeatures = ServerFeaturesModel(gate: RemoteConfigServerFeatureGate())
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.modelContext) private var modelContext
 
@@ -44,6 +48,7 @@ struct RootView: View {
         .environment(proEntitlementModel)
         .environment(widgetSummaryCoordinator)
         .environment(themeStore)
+        .environment(serverFeatures)
         .preferredColorScheme(.dark)
         // Makes the Pro theme picker's selection a real, app-wide effect:
         // the selected accent becomes the default tint for any control that
@@ -71,6 +76,7 @@ struct RootView: View {
             // even if real `FoundEntry`/`FavoriteCheat` data already exists.
             hydrateWidgetSummaryFromCache()
             await proEntitlementModel.refresh()
+            await serverFeatures.refresh()
         }
         // Nothing else subscribes to entitlement changes on their own —
         // `WidgetSummaryCoordinator` otherwise only rewrites the widget

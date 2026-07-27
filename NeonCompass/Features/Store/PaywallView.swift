@@ -15,15 +15,27 @@ struct PaywallView: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.dismiss) private var dismiss
 
-    private let features: [(LocalizedStringKey, String)] = [
-        ("paywall.feature.ads", "nosign"),
-        ("paywall.feature.sync", "icloud"),
-        ("paywall.feature.route", "map"),
-        ("paywall.feature.remaining", "checklist"),
-        ("paywall.feature.widgets", "square.grid.2x2"),
-        ("paywall.feature.notifications", "bell"),
-        ("paywall.feature.themes", "paintpalette"),
-    ]
+    @Environment(ServerFeaturesModel.self) private var serverFeatures
+
+    /// Les notifications de catégorie suivie sont envoyées par une Cloud
+    /// Function. Tant qu'elle n'est pas déployée, les annoncer serait vendre ce
+    /// qu'on ne livre pas — et c'est un motif de rejet App Store documenté, pas
+    /// seulement une maladresse. La ligne revient d'elle-même le jour où le
+    /// drapeau serveur passe à vrai.
+    private var features: [(LocalizedStringKey, String)] {
+        var features: [(LocalizedStringKey, String)] = [
+            ("paywall.feature.ads", "nosign"),
+            ("paywall.feature.sync", "icloud"),
+            ("paywall.feature.route", "map"),
+            ("paywall.feature.remaining", "checklist"),
+            ("paywall.feature.widgets", "square.grid.2x2"),
+        ]
+        if serverFeatures.isEnabled {
+            features.append(("paywall.feature.notifications", "bell"))
+        }
+        features.append(("paywall.feature.themes", "paintpalette"))
+        return features
+    }
 
     var body: some View {
         NavigationStack {
