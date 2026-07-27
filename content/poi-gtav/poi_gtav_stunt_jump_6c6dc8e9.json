@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_6c6dc8e9",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.406576,
+    "y": 0.64388
+  },
+  "title": {
+    "en": "Stunt Jump #2 - Downtown",
+    "fr": "Saut cascade #2 - Downtown"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:83"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_bff1bab7",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.429688,
+    "y": 0.619792
+  },
+  "title": {
+    "en": "Letter Scrap #15 - Hawick",
+    "fr": "Fragment de lettre #15 - Hawick"
+  },
+  "note": {
+    "en": "This one is inside the skate park, on the floor in the middle of the ramp."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:146"
+}

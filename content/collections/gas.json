@@ -1,0 +1,13 @@
+{
+  "id": "gas",
+  "game": "gtav",
+  "title": {
+    "en": "Gas Stations",
+    "fr": "Stations-service"
+  },
+  "isChallenge": false,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/objectslocations/worldGasPumps.json"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_24f2cdcf",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.455729,
+    "y": 0.836589
+  },
+  "title": {
+    "en": "Spaceship Part #21 - Elysian Island",
+    "fr": "Pièce de vaisseau #21 - Elysian Island"
+  },
+  "note": {
+    "en": "Underwater here will be the ruins of a metal structure. In amongst it is this Spaceship Part."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:52"
+}

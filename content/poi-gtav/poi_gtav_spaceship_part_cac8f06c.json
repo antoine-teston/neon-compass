@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_cac8f06c",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.491862,
+    "y": 0.791341
+  },
+  "title": {
+    "en": "Spaceship Part #20 - El Burro Heights",
+    "fr": "Pièce de vaisseau #20 - El Burro Heights"
+  },
+  "note": {
+    "en": "In front of the freeway-supporting wall with the “VAGOS” graffiti on it is a sewer pipe that pumps water out to sea. Right next to the pipe opening is the Spaceship Part."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:51"
+}

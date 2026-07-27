@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_66f770a8",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.379883,
+    "y": 0.525391
+  },
+  "title": {
+    "en": "Spaceship Part #37 - Vinewood Hills",
+    "fr": "Pièce de vaisseau #37 - Vinewood Hills"
+  },
+  "note": {
+    "en": "[Helicopter Required] This is another one which requires a helicopter. You will need to land your helicopter on the roof of the Galileo Observatory, and the Spaceship Part will be located next to the dome on the left-hand side of the roof."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:68"
+}

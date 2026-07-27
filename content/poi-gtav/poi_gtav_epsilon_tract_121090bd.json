@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_epsilon_tract_121090bd",
+  "category": "collectible",
+  "collection": "epsilon_tract",
+  "position": {
+    "x": 0.445638,
+    "y": 0.200358
+  },
+  "title": {
+    "en": "Epsilon Tract #8",
+    "fr": "Tract Epsilon #8"
+  },
+  "note": {
+    "en": "“We are not dinosaurs, or plants, but a tree in the jet stream may hold Kraff's true word”."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:epsilon_tract:223"
+}

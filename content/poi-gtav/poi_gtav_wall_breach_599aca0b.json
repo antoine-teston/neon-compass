@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_599aca0b",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.35303,
+    "y": 0.583414
+  },
+  "title": {
+    "en": "Eclipse Tower"
+  },
+  "note": {
+    "en": "Go to the location as seen below with a decent siced vehicle. Open your phone and call Simeon. Once you see the \"Request a Job Invite\" HUD, do not press anything. Drive your truck to any corner of the garage door, get out, jump on top of the truck and jump inside the building."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:7@X=70.60900,Y=-132.34100"
+}

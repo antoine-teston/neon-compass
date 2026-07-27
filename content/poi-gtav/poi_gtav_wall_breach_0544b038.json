@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_0544b038",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.332681,
+    "y": 0.669599
+  },
+  "title": {
+    "en": "Residence near LSPD"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Turn around to the red residence house. Hop over the gate, run to the backyard, go upstairs to the second floor. Turn left to the red pillar and jump."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:11@X=66.35500,Y=-135.08800"
+}

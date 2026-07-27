@@ -14,10 +14,25 @@ struct MapScreen: View {
     @State private var pendingContributionLocation: NormalizedPoint?
     @State private var communityModel: CommunityModel?
     @State private var showRoutePlanner = false
+    // Volontairement NON persisté : l'app doit rouvrir sur l'habillage Neon
+    // Compass, qui est son identité (voir MapStyle).
+    @State private var mapStyle: MapStyle = .neon
+    // Par défaut sur la carte de référence : c'est la seule des deux à avoir
+    // du contenu placé aujourd'hui. Ouvrir sur le placeholder donnerait une
+    // carte sans le moindre pin. À rebasculer sur `.leonida` le jour où le
+    // contenu éditorial aura de vraies positions.
+    @State private var mapGame: MapGame = .reference
+    @State private var remotePOIs: [POI] = []
+
+    /// Socle embarqué de la carte de référence, patché par l'overlay distant dès
+    /// qu'il arrive. Initialisé au socle nu pour que la carte soit explorable au
+    /// premier lancement, sans réseau — et si Firebase n'est pas configuré, ça
+    /// reste la valeur définitive.
+    @State private var referencePOIs: [POI] = POILoader.bundled
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
-    private let manifest = TileManifest.load() ?? TileManifest(tileSize: 256, maxZoom: 3, tileCount: 85)
+    private let manifest = MapManifest.load() ?? MapManifest(size: 2048)
 
     var body: some View {
         Group {
@@ -34,9 +49,14 @@ struct MapScreen: View {
     @ViewBuilder
     private func content(model: MapModel) -> some View {
         if sizeClass == .compact {
-            ZStack(alignment: .topTrailing) {
+            ZStack(alignment: .top) {
                 mapCanvas(model: model)
-                MapFilterControls(model: model)
+                MapFilterControls(
+                    model: model,
+                    showPersonalPinList: $showPersonalPinList,
+                    showRoutePlanner: $showRoutePlanner
+                )
+                displayControls
             }
             .sheet(item: Binding(get: { model.selectedPOI }, set: { model.selectedPOI = $0 })) { poi in
                 POIDetailView(
@@ -49,9 +69,14 @@ struct MapScreen: View {
             }
         } else {
             HStack(spacing: 0) {
-                ZStack(alignment: .topTrailing) {
+                ZStack(alignment: .top) {
                     mapCanvas(model: model)
-                    MapFilterControls(model: model)
+                    MapFilterControls(
+                        model: model,
+                        showPersonalPinList: $showPersonalPinList,
+                        showRoutePlanner: $showRoutePlanner
+                    )
+                    displayControls
                 }
                 if let selected = model.selectedPOI {
                     POIDetailView(
@@ -67,61 +92,58 @@ struct MapScreen: View {
         }
     }
 
+    /// Ancré en bas à droite : à portée du pouce, et hors du bandeau haut déjà
+    /// occupé par la recherche et les filtres. Le décalage bas dégage la tab
+    /// bar flottante (~72 pt au-dessus de la safe area, cf. CompactTabBar).
+    private var displayControls: some View {
+        MapDisplayControls(game: $mapGame, style: $mapStyle)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .padding(.trailing, 16)
+            .padding(.bottom, 76)
+    }
+
     private func mapCanvas(model: MapModel) -> some View {
         ZStack(alignment: .topLeading) {
-            TiledMapRepresentable(manifest: manifest, viewport: $viewport) { canvasPoint in
-                pendingPinLocation = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
-                showLongPressMenu = true
-            }
-            MapPinsOverlay(pois: model.filteredPOIs, manifest: manifest, viewport: viewport) { poi in
-                model.selectedPOI = poi
-            }
-            PersonalPinsOverlay(pins: model.personalPins, manifest: manifest, viewport: viewport)
-
-            if let communityModel {
-                ForEach(communityModel.visibleSpots) { spot in
-                    let point = spot.position
-                    let position = MapGeometry.screenPosition(for: point, manifest: manifest, viewport: viewport)
-                    ContributionAnnotationView(
-                        spot: spot,
-                        onVote: { direction in Task { await communityModel.vote(on: spot, direction: direction) } },
-                        onReport: { Task { await communityModel.report(spot, reason: nil) } },
-                        onBlockAuthor: {
-                            if let authorUid = spot.authorUid { communityModel.block(authorUid: authorUid) }
-                        }
-                    )
-                    .position(position)
+            TiledMapRepresentable(
+                manifest: manifest,
+                game: mapGame,
+                style: mapStyle,
+                pois: model.filteredPOIs,
+                personalPins: model.personalPins,
+                communitySpots: communityModel?.visibleSpots ?? [],
+                isFound: model.isFound,
+                viewport: $viewport,
+                onLongPress: { canvasPoint in
+                    pendingPinLocation = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
+                    showLongPressMenu = true
+                },
+                onTapPOI: { poi in model.selectedPOI = poi },
+                onVote: { spot, direction in
+                    Task { await communityModel?.vote(on: spot, direction: direction) }
+                },
+                onReport: { spot in
+                    Task { await communityModel?.report(spot, reason: nil) }
+                },
+                onBlockAuthor: { spot in
+                    if let authorUid = spot.authorUid { communityModel?.block(authorUid: authorUid) }
                 }
-            }
-
-            VStack(spacing: 12) {
-                Button {
-                    showPersonalPinList = true
-                } label: {
-                    Image(systemName: "star.circle")
-                        .font(.system(size: 20))
-                        .foregroundStyle(.white)
-                        .frame(width: 44, height: 44)
-                }
-                .glassEffect(.regular.interactive(), in: .circle)
-
-                if proEntitlementModel.isProEntitled {
-                    Button {
-                        showRoutePlanner = true
-                    } label: {
-                        Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
-                            .font(.system(size: 20))
-                            .foregroundStyle(.white)
-                            .frame(width: 44, height: 44)
-                    }
-                    .glassEffect(.regular.interactive(), in: .circle)
-                }
-            }
-            .padding(16)
+            )
+            // La carte passe SOUS la barre d'état et sous la tab bar : le
+            // chrome est en Liquid Glass, il est fait pour flotter au-dessus du
+            // contenu. Sans ça la vue zoomable est amputée des safe areas (778
+            // pt sur 874 mesurés en iPhone 17 Pro), ce qui laissait une bande
+            // morte en haut et en bas même à pleine échelle.
+            .ignoresSafeArea()
         }
         .onAppear {
             communityModel?.refreshBlockedAuthors()
             reattachSyncIfNeeded()
+        }
+        .onChange(of: mapGame) { _, newGame in
+            // Les deux cartes ont des jeux de POI disjoints : changer de carte
+            // change la source, pas seulement l'image de fond.
+            model.updatePOIs(pois(for: newGame))
+            model.selectedPOI = nil
         }
         .sheet(isPresented: $showPersonalPinList) {
             PersonalPinListSheet(model: model)
@@ -193,19 +215,45 @@ struct MapScreen: View {
         }
     }
 
+    /// Fixture embarquée de la carte de référence
+    /// (`Resources/POI/seed-poi.json`, produite par
+    /// `tools/basemap/gtav-poi.mjs`). `static let` : décodée une seule fois
+    /// par lancement, le fichier pèse ~200 Ko.
+    ///
+    /// `POILoader.loadSeed` existait depuis le plan 2 mais n'avait plus aucun
+    /// appelant depuis que le plan 3 a branché la carte sur Firestore — d'où
+    /// une carte de référence sans le moindre POI.
+    /// Le cache vit maintenant sur `POILoader` : l'écran de progression a besoin
+    /// de la même fixture pour ses dénominateurs, et deux `static let` séparés
+    /// en auraient fait deux parses.
+    private func pois(for game: MapGame) -> [POI] {
+        MapModel.pois(for: game, remote: remotePOIs, reference: referencePOIs)
+    }
+
     private func loadModel() {
         guard model == nil else { return }
         guard FirebaseAvailability.isConfigured else {
-            // Firebase not yet activated (Task 7 of Plan 3) — load with no
-            // remote content rather than crashing. The map still works with
-            // zero POIs; personal pins and "found" tracking are unaffected
-            // since those go through FoundEntry/PersonalPin, not this path.
-            model = MapModel(pois: [], modelContext: modelContext)
+            // Firebase not yet activated (Task 7 of Plan 3) — pas de contenu
+            // distant, mais la carte de référence reste explorable. Personal
+            // pins and "found" tracking are unaffected since those go through
+            // FoundEntry/PersonalPin, not this path.
+            model = MapModel(pois: pois(for: mapGame), modelContext: modelContext)
             return
         }
         let contentStore = ContentStore<POI>(
             collectionName: "poi",
-            remote: FirestoreContentRepository<POI>(collectionName: "poi"),
+            remote: ChunkedContentRepository<POI>(collectionName: "poi"),
+            versionProvider: RemoteConfigVersionProvider(),
+            modelContext: modelContext
+        )
+        // Deuxième store, collection distincte : les positions de la fixture
+        // sont normalisées sur la carte de référence. Les mêler au contenu du
+        // jeu à venir poserait des centaines de pins à des endroits qui ne
+        // veulent rien dire — cf. `MapModel.pois(for:remote:reference:)`.
+        let referenceStore = ContentStore<POI>(
+            collectionName: "poi_gtav",
+            seed: POILoader.bundled,
+            remote: ChunkedContentRepository<POI>(collectionName: "poi_gtav"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
@@ -213,7 +261,9 @@ struct MapScreen: View {
         // le compte") — never constructed for free or signed-out users.
         let userID = authModel.userID
         let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
-        model = MapModel(pois: contentStore.items, modelContext: modelContext, sync: sync)
+        remotePOIs = contentStore.items
+        referencePOIs = referenceStore.items
+        model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, sync: sync)
         communityModel = CommunityModel(
             repository: FirestoreContributionRepository(),
             functions: FirebaseContributionFunctions(),
@@ -222,7 +272,10 @@ struct MapScreen: View {
         )
         Task {
             try? await contentStore.syncIfNeeded()
-            model?.updatePOIs(contentStore.items)
+            try? await referenceStore.syncIfNeeded()
+            remotePOIs = contentStore.items
+            referencePOIs = referenceStore.items
+            model?.updatePOIs(pois(for: mapGame))
             await communityModel?.loadApprovedSpots()
             await communityModel?.refreshContributionsEnabled()
             if let sync, let userID {

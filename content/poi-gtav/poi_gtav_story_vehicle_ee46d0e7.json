@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_story_vehicle_ee46d0e7",
+  "category": "vehicle",
+  "collection": "story_vehicle",
+  "position": {
+    "x": 0.309896,
+    "y": 0.601968
+  },
+  "title": {
+    "en": "Western Daemon"
+  },
+  "note": {
+    "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:story_vehicle:51@X=69.76000,Y=-138.16400"
+}

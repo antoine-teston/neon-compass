@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_eec547f0",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.440104,
+    "y": 0.138346
+  },
+  "title": {
+    "en": "Spaceship Part #1 - Mount Chiliad",
+    "fr": "Pièce de vaisseau #1 - Mount Chiliad"
+  },
+  "note": {
+    "en": "You will come to a farm area with two large barns. One of the barns has a “Zancudo Grain Growers” logo painted on the side of it, and in the back of this barn on the floor is the Spaceship Part."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:32"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_a58f2e35",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.322022,
+    "y": 0.711757
+  },
+  "title": {
+    "en": "Beach Store"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Turn to the open garage and drive straight throgh the wall. Note: during day time you need an bicycle because there are boxes that prevent you from entering the garage!"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:6@X=63.96600,Y=-136.52700"
+}

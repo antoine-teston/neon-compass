@@ -117,12 +117,30 @@ struct RootView: View {
     private func hydrateWidgetSummaryFromCache() {
         let poiStore = ContentStore<POI>(
             collectionName: "poi",
-            remote: FirestoreContentRepository<POI>(collectionName: "poi"),
+            remote: ChunkedContentRepository<POI>(collectionName: "poi"),
+            versionProvider: RemoteConfigVersionProvider(),
+            modelContext: modelContext
+        )
+        // Socle + overlay en cache, comme l'écran de progression : ce chemin ne
+        // fait aucun réseau, mais il doit voir le même contenu, sinon le widget
+        // affiche un pourcentage qui saute dès la première visite de l'onglet.
+        let referenceStore = ContentStore<POI>(
+            collectionName: "poi_gtav",
+            seed: POILoader.bundled,
+            remote: ChunkedContentRepository<POI>(collectionName: "poi_gtav"),
+            versionProvider: RemoteConfigVersionProvider(),
+            modelContext: modelContext
+        )
+        let collectionStore = ContentStore<POICollection>(
+            collectionName: "collections",
+            seed: POICollectionLoader.bundled,
+            remote: ChunkedContentRepository<POICollection>(collectionName: "collections"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         _ = ProgressionModel(
-            pois: poiStore.items,
+            pois: poiStore.items + referenceStore.items,
+            collections: collectionStore.items,
             trophies: [],
             modelContext: modelContext,
             widgetSummaryCoordinator: widgetSummaryCoordinator
@@ -130,7 +148,7 @@ struct RootView: View {
 
         let cheatStore = ContentStore<Cheat>(
             collectionName: "cheats",
-            remote: FirestoreContentRepository<Cheat>(collectionName: "cheats"),
+            remote: ChunkedContentRepository<Cheat>(collectionName: "cheats"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )

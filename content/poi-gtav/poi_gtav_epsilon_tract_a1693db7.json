@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_epsilon_tract_a1693db7",
+  "category": "collectible",
+  "collection": "epsilon_tract",
+  "position": {
+    "x": 0.412272,
+    "y": 0.053385
+  },
+  "title": {
+    "en": "Epsilon Tract #3",
+    "fr": "Tract Epsilon #3"
+  },
+  "note": {
+    "en": "“When they sail from the North, they will find this offering”."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:epsilon_tract:218"
+}

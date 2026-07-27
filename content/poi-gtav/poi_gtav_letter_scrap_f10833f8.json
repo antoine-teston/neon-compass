@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_f10833f8",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.389648,
+    "y": 0.398437
+  },
+  "title": {
+    "en": "Letter Scrap #42 - Great Chaparaal",
+    "fr": "Fragment de lettre #42 - Great Chaparaal"
+  },
+  "note": {
+    "en": "In front of the church is a small graveyard. In the graveyard in front of three white crosses is the Letter."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:173"
+}

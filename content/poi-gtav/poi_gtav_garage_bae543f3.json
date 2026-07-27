@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_garage_bae543f3",
+  "category": "safehouse",
+  "collection": "garage",
+  "position": {
+    "x": 0.548605,
+    "y": 0.33268
+  },
+  "title": {
+    "en": "Garage — Trevor - Countryside",
+    "fr": "Garage — Trevor - Countryside"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage:Trevor - Countryside@X=1964.2,Y=3815.9"
+}

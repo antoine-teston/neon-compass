@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "collection.schema.json",
+  "title": "Neon Compass POI collection",
+  "description": "Un ensemble nommé de POI. Sert d'unité de compte aux défis, à la place des 6 catégories qui restent un concept de filtrage carte.",
+  "type": "object",
+  "required": ["id", "game", "title", "isChallenge", "status", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+    "game": { "enum": ["gtav", "leonida"] },
+    "title": { "$ref": "#/$defs/localized" },
+    "note": { "$ref": "#/$defs/localized" },
+    "isChallenge": {
+      "type": "boolean",
+      "description": "Faux pour un simple regroupement de carte (stations-service, garages) : la collection n'apparaît pas dans la progression."
+    },
+    "expectedCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Nombre réel d'éléments DANS LE JEU, pas dans nos données. Absent quand le total est encore inconnu (GTA VI au lancement) : l'app affiche alors un décompte sans pourcentage."
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Pierre tombale : annule la collection de même id du catalogue embarqué."
+    },
+    "status": { "enum": ["draft", "published"] },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "Un total attendu n'a de sens que pour un défi.",
+      "if": { "required": ["expectedCount"] },
+      "then": { "properties": { "isChallenge": { "const": true } } }
+    }
+  ],
+  "$defs": {
+    "localized": {
+      "type": "object",
+      "required": ["en"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "fr": { "type": "string" },
+        "es": { "type": "string" },
+        "it": { "type": "string" },
+        "de": { "type": "string" }
+      }
+    }
+  }
+}

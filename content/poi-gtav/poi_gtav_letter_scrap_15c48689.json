@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_15c48689",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.369141,
+    "y": 0.210286
+  },
+  "title": {
+    "en": "Letter Scrap #48 - Paleto Forest",
+    "fr": "Fragment de lettre #48 - Paleto Forest"
+  },
+  "note": {
+    "en": "By the side of the road is a rock and a few trees together. Between two of the tress is this Letter."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:179"
+}

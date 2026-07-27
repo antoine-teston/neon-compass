@@ -16,7 +16,6 @@ struct GuidesListView: View {
                 }
                 if !proEntitlementModel.isProEntitled {
                     BannerAdView()
-                        .frame(height: 50)
                 }
             }
             .padding(16)

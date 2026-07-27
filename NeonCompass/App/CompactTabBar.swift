@@ -44,6 +44,8 @@ struct CompactTabBar: View {
                     .font(.system(size: 20))
                 Text(tab.titleKey)
                     .font(.caption2)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
             }
             .foregroundStyle(selection == tab ? NCColor.neonCyan : .secondary)
             .frame(maxWidth: .infinity)

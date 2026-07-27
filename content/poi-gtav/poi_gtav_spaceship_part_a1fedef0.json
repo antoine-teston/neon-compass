@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_a1fedef0",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.375651,
+    "y": 0.196289
+  },
+  "title": {
+    "en": "Spaceship Part #49 - Paleto Forest",
+    "fr": "Pièce de vaisseau #49 - Paleto Forest"
+  },
+  "note": {
+    "en": "You will see the entrance to a small concrete tunnel, with a fallen tree trunk across the entrance. Just inside the tunnel is this Part."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:80"
+}

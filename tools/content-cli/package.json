@@ -4,7 +4,12 @@
   "description": "",
   "main": "cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ui": "node ui/server.mjs",
+    "check": "node cli.js validate && node cli.js check-publishable && node cli.js check-seeds",
+    "bundle": "node cli.js bundle",
+    "release:dry": "node cli.js release --dry-run",
+    "release": "node cli.js release",
+    "test": "node --test ui/actions.test.mjs && npm run check"
   },
   "keywords": [],
   "author": "",

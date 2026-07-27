@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_d88cf1b7",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.404867,
+    "y": 0.572667
+  },
+  "title": {
+    "en": "House in West Vinewood"
+  },
+  "note": {
+    "en": "Go to location indicated and enter the yard through the entrance shown in the images. Take a right and follow the building until it meets a white wall near a tree. Climb this wall and go West (left) to reach the back of the house. Run up to the starting position, where the grass meets the dirt such that you are facing South towards the small part of the house. Run down towards and then against the wall shown while spamming X/A. You will then slide into the house. Don't forget a parachute for more fun!"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:71@X=71.08500,Y=-125.34300"
+}

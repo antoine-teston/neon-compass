@@ -46,9 +46,52 @@ struct LocalizedText: Codable, Equatable, Sendable {
 struct POI: Codable, Equatable, Identifiable, Sendable {
     let id: String
     let category: POICategory
+    /// Ensemble nommé auquel ce POI appartient (`letter_scrap`, `garage`, …).
+    /// C'est l'unité de compte d'un défi — la catégorie, elle, ne sert qu'au
+    /// filtrage de la carte et à la couleur du pin. Optionnel : un POI sans
+    /// collection s'affiche sur la carte et ne compte dans aucun défi, ce qui
+    /// est l'état par défaut du contenu GTA VI tant qu'il n'est pas caractérisé.
+    let collection: String?
     let position: NormalizedPoint?
     let title: LocalizedText
     let note: LocalizedText?
+    /// Renseigné quand ce POI s'est révélé être un doublon d'un autre : la
+    /// progression enregistrée sur cet id est recomptée sur sa cible. Supprimer
+    /// purement et simplement le doublon ferait perdre leur progression à tous
+    /// ceux qui l'avaient coché.
+    let mergedInto: String?
+
+    /// Pierre tombale : seul moyen d'annuler une entrée du socle embarqué, qu'on
+    /// ne peut pas retirer du binaire après coup. Distinct de `mergedInto`, qui
+    /// conserve l'entrée comme alias au lieu de la faire disparaître.
+    let deleted: Bool?
+
+    /// Explicite plutôt que synthétisé : Swift ne donne pas de valeur par défaut
+    /// aux optionnels déclarés `let`, et sans ça chaque site de construction
+    /// devrait passer `collection:` et `mergedInto:` à la main.
+    init(
+        id: String,
+        category: POICategory,
+        collection: String? = nil,
+        position: NormalizedPoint?,
+        title: LocalizedText,
+        note: LocalizedText? = nil,
+        mergedInto: String? = nil,
+        deleted: Bool? = nil
+    ) {
+        self.id = id
+        self.category = category
+        self.collection = collection
+        self.position = position
+        self.title = title
+        self.note = note
+        self.mergedInto = mergedInto
+        self.deleted = deleted
+    }
+}
+
+extension POI: ContentItem {
+    var isDeleted: Bool { deleted == true }
 }
 
 enum POILoader {
@@ -58,10 +101,21 @@ enum POILoader {
         try JSONDecoder().decode([POI].self, from: data)
     }
 
+    /// Le repli sans sous-dossier n'est pas cosmétique : selon que
+    /// `Resources/POI` est déclaré `type: folder` ou non dans project.yml,
+    /// XcodeGen place le fichier dans `POI/` ou à plat à la racine du bundle.
+    /// La variante folder est celle attendue (voir project.yml), mais un
+    /// lookup qui échoue ici vide silencieusement la carte de tous ses POI —
+    /// trop coûteux pour dépendre d'un seul chemin.
     static func loadSeed(from bundle: Bundle = .main) throws -> [POI] {
-        guard let url = bundle.url(forResource: "seed-poi", withExtension: "json", subdirectory: "POI") else {
-            throw LoaderError.missingResource
-        }
+        let url = bundle.url(forResource: "seed-poi", withExtension: "json", subdirectory: "POI")
+            ?? bundle.url(forResource: "seed-poi", withExtension: "json")
+        guard let url else { throw LoaderError.missingResource }
         return try decode(Data(contentsOf: url))
     }
+
+    /// Fixture embarquée, décodée paresseusement une seule fois pour tout le
+    /// processus. La carte ET l'écran de progression en ont besoin : sans ce
+    /// partage, chacun refaisait son propre parse de 143 Ko.
+    static let bundled: [POI] = (try? loadSeed()) ?? []
 }

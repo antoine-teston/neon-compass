@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_story_vehicle_912ff0c6",
+  "category": "vehicle",
+  "collection": "story_vehicle",
+  "position": {
+    "x": 0.331541,
+    "y": 0.636804
+  },
+  "title": {
+    "en": "Ocelot Jackal"
+  },
+  "note": {
+    "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:story_vehicle:52@X=68.06900,Y=-135.24200"
+}

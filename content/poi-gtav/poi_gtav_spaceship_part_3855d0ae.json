@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_3855d0ae",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.417318,
+    "y": 0.367839
+  },
+  "title": {
+    "en": "Spaceship Part #44 - Zancudo River",
+    "fr": "Pièce de vaisseau #44 - Zancudo River"
+  },
+  "note": {
+    "en": "This one is located in a small alcove in the rocks on the river bank. The alcove will be on the left if you are looking at the bridge ahead of you in the distance."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:75"
+}

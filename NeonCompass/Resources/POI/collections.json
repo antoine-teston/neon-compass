@@ -1,0 +1,213 @@
+[
+  {
+    "id": "epsilon_car",
+    "game": "gtav",
+    "title": {
+      "en": "Epsilon Vehicles",
+      "fr": "Véhicules Epsilon"
+    },
+    "isChallenge": true,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+    ]
+  },
+  {
+    "id": "epsilon_tract",
+    "game": "gtav",
+    "title": {
+      "en": "Epsilon Tracts",
+      "fr": "Tracts Epsilon"
+    },
+    "isChallenge": true,
+    "expectedCount": 10,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "garage",
+    "game": "gtav",
+    "title": {
+      "en": "Garages",
+      "fr": "Garages"
+    },
+    "isChallenge": false,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+    ]
+  },
+  {
+    "id": "gas",
+    "game": "gtav",
+    "title": {
+      "en": "Gas Stations",
+      "fr": "Stations-service"
+    },
+    "isChallenge": false,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/objectslocations/worldGasPumps.json"
+    ]
+  },
+  {
+    "id": "glitch",
+    "game": "gtav",
+    "title": {
+      "en": "Glitches",
+      "fr": "Anomalies"
+    },
+    "isChallenge": false,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+    ]
+  },
+  {
+    "id": "hidden_cash",
+    "game": "gtav",
+    "title": {
+      "en": "Hidden Packages",
+      "fr": "Magots cachés"
+    },
+    "isChallenge": true,
+    "expectedCount": 12,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "knife_flight",
+    "game": "gtav",
+    "title": {
+      "en": "Knife Flights",
+      "fr": "Vols en rase-mottes"
+    },
+    "isChallenge": true,
+    "expectedCount": 15,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "letter_scrap",
+    "game": "gtav",
+    "title": {
+      "en": "Letter Scraps",
+      "fr": "Fragments de lettre"
+    },
+    "isChallenge": true,
+    "expectedCount": 50,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "nuclear_waste",
+    "game": "gtav",
+    "title": {
+      "en": "Nuclear Waste",
+      "fr": "Déchets nucléaires"
+    },
+    "isChallenge": true,
+    "expectedCount": 30,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "spaceship_part",
+    "game": "gtav",
+    "title": {
+      "en": "Spaceship Parts",
+      "fr": "Pièces de vaisseau"
+    },
+    "isChallenge": true,
+    "expectedCount": 50,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "story_vehicle",
+    "game": "gtav",
+    "title": {
+      "en": "Story Vehicles",
+      "fr": "Véhicules de récit"
+    },
+    "isChallenge": false,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+    ]
+  },
+  {
+    "id": "stunt_jump",
+    "game": "gtav",
+    "title": {
+      "en": "Stunt Jumps",
+      "fr": "Sauts cascade"
+    },
+    "isChallenge": true,
+    "expectedCount": 50,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "under_bridge",
+    "game": "gtav",
+    "title": {
+      "en": "Bridge Flyunders",
+      "fr": "Passages sous les ponts"
+    },
+    "isChallenge": true,
+    "expectedCount": 50,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+      "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+    ]
+  },
+  {
+    "id": "vehicle_spawn",
+    "game": "gtav",
+    "title": {
+      "en": "Vehicle Spawns",
+      "fr": "Apparitions de véhicules"
+    },
+    "isChallenge": false,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+    ]
+  },
+  {
+    "id": "wall_breach",
+    "game": "gtav",
+    "title": {
+      "en": "Wall Breaches",
+      "fr": "Passages de mur"
+    },
+    "isChallenge": false,
+    "status": "draft",
+    "sources": [
+      "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+    ]
+  }
+]

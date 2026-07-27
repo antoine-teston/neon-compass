@@ -1,3560 +1,3952 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "cheats.blocksTrophies" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blocks trophies"
+  "sourceLanguage": "en",
+  "strings": {
+    "cheats.blocksTrophies": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blocks trophies"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Désactive les trophées"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désactive les trophées"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desactiva los trofeos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desactiva los trofeos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disattiva i trofei"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disattiva i trofei"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deaktiviert Trophäen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deaktiviert Trophäen"
           }
         }
       }
     },
-    "cheats.platform.picker" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Platform"
+    "cheats.platform.picker": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platform"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plateforme"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plateforme"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plataforma"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plataforma"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piattaforma"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piattaforma"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plattform"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plattform"
           }
         }
       }
     },
-    "cheats.platform.ps5" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PS5"
+    "cheats.platform.ps5": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PS5"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PS5"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PS5"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PS5"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PS5"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PS5"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PS5"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PS5"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PS5"
           }
         }
       }
     },
-    "cheats.platform.xbox" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xbox"
+    "cheats.platform.xbox": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xbox"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xbox"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xbox"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xbox"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xbox"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xbox"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xbox"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xbox"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xbox"
           }
         }
       }
     },
-    "cheats.reader.close" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
+    "cheats.reader.close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terminé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminé"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Listo"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listo"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fatto"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fatto"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fertig"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig"
           }
         }
       }
     },
-    "cheats.search.placeholder" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search cheats"
+    "cheats.search.placeholder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search cheats"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rechercher des codes"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher des codes"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buscar trucos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar trucos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerca trucchi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca trucchi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cheats durchsuchen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cheats durchsuchen"
           }
         }
       }
     },
-    "cheatsGuides.section.cheats" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cheats"
+    "cheatsGuides.section.cheats": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cheats"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Codes"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Codes"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trucos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trucos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trucchi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trucchi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cheats"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cheats"
           }
         }
       }
     },
-    "cheatsGuides.section.guides" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guides"
+    "cheatsGuides.section.guides": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guides"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guides"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guides"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guías"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guías"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guide"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guide"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guides"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guides"
           }
         }
       }
     },
-    "cheatsGuides.section.picker" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Section"
+    "cheatsGuides.section.picker": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Section"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Section"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Section"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sección"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sección"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sezione"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sezione"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bereich"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereich"
           }
         }
       }
     },
-    "disclaimer.accept" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Got it"
+    "disclaimer.accept": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Got it"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compris"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compris"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entendido"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entendido"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ho capito"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ho capito"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verstanden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verstanden"
           }
         }
       }
     },
-    "disclaimer.body" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This app is a fan project. It is not affiliated with, endorsed by, or connected to Rockstar Games or Take-Two Interactive. All artwork is original."
+    "disclaimer.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This app is a fan project. It is not affiliated with, endorsed by, or connected to Rockstar Games or Take-Two Interactive. All artwork is original."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cette application est un projet de fan. Elle n'est ni affiliée à, ni approuvée par, ni liée à Rockstar Games ou Take-Two Interactive. Tous les visuels sont originaux."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette application est un projet de fan. Elle n'est ni affiliée à, ni approuvée par, ni liée à Rockstar Games ou Take-Two Interactive. Tous les visuels sont originaux."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esta aplicación es un proyecto de fans. No está afiliada, respaldada ni conectada con Rockstar Games ni Take-Two Interactive. Todas las ilustraciones son originales."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta aplicación es un proyecto de fans. No está afiliada, respaldada ni conectada con Rockstar Games ni Take-Two Interactive. Todas las ilustraciones son originales."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questa app è un progetto di fan. Non è affiliata, sponsorizzata né collegata a Rockstar Games o Take-Two Interactive. Tutti i contenuti grafici sono originali."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questa app è un progetto di fan. Non è affiliata, sponsorizzata né collegata a Rockstar Games o Take-Two Interactive. Tutti i contenuti grafici sono originali."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese App ist ein Fanprojekt. Sie steht in keiner Verbindung zu Rockstar Games oder Take-Two Interactive und wird von diesen weder unterstützt noch anerkannt. Alle Grafiken sind Originalwerke."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese App ist ein Fanprojekt. Sie steht in keiner Verbindung zu Rockstar Games oder Take-Two Interactive und wird von diesen weder unterstützt noch anerkannt. Alle Grafiken sind Originalwerke."
           }
         }
       }
     },
-    "disclaimer.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unofficial companion"
+    "disclaimer.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unofficial companion"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compagnon non officiel"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compagnon non officiel"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compañero no oficial"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compañero no oficial"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Companion non ufficiale"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Companion non ufficiale"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inoffizieller Begleiter"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inoffizieller Begleiter"
           }
         }
       }
     },
-    "feed.category.announcement" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Announcement"
+    "feed.category.announcement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Announcement"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annonce"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annonce"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anuncio"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anuncio"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuncio"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuncio"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ankündigung"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ankündigung"
           }
         }
       }
     },
-    "feed.category.event" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Event"
+    "feed.category.event": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Événement"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Événement"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evento"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evento"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evento"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evento"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Event"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event"
           }
         }
       }
     },
-    "feed.category.patch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patch"
+    "feed.category.patch": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Patch"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mise à jour"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mise à jour"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parche"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parche"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patch"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Patch"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update"
           }
         }
       }
     },
-    "feed.empty" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No news yet — check back soon."
+    "feed.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No news yet — check back soon."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pas encore d'actu — revenez bientôt."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore d'actu — revenez bientôt."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aún no hay noticias — vuelve pronto."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay noticias — vuelve pronto."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ancora nessuna novità — ricontrolla presto."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ancora nessuna novità — ricontrolla presto."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noch keine News — schau bald wieder vorbei."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine News — schau bald wieder vorbei."
           }
         }
       }
     },
-    "guides.chapter.beginner" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beginner"
+    "guides.chapter.beginner": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beginner"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Débutant"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Débutant"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Principiante"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Principiante"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Principiante"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Principiante"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einsteiger"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einsteiger"
           }
         }
       }
     },
-    "guides.chapter.money" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Money"
+    "guides.chapter.money": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Money"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Argent"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Argent"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dinero"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinero"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Denaro"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denaro"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geld"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geld"
           }
         }
       }
     },
-    "guides.chapter.sideContent" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Side Content"
+    "guides.chapter.sideContent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Side Content"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contenu annexe"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contenu annexe"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contenido secundario"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contenido secundario"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contenuti secondari"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contenuti secondari"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nebeninhalte"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nebeninhalte"
           }
         }
       }
     },
-    "guides.chapter.story" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Story"
+    "guides.chapter.story": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Story"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Histoire"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Histoire"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Historia"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Historia"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Storia"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storia"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Story"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Story"
           }
         }
       }
     },
-    "map.category.activity" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activities"
+    "map.category.activity": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activities"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activités"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activités"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actividades"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actividades"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Attività"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attività"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktivitäten"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktivitäten"
           }
         }
       }
     },
-    "map.category.collectible" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collectibles"
+    "map.category.collectible": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collectibles"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Objets à collectionner"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objets à collectionner"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coleccionables"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coleccionables"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oggetti da collezione"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oggetti da collezione"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sammelobjekte"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sammelobjekte"
           }
         }
       }
     },
-    "map.category.event" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Events"
+    "map.category.event": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Events"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Événements"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Événements"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eventos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eventos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eventi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eventi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Events"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Events"
           }
         }
       }
     },
-    "map.category.landmark" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Landmarks"
+    "map.category.landmark": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Landmarks"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lieux emblématiques"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lieux emblématiques"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lugares emblemáticos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lugares emblemáticos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Punti di riferimento"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punti di riferimento"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sehenswürdigkeiten"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sehenswürdigkeiten"
           }
         }
       }
     },
-    "map.category.safehouse" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Safehouses"
+    "map.category.safehouse": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Safehouses"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planques"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planques"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Refugios"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refugios"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rifugi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rifugi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unterschlüpfe"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unterschlüpfe"
           }
         }
       }
     },
-    "map.category.vehicle" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vehicles"
+    "map.category.vehicle": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vehicles"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Véhicules"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Véhicules"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vehículos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vehículos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veicoli"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veicoli"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fahrzeuge"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fahrzeuge"
           }
         }
       }
     },
-    "map.contribution.cancel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+    "map.cluster.accessibility %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld points of interest"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuler"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld points d'intérêt"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancelar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld puntos de interés"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annulla"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld punti di interesse"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abbrechen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Orte"
           }
         }
       }
     },
-    "map.contribution.categoryLabel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Category"
+    "map.contribution.cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catégorie"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categoría"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categoria"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kategorie"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
           }
         }
       }
     },
-    "map.contribution.error" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Something went wrong — try again."
+    "map.contribution.categoryLabel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une erreur est survenue — réessayez."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Catégorie"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algo salió mal — inténtalo de nuevo."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categoría"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qualcosa è andato storto — riprova."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categoria"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Etwas ist schiefgelaufen — versuch es erneut."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategorie"
           }
         }
       }
     },
-    "map.contribution.sheetTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Propose a spot"
+    "map.contribution.error": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something went wrong — try again."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Proposer un lieu"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une erreur est survenue — réessayez."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Proponer un lugar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algo salió mal — inténtalo de nuevo."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Proponi un luogo"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qualcosa è andato storto — riprova."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ort vorschlagen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etwas ist schiefgelaufen — versuch es erneut."
           }
         }
       }
     },
-    "map.contribution.signInRequired" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in to propose a spot."
+    "map.contribution.sheetTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Propose a spot"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connectez-vous pour proposer un lieu."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proposer un lieu"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inicia sesión para proponer un lugar."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proponer un lugar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accedi per proporre un luogo."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proponi un luogo"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Melde dich an, um einen Ort vorzuschlagen."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ort vorschlagen"
           }
         }
       }
     },
-    "map.contribution.submit" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Submit"
+    "map.contribution.signInRequired": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to propose a spot."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Envoyer"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez-vous pour proposer un lieu."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enviar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicia sesión para proponer un lugar."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invia"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accedi per proporre un luogo."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Absenden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melde dich an, um einen Ort vorzuschlagen."
           }
         }
       }
     },
-    "map.contribution.submitted" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Submitted for review — thanks!"
+    "map.contribution.submit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submit"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Envoyé pour vérification — merci !"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enviado para revisión — ¡gracias!"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inviato per la revisione — grazie!"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invia"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zur Prüfung eingereicht — danke!"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absenden"
           }
         }
       }
     },
-    "map.contribution.titlePlaceholder" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What's here? (280 characters max)"
+    "map.contribution.submitted": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submitted for review — thanks!"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qu'y a-t-il ici ? (280 caractères max)"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyé pour vérification — merci !"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Qué hay aquí? (máx. 280 caracteres)"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviado para revisión — ¡gracias!"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cosa c'è qui? (max 280 caratteri)"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inviato per la revisione — grazie!"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was ist hier? (max. 280 Zeichen)"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zur Prüfung eingereicht — danke!"
           }
         }
       }
     },
-    "map.hideFound.toggle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show only what's left"
+    "map.contribution.titlePlaceholder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's here? (280 characters max)"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afficher seulement ce qu'il reste"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qu'y a-t-il ici ? (280 caractères max)"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar solo lo que falta"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Qué hay aquí? (máx. 280 caracteres)"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra solo ciò che manca"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosa c'è qui? (max 280 caratteri)"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur Verbleibendes anzeigen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Was ist hier? (max. 280 Zeichen)"
           }
         }
       }
     },
-    "map.longPress.addPersonalPin" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a personal pin"
+    "map.game.reference": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reference map"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajouter une épingle personnelle"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carte de référence"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añadir un pin personal"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mapa de referencia"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiungi un segnaposto personale"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mappa di riferimento"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Persönliche Markierung hinzufügen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Referenzkarte"
           }
         }
       }
     },
-    "map.longPress.cancel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+    "map.game.upcoming": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upcoming game map"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuler"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carte du jeu à venir"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancelar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mapa del próximo juego"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annulla"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mappa del gioco in arrivo"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abbrechen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karte des kommenden Spiels"
           }
         }
       }
     },
-    "map.longPress.menuTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What do you want to do here?"
+    "map.hideFound.toggle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show only what's left"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Que voulez-vous faire ici ?"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher seulement ce qu'il reste"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Qué quieres hacer aquí?"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar solo lo que falta"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cosa vuoi fare qui?"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra solo ciò che manca"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was möchtest du hier tun?"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur Verbleibendes anzeigen"
           }
         }
       }
     },
-    "map.longPress.proposeSpot" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Propose a spot"
+    "map.longPress.addPersonalPin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a personal pin"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Proposer un lieu"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter une épingle personnelle"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Proponer un lugar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir un pin personal"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Proponi un luogo"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi un segnaposto personale"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ort vorschlagen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persönliche Markierung hinzufügen"
           }
         }
       }
     },
-    "map.personalPins.addPrompt" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name this pin"
+    "map.longPress.cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nommez cette épingle"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nombra este pin"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assegna un nome a questo segnaposto"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Markierung benennen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
           }
         }
       }
     },
-    "map.personalPins.cancel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+    "map.longPress.menuTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What do you want to do here?"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuler"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Que voulez-vous faire ici ?"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancelar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Qué quieres hacer aquí?"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annulla"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosa vuoi fare qui?"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abbrechen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Was möchtest du hier tun?"
           }
         }
       }
     },
-    "map.personalPins.save" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
+    "map.longPress.proposeSpot": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Propose a spot"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proposer un lieu"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proponer un lugar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proponi un luogo"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speichern"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ort vorschlagen"
           }
         }
       }
     },
-    "map.personalPins.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "My pins"
+    "map.personalPins.addPrompt": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name this pin"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mes épingles"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nommez cette épingle"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mis pines"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombra este pin"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I miei segnaposti"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assegna un nome a questo segnaposto"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Meine Markierungen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markierung benennen"
           }
         }
       }
     },
-    "map.routePlanner.button" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plan route"
+    "map.personalPins.cancel": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planifier l'itinéraire"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planificar ruta"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pianifica percorso"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Route planen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
           }
         }
       }
     },
-    "map.routePlanner.empty" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Everything's found — nothing left to route!"
+    "map.personalPins.save": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout a été trouvé — plus rien à parcourir !"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo encontrado — ¡no queda nada por recorrer!"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hai trovato tutto — nessun percorso da tracciare!"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salva"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles gefunden — keine Route mehr nötig!"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speichern"
           }
         }
       }
     },
-    "map.routePlanner.stepFormat" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stop %d"
+    "map.personalPins.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My pins"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Étape %d"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mes épingles"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parada %d"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mis pines"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tappa %d"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I miei segnaposti"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stopp %d"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meine Markierungen"
           }
         }
       }
     },
-    "map.routePlanner.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optimized route"
+    "map.routePlanner.button": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan route"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Itinéraire optimisé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planifier l'itinéraire"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ruta optimizada"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planificar ruta"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Percorso ottimizzato"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pianifica percorso"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optimierte Route"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Route planen"
           }
         }
       }
     },
-    "map.search.placeholder" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search the map"
+    "map.routePlanner.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everything's found — nothing left to route!"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rechercher sur la carte"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout a été trouvé — plus rien à parcourir !"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buscar en el mapa"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todo encontrado — ¡no queda nada por recorrer!"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerca sulla mappa"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hai trovato tutto — nessun percorso da tracciare!"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Karte durchsuchen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles gefunden — keine Route mehr nötig!"
           }
         }
       }
     },
-    "map.spot.blockAuthor" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide this contributor's spots"
+    "map.routePlanner.stepFormat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop %d"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masquer les lieux de ce contributeur"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étape %d"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ocultar los lugares de este colaborador"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parada %d"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nascondi i luoghi di questo collaboratore"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tappa %d"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orte dieses Mitwirkenden ausblenden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stopp %d"
           }
         }
       }
     },
-    "map.spot.blockCancel" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+    "map.routePlanner.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optimized route"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuler"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Itinéraire optimisé"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancelar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruta optimizada"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annulla"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Percorso ottimizzato"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abbrechen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optimierte Route"
           }
         }
       }
     },
-    "map.spot.blockConfirm" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide"
+    "map.search.placeholder": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search the map"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masquer"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher sur la carte"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ocultar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar en el mapa"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nascondi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca sulla mappa"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ausblenden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karte durchsuchen"
           }
         }
       }
     },
-    "map.spot.blockConfirmMessage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You won't see their spots anymore. You can undo this in Settings."
+    "map.spot.blockAuthor": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide this contributor's spots"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous ne verrez plus ses lieux. Vous pouvez annuler cette action dans les réglages."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer les lieux de ce contributeur"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ya no verás sus lugares. Puedes deshacer esto en Ajustes."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar los lugares de este colaborador"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non vedrai più i suoi luoghi. Puoi annullare questa scelta nelle Impostazioni."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nascondi i luoghi di questo collaboratore"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du siehst die Orte dieser Person nicht mehr. Du kannst das in den Einstellungen rückgängig machen."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orte dieses Mitwirkenden ausblenden"
           }
         }
       }
     },
-    "map.spot.blockConfirmTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide %@'s spots?"
+    "map.spot.blockCancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masquer les lieux de %@ ?"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Ocultar los lugares de %@?"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nascondere i luoghi di %@?"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orte von %@ ausblenden?"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
           }
         }
       }
     },
-    "map.spot.communityBadge" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Community"
+    "map.spot.blockConfirm": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Communauté"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comunidad"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Community"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nascondi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Community"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausblenden"
           }
         }
       }
     },
-    "map.spot.report" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Report"
+    "map.spot.blockConfirmMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You won't see their spots anymore. You can undo this in Settings."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Signaler"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous ne verrez plus ses lieux. Vous pouvez annuler cette action dans les réglages."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reportar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya no verás sus lugares. Puedes deshacer esto en Ajustes."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Segnala"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non vedrai più i suoi luoghi. Puoi annullare questa scelta nelle Impostazioni."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Melden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du siehst die Orte dieser Person nicht mehr. Du kannst das in den Einstellungen rückgängig machen."
           }
         }
       }
     },
-    "map.spot.reportSent" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reported — thanks for flagging it."
+    "map.spot.blockConfirmTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide %@'s spots?"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Signalé — merci de nous l'avoir signalé."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer les lieux de %@ ?"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reportado — gracias por avisarnos."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Ocultar los lugares de %@?"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Segnalato — grazie per averlo indicato."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nascondere i luoghi di %@?"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gemeldet — danke für den Hinweis."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orte von %@ ausblenden?"
           }
         }
       }
     },
-    "paywall.buy" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlock Pro"
+    "map.spot.communityBadge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Community"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Débloquer Pro"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Communauté"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desbloquear Pro"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comunidad"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sblocca Pro"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Community"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro freischalten"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Community"
           }
         }
       }
     },
-    "paywall.close" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close"
+    "map.spot.report": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Report"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fermer"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signaler"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerrar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reportar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chiudi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segnala"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schließen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melden"
           }
         }
       }
     },
-    "paywall.feature.ads" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No ads"
+    "map.spot.reportSent": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reported — thanks for flagging it."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sans publicité"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signalé — merci de nous l'avoir signalé."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin anuncios"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reportado — gracias por avisarnos."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nessuna pubblicità"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segnalato — grazie per averlo indicato."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Werbung"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemeldet — danke für den Hinweis."
           }
         }
       }
     },
-    "paywall.feature.notifications" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Followed-spot notifications"
+    "map.style.toggle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch map colors"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notifications pour les lieux suivis"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changer les couleurs de la carte"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notificaciones de lugares seguidos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambiar los colores del mapa"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notifiche per i luoghi seguiti"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia i colori della mappa"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benachrichtigungen für verfolgte Orte"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kartenfarben wechseln"
           }
         }
       }
     },
-    "paywall.feature.remaining" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "\"What's left to do\" map mode"
+    "paywall.buy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock Pro"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode carte « Ce qu'il reste à faire »"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Débloquer Pro"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modo de mapa «Lo que falta por hacer»"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desbloquear Pro"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modalità mappa \"Cosa manca da fare\""
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sblocca Pro"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kartenmodus „Was noch zu tun ist“"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro freischalten"
           }
         }
       }
     },
-    "paywall.feature.route" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optimized collectible route planner"
+    "paywall.close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planificateur d'itinéraire optimisé pour les objets à collectionner"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planificador de rutas optimizado para coleccionables"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pianificatore di percorsi ottimizzato per gli oggetti da collezione"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiudi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optimierter Routenplaner für Sammelobjekte"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
           }
         }
       }
     },
-    "paywall.feature.sync" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cloud sync between iPhone and iPad"
+    "paywall.feature.ads": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No ads"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Synchronisation cloud entre iPhone et iPad"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans publicité"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sincronización en la nube entre iPhone y iPad"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin anuncios"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sincronizzazione cloud tra iPhone e iPad"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna pubblicità"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cloud-Synchronisierung zwischen iPhone und iPad"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Werbung"
           }
         }
       }
     },
-    "paywall.feature.themes" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exclusive app icons & themes"
+    "paywall.feature.notifications": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Followed-spot notifications"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Icônes et thèmes exclusifs"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications pour les lieux suivis"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Iconos y temas exclusivos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notificaciones de lugares seguidos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Icone e temi esclusivi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifiche per i luoghi seguiti"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exklusive App-Icons und Designs"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benachrichtigungen für verfolgte Orte"
           }
         }
       }
     },
-    "paywall.feature.widgets" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Home screen & Lock Screen widgets"
+    "paywall.feature.remaining": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"What's left to do\" map mode"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Widgets pour l'écran d'accueil et l'écran verrouillé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mode carte « Ce qu'il reste à faire »"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Widgets para la pantalla de inicio y la pantalla de bloqueo"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo de mapa «Lo que falta por hacer»"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Widget per schermata Home e schermata di blocco"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modalità mappa \"Cosa manca da fare\""
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Widgets für Home- und Sperrbildschirm"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kartenmodus „Was noch zu tun ist“"
           }
         }
       }
     },
-    "paywall.restore" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore Purchases"
+    "paywall.feature.route": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optimized collectible route planner"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restaurer les achats"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planificateur d'itinéraire optimisé pour les objets à collectionner"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restaurar compras"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planificador de rutas optimizado para coleccionables"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ripristina acquisti"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pianificatore di percorsi ottimizzato per gli oggetti da collezione"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Käufe wiederherstellen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optimierter Routenplaner für Sammelobjekte"
           }
         }
       }
     },
-    "paywall.subtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comfort and tools — never the facts."
+    "paywall.feature.sync": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud sync between iPhone and iPad"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du confort et des outils — jamais les informations."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisation cloud entre iPhone et iPad"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comodidad y herramientas — nunca los datos."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronización en la nube entre iPhone y iPad"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comodità e strumenti — mai i contenuti informativi."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizzazione cloud tra iPhone e iPad"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Komfort und Werkzeuge — niemals die Fakten."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud-Synchronisierung zwischen iPhone und iPad"
           }
         }
       }
     },
-    "paywall.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neon Compass Pro"
+    "paywall.feature.themes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exclusive app icons & themes"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neon Compass Pro"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icônes et thèmes exclusifs"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neon Compass Pro"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iconos y temas exclusivos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neon Compass Pro"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icone e temi esclusivi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neon Compass Pro"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exklusive App-Icons und Designs"
           }
         }
       }
     },
-    "poi.detail.found" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Found"
+    "paywall.feature.widgets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home screen & Lock Screen widgets"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trouvé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets pour l'écran d'accueil et l'écran verrouillé"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Encontrado"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets para la pantalla de inicio y la pantalla de bloqueo"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trovato"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget per schermata Home e schermata di blocco"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gefunden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets für Home- und Sperrbildschirm"
           }
         }
       }
     },
-    "poi.detail.markFound" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mark as found"
+    "paywall.restore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Purchases"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Marquer comme trouvé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurer les achats"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Marcar como encontrado"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar compras"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Segna come trovato"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ripristina acquisti"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Als gefunden markieren"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Käufe wiederherstellen"
           }
         }
       }
     },
-    "profile.blockedContributors.empty" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You haven't hidden anyone."
+    "paywall.subtitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comfort and tools — never the facts."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous n'avez masqué personne."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du confort et des outils — jamais les informations."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No has ocultado a nadie."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comodidad y herramientas — nunca los datos."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non hai nascosto nessuno."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comodità e strumenti — mai i contenuti informativi."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du hast noch niemanden ausgeblendet."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komfort und Werkzeuge — niemals die Fakten."
           }
         }
       }
     },
-    "profile.blockedContributors.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hidden contributors"
+    "paywall.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neon Compass Pro"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contributeurs masqués"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neon Compass Pro"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colaboradores ocultos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neon Compass Pro"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collaboratori nascosti"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neon Compass Pro"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ausgeblendete Mitwirkende"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neon Compass Pro"
           }
         }
       }
     },
-    "profile.blockedContributors.unblock" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unhide"
+    "poi.detail.found": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Found"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Réafficher"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trouvé"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar de nuevo"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encontrado"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra di nuovo"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trovato"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wieder einblenden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gefunden"
           }
         }
       }
     },
-    "profile.deleteAccount" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete account"
+    "poi.detail.markFound": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark as found"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer le compte"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marquer comme trouvé"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar cuenta"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcar como encontrado"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina account"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segna come trovato"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konto löschen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als gefunden markieren"
           }
         }
       }
     },
-    "profile.deleteAccount.cancelButton" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+    "profile.blockedContributors.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You haven't hidden anyone."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuler"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous n'avez masqué personne."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancelar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No has ocultado a nadie."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annulla"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non hai nascosto nessuno."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abbrechen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du hast noch niemanden ausgeblendet."
           }
         }
       }
     },
-    "profile.deleteAccount.confirmButton" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
+    "profile.blockedContributors.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hidden contributors"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contributeurs masqués"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colaboradores ocultos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collaboratori nascosti"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Löschen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgeblendete Mitwirkende"
           }
         }
       }
     },
-    "profile.deleteAccount.confirmMessage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This permanently deletes your profile. This cannot be undone."
+    "profile.blockedContributors.unblock": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unhide"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cela supprime définitivement votre profil. Cette action est irréversible."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réafficher"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esto elimina tu perfil de forma permanente. Esta acción no se puede deshacer."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar de nuevo"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questa azione elimina definitivamente il tuo profilo e non può essere annullata."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra di nuovo"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dadurch wird dein Profil dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wieder einblenden"
           }
         }
       }
     },
-    "profile.deleteAccount.confirmTitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete your account?"
+    "profile.deleteAccount": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete account"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer votre compte ?"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le compte"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Eliminar tu cuenta?"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar cuenta"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminare il tuo account?"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimina account"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konto löschen?"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konto löschen"
           }
         }
       }
     },
-    "profile.followedCategories.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notify me about"
+    "profile.deleteAccount.cancelButton": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "M'avertir pour"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avisarme sobre"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avvisami per"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benachrichtige mich über"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
           }
         }
       }
     },
-    "profile.handle.regenerate" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Regenerate handle"
+    "profile.deleteAccount.confirmButton": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Régénérer le pseudo"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Regenerar el alias"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rigenera il nome utente"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimina"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Namen neu generieren"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löschen"
           }
         }
       }
     },
-    "profile.icon.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Icon"
+    "profile.deleteAccount.confirmMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This permanently deletes your profile. This cannot be undone."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Icône de l'app"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cela supprime définitivement votre profil. Cette action est irréversible."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Icono de la app"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esto elimina tu perfil de forma permanente. Esta acción no se puede deshacer."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Icona dell'app"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questa azione elimina definitivamente il tuo profilo e non può essere annullata."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App-Symbol"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dadurch wird dein Profil dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden."
           }
         }
       }
     },
-    "profile.myContributions.empty" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No contributions yet."
+    "profile.deleteAccount.confirmTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete your account?"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucune contribution pour l'instant."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer votre compte ?"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aún no hay contribuciones."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Eliminar tu cuenta?"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ancora nessun contributo."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminare il tuo account?"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noch keine Beiträge."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konto löschen?"
           }
         }
       }
     },
-    "profile.myContributions.status.approved" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Approved"
+    "profile.followedCategories.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notify me about"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Approuvé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "M'avertir pour"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aprobado"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avisarme sobre"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Approvato"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvisami per"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Genehmigt"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benachrichtige mich über"
           }
         }
       }
     },
-    "profile.myContributions.status.pending" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pending review"
+    "profile.handle.regenerate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regenerate handle"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En attente de vérification"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Régénérer le pseudo"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pendiente de revisión"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regenerar el alias"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In attesa di revisione"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rigenera il nome utente"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prüfung ausstehend"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Namen neu generieren"
           }
         }
       }
     },
-    "profile.myContributions.status.rejected" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rejected"
+    "profile.icon.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Icon"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Refusé"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icône de l'app"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rechazado"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icono de la app"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rifiutato"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icona dell'app"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abgelehnt"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Symbol"
           }
         }
       }
     },
-    "profile.myContributions.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "My contributions"
+    "profile.level.format": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %d"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mes contributions"
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %d"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mis contribuciones"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nivel %d"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I miei contributi"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niveau %d"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Meine Beiträge"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Livello %d"
           }
         }
       }
     },
-    "profile.pro.badge" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PRO"
+    "profile.myContributions.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No contributions yet."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PRO"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune contribution pour l'instant."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PRO"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay contribuciones."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PRO"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ancora nessun contributo."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PRO"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Beiträge."
           }
         }
       }
     },
-    "profile.pro.upgradeButton" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Upgrade to Pro"
+    "profile.myContributions.status.approved": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Approved"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passer à Pro"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Approuvé"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mejorar a Pro"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aprobado"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passa a Pro"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Approvato"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auf Pro upgraden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genehmigt"
           }
         }
       }
     },
-    "profile.signIn.prompt" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in to save your progress across devices and contribute to the map."
+    "profile.myContributions.status.pending": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pending review"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connectez-vous pour sauvegarder votre progression sur tous vos appareils et contribuer à la carte."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En attente de vérification"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inicia sesión para guardar tu progreso en todos tus dispositivos y contribuir al mapa."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pendiente de revisión"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accedi per salvare i tuoi progressi su tutti i dispositivi e contribuire alla mappa."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In attesa di revisione"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Melde dich an, um deinen Fortschritt geräteübergreifend zu speichern und zur Karte beizutragen."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfung ausstehend"
           }
         }
       }
     },
-    "profile.signOut" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign out"
+    "profile.myContributions.status.rejected": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejected"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se déconnecter"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refusé"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerrar sesión"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechazado"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esci"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rifiutato"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abmelden"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgelehnt"
           }
         }
       }
     },
-    "profile.theme.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theme"
+    "profile.myContributions.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My contributions"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thème"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mes contributions"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tema"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mis contribuciones"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tema"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I miei contributi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Design"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meine Beiträge"
           }
         }
       }
     },
-    "progress.trophies.empty" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No trophies published yet — check back closer to launch."
+    "profile.pro.badge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucun trophée publié pour l'instant — revenez plus près de la sortie."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aún no hay trofeos publicados — vuelve más cerca del lanzamiento."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nessun trofeo pubblicato ancora — ricontrolla più vicino al lancio."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noch keine Trophäen veröffentlicht — schau näher am Release wieder vorbei."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
           }
         }
       }
     },
-    "progress.trophies.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trophies"
+    "profile.pro.upgradeButton": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade to Pro"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trophées"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passer à Pro"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trofeos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mejorar a Pro"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trofei"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passa a Pro"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trophäen"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Pro upgraden"
           }
         }
       }
     },
-    "tab.cheats" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cheats"
+    "profile.signIn.prompt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to save your progress across devices and contribute to the map."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Codes"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez-vous pour sauvegarder votre progression sur tous vos appareils et contribuer à la carte."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trucos"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicia sesión para guardar tu progreso en todos tus dispositivos y contribuir al mapa."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trucchi"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accedi per salvare i tuoi progressi su tutti i dispositivi e contribuire alla mappa."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cheats"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melde dich an, um deinen Fortschritt geräteübergreifend zu speichern und zur Karte beizutragen."
           }
         }
       }
     },
-    "tab.feed" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "News"
+    "profile.signOut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign out"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actu"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se déconnecter"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noticias"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar sesión"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Novità"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esci"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "News"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abmelden"
           }
         }
       }
     },
-    "tab.map" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Map"
+    "profile.theme.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carte"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thème"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mapa"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mappa"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Karte"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design"
           }
         }
       }
     },
-    "tab.profile" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profile"
+    "profile.xp.format": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d XP"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profil"
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d XP"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Perfil"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d XP"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profilo"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d XP"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profil"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d XP"
           }
         }
       }
     },
-    "tab.progress" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progress"
+    "progress.challenge.foundCount": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld found"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld found"
+                }
+              }
+            }
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progression"
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld trouvé"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld trouvés"
+                }
+              }
+            }
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progreso"
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld encontrado"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld encontrados"
+                }
+              }
+            }
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progressi"
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld trovato"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld trovati"
+                }
+              }
+            }
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fortschritt"
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld gefunden"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld gefunden"
+                }
+              }
+            }
           }
         }
       }
     },
-    "theme.cyanPulse" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cyan Pulse"
+    "progress.challenge.partialData": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld referenced so far"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld referenced so far"
+                }
+              }
+            }
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pulsation Cyan"
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld référencé à ce jour"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld référencés à ce jour"
+                }
+              }
+            }
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pulso Cian"
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld referenciado hasta ahora"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld referenciados hasta ahora"
+                }
+              }
+            }
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impulso Ciano"
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld referenziato finora"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld referenziati finora"
+                }
+              }
+            }
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cyan-Puls"
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "bisher %lld erfasst"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "bisher %lld erfasst"
+                }
+              }
+            }
           }
         }
       }
     },
-    "theme.magentaDrift" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Magenta Drift"
+    "progress.trophies.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No trophies published yet — check back closer to launch."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dérive Magenta"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun trophée publié pour l'instant — revenez plus près de la sortie."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deriva Magenta"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay trofeos publicados — vuelve más cerca del lanzamiento."
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deriva Magenta"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun trofeo pubblicato ancora — ricontrolla più vicino al lancio."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Magenta-Drift"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Trophäen veröffentlicht — schau näher am Release wieder vorbei."
           }
         }
       }
     },
-    "theme.sunsetOverdrive" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sunset Overdrive"
+    "progress.trophies.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trophies"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Surtension Crépuscule"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trophées"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sobrecarga del Atardecer"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trofeos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sovraccarico al Tramonto"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trofei"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sonnenuntergangs-Overdrive"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trophäen"
           }
         }
       }
     },
-    "widget.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your collection progress and favorite cheat, at a glance."
+    "tab.cheats": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cheats"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre progression de collection et votre code favori, en un coup d'œil."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Codes"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu progreso de colección y tu truco favorito, de un vistazo."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trucos"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I tuoi progressi di raccolta e il trucco preferito, in un colpo d'occhio."
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trucchi"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dein Sammelfortschritt und dein Lieblings-Cheat auf einen Blick."
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cheats"
           }
         }
       }
     },
-    "widget.displayName" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neon Compass Progress"
+    "tab.feed": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "News"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progression Neon Compass"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actu"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progreso de Neon Compass"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noticias"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progressi Neon Compass"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novità"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neon Compass Fortschritt"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "News"
           }
         }
       }
     },
-    "widget.upsell" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlock Pro for widgets"
+    "tab.map": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Map"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Débloquez Pro pour les widgets"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carte"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desbloquea Pro para los widgets"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mapa"
           }
         },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sblocca Pro per i widget"
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mappa"
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro freischalten für Widgets"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karte"
+          }
+        }
+      }
+    },
+    "tab.profile": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profile"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perfil"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profilo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil"
+          }
+        }
+      }
+    },
+    "tab.progress": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Défis"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progreso"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progressi"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortschritt"
+          }
+        }
+      }
+    },
+    "theme.cyanPulse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyan Pulse"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulsation Cyan"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulso Cian"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impulso Ciano"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyan-Puls"
+          }
+        }
+      }
+    },
+    "theme.magentaDrift": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magenta Drift"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dérive Magenta"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deriva Magenta"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deriva Magenta"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magenta-Drift"
+          }
+        }
+      }
+    },
+    "theme.sunsetOverdrive": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sunset Overdrive"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Surtension Crépuscule"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sobrecarga del Atardecer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sovraccarico al Tramonto"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonnenuntergangs-Overdrive"
+          }
+        }
+      }
+    },
+    "widget.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your collection progress and favorite cheat, at a glance."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre progression de collection et votre code favori, en un coup d'œil."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu progreso de colección y tu truco favorito, de un vistazo."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I tuoi progressi di raccolta e il trucco preferito, in un colpo d'occhio."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein Sammelfortschritt und dein Lieblings-Cheat auf einen Blick."
+          }
+        }
+      }
+    },
+    "widget.displayName": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neon Compass Progress"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progression Neon Compass"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progreso de Neon Compass"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progressi Neon Compass"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neon Compass Fortschritt"
+          }
+        }
+      }
+    },
+    "widget.upsell": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock Pro for widgets"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Débloquez Pro pour les widgets"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desbloquea Pro para los widgets"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sblocca Pro per i widget"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro freischalten für Widgets"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

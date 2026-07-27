@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_2cf242ba",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.307292,
+    "y": 0.451823
+  },
+  "title": {
+    "en": "Spaceship Part #42 - Tongva Hills",
+    "fr": "Pièce de vaisseau #42 - Tongva Hills"
+  },
+  "note": {
+    "en": "Underneath the bridge you will see a waterfall. Do not dive in off the bridge as you will die. Work your way down and in the small pool at the bottom of the waterfall, dive down and find the Spaceship Part underwater."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:73"
+}

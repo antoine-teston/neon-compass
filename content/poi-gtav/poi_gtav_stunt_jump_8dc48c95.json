@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_8dc48c95",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.379557,
+    "y": 0.688477
+  },
+  "title": {
+    "en": "Stunt Jump #29 - Little Seoul/La Puerta Fwy",
+    "fr": "Saut cascade #29 - Little Seoul/La Puerta Fwy"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:110"
+}

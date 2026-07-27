@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_7c826ed2",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.633464,
+    "y": 0.448242
+  },
+  "title": {
+    "en": "Spaceship Part #13 - Ron Alternates Wind Farm",
+    "fr": "Pièce de vaisseau #13 - Ron Alternates Wind Farm"
+  },
+  "note": {
+    "en": "This Part is located inside a cavern, so you will need to either swim or use a boat/jetski to get inside. Once inside, dive down underwater and you will easily see the Part glowing."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:44"
+}

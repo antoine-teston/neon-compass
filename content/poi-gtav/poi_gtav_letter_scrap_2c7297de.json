@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_2c7297de",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.379232,
+    "y": 0.14974
+  },
+  "title": {
+    "en": "Letter Scrap #50 - Paleto Bay / Proccopio Dr",
+    "fr": "Fragment de lettre #50 - Paleto Bay / Proccopio Dr"
+  },
+  "note": {
+    "en": "This Letter is on the roof of the house. Use the steps to get up there and it’ll be on the floor near a table with an umbrella over it."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:181"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_11b45ddb",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.418294,
+    "y": 0.634766
+  },
+  "title": {
+    "en": "Letter Scrap #16 - Alta",
+    "fr": "Fragment de lettre #16 - Alta"
+  },
+  "note": {
+    "en": "This Letter is in a hole on the construction site. You should easily be able to spot it by the number of red bollards around the hole."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:147"
+}

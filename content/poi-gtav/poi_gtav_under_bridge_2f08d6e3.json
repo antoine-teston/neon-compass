@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_under_bridge_2f08d6e3",
+  "category": "activity",
+  "collection": "under_bridge",
+  "position": {
+    "x": 0.594564,
+    "y": 0.445475
+  },
+  "title": {
+    "en": "Under the Bridge #5",
+    "fr": "Passage sous pont #5"
+  },
+  "note": {
+    "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:under_bridge:230"
+}

@@ -3,25 +3,46 @@ import SwiftUI
 struct FeedListView: View {
     @Bindable var model: FeedModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                if model.newsItems.isEmpty {
-                    emptyState
-                } else {
-                    ForEach(model.newsItems) { item in
-                        card(for: item)
+        ZStack(alignment: .bottom) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    if model.newsItems.isEmpty {
+                        emptyState
+                    } else {
+                        ForEach(model.newsItems) { item in
+                            card(for: item)
+                        }
                     }
                 }
-                if !proEntitlementModel.isProEntitled {
-                    BannerAdView()
-                        .frame(height: 50)
-                }
+                .padding(16)
+                .padding(.bottom, proEntitlementModel.isProEntitled ? 0 : bannerClearance)
             }
-            .padding(16)
+            if !proEntitlementModel.isProEntitled {
+                adBanner
+            }
         }
         .background(NCColor.nightSky.ignoresSafeArea())
+    }
+
+    /// 150pt covers `BannerAdView`'s clamped `maxAdHeight` ceiling (the
+    /// documented legitimate max for `largeAnchoredAdaptiveBanner`, per
+    /// `GADAdSize.h`'s 50–150pt range) plus the bubble's own padding — the
+    /// exact ad height is only known at runtime (it depends on device
+    /// width), so this reserved-space constant is a deliberately
+    /// conservative upper-bound estimate, not a measurement.
+    private var bannerClearance: CGFloat {
+        (sizeClass == .compact ? NCLayout.compactTabBarClearance : 0) + 150
+    }
+
+    private var adBanner: some View {
+        BannerAdView()
+            .padding(12)
+            .glassEffect(.regular, in: .rect(cornerRadius: 20))
+            .padding(.horizontal, 16)
+            .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
     }
 
     private func card(for item: NewsItem) -> some View {

@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_7dd4c8a6",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.378581,
+    "y": 0.704753
+  },
+  "title": {
+    "en": "Stunt Jump #28 - Little Seoul",
+    "fr": "Saut cascade #28 - Little Seoul"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:109"
+}

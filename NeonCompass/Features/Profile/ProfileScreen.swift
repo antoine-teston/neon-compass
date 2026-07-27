@@ -100,6 +100,10 @@ struct ProfileScreen: View {
                 .font(NCTypography.displayTitle)
                 .foregroundStyle(NCColor.neonCyan)
 
+            if let profile = profileModel.profile {
+                levelBadge(profile)
+            }
+
             Button("profile.handle.regenerate") {
                 Task { try? await profileModel.regenerateHandle() }
             }
@@ -117,6 +121,21 @@ struct ProfileScreen: View {
                 showDeleteConfirmation = true
             }
         }
+    }
+
+    private func levelBadge(_ profile: Profile) -> some View {
+        HStack {
+            Text(String(format: String(localized: "profile.level.format"), profile.level))
+                .font(NCTypography.body.bold())
+                .foregroundStyle(NCColor.neonCyan)
+            Spacer()
+            Text(String(format: String(localized: "profile.xp.format"), profile.xp))
+                .font(NCTypography.body)
+                .foregroundStyle(.white.opacity(0.7))
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .glassEffect(.regular, in: .rect(cornerRadius: 16))
     }
 
     private var themeSection: some View {

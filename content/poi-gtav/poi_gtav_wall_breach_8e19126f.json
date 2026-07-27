@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_8e19126f",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.27083,
+    "y": 0.828125
+  },
+  "title": {
+    "en": "Below Airport"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Walk to the stack of greenish pillars, make your way to the top of them. Walk straight ahead to the little space between them, get in there and run straight into the grey pillars until you glitch into them."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:23@X=56.17000,Y=-143.43800"
+}

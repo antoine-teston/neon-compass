@@ -1,0 +1,13 @@
+{
+  "id": "vehicle_spawn",
+  "game": "gtav",
+  "title": {
+    "en": "Vehicle Spawns",
+    "fr": "Apparitions de véhicules"
+  },
+  "isChallenge": false,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ]
+}

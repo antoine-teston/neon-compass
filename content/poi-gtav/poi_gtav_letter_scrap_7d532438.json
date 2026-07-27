@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_7d532438",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.413086,
+    "y": 0.126302
+  },
+  "title": {
+    "en": "Letter Scrap #1 - Paleto Bay",
+    "fr": "Fragment de lettre #1 - Paleto Bay"
+  },
+  "note": {
+    "en": "By the side of the road is one wooden house which is abandoned and boarded up. Go around the back and through the door, and in this room is the Letter."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:132"
+}

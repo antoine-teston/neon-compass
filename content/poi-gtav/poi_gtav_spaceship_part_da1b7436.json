@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_da1b7436",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.619141,
+    "y": 0.547201
+  },
+  "title": {
+    "en": "Spaceship Part #14 - Tatavium Mountains",
+    "fr": "Pièce de vaisseau #14 - Tatavium Mountains"
+  },
+  "note": {
+    "en": "To the right of the large cavern entrance, there is a tiny beach. On this beach is the Spaceship Part."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:45"
+}

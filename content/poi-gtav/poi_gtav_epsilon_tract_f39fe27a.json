@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_epsilon_tract_f39fe27a",
+  "category": "collectible",
+  "collection": "epsilon_tract",
+  "position": {
+    "x": 0.280762,
+    "y": 0.575439
+  },
+  "title": {
+    "en": "Epsilon Tract #7",
+    "fr": "Tract Epsilon #7"
+  },
+  "note": {
+    "en": "“What dwelling is worthy of Kraff? He is humble, yet we exalt him”."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:epsilon_tract:222"
+}
