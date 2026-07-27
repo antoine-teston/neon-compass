@@ -61,6 +61,9 @@ private struct MapContentSwiftUIView: View {
     var zoomScale: CGFloat = 1
     let onTapPOI: (POI) -> Void
     let onTapCluster: (POICluster) -> Void
+    /// Reçoit la position plutôt que le groupe : zoomer n'a besoin que d'un
+    /// point, et les deux familles de pastilles portent des types différents.
+    let onTapCommunityCluster: (NormalizedPoint) -> Void
     let onVote: (Contribution, VoteDirection) -> Void
     let onReport: (Contribution) -> Void
     let onBlockAuthor: (Contribution) -> Void
@@ -99,16 +102,51 @@ private struct MapContentSwiftUIView: View {
             ForEach(personalPins) { pin in
                 personalPin(pin)
             }
-            ForEach(communitySpots) { spot in
-                contributionAnnotation(spot)
-                    .scaleEffect(pinScale)
-                    .position(MapGeometry.contentPoint(for: spot.position, manifest: manifest))
+            ForEach(communityClusters) { cluster in
+                if let spot = cluster.single {
+                    contributionAnnotation(spot)
+                        .scaleEffect(pinScale)
+                        .position(MapGeometry.contentPoint(for: spot.position, manifest: manifest))
+                } else {
+                    communityBubble(cluster)
+                }
             }
             ForEach(draftPins) { pin in
                 draftPin(pin)
             }
         }
         .frame(width: fullSize, height: fullSize)
+    }
+
+    /// Pastille communautaire, volontairement différente de celle des POI : un
+    /// glyphe d'épingle et la teinte communautaire, pour qu'on ne confonde pas
+    /// « douze lieux du guide » et « douze propositions de joueurs ». Un tap
+    /// zoome dessus, comme pour les POI — c'est ce qui délie le groupe.
+    private func communityBubble(_ cluster: ContributionCluster) -> some View {
+        Button {
+            onTapCommunityCluster(cluster.position)
+        } label: {
+            HStack(spacing: 3) {
+                Image(systemName: "mappin")
+                    .font(.system(size: 10, weight: .bold))
+                Text(cluster.count, format: .number)
+                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .monospacedDigit()
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 8)
+            .frame(minHeight: 30)
+            .background(
+                Capsule()
+                    .fill(NCColor.sunsetMagenta)
+                    .overlay(Capsule().stroke(.white.opacity(0.7), lineWidth: 1.5))
+            )
+            .shadow(color: NCColor.sunsetMagenta.opacity(0.5), radius: POIPinPalette.glowRadius(for: style))
+        }
+        .buttonStyle(.plain)
+        .scaleEffect(pinScale)
+        .position(MapGeometry.contentPoint(for: cluster.position, manifest: manifest))
+        .accessibilityLabel(Text("map.cluster.accessibility \(cluster.count)"))
     }
 
     private func contributionAnnotation(_ spot: Contribution) -> some View {
@@ -146,7 +184,20 @@ private struct MapContentSwiftUIView: View {
     }
 
     private var clusters: [POICluster] {
-        POIClusterer.clusters(pois: pois, zoomScale: zoomScale, contentSize: fullSize)
+        MapClusterer.clusters(items: pois, zoomScale: zoomScale, contentSize: fullSize)
+    }
+
+    /// Agrégés séparément des POI éditoriaux, et pas mêlés à eux : les deux
+    /// familles ne se rendent pas pareil (état « trouvé » d'un côté, votes et
+    /// signalement de l'autre) et n'ont pas la même autorité. Une pastille qui
+    /// mélangerait les deux ne saurait pas dire ce qu'elle contient.
+    ///
+    /// Le préfixe d'identifiant est distinct : deux familles agrégées séparément
+    /// tombent souvent dans la même cellule de grille, et sans lui leurs
+    /// pastilles porteraient le même id — SwiftUI confondrait deux vues qui
+    /// n'ont rien à voir.
+    private var communityClusters: [ContributionCluster] {
+        MapClusterer.clusters(items: communitySpots, zoomScale: zoomScale, contentSize: fullSize, keyPrefix: "s")
     }
 
     private func poiPin(_ poi: POI, at position: NormalizedPoint) -> some View {
@@ -363,7 +414,10 @@ struct TiledMapRepresentable: UIViewRepresentable {
             zoomScale: zoomScale,
             onTapPOI: onTapPOI,
             onTapCluster: { [weak coordinator] cluster in
-                coordinator?.zoom(to: cluster, manifest: manifest)
+                coordinator?.zoom(to: cluster.position, manifest: manifest)
+            },
+            onTapCommunityCluster: { [weak coordinator] position in
+                coordinator?.zoom(to: position, manifest: manifest)
             },
             onVote: onVote,
             onReport: onReport,
@@ -394,11 +448,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// paliers de `POIClusterer`, qui travaille en demi-octaves) : assez
         /// pour que le groupe se scinde réellement, pas assez pour perdre le
         /// contexte d'un coup.
-        func zoom(to cluster: POICluster, manifest: MapManifest) {
+        func zoom(to clusterPosition: NormalizedPoint, manifest: MapManifest) {
             guard let scrollView, scrollView.bounds.width > 0, scrollView.bounds.height > 0 else { return }
             let target = min(scrollView.zoomScale * 2, scrollView.maximumZoomScale)
             guard target > scrollView.zoomScale else { return }
-            let center = MapGeometry.contentPoint(for: cluster.position, manifest: manifest)
+            let center = MapGeometry.contentPoint(for: clusterPosition, manifest: manifest)
             let size = CGSize(width: scrollView.bounds.width / target, height: scrollView.bounds.height / target)
             scrollView.zoom(
                 to: CGRect(x: center.x - size.width / 2, y: center.y - size.height / 2,
