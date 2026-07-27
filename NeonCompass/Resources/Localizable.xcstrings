@@ -2802,6 +2802,40 @@
         }
       }
     },
+    "profile.deleteAccount.failed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your account could not be deleted. Sign in again, then try once more."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre compte n'a pas pu être supprimé. Reconnectez-vous, puis réessayez."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se ha podido eliminar tu cuenta. Vuelve a iniciar sesión e inténtalo de nuevo."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non è stato possibile eliminare il tuo account. Accedi di nuovo, poi riprova."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein Konto konnte nicht gelöscht werden. Melde dich erneut an und versuche es noch einmal."
+          }
+        }
+      }
+    },
     "profile.followedCategories.title": {
       "localizations": {
         "en": {
@@ -3206,6 +3240,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Melde dich an, um deinen Fortschritt geräteübergreifend zu speichern und zur Karte beizutragen."
+          }
+        }
+      }
+    },
+    "profile.signIn.syncOnlyPrompt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to sync your progress between iPhone and iPad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez-vous pour synchroniser votre progression entre iPhone et iPad."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicia sesión para sincronizar tu progreso entre iPhone y iPad."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accedi per sincronizzare i tuoi progressi tra iPhone e iPad."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melde dich an, um deinen Fortschritt zwischen iPhone und iPad zu synchronisieren."
           }
         }
       }

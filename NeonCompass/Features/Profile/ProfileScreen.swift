@@ -10,7 +10,8 @@ struct ProfileScreen: View {
     @Environment(\.modelContext) private var modelContext
     @State private var profileModel = ProfileModel(
         repository: FirestoreProfileRepository(),
-        functions: FirebaseAccountFunctions()
+        functions: FirebaseAccountFunctions(),
+        localDeletion: FirebaseClientAccountDeletion()
     )
     @State private var communityModel: CommunityModel?
     @State private var currentNonce: String?
@@ -18,6 +19,8 @@ struct ProfileScreen: View {
     @State private var showPaywall = false
     @State private var followedCategoriesStore = FollowedCategoriesStore(notifier: FirebaseFollowedCategoryNotifier())
     @Environment(ThemeStore.self) private var themeStore
+    @Environment(ServerFeaturesModel.self) private var serverFeatures
+    @State private var deletionFailed = false
 
     var body: some View {
         ZStack {
@@ -26,7 +29,12 @@ struct ProfileScreen: View {
                 if proEntitlementModel.isProEntitled {
                     Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
                         .foregroundStyle(NCColor.neonCyan)
-                    followedCategoriesSection
+                    // Les notifications suivies sont envoyées par une Cloud
+                    // Function : sans elle, l'écran promettrait un service qui
+                    // n'arrive jamais.
+                    if serverFeatures.isEnabled {
+                        followedCategoriesSection
+                    }
                     themeSection
                     iconSection
                 } else {
@@ -59,19 +67,40 @@ struct ProfileScreen: View {
         ) {
             Button("profile.deleteAccount.cancelButton", role: .cancel) {}
             Button("profile.deleteAccount.confirmButton", role: .destructive) {
-                Task {
-                    try? await profileModel.deleteAccount()
-                    try? authModel.signOut()
-                }
+                Task { await deleteAccount() }
             }
         } message: {
             Text("profile.deleteAccount.confirmMessage")
+        }
+        .alert("profile.deleteAccount.failed", isPresented: $deletionFailed) {
+            Button("profile.deleteAccount.cancelButton", role: .cancel) {}
+        }
+    }
+
+    /// Sans Cloud Functions, la suppression en cascade n'existe pas — mais
+    /// l'obligation App Store, elle, demeure dès qu'on propose une connexion.
+    /// Le périmètre à effacer est heureusement réduit d'autant : pas de profil,
+    /// pas de contributions à anonymiser, seulement la progression synchronisée
+    /// et le compte lui-même, tous deux effaçables par leur propriétaire.
+    private func deleteAccount() async {
+        guard let userID = authModel.userID else { return }
+        do {
+            if serverFeatures.isEnabled {
+                try await profileModel.deleteAccount()
+            } else {
+                try await profileModel.deleteAccountLocally(uid: userID)
+            }
+            try? authModel.signOut()
+        } catch {
+            // `user.delete()` exige une connexion récente : l'échec le plus
+            // probable se répare en se reconnectant, ce que le message dit.
+            deletionFailed = true
         }
     }
 
     private var signedOutContent: some View {
         VStack(spacing: 16) {
-            Text("profile.signIn.prompt")
+            Text(serverFeatures.isEnabled ? "profile.signIn.prompt" : "profile.signIn.syncOnlyPrompt")
                 .font(NCTypography.body)
                 .foregroundStyle(.white.opacity(0.85))
                 .multilineTextAlignment(.center)
@@ -91,21 +120,27 @@ struct ProfileScreen: View {
 
     private func signedInContent(userID: String) -> some View {
         VStack(spacing: 16) {
-            Text(profileModel.profile?.handle ?? "…")
-                .font(NCTypography.displayTitle)
-                .foregroundStyle(NCColor.neonCyan)
+            // Pseudo, XP, régénération et contributions viennent tous de Cloud
+            // Functions (createUserProfile, regenerateHandle, submitContribution).
+            // Sans elles, le pseudo resterait un « … » perpétuel et les boutons
+            // échoueraient en silence.
+            if serverFeatures.isEnabled {
+                Text(profileModel.profile?.handle ?? "…")
+                    .font(NCTypography.displayTitle)
+                    .foregroundStyle(NCColor.neonCyan)
 
-            if let profile = profileModel.profile {
-                levelBadge(profile)
-            }
+                if let profile = profileModel.profile {
+                    levelBadge(profile)
+                }
 
-            Button("profile.handle.regenerate") {
-                Task { try? await profileModel.regenerateHandle() }
-            }
+                Button("profile.handle.regenerate") {
+                    Task { try? await profileModel.regenerateHandle() }
+                }
 
-            if let communityModel {
-                myContributionsSection(communityModel)
-                blockedContributorsSection(communityModel)
+                if let communityModel {
+                    myContributionsSection(communityModel)
+                    blockedContributorsSection(communityModel)
+                }
             }
 
             Button("profile.signOut") {
