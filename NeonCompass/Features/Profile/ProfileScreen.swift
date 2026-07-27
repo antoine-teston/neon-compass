@@ -47,12 +47,7 @@ struct ProfileScreen: View {
             if let userID = authModel.userID {
                 await profileModel.loadProfile(uid: userID)
                 if communityModel == nil {
-                    communityModel = CommunityModel(
-                        repository: FirestoreContributionRepository(),
-                        functions: FirebaseContributionFunctions(),
-                        gateProvider: RemoteConfigCommunityGateProvider(),
-                        modelContext: modelContext
-                    )
+                    communityModel = CommunityModel.live(modelContext: modelContext)
                 }
                 await communityModel?.loadMyContributions(uid: userID)
             }

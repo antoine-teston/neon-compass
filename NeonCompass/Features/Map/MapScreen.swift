@@ -338,12 +338,7 @@ struct MapScreen: View {
         remotePOIs = contentStore.items
         referencePOIs = referenceStore.items
         model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, sync: sync)
-        communityModel = CommunityModel(
-            repository: FirestoreContributionRepository(),
-            functions: FirebaseContributionFunctions(),
-            gateProvider: RemoteConfigCommunityGateProvider(),
-            modelContext: modelContext
-        )
+        communityModel = CommunityModel.live(modelContext: modelContext)
         Task {
             try? await contentStore.syncIfNeeded()
             try? await referenceStore.syncIfNeeded()

@@ -22,3 +22,5 @@ export { reportContribution } from './reportContribution.js';
 export { flagSuspiciousContribution } from './flagSuspiciousContribution.js';
 export { appStoreServerNotification } from './appStoreServerNotification.js';
 export { notifyFollowedCategory } from './notifyFollowedCategory.js';
+export { flagCommunityBundlesDirty } from './flagCommunityBundlesDirty.js';
+export { rebuildCommunityBundles } from './rebuildCommunityBundles.js';
