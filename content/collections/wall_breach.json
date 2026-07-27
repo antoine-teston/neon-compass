@@ -1,0 +1,13 @@
+{
+  "id": "wall_breach",
+  "game": "gtav",
+  "title": {
+    "en": "Wall Breaches",
+    "fr": "Passages de mur"
+  },
+  "isChallenge": false,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ]
+}

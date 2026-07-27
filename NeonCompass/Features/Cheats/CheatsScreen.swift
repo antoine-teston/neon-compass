@@ -43,7 +43,7 @@ struct CheatsScreen: View {
         guard model == nil else { return }
         let contentStore = ContentStore<Cheat>(
             collectionName: "cheats",
-            remote: FirestoreContentRepository<Cheat>(collectionName: "cheats"),
+            remote: ChunkedContentRepository<Cheat>(collectionName: "cheats"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )

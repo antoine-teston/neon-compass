@@ -1,0 +1,13 @@
+{
+  "id": "garage",
+  "game": "gtav",
+  "title": {
+    "en": "Garages",
+    "fr": "Garages"
+  },
+  "isChallenge": false,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_4d581563",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.472656,
+    "y": 0.398112
+  },
+  "title": {
+    "en": "Spaceship Part #9 - Grand Senora Desert",
+    "fr": "Pièce de vaisseau #9 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "You should see a large boat with the initials “LS 4145 RS” on the side of it amongst a few rusty trailers. The Part is located next to the boat."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:40"
+}

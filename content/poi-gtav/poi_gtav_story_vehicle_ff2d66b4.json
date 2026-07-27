@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_story_vehicle_ff2d66b4",
+  "category": "vehicle",
+  "collection": "story_vehicle",
+  "position": {
+    "x": 0.317304,
+    "y": 0.72128
+  },
+  "title": {
+    "en": "Ubermacht Sentinel XS"
+  },
+  "note": {
+    "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:story_vehicle:56@X=63.39600,Y=-137.16400"
+}

@@ -20,7 +20,7 @@ struct FeedScreen: View {
         guard model == nil else { return }
         let contentStore = ContentStore<NewsItem>(
             collectionName: "news",
-            remote: FirestoreContentRepository<NewsItem>(collectionName: "news"),
+            remote: ChunkedContentRepository<NewsItem>(collectionName: "news"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )

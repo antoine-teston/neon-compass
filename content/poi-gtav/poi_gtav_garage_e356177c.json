@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_garage_e356177c",
+  "category": "safehouse",
+  "collection": "garage",
+  "position": {
+    "x": 0.418454,
+    "y": 0.697533
+  },
+  "title": {
+    "en": "Garage — Trevor - Stripclub",
+    "fr": "Garage — Trevor - Stripclub"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage:Trevor - Stripclub@X=142.6,Y=-1290.5"
+}

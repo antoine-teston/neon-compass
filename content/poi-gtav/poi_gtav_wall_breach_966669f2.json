@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_966669f2",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.410807,
+    "y": 0.62688
+  },
+  "title": {
+    "en": "Garage in San Andreas"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Get into a decent sized vehicle and park it infront of the garage. Hop on it and jump to get inside the building."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:10@X=68.56400,Y=-124.54100"
+}

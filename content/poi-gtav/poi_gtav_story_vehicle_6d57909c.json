@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_story_vehicle_6d57909c",
+  "category": "vehicle",
+  "collection": "story_vehicle",
+  "position": {
+    "x": 0.360511,
+    "y": 0.666504
+  },
+  "title": {
+    "en": "Principe Nemesis"
+  },
+  "note": {
+    "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:story_vehicle:69@X=66.52200,Y=-131.33100"
+}

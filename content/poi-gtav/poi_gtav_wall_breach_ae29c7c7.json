@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_ae29c7c7",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.421141,
+    "y": 0.659743
+  },
+  "title": {
+    "en": "FIB Tower"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Get a helicopter and fly on top of the building. Get out and walk to the side of the building. Walk downstairs the ladder and turn right. At the end of that platform turn left and walk straight into the wall/border (not on the side with the big FIB logo). You should fall and end up on the next floor. After some seconds the textures should load and you should be inside the FIB building."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:21@X=66.88300,Y=-123.14600"
+}

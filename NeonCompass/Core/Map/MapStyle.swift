@@ -10,9 +10,15 @@ import Foundation
 ///
 /// Les libellés exposés à l'UI sont des chiffres romains nus, jamais la marque
 /// elle-même : CLAUDE.md interdit les marques déposées dans l'app.
-enum MapGame: String, CaseIterable, Identifiable, Sendable {
+/// Les valeurs brutes sont celles du contenu (`content/schema/collection.schema.json`),
+/// pas les noms de cas : `reference` se lit bien dans le code — « la carte de
+/// référence » — mais ne veut rien dire dans le dépôt de contenu, où `gtav`
+/// est explicite. Une seule correspondance, ici, plutôt que deux vocabulaires
+/// qui dérivent. Aucune valeur n'est persistée (le choix de carte est un
+/// `@State`), donc les renommer ne casse aucune préférence enregistrée.
+enum MapGame: String, Codable, CaseIterable, Identifiable, Sendable {
     case leonida
-    case reference
+    case reference = "gtav"
 
     var id: String { rawValue }
 

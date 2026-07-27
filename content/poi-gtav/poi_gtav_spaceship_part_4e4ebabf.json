@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_4e4ebabf",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.551432,
+    "y": 0.394857
+  },
+  "title": {
+    "en": "Spaceship Part #8 - Grand Senora Desert",
+    "fr": "Pièce de vaisseau #8 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "By the side of the road will be 5 huge satellite dishes. If you’re looking at them from the main road, the right-hand most dish will have the Part. Climb up the stairs on the dish to get it."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:39"
+}

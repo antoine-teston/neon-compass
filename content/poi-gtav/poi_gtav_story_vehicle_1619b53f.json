@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_story_vehicle_1619b53f",
+  "category": "vehicle",
+  "collection": "story_vehicle",
+  "position": {
+    "x": 0.341474,
+    "y": 0.269694
+  },
+  "title": {
+    "en": "Mariachi"
+  },
+  "note": {
+    "en": "Go to the location as seen below _at 19:00_. Drive down the hill and with a bit of luck you can catch the car."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:story_vehicle:57@X=80.67200,Y=-133.90100"
+}

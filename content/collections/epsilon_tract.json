@@ -1,0 +1,15 @@
+{
+  "id": "epsilon_tract",
+  "game": "gtav",
+  "title": {
+    "en": "Epsilon Tracts",
+    "fr": "Tracts Epsilon"
+  },
+  "isChallenge": true,
+  "expectedCount": 10,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+    "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+  ]
+}

@@ -22,24 +22,94 @@ function app() {
   return appInstance;
 }
 
-export async function pushDocuments(collectionName, documents) {
-  const db = getFirestore(app());
-  const batch = db.batch();
-  for (const doc of documents) {
-    batch.set(db.collection(collectionName).doc(doc.id), doc);
-  }
-  await batch.commit();
+// Un batch Firestore est plafonné à 500 opérations. La fixture GTA V en compte
+// 537 : sans découpage, un `publish` échouerait d'un bloc.
+const BATCH_LIMIT = 500;
+
+// Doit rester aligné sur `ContentBundle.chunkSize` côté Swift : l'app trie les
+// fragments par `chunk` et concatène, elle ne devine pas leur taille.
+const BUNDLE_CHUNK_SIZE = 500;
+
+function chunked(items, size) {
+  const chunks = [];
+  for (let i = 0; i < items.length; i += size) chunks.push(items.slice(i, i + size));
+  return chunks;
 }
 
-export async function incrementContentVersion() {
+async function commitAll(db, operations) {
+  for (const group of chunked(operations, BATCH_LIMIT)) {
+    const batch = db.batch();
+    for (const apply of group) apply(batch);
+    await batch.commit();
+  }
+}
+
+export async function pushDocuments(collectionName, documents) {
+  const db = getFirestore(app());
+  await commitAll(
+    db,
+    documents.map((doc) => (batch) => batch.set(db.collection(collectionName).doc(doc.id), doc)),
+  );
+}
+
+/**
+ * Écrit la collection sous forme d'agrégats dans `content_bundles`, ce que
+ * l'app lit réellement.
+ *
+ * Firestore facture UNE LECTURE PAR DOCUMENT : lire les POI un par un coûtait
+ * autant de lectures qu'il y a d'entrées, à chaque bump de `contentVersion`,
+ * fois le nombre de clients. En agrégats de 500, un client lit ⌈N/500⌉
+ * documents — trois au lieu de mille cinq cents.
+ *
+ * Le découpage n'est pas cosmétique : un document Firestore est plafonné à
+ * 1 MiB, atteignable vers 1 300 entrées à cinq langues remplies.
+ */
+export async function pushBundles(collectionName, documents) {
+  const db = getFirestore(app());
+  const bundles = db.collection('content_bundles');
+  const chunks = chunked(documents, BUNDLE_CHUNK_SIZE);
+
+  const operations = chunks.map((items, chunk) => (batch) =>
+    batch.set(bundles.doc(`${collectionName}_${chunk}`), { collection: collectionName, chunk, items }));
+
+  // Une publication plus étroite que la précédente laisserait sinon derrière
+  // elle les fragments de la précédente, plus large — que les clients liraient
+  // comme du contenu encore vivant.
+  const existing = await bundles.where('collection', '==', collectionName).get();
+  const stale = existing.docs.filter((doc) => doc.get('chunk') >= chunks.length);
+  for (const doc of stale) operations.push((batch) => batch.delete(doc.ref));
+
+  await commitAll(db, operations);
+  return { chunks: chunks.length, pruned: stale.length };
+}
+
+export async function incrementContentVersion(commit) {
   const rc = getRemoteConfig(app());
   const template = await rc.getTemplate();
   const current = Number(template.parameters.contentVersion?.defaultValue?.value ?? '0');
   template.parameters.contentVersion = {
     defaultValue: { value: String(current + 1) },
   };
+  // Le SHA du commit publié, à côté de la version. Sans lui, « quel contenu est
+  // en ligne ? » ne se répond qu'en comparant des documents à la main.
+  if (commit) {
+    template.parameters.contentCommit = {
+      defaultValue: { value: commit },
+      description: 'Commit git dont le contenu est actuellement publié (écrit par content-cli).',
+    };
+  }
   await rc.publishTemplate(template);
   return current + 1;
+}
+
+/** Source du ruleset Firestore actuellement RELEASED sur le projet live.
+ *
+ *  Sert à regarder la cible avant de l'écraser : `deploy-rules` remplace le
+ *  ruleset actif d'un bloc, donc une modification faite directement en console
+ *  Firebase disparaîtrait sans laisser de trace. */
+export async function fetchFirestoreRules() {
+  const ruleset = await getSecurityRules(app()).getFirestoreRuleset();
+  return ruleset.source.map((file) => file.content).join('\n');
 }
 
 // Déploie firestore.rules (à la racine du repo) comme le ruleset actif de

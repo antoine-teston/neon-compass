@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_garage_dcd51c04",
+  "category": "safehouse",
+  "collection": "garage",
+  "position": {
+    "x": 0.493767,
+    "y": 0.82849
+  },
+  "title": {
+    "en": "Garage — MP_GAR_SIMEON",
+    "fr": "Garage — MP_GAR_SIMEON"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage:MP_GAR_SIMEON@X=1196.7,Y=-3123.4"
+}

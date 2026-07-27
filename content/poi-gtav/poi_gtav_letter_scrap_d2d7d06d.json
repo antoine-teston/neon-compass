@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_d2d7d06d",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.300781,
+    "y": 0.504557
+  },
+  "title": {
+    "en": "Letter Scrap #37 - Tongva Valley",
+    "fr": "Fragment de lettre #37 - Tongva Valley"
+  },
+  "note": {
+    "en": "By the side of the road is a tourist information board. The Letter is right in front of it."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:168"
+}

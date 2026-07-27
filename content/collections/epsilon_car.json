@@ -1,0 +1,13 @@
+{
+  "id": "epsilon_car",
+  "game": "gtav",
+  "title": {
+    "en": "Epsilon Vehicles",
+    "fr": "Véhicules Epsilon"
+  },
+  "isChallenge": true,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ]
+}

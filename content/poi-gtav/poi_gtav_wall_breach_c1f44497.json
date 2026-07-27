@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_c1f44497",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.345215,
+    "y": 0.620039
+  },
+  "title": {
+    "en": "Helicopter under map"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Get into a helicopter and fly towards the green and white building. Fly low enought to get between the gab on the white side of the building. Once you are there, fly straight up to get into the second part of the building. Fly towards the middle and then down the ground below the map."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:41@X=68.89900,Y=-133.39600"
+}

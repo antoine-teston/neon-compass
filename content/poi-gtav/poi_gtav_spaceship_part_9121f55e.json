@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_9121f55e",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.325521,
+    "y": 0.641927
+  },
+  "title": {
+    "en": "Spaceship Part #31 - Little Seoul / Del Perro Fwy",
+    "fr": "Pièce de vaisseau #31 - Little Seoul / Del Perro Fwy"
+  },
+  "note": {
+    "en": "This is located inside the Vinewood studios. You will have to drive or run through the barrier at the entrance. Take the first left and then right in front of you will be an open doorway and some stairs. Go up the stairs, take a right and then a right again up another set of stairs. Climb over the wall in front of you and the Spaceship Part will be on the balcony here."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:62"
+}

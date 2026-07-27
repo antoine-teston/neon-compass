@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_f726cdb5",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.469401,
+    "y": 0.47168
+  },
+  "title": {
+    "en": "Spaceship Part #11 - Grand Senora Desert",
+    "fr": "Pièce de vaisseau #11 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "This Part is located down in the small rocky valley beside the road. It will be amongst some rocks."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:42"
+}

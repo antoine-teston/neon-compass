@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_a3db70bf",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.460286,
+    "y": 0.517578
+  },
+  "title": {
+    "en": "Letter Scrap #12 - Vinewood Hills",
+    "fr": "Fragment de lettre #12 - Vinewood Hills"
+  },
+  "note": {
+    "en": "On top of the “I” on the “VINEWOOD” sign. Climb up the ladder on the side of it to get up there."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:143"
+}

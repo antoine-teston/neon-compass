@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_epsilon_tract_670088dd",
+  "category": "collectible",
+  "collection": "epsilon_tract",
+  "position": {
+    "x": 0.393311,
+    "y": 0.264323
+  },
+  "title": {
+    "en": "Epsilon Tract #4",
+    "fr": "Tract Epsilon #4"
+  },
+  "note": {
+    "en": "“In the core of the mountain, where the blast is not felt, you shall find it”."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:epsilon_tract:219"
+}

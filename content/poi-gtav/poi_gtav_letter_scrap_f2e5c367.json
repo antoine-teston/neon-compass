@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_f2e5c367",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.443359,
+    "y": 0.203125
+  },
+  "title": {
+    "en": "Letter Scrap #49 - Mount Chiliad",
+    "fr": "Fragment de lettre #49 - Mount Chiliad"
+  },
+  "note": {
+    "en": "This Letter is located on the floor of the cable car station at the very summit of Mount Chiliad."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:180"
+}

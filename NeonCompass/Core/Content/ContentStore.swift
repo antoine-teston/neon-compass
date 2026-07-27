@@ -2,7 +2,8 @@ import Foundation
 import Observation
 import SwiftData
 
-/// Store générique offline-first pour un type de contenu Firestore.
+/// Store générique offline-first pour un type de contenu Firestore, fusionnant
+/// un socle embarqué avec un overlay distant (voir `ContentMerge`).
 /// Remplace les trois implémentations dupliquées
 /// (POIContentStore/CheatContentStore/GuideContentStore) — identiques à un
 /// renommage de type près. `collectionName` est maintenant un paramètre
@@ -10,8 +11,15 @@ import SwiftData
 /// type générique sert toutes les collections.
 @Observable
 @MainActor
-final class ContentStore<Item: Codable & Sendable> {
+final class ContentStore<Item: ContentItem> {
     private let collectionName: String
+
+    /// Entrées embarquées dans le binaire. Disponibles au premier lancement,
+    /// sans réseau ni lecture facturée. Vide pour les collections purement
+    /// distantes (cheats, guides, actu, trophées).
+    private let seed: [Item]
+
+    /// Socle fusionné avec l'overlay — c'est ce que lisent les features.
     private(set) var items: [Item]
 
     private let remote: any ContentRemoteRepository<Item>
@@ -20,15 +28,20 @@ final class ContentStore<Item: Codable & Sendable> {
 
     init(
         collectionName: String,
+        seed: [Item] = [],
         remote: any ContentRemoteRepository<Item>,
         versionProvider: ContentVersionProviding,
         modelContext: ModelContext
     ) {
         self.collectionName = collectionName
+        self.seed = seed
         self.remote = remote
         self.versionProvider = versionProvider
         self.modelContext = modelContext
-        self.items = Self.loadCached(collectionName: collectionName, from: modelContext)
+        self.items = ContentMerge.merge(
+            seed: seed,
+            overlay: Self.loadCached(collectionName: collectionName, from: modelContext)
+        )
     }
 
     func syncIfNeeded() async throws {
@@ -37,6 +50,9 @@ final class ContentStore<Item: Codable & Sendable> {
         guard remoteVersion > localVersion else { return }
 
         let fetched = try await remote.fetchAll()
+        // On met en cache l'OVERLAY, pas le résultat fusionné. Sinon une mise à
+        // jour de l'app livrant un socle enrichi serait masquée par un cache
+        // écrit à l'époque de l'ancien socle, jusqu'au prochain bump de version.
         let data = try JSONEncoder().encode(fetched)
 
         let name = collectionName
@@ -51,7 +67,7 @@ final class ContentStore<Item: Codable & Sendable> {
         }
         try modelContext.save()
 
-        items = fetched
+        items = ContentMerge.merge(seed: seed, overlay: fetched)
     }
 
     private static func loadCached(collectionName: String, from modelContext: ModelContext) -> [Item] {

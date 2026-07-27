@@ -1,0 +1,15 @@
+{
+  "id": "knife_flight",
+  "game": "gtav",
+  "title": {
+    "en": "Knife Flights",
+    "fr": "Vols en rase-mottes"
+  },
+  "isChallenge": true,
+  "expectedCount": 15,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json",
+    "https://gta.fandom.com/wiki/100%25_Completion_in_GTA_V"
+  ]
+}

@@ -6,7 +6,9 @@ struct ProgressionListView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                overviewCard
+                ForEach(model.gamesWithChallenges) { game in
+                    gameCard(game)
+                }
                 trophyCard
             }
             .padding(16)
@@ -14,14 +16,28 @@ struct ProgressionListView: View {
         .background(NCColor.nightSky.ignoresSafeArea())
     }
 
-    private var overviewCard: some View {
+    /// Une carte par jeu : les défis d'un volet ne se mélangent pas à ceux d'un
+    /// autre, et chacun a son propre anneau.
+    private func gameCard(_ game: MapGame) -> some View {
         VStack(spacing: 20) {
-            ProgressRing(progress: model.overallProgress)
-                .frame(width: 140, height: 140)
+            HStack {
+                Text(game.shortLabel)
+                    .font(NCTypography.body.bold())
+                    .foregroundStyle(NCColor.neonCyan)
+                Spacer()
+            }
+
+            // Pas d'anneau tant qu'aucun défi de ce jeu n'a de total connu :
+            // afficher 0 % dirait « tu n'as rien trouvé » là où la vérité est
+            // « on ne sait pas encore combien il y en a ».
+            if let overall = model.overallProgress(for: game) {
+                ProgressRing(progress: overall)
+                    .frame(width: 140, height: 140)
+            }
 
             VStack(spacing: 14) {
-                ForEach(POICategory.allCases, id: \.self) { category in
-                    categoryRow(category)
+                ForEach(model.challenges(for: game)) { challenge in
+                    challengeRow(challenge)
                 }
             }
         }
@@ -30,21 +46,38 @@ struct ProgressionListView: View {
         .glassEffect(.regular, in: .rect(cornerRadius: 20))
     }
 
-    private func categoryRow(_ category: POICategory) -> some View {
-        let percent = model.progress(in: category)
+    private func challengeRow(_ challenge: ChallengeProgress) -> some View {
+        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
         return VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text(category.localizedNameKey)
+                Text(challenge.collection.title.resolved(for: languageCode))
                     .font(NCTypography.body)
                     .foregroundStyle(.white)
                 Spacer()
-                Text("\(Int((percent * 100).rounded()))%")
+                Text(tally(for: challenge))
                     .font(NCTypography.body.bold())
                     .foregroundStyle(.white.opacity(0.7))
             }
-            ProgressView(value: percent)
-                .tint(NCColor.neonCyan)
+            if let fraction = challenge.fraction {
+                ProgressView(value: fraction)
+                    .tint(NCColor.neonCyan)
+            }
+            // Le joueur qui a tout coché sur nos 47 POI plafonnerait à 47/50
+            // sans savoir pourquoi : on dit que le trou est chez nous.
+            if challenge.isDataIncomplete {
+                Text("progress.challenge.partialData \(challenge.referenced)")
+                    .font(NCTypography.body)
+                    .foregroundStyle(.white.opacity(0.5))
+            }
         }
+    }
+
+    /// « 12 / 50 » quand le total est connu, « 12 trouvés » sinon.
+    private func tally(for challenge: ChallengeProgress) -> String {
+        guard let expected = challenge.expected else {
+            return String(localized: "progress.challenge.foundCount \(challenge.found)")
+        }
+        return "\(challenge.found) / \(expected)"
     }
 
     private var trophyCard: some View {

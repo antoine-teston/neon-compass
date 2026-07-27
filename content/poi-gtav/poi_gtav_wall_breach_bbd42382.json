@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_bbd42382",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.335696,
+    "y": 0.555572
+  },
+  "title": {
+    "en": "Martins mansion (with bike)"
+  },
+  "note": {
+    "en": "Reach the patio of the house just NW of Martin's house on a motorbike (you can use the slanted rock to the right of Martin's driveway as a ramp). Once on the patio of Martin's neighbor, position yourself so you are facing Martin's house (give yourself room to pick up speed). Begin driving towards Martin's roof while tilting backwards on the bike. If done correctly, you will hit the short wall and hop into the air, giving yourself enough airtime to reach Martin's roof. Drive slowly off the back of Martin's roof so that you land on his patio overlooking the city. Facing away from Martin's house, turn right and go as far as you can around the patio. You will reach a corner with those gray utility meters. Drive slowly through the corner to the right of the utility meters. You should go straight through the wall."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:83@X=71.81900,Y=-134.68100"
+}

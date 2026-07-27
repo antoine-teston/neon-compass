@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_0236e5c7",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.52474,
+    "y": 0.80599
+  },
+  "title": {
+    "en": "Spaceship Part #19 - Pacific Ocean",
+    "fr": "Pièce de vaisseau #19 - Pacific Ocean"
+  },
+  "note": {
+    "en": "This one is located on a small island out to sea. Just swim the small distance to the island and then climb onto the rocks. The Part will be amongst the rocks."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:50"
+}

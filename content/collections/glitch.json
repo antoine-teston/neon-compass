@@ -1,0 +1,13 @@
+{
+  "id": "glitch",
+  "game": "gtav",
+  "title": {
+    "en": "Glitches",
+    "fr": "Anomalies"
+  },
+  "isChallenge": false,
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ]
+}

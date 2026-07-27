@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_493e21c7",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.270833,
+    "y": 0.464193
+  },
+  "title": {
+    "en": "Spaceship Part #41 - Tongva Hills",
+    "fr": "Pièce de vaisseau #41 - Tongva Hills"
+  },
+  "note": {
+    "en": "On the side of a hill is a farm area with lots of hedges. The Spaceship Part is located halfway up the hill in between the rows of hedges. You won’t be able climb over them so you’ll have to find a gap in the side and run along the row."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:72"
+}

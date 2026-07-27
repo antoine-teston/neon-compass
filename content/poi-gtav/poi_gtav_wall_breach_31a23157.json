@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_31a23157",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.477133,
+    "y": 0.603763
+  },
+  "title": {
+    "en": "Casino"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Get a Sanchez motor-bike and go the right corner of the building. Drive between the buildings and try to fall off to breach into the Casino."
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:42@X=69.67600,Y=-115.58700"
+}

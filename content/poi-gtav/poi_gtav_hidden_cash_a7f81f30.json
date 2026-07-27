@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_hidden_cash_a7f81f30",
+  "category": "collectible",
+  "collection": "hidden_cash",
+  "position": {
+    "x": 0.176758,
+    "y": 0.342448
+  },
+  "title": {
+    "en": "Hidden Package #11"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:hidden_cash:206"
+}

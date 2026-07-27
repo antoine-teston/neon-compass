@@ -23,6 +23,12 @@ struct MapScreen: View {
     // contenu éditorial aura de vraies positions.
     @State private var mapGame: MapGame = .reference
     @State private var remotePOIs: [POI] = []
+
+    /// Socle embarqué de la carte de référence, patché par l'overlay distant dès
+    /// qu'il arrive. Initialisé au socle nu pour que la carte soit explorable au
+    /// premier lancement, sans réseau — et si Firebase n'est pas configuré, ça
+    /// reste la valeur définitive.
+    @State private var referencePOIs: [POI] = POILoader.bundled
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
@@ -217,10 +223,11 @@ struct MapScreen: View {
     /// `POILoader.loadSeed` existait depuis le plan 2 mais n'avait plus aucun
     /// appelant depuis que le plan 3 a branché la carte sur Firestore — d'où
     /// une carte de référence sans le moindre POI.
-    private static let referencePOIs: [POI] = (try? POILoader.loadSeed()) ?? []
-
+    /// Le cache vit maintenant sur `POILoader` : l'écran de progression a besoin
+    /// de la même fixture pour ses dénominateurs, et deux `static let` séparés
+    /// en auraient fait deux parses.
     private func pois(for game: MapGame) -> [POI] {
-        MapModel.pois(for: game, remote: remotePOIs, reference: Self.referencePOIs)
+        MapModel.pois(for: game, remote: remotePOIs, reference: referencePOIs)
     }
 
     private func loadModel() {
@@ -235,7 +242,18 @@ struct MapScreen: View {
         }
         let contentStore = ContentStore<POI>(
             collectionName: "poi",
-            remote: FirestoreContentRepository<POI>(collectionName: "poi"),
+            remote: ChunkedContentRepository<POI>(collectionName: "poi"),
+            versionProvider: RemoteConfigVersionProvider(),
+            modelContext: modelContext
+        )
+        // Deuxième store, collection distincte : les positions de la fixture
+        // sont normalisées sur la carte de référence. Les mêler au contenu du
+        // jeu à venir poserait des centaines de pins à des endroits qui ne
+        // veulent rien dire — cf. `MapModel.pois(for:remote:reference:)`.
+        let referenceStore = ContentStore<POI>(
+            collectionName: "poi_gtav",
+            seed: POILoader.bundled,
+            remote: ChunkedContentRepository<POI>(collectionName: "poi_gtav"),
             versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
@@ -244,6 +262,7 @@ struct MapScreen: View {
         let userID = authModel.userID
         let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
         remotePOIs = contentStore.items
+        referencePOIs = referenceStore.items
         model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, sync: sync)
         communityModel = CommunityModel(
             repository: FirestoreContributionRepository(),
@@ -253,7 +272,9 @@ struct MapScreen: View {
         )
         Task {
             try? await contentStore.syncIfNeeded()
+            try? await referenceStore.syncIfNeeded()
             remotePOIs = contentStore.items
+            referencePOIs = referenceStore.items
             model?.updatePOIs(pois(for: mapGame))
             await communityModel?.loadApprovedSpots()
             await communityModel?.refreshContributionsEnabled()

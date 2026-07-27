@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_knife_flight_697e72f5",
+  "category": "activity",
+  "collection": "knife_flight",
+  "position": {
+    "x": 0.393392,
+    "y": 0.652018
+  },
+  "title": {
+    "en": "Knife Flight #7",
+    "fr": "Vol en rase-mottes #7"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:knife_flight:188"
+}

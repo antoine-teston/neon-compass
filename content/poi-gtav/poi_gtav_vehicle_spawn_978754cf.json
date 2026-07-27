@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_vehicle_spawn_978754cf",
+  "category": "vehicle",
+  "collection": "vehicle_spawn",
+  "position": {
+    "x": 0.559977,
+    "y": 0.39388
+  },
+  "title": {
+    "en": "Unmarked FIB Car"
+  },
+  "status": "published",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:vehicle_spawn:210"
+}

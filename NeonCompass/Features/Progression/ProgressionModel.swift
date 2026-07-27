@@ -6,8 +6,14 @@ import SwiftData
 @MainActor
 final class ProgressionModel {
     private(set) var pois: [POI]
+    private(set) var collections: [POICollection]
     private(set) var trophies: [Trophy]
     private(set) var checkedTrophyIDs: Set<String>
+
+    /// Recalculé quand `(pois, foundIDs)` change, jamais à la lecture.
+    /// Les vues le lisent plusieurs fois par rendu ; le laisser en propriété
+    /// calculée rebalayait tout le tableau de POI à chaque accès.
+    private(set) var challenges: [ChallengeProgress] = []
 
     private(set) var foundPOIIDs: Set<String>
     private let modelContext: ModelContext
@@ -16,29 +22,60 @@ final class ProgressionModel {
 
     init(
         pois: [POI],
+        collections: [POICollection] = POICollectionLoader.bundled,
         trophies: [Trophy],
         modelContext: ModelContext,
         sync: ProgressionSyncing? = nil,
         widgetSummaryCoordinator: WidgetSummaryCoordinator? = nil
     ) {
         self.pois = pois
+        self.collections = collections
         self.trophies = trophies
         self.modelContext = modelContext
         self.sync = sync
         self.widgetSummaryCoordinator = widgetSummaryCoordinator
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
         self.checkedTrophyIDs = Set((try? modelContext.fetch(FetchDescriptor<TrophyProgress>()))?.map(\.trophyID) ?? [])
-        notifyWidgetProgress()
+        recomputeChallenges()
     }
 
     func refreshFoundState() {
         foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
-        notifyWidgetProgress()
+        recomputeChallenges()
     }
 
     func updatePOIs(_ newPOIs: [POI]) {
         pois = newPOIs
+        recomputeChallenges()
+    }
+
+    /// Le catalogue arrive du canal de contenu : une collection GTA VI peut donc
+    /// être déclarée sans mise à jour de l'app, le jour où on saura ce que ses
+    /// POI sont.
+    func updateCollections(_ newCollections: [POICollection]) {
+        collections = newCollections
+        recomputeChallenges()
+    }
+
+    private func recomputeChallenges() {
+        challenges = ChallengeProgressCalculator.challenges(
+            collections: collections,
+            pois: pois,
+            foundIDs: foundPOIIDs
+        )
         notifyWidgetProgress()
+    }
+
+    /// Défis d'un jeu donné. La progression n'est jamais globale tous jeux
+    /// confondus : mêler les fragments de lettre du volet précédent à un anneau
+    /// de complétion du volet à venir ne voudrait rien dire.
+    func challenges(for game: MapGame) -> [ChallengeProgress] {
+        challenges.filter { $0.collection.game == game }
+    }
+
+    /// Jeux ayant au moins un défi à afficher, dans l'ordre de `MapGame`.
+    var gamesWithChallenges: [MapGame] {
+        MapGame.allCases.filter { game in challenges.contains { $0.collection.game == game } }
     }
 
     private func notifyWidgetProgress() {
@@ -62,16 +99,21 @@ final class ProgressionModel {
         return true
     }
 
+    /// Chiffre unique du widget (`WidgetSummary` n'en prend qu'un).
+    ///
+    /// Priorité au jeu à venir dès qu'un de ses défis a un total connu ; sinon
+    /// la carte de référence, seule à en avoir au lancement. Zéro seulement
+    /// quand aucun défi n'a de total — auquel cas il n'y a rien à afficher.
     var overallProgress: Double {
-        guard !pois.isEmpty else { return 0 }
-        return Double(pois.filter { foundPOIIDs.contains($0.id) }.count) / Double(pois.count)
+        ChallengeProgressCalculator.overall(challenges(for: .leonida))
+            ?? ChallengeProgressCalculator.overall(challenges(for: .reference))
+            ?? 0
     }
 
-    func progress(in category: POICategory) -> Double {
-        let categoryPOIs = pois.filter { $0.category == category }
-        guard !categoryPOIs.isEmpty else { return 0 }
-        let foundCount = categoryPOIs.filter { foundPOIIDs.contains($0.id) }.count
-        return Double(foundCount) / Double(categoryPOIs.count)
+    /// Avancement global d'un jeu, `nil` tant qu'aucun de ses défis n'a de total
+    /// connu — l'écran affiche alors des décomptes bruts sans anneau.
+    func overallProgress(for game: MapGame) -> Double? {
+        ChallengeProgressCalculator.overall(challenges(for: game))
     }
 
     func isTrophyChecked(_ trophy: Trophy) -> Bool {
@@ -122,5 +164,10 @@ final class ProgressionModel {
             }
         }
         try? modelContext.save()
+        // La réconciliation ne touche que les trophées ici, mais l'appelant
+        // (ProgressionScreen) enchaîne avec refreshFoundState() pour les POI ;
+        // recalculer maintenant garde l'invariant « challenges reflète toujours
+        // (pois, foundPOIIDs) » vrai à tout instant.
+        recomputeChallenges()
     }
 }
