@@ -10,18 +10,17 @@ import Foundation
 /// utilisable dans un sous-sol sans une ligne de code de notre part — et ce qui
 /// fait qu'une session de trois heures ne tient jamais sur le seul appareil.
 final class FirestoreEditorDraftStore: EditorDraftStore {
-    /// `nonisolated(unsafe)` comme `FirestoreContributionRepository` : les types
-    /// du SDK ne sont pas `Sendable`, alors qu'ils sont thread-safe par contrat.
-    nonisolated(unsafe) private let firestore: Firestore
-    nonisolated(unsafe) private let collection: CollectionReference
-
-    init(firestore: Firestore = Firestore.firestore()) {
-        self.firestore = firestore
-        collection = firestore.collection("editor_drafts")
-    }
+    /// Résolu à l'appel, jamais à la construction. `Firestore.firestore()` plante
+    /// d'une erreur fatale NON RATTRAPABLE si `FirebaseApp.configure()` n'a pas
+    /// tourné (cf. `FirebaseAvailability`) — et cet entrepôt est construit en
+    /// valeur initiale d'un `@State`, donc potentiellement avant toute
+    /// configuration. `EditorModel` refuse par ailleurs de s'armer tant que le
+    /// backend n'est pas disponible : ces méthodes ne sont donc jamais atteintes
+    /// à vide.
+    private var firestore: Firestore { Firestore.firestore() }
 
     func save(_ draft: EditorDraft) throws {
-        try collection.document(draft.id).setData(from: draft)
+        try firestore.collection("editor_drafts").document(draft.id).setData(from: draft)
     }
 
     func waitForDelivery() async throws {
