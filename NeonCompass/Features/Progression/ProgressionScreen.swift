@@ -57,7 +57,7 @@ struct ProgressionScreen: View {
         let userID = authModel.userID
         let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
         model = ProgressionModel(
-            pois: poiStore.items,
+            pois: poiStore.items + POILoader.bundled,
             trophies: trophyStore.items,
             modelContext: modelContext,
             sync: sync,
@@ -65,7 +65,10 @@ struct ProgressionScreen: View {
         )
         try? await poiStore.syncIfNeeded()
         try? await trophyStore.syncIfNeeded()
-        model?.updatePOIs(poiStore.items)
+        // Les deux jeux réunis : la carte laisse déjà cocher les POI de la
+        // fixture embarquée, donc les exclure d'ici afficherait une progression
+        // vide à quelqu'un qui vient d'en trouver trente.
+        model?.updatePOIs(poiStore.items + POILoader.bundled)
         model?.updateTrophies(trophyStore.items)
         if let sync, let userID {
             let remoteItems = await sync.fetchAll(uid: userID)

@@ -217,10 +217,11 @@ struct MapScreen: View {
     /// `POILoader.loadSeed` existait depuis le plan 2 mais n'avait plus aucun
     /// appelant depuis que le plan 3 a branché la carte sur Firestore — d'où
     /// une carte de référence sans le moindre POI.
-    private static let referencePOIs: [POI] = (try? POILoader.loadSeed()) ?? []
-
+    /// Le cache vit maintenant sur `POILoader` : l'écran de progression a besoin
+    /// de la même fixture pour ses dénominateurs, et deux `static let` séparés
+    /// en auraient fait deux parses.
     private func pois(for game: MapGame) -> [POI] {
-        MapModel.pois(for: game, remote: remotePOIs, reference: Self.referencePOIs)
+        MapModel.pois(for: game, remote: remotePOIs, reference: POILoader.bundled)
     }
 
     private func loadModel() {

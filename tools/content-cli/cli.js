@@ -3,6 +3,8 @@
 // 2026-07-20-data-pipeline-pseudocode.md). Commandes :
 //   validate               valide content/{poi,cheats,collections}/**.json contre les schémas
 //   check-publishable      règles éditoriales (cheats: verifiedBy >= 2, marques déposées)
+//   bundle                 régénère NeonCompass/Resources/POI/collections.json depuis
+//                          content/collections (projection, jamais éditée à la main)
 //   translate --dry-run    liste les champs ES/IT/DE manquants (l'appel IA arrive avec Firebase)
 //   publish --dry-run      montre le diff qui partirait vers Firestore
 //   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
@@ -12,7 +14,7 @@
 //                          sur le projet Firestore live ; nécessite
 //                          FIREBASE_SERVICE_ACCOUNT_PATH.
 
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
@@ -103,6 +105,22 @@ function publishDryRun(entries) {
   return true;
 }
 
+/** Régénère le catalogue de collections embarqué que l'app lit au démarrage.
+ *  Même rôle que seed-poi.json côté carte : content/ reste la source de vérité,
+ *  le bundle en est une projection — jamais une copie éditée à la main.
+ *  Le filtre draft/published ne s'applique pas ici : il gouverne la publication
+ *  Firestore, pas ce que le binaire embarque. */
+function bundleCollections(entries) {
+  const collections = entries
+    .filter((e) => e.kind === 'collections')
+    .map((e) => e.data)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const out = join(ROOT, 'NeonCompass', 'Resources', 'POI', 'collections.json');
+  writeFileSync(out, JSON.stringify(collections, null, 2) + '\n');
+  console.log(`bundle: ${collections.length} collection(s) -> ${out}`);
+  return true;
+}
+
 const [cmd, ...flags] = process.argv.slice(2);
 const dry = flags.includes('--dry-run');
 const entries = loadAll();
@@ -115,6 +133,9 @@ switch (cmd) {
     break;
   case 'check-publishable':
     ok = checkPublishable(entries);
+    break;
+  case 'bundle':
+    ok = validate(entries) && bundleCollections(entries);
     break;
   case 'translate':
     if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); ok = false; break; }

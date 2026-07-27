@@ -122,7 +122,7 @@ struct RootView: View {
             modelContext: modelContext
         )
         _ = ProgressionModel(
-            pois: poiStore.items,
+            pois: poiStore.items + POILoader.bundled,
             trophies: [],
             modelContext: modelContext,
             widgetSummaryCoordinator: widgetSummaryCoordinator
