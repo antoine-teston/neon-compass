@@ -319,21 +319,17 @@ struct MapScreen: View {
             model = MapModel(pois: pois(for: mapGame), modelContext: modelContext)
             return
         }
-        let contentStore = ContentStore<POI>(
+        let contentStore = ContentStore<POI>.live(
             collectionName: "poi",
-            remote: ChunkedContentRepository<POI>(collectionName: "poi"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         // Deuxième store, collection distincte : les positions de la fixture
         // sont normalisées sur la carte de référence. Les mêler au contenu du
         // jeu à venir poserait des centaines de pins à des endroits qui ne
         // veulent rien dire — cf. `MapModel.pois(for:remote:reference:)`.
-        let referenceStore = ContentStore<POI>(
+        let referenceStore = ContentStore<POI>.live(
             collectionName: "poi_gtav",
             seed: POILoader.bundled,
-            remote: ChunkedContentRepository<POI>(collectionName: "poi_gtav"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         // Cloud progression sync is Pro + signed-in only (spec: "nécessite

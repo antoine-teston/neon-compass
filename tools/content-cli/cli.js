@@ -19,13 +19,15 @@
 //   pull-drafts            matérialise les brouillons du mode éditeur (posés au doigt
 //                          dans le build debug) en fichiers content/poi/*.json ;
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
+//   build-cdn              construit le site statique de contenu dans dist/ (JSON
+//                          versionné, lisible sans SDK — voir cdn-build.mjs)
 //   rules-diff             compare firestore.rules au ruleset actif en ligne
 //   deploy-rules           affiche le diff PUIS déploie firestore.rules (racine du
 //                          repo) comme ruleset actif sur le projet Firestore live ;
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { execSync } from 'node:child_process';
-import { readFileSync, readdirSync, writeFileSync, rmSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
@@ -392,6 +394,29 @@ switch (cmd) {
       ok = false;
     }
     break;
+  case 'build-cdn': {
+    // La version vient du nombre de commits : monotone, déterministe, et
+    // calculable hors ligne — contrairement à `contentVersion` de Remote Config,
+    // qui exige des credentials. La construction doit tourner en CI sans secret.
+    const version = Number(execSync('git rev-list --count HEAD', { cwd: ROOT, encoding: 'utf8' }).trim());
+    const commit = execSync('git rev-parse --short HEAD', { cwd: ROOT, encoding: 'utf8' }).trim();
+    const { buildSite } = await import('./cdn-build.mjs');
+    const files = buildSite(entries, KINDS, { version, commit });
+
+    const dist = join(ROOT, 'tools', 'content-cli', 'dist');
+    rmSync(dist, { recursive: true, force: true });
+    for (const file of files) {
+      const target = join(dist, file.path);
+      mkdirSync(dirname(target), { recursive: true });
+      writeFileSync(target, `${JSON.stringify(file.json)}\n`);
+    }
+
+    const published = entries.filter((e) => e.data.status === 'published').length;
+    console.log(`build-cdn: v${version} (${commit}) — ${published} entrée(s) publiée(s), ${files.length} fichier(s) dans dist/`);
+    console.log('  déploiement : firebase deploy --only hosting');
+    ok = true;
+    break;
+  }
   case 'pull-drafts':
     try {
       const { listEditorDrafts, markEditorDraftsApplied } = await import('./firestore-client.js');
@@ -531,7 +556,7 @@ switch (cmd) {
     }
     break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|pull-drafts|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|pull-drafts|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
     ok = false;
 }
 

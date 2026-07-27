@@ -18,10 +18,8 @@ struct FeedScreen: View {
 
     private func loadModel() async {
         guard model == nil else { return }
-        let contentStore = ContentStore<NewsItem>(
+        let contentStore = ContentStore<NewsItem>.live(
             collectionName: "news",
-            remote: ChunkedContentRepository<NewsItem>(collectionName: "news"),
-            versionProvider: RemoteConfigVersionProvider(),
             modelContext: modelContext
         )
         model = FeedModel(newsItems: contentStore.items)
