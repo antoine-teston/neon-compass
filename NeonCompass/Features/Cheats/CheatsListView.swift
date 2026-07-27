@@ -36,14 +36,13 @@ struct CheatsListView: View {
         .background(NCColor.nightSky.ignoresSafeArea())
     }
 
-    /// 150pt covers `BannerAdView`'s clamped `maxAdHeight` ceiling (the
-    /// documented legitimate max for `largeAnchoredAdaptiveBanner`, per
-    /// `GADAdSize.h`'s 50–150pt range) plus the bubble's own padding — the
-    /// exact ad height is only known at runtime (it depends on device
-    /// width), so this reserved-space constant is a deliberately
-    /// conservative upper-bound estimate, not a measurement.
+    /// La réservation vient désormais de `BannerAdView` lui-même, qui la définit
+    /// à partir de la taille qu'il DEMANDE et qu'il clampe. La constante de 150
+    /// qui vivait ici se décrivait comme « une estimation haute délibérément
+    /// conservatrice, pas une mesure » — et elle était fausse de 50 pt, autant
+    /// de contenu perdu à chaque écran.
     private var bannerClearance: CGFloat {
-        (sizeClass == .compact ? NCLayout.compactTabBarClearance : 0) + 150
+        (sizeClass == .compact ? NCLayout.compactTabBarClearance : 0) + BannerAdView.reservedHeight
     }
 
     private var adBanner: some View {
