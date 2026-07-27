@@ -16,9 +16,10 @@
 //   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
 //                          contentVersion dans Remote Config ; nécessite
 //                          FIREBASE_SERVICE_ACCOUNT_PATH.
-//   deploy-rules           déploie firestore.rules (racine du repo) comme ruleset actif
-//                          sur le projet Firestore live ; nécessite
-//                          FIREBASE_SERVICE_ACCOUNT_PATH.
+//   rules-diff             compare firestore.rules au ruleset actif en ligne
+//   deploy-rules           affiche le diff PUIS déploie firestore.rules (racine du
+//                          repo) comme ruleset actif sur le projet Firestore live ;
+//                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { execSync } from 'node:child_process';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -231,6 +232,47 @@ function currentCommit() {
   return execSync('git rev-parse --short HEAD', { cwd: ROOT, encoding: 'utf8' }).trim();
 }
 
+/**
+ * Compare firestore.rules au ruleset actuellement actif sur le projet live.
+ *
+ * `deploy-rules` remplace le ruleset d'un bloc : une règle ajoutée directement en
+ * console Firebase disparaîtrait sans laisser de trace. Regarder la cible avant
+ * de l'écraser n'est pas une précaution de confort.
+ *
+ * Comparaison ligne à ligne, volontairement grossière : sur un fichier de règles
+ * de cette taille, savoir QUELLES lignes diffèrent suffit — pas besoin d'un
+ * algorithme de diff et de la dépendance qui va avec.
+ */
+async function rulesDiff() {
+  const { fetchFirestoreRules } = await import('./firestore-client.js');
+  const local = readFileSync(join(ROOT, 'firestore.rules'), 'utf8');
+  const live = await fetchFirestoreRules();
+
+  if (local.trim() === live.trim()) {
+    console.log('rules-diff: le ruleset actif est identique à firestore.rules');
+    return true;
+  }
+
+  const norm = (s) => s.split('\n').map((l) => l.trim()).filter(Boolean);
+  const liveLines = norm(live);
+  const localLines = norm(local);
+  const onlyLive = liveLines.filter((l) => !localLines.includes(l));
+  const onlyLocal = localLines.filter((l) => !liveLines.includes(l));
+
+  console.log('rules-diff: le ruleset actif DIFFÈRE de firestore.rules');
+  if (onlyLive.length) {
+    console.log(`\n  présent en ligne, absent du dépôt (${onlyLive.length} ligne(s)) —`);
+    console.log('  un déploiement les PERDRAIT :');
+    onlyLive.forEach((l) => console.log(`  - ${l}`));
+  }
+  if (onlyLocal.length) {
+    console.log(`\n  présent dans le dépôt, absent en ligne (${onlyLocal.length} ligne(s)) —`);
+    console.log('  un déploiement les ajouterait :');
+    onlyLocal.forEach((l) => console.log(`  + ${l}`));
+  }
+  return true;
+}
+
 /** Écriture réelle vers Firestore + bump de version. Partagée par `publish` et
  *  `release` : une seule implémentation, deux points d'entrée. */
 async function publishAll(entries) {
@@ -323,8 +365,20 @@ switch (cmd) {
     ok = await publishAll(entries);
     break;
   }
+  case 'rules-diff':
+    try {
+      ok = await rulesDiff();
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
   case 'deploy-rules':
     try {
+      // La cible s'affiche avant d'être écrasée, systématiquement : c'est le
+      // seul moment où une divergence introduite en console est encore visible.
+      await rulesDiff();
+      console.log('');
       const rulesSource = readFileSync(join(ROOT, 'firestore.rules'), 'utf8');
       const { deployFirestoreRules } = await import('./firestore-client.js');
       await deployFirestoreRules(rulesSource);

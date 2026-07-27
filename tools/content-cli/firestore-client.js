@@ -102,6 +102,16 @@ export async function incrementContentVersion(commit) {
   return current + 1;
 }
 
+/** Source du ruleset Firestore actuellement RELEASED sur le projet live.
+ *
+ *  Sert à regarder la cible avant de l'écraser : `deploy-rules` remplace le
+ *  ruleset actif d'un bloc, donc une modification faite directement en console
+ *  Firebase disparaîtrait sans laisser de trace. */
+export async function fetchFirestoreRules() {
+  const ruleset = await getSecurityRules(app()).getFirestoreRuleset();
+  return ruleset.source.map((file) => file.content).join('\n');
+}
+
 // Déploie firestore.rules (à la racine du repo) comme le ruleset actif de
 // Cloud Firestore sur le projet live. Un seul appel crée le Ruleset et
 // l'applique (pas de release séparée nécessaire).

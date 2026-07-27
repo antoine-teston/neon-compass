@@ -91,13 +91,36 @@ Remote Config porte `contentCommit` à côté de `contentVersion`. Comparer avec
 réponse vérifiable à « quel contenu est publié ? » — sans lui il faudrait comparer des documents à
 la main.
 
-## 6. Déployer les règles Firestore
+## 6. Règles Firestore
 
-`firestore.rules` a gagné `poi_gtav` et `content_bundles`. Tant que les règles actives ne les
-contiennent pas, l'app lit du vide (deny-by-default) :
+**Déployées le 2026-07-27**, et le diff a révélé un écart qu'on ne soupçonnait pas : le ruleset actif
+ne contenait que `poi` et `cheats`. Il manquait `guides`, `news`, `trophies`, `profiles`,
+`profiles/*/progression`, `contributions`, `votes` et `reports` — donc tout ce qui a été construit des
+plans 3c à 5c était en deny-by-default en production. `deploy-rules` n'avait jamais tourné depuis.
+
+Toujours regarder avant d'écraser :
 
 ```sh
-cd tools/content-cli && node cli.js deploy-rules
+node cli.js rules-diff      # compare le ruleset actif à firestore.rules
+node cli.js deploy-rules    # affiche le diff PUIS déploie
 ```
 
-Le job `publish` du workflow le fait aussi, après la publication.
+`deploy-rules` remplace le ruleset **d'un bloc** : une règle ajoutée directement en console Firebase
+disparaîtrait sans laisser de trace. D'où le diff systématique — les lignes préfixées `-` sont celles
+qu'un déploiement perdrait.
+
+Le job `publish` du workflow déploie aussi les règles, après la publication.
+
+## 7. État au 2026-07-27
+
+| | État |
+|---|---|
+| Règles Firestore | ✅ déployées, `rules-diff` confirme l'identité avec le dépôt |
+| Secret `FIREBASE_SERVICE_ACCOUNT` | ✅ posé sur le dépôt |
+| Workflow « Contenu » | ✅ validé par un run réel (`check` vert, `publish` correctement sauté) |
+| Environnement `production` | pas encore créé — GitHub le crée au premier run du job `publish`. Y attacher une approbation requise si tu veux un second regard humain. |
+| `workflow_dispatch` | ⚠️ ne sera déclenchable que quand ce workflow sera sur la branche par défaut. Il est pour l'instant sur `plan-poi-id-stability`. |
+
+**Note de sécurité.** La clé de compte de service traîne dans `~/Downloads`. Elle porte les droits
+Datastore, Remote Config et Rules sur le projet de production : la déplacer hors d'un répertoire que
+tout navigue, et exporter `FIREBASE_SERVICE_ACCOUNT_PATH` vers son nouvel emplacement.
