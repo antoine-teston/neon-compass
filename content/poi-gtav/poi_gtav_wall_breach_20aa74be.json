@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_20aa74be",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.418622,
+    "y": 0.657303
+  },
+  "title": {
+    "en": "FIB tower"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:12@X=67.01200,Y=-123.48600"
+}

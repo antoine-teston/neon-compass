@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_2f2b86ce",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.325846,
+    "y": 0.641602
+  },
+  "title": {
+    "en": "Letter Scrap #31 - Richards Majestic",
+    "fr": "Fragment de lettre #31 - Richards Majestic"
+  },
+  "note": {
+    "en": "Climb over the fence in front of the “Vinewood Zombie” sign and go up the stairs. Climb up onto the air condition unit and then over the railing to find this Letter between two more units."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:162"
+}

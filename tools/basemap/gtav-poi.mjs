@@ -3,7 +3,17 @@
 // poi.schema.json, et régénère le fixture embarqué que l'app lit réellement
 // (Resources/POI/seed-poi.json — cf. POILoader.loadSeed).
 //
-//   node gtav-poi.mjs [--out content/poi-gtav] [--no-seed] [--render]
+//   node gtav-poi.mjs [--out content/poi-gtav] [--no-seed] [--render] [--prune]
+//
+// Le script FUSIONNE, il ne régénère pas : les fichiers déjà présents portent
+// chacun leur `processedFrom` (clé d'identité stable), et leur `id` est réutilisé
+// tel quel. Un id publié ne doit jamais désigner un autre POI — FoundEntry ne
+// stocke qu'une chaîne, donc un id réattribué déplace silencieusement la
+// progression de tous les utilisateurs. Voir gtav-poi-ids.mjs.
+//
+// --prune supprime les fichiers devenus orphelins (clé absente de l'amont).
+// Sans lui ils sont seulement signalés : leur disparition mérite un coup d'œil
+// humain avant qu'on libère leur id.
 //
 // Les POI atterrissent dans content/poi-gtav/ et NON dans content/poi/ : ce
 // dernier porte le contenu éditorial GTA VI qui part vers Firestore, et
@@ -22,6 +32,14 @@ import sharp from 'sharp';
 import Ajv from 'ajv/dist/2020.js';
 import { mercatorToNorm, worldToNorm, inBounds, fetchRetry, pool } from './gtav-geo.mjs';
 import { isOceanNC, isOceanRaw } from './gtav-restyle.mjs';
+import {
+  dedupeIdenticalEntries,
+  hasDuplicateUpstreamIds,
+  identityKey,
+  loadExistingIds,
+  reconcileIds,
+  worldDiscriminant,
+} from './gtav-poi-ids.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..', '..');
@@ -33,6 +51,7 @@ function arg(name, fallback) {
 const outDir = arg('out', join(ROOT, 'content', 'poi-gtav'));
 const writeSeed = !process.argv.includes('--no-seed');
 const doRender = process.argv.includes('--render');
+const doPrune = process.argv.includes('--prune');
 
 const DANHARPER = 'https://raw.githubusercontent.com/danharper/GTAV/master/locations.json';
 const GTA5MAP = 'https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json';
@@ -72,20 +91,13 @@ const WORLD_SETS = [
     // Les garages sont déjà nommés lisiblement en amont (« Michael - Beverly
     // Hills »), inutile de les étiqueter tous « Garage ».
     title: (e) => ({ en: `Garage — ${e.Name}`, fr: `Garage — ${e.Name}` }),
+    // Ce nom entre aussi dans la clé d'identité, en plus des coordonnées :
+    // aucun des deux ne suffit seul. Deux lockups distincts partagent le même
+    // point arrondi (Lockup_PSY_01 et _02 en X=2337.6,Y=3122.5), et deux
+    // garages distincts partagent le même nom (« Michael - Beverly Hills »).
+    key: (e) => e.Name,
   },
 ];
-
-// Les id source ne sont pas fiables : gta5-map réutilise 4 id pour des entrées
-// distinctes. On garde l'id source (stable si l'amont n'est pas réordonné) et
-// on suffixe seulement en cas de collision réelle.
-const usedIds = new Set();
-function uniqueId(base) {
-  if (!usedIds.has(base)) { usedIds.add(base); return base; }
-  for (let n = 2; ; n++) {
-    const candidate = `${base}_${n}`;
-    if (!usedIds.has(candidate)) { usedIds.add(candidate); return candidate; }
-  }
-}
 
 /** Traduit « Letter Scrap #3 - Paleto Bay » en « Fragment de lettre #3 - Paleto
  *  Bay » : seul le libellé de type est remplacé, le numéro et le toponyme sont
@@ -100,7 +112,8 @@ const pois = [];
 // --- 1. Jeux en lat/lng Web Mercator -------------------------------------
 for (const [url, label] of [[DANHARPER, 'danharper/GTAV'], [GTA5MAP, 'gta5-map']]) {
   const entries = JSON.parse(await fetchRetry(url));
-  let kept = 0, dropped = 0;
+  const candidates = [];
+  let dropped = 0;
   for (const e of entries) {
     const t = TYPES[e.type];
     if (!t) { dropped++; continue; }
@@ -108,10 +121,21 @@ for (const [url, label] of [[DANHARPER, 'danharper/GTAV'], [GTA5MAP, 'gta5-map']
     // Le jeu danharper contient un marqueur parasite hors carte, laissé par le
     // handler de clic-droit de l'auteur.
     if (!inBounds(p)) { dropped++; continue; }
+    candidates.push({ e, t, p });
+  }
+
+  // Décidé sur la source ENTIÈRE avant d'émettre quoi que ce soit : gta5-map
+  // réutilise 4 id amont, et le tri-bris par coordonnées doit s'appliquer
+  // uniformément. L'appliquer au premier doublon rencontré rendrait la clé
+  // dépendante de l'ordre d'itération — le bug qu'on élimine.
+  const needsCoordTiebreak = hasDuplicateUpstreamIds(candidates.map(({ e }) => e.id));
+  if (needsCoordTiebreak) console.log(`${label.padEnd(16)} id amont non uniques -> discriminant à coordonnées`);
+
+  for (const { e, t, p } of candidates) {
     const fr = frTitle(e.title, e.type, t.fr);
     pois.push({
-      id: uniqueId(`poi_gtav_${t.slug}_${e.id}`),
       category: t.category,
+      collection: t.slug,
       position: { x: Number(p.x.toFixed(6)), y: Number(p.y.toFixed(6)) },
       title: fr ? { en: e.title, fr } : { en: e.title },
       // Pas de traduction FR des notes : les traduire mécaniquement n'est pas
@@ -120,11 +144,16 @@ for (const [url, label] of [[DANHARPER, 'danharper/GTAV'], [GTA5MAP, 'gta5-map']
       ...(e.notes?.trim() ? { note: { en: e.notes.trim() } } : {}),
       status: 'draft',
       sources: [url],
-      processedFrom: `${label}#${e.id}`,
+      // 5 décimales et non 1 : ces sources sont en lat/lng, dont l'amplitude
+      // se compte en unités — au décimètre deux POI distincts se confondraient.
+      processedFrom: identityKey(
+        label,
+        t.slug,
+        needsCoordTiebreak ? `${e.id}@${worldDiscriminant(e.lat, e.lng, 5)}` : String(e.id),
+      ),
     });
-    kept++;
   }
-  console.log(`${label.padEnd(16)} ${kept} retenus, ${dropped} écartés`);
+  console.log(`${label.padEnd(16)} ${candidates.length} retenus, ${dropped} écartés`);
 }
 
 // --- 2. Jeux en coordonnées monde du jeu ---------------------------------
@@ -160,7 +189,7 @@ for (const set of WORLD_SETS) {
   const raw = JSON.parse(await fetchRetry(`${DUMPS}/${set.file}`));
   const entries = Array.isArray(raw) ? raw : Object.values(raw).flat();
   let kept = 0, dropped = 0;
-  for (const [i, e] of entries.entries()) {
+  for (const e of entries) {
     const pos = set.pos ? set.pos(e) : (e.Position ?? e.position ?? e);
     const X = pos?.X ?? pos?.x, Y = pos?.Y ?? pos?.y;
     if (typeof X !== 'number' || typeof Y !== 'number') { dropped++; continue; }
@@ -170,53 +199,105 @@ for (const set of WORLD_SETS) {
     if (!inBounds(p)) { dropped++; continue; }
     if (isOceanAt?.(p)) { dropped++; continue; }
     pois.push({
-      id: uniqueId(`poi_gtav_${set.slug}_${i}`),
       category: set.category,
+      collection: set.slug,
       position: { x: Number(p.x.toFixed(6)), y: Number(p.y.toFixed(6)) },
       title: set.title ? set.title(e) : { en: set.en, fr: set.fr },
       status: 'draft',
       sources: [`${DUMPS}/${set.file}`],
-      processedFrom: `DurtyFree:${set.slug}#${i}`,
+      // Coordonnées MONDE et non normalisées : recalibrer la projection ferait
+      // bouger les secondes, donc changerait toutes les clés d'un coup. Le
+      // `set.key` optionnel s'y ajoute quand la source porte un nom stable.
+      processedFrom: identityKey(
+        'DurtyFree',
+        set.slug,
+        [set.key?.(e), worldDiscriminant(X, Y)].filter(Boolean).join('@'),
+      ),
     });
     kept++;
   }
   console.log(`${set.slug.padEnd(16)} ${kept} retenus, ${dropped} écartés`);
 }
 
-// --- 3. Validation contre le schéma du projet ----------------------------
-// content-cli ne balaie que content/poi ; on valide donc ici, avec le même
-// schéma, pour que la fixture ne puisse pas dériver du format.
+// --- 3. Réconciliation des identifiants ----------------------------------
+// Les fichiers déjà écrits sont le registre : chacun porte sa clé d'identité
+// dans `processedFrom`. On réutilise leur id, on n'en frappe que pour les clés
+// inconnues. Une clé dupliquée dans ce run lève — voir gtav-poi-ids.mjs.
+const { pois: deduped, dropped: duplicates } = dedupeIdenticalEntries(pois);
+if (duplicates) console.log(`\ndoublons amont écartés : ${duplicates}`);
+
+const existingIds = loadExistingIds(outDir);
+const { pois: identified, reused, minted, orphaned } = reconcileIds(deduped, existingIds);
+console.log(`\nidentifiants : ${reused} réutilisés, ${minted} frappés, ${orphaned.length} orphelins`);
+for (const { key, id } of orphaned.slice(0, 10)) console.log(`  orphelin ${id}  (${key})`);
+if (orphaned.length > 10) console.log(`  … et ${orphaned.length - 10} autres`);
+
+// --- 4. Validation contre les schémas du projet --------------------------
+// content-cli ne balaie que content/{poi,cheats,collections} ; on valide donc
+// ici, avec le même schéma, pour que la fixture ne puisse pas dériver du format.
 const ajv = new Ajv({ allErrors: true });
 const validate = ajv.compile(JSON.parse(readFileSync(join(ROOT, 'content', 'schema', 'poi.schema.json'))));
 let invalid = 0;
-for (const p of pois) {
+for (const p of identified) {
   if (!validate(p)) {
     invalid++;
     if (invalid <= 5) console.error(`FAIL ${p.id}: ${validate.errors.map((e) => `${e.instancePath} ${e.message}`).join('; ')}`);
   }
 }
-const ids = new Set(pois.map((p) => p.id));
-if (ids.size !== pois.length) throw new Error(`ids dupliqués : ${pois.length - ids.size}`);
+const ids = new Set(identified.map((p) => p.id));
+if (ids.size !== identified.length) throw new Error(`ids dupliqués : ${identified.length - ids.size}`);
 if (invalid) throw new Error(`${invalid} POI invalides au schéma`);
-console.log(`\nvalidation : ${pois.length}/${pois.length} OK au schéma, ids uniques`);
 
-// --- 4. Écriture -----------------------------------------------------------
-// Purge d'abord : sans ça un import plus étroit laisserait derrière lui les
-// fichiers du précédent, plus large.
-if (existsSync(outDir)) {
-  for (const f of readdirSync(outDir).filter((f) => f.startsWith('poi_gtav_') && f.endsWith('.json'))) {
-    rmSync(join(outDir, f));
-  }
+// Une collection référencée mais non déclarée donnerait des POI qui ne comptent
+// dans aucun défi, sans que rien ne le signale — d'où l'échec dur.
+const declared = new Set(
+  readdirSync(join(ROOT, 'content', 'collections'))
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => f.slice(0, -5)),
+);
+const undeclared = [...new Set(identified.map((p) => p.collection))].filter((c) => !declared.has(c));
+if (undeclared.length) {
+  throw new Error(`collections non déclarées dans content/collections : ${undeclared.join(', ')}`);
 }
+console.log(`validation : ${identified.length}/${identified.length} OK au schéma, ids uniques, collections déclarées`);
+
+// --- 5. Écriture -----------------------------------------------------------
+// On n'écrase que ce qu'on réémet. Les orphelins ne partent qu'avec --prune :
+// un POI disparu de l'amont mérite un coup d'œil humain avant qu'on libère son
+// id, parce qu'un id libéré peut être re-frappé pour une autre entité.
 mkdirSync(outDir, { recursive: true });
-for (const p of pois) writeFileSync(join(outDir, `${p.id}.json`), JSON.stringify(p, null, 2) + '\n');
-console.log(`${pois.length} fichiers -> ${outDir}`);
+
+// La liste à supprimer se calcule sur les FICHIERS, pas sur les clés orphelines :
+// deux fichiers peuvent partager un même `processedFrom` (c'était le cas des 4
+// collisions gta5-map suffixées `_2` par l'ancien pipeline), auquel cas un seul
+// ressort comme orphelin et l'autre survivrait à la purge. Un fichier dont l'id
+// n'est pas dans le run est périmé, point.
+const liveIds = new Set(identified.map((p) => p.id));
+const staleFiles = readdirSync(outDir).filter((f) => f.endsWith('.json') && !liveIds.has(f.slice(0, -5)));
+if (doPrune && staleFiles.length) {
+  for (const f of staleFiles) rmSync(join(outDir, f));
+  console.log(`--prune : ${staleFiles.length} fichiers périmés supprimés`);
+} else if (staleFiles.length) {
+  console.log(`(${staleFiles.length} fichiers périmés conservés — relancer avec --prune pour les retirer)`);
+}
+for (const p of identified) writeFileSync(join(outDir, `${p.id}.json`), JSON.stringify(p, null, 2) + '\n');
+console.log(`${identified.length} fichiers -> ${outDir}`);
+
+// Le reste du script raisonne sur les POI identifiés.
+pois.length = 0;
+pois.push(...identified);
 
 if (writeSeed) {
   // Le fixture embarqué ne porte que les champs que POI.swift décode ; status /
   // sources / processedFrom sont pipeline-only.
-  const seed = pois.map(({ id, category, position, title, note }) =>
-    note ? { id, category, position, title, note } : { id, category, position, title });
+  const seed = pois.map(({ id, category, collection, position, title, note }) => ({
+    id,
+    category,
+    collection,
+    position,
+    title,
+    ...(note ? { note } : {}),
+  }));
   const seedPath = join(ROOT, 'NeonCompass', 'Resources', 'POI', 'seed-poi.json');
   writeFileSync(seedPath, JSON.stringify(seed, null, 2) + '\n');
   const kb = (JSON.stringify(seed).length / 1024).toFixed(0);

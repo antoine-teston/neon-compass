@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_story_vehicle_04d9b08a",
+  "category": "vehicle",
+  "collection": "story_vehicle",
+  "position": {
+    "x": 0.4834,
+    "y": 0.843422
+  },
+  "title": {
+    "en": "Vapid Bobcat XL"
+  },
+  "note": {
+    "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:story_vehicle:50@X=55.00300,Y=-114.74100"
+}

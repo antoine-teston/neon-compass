@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_50096ecb",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.366211,
+    "y": 0.713867
+  },
+  "title": {
+    "en": "Stunt Jump #26 - La Puerta",
+    "fr": "Saut cascade #26 - La Puerta"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:107"
+}

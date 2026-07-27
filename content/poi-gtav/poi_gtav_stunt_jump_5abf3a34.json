@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_5abf3a34",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.410807,
+    "y": 0.479492
+  },
+  "title": {
+    "en": "Stunt Jump #40 - Vinewood Hills",
+    "fr": "Saut cascade #40 - Vinewood Hills"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:121"
+}

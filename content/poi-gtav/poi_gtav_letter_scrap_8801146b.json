@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_8801146b",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.344401,
+    "y": 0.785807
+  },
+  "title": {
+    "en": "Letter Scrap #26 - Los Santos International Airport",
+    "fr": "Fragment de lettre #26 - Los Santos International Airport"
+  },
+  "note": {
+    "en": "[Helicopter Required] You will need a helicopter to fly onto the circular structure inside the airport. In front of a door in the circular blue column is the Letter."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:157"
+}

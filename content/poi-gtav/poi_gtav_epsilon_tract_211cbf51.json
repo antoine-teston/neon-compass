@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_epsilon_tract_211cbf51",
+  "category": "collectible",
+  "collection": "epsilon_tract",
+  "position": {
+    "x": 0.355713,
+    "y": 0.652669
+  },
+  "title": {
+    "en": "Epsilon Tract #5",
+    "fr": "Tract Epsilon #5"
+  },
+  "note": {
+    "en": "“In the rubble of the old religion, will be the basis for the new”."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:epsilon_tract:220"
+}

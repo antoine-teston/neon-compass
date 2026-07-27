@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_19844ce8",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.301107,
+    "y": 0.541667
+  },
+  "title": {
+    "en": "Spaceship Part #38 - Richman Glen",
+    "fr": "Pièce de vaisseau #38 - Richman Glen"
+  },
+  "note": {
+    "en": "In front of the house is a large tree next to a small circular fountain. The Spaceship Part is at the base of the tree."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:69"
+}

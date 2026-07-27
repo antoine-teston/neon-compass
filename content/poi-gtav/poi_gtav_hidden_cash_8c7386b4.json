@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_hidden_cash_8c7386b4",
+  "category": "collectible",
+  "collection": "hidden_cash",
+  "position": {
+    "x": 0.208659,
+    "y": 0.635986
+  },
+  "title": {
+    "en": "Hidden Package #9 - $25,000"
+  },
+  "note": {
+    "en": "This briefcase is exploitable for unlimited money"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:hidden_cash:204"
+}

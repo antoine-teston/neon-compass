@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_2239a396",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.423828,
+    "y": 0.443034
+  },
+  "title": {
+    "en": "Spaceship Part #10 - Grand Senora Desert",
+    "fr": "Pièce de vaisseau #10 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "By the side of the road you will see a derelict house with boarded up windows. Behind the house where the back porch was is the Spaceship Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:41"
+}

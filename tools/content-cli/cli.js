@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Neon Compass admin CLI — brique C du pipeline (docs/superpowers/plans/
 // 2026-07-20-data-pipeline-pseudocode.md). Commandes :
-//   validate               valide content/{poi,cheats}/**.json contre les schémas
+//   validate               valide content/{poi,cheats,collections}/**.json contre les schémas
 //   check-publishable      règles éditoriales (cheats: verifiedBy >= 2, marques déposées)
 //   translate --dry-run    liste les champs ES/IT/DE manquants (l'appel IA arrive avec Firebase)
 //   publish --dry-run      montre le diff qui partirait vers Firestore
@@ -28,11 +28,13 @@ const ajv = new Ajv({ allErrors: true });
 const schemas = {
   poi: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'poi.schema.json')))),
   cheats: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'cheat.schema.json')))),
+  collections: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'collection.schema.json')))),
 };
+const KINDS = Object.keys(schemas);
 
 function loadAll() {
   const entries = [];
-  for (const kind of ['poi', 'cheats']) {
+  for (const kind of KINDS) {
     const dir = join(CONTENT, kind);
     for (const f of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
       entries.push({ kind, file: `${kind}/${f}`, data: JSON.parse(readFileSync(join(dir, f))) });
@@ -124,7 +126,7 @@ switch (cmd) {
     try {
       const publishable = entries.filter((e) => e.data.status === 'published');
       const { pushDocuments, incrementContentVersion } = await import('./firestore-client.js');
-      const byKind = { poi: [], cheats: [] };
+      const byKind = Object.fromEntries(KINDS.map((k) => [k, []]));
       publishable.forEach((e) => byKind[e.kind].push(e.data));
       for (const [kind, docs] of Object.entries(byKind)) {
         if (docs.length) await pushDocuments(kind, docs);

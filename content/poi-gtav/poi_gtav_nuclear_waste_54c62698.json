@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_nuclear_waste_54c62698",
+  "category": "collectible",
+  "collection": "nuclear_waste",
+  "position": {
+    "x": 0.175904,
+    "y": 0.347523
+  },
+  "title": {
+    "en": "Nuclear Waste #28",
+    "fr": "Déchets nucléaires #28"
+  },
+  "note": {
+    "en": "Depth: 181"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:nuclear_waste:28"
+}

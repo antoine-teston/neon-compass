@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_a1687550",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.488932,
+    "y": 0.620443
+  },
+  "title": {
+    "en": "Letter Scrap #14 - East Vinewood",
+    "fr": "Fragment de lettre #14 - East Vinewood"
+  },
+  "note": {
+    "en": "Underneath the bridge, this Letter is on the middle of the three platforms jutting out over the river."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:145"
+}

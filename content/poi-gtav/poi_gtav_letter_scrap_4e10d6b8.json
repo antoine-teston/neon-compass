@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_4e10d6b8",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.365885,
+    "y": 0.450846
+  },
+  "title": {
+    "en": "Letter Scrap #39 - Great Chaparaal",
+    "fr": "Fragment de lettre #39 - Great Chaparaal"
+  },
+  "note": {
+    "en": "By the side of the road is an old mine entrance. Just to the left of it is the Letter Scrap."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:170"
+}

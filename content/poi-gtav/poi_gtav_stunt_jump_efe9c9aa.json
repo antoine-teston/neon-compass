@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_efe9c9aa",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.413086,
+    "y": 0.659831
+  },
+  "title": {
+    "en": "Stunt Jump #5 - Pillbox Hill",
+    "fr": "Saut cascade #5 - Pillbox Hill"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:86"
+}

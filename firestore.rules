@@ -5,6 +5,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+    match /collections/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
     match /cheats/{document=**} {
       allow read: if true;
       allow write: if false;

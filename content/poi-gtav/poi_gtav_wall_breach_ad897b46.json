@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_ad897b46",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.598793,
+    "y": 0.572255
+  },
+  "title": {
+    "en": "Bridge in Tataviam Mountains"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Walk towards the bridge wall. Turn right and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:15@X=71.10300,Y=-99.16300"
+}

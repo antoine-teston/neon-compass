@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_f6dcb3c7",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.431966,
+    "y": 0.817383
+  },
+  "title": {
+    "en": "Stunt Jump #20 - Elysian Island/Voodoo Place",
+    "fr": "Saut cascade #20 - Elysian Island/Voodoo Place"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:101"
+}

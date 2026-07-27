@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_epsilon_tract_2fc8f8d6",
+  "category": "collectible",
+  "collection": "epsilon_tract",
+  "position": {
+    "x": 0.294596,
+    "y": 0.22526
+  },
+  "title": {
+    "en": "Epsilon Tract #6",
+    "fr": "Tract Epsilon #6"
+  },
+  "note": {
+    "en": "“When the first fleet sailed, the new fleet will find the map”."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:epsilon_tract:221"
+}

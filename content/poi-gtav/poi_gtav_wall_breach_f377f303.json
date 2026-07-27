@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_f377f303",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.384356,
+    "y": 0.662995
+  },
+  "title": {
+    "en": "Car park"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Drive into the wall about one meter besides the electricity box."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:13@X=66.71000,Y=-128.11200"
+}

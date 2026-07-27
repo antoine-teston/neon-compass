@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_301b8545",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.420247,
+    "y": 0.836914
+  },
+  "title": {
+    "en": "Stunt Jump #18 - Elysian Island",
+    "fr": "Saut cascade #18 - Elysian Island"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:99"
+}

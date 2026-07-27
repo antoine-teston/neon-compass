@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_e8dc3eea",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.380208,
+    "y": 0.390951
+  },
+  "title": {
+    "en": "Spaceship Part #43 - Zancudo River",
+    "fr": "Pièce de vaisseau #43 - Zancudo River"
+  },
+  "note": {
+    "en": "Underneath the wooden bridge over the river, this one is located between the central support pillar and the small support at the end of the bridge."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:74"
+}

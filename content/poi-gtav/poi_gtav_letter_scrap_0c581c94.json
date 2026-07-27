@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_0c581c94",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.402344,
+    "y": 0.541992
+  },
+  "title": {
+    "en": "Letter Scrap #36 - Pacific Bluffs",
+    "fr": "Fragment de lettre #36 - Pacific Bluffs"
+  },
+  "note": {
+    "en": "This one is inside the room next to the swimming pool, in front of a table tennis table."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:167"
+}

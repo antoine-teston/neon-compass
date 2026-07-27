@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_cc3edb07",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.585286,
+    "y": 0.260742
+  },
+  "title": {
+    "en": "Spaceship Part #3 - Grapeseed",
+    "fr": "Pièce de vaisseau #3 - Grapeseed"
+  },
+  "note": {
+    "en": "There will be a field filled with metal pens in which cows are grazing. In the middle of this area lying on the floor is the Spaceship Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:34"
+}

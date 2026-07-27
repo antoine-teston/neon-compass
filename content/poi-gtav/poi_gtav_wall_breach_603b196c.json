@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_603b196c",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.421467,
+    "y": 0.762932
+  },
+  "title": {
+    "en": "Trevors torture room"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Climb up the ladder and face wall on the left jump on top the second roof. Walk in the middle of the roof and pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the room."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:32@X=60.76500,Y=-123.10200"
+}

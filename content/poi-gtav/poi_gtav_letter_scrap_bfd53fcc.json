@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_bfd53fcc",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.506836,
+    "y": 0.386719
+  },
+  "title": {
+    "en": "Letter Scrap #8 - Grand Senora Desert",
+    "fr": "Fragment de lettre #8 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "On the top of the three-tiered rock next to the runway is this Letter. You don’t actually need a helicopter to get up there, you can just climb up the rock with"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:139"
+}

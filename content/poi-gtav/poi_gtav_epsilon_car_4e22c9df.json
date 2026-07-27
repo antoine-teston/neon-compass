@@ -1,0 +1,17 @@
+{
+  "id": "poi_gtav_epsilon_car_4e22c9df",
+  "category": "vehicle",
+  "collection": "epsilon_car",
+  "position": {
+    "x": 0.405192,
+    "y": 0.539714
+  },
+  "title": {
+    "en": "Benefactor Surano"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:epsilon_car:213"
+}

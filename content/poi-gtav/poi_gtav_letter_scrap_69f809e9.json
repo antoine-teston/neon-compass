@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_69f809e9",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.401042,
+    "y": 0.678385
+  },
+  "title": {
+    "en": "Letter Scrap #17 - Pillbox Hill",
+    "fr": "Fragment de lettre #17 - Pillbox Hill"
+  },
+  "note": {
+    "en": "This is on top of the huge yellow crane in Los Santos. You can access the ladder underground in the construction site, then you’ll have to climb up all the way to the top which will take several minutes. At the very top is the Letter."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:148"
+}

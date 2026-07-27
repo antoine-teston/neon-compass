@@ -1,7 +1,8 @@
 [
   {
-    "id": "poi_gtav_nuclear_waste_1",
+    "id": "poi_gtav_nuclear_waste_3d9d5f73",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.30753,
       "y": 0.188965
@@ -15,8 +16,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_2",
+    "id": "poi_gtav_nuclear_waste_9089406e",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.328856,
       "y": 0.154591
@@ -30,8 +32,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_3",
+    "id": "poi_gtav_nuclear_waste_2b7e05d5",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.362637,
       "y": 0.112599
@@ -45,8 +48,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_4",
+    "id": "poi_gtav_nuclear_waste_93366cfc",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.489706,
       "y": 0.094236
@@ -60,8 +64,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_5",
+    "id": "poi_gtav_nuclear_waste_0601ac84",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.511111,
       "y": 0.114093
@@ -75,8 +80,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_6",
+    "id": "poi_gtav_nuclear_waste_5ef6ee5e",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.531055,
       "y": 0.105304
@@ -90,8 +96,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_7",
+    "id": "poi_gtav_nuclear_waste_1e9f2542",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.591616,
       "y": 0.109535
@@ -105,8 +112,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_8",
+    "id": "poi_gtav_nuclear_waste_50517ed9",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.603827,
       "y": 0.10921
@@ -120,8 +128,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_9",
+    "id": "poi_gtav_nuclear_waste_bff911b8",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.630035,
       "y": 0.136362
@@ -135,8 +144,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_10",
+    "id": "poi_gtav_nuclear_waste_4c17be5d",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.638744,
       "y": 0.137339
@@ -150,8 +160,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_11",
+    "id": "poi_gtav_nuclear_waste_84e1603e",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.704355,
       "y": 0.331247
@@ -165,8 +176,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_12",
+    "id": "poi_gtav_nuclear_waste_b6055bee",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.68954,
       "y": 0.335805
@@ -180,8 +192,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_13",
+    "id": "poi_gtav_nuclear_waste_f62a554c",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.687261,
       "y": 0.338409
@@ -195,8 +208,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_14",
+    "id": "poi_gtav_nuclear_waste_fb8512bb",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.608384,
       "y": 0.692998
@@ -210,8 +224,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_15",
+    "id": "poi_gtav_nuclear_waste_a07ac126",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.6324,
       "y": 0.718345
@@ -225,8 +240,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_16",
+    "id": "poi_gtav_nuclear_waste_e666be42",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.592593,
       "y": 0.774399
@@ -240,8 +256,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_17",
+    "id": "poi_gtav_nuclear_waste_4b459896",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.561907,
       "y": 0.808171
@@ -255,8 +272,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_18",
+    "id": "poi_gtav_nuclear_waste_fbd689be",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.541963,
       "y": 0.821843
@@ -270,8 +288,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_19",
+    "id": "poi_gtav_nuclear_waste_fb4fe69f",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.279854,
       "y": 0.69723
@@ -285,8 +304,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_20",
+    "id": "poi_gtav_nuclear_waste_75e4d0dd",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.269922,
       "y": 0.684534
@@ -300,8 +320,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_21",
+    "id": "poi_gtav_nuclear_waste_4f9653fc",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.246398,
       "y": 0.677086
@@ -315,8 +336,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_22",
+    "id": "poi_gtav_nuclear_waste_dd87d950",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.222222,
       "y": 0.638171
@@ -330,8 +352,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_23",
+    "id": "poi_gtav_nuclear_waste_19e1006a",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.191536,
       "y": 0.618607
@@ -345,8 +368,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_24",
+    "id": "poi_gtav_nuclear_waste_2609bdb1",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.163288,
       "y": 0.547023
@@ -360,8 +384,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_25",
+    "id": "poi_gtav_nuclear_waste_4b578f1f",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.179977,
       "y": 0.450037
@@ -375,8 +400,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_26",
+    "id": "poi_gtav_nuclear_waste_f44995b4",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.193815,
       "y": 0.393878
@@ -390,8 +416,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_27",
+    "id": "poi_gtav_nuclear_waste_38b381cf",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.17037,
       "y": 0.377214
@@ -405,8 +432,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_28",
+    "id": "poi_gtav_nuclear_waste_54c62698",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.175904,
       "y": 0.347523
@@ -420,8 +448,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_29",
+    "id": "poi_gtav_nuclear_waste_a98c05a6",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.211068,
       "y": 0.301637
@@ -435,8 +464,9 @@
     }
   },
   {
-    "id": "poi_gtav_nuclear_waste_30",
+    "id": "poi_gtav_nuclear_waste_b2b1245b",
     "category": "collectible",
+    "collection": "nuclear_waste",
     "position": {
       "x": 0.213672,
       "y": 0.299033
@@ -450,8 +480,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_31",
+    "id": "poi_gtav_hidden_cash_9226c05f",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.344401,
       "y": 0.129557
@@ -461,8 +492,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_32",
+    "id": "poi_gtav_spaceship_part_eec547f0",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.440104,
       "y": 0.138346
@@ -476,8 +508,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_33",
+    "id": "poi_gtav_spaceship_part_0ed2524f",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.56901,
       "y": 0.203451
@@ -491,8 +524,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_34",
+    "id": "poi_gtav_spaceship_part_cc3edb07",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.585286,
       "y": 0.260742
@@ -506,8 +540,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_35",
+    "id": "poi_gtav_spaceship_part_7fb06623",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.684896,
       "y": 0.282878
@@ -521,8 +556,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_36",
+    "id": "poi_gtav_spaceship_part_6c44840e",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.589844,
       "y": 0.330404
@@ -536,8 +572,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_37",
+    "id": "poi_gtav_spaceship_part_12a8cffb",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.517008,
       "y": 0.326335
@@ -551,8 +588,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_38",
+    "id": "poi_gtav_spaceship_part_f442d540",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.548584,
       "y": 0.355306
@@ -566,8 +604,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_39",
+    "id": "poi_gtav_spaceship_part_4e4ebabf",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.551432,
       "y": 0.394857
@@ -581,8 +620,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_40",
+    "id": "poi_gtav_spaceship_part_4d581563",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.472656,
       "y": 0.398112
@@ -596,8 +636,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_41",
+    "id": "poi_gtav_spaceship_part_2239a396",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.423828,
       "y": 0.443034
@@ -611,8 +652,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_42",
+    "id": "poi_gtav_spaceship_part_f726cdb5",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.469401,
       "y": 0.47168
@@ -626,8 +668,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_43",
+    "id": "poi_gtav_spaceship_part_3aede487",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.51237,
       "y": 0.445964
@@ -641,8 +684,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_44",
+    "id": "poi_gtav_spaceship_part_7c826ed2",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.633464,
       "y": 0.448242
@@ -656,8 +700,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_45",
+    "id": "poi_gtav_spaceship_part_da1b7436",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.619141,
       "y": 0.547201
@@ -671,8 +716,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_46",
+    "id": "poi_gtav_spaceship_part_bfe63433",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.552083,
       "y": 0.564779
@@ -686,8 +732,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_47",
+    "id": "poi_gtav_spaceship_part_6a33c9e3",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.53125,
       "y": 0.601237
@@ -701,8 +748,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_48",
+    "id": "poi_gtav_spaceship_part_2f3b286a",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.499023,
       "y": 0.683919
@@ -716,8 +764,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_49",
+    "id": "poi_gtav_spaceship_part_d7e2c587",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.535482,
       "y": 0.721354
@@ -731,8 +780,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_50",
+    "id": "poi_gtav_spaceship_part_0236e5c7",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.52474,
       "y": 0.80599
@@ -746,8 +796,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_51",
+    "id": "poi_gtav_spaceship_part_cac8f06c",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.491862,
       "y": 0.791341
@@ -761,8 +812,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_52",
+    "id": "poi_gtav_spaceship_part_24f2cdcf",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.455729,
       "y": 0.836589
@@ -776,8 +828,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_53",
+    "id": "poi_gtav_spaceship_part_3af2d84b",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.434896,
       "y": 0.802734
@@ -791,8 +844,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_54",
+    "id": "poi_gtav_spaceship_part_88204d83",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.436198,
       "y": 0.75651
@@ -806,8 +860,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_55",
+    "id": "poi_gtav_spaceship_part_09e26ec8",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.322917,
       "y": 0.855469
@@ -821,8 +876,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_56",
+    "id": "poi_gtav_spaceship_part_a4f6ac9d",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.430664,
       "y": 0.708008
@@ -836,8 +892,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_57",
+    "id": "poi_gtav_spaceship_part_00bf8f3a",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.413086,
       "y": 0.691081
@@ -851,8 +908,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_58",
+    "id": "poi_gtav_spaceship_part_838e7154",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.44401,
       "y": 0.656901
@@ -866,8 +924,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_59",
+    "id": "poi_gtav_spaceship_part_cc6652c8",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.426107,
       "y": 0.645508
@@ -881,8 +940,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_60",
+    "id": "poi_gtav_spaceship_part_a7915977",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.421549,
       "y": 0.644206
@@ -896,8 +956,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_61",
+    "id": "poi_gtav_spaceship_part_49ac9be1",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.345052,
       "y": 0.688151
@@ -911,8 +972,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_62",
+    "id": "poi_gtav_spaceship_part_9121f55e",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.325521,
       "y": 0.641927
@@ -926,8 +988,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_63",
+    "id": "poi_gtav_spaceship_part_cb804661",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.394531,
       "y": 0.621419
@@ -941,8 +1004,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_64",
+    "id": "poi_gtav_spaceship_part_de22a6c1",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.381185,
       "y": 0.614909
@@ -956,8 +1020,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_65",
+    "id": "poi_gtav_spaceship_part_b4069e75",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.325846,
       "y": 0.608724
@@ -971,8 +1036,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_66",
+    "id": "poi_gtav_spaceship_part_124c6bbc",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.412109,
       "y": 0.557617
@@ -986,8 +1052,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_67",
+    "id": "poi_gtav_spaceship_part_acc7b710",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.417969,
       "y": 0.545573
@@ -1001,8 +1068,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_68",
+    "id": "poi_gtav_spaceship_part_66f770a8",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.379883,
       "y": 0.525391
@@ -1016,8 +1084,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_69",
+    "id": "poi_gtav_spaceship_part_19844ce8",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.301107,
       "y": 0.541667
@@ -1031,8 +1100,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_70",
+    "id": "poi_gtav_spaceship_part_a2640972",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.272786,
       "y": 0.50651
@@ -1046,8 +1116,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_71",
+    "id": "poi_gtav_spaceship_part_afeecced",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.210286,
       "y": 0.501302
@@ -1061,8 +1132,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_72",
+    "id": "poi_gtav_spaceship_part_493e21c7",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.270833,
       "y": 0.464193
@@ -1076,8 +1148,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_73",
+    "id": "poi_gtav_spaceship_part_2cf242ba",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.307292,
       "y": 0.451823
@@ -1091,8 +1164,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_74",
+    "id": "poi_gtav_spaceship_part_e8dc3eea",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.380208,
       "y": 0.390951
@@ -1106,8 +1180,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_75",
+    "id": "poi_gtav_spaceship_part_3855d0ae",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.417318,
       "y": 0.367839
@@ -1121,8 +1196,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_76",
+    "id": "poi_gtav_spaceship_part_b150fb7d",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.366211,
       "y": 0.342448
@@ -1136,8 +1212,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_77",
+    "id": "poi_gtav_spaceship_part_5f4cc5b1",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.275716,
       "y": 0.270182
@@ -1151,8 +1228,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_78",
+    "id": "poi_gtav_spaceship_part_86147a16",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.372721,
       "y": 0.285156
@@ -1166,8 +1244,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_79",
+    "id": "poi_gtav_spaceship_part_70cd046f",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.307292,
       "y": 0.214518
@@ -1181,8 +1260,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_80",
+    "id": "poi_gtav_spaceship_part_a1fedef0",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.375651,
       "y": 0.196289
@@ -1196,8 +1276,9 @@
     }
   },
   {
-    "id": "poi_gtav_spaceship_part_81",
+    "id": "poi_gtav_spaceship_part_3d13348a",
     "category": "collectible",
+    "collection": "spaceship_part",
     "position": {
       "x": 0.38151,
       "y": 0.166341
@@ -1211,8 +1292,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_82",
+    "id": "poi_gtav_stunt_jump_99e7e5b3",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.39388,
       "y": 0.620768
@@ -1223,8 +1305,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_83",
+    "id": "poi_gtav_stunt_jump_6c6dc8e9",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.406576,
       "y": 0.64388
@@ -1235,8 +1318,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_84",
+    "id": "poi_gtav_stunt_jump_10fcb59c",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.432943,
       "y": 0.649414
@@ -1247,8 +1331,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_85",
+    "id": "poi_gtav_stunt_jump_959266c1",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.452474,
       "y": 0.647461
@@ -1259,8 +1344,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_86",
+    "id": "poi_gtav_stunt_jump_efe9c9aa",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.413086,
       "y": 0.659831
@@ -1271,8 +1357,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_87",
+    "id": "poi_gtav_stunt_jump_cfdcb048",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.40918,
       "y": 0.678711
@@ -1283,8 +1370,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_88",
+    "id": "poi_gtav_stunt_jump_0005a977",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.437174,
       "y": 0.689128
@@ -1295,8 +1383,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_89",
+    "id": "poi_gtav_stunt_jump_21d593c2",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.445964,
       "y": 0.704102
@@ -1307,8 +1396,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_90",
+    "id": "poi_gtav_stunt_jump_d2f2f27d",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.440104,
       "y": 0.722331
@@ -1319,8 +1409,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_91",
+    "id": "poi_gtav_stunt_jump_31f20e3d",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.516927,
       "y": 0.766276
@@ -1331,8 +1422,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_92",
+    "id": "poi_gtav_stunt_jump_1cc43cdf",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.469076,
       "y": 0.815755
@@ -1343,8 +1435,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_93",
+    "id": "poi_gtav_stunt_jump_d91534e6",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.457357,
       "y": 0.821289
@@ -1355,8 +1448,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_94",
+    "id": "poi_gtav_stunt_jump_492d04fb",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.437174,
       "y": 0.785482
@@ -1367,8 +1461,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_95",
+    "id": "poi_gtav_stunt_jump_f12eed5e",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.436523,
       "y": 0.792318
@@ -1379,8 +1474,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_96",
+    "id": "poi_gtav_stunt_jump_d198a23a",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.424154,
       "y": 0.806641
@@ -1391,8 +1487,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_97",
+    "id": "poi_gtav_stunt_jump_d7535988",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.419596,
       "y": 0.806966
@@ -1403,8 +1500,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_98",
+    "id": "poi_gtav_stunt_jump_ede18555",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.423177,
       "y": 0.819336
@@ -1415,8 +1513,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_99",
+    "id": "poi_gtav_stunt_jump_301b8545",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.420247,
       "y": 0.836914
@@ -1427,8 +1526,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_100",
+    "id": "poi_gtav_stunt_jump_ce9c0640",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.425456,
       "y": 0.823893
@@ -1439,8 +1539,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_101",
+    "id": "poi_gtav_stunt_jump_f6dcb3c7",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.431966,
       "y": 0.817383
@@ -1451,8 +1552,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_102",
+    "id": "poi_gtav_stunt_jump_bb8ece7c",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.418294,
       "y": 0.76237
@@ -1463,8 +1565,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_103",
+    "id": "poi_gtav_stunt_jump_73c915ab",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.351563,
       "y": 0.786458
@@ -1475,8 +1578,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_104",
+    "id": "poi_gtav_stunt_jump_24ac7338",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.34375,
       "y": 0.80013
@@ -1487,8 +1591,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_105",
+    "id": "poi_gtav_stunt_jump_56bb2dc0",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.338542,
       "y": 0.782552
@@ -1499,8 +1604,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_106",
+    "id": "poi_gtav_stunt_jump_fa4e65a9",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.380534,
       "y": 0.716797
@@ -1511,8 +1617,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_107",
+    "id": "poi_gtav_stunt_jump_50096ecb",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.366211,
       "y": 0.713867
@@ -1523,8 +1630,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_108",
+    "id": "poi_gtav_stunt_jump_39e216bf",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.372721,
       "y": 0.712891
@@ -1535,8 +1643,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_109",
+    "id": "poi_gtav_stunt_jump_7dd4c8a6",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.378581,
       "y": 0.704753
@@ -1547,8 +1656,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_110",
+    "id": "poi_gtav_stunt_jump_8dc48c95",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.379557,
       "y": 0.688477
@@ -1559,8 +1669,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_111",
+    "id": "poi_gtav_stunt_jump_4c9aa6d3",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.363607,
       "y": 0.681966
@@ -1571,8 +1682,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_112",
+    "id": "poi_gtav_stunt_jump_7cb8af3f",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.389648,
       "y": 0.658854
@@ -1583,8 +1695,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_113",
+    "id": "poi_gtav_stunt_jump_02ede8c3",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.37793,
       "y": 0.639974
@@ -1595,8 +1708,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_114",
+    "id": "poi_gtav_stunt_jump_f0852195",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.347982,
       "y": 0.666016
@@ -1607,8 +1721,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_115",
+    "id": "poi_gtav_stunt_jump_e754665f",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.294922,
       "y": 0.658854
@@ -1619,8 +1734,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_116",
+    "id": "poi_gtav_stunt_jump_0645b1f9",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.262044,
       "y": 0.625651
@@ -1631,8 +1747,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_117",
+    "id": "poi_gtav_stunt_jump_272db4cb",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.368815,
       "y": 0.609049
@@ -1643,8 +1760,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_118",
+    "id": "poi_gtav_stunt_jump_d5d7f1c1",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.353841,
       "y": 0.611979
@@ -1655,8 +1773,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_119",
+    "id": "poi_gtav_stunt_jump_fa367348",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.332357,
       "y": 0.603841
@@ -1667,8 +1786,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_120",
+    "id": "poi_gtav_stunt_jump_1f44dc38",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.306315,
       "y": 0.575521
@@ -1679,8 +1799,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_121",
+    "id": "poi_gtav_stunt_jump_5abf3a34",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.410807,
       "y": 0.479492
@@ -1691,8 +1812,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_122",
+    "id": "poi_gtav_stunt_jump_8af7aa93",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.342773,
       "y": 0.305339
@@ -1703,8 +1825,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_123",
+    "id": "poi_gtav_stunt_jump_21c8acbb",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.44694,
       "y": 0.295247
@@ -1715,8 +1838,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_124",
+    "id": "poi_gtav_stunt_jump_519ed724",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.398438,
       "y": 0.13151
@@ -1727,8 +1851,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_125",
+    "id": "poi_gtav_stunt_jump_98e8aa80",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.411133,
       "y": 0.138021
@@ -1739,8 +1864,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_126",
+    "id": "poi_gtav_stunt_jump_bec6df97",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.651042,
       "y": 0.232096
@@ -1751,8 +1877,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_127",
+    "id": "poi_gtav_stunt_jump_41f4e8b2",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.527344,
       "y": 0.345052
@@ -1763,8 +1890,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_128",
+    "id": "poi_gtav_stunt_jump_48c3526b",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.531576,
       "y": 0.37793
@@ -1775,8 +1903,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_129",
+    "id": "poi_gtav_stunt_jump_f481f6fc",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.533529,
       "y": 0.439128
@@ -1787,8 +1916,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_130",
+    "id": "poi_gtav_stunt_jump_de189372",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.537109,
       "y": 0.458333
@@ -1799,8 +1929,9 @@
     }
   },
   {
-    "id": "poi_gtav_stunt_jump_131",
+    "id": "poi_gtav_stunt_jump_5e2ed14d",
     "category": "activity",
+    "collection": "stunt_jump",
     "position": {
       "x": 0.554036,
       "y": 0.464518
@@ -1811,8 +1942,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_132",
+    "id": "poi_gtav_letter_scrap_7d532438",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.413086,
       "y": 0.126302
@@ -1826,8 +1958,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_133",
+    "id": "poi_gtav_letter_scrap_6a36de39",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.514974,
       "y": 0.13151
@@ -1841,8 +1974,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_134",
+    "id": "poi_gtav_letter_scrap_b6ddf541",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.516276,
       "y": 0.147135
@@ -1856,8 +1990,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_135",
+    "id": "poi_gtav_letter_scrap_c7f45dc1",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.547201,
       "y": 0.239583
@@ -1871,8 +2006,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_136",
+    "id": "poi_gtav_letter_scrap_016cd58d",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.657878,
       "y": 0.232422
@@ -1886,8 +2022,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_137",
+    "id": "poi_gtav_letter_scrap_3068e3ba",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.506185,
       "y": 0.292643
@@ -1901,8 +2038,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_138",
+    "id": "poi_gtav_letter_scrap_3c9d1f4c",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.52474,
       "y": 0.346029
@@ -1916,8 +2054,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_139",
+    "id": "poi_gtav_letter_scrap_bfd53fcc",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.506836,
       "y": 0.386719
@@ -1931,8 +2070,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_140",
+    "id": "poi_gtav_letter_scrap_f651b506",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.477865,
       "y": 0.428385
@@ -1946,8 +2086,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_141",
+    "id": "poi_gtav_letter_scrap_dbf3d8dc",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.633464,
       "y": 0.448568
@@ -1961,8 +2102,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_142",
+    "id": "poi_gtav_letter_scrap_a09fe330",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.632161,
       "y": 0.485026
@@ -1976,8 +2118,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_143",
+    "id": "poi_gtav_letter_scrap_a3db70bf",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.460286,
       "y": 0.517578
@@ -1991,8 +2134,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_144",
+    "id": "poi_gtav_letter_scrap_bff324af",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.485677,
       "y": 0.592773
@@ -2006,8 +2150,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_145",
+    "id": "poi_gtav_letter_scrap_a1687550",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.488932,
       "y": 0.620443
@@ -2021,8 +2166,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_146",
+    "id": "poi_gtav_letter_scrap_bff1bab7",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.429688,
       "y": 0.619792
@@ -2036,8 +2182,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_147",
+    "id": "poi_gtav_letter_scrap_11b45ddb",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.418294,
       "y": 0.634766
@@ -2051,8 +2198,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_148",
+    "id": "poi_gtav_letter_scrap_69f809e9",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.401042,
       "y": 0.678385
@@ -2066,8 +2214,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_149",
+    "id": "poi_gtav_letter_scrap_890e5872",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.454753,
       "y": 0.680013
@@ -2081,8 +2230,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_150",
+    "id": "poi_gtav_letter_scrap_06bc8d51",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.617188,
       "y": 0.698893
@@ -2096,8 +2246,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_151",
+    "id": "poi_gtav_letter_scrap_ebbfe67d",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.518555,
       "y": 0.757813
@@ -2111,8 +2262,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_152",
+    "id": "poi_gtav_letter_scrap_bcb86c64",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.465169,
       "y": 0.76888
@@ -2126,8 +2278,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_153",
+    "id": "poi_gtav_letter_scrap_cd1585ac",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.484701,
       "y": 0.822917
@@ -2141,8 +2294,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_154",
+    "id": "poi_gtav_letter_scrap_ed85a4b7",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.404297,
       "y": 0.801758
@@ -2156,8 +2310,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_155",
+    "id": "poi_gtav_letter_scrap_cad0da14",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.414714,
       "y": 0.748372
@@ -2171,8 +2326,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_156",
+    "id": "poi_gtav_letter_scrap_5dbc1f9a",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.410482,
       "y": 0.729492
@@ -2186,8 +2342,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_157",
+    "id": "poi_gtav_letter_scrap_8801146b",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.344401,
       "y": 0.785807
@@ -2201,8 +2358,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_158",
+    "id": "poi_gtav_letter_scrap_661c681e",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.334635,
       "y": 0.803385
@@ -2216,8 +2374,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_159",
+    "id": "poi_gtav_letter_scrap_5d4b243d",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.312174,
       "y": 0.705078
@@ -2231,8 +2390,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_160",
+    "id": "poi_gtav_letter_scrap_43c7a8fe",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.336263,
       "y": 0.696289
@@ -2246,8 +2406,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_161",
+    "id": "poi_gtav_letter_scrap_8adaf59d",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.278646,
       "y": 0.69401
@@ -2261,8 +2422,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_162",
+    "id": "poi_gtav_letter_scrap_2f2b86ce",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.325846,
       "y": 0.641602
@@ -2276,8 +2438,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_163",
+    "id": "poi_gtav_letter_scrap_4e59aac3",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.286458,
       "y": 0.618164
@@ -2291,8 +2454,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_164",
+    "id": "poi_gtav_letter_scrap_df87f428",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.190104,
       "y": 0.59668
@@ -2306,8 +2470,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_165",
+    "id": "poi_gtav_letter_scrap_354734dc",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.248372,
       "y": 0.588216
@@ -2321,8 +2486,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_166",
+    "id": "poi_gtav_letter_scrap_815e48d8",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.38737,
       "y": 0.599284
@@ -2336,8 +2502,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_167",
+    "id": "poi_gtav_letter_scrap_0c581c94",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.402344,
       "y": 0.541992
@@ -2351,8 +2518,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_168",
+    "id": "poi_gtav_letter_scrap_d2d7d06d",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.300781,
       "y": 0.504557
@@ -2366,8 +2534,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_169",
+    "id": "poi_gtav_letter_scrap_282c89c2",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.377604,
       "y": 0.488607
@@ -2381,8 +2550,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_170",
+    "id": "poi_gtav_letter_scrap_4e10d6b8",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.365885,
       "y": 0.450846
@@ -2396,8 +2566,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_171",
+    "id": "poi_gtav_letter_scrap_146794e2",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.423828,
       "y": 0.439779
@@ -2411,8 +2582,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_172",
+    "id": "poi_gtav_letter_scrap_3f8564ec",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.43099,
       "y": 0.398763
@@ -2426,8 +2598,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_173",
+    "id": "poi_gtav_letter_scrap_f10833f8",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.389648,
       "y": 0.398437
@@ -2441,8 +2614,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_174",
+    "id": "poi_gtav_letter_scrap_327ecd71",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.349935,
       "y": 0.404948
@@ -2456,8 +2630,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_175",
+    "id": "poi_gtav_letter_scrap_dd78bfc9",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.240885,
       "y": 0.413737
@@ -2471,8 +2646,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_176",
+    "id": "poi_gtav_letter_scrap_99d25a33",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.295247,
       "y": 0.296875
@@ -2486,8 +2662,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_177",
+    "id": "poi_gtav_letter_scrap_3308e28b",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.411784,
       "y": 0.291667
@@ -2501,8 +2678,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_178",
+    "id": "poi_gtav_letter_scrap_4cec2476",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.338867,
       "y": 0.256185
@@ -2516,8 +2694,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_179",
+    "id": "poi_gtav_letter_scrap_15c48689",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.369141,
       "y": 0.210286
@@ -2531,8 +2710,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_180",
+    "id": "poi_gtav_letter_scrap_f2e5c367",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.443359,
       "y": 0.203125
@@ -2546,8 +2726,9 @@
     }
   },
   {
-    "id": "poi_gtav_letter_scrap_181",
+    "id": "poi_gtav_letter_scrap_2c7297de",
     "category": "collectible",
+    "collection": "letter_scrap",
     "position": {
       "x": 0.379232,
       "y": 0.14974
@@ -2561,8 +2742,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_182",
+    "id": "poi_gtav_knife_flight_7fbb30ca",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.427246,
       "y": 0.601074
@@ -2573,8 +2755,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_183",
+    "id": "poi_gtav_knife_flight_bd4be823",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.4375,
       "y": 0.60498
@@ -2585,8 +2768,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_184",
+    "id": "poi_gtav_knife_flight_8a135570",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.420247,
       "y": 0.654948
@@ -2597,8 +2781,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_185",
+    "id": "poi_gtav_knife_flight_fa0c9f0b",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.404622,
       "y": 0.658366
@@ -2609,8 +2794,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_186",
+    "id": "poi_gtav_knife_flight_76309f42",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.395345,
       "y": 0.660319
@@ -2621,8 +2807,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_187",
+    "id": "poi_gtav_knife_flight_bb22f4e1",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.390462,
       "y": 0.66569
@@ -2633,8 +2820,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_188",
+    "id": "poi_gtav_knife_flight_697e72f5",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.393392,
       "y": 0.652018
@@ -2645,8 +2833,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_189",
+    "id": "poi_gtav_knife_flight_e7794664",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.359863,
       "y": 0.647949
@@ -2657,8 +2846,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_190",
+    "id": "poi_gtav_knife_flight_eea1e105",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.342611,
       "y": 0.624186
@@ -2669,8 +2859,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_191",
+    "id": "poi_gtav_knife_flight_745bd7b0",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.32666,
       "y": 0.629883
@@ -2681,8 +2872,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_192",
+    "id": "poi_gtav_knife_flight_1b8ad90f",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.303548,
       "y": 0.645996
@@ -2693,8 +2885,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_193",
+    "id": "poi_gtav_knife_flight_411b75fe",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.299316,
       "y": 0.643229
@@ -2705,8 +2898,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_194",
+    "id": "poi_gtav_knife_flight_7e93f4fb",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.277344,
       "y": 0.625977
@@ -2717,8 +2911,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_195",
+    "id": "poi_gtav_knife_flight_4796dfa6",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.357422,
       "y": 0.586263
@@ -2729,8 +2924,9 @@
     }
   },
   {
-    "id": "poi_gtav_knife_flight_196",
+    "id": "poi_gtav_knife_flight_1bf2c537",
     "category": "activity",
+    "collection": "knife_flight",
     "position": {
       "x": 0.356608,
       "y": 0.584147
@@ -2741,8 +2937,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_197",
+    "id": "poi_gtav_hidden_cash_a57c6fa9",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.648112,
       "y": 0.139648
@@ -2752,8 +2949,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_198",
+    "id": "poi_gtav_hidden_cash_9483ac44",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.708008,
       "y": 0.337565
@@ -2763,8 +2961,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_199",
+    "id": "poi_gtav_hidden_cash_9f0f4e4a",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.643066,
       "y": 0.623861
@@ -2774,8 +2973,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_200",
+    "id": "poi_gtav_hidden_cash_a7d06e26",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.601562,
       "y": 0.707682
@@ -2785,8 +2985,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_201",
+    "id": "poi_gtav_hidden_cash_dd580c57",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.538737,
       "y": 0.812174
@@ -2796,8 +2997,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_202",
+    "id": "poi_gtav_hidden_cash_8ebadca2",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.428711,
       "y": 0.767904
@@ -2807,8 +3009,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_203",
+    "id": "poi_gtav_hidden_cash_981ec236",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.405599,
       "y": 0.807617
@@ -2818,8 +3021,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_204",
+    "id": "poi_gtav_hidden_cash_8c7386b4",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.208659,
       "y": 0.635986
@@ -2832,8 +3036,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_205",
+    "id": "poi_gtav_hidden_cash_c3f36515",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.182292,
       "y": 0.380859
@@ -2843,8 +3048,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_206",
+    "id": "poi_gtav_hidden_cash_a7f81f30",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.176758,
       "y": 0.342448
@@ -2854,8 +3060,9 @@
     }
   },
   {
-    "id": "poi_gtav_hidden_cash_207",
+    "id": "poi_gtav_hidden_cash_c4faa579",
     "category": "collectible",
+    "collection": "hidden_cash",
     "position": {
       "x": 0.333903,
       "y": 0.250244
@@ -2865,8 +3072,9 @@
     }
   },
   {
-    "id": "poi_gtav_vehicle_spawn_208",
+    "id": "poi_gtav_vehicle_spawn_0e989692",
     "category": "vehicle",
+    "collection": "vehicle_spawn",
     "position": {
       "x": 0.242513,
       "y": 0.582682
@@ -2879,8 +3087,9 @@
     }
   },
   {
-    "id": "poi_gtav_vehicle_spawn_209",
+    "id": "poi_gtav_vehicle_spawn_159c4919",
     "category": "vehicle",
+    "collection": "vehicle_spawn",
     "position": {
       "x": 0.360921,
       "y": 0.623698
@@ -2893,8 +3102,9 @@
     }
   },
   {
-    "id": "poi_gtav_vehicle_spawn_210",
+    "id": "poi_gtav_vehicle_spawn_978754cf",
     "category": "vehicle",
+    "collection": "vehicle_spawn",
     "position": {
       "x": 0.559977,
       "y": 0.39388
@@ -2904,8 +3114,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_car_211",
+    "id": "poi_gtav_epsilon_car_ef2022d5",
     "category": "vehicle",
+    "collection": "epsilon_car",
     "position": {
       "x": 0.449463,
       "y": 0.616211
@@ -2915,8 +3126,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_car_212",
+    "id": "poi_gtav_epsilon_car_eb4d6bef",
     "category": "vehicle",
+    "collection": "epsilon_car",
     "position": {
       "x": 0.405111,
       "y": 0.569255
@@ -2926,8 +3138,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_car_213",
+    "id": "poi_gtav_epsilon_car_4e22c9df",
     "category": "vehicle",
+    "collection": "epsilon_car",
     "position": {
       "x": 0.405192,
       "y": 0.539714
@@ -2937,8 +3150,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_car_214",
+    "id": "poi_gtav_epsilon_car_f77d5eca",
     "category": "vehicle",
+    "collection": "epsilon_car",
     "position": {
       "x": 0.357992,
       "y": 0.633626
@@ -2948,8 +3162,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_car_215",
+    "id": "poi_gtav_epsilon_car_d9439301",
     "category": "vehicle",
+    "collection": "epsilon_car",
     "position": {
       "x": 0.332438,
       "y": 0.621419
@@ -2959,8 +3174,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_216",
+    "id": "poi_gtav_epsilon_tract_0b0a1fdf",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.446615,
       "y": 0.201416
@@ -2974,8 +3190,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_217",
+    "id": "poi_gtav_epsilon_tract_4d2e2fb5",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.602214,
       "y": 0.703451
@@ -2989,8 +3206,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_218",
+    "id": "poi_gtav_epsilon_tract_a1693db7",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.412272,
       "y": 0.053385
@@ -3004,8 +3222,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_219",
+    "id": "poi_gtav_epsilon_tract_670088dd",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.393311,
       "y": 0.264323
@@ -3019,8 +3238,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_220",
+    "id": "poi_gtav_epsilon_tract_211cbf51",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.355713,
       "y": 0.652669
@@ -3034,8 +3254,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_221",
+    "id": "poi_gtav_epsilon_tract_2fc8f8d6",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.294596,
       "y": 0.22526
@@ -3049,8 +3270,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_222",
+    "id": "poi_gtav_epsilon_tract_f39fe27a",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.280762,
       "y": 0.575439
@@ -3064,8 +3286,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_223",
+    "id": "poi_gtav_epsilon_tract_121090bd",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.445638,
       "y": 0.200358
@@ -3079,8 +3302,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_224",
+    "id": "poi_gtav_epsilon_tract_323dd687",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.405111,
       "y": 0.66276
@@ -3094,8 +3318,9 @@
     }
   },
   {
-    "id": "poi_gtav_epsilon_tract_225",
+    "id": "poi_gtav_epsilon_tract_c3b12b99",
     "category": "collectible",
+    "collection": "epsilon_tract",
     "position": {
       "x": 0.286051,
       "y": 0.617269
@@ -3109,8 +3334,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_226",
+    "id": "poi_gtav_under_bridge_ca76f77c",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.55306,
       "y": 0.157552
@@ -3124,8 +3350,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_227",
+    "id": "poi_gtav_under_bridge_7be38c1e",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.61377,
       "y": 0.245768
@@ -3139,8 +3366,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_228",
+    "id": "poi_gtav_under_bridge_bac4b944",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.604004,
       "y": 0.254883
@@ -3154,8 +3382,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_229",
+    "id": "poi_gtav_under_bridge_9b93fced",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.583822,
       "y": 0.394694
@@ -3169,8 +3398,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_230",
+    "id": "poi_gtav_under_bridge_2f08d6e3",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.594564,
       "y": 0.445475
@@ -3184,8 +3414,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_231",
+    "id": "poi_gtav_under_bridge_c92351dc",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.542155,
       "y": 0.458008
@@ -3199,8 +3430,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_232",
+    "id": "poi_gtav_under_bridge_540748dc",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.580078,
       "y": 0.519531
@@ -3214,8 +3446,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_233",
+    "id": "poi_gtav_under_bridge_fa11f0b1",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.576497,
       "y": 0.522461
@@ -3229,8 +3462,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_234",
+    "id": "poi_gtav_under_bridge_07ccfe8c",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.625326,
       "y": 0.543457
@@ -3244,8 +3478,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_235",
+    "id": "poi_gtav_under_bridge_1ea2f1c4",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.580566,
       "y": 0.63444
@@ -3259,8 +3494,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_236",
+    "id": "poi_gtav_under_bridge_32b629ed",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.547526,
       "y": 0.658366
@@ -3274,8 +3510,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_237",
+    "id": "poi_gtav_under_bridge_fd1c4cdc",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.488607,
       "y": 0.621094
@@ -3289,8 +3526,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_238",
+    "id": "poi_gtav_under_bridge_6294efee",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.484375,
       "y": 0.627441
@@ -3304,8 +3542,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_239",
+    "id": "poi_gtav_under_bridge_556c7343",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.462891,
       "y": 0.636719
@@ -3319,8 +3558,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_240",
+    "id": "poi_gtav_under_bridge_3429b2b8",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.455892,
       "y": 0.643717
@@ -3334,8 +3574,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_241",
+    "id": "poi_gtav_under_bridge_abd32f79",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.453125,
       "y": 0.665365
@@ -3349,8 +3590,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_242",
+    "id": "poi_gtav_under_bridge_ac500053",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.482747,
       "y": 0.664876
@@ -3364,8 +3606,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_243",
+    "id": "poi_gtav_under_bridge_6b213e28",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.485352,
       "y": 0.674805
@@ -3379,8 +3622,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_244",
+    "id": "poi_gtav_under_bridge_7ce83bf0",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.499186,
       "y": 0.687337
@@ -3394,8 +3638,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_245",
+    "id": "poi_gtav_under_bridge_82ae9ebd",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.453288,
       "y": 0.677897
@@ -3409,8 +3654,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_246",
+    "id": "poi_gtav_under_bridge_f504560a",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.452962,
       "y": 0.690918
@@ -3424,8 +3670,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_247",
+    "id": "poi_gtav_under_bridge_e1701aa1",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.456543,
       "y": 0.707845
@@ -3439,8 +3686,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_248",
+    "id": "poi_gtav_under_bridge_a05a6873",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.458984,
       "y": 0.729167
@@ -3454,8 +3702,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_249",
+    "id": "poi_gtav_under_bridge_314ed066",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.456868,
       "y": 0.751953
@@ -3469,8 +3718,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_250",
+    "id": "poi_gtav_under_bridge_57b2e807",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.454102,
       "y": 0.78418
@@ -3484,8 +3734,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_251",
+    "id": "poi_gtav_under_bridge_76a26ba2",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.458822,
       "y": 0.789551
@@ -3499,8 +3750,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_252",
+    "id": "poi_gtav_under_bridge_80afecff",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.462891,
       "y": 0.790365
@@ -3514,8 +3766,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_253",
+    "id": "poi_gtav_under_bridge_6ace9f4b",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.467773,
       "y": 0.792806
@@ -3529,8 +3782,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_254",
+    "id": "poi_gtav_under_bridge_712e895e",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.436035,
       "y": 0.770996
@@ -3544,8 +3798,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_255",
+    "id": "poi_gtav_under_bridge_e39b2031",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.42627,
       "y": 0.770508
@@ -3559,8 +3814,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_256",
+    "id": "poi_gtav_under_bridge_358886f0",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.383138,
       "y": 0.773437
@@ -3574,8 +3830,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_257",
+    "id": "poi_gtav_under_bridge_2387d429",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.414225,
       "y": 0.751139
@@ -3589,8 +3846,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_258",
+    "id": "poi_gtav_under_bridge_a16c54b4",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.396159,
       "y": 0.733887
@@ -3604,8 +3862,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_259",
+    "id": "poi_gtav_under_bridge_8ca2e3b5",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.384115,
       "y": 0.724935
@@ -3619,8 +3878,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_260",
+    "id": "poi_gtav_under_bridge_a72bbd57",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.378743,
       "y": 0.71875
@@ -3634,8 +3894,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_261",
+    "id": "poi_gtav_under_bridge_6aa190cf",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.365723,
       "y": 0.712891
@@ -3649,8 +3910,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_262",
+    "id": "poi_gtav_under_bridge_423c3283",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.362956,
       "y": 0.713867
@@ -3664,8 +3926,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_263",
+    "id": "poi_gtav_under_bridge_44c67536",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.359212,
       "y": 0.715169
@@ -3679,8 +3942,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_264",
+    "id": "poi_gtav_under_bridge_5ad3e102",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.189128,
       "y": 0.549967
@@ -3694,8 +3958,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_265",
+    "id": "poi_gtav_under_bridge_6bb825ff",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.304199,
       "y": 0.431315
@@ -3709,8 +3974,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_266",
+    "id": "poi_gtav_under_bridge_66fb6de3",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.309245,
       "y": 0.415039
@@ -3724,8 +3990,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_267",
+    "id": "poi_gtav_under_bridge_c7c89bf3",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.397949,
       "y": 0.398275
@@ -3739,8 +4006,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_268",
+    "id": "poi_gtav_under_bridge_ba4bc6f3",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.381022,
       "y": 0.390788
@@ -3754,8 +4022,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_269",
+    "id": "poi_gtav_under_bridge_1c13b50c",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.21875,
       "y": 0.416667
@@ -3769,8 +4038,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_270",
+    "id": "poi_gtav_under_bridge_b16df1ad",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.419596,
       "y": 0.361491
@@ -3784,8 +4054,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_271",
+    "id": "poi_gtav_under_bridge_5410ff9c",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.420573,
       "y": 0.358073
@@ -3799,8 +4070,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_272",
+    "id": "poi_gtav_under_bridge_e973627c",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.3986,
       "y": 0.298177
@@ -3814,8 +4086,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_273",
+    "id": "poi_gtav_under_bridge_2fa2736e",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.373372,
       "y": 0.285645
@@ -3829,8 +4102,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_274",
+    "id": "poi_gtav_under_bridge_2d70ce61",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.275553,
       "y": 0.269368
@@ -3844,8 +4118,9 @@
     }
   },
   {
-    "id": "poi_gtav_under_bridge_275",
+    "id": "poi_gtav_under_bridge_11670126",
     "category": "activity",
+    "collection": "under_bridge",
     "position": {
       "x": 0.335612,
       "y": 0.26237
@@ -3859,8 +4134,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_1",
+    "id": "poi_gtav_story_vehicle_e2ba972a",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.309407,
       "y": 0.598788
@@ -3873,8 +4149,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_2",
+    "id": "poi_gtav_story_vehicle_805aab0a",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.624348,
       "y": 0.403983
@@ -3887,8 +4164,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_3",
+    "id": "poi_gtav_wall_breach_2f3ff8f8",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.460941,
       "y": 0.675125
@@ -3901,8 +4179,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_4",
+    "id": "poi_gtav_wall_breach_54be4800",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.334963,
       "y": 0.693676
@@ -3915,8 +4194,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_5",
+    "id": "poi_gtav_wall_breach_8613b7f2",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.354163,
       "y": 0.646401
@@ -3929,8 +4209,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_6",
+    "id": "poi_gtav_wall_breach_a58f2e35",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.322022,
       "y": 0.711757
@@ -3943,8 +4224,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_7",
+    "id": "poi_gtav_wall_breach_599aca0b",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.35303,
       "y": 0.583414
@@ -3957,8 +4239,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_8",
+    "id": "poi_gtav_wall_breach_73c20480",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.395911,
       "y": 0.594716
@@ -3971,8 +4254,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_9",
+    "id": "poi_gtav_wall_breach_13f43c77",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.403237,
       "y": 0.600982
@@ -3985,8 +4269,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_10",
+    "id": "poi_gtav_wall_breach_966669f2",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.410807,
       "y": 0.62688
@@ -3999,8 +4284,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_11",
+    "id": "poi_gtav_wall_breach_0544b038",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.332681,
       "y": 0.669599
@@ -4013,8 +4299,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_12",
+    "id": "poi_gtav_wall_breach_20aa74be",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.418622,
       "y": 0.657303
@@ -4027,8 +4314,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_13",
+    "id": "poi_gtav_wall_breach_f377f303",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.384356,
       "y": 0.662995
@@ -4041,8 +4329,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_14",
+    "id": "poi_gtav_wall_breach_67d48fe5",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.351644,
       "y": 0.584061
@@ -4055,8 +4344,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_15",
+    "id": "poi_gtav_wall_breach_ad897b46",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.598793,
       "y": 0.572255
@@ -4069,8 +4359,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_16",
+    "id": "poi_gtav_wall_breach_56c4639f",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.391926,
       "y": 0.615884
@@ -4083,8 +4374,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_17",
+    "id": "poi_gtav_wall_breach_ea49b4ff",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.426267,
       "y": 0.625967
@@ -4097,8 +4389,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_18",
+    "id": "poi_gtav_wall_breach_541927c4",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.465822,
       "y": 0.655116
@@ -4111,8 +4404,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_19",
+    "id": "poi_gtav_wall_breach_c7c24319",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.507,
       "y": 0.687994
@@ -4125,8 +4419,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_20",
+    "id": "poi_gtav_wall_breach_854c969a",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.55257,
       "y": 0.335274
@@ -4139,8 +4434,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_21",
+    "id": "poi_gtav_wall_breach_ae29c7c7",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.421141,
       "y": 0.659743
@@ -4153,8 +4449,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_22",
+    "id": "poi_gtav_wall_breach_d06f536e",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.193119,
       "y": 0.565178
@@ -4167,8 +4464,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_23",
+    "id": "poi_gtav_wall_breach_8e19126f",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.27083,
       "y": 0.828125
@@ -4181,8 +4479,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_24",
+    "id": "poi_gtav_wall_breach_369f4d0b",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.511556,
       "y": 0.344555
@@ -4195,8 +4494,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_25",
+    "id": "poi_gtav_wall_breach_f7272c74",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.339193,
       "y": 0.675125
@@ -4209,8 +4509,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_26",
+    "id": "poi_gtav_wall_breach_1b92d068",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.458252,
       "y": 0.561281
@@ -4223,8 +4524,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_26_2",
+    "id": "poi_gtav_wall_breach_97e31098",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.453289,
       "y": 0.40762
@@ -4237,8 +4539,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_27",
+    "id": "poi_gtav_wall_breach_290bef62",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.364748,
       "y": 0.612884
@@ -4251,8 +4554,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_28",
+    "id": "poi_gtav_wall_breach_45ea28c5",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.665852,
       "y": 0.333898
@@ -4265,8 +4569,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_29",
+    "id": "poi_gtav_wall_breach_ac54f79b",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.494304,
       "y": 0.410401
@@ -4279,8 +4584,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_30",
+    "id": "poi_gtav_wall_breach_b71bfd22",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.44157,
       "y": 0.673168
@@ -4293,8 +4599,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_30_2",
+    "id": "poi_gtav_wall_breach_510b29d9",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.326822,
       "y": 0.712802
@@ -4307,8 +4614,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_31",
+    "id": "poi_gtav_wall_breach_f456a472",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.503415,
       "y": 0.729658
@@ -4321,8 +4629,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_32",
+    "id": "poi_gtav_wall_breach_9f380943",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.419437,
       "y": 0.695479
@@ -4335,8 +4644,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_32_2",
+    "id": "poi_gtav_wall_breach_603b196c",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.421467,
       "y": 0.762932
@@ -4349,8 +4659,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_33",
+    "id": "poi_gtav_wall_breach_8930a64e",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.410156,
       "y": 0.564783
@@ -4363,8 +4674,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_34",
+    "id": "poi_gtav_wall_breach_ef129000",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.351726,
       "y": 0.591638
@@ -4377,8 +4689,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_35",
+    "id": "poi_gtav_wall_breach_000905db",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.577311,
       "y": 0.419418
@@ -4391,8 +4704,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_36",
+    "id": "poi_gtav_wall_breach_1f018580",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.367511,
       "y": 0.722338
@@ -4405,8 +4719,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_37",
+    "id": "poi_gtav_wall_breach_eef071a3",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.430015,
       "y": 0.645993
@@ -4419,8 +4734,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_38",
+    "id": "poi_gtav_wall_breach_b26374e6",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.387044,
       "y": 0.613365
@@ -4433,8 +4749,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_39",
+    "id": "poi_gtav_wall_breach_7ed9341c",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.392904,
       "y": 0.608895
@@ -4447,8 +4764,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_40",
+    "id": "poi_gtav_wall_breach_b3634193",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.336911,
       "y": 0.557538
@@ -4461,8 +4779,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_41",
+    "id": "poi_gtav_wall_breach_c1f44497",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.345215,
       "y": 0.620039
@@ -4475,8 +4794,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_42",
+    "id": "poi_gtav_wall_breach_31a23157",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.477133,
       "y": 0.603763
@@ -4489,8 +4809,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_43",
+    "id": "poi_gtav_wall_breach_9e2ee399",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.241452,
       "y": 0.369304
@@ -4503,8 +4824,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_44",
+    "id": "poi_gtav_wall_breach_777c9958",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.445474,
       "y": 0.81478
@@ -4517,8 +4839,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_45",
+    "id": "poi_gtav_wall_breach_9b0c89ca",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.350422,
       "y": 0.591463
@@ -4531,8 +4854,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_46",
+    "id": "poi_gtav_story_vehicle_bba17d29",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.536785,
       "y": 0.330895
@@ -4545,8 +4869,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_47",
+    "id": "poi_gtav_story_vehicle_7cb52b4d",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.543785,
       "y": 0.414965
@@ -4559,8 +4884,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_48",
+    "id": "poi_gtav_story_vehicle_e674fee8",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.32503,
       "y": 0.746096
@@ -4573,8 +4899,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_49",
+    "id": "poi_gtav_story_vehicle_c5a0056b",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.61003,
       "y": 0.655592
@@ -4587,8 +4914,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_50",
+    "id": "poi_gtav_story_vehicle_04d9b08a",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.4834,
       "y": 0.843422
@@ -4601,8 +4929,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_51",
+    "id": "poi_gtav_story_vehicle_ee46d0e7",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.309896,
       "y": 0.601968
@@ -4615,8 +4944,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_52",
+    "id": "poi_gtav_story_vehicle_912ff0c6",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.331541,
       "y": 0.636804
@@ -4629,8 +4959,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_53",
+    "id": "poi_gtav_story_vehicle_e116fe7c",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.326333,
       "y": 0.290044
@@ -4643,8 +4974,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_54",
+    "id": "poi_gtav_story_vehicle_3ac0100b",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.366859,
       "y": 0.692377
@@ -4657,8 +4989,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_55",
+    "id": "poi_gtav_story_vehicle_5fe2d39f",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.501956,
       "y": 0.729414
@@ -4671,8 +5004,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_55_2",
+    "id": "poi_gtav_story_vehicle_06986e91",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.543622,
       "y": 0.419612
@@ -4685,8 +5019,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_56",
+    "id": "poi_gtav_story_vehicle_ff2d66b4",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.317304,
       "y": 0.72128
@@ -4699,8 +5034,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_57",
+    "id": "poi_gtav_story_vehicle_1619b53f",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.341474,
       "y": 0.269694
@@ -4713,8 +5049,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_58",
+    "id": "poi_gtav_story_vehicle_bcabf794",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.289222,
       "y": 0.668786
@@ -4727,8 +5064,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_59",
+    "id": "poi_gtav_story_vehicle_04563193",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.397459,
       "y": 0.72364
@@ -4741,8 +5079,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_60",
+    "id": "poi_gtav_story_vehicle_cead029e",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.304852,
       "y": 0.842284
@@ -4755,8 +5094,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_61",
+    "id": "poi_gtav_story_vehicle_93e36092",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.499674,
       "y": 0.750489
@@ -4769,8 +5109,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_62",
+    "id": "poi_gtav_story_vehicle_1a39a798",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.291341,
       "y": 0.625479
@@ -4783,8 +5124,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_63",
+    "id": "poi_gtav_story_vehicle_59728eb9",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.352378,
       "y": 0.503098
@@ -4797,8 +5139,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_64",
+    "id": "poi_gtav_story_vehicle_8b6d5d24",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.407067,
       "y": 0.730146
@@ -4811,8 +5154,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_65",
+    "id": "poi_gtav_story_vehicle_662c4d7a",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.519533,
       "y": 0.333662
@@ -4825,8 +5169,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_66",
+    "id": "poi_gtav_story_vehicle_75a87736",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.272948,
       "y": 0.82389
@@ -4839,8 +5184,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_67",
+    "id": "poi_gtav_story_vehicle_8077cbf2",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.31063,
       "y": 0.599607
@@ -4853,8 +5199,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_68",
+    "id": "poi_gtav_story_vehicle_e16959bd",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.310304,
       "y": 0.596757
@@ -4867,8 +5214,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_69",
+    "id": "poi_gtav_story_vehicle_6d57909c",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.360511,
       "y": 0.666504
@@ -4881,8 +5229,9 @@
     }
   },
   {
-    "id": "poi_gtav_story_vehicle_70",
+    "id": "poi_gtav_story_vehicle_cc0f6819",
     "category": "vehicle",
+    "collection": "story_vehicle",
     "position": {
       "x": 0.42057,
       "y": 0.394056
@@ -4895,8 +5244,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_71",
+    "id": "poi_gtav_wall_breach_d88cf1b7",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.404867,
       "y": 0.572667
@@ -4909,8 +5259,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_72",
+    "id": "poi_gtav_wall_breach_3f2bc134",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.342607,
       "y": 0.732914
@@ -4923,8 +5274,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_73",
+    "id": "poi_gtav_wall_breach_724e2e66",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.344644,
       "y": 0.695392
@@ -4937,8 +5289,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_74",
+    "id": "poi_gtav_wall_breach_88cec9e5",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.323163,
       "y": 0.6329
@@ -4951,8 +5304,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_75",
+    "id": "poi_gtav_wall_breach_64f6fe89",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.456622,
       "y": 0.676018
@@ -4965,8 +5319,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_76",
+    "id": "poi_gtav_wall_breach_2b69a36f",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.327311,
       "y": 0.751546
@@ -4979,8 +5334,9 @@
     }
   },
   {
-    "id": "poi_gtav_glitch_77",
+    "id": "poi_gtav_glitch_ccba17a3",
     "category": "activity",
+    "collection": "glitch",
     "position": {
       "x": 0.291667,
       "y": 0.683911
@@ -4993,8 +5349,9 @@
     }
   },
   {
-    "id": "poi_gtav_glitch_78",
+    "id": "poi_gtav_glitch_de086e33",
     "category": "activity",
+    "collection": "glitch",
     "position": {
       "x": 0.353437,
       "y": 0.710117
@@ -5007,8 +5364,9 @@
     }
   },
   {
-    "id": "poi_gtav_glitch_79",
+    "id": "poi_gtav_glitch_b0b26194",
     "category": "activity",
+    "collection": "glitch",
     "position": {
       "x": 0.400393,
       "y": 0.535071
@@ -5021,8 +5379,9 @@
     }
   },
   {
-    "id": "poi_gtav_glitch_80",
+    "id": "poi_gtav_glitch_ed31d202",
     "category": "activity",
+    "collection": "glitch",
     "position": {
       "x": 0.330081,
       "y": 0.570973
@@ -5035,8 +5394,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_81",
+    "id": "poi_gtav_wall_breach_e4cc91dd",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.404622,
       "y": 0.578456
@@ -5049,8 +5409,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_82",
+    "id": "poi_gtav_wall_breach_3a168c79",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.239993,
       "y": 0.370211
@@ -5063,8 +5424,9 @@
     }
   },
   {
-    "id": "poi_gtav_wall_breach_83",
+    "id": "poi_gtav_wall_breach_bbd42382",
     "category": "activity",
+    "collection": "wall_breach",
     "position": {
       "x": 0.335696,
       "y": 0.555572
@@ -5077,8 +5439,9 @@
     }
   },
   {
-    "id": "poi_gtav_glitch_84",
+    "id": "poi_gtav_glitch_2c6b97fa",
     "category": "activity",
+    "collection": "glitch",
     "position": {
       "x": 0.286459,
       "y": 0.655364
@@ -5091,8 +5454,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_0",
+    "id": "poi_gtav_gas_7b24d876",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.497324,
       "y": 0.711213
@@ -5103,8 +5467,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_1",
+    "id": "poi_gtav_gas_e5e7e80f",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.497308,
       "y": 0.711706
@@ -5115,8 +5480,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_2",
+    "id": "poi_gtav_gas_5cbb105e",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.494305,
       "y": 0.705428
@@ -5127,8 +5493,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_3",
+    "id": "poi_gtav_gas_1380375b",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.49451,
       "y": 0.705223
@@ -5139,8 +5506,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_4",
+    "id": "poi_gtav_gas_78f2b722",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.49493,
       "y": 0.705642
@@ -5151,8 +5519,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_5",
+    "id": "poi_gtav_gas_a22be99f",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.493615,
       "y": 0.704743
@@ -5163,8 +5532,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_6",
+    "id": "poi_gtav_gas_8a7fb520",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.494724,
       "y": 0.705848
@@ -5175,8 +5545,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_7",
+    "id": "poi_gtav_gas_bd0fe3d7",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.493615,
       "y": 0.705182
@@ -5187,8 +5558,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_8",
+    "id": "poi_gtav_gas_ddc7a472",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.466782,
       "y": 0.67865
@@ -5199,8 +5571,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_9",
+    "id": "poi_gtav_gas_2aee5b95",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.466782,
       "y": 0.678985
@@ -5211,8 +5584,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_10",
+    "id": "poi_gtav_gas_d451e41c",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.46619,
       "y": 0.67865
@@ -5223,8 +5597,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_11",
+    "id": "poi_gtav_gas_4ec1dd54",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.46619,
       "y": 0.678985
@@ -5235,8 +5610,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_12",
+    "id": "poi_gtav_gas_73adeed0",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.467375,
       "y": 0.67865
@@ -5247,8 +5623,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_13",
+    "id": "poi_gtav_gas_838bf8fd",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.467375,
       "y": 0.678985
@@ -5259,8 +5636,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_14",
+    "id": "poi_gtav_gas_b8b241bb",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.493033,
       "y": 0.629491
@@ -5271,8 +5649,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_15",
+    "id": "poi_gtav_gas_e54c3001",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.492502,
       "y": 0.629585
@@ -5283,8 +5662,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_16",
+    "id": "poi_gtav_gas_dbaefbb0",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.492925,
       "y": 0.628882
@@ -5295,8 +5675,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_17",
+    "id": "poi_gtav_gas_f9548540",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.492395,
       "y": 0.628975
@@ -5307,8 +5688,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_18",
+    "id": "poi_gtav_gas_8b7d9ece",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.4928,
       "y": 0.62826
@@ -5319,8 +5701,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_19",
+    "id": "poi_gtav_gas_d5f4e827",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.492269,
       "y": 0.628353
@@ -5331,8 +5714,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_20",
+    "id": "poi_gtav_gas_4d0dea5c",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.403297,
       "y": 0.786108
@@ -5343,8 +5727,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_21",
+    "id": "poi_gtav_gas_c5bf4b59",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.403731,
       "y": 0.786411
@@ -5355,8 +5740,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_22",
+    "id": "poi_gtav_gas_bb7ecd66",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.403923,
       "y": 0.786538
@@ -5367,8 +5753,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_23",
+    "id": "poi_gtav_gas_10d321e3",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.403083,
       "y": 0.785951
@@ -5379,8 +5766,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_24",
+    "id": "poi_gtav_gas_3df42d13",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.494178,
       "y": 0.815827
@@ -5391,8 +5779,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_25",
+    "id": "poi_gtav_gas_e7436e33",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.429767,
       "y": 0.816385
@@ -5403,8 +5792,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_26",
+    "id": "poi_gtav_gas_ea2a9a2e",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427831,
       "y": 0.695969
@@ -5415,8 +5805,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_27",
+    "id": "poi_gtav_gas_4cfe0dce",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427831,
       "y": 0.695444
@@ -5427,8 +5818,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_28",
+    "id": "poi_gtav_gas_53923488",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427831,
       "y": 0.694884
@@ -5439,8 +5831,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_29",
+    "id": "poi_gtav_gas_6f3f957a",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427204,
       "y": 0.694884
@@ -5451,8 +5844,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_30",
+    "id": "poi_gtav_gas_c47b3045",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427204,
       "y": 0.695444
@@ -5463,8 +5857,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_31",
+    "id": "poi_gtav_gas_31b85ca1",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427204,
       "y": 0.695969
@@ -5475,8 +5870,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_32",
+    "id": "poi_gtav_gas_a8539f23",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.426587,
       "y": 0.694884
@@ -5487,8 +5883,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_33",
+    "id": "poi_gtav_gas_2b017222",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.426587,
       "y": 0.695444
@@ -5499,8 +5896,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_34",
+    "id": "poi_gtav_gas_99c6c9db",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.426587,
       "y": 0.695969
@@ -5511,8 +5909,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_35",
+    "id": "poi_gtav_gas_20084c1f",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.385764,
       "y": 0.709859
@@ -5523,8 +5922,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_36",
+    "id": "poi_gtav_gas_03522cbe",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.386126,
       "y": 0.710484
@@ -5535,8 +5935,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_37",
+    "id": "poi_gtav_gas_612750e7",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.385235,
       "y": 0.710164
@@ -5547,8 +5948,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_38",
+    "id": "poi_gtav_gas_a608c69e",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.385597,
       "y": 0.710791
@@ -5559,8 +5961,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_39",
+    "id": "poi_gtav_gas_d1b20603",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.3847,
       "y": 0.710473
@@ -5571,8 +5974,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_40",
+    "id": "poi_gtav_gas_79cd9a48",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.385062,
       "y": 0.7111
@@ -5583,8 +5987,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_41",
+    "id": "poi_gtav_gas_03ff7055",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.384359,
       "y": 0.709317
@@ -5595,8 +6000,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_42",
+    "id": "poi_gtav_gas_7fa5dacc",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.420362,
       "y": 0.716948
@@ -5607,8 +6013,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_43",
+    "id": "poi_gtav_gas_55bdaf5a",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.420842,
       "y": 0.716494
@@ -5619,8 +6026,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_44",
+    "id": "poi_gtav_gas_d9c63ec3",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.421255,
       "y": 0.716927
@@ -5631,8 +6039,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_45",
+    "id": "poi_gtav_gas_e927f4ee",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.420768,
       "y": 0.71739
@@ -5643,8 +6052,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_46",
+    "id": "poi_gtav_gas_fd875d57",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.402537,
       "y": 0.73123
@@ -5655,8 +6065,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_47",
+    "id": "poi_gtav_gas_b425f989",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.402721,
       "y": 0.730723
@@ -5667,8 +6078,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_48",
+    "id": "poi_gtav_gas_83e4b050",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.403118,
       "y": 0.731441
@@ -5679,8 +6091,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_49",
+    "id": "poi_gtav_gas_02d33f39",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.403303,
       "y": 0.730935
@@ -5691,8 +6104,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_50",
+    "id": "poi_gtav_gas_6a0083e8",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.40372,
       "y": 0.731644
@@ -5703,8 +6117,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_51",
+    "id": "poi_gtav_gas_05133abb",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.403904,
       "y": 0.731137
@@ -5715,8 +6130,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_52",
+    "id": "poi_gtav_gas_b6de75d4",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.305698,
       "y": 0.625665
@@ -5727,8 +6143,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_53",
+    "id": "poi_gtav_gas_43834cc5",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.306158,
       "y": 0.62527
@@ -5739,8 +6156,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_54",
+    "id": "poi_gtav_gas_ee43a547",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.305515,
       "y": 0.624523
@@ -5751,8 +6169,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_55",
+    "id": "poi_gtav_gas_ca3dc30f",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.305056,
       "y": 0.624918
@@ -5763,8 +6182,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_56",
+    "id": "poi_gtav_gas_a662ec3a",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.355918,
       "y": 0.672439
@@ -5775,8 +6195,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_57",
+    "id": "poi_gtav_gas_728f2397",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.355918,
       "y": 0.671953
@@ -5787,8 +6208,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_58",
+    "id": "poi_gtav_gas_507469d9",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.356535,
       "y": 0.671953
@@ -5799,8 +6221,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_59",
+    "id": "poi_gtav_gas_1dc6b317",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.356535,
       "y": 0.672439
@@ -5811,8 +6234,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_60",
+    "id": "poi_gtav_gas_49930d76",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.357147,
       "y": 0.671953
@@ -5823,8 +6247,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_61",
+    "id": "poi_gtav_gas_1ffd8339",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.357147,
       "y": 0.672439
@@ -5835,8 +6260,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_62",
+    "id": "poi_gtav_gas_09abba66",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.356299,
       "y": 0.670122
@@ -5847,8 +6273,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_63",
+    "id": "poi_gtav_gas_43a1b585",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.370234,
       "y": 0.691973
@@ -5859,8 +6286,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_64",
+    "id": "poi_gtav_gas_b0d98872",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.370431,
       "y": 0.692062
@@ -5871,8 +6299,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_65",
+    "id": "poi_gtav_gas_02512e3e",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.370759,
       "y": 0.692218
@@ -5883,8 +6312,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_66",
+    "id": "poi_gtav_gas_209fc73d",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.370952,
       "y": 0.692309
@@ -5895,8 +6325,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_67",
+    "id": "poi_gtav_gas_24ae71b3",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.370499,
       "y": 0.691407
@@ -5907,8 +6338,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_68",
+    "id": "poi_gtav_gas_33a28f40",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.370696,
       "y": 0.691496
@@ -5919,8 +6351,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_69",
+    "id": "poi_gtav_gas_ac51e51c",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.371024,
       "y": 0.691653
@@ -5931,8 +6364,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_70",
+    "id": "poi_gtav_gas_92cca120",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.371217,
       "y": 0.691743
@@ -5943,8 +6377,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_71",
+    "id": "poi_gtav_gas_fcbdb535",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.369191,
       "y": 0.692611
@@ -5955,8 +6390,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_72",
+    "id": "poi_gtav_gas_dfb364bd",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.368975,
       "y": 0.693075
@@ -5967,8 +6403,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_73",
+    "id": "poi_gtav_gas_00f9f5cf",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.291892,
       "y": 0.662475
@@ -5979,8 +6416,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_74",
+    "id": "poi_gtav_gas_1e27e975",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.259072,
       "y": 0.628262
@@ -5991,8 +6429,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_75",
+    "id": "poi_gtav_gas_dc45da02",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.259134,
       "y": 0.627675
@@ -6003,8 +6442,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_76",
+    "id": "poi_gtav_gas_bc5d0b23",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.258499,
       "y": 0.62761
@@ -6015,8 +6455,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_77",
+    "id": "poi_gtav_gas_3eb2ffbc",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.258448,
       "y": 0.628197
@@ -6027,8 +6468,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_78",
+    "id": "poi_gtav_gas_dfe2aac6",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.257896,
       "y": 0.627547
@@ -6039,8 +6481,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_79",
+    "id": "poi_gtav_gas_699ee106",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.257835,
       "y": 0.628132
@@ -6051,8 +6494,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_80",
+    "id": "poi_gtav_gas_3bf1330c",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.259781,
       "y": 0.626633
@@ -6063,8 +6507,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_81",
+    "id": "poi_gtav_gas_cbd0b3ed",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.259547,
       "y": 0.626609
@@ -6075,8 +6520,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_82",
+    "id": "poi_gtav_gas_c2582d08",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.259024,
       "y": 0.628717
@@ -6087,8 +6533,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_83",
+    "id": "poi_gtav_gas_b3667621",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.2584,
       "y": 0.628652
@@ -6099,8 +6546,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_84",
+    "id": "poi_gtav_gas_9cb3c55b",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.257787,
       "y": 0.628587
@@ -6111,8 +6559,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_85",
+    "id": "poi_gtav_gas_51ab0f4d",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.353614,
       "y": 0.707818
@@ -6123,8 +6572,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_86",
+    "id": "poi_gtav_gas_b7bf5259",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.357873,
       "y": 0.709997
@@ -6135,8 +6585,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_87",
+    "id": "poi_gtav_gas_af0dd959",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.225968,
       "y": 0.439052
@@ -6147,8 +6598,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_88",
+    "id": "poi_gtav_gas_cbbdcec8",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.225495,
       "y": 0.439081
@@ -6159,8 +6611,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_89",
+    "id": "poi_gtav_gas_ed8fa74f",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.225882,
       "y": 0.438527
@@ -6171,8 +6624,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_90",
+    "id": "poi_gtav_gas_9641f64a",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.225462,
       "y": 0.438551
@@ -6183,8 +6637,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_91",
+    "id": "poi_gtav_gas_f9458b21",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.225896,
       "y": 0.437996
@@ -6195,8 +6650,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_92",
+    "id": "poi_gtav_gas_08776710",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.225441,
       "y": 0.438025
@@ -6207,8 +6663,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_93",
+    "id": "poi_gtav_gas_cf8b89fb",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.279946,
       "y": 0.54731
@@ -6219,8 +6676,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_94",
+    "id": "poi_gtav_gas_75595cd6",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.28031,
       "y": 0.547707
@@ -6231,8 +6689,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_95",
+    "id": "poi_gtav_gas_6664e2b0",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.27949,
       "y": 0.547728
@@ -6243,8 +6702,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_96",
+    "id": "poi_gtav_gas_a5092212",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.279854,
       "y": 0.548125
@@ -6255,8 +6715,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_97",
+    "id": "poi_gtav_gas_78707875",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.279032,
       "y": 0.548168
@@ -6267,8 +6728,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_98",
+    "id": "poi_gtav_gas_55743f13",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.279396,
       "y": 0.548565
@@ -6279,8 +6741,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_99",
+    "id": "poi_gtav_gas_23149847",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.452024,
       "y": 0.586473
@@ -6291,8 +6754,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_100",
+    "id": "poi_gtav_gas_f28e3eae",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.452023,
       "y": 0.58575
@@ -6303,8 +6767,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_101",
+    "id": "poi_gtav_gas_55ed58a1",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.452635,
       "y": 0.586473
@@ -6315,8 +6780,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_102",
+    "id": "poi_gtav_gas_48f8bf54",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.452635,
       "y": 0.585749
@@ -6327,8 +6793,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_103",
+    "id": "poi_gtav_gas_636edbbd",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.453253,
       "y": 0.586473
@@ -6339,8 +6806,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_104",
+    "id": "poi_gtav_gas_4fe72b4c",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.453252,
       "y": 0.585749
@@ -6351,8 +6819,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_105",
+    "id": "poi_gtav_gas_84523caf",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.45297,
       "y": 0.587645
@@ -6363,8 +6832,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_106",
+    "id": "poi_gtav_gas_cc105118",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.589734,
       "y": 0.419925
@@ -6375,8 +6845,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_107",
+    "id": "poi_gtav_gas_c2956190",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.589976,
       "y": 0.416655
@@ -6387,8 +6858,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_108",
+    "id": "poi_gtav_gas_f140b205",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.59269,
       "y": 0.579289
@@ -6399,8 +6871,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_109",
+    "id": "poi_gtav_gas_3b2edf3b",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.592673,
       "y": 0.579682
@@ -6411,8 +6884,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_110",
+    "id": "poi_gtav_gas_cb9e9865",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.593207,
       "y": 0.579705
@@ -6423,8 +6897,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_111",
+    "id": "poi_gtav_gas_b4c39274",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.593224,
       "y": 0.579312
@@ -6435,8 +6910,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_112",
+    "id": "poi_gtav_gas_cd70c02d",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.592145,
       "y": 0.579659
@@ -6447,8 +6923,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_113",
+    "id": "poi_gtav_gas_1bca2bb8",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.592162,
       "y": 0.579266
@@ -6459,8 +6936,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_114",
+    "id": "poi_gtav_gas_aba9e6c7",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.590843,
       "y": 0.580498
@@ -6471,8 +6949,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_115",
+    "id": "poi_gtav_gas_23203b0d",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.420579,
       "y": 0.133495
@@ -6483,8 +6962,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_116",
+    "id": "poi_gtav_gas_fc253509",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.420638,
       "y": 0.133832
@@ -6495,8 +6975,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_117",
+    "id": "poi_gtav_gas_589b74cd",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.421103,
       "y": 0.133402
@@ -6507,8 +6988,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_118",
+    "id": "poi_gtav_gas_8d875224",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.421158,
       "y": 0.13374
@@ -6519,8 +7001,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_119",
+    "id": "poi_gtav_gas_8c71d9a8",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.421624,
       "y": 0.13331
@@ -6531,8 +7014,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_120",
+    "id": "poi_gtav_gas_204386c9",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.421679,
       "y": 0.133648
@@ -6543,8 +7027,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_121",
+    "id": "poi_gtav_gas_56510f18",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.419422,
       "y": 0.131677
@@ -6555,8 +7040,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_122",
+    "id": "poi_gtav_gas_156d90b9",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.419302,
       "y": 0.131556
@@ -6567,8 +7053,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_123",
+    "id": "poi_gtav_gas_2483e966",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.419469,
       "y": 0.131725
@@ -6579,8 +7066,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_124",
+    "id": "poi_gtav_gas_20673f84",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.401762,
       "y": 0.148645
@@ -6591,8 +7079,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_125",
+    "id": "poi_gtav_gas_a21dd867",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.401743,
       "y": 0.146434
@@ -6603,8 +7092,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_126",
+    "id": "poi_gtav_gas_0bd2fcf5",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.40133,
       "y": 0.146846
@@ -6615,8 +7105,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_127",
+    "id": "poi_gtav_gas_7f8af6e1",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.528629,
       "y": 0.252958
@@ -6627,8 +7118,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_128",
+    "id": "poi_gtav_gas_28781d56",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.529023,
       "y": 0.253233
@@ -6639,8 +7131,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_129",
+    "id": "poi_gtav_gas_c718c316",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.529565,
       "y": 0.253876
@@ -6651,8 +7144,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_130",
+    "id": "poi_gtav_gas_b111688c",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.529854,
       "y": 0.146867
@@ -6663,8 +7157,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_131",
+    "id": "poi_gtav_gas_1db7682b",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.52957,
       "y": 0.146734
@@ -6675,8 +7170,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_132",
+    "id": "poi_gtav_gas_e9fe3813",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.53014,
       "y": 0.147001
@@ -6687,8 +7183,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_133",
+    "id": "poi_gtav_gas_31de542c",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.60057,
       "y": 0.371839
@@ -6699,8 +7196,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_134",
+    "id": "poi_gtav_gas_86a13b85",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.600728,
       "y": 0.37156
@@ -6711,8 +7209,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_135",
+    "id": "poi_gtav_gas_8d51442a",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.599645,
       "y": 0.37223
@@ -6723,8 +7222,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_136",
+    "id": "poi_gtav_gas_49de06dc",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.599816,
       "y": 0.37194
@@ -6735,8 +7235,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_137",
+    "id": "poi_gtav_gas_a55a670e",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.535881,
       "y": 0.367406
@@ -6747,8 +7248,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_138",
+    "id": "poi_gtav_gas_ec5e0947",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.535806,
       "y": 0.36729
@@ -6759,8 +7261,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_139",
+    "id": "poi_gtav_gas_d0cd90a8",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.551827,
       "y": 0.335474
@@ -6771,8 +7274,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_140",
+    "id": "poi_gtav_gas_172a22b0",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.551276,
       "y": 0.335801
@@ -6783,8 +7287,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_141",
+    "id": "poi_gtav_gas_899344dc",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.551609,
       "y": 0.335604
@@ -6795,8 +7300,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_142",
+    "id": "poi_gtav_gas_e5b84b46",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.551445,
       "y": 0.33571
@@ -6807,8 +7313,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_143",
+    "id": "poi_gtav_gas_a6db7472",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427198,
       "y": 0.419042
@@ -6819,8 +7326,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_144",
+    "id": "poi_gtav_gas_58fff2f0",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.427063,
       "y": 0.419069
@@ -6831,8 +7339,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_145",
+    "id": "poi_gtav_gas_344568b4",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.480992,
       "y": 0.415643
@@ -6843,8 +7352,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_146",
+    "id": "poi_gtav_gas_b6645b86",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.482248,
       "y": 0.414703
@@ -6855,8 +7365,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_147",
+    "id": "poi_gtav_gas_e82a38af",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.482248,
       "y": 0.414236
@@ -6867,8 +7378,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_148",
+    "id": "poi_gtav_gas_aee44927",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.482803,
       "y": 0.414235
@@ -6879,8 +7391,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_149",
+    "id": "poi_gtav_gas_1d810054",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.482803,
       "y": 0.414702
@@ -6891,8 +7404,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_150",
+    "id": "poi_gtav_gas_69f3f6f4",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.496378,
       "y": 0.41033
@@ -6903,8 +7417,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_151",
+    "id": "poi_gtav_gas_0adf4406",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.49469,
       "y": 0.415385
@@ -6915,8 +7430,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_152",
+    "id": "poi_gtav_gas_9f911a24",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.494613,
       "y": 0.415308
@@ -6927,8 +7443,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_153",
+    "id": "poi_gtav_gas_6782f8fc",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.494427,
       "y": 0.415121
@@ -6939,8 +7456,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_154",
+    "id": "poi_gtav_gas_029e3d5e",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.41186,
       "y": 0.406798
@@ -6951,8 +7469,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_155",
+    "id": "poi_gtav_gas_18fbaa37",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.41176,
       "y": 0.406723
@@ -6963,8 +7482,9 @@
     }
   },
   {
-    "id": "poi_gtav_gas_156",
+    "id": "poi_gtav_gas_027658fb",
     "category": "landmark",
+    "collection": "gas",
     "position": {
       "x": 0.412737,
       "y": 0.406073
@@ -6975,8 +7495,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_0",
+    "id": "poi_gtav_garage_f5a6c73b",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.350077,
       "y": 0.592229
@@ -6987,8 +7508,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_1",
+    "id": "poi_gtav_garage_bae543f3",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.548605,
       "y": 0.33268
@@ -6999,8 +7521,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_2",
+    "id": "poi_gtav_garage_bd296580",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.326383,
       "y": 0.715532
@@ -7011,8 +7534,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_3",
+    "id": "poi_gtav_garage_e356177c",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.418454,
       "y": 0.697533
@@ -7023,8 +7547,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_4",
+    "id": "poi_gtav_garage_22a4e64c",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.406281,
       "y": 0.707544
@@ -7035,8 +7560,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_5",
+    "id": "poi_gtav_garage_64deb118",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.409993,
       "y": 0.566799
@@ -7047,8 +7573,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_6",
+    "id": "poi_gtav_garage_4d358cc9",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.575283,
       "y": 0.382222
@@ -7059,8 +7586,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_7",
+    "id": "poi_gtav_garage_1e1251ab",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.575283,
       "y": 0.382222
@@ -7071,8 +7599,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_8",
+    "id": "poi_gtav_garage_250604f4",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.575283,
       "y": 0.382222
@@ -7083,8 +7612,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_9",
+    "id": "poi_gtav_garage_95903fee",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.519058,
       "y": 0.761345
@@ -7095,8 +7625,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_10",
+    "id": "poi_gtav_garage_9fffe4be",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.519058,
       "y": 0.761345
@@ -7107,8 +7638,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_11",
+    "id": "poi_gtav_garage_72957e5f",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.519058,
       "y": 0.761345
@@ -7119,8 +7651,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_12",
+    "id": "poi_gtav_garage_b681e661",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.493738,
       "y": 0.415036
@@ -7131,8 +7664,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_13",
+    "id": "poi_gtav_garage_ccdfddbd",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.493738,
       "y": 0.415036
@@ -7143,8 +7677,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_14",
+    "id": "poi_gtav_garage_5a7b549d",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.493738,
       "y": 0.415036
@@ -7155,8 +7690,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_15",
+    "id": "poi_gtav_garage_dcd51c04",
     "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.493767,
       "y": 0.82849
@@ -7167,68 +7703,9 @@
     }
   },
   {
-    "id": "poi_gtav_garage_16",
+    "id": "poi_gtav_garage_601769cb",
     "category": "safehouse",
-    "position": {
-      "x": 0.350077,
-      "y": 0.592229
-    },
-    "title": {
-      "en": "Garage — Michael - Beverly Hills",
-      "fr": "Garage — Michael - Beverly Hills"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_17",
-    "category": "safehouse",
-    "position": {
-      "x": 0.548605,
-      "y": 0.33268
-    },
-    "title": {
-      "en": "Garage — Trevor - Countryside",
-      "fr": "Garage — Trevor - Countryside"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_18",
-    "category": "safehouse",
-    "position": {
-      "x": 0.326383,
-      "y": 0.715532
-    },
-    "title": {
-      "en": "Garage — Trevor - City",
-      "fr": "Garage — Trevor - City"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_19",
-    "category": "safehouse",
-    "position": {
-      "x": 0.418454,
-      "y": 0.697533
-    },
-    "title": {
-      "en": "Garage — Trevor - Stripclub",
-      "fr": "Garage — Trevor - Stripclub"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_20",
-    "category": "safehouse",
-    "position": {
-      "x": 0.406281,
-      "y": 0.707544
-    },
-    "title": {
-      "en": "Garage — Franklin - Aunt",
-      "fr": "Garage — Franklin - Aunt"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_21",
-    "category": "safehouse",
+    "collection": "garage",
     "position": {
       "x": 0.410015,
       "y": 0.566799
@@ -7236,126 +7713,6 @@
     "title": {
       "en": "Garage — Franklin - Hills",
       "fr": "Garage — Franklin - Hills"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_22",
-    "category": "safehouse",
-    "position": {
-      "x": 0.575283,
-      "y": 0.382222
-    },
-    "title": {
-      "en": "Garage — Lockup_PSY_01",
-      "fr": "Garage — Lockup_PSY_01"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_23",
-    "category": "safehouse",
-    "position": {
-      "x": 0.575283,
-      "y": 0.382222
-    },
-    "title": {
-      "en": "Garage — Lockup_PSY_02",
-      "fr": "Garage — Lockup_PSY_02"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_24",
-    "category": "safehouse",
-    "position": {
-      "x": 0.575283,
-      "y": 0.382222
-    },
-    "title": {
-      "en": "Garage — Lockup_PSY_03",
-      "fr": "Garage — Lockup_PSY_03"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_25",
-    "category": "safehouse",
-    "position": {
-      "x": 0.519058,
-      "y": 0.761345
-    },
-    "title": {
-      "en": "Garage — Lockup_CSY_01",
-      "fr": "Garage — Lockup_CSY_01"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_26",
-    "category": "safehouse",
-    "position": {
-      "x": 0.519058,
-      "y": 0.761345
-    },
-    "title": {
-      "en": "Garage — Lockup_CSY_02",
-      "fr": "Garage — Lockup_CSY_02"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_27",
-    "category": "safehouse",
-    "position": {
-      "x": 0.519058,
-      "y": 0.761345
-    },
-    "title": {
-      "en": "Garage — Lockup_CSY_03",
-      "fr": "Garage — Lockup_CSY_03"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_28",
-    "category": "safehouse",
-    "position": {
-      "x": 0.493738,
-      "y": 0.415036
-    },
-    "title": {
-      "en": "Garage — Lockup_CMS_01",
-      "fr": "Garage — Lockup_CMS_01"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_29",
-    "category": "safehouse",
-    "position": {
-      "x": 0.493738,
-      "y": 0.415036
-    },
-    "title": {
-      "en": "Garage — Lockup_CMS_02",
-      "fr": "Garage — Lockup_CMS_02"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_30",
-    "category": "safehouse",
-    "position": {
-      "x": 0.493738,
-      "y": 0.415036
-    },
-    "title": {
-      "en": "Garage — Lockup_CMS_03",
-      "fr": "Garage — Lockup_CMS_03"
-    }
-  },
-  {
-    "id": "poi_gtav_garage_31",
-    "category": "safehouse",
-    "position": {
-      "x": 0.493767,
-      "y": 0.82849
-    },
-    "title": {
-      "en": "Garage — MP_GAR_SIMEON",
-      "fr": "Garage — MP_GAR_SIMEON"
     }
   }
 ]

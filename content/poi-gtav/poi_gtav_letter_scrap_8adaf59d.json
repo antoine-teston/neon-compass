@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_8adaf59d",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.278646,
+    "y": 0.69401
+  },
+  "title": {
+    "en": "Letter Scrap #30 - La Puerta / Palomino Ave",
+    "fr": "Fragment de lettre #30 - La Puerta / Palomino Ave"
+  },
+  "note": {
+    "en": "At the end of the pier is a large blue/grey building. Climb up the stairs on the left-hand side of the grey section and cross the bridge to the right of the toilets. The Letter will be next to a couple of blue umbrellas on the floor."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:161"
+}

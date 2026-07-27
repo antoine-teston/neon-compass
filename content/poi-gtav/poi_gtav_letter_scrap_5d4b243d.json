@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_5d4b243d",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.312174,
+    "y": 0.705078
+  },
+  "title": {
+    "en": "Letter Scrap #28 - San Andreas",
+    "fr": "Fragment de lettre #28 - San Andreas"
+  },
+  "note": {
+    "en": "On the beach there is a concrete skate park. This Letter is located in one of the holes in the park."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:159"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_99d25a33",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.295247,
+    "y": 0.296875
+  },
+  "title": {
+    "en": "Letter Scrap #45 - Raton Canyon",
+    "fr": "Fragment de lettre #45 - Raton Canyon"
+  },
+  "note": {
+    "en": "[Helicopter Required] This Letter is on top of a small rock that can only be accessed by a helicopter. Once you’re up there, it’s very easy to spot."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:176"
+}

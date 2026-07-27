@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_dbf3d8dc",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.633464,
+    "y": 0.448568
+  },
+  "title": {
+    "en": "Letter Scrap #10 - Ron Alternates Wind Farm",
+    "fr": "Fragment de lettre #10 - Ron Alternates Wind Farm"
+  },
+  "note": {
+    "en": "You will have to either drive a boat or swim inside the cavern. In the back left is a small sandy section, on which this Letter lies."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:141"
+}

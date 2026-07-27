@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_45ea28c5",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.665852,
+    "y": 0.333898
+  },
+  "title": {
+    "en": "Humane Laboratory"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Walk upstairs and turn left. Run straight at the end of this to the generator. Hop on the generator and walk to the three blue pipes. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the laboratory."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:28@X=79.15700,Y=-90.11000"
+}

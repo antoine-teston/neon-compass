@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_5f4cc5b1",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.275716,
+    "y": 0.270182
+  },
+  "title": {
+    "en": "Spaceship Part #46 - Pacific Ocean",
+    "fr": "Pièce de vaisseau #46 - Pacific Ocean"
+  },
+  "note": {
+    "en": "[Helicopter Required] This is by far the most difficult Spaceship Part to get. It will require extremely precise control with a helicopter, or pinpoint landing with a parachute. If you are using a helicopter like in the video, you will need to land perfectly in between the concrete support beam and the underside of the bridge. The Spaceship Part will be on a ledge."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:77"
+}

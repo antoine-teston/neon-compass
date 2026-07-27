@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_story_vehicle_3ac0100b",
+  "category": "vehicle",
+  "collection": "story_vehicle",
+  "position": {
+    "x": 0.366859,
+    "y": 0.692377
+  },
+  "title": {
+    "en": "Karin Intruder"
+  },
+  "note": {
+    "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:story_vehicle:54@X=65.09100,Y=-130.47400"
+}

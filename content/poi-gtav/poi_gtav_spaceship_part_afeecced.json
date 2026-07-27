@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_afeecced",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.210286,
+    "y": 0.501302
+  },
+  "title": {
+    "en": "Spaceship Part #40 - Banham Canyon",
+    "fr": "Pièce de vaisseau #40 - Banham Canyon"
+  },
+  "note": {
+    "en": "Behind the house at the end of the short road is a swimming pool. Right next to this is small white concrete square on the ground that has a telescope erected on it at night. On the ground next to the telescope is this Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:71"
+}

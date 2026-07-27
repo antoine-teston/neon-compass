@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_dd78bfc9",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.240885,
+    "y": 0.413737
+  },
+  "title": {
+    "en": "Letter Scrap #44 - Zancudo River / Route 68",
+    "fr": "Fragment de lettre #44 - Zancudo River / Route 68"
+  },
+  "note": {
+    "en": "If the bridge is ahead of you in the distance, this Letter will be just in front of the stream amongst some reeds to the right."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:175"
+}

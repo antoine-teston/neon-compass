@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_gas_b8b241bb",
+  "category": "landmark",
+  "collection": "gas",
+  "position": {
+    "x": 0.493033,
+    "y": 0.629491
+  },
+  "title": {
+    "en": "Gas Station",
+    "fr": "Station-service"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/objectslocations/worldGasPumps.json"
+  ],
+  "processedFrom": "DurtyFree:gas:X=1186.4,Y=-338.2"
+}

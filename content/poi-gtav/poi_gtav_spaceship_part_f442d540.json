@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_f442d540",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.548584,
+    "y": 0.355306
+  },
+  "title": {
+    "en": "Spaceship Part #7 - Grand Senora Desert",
+    "fr": "Pièce de vaisseau #7 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "Next to the off-road trail is a rock formation. Up the small hill underneath the face of the rock is this Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:38"
+}

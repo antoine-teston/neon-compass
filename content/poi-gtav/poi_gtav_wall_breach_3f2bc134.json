@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_3f2bc134",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.342607,
+    "y": 0.732914
+  },
+  "title": {
+    "en": "Road Near Airport LSC"
+  },
+  "note": {
+    "en": "Go to location indicated and find the group of trees shown as a guide. Locate the second support beam, that is jutting from the road, to the left of the group of trees and stand to the right of this beam. Run or jump such that you character falls into the small space to the right of the support beam. If done correctly your character will breach the wall after erecting him/herself."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:72@X=62.68400,Y=-133.74800"
+}

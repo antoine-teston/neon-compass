@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_3aede487",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.51237,
+    "y": 0.445964
+  },
+  "title": {
+    "en": "Spaceship Part #12 - Grand Senora Desert",
+    "fr": "Pièce de vaisseau #12 - Grand Senora Desert"
+  },
+  "note": {
+    "en": "On the top of the hill is a small house with a green roof and a US flag outside the front. Behind the house is a white banner strung between two posts with “Welcome” written on it. The Part is located under this banner."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:43"
+}

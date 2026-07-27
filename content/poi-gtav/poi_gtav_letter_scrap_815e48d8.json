@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_letter_scrap_815e48d8",
+  "category": "collectible",
+  "collection": "letter_scrap",
+  "position": {
+    "x": 0.38737,
+    "y": 0.599284
+  },
+  "title": {
+    "en": "Letter Scrap #35 - West Vinewood",
+    "fr": "Fragment de lettre #35 - West Vinewood"
+  },
+  "note": {
+    "en": "In front of some doors is a semicircular cobblestoned area with a sort of table next to it. On the table is this Letter."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:letter_scrap:166"
+}

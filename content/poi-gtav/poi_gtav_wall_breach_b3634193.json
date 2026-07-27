@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_b3634193",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.336911,
+    "y": 0.557538
+  },
+  "title": {
+    "en": "Martins mansion"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Get the free van from the beach bum DLC and let your friend pick you up with a Cargobob. Once inside tell your friend to drop you on the balcony deck thingy. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside the building."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:40@X=71.73600,Y=-134.51700"
+}

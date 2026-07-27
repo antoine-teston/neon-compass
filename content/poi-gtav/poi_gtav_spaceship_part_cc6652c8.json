@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_cc6652c8",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.426107,
+    "y": 0.645508
+  },
+  "title": {
+    "en": "Spaceship Part #28 - Pillbox Hill",
+    "fr": "Pièce de vaisseau #28 - Pillbox Hill"
+  },
+  "note": {
+    "en": "[Helicopter Required] You will need to fly up to the top of the “Penris” building for this one. Land on the roof and grab the clearly-visible Spaceship Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:59"
+}

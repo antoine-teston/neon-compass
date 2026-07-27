@@ -10,6 +10,8 @@
     "category": {
       "enum": ["landmark", "collectible", "activity", "safehouse", "vehicle", "event"]
     },
+    "collection": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+    "mergedInto": { "type": "string", "pattern": "^poi_[a-z0-9_]+$" },
     "position": {
       "oneOf": [
         { "type": "null" },

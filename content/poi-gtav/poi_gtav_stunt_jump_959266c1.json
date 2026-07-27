@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_959266c1",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.452474,
+    "y": 0.647461
+  },
+  "title": {
+    "en": "Stunt Jump #4 - La Mesa",
+    "fr": "Saut cascade #4 - La Mesa"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:85"
+}

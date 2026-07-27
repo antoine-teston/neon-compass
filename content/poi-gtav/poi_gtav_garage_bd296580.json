@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_garage_bd296580",
+  "category": "safehouse",
+  "collection": "garage",
+  "position": {
+    "x": 0.326383,
+    "y": 0.715532
+  },
+  "title": {
+    "en": "Garage — Trevor - City",
+    "fr": "Garage — Trevor - City"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/DurtyFree/gta-v-data-dumps/master/garages.json"
+  ],
+  "processedFrom": "DurtyFree:garage:Trevor - City@X=-1146.0,Y=-1542.4"
+}

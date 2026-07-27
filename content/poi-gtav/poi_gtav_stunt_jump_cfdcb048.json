@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_cfdcb048",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.40918,
+    "y": 0.678711
+  },
+  "title": {
+    "en": "Stunt Jump #6 - Pillbox Hill/Elgin Ave",
+    "fr": "Saut cascade #6 - Pillbox Hill/Elgin Ave"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:87"
+}

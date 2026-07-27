@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_b71bfd22",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.44157,
+    "y": 0.673168
+  },
+  "title": {
+    "en": "LSPD police station"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Walk over the shrub and stand besides the building wall. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the police station."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:30@X=66.16100,Y=-120.38800"
+}

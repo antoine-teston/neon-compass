@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_9b0c89ca",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.350422,
+    "y": 0.591463
+  },
+  "title": {
+    "en": "Michaels mansion (via garage)"
+  },
+  "note": {
+    "en": "Go to the location as seen below, drive your car next to the garage and hop onto it. Climb ontop the garage roof and walk to the little balcony of the main house. Run across the wall towards the balcony and jump to climb it up. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Michaels mansion."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:45@X=70.24500,Y=-132.69300"
+}

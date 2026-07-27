@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_88204d83",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.436198,
+    "y": 0.75651
+  },
+  "title": {
+    "en": "Spaceship Part #23 - Rancho / Dutch London St",
+    "fr": "Pièce de vaisseau #23 - Rancho / Dutch London St"
+  },
+  "note": {
+    "en": "In a fenced area you will see four decorated alien-like sculptures that look like futuristic towers. Go inside the entrance and the ledge around the bottom of the right-hand tower will have the Spaceship Part on it."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:54"
+}

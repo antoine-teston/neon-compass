@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_vehicle_spawn_159c4919",
+  "category": "vehicle",
+  "collection": "vehicle_spawn",
+  "position": {
+    "x": 0.360921,
+    "y": 0.623698
+  },
+  "title": {
+    "en": "Adder"
+  },
+  "note": {
+    "en": "In-game version of the Bugatti"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:vehicle_spawn:209"
+}

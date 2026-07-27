@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_f0852195",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.347982,
+    "y": 0.666016
+  },
+  "title": {
+    "en": "Stunt Jump #33 - Little Seoul/Vespucci Blvd",
+    "fr": "Saut cascade #33 - Little Seoul/Vespucci Blvd"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:114"
+}

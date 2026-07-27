@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_nuclear_waste_2b7e05d5",
+  "category": "collectible",
+  "collection": "nuclear_waste",
+  "position": {
+    "x": 0.362637,
+    "y": 0.112599
+  },
+  "title": {
+    "en": "Nuclear Waste #3",
+    "fr": "Déchets nucléaires #3"
+  },
+  "note": {
+    "en": "Depth: 85"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:nuclear_waste:3"
+}

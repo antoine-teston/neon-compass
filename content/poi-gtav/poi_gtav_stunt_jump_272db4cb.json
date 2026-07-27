@@ -1,0 +1,18 @@
+{
+  "id": "poi_gtav_stunt_jump_272db4cb",
+  "category": "activity",
+  "collection": "stunt_jump",
+  "position": {
+    "x": 0.368815,
+    "y": 0.609049
+  },
+  "title": {
+    "en": "Stunt Jump #36 - Burton",
+    "fr": "Saut cascade #36 - Burton"
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:stunt_jump:117"
+}

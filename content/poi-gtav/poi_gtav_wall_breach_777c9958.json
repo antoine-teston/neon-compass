@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_777c9958",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.445474,
+    "y": 0.81478
+  },
+  "title": {
+    "en": "Ship at Merryweather docks"
+  },
+  "note": {
+    "en": "Go to the location as seen on the interactive map, get aboard the ship and walk towards the back of the ship where there's an overhang. Wace the wall and just jump."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:44@X=57.16000,Y=-119.86100"
+}

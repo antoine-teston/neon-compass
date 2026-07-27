@@ -1,0 +1,20 @@
+{
+  "id": "poi_gtav_wall_breach_2f3ff8f8",
+  "category": "activity",
+  "collection": "wall_breach",
+  "position": {
+    "x": 0.460941,
+    "y": 0.675125
+  },
+  "title": {
+    "en": "East LSC bridge"
+  },
+  "note": {
+    "en": "Go to the location as seen below. Push the trash bin with your car straight against the wall. Stand on the bin and now just jump and you will be inside and under the bridge. You'll be able to shoot anywhere through it."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/gta5-map/gta5-map.github.io/master/locations.json"
+  ],
+  "processedFrom": "gta5-map:wall_breach:3@X=66.05400,Y=-117.77300"
+}

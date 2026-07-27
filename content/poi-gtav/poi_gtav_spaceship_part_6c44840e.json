@@ -1,0 +1,21 @@
+{
+  "id": "poi_gtav_spaceship_part_6c44840e",
+  "category": "collectible",
+  "collection": "spaceship_part",
+  "position": {
+    "x": 0.589844,
+    "y": 0.330404
+  },
+  "title": {
+    "en": "Spaceship Part #5 - San Chianski Mountain Range",
+    "fr": "Pièce de vaisseau #5 - San Chianski Mountain Range"
+  },
+  "note": {
+    "en": "You will come across a small hill decorated in colourful graffiti by alien cultists. On the top of this hill on a small ledge is a Spaceship Part."
+  },
+  "status": "draft",
+  "sources": [
+    "https://raw.githubusercontent.com/danharper/GTAV/master/locations.json"
+  ],
+  "processedFrom": "danharper/GTAV:spaceship_part:36"
+}
