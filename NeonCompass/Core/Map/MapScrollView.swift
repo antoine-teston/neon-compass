@@ -54,6 +54,9 @@ private struct MapContentSwiftUIView: View {
     let pois: [POI]
     let personalPins: [PersonalPin]
     let communitySpots: [Contribution]
+    /// Toujours vide en Release : le mode éditeur n'existe pas dans le binaire
+    /// soumis. C'est ce qui évite un `#if DEBUG` dans le moteur de carte.
+    let draftPins: [DraftPin]
     let isFound: (POI) -> Bool
     var zoomScale: CGFloat = 1
     let onTapPOI: (POI) -> Void
@@ -61,6 +64,9 @@ private struct MapContentSwiftUIView: View {
     let onVote: (Contribution, VoteDirection) -> Void
     let onReport: (Contribution) -> Void
     let onBlockAuthor: (Contribution) -> Void
+    /// Nil hors mode éditeur — donc toujours nil en Release, où l'éditeur
+    /// n'existe pas. Même parti pris que `draftPins`.
+    var onAdopt: ((Contribution) -> Void)?
 
     private var fullSize: CGFloat { MapGeometry.fullSize(for: manifest) }
 
@@ -94,17 +100,49 @@ private struct MapContentSwiftUIView: View {
                 personalPin(pin)
             }
             ForEach(communitySpots) { spot in
-                ContributionAnnotationView(
-                    spot: spot,
-                    onVote: { direction in onVote(spot, direction) },
-                    onReport: { onReport(spot) },
-                    onBlockAuthor: { onBlockAuthor(spot) }
-                )
-                .scaleEffect(pinScale)
-                .position(MapGeometry.contentPoint(for: spot.position, manifest: manifest))
+                contributionAnnotation(spot)
+                    .scaleEffect(pinScale)
+                    .position(MapGeometry.contentPoint(for: spot.position, manifest: manifest))
+            }
+            ForEach(draftPins) { pin in
+                draftPin(pin)
             }
         }
         .frame(width: fullSize, height: fullSize)
+    }
+
+    private func contributionAnnotation(_ spot: Contribution) -> some View {
+        var view = ContributionAnnotationView(
+            spot: spot,
+            onVote: { direction in onVote(spot, direction) },
+            onReport: { onReport(spot) },
+            onBlockAuthor: { onBlockAuthor(spot) }
+        )
+#if DEBUG
+        if let onAdopt {
+            view.onAdopt = { onAdopt(spot) }
+        }
+#endif
+        return view
+    }
+
+    /// Contour pointillé : un brouillon se distingue d'un POI publié au premier
+    /// coup d'œil, ce qui est tout l'intérêt de l'afficher pendant la capture.
+    private func draftPin(_ pin: DraftPin) -> some View {
+        Image(systemName: POIPinPalette.symbol(for: pin.category))
+            .font(.system(size: 12, weight: .bold))
+            .foregroundStyle(.white)
+            .frame(width: 24, height: 24)
+            .background(
+                Circle()
+                    .fill(POIPinPalette.color(for: pin.category, style: style).opacity(0.4))
+                    .overlay(
+                        Circle().strokeBorder(.white, style: StrokeStyle(lineWidth: 1.5, dash: [3, 2]))
+                    )
+            )
+            .scaleEffect(pinScale)
+            .position(MapGeometry.contentPoint(for: pin.position, manifest: manifest))
+            .accessibilityLabel(Text("Brouillon"))
     }
 
     private var clusters: [POICluster] {
@@ -242,6 +280,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let pois: [POI]
     let personalPins: [PersonalPin]
     let communitySpots: [Contribution]
+    var draftPins: [DraftPin] = []
     let isFound: (POI) -> Bool
     @Binding var viewport: MapViewport
     let onLongPress: (CGPoint) -> Void
@@ -249,6 +288,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let onVote: (Contribution, VoteDirection) -> Void
     let onReport: (Contribution) -> Void
     let onBlockAuthor: (Contribution) -> Void
+    var onAdopt: ((Contribution) -> Void)?
 
     func makeCoordinator() -> Coordinator {
         Coordinator(viewport: $viewport, onLongPress: onLongPress)
@@ -318,6 +358,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             pois: pois,
             personalPins: personalPins,
             communitySpots: communitySpots,
+            draftPins: draftPins,
             isFound: isFound,
             zoomScale: zoomScale,
             onTapPOI: onTapPOI,
@@ -326,7 +367,8 @@ struct TiledMapRepresentable: UIViewRepresentable {
             },
             onVote: onVote,
             onReport: onReport,
-            onBlockAuthor: onBlockAuthor
+            onBlockAuthor: onBlockAuthor,
+            onAdopt: onAdopt
         )
     }
 

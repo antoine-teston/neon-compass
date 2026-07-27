@@ -7,6 +7,12 @@ import SwiftUI
 struct MapDisplayControls: View {
     @Binding var game: MapGame
     @Binding var style: MapStyle
+#if DEBUG
+    /// Nil quand l'éditeur n'est pas disponible sur la carte affichée — le
+    /// bouton disparaît alors complètement plutôt que d'être grisé : sur la
+    /// carte de référence il n'y a rien à éditer, ce n'est pas un manque.
+    var editorArmed: Binding<Bool>?
+#endif
 
     var body: some View {
         GlassEffectContainer(spacing: 12) {
@@ -17,9 +23,29 @@ struct MapDisplayControls: View {
                 if game.supportsStyleToggle {
                     styleButton
                 }
+#if DEBUG
+                if let editorArmed {
+                    editorButton(armed: editorArmed)
+                }
+#endif
             }
         }
     }
+
+#if DEBUG
+    private func editorButton(armed: Binding<Bool>) -> some View {
+        Button {
+            withAnimation(.snappy) { armed.wrappedValue.toggle() }
+        } label: {
+            Image(systemName: armed.wrappedValue ? "pencil.circle.fill" : "pencil.circle")
+                .font(.system(size: 20))
+                .foregroundStyle(armed.wrappedValue ? NCColor.sunsetOrange : .white)
+                .frame(width: 44, height: 44)
+        }
+        .glassEffect(.regular.interactive(), in: .circle)
+        .accessibilityLabel(Text("Mode éditeur"))
+    }
+#endif
 
     /// Chiffres romains nus, jamais la marque : CLAUDE.md interdit les marques
     /// déposées dans l'app.
