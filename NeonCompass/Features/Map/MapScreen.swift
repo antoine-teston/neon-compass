@@ -27,7 +27,11 @@ struct MapScreen: View {
     /// Mode éditeur interne : compilé hors du binaire soumis. Construit tout de
     /// suite plutôt qu'à l'armement — il ne coûte rien tant qu'il dort, et son
     /// état doit survivre aux bascules d'onglet comme le reste de l'écran.
-    @State private var editorModel = EditorModel(store: FirestoreEditorDraftStore())
+    @State private var editorModel = EditorModel(store: EditorDraftRouter(
+        remote: FirestoreEditorDraftStore(),
+        local: FileEditorDraftStore(),
+        isRemoteUsable: { EditorRemoteAvailability.isUsable }
+    ))
 #endif
 
     /// Socle embarqué de la carte de référence, patché par l'overlay distant dès

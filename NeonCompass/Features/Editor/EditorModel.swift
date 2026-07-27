@@ -28,31 +28,27 @@ final class EditorModel {
     private let store: EditorDraftStore
     private let makeID: @Sendable () -> String
     private let now: @Sendable () -> Date
-    private let isBackendAvailable: @Sendable () -> Bool
 
     init(
         store: EditorDraftStore,
         makeID: @escaping @Sendable () -> String = { UUID().uuidString },
-        now: @escaping @Sendable () -> Date = { Date() },
-        isBackendAvailable: @escaping @Sendable () -> Bool = { FirebaseAvailability.isConfigured }
+        now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.store = store
         self.makeID = makeID
         self.now = now
-        self.isBackendAvailable = isBackendAvailable
     }
 
-    /// Deux conditions, pas une.
+    /// Une seule condition : la carte. L'éditeur ne s'arme que sur celle du jeu
+    /// à venir — la carte de référence n'est là que pour donner du volume
+    /// explorable avant la sortie, y poser du contenu éditorial n'aurait aucun
+    /// sens et ses coordonnées ne sont pas comparables.
     ///
-    /// La carte : l'éditeur ne s'arme que sur celle du jeu à venir. La carte de
-    /// référence n'est là que pour donner du volume explorable avant la sortie —
-    /// y poser du contenu éditorial n'aurait aucun sens, et ses coordonnées ne
-    /// sont pas comparables à celles de l'autre carte.
-    ///
-    /// Le backend : sans Firebase configuré, capturer enverrait les brouillons
-    /// dans le vide — et le premier appel au SDK planterait d'une erreur fatale
-    /// non rattrapable. Mieux vaut ne pas proposer le bouton du tout.
-    func canArm(on game: MapGame) -> Bool { game == .leonida && isBackendAvailable() }
+    /// Il y avait autrefois une seconde condition, la disponibilité du backend :
+    /// sans compte, capturer aurait envoyé les brouillons dans le vide. Elle a
+    /// disparu avec le repli fichier (`EditorDraftRouter`) — une capture atterrit
+    /// désormais toujours quelque part, compte ou pas.
+    func canArm(on game: MapGame) -> Bool { game == .leonida }
 
     func setArmed(_ armed: Bool, on game: MapGame) {
         isArmed = armed && canArm(on: game)
