@@ -1,0 +1,67 @@
+{
+  "run": {
+    "date": "2026-07-27",
+    "sources_visited": [
+      "https://gta.fandom.com/wiki/State_of_Leonida",
+      "https://gta.fandom.com/wiki/Leonida_Keys",
+      "https://gta.fandom.com/wiki/Grassrivers",
+      "https://gta.fandom.com/wiki/Port_Gellhorn",
+      "https://gta.fandom.com/wiki/Ambrosia",
+      "https://gta.fandom.com/wiki/Ambrosia_County",
+      "https://gta.fandom.com/wiki/Allied_Crystal_Sugar_Refinery",
+      "https://gta.fandom.com/wiki/Mount_Kalaga_National_Park",
+      "https://www.gtaboom.com/every-gta-6-location-confirmed-so-far-f3aa",
+      "https://leonidaverse.com/en/codex/gta-6-locations"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "L'État fictif de Leonida est désormais présenté comme composé de six régions distinctes : Vice City (la métropole), les Leonida Keys (archipel tropical), Grassrivers (marais), Port Gellhorn (ville côtière déclinante), Ambrosia (bassin agro-industriel) et Mount Kalaga (parc naturel montagneux) — un découpage plus complet que celui connu lors du run précédent.",
+      "kind": "game-fact",
+      "source_url": "https://www.gtaboom.com/every-gta-6-location-confirmed-so-far-f3aa",
+      "source_date": "2026-07-27",
+      "confidence": "multi-source",
+      "processed": true
+    },
+    {
+      "claim": "Les Leonida Keys forment un archipel tropical au large de la côte sud de l'État, bordé par le golfe du Mexique, présenté comme la porte d'entrée décontractée vers le sud de Leonida — clin d'œil aux Keys de Floride.",
+      "kind": "poi",
+      "source_url": "https://gta.fandom.com/wiki/Leonida_Keys",
+      "source_date": "2026-07-27",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Grassrivers désigne une vaste zone de marais et de prairies inondées s'étendant sur les comtés fictifs de Vice-Dale et Mariana, dans le sud de Leonida, en écho direct aux Everglades réels de Floride.",
+      "kind": "poi",
+      "source_url": "https://gta.fandom.com/wiki/Grassrivers",
+      "source_date": "2026-07-27",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Port Gellhorn est une ville du comté fictif de Kelly, sur la façade ouest de Leonida, décrite comme une ancienne destination de vacances aujourd'hui délabrée, mêlant zones industrielles, zones commerciales et étendues rurales boisées.",
+      "kind": "poi",
+      "source_url": "https://gta.fandom.com/wiki/Port_Gellhorn",
+      "source_date": "2026-07-27",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Ambrosia est une ville du centre de Leonida, en bordure du lac Leonida, dont l'économie repose largement sur une raffinerie de sucre fictive exploitée par une entreprise agricole locale ; elle s'inspire de la ville réelle de Clewiston en Floride.",
+      "kind": "poi",
+      "source_url": "https://gta.fandom.com/wiki/Ambrosia",
+      "source_date": "2026-07-27",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Mount Kalaga National Park se situe à la frontière nord de l'État de Leonida et propose un relief de forêts, canyons et cours d'eau, avec des activités de chasse, pêche et pistes tout-terrain évoquées dans le matériel promotionnel.",
+      "kind": "poi",
+      "source_url": "https://gta.fandom.com/wiki/Mount_Kalaga_National_Park",
+      "source_date": "2026-07-27",
+      "confidence": "confirmed-official",
+      "processed": true
+    }
+  ]
+}

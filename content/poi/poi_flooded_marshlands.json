@@ -1,0 +1,15 @@
+{
+  "id": "poi_flooded_marshlands",
+  "category": "landmark",
+  "position": null,
+  "title": {
+    "en": "The Flooded Marshlands",
+    "fr": "Les marais noyés"
+  },
+  "note": {
+    "en": "Endless flooded grass plains and cypress-lined channels stretch across two fictional counties in the state's south — an ecosystem built for airboats, gator sightings, and getting genuinely lost off the beaten path. It's the map's clearest nod to the real Everglades, right down to the humidity you can almost feel through the screen. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
+    "fr": "Prairies noyées à perte de vue, canaux bordés de cyprès, à cheval sur deux comtés fictifs du sud de la carte : un terrain taillé pour les airboats, les alligators et les balades qui finissent hors sentiers. La référence aux vrais Everglades de Floride saute aux yeux, jusque dans l'humidité qu'on devine à l'écran. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+  },
+  "status": "draft",
+  "sources": ["https://gta.fandom.com/wiki/Grassrivers"]
+}

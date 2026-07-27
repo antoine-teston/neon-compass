@@ -1,0 +1,15 @@
+{
+  "id": "poi_northern_mountain_wilderness",
+  "category": "activity",
+  "position": null,
+  "title": {
+    "en": "Northern Mountain Wilderness",
+    "fr": "Les hauteurs sauvages du nord"
+  },
+  "note": {
+    "en": "Up at the state's northern edge, expect thick forest, carved canyons, and rivers worth following — this is where the map leans into the outdoors: hunting, fishing, and off-road trails all got teased in promo material. If the southern coast is neon, this is where you go for pine and dirt. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
+    "fr": "Tout au nord de la carte : forêts denses, canyons creusés et rivières à suivre. C'est le coin qui mise sur le plein air — chasse, pêche et pistes tout-terrain apparaissent dans le matériel promotionnel. Si le sud brille au néon, ici on troque les néons contre les pins et la terre battue. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+  },
+  "status": "draft",
+  "sources": ["https://gta.fandom.com/wiki/Mount_Kalaga_National_Park"]
+}

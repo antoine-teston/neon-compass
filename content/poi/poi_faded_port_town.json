@@ -1,0 +1,15 @@
+{
+  "id": "poi_faded_port_town",
+  "category": "landmark",
+  "position": null,
+  "title": {
+    "en": "The Faded Port Town",
+    "fr": "La ville portuaire défraîchie"
+  },
+  "note": {
+    "en": "Once a postcard-worthy holiday stop on the state's western shore, this town has seen better decades — rusting industrial yards and half-shuttered storefronts now sit beside quiet, wooded backroads. There's a specific kind of melancholy here that makes it stand out from the flashier parts of the map. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
+    "fr": "Ancienne halte de vacances sur la côte ouest, aujourd'hui à bout de souffle : entrepôts industriels qui rouillent, devantures à moitié fermées, et tout autour, des routes de campagne perdues dans les bois. Une mélancolie particulière qui tranche avec les quartiers plus tape-à-l'œil de la carte. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+  },
+  "status": "draft",
+  "sources": ["https://gta.fandom.com/wiki/Port_Gellhorn"]
+}
