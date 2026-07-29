@@ -203,6 +203,60 @@ struct CheatsModelTests {
         #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a"])
     }
 
+    // MARK: - Colonne à plat et encarts
+
+    // Les encarts se comptent sur la colonne entière, pas par rubrique : une
+    // catégorie de deux codes n'a pas à porter son propre encart. L'index doit
+    // donc traverser les sections, pas repartir de zéro à chacune.
+    @Test func theFlatIndexSpansSectionsRatherThanRestarting() throws {
+        let sut = try model([
+            cheat("p1", .player, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("p2", .player, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+            cheat("w1", .weapons, codes: [.phone: .phone(number: "1-999-3", mnemonic: nil)]),
+            cheat("v1", .vehicles, codes: [.phone: .phone(number: "1-999-4", mnemonic: nil)]),
+        ], defaults: defaults("flat-index"))
+
+        #expect(sut.displayedCheats.map(\.id) == ["p1", "p2", "w1", "v1"])
+        let index = sut.flatIndexByID
+        #expect(index["p1"] == 0)
+        #expect(index["p2"] == 1)
+        #expect(index["w1"] == 2)
+        #expect(index["v1"] == 3)
+    }
+
+    @Test func theFlatIndexCoversExactlyTheDisplayedCheats() throws {
+        let sut = try model([
+            cheat("shown", .player, codes: [.playstation: .buttons([.circle])]),
+            cheat("hidden", .misc, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("flat-covers"))
+        sut.activeInputMode = .playstation
+        #expect(sut.flatIndexByID.keys.sorted() == ["shown"])
+    }
+
+    // Recalculées à chaque évaluation du corps de la vue : si elles n'étaient pas
+    // stables, les encarts changeraient de place au moindre rendu.
+    @Test func adPositionsAreStableAcrossEvaluations() throws {
+        let sut = try model(
+            (1...12).map { cheat("c\($0)", .player, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)]) },
+            defaults: defaults("ads-stable")
+        )
+        let first = sut.adPositions
+        #expect(sut.adPositions == first)
+        #expect(sut.adPositions == first)
+        #expect(!first.isEmpty)
+    }
+
+    @Test func adPositionsNeverPointPastTheDisplayedList() throws {
+        let sut = try model(
+            (1...12).map { cheat("c\($0)", .player, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)]) },
+            defaults: defaults("ads-bounds")
+        )
+        let count = sut.displayedCheats.count
+        for position in sut.adPositions {
+            #expect(position < count - 1)
+        }
+    }
+
     // MARK: - État d'attente
 
     @Test func awaitsContentForAGameThatHasNoCodes() throws {

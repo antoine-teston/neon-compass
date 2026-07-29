@@ -109,6 +109,32 @@ final class CheatsModel {
         matching.filter { $0.codes[activeInputMode] == nil }
     }
 
+    /// Les triches affichées, à plat et dans l'ordre où la liste les rend —
+    /// c'est-à-dire sections aplaties. Base des positions d'encarts, qui se
+    /// comptent sur la colonne entière et non par catégorie : une rubrique de
+    /// deux codes n'a pas à porter son propre encart.
+    var displayedCheats: [Cheat] {
+        sections.flatMap(\.cheats)
+    }
+
+    /// Rang de chaque triche dans la colonne, pour que la vue sache où insérer un
+    /// encart sans reparcourir la liste à chaque carte.
+    var flatIndexByID: [String: Int] {
+        Dictionary(
+            uniqueKeysWithValues: displayedCheats.enumerated().map { ($0.element.id, $0.offset) }
+        )
+    }
+
+    /// Positions des encarts, même règle que le fil d'actu — deux à cinq cartes
+    /// entre deux encarts, jamais après la dernière.
+    ///
+    /// Déterministes ici, là où le fil les tire une fois et les retient : cette
+    /// liste se refiltre à chaque changement de mode, de jeu, de catégorie et à
+    /// chaque frappe dans la recherche. Voir `InlineAdPlacement.positions(itemCount:)`.
+    var adPositions: Set<Int> {
+        InlineAdPlacement.positions(itemCount: displayedCheats.count)
+    }
+
     /// Le jeu actif n'a aucun code — et non « la recherche ne trouve rien ».
     ///
     /// La distinction est le fond du sujet : afficher « pas encore de codes »

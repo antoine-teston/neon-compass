@@ -7,48 +7,78 @@ struct CheatsListView: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            ScrollView {
-                VStack(spacing: 12) {
-                    inputModePicker
-                    TextField("cheats.search.placeholder", text: $model.searchQuery)
-                        .textFieldStyle(.plain)
-                        .padding(12)
-                        .glassEffect(.regular, in: .capsule)
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 12) {
+                inputModePicker
+                searchRow
 
-                    ForEach(model.sections, id: \.category) { section in
-                        sectionHeader(section.category)
-                        ForEach(section.cheats) { cheat in
-                            if let code = cheat.codes[model.activeInputMode] {
-                                CheatCard(
-                                    cheat: cheat,
-                                    code: code,
-                                    isFavorite: model.isFavorite(cheat),
-                                    onTap: { onSelect(cheat) },
-                                    onToggleFavorite: { model.toggleFavorite(cheat) }
-                                )
-                            }
+                let flatIndex = model.flatIndexByID
+                ForEach(model.sections, id: \.category) { section in
+                    sectionHeader(section.category)
+                    ForEach(section.cheats) { cheat in
+                        if let code = cheat.codes[model.activeInputMode] {
+                            CheatCard(
+                                cheat: cheat,
+                                code: code,
+                                isFavorite: model.isFavorite(cheat),
+                                onTap: { onSelect(cheat) },
+                                onToggleFavorite: { model.toggleFavorite(cheat) }
+                            )
+                        }
+                        if showsInlineAd(after: flatIndex[cheat.id]) {
+                            inlineAd
                         }
                     }
-
-                    if !model.unavailableInActiveMode.isEmpty {
-                        CheatsUnavailableGroup(
-                            cheats: model.unavailableInActiveMode,
-                            model: model,
-                            onSelect: onSelect
-                        )
-                    }
-
-                    footnote
                 }
-                .padding(16)
-                .padding(.bottom, proEntitlementModel.isProEntitled ? 0 : bannerClearance)
+
+                if !model.unavailableInActiveMode.isEmpty {
+                    CheatsUnavailableGroup(
+                        cheats: model.unavailableInActiveMode,
+                        model: model,
+                        onSelect: onSelect
+                    )
+                }
+
+                footnote
             }
-            if !proEntitlementModel.isProEntitled {
-                adBanner
-            }
+            .padding(16)
+            // La barre d'onglets flotte au-dessus du contenu : sans cette
+            // réserve, la dernière carte finirait dessous. Elle ne dépend pas de
+            // Pro — la barre est là pour tout le monde.
+            .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
         }
         .background(NCColor.nightSky.ignoresSafeArea())
+    }
+
+    /// La recherche et la bascule de jeu partagent une ligne : le sélecteur tenait
+    /// une ligne à lui seul pour deux chiffres romains, au prix d'autant de
+    /// hauteur perdue en haut d'un écran fait pour trouver un code vite.
+    private var searchRow: some View {
+        HStack(spacing: 10) {
+            TextField("cheats.search.placeholder", text: $model.searchQuery)
+                .textFieldStyle(.plain)
+                .padding(12)
+                .glassEffect(.regular, in: .capsule)
+            GameSwitch(game: $model.activeGame)
+        }
+    }
+
+    /// Les positions viennent du modèle. La vue n'ajoute que la condition qui ne
+    /// dépend pas du contenu, l'abonnement — comme dans le fil d'actu.
+    private func showsInlineAd(after index: Int?) -> Bool {
+        guard !proEntitlementModel.isProEntitled, let index else { return false }
+        return model.adPositions.contains(index)
+    }
+
+    /// Même gabarit qu'une carte — mêmes marges, même rayon, même verre, et une
+    /// annonce dimensionnée pour remplir ce gabarit plutôt qu'une bande fine
+    /// perdue dedans. Un encart d'une autre taille dans une colonne de cartes
+    /// casse le rythme de lecture.
+    private var inlineAd: some View {
+        BannerAdView(maxHeight: BannerAdView.cardSlotHeight)
+            .frame(maxWidth: .infinity)
+            .padding(14)
+            .glassEffect(.regular, in: .rect(cornerRadius: 14))
     }
 
     private func sectionHeader(_ category: CheatCategory) -> some View {
@@ -84,19 +114,5 @@ struct CheatsListView: View {
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 12)
-    }
-
-    /// La réservation vient de `BannerAdView` lui-même, qui la définit à partir
-    /// de la taille qu'il DEMANDE et qu'il clampe.
-    private var bannerClearance: CGFloat {
-        (sizeClass == .compact ? NCLayout.compactTabBarClearance : 0) + BannerAdView.reservedHeight
-    }
-
-    private var adBanner: some View {
-        BannerAdView()
-            .padding(12)
-            .glassEffect(.regular, in: .rect(cornerRadius: 20))
-            .padding(.horizontal, 16)
-            .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
     }
 }

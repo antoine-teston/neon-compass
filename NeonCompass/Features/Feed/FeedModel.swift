@@ -15,7 +15,7 @@ final class FeedModel {
         self.newsItems = Self.sortedByMostRecent(newsItems)
         self.contentStore = contentStore
         var generator = SystemRandomNumberGenerator()
-        self.adPositions = Self.drawAdPositions(itemCount: self.newsItems.count, using: &generator)
+        self.adPositions = InlineAdPlacement.positions(itemCount: self.newsItems.count, using: &generator)
     }
 
     /// Index des cartes après lesquelles un encart publicitaire s'intercale.
@@ -29,29 +29,7 @@ final class FeedModel {
     func updateNewsItems(_ newItems: [NewsItem]) {
         newsItems = Self.sortedByMostRecent(newItems)
         var generator = SystemRandomNumberGenerator()
-        adPositions = Self.drawAdPositions(itemCount: newsItems.count, using: &generator)
-    }
-
-    /// Écart aléatoire entre deux encarts. Deux cartes au minimum : en dessous,
-    /// la colonne devient une alternance publicité/contenu. Cinq au maximum :
-    /// au-delà, un fil court n'en porte plus aucun.
-    static let adGapRange = 2...5
-
-    /// Jamais d'encart après la dernière carte : terminer une liste par une
-    /// publicité, c'est ce qu'on voit dans les applications qu'on désinstalle.
-    /// C'est la condition `< itemCount` qui le garantit, et non un cas
-    /// particulier ajouté après coup.
-    static func drawAdPositions<G: RandomNumberGenerator>(
-        itemCount: Int,
-        using generator: inout G
-    ) -> Set<Int> {
-        var positions: Set<Int> = []
-        var cardsBeforeNextAd = Int.random(in: adGapRange, using: &generator)
-        while cardsBeforeNextAd < itemCount {
-            positions.insert(cardsBeforeNextAd - 1)
-            cardsBeforeNextAd += Int.random(in: adGapRange, using: &generator)
-        }
-        return positions
+        adPositions = InlineAdPlacement.positions(itemCount: newsItems.count, using: &generator)
     }
 
     /// Tirer-pour-rafraîchir. Contrairement à la synchronisation de lancement,

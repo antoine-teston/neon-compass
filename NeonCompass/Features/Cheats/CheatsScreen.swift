@@ -32,17 +32,21 @@ struct CheatsScreen: View {
 
     @ViewBuilder
     private func cheatsContent(model: CheatsModel) -> some View {
-        VStack(spacing: 0) {
-            gameRow(model: model)
+        Group {
             if model.isAwaitingContent {
-                CheatsEmptyGameView()
+                // La bascule vit dans la barre de recherche de la liste, qui n'est
+                // pas là dans cet état : sans elle ici, on partirait sur GTA VI
+                // sans pouvoir revenir.
+                CheatsEmptyGameView(game: Binding(
+                    get: { model.activeGame },
+                    set: { model.activeGame = $0 }
+                ))
             } else {
                 CheatsListView(model: model) { cheat in
                     readerCheat = cheat
                 }
             }
         }
-        .background(NCColor.nightSky.ignoresSafeArea())
         .fullScreenCover(item: $readerCheat) { cheat in
             let readable = model.sections.flatMap(\.cheats)
             if let index = readable.firstIndex(where: { $0.id == cheat.id }) {
@@ -56,29 +60,12 @@ struct CheatsScreen: View {
         }
     }
 
-    /// Le jeu est un changement de contexte — tout le contenu change — donc il
-    /// se distingue du mode de saisie, qui n'est qu'une loupe sur une même liste.
-    ///
-    /// Hors du défilement, et au-dessus des deux états : sur l'état d'attente de
-    /// GTA VI, une bascule qui aurait vécu dans la liste aurait disparu avec
-    /// elle, et on serait parti sur VI sans pouvoir revenir.
-    ///
-    /// Pas dans une toolbar : cet écran n'a pas de barre de navigation. `RootView`
-    /// empile ses écrans dans un `ZStack` avec une barre d'onglets maison en
-    /// compact, et un `TabView` en régulier — un
-    /// `ToolbarItem(placement: .topBarTrailing)` n'y a nulle part où se rendre, et
-    /// disparaissait sans la moindre erreur.
-    private func gameRow(model: CheatsModel) -> some View {
-        HStack {
-            Spacer()
-            GameSwitch(game: Binding(
-                get: { model.activeGame },
-                set: { model.activeGame = $0 }
-            ))
-        }
-        .padding(.horizontal, 16)
-        .padding(.top, 8)
-    }
+    // La bascule de jeu n'est pas dans une toolbar : cet écran n'a pas de barre
+    // de navigation. `RootView` empile ses écrans dans un `ZStack` avec une barre
+    // d'onglets maison en compact, et un `TabView` en régulier — un
+    // `ToolbarItem(placement: .topBarTrailing)` n'y a nulle part où se rendre, et
+    // disparaissait sans la moindre erreur. Elle partage donc la ligne de
+    // recherche de la liste.
 
     private func loadCheatsModel() async {
         guard model == nil else { return }
