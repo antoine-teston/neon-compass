@@ -18,6 +18,13 @@ Deux causes, indépendantes :
    fichier est rejeté. L'écran est vide parce que la donnée ne décode pas, pas
    parce qu'il n'y a pas de contenu.
 
+   Le plan 3b avait vu le décalage et l'avait consigné comme une fixture de
+   contenu à corriger « avant toute publication réelle », hors de son périmètre.
+   Son test unitaire écrit donc `"l1"` là où le contenu réel écrit `"lb"` : le
+   test passe, le contenu échoue, et rien ne relie les deux. C'est ce chaînon
+   manquant que la nouvelle suite ajoute, en décodant les fichiers livrés plutôt
+   qu'un JSON écrit à la main.
+
 2. **Un modèle trop étroit.** `sequence` exige `ps5` **et** `xbox`. GTA V a
    quatre modes de saisie, et 8 de ses 36 triches n'ont aucun combo manette.
    Ces triches sont inexprimables aujourd'hui.

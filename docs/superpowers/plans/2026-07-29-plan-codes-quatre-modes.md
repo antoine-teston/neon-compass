@@ -39,7 +39,7 @@
 - `NeonCompass/Features/Cheats/CheatCodeView.swift` — rend un `CheatCode` selon sa forme, à une taille donnée.
 - `NeonCompass/Features/Cheats/CheatsUnavailableGroup.swift` — le groupe replié des codes absents du mode actif.
 - `NeonCompass/Features/Cheats/CheatsEmptyGameView.swift` — état d'attente GTA VI.
-- `NeonCompassTests/Cheats/CheatDecodingTests.swift`, `CheatsModelTests.swift`, `GamepadGlyphTests.swift`, `CheatLoaderTests.swift`.
+- `NeonCompassTests/Cheats/CheatDecodingTests.swift`, `CheatLoaderTests.swift`.
 
 **Modifiés**
 - `content/schema/cheat.schema.json` — `codes` remplace `sequence`, `game` ajouté.
@@ -52,6 +52,11 @@
 - `NeonCompass/App/RootView.swift:154` — passe le socle.
 - `project.yml` — référence de dossier `Resources/Cheats`.
 - `NeonCompass/Resources/Localizable.xcstrings`.
+- `NeonCompassTests/Cheats/CheatTests.swift` — son unique test décode un `sequence`.
+- `NeonCompassTests/Cheats/GamepadGlyphTests.swift` — ses trois tests passent un `platform:`.
+- `NeonCompassTests/Cheats/CheatsModelTests.swift` — ses cinq tests portent sur `activePlatform` et `filteredCheats`.
+
+**Sur ces trois fichiers de tests existants** : ils compilent aujourd'hui et cessent de compiler dès la tâche 4. Aucun ne doit être supprimé sans que son intention soit reprise ailleurs — `CheatTests` garde l'invariant « les champs pipeline-only sont ignorés au décodage », `GamepadGlyphTests` celui « aucun glyphe propriétaire », `CheatsModelTests` ceux des favoris et du filtrage. Les tâches 4 et 6 disent où chacun atterrit.
 
 **Supprimé**
 - `content/cheats/cheat_sample_placeholder.json` — fixture qui ne décode pas, remplacée par du contenu réel.
@@ -894,7 +899,8 @@ EOF
 - Modify: `NeonCompass/Core/Cheats/GamepadGlyph.swift`
 - Modify: `NeonCompass/Core/News/NewsItem.swift:42-57`
 - Create: `NeonCompassTests/Cheats/CheatDecodingTests.swift`
-- Create: `NeonCompassTests/Cheats/GamepadGlyphTests.swift`
+- Modify: `NeonCompassTests/Cheats/GamepadGlyphTests.swift` (remplacement complet)
+- Delete: `NeonCompassTests/Cheats/CheatTests.swift` (son invariant passe dans `CheatDecodingTests`)
 
 **Interfaces:**
 - Consumes: le contrat JSON de la tâche 1.
@@ -1035,9 +1041,22 @@ struct CheatDecodingTests {
 
 Ce test lit `content/` depuis le disque et ne tournera donc que sur simulateur avec le dépôt monté — c'est le cas de `Scripts/test.sh`. La tâche 5 le double d'un test qui lit le socle **embarqué**, lequel vaut aussi sur un appareil.
 
-- [ ] **Step 2: Écrire le test des glyphes**
+- [ ] **Step 1b: Reprendre l'invariant de `CheatTests` puis le supprimer**
 
-Créer `NeonCompassTests/Cheats/GamepadGlyphTests.swift` :
+`NeonCompassTests/Cheats/CheatTests.swift` porte un seul test, `decodesCheatIgnoringPipelineOnlyFields` : il vérifie que `status` et `verifiedBy` sont ignorés au décodage. Cet invariant est déjà couvert par `CheatDecodingTests` ci-dessus — tous ses fixtures portent `status` et `verifiedBy`, et le décodage réussit. Ajouter cependant l'assertion explicite dans `decodesAllFourModes`, sinon l'invariant ne serait plus vérifié que par accident :
+
+```swift
+        // Reprise de CheatTests.decodesCheatIgnoringPipelineOnlyFields : les
+        // champs pipeline-only du schéma n'ont pas d'équivalent dans le modèle
+        // et doivent être ignorés sans erreur, pas provoquer un échec.
+        #expect(cheat.effect.resolved(for: "en") == "Drops a Comet sports car next to you.")
+```
+
+Puis `git rm NeonCompassTests/Cheats/CheatTests.swift`.
+
+- [ ] **Step 2: Remplacer le test des glyphes**
+
+`NeonCompassTests/Cheats/GamepadGlyphTests.swift` existe et ses trois tests passent un argument `platform:` qui disparaît. Ils gardent une intention à préserver — « aucun glyphe propriétaire », « les lettres pour Xbox », « les gâchettes partagent leur glyphe » — reprise et élargie ci-dessous. Remplacer intégralement le fichier :
 
 ```swift
 import Testing
@@ -1045,6 +1064,28 @@ import UIKit
 @testable import NeonCompass
 
 struct GamepadGlyphTests {
+    // Reprise du test d'origine : uniquement des SF Symbols génériques, aucune
+    // marque Sony ou Microsoft.
+    @Test func faceButtonsNeverReferenceTrademarkedSymbols() {
+        for button in [GamepadButton.cross, .circle, .square, .triangle] {
+            #expect(!GamepadGlyph.systemImage(for: button).isEmpty)
+        }
+    }
+
+    @Test func xboxFaceButtonsUseLetterGlyphs() {
+        #expect(GamepadGlyph.systemImage(for: .a) == "a.circle")
+        #expect(GamepadGlyph.systemImage(for: .b) == "b.circle")
+    }
+
+    // Le test d'origine comparait le même bouton entre deux plates-formes, ce
+    // que la signature ne permet plus. L'invariant devient plus fort : les
+    // gâchettes des deux familles partagent leur glyphe.
+    @Test func shouldersShareTheirGlyphAcrossFamilies() {
+        #expect(GamepadGlyph.systemImage(for: .l1) == GamepadGlyph.systemImage(for: .lb))
+        #expect(GamepadGlyph.systemImage(for: .l2) == GamepadGlyph.systemImage(for: .lt))
+        #expect(GamepadGlyph.systemImage(for: .r1) == GamepadGlyph.systemImage(for: .rb))
+        #expect(GamepadGlyph.systemImage(for: .r2) == GamepadGlyph.systemImage(for: .rt))
+    }
     // Un nom de SF Symbol erroné rend une Image vide : la carte affiche des
     // trous à la place de la séquence, et rien ne le signale au build.
     @Test func everyButtonResolvesToARealSFSymbol() {
@@ -1637,7 +1678,7 @@ EOF
 
 **Files:**
 - Modify: `NeonCompass/Features/Cheats/CheatsModel.swift`
-- Create: `NeonCompassTests/Cheats/CheatsModelTests.swift`
+- Modify: `NeonCompassTests/Cheats/CheatsModelTests.swift` (remplacement complet — ses cinq tests portent sur `activePlatform` et `filteredCheats`, tous deux supprimés ; les trois qui concernent les favoris et le filtrage sont repris tels quels sous leur nouveau nom d'accès)
 
 **Interfaces:**
 - Consumes: `Cheat`, `CheatInputMode`, `Game`, `CheatLoader` des tâches 4 et 5.
@@ -1795,8 +1836,49 @@ struct CheatsModelTests {
         ])
         #expect(sut.modesAvailable(for: c) == [.pc, .phone])
     }
+
+    // MARK: - Repris de la version précédente du fichier
+    //
+    // Ces trois tests existaient et portaient sur `filteredCheats`, supprimé.
+    // Leur intention — les favoris se basculent, se reflètent immédiatement, et
+    // remontent en tête — n'a pas changé ; seul l'accès change.
+
+    private var favoritable: [Cheat] {
+        [
+            cheat("a", .weapons, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("b", .weapons, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+        ]
+    }
+
+    @Test func favoritesAreToggleableAndPinnedFirst() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-pinned"))
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a", "b"])
+        sut.toggleFavorite(favoritable[1])
+        #expect(sut.sections.flatMap(\.cheats).first?.id == "b")
+    }
+
+    @Test func favoriteCheatIDsReflectsToggleImmediately() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-ids"))
+        let target = favoritable[0]
+        #expect(!sut.favoriteCheatIDs.contains(target.id))
+        sut.toggleFavorite(target)
+        #expect(sut.favoriteCheatIDs.contains(target.id))
+        sut.toggleFavorite(target)
+        #expect(!sut.favoriteCheatIDs.contains(target.id))
+    }
+
+    @Test func filtersByCategory() throws {
+        let sut = try model([
+            cheat("a", .weapons, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("b", .misc, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+        ], defaults: defaults("categories"))
+        sut.activeCategories = [.weapons]
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a"])
+    }
 }
 ```
+
+Le test `defaultPlatformIsPS5` de la version précédente n'est pas repris : le défaut change délibérément (`.phone`, cf. D5), et `firstLaunchLandsOnTheOnlyCompleteMode` le remplace. `platformPreferencePersistsAcrossInstances` devient `remembersTheChosenMode`, doublé de `migratesTheStoredPS5Platform` qui couvre ce que l'ancien test ne pouvait pas couvrir : la lecture d'une préférence écrite par la version précédente de l'app.
 
 `LocalizedText` est déclaré dans `NeonCompass/Core/Map/POI.swift:26` et son initialiseur mémoire à mémoire n'a pas de valeur par défaut : les cinq langues sont à passer, comme le font déjà les autres suites de tests (`NeonCompassTests/Map/POIClustererTests.swift:8`).
 
