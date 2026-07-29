@@ -18,9 +18,14 @@ struct CheatsScreen: View {
             if let model {
                 cheatsContent(model: model)
             } else {
-                ProgressView().task { await loadCheatsModel() }
+                ProgressView()
             }
         }
+        // Cf. FeedScreen : accrochée au ProgressView, cette tâche s'annulait
+        // elle-même dès que `model` était assigné, et `updateCheats` n'était
+        // jamais atteint. L'écran n'affichait donc que le socle embarqué —
+        // vide pour les cheats, qui n'en ont pas.
+        .task { await loadCheatsModel() }
     }
 
     private func cheatsContent(model: CheatsModel) -> some View {
