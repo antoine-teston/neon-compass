@@ -62,6 +62,17 @@ import UIKit
 /// so the `GeometryReader` reliably measures width from the first render.
 struct BannerAdView: View {
     var adUnitID: String = "ca-app-pub-3940256099942544/2934735716" // AdMob's public test adaptive-banner ID — replace once provisioned.
+
+    /// Plafond demandé pour CETTE instance. Par défaut `maxAdHeight`, la valeur
+    /// calibrée pour une bannière ancrée.
+    ///
+    /// Paramétrable parce qu'un encart intercalé dans une liste de cartes n'a
+    /// pas les mêmes contraintes qu'une bande ancrée en bas d'écran : il doit
+    /// avoir le gabarit d'une carte, sinon il casse le rythme de la colonne.
+    /// N'y mettre que des hauteurs de créative STANDARD (50, 100, 250) — voir
+    /// la note sur le liseré dans `maxAdHeight`.
+    var maxHeight: CGFloat = BannerAdView.maxAdHeight
+
     @State private var measuredWidth: CGFloat = 0
 
     /// Plafond de hauteur de l'emplacement, et **taille demandée à AdMob**.
@@ -90,6 +101,18 @@ struct BannerAdView: View {
     /// supprime le liseré sans rien rogner.
     static let maxAdHeight: CGFloat = 50
 
+    /// Plafond d'un encart intercalé dans une liste de cartes.
+    ///
+    /// 100 et pas 120 — qui collerait pourtant de plus près à la hauteur d'une
+    /// carte du fil (~150 pt, marges comprises) — pour la raison exposée
+    /// au-dessus : un plafond qui ne correspond à AUCUNE hauteur de créative
+    /// standard laisse l'annonce centrée entre deux liserés noirs. 100 est une
+    /// hauteur servie telle quelle (320×100), donc l'emplacement est rempli
+    /// exactement. Les 14 pt de marge de l'encart complètent le reste, et
+    /// l'ensemble tombe à ~128 pt : assez proche d'une carte pour que la
+    /// colonne garde son rythme, sans bande noire pour l'annoncer.
+    static let cardSlotHeight: CGFloat = 100
+
     /// Espace qu'un écran hôte doit réserver sous son contenu : la hauteur
     /// maximale de l'annonce plus le `padding(12)` de la bulle de verre qui
     /// l'entoure.
@@ -114,14 +137,14 @@ struct BannerAdView: View {
     /// `Color.clear` nu s'étend à tout ce que le conteneur offre — dans le
     /// `ZStack` aligné en bas de Feed/Cheats, c'est l'écran entier).
     private var slotHeight: CGFloat {
-        guard measuredWidth > 0 else { return Self.maxAdHeight }
-        return min(inlineAdaptiveBanner(width: measuredWidth, maxHeight: Self.maxAdHeight).size.height, Self.maxAdHeight)
+        guard measuredWidth > 0 else { return maxHeight }
+        return min(inlineAdaptiveBanner(width: measuredWidth, maxHeight: maxHeight).size.height, maxHeight)
     }
 
     var body: some View {
         Group {
             if measuredWidth > 0 {
-                BannerAdRepresentable(adUnitID: adUnitID, width: measuredWidth, height: slotHeight)
+                BannerAdRepresentable(adUnitID: adUnitID, width: measuredWidth, height: slotHeight, maxHeight: maxHeight)
             } else {
                 Color.clear
             }
@@ -149,6 +172,14 @@ private struct BannerAdRepresentable: UIViewRepresentable {
     let width: CGFloat
     let height: CGFloat
 
+    /// Plafond réellement DEMANDÉ à AdMob. Il vivait ici en dur sur
+    /// `BannerAdView.maxAdHeight`, si bien qu'un appelant demandant un
+    /// emplacement plus haut réservait la place sans jamais demander l'annonce
+    /// qui va avec : l'emplacement faisait 100, la requête 50. Ça ne se voyait
+    /// pas parce que la créative de test servie mesure 320×100 quoi qu'on
+    /// demande — un vrai inventaire aurait rempli la moitié de l'encart.
+    let maxHeight: CGFloat
+
     func makeCoordinator() -> Coordinator { Coordinator() }
 
     /// Tracks the width we last requested an ad for, so `updateUIView` can tell
@@ -161,9 +192,18 @@ private struct BannerAdRepresentable: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> BannerView {
-        let banner = BannerView(adSize: inlineAdaptiveBanner(width: width > 0 ? width : UIScreen.main.bounds.width, maxHeight: BannerAdView.maxAdHeight))
+        let banner = BannerView(adSize: inlineAdaptiveBanner(width: width > 0 ? width : UIScreen.main.bounds.width, maxHeight: maxHeight))
         banner.adUnitID = adUnitID
         banner.rootViewController = AdPresentationContext.topViewController()
+        // Fond transparent, et pas le noir par défaut d'`UIView`.
+        //
+        // Une créative ne remplit pas toujours l'emplacement adaptatif : la
+        // créative de test fait 320 de large quelle que soit la largeur
+        // demandée, ce qui laissait deux bandes NOIRES sur les côtés dans
+        // l'encart du fil — un rectangle noir au milieu d'une colonne de cartes
+        // en verre. Transparent, l'espace non couvert laisse voir le verre de
+        // l'encart au lieu de le trouer.
+        banner.backgroundColor = .clear
         banner.load(Request())
         context.coordinator.requestedWidth = width
         return banner
@@ -176,7 +216,7 @@ private struct BannerAdRepresentable: UIViewRepresentable {
         // previous updateUIView was a no-op, so the banner never
         // re-adapted after creation.
         guard width > 0, width != context.coordinator.requestedWidth else { return }
-        uiView.adSize = inlineAdaptiveBanner(width: width, maxHeight: BannerAdView.maxAdHeight)
+        uiView.adSize = inlineAdaptiveBanner(width: width, maxHeight: maxHeight)
         uiView.load(Request())
         context.coordinator.requestedWidth = width
     }

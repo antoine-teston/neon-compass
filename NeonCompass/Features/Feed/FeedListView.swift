@@ -5,17 +5,6 @@ struct FeedListView: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.horizontalSizeClass) private var sizeClass
 
-    /// Une bannière intercalée toutes les cinq entrées, et c'est la SEULE
-    /// publicité de cet écran : la bannière ancrée au-dessus de la barre
-    /// d'onglets a été retirée.
-    ///
-    /// Le fil y gagne toute la hauteur de l'écran, et la publicité y gagne
-    /// d'être lue — une bannière collée en bas est le premier élément qu'un œil
-    /// apprend à ignorer, alors qu'un encart rencontré dans le défilement est
-    /// regardé. La contrepartie est assumée : un fil de moins de six entrées ne
-    /// porte plus aucune publicité.
-    private static let cardsBetweenAds = 5
-
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
@@ -43,22 +32,23 @@ struct FeedListView: View {
         .background(NCColor.nightSky.ignoresSafeArea())
     }
 
-    /// Jamais après la dernière carte : terminer une liste par une publicité,
-    /// c'est ce qu'on voit dans les applications qu'on désinstalle.
+    /// Les positions viennent du modèle, tirées une fois par contenu. La vue ne
+    /// décide de rien : elle ne fait qu'ajouter la condition qui ne dépend pas
+    /// du contenu, l'abonnement.
     private func showsInlineAd(after index: Int) -> Bool {
         guard !proEntitlementModel.isProEntitled else { return false }
-        let position = index + 1
-        return position % Self.cardsBetweenAds == 0 && position < model.newsItems.count
+        return model.adPositions.contains(index)
     }
 
-    /// Même gabarit qu'une carte — mêmes marges, même rayon, même verre.
+    /// Même gabarit qu'une carte — mêmes marges, même rayon, même verre, et une
+    /// annonce dimensionnée pour remplir ce gabarit plutôt qu'une bande fine
+    /// perdue dedans.
     ///
     /// Non pour la déguiser en actu, mais parce qu'un encart d'une autre taille
     /// dans une colonne de cartes casse le rythme de lecture : l'œil bute sur
-    /// la rupture avant même de lire ce qu'elle contient. `BannerAdView` se
-    /// dimensionne lui-même en hauteur ; seule la largeur est alignée ici.
+    /// la rupture avant même de lire ce qu'elle contient.
     private var inlineAd: some View {
-        BannerAdView()
+        BannerAdView(maxHeight: BannerAdView.cardSlotHeight)
             .frame(maxWidth: .infinity)
             .padding(14)
             .glassEffect(.regular, in: .rect(cornerRadius: 14))
