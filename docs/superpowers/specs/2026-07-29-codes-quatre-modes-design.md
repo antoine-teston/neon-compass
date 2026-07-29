@@ -124,10 +124,38 @@ dictionnaire à charge typée est la seule forme où les deux sont de premier or
 `Cheat.swift` écrit déjà son `Codable` à la main (le `Dictionary` synthétisé
 cassait le round-trip du cache SwiftData) : le coût reste dans ce fichier.
 
-### D2 — `game` sur chaque triche
+### D2 — `game` sur chaque triche, et dans son identifiant
 
-Champ requis `game`, valeurs `"gtav"` et `"leonida"` — mêmes valeurs brutes que
-`NewsGame`, pour que l'app n'ait qu'un vocabulaire de jeu.
+Champ requis `game`, valeurs `"gtav"` et `"leonida"`. Pour que l'app n'ait qu'un
+seul vocabulaire de jeu, l'énumération `NewsGame` est extraite en `Core/Game.swift`
+sous le nom `Game`, avec `typealias NewsGame = Game` afin que les sites d'appel du
+fil continuent de compiler.
+
+L'identifiant porte le jeu : `cheat_gtav_invincibility`, pas
+`cheat_invincibility`. Les deux jeux auront des triches homonymes —
+invincibilité, munitions, météo — et un identifiant sans le jeu les ferait
+collisionner le jour où les codes de GTA VI arrivent.
+
+### D9 — Les 36 codes sont embarqués dans le binaire
+
+`ContentStore<Cheat>.live` est appelé sans `seed:` sur ses deux sites
+(`CheatsScreen.swift:49`, `RootView.swift:154`), alors que les POI et les
+collections passent le leur. Conséquence : au premier lancement et hors ligne,
+l'écran Codes reste vide même une fois le bug de décodage corrigé — le contenu
+n'arrive que par le CDN ou Firestore.
+
+Un socle embarqué `Resources/Cheats/seed-cheats.json` est donc généré depuis
+`content/` sur le modèle de `seed-poi.json` : même projection, même garde-fou
+`check-seeds`, même référence de dossier `type: folder` dans `project.yml`
+(sans quoi XcodeGen aplatit le fichier et le `subdirectory:` du chargeur ne le
+trouve pas). C'est justifié au-delà du parallélisme : les codes d'un jeu terminé
+ne changent plus, et D5 — la saisie immédiate — ne tient pas si l'écran dépend
+du réseau.
+
+Le socle embarque indépendamment du statut `draft`/`published`, par la règle
+déjà en place pour les POI (ce filtre gouverne la publication Firestore, pas ce
+que le binaire contient). La relecture humaine des 36 textes d'effet est donc
+une étape du plan, pas un filtre à l'exécution.
 
 ### D3 — Deux sélecteurs, de poids différents
 
@@ -172,9 +200,22 @@ cartes, avec le fait qu'un code ne se mémorise pas dans le téléphone et doit
 
 Comet, Kraken, Duke O'Death sont des identifiants factuels : sans eux le code
 ne sert à rien. Ce qui est réécrit dans nos mots, c'est la **description de
-l'effet**. Rédaction EN + FR, statut `draft`, `verifiedBy` citant la source —
-contrat de l'agent `content-editor`. La bascule FR-primaire n'est pas touchée :
-le schéma exige toujours `en`, elle reste un plan dédié.
+l'effet**. Rédaction EN + FR — contrat de l'agent `content-editor`. La bascule
+FR-primaire n'est pas touchée : le schéma exige toujours `en`, elle reste un
+plan dédié.
+
+### D10 — Deux sources, donc publiable
+
+`check-publishable` refuse déjà un cheat `published` dont `verifiedBy` compte
+moins de deux sources. Or le socle de D9 embarque le contenu indépendamment de
+son statut : livrer 36 codes mono-sourcés en `draft` ferait entrer dans le
+binaire exactement ce que la porte de publication refuse.
+
+Les codes sont donc recoupés sur une seconde source autorisée — `gtaboom.com`,
+mode `allow` au registre — puis publiés. Un code sur lequel les deux sources
+divergent n'est pas publié : un combo faux est pire qu'un combo absent, il fait
+échouer la saisie sans dire pourquoi. Un code que la seconde source ignore
+reste en `draft` avec une seule source, et c'est dit.
 
 ### D8 — Corrections ciblées incluses
 
@@ -200,7 +241,9 @@ le schéma exige toujours `en`, elle reste un plan dédié.
 
 `slow_motion_aim` a un combo Xbox mais aucun combo PlayStation dans la source,
 alors que les 27 autres triches à combo en ont deux. Lacune probable de Fandom,
-à recouper avec `gtaboom.com` (autorisé au registre) avant de figer la donnée.
+que le recoupement de D10 tranchera. Si la seconde source est muette aussi,
+`codes.playstation` reste absent : c'est alors un fait, et D4 l'affiche dans le
+groupe des codes indisponibles.
 
 ## Tests
 
