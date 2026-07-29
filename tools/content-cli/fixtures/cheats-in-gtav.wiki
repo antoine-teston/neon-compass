@@ -1,0 +1,509 @@
+{{DISPLAYTITLE: Cheats in ''Grand Theft Auto V''}}{{cheats}}
+This article lists all of the '''Cheats''' for {{V}}. They can be entered as a button combination like the {{3D}} games, or via the phone like in {{IV}} (this is exclusive to the [[PlayStation 4|PS4]]/[[PlayStation 5|PS5]]/[[Xbox One]]/[[Xbox Series X and Series S]]/[[Personal Computer|PC]] version). However the player '''cannot''' store these cheats on the phone, meaning that if a cheat deactivates or wears off, it must be inputted again. On the PC version, cheats can be activated by typing into the input bar when pressing {{Button|kbtilde}} or {{Button|kbslash}} on the keyboard. Like Grand Theft Auto IV and Episodes from Liberty City, none of the cheats prevent the player from achieving [[100% Completion|100% game completion]], do not hinder progress and do not corrupt save files. They are safe to use and they will help the player out if needed.
+
+Codes can either be entered during game play or in the pause menu. When activating them in the pause menu the cheat must be activated by pressing start to activate the cheat.
+
+==[[Xbox 360]], [[Xbox One]] and [[Xbox Series X and Series S|Xbox Series X/S]]==
+<div align="center">
+{| class="wikitable"
+!Effect
+!Code
+|-
+|Spawn [[Trashmaster]]
+|[[File:XBox B.png|25px|B]], '''RB''', [[File:XBox B.png|25px|B]], '''RB''', [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Left.png|25px|D-Pad Left]], '''RB''', '''LB''', [[File:XBox B.png|25px|B]], [[File:Xbox Right.png|25px|D-Pad Right]]
+|-
+|Spawn [[Stretch]]
+|[[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox LTrigger.png|25px|LT]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Left.png|25px|D-Pad Left]], '''RB''', '''LB''', [[File:XBox B.png|25px|B]], [[File:Xbox Right.png|25px|D-Pad Right]]
+|-
+|Spawn [[Mallard]]
+|[[File:XBox B.png|25px|B]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB''', [[File:Xbox LTrigger.png|25px|LT]], [[File:Xbox Left.png|25px|D-Pad Left]], '''RB''', '''LB''', '''LB''', [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox A.png|25px|A]], [[File:XBox Y.png|25px|Y]]
+|-
+|Spawn [[Sanchez]]
+|[[File:XBox B.png|25px|B]], [[File:XBox A.png|25px|A]], '''LB''', [[File:XBox B.png|25px|B]], [[File:XBox B.png|25px|B]], '''LB''', [[File:XBox B.png|25px|B]], '''RB''', [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox LTrigger.png|25px|LT]], '''LB''', '''LB'''
+|-
+|Spawn [[Comet]]
+|'''RB''', [[File:XBox B.png|25px|B]], [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB''', [[File:Xbox LTrigger.png|25px|LT]], [[File:XBox A.png|25px|A]], [[File:XBox A.png|25px|A]], [[File:XBox X.png|25px|X]], '''RB'''
+|-
+|Spawn [[Buzzard Attack Chopper]]
+|[[File:XBox B.png|25px|B]], [[File:XBox B.png|25px|B]], '''LB''', [[File:XBox B.png|25px|B]], [[File:XBox B.png|25px|B]], [[File:XBox B.png|25px|B]], '''LB''', [[File:Xbox LTrigger.png|25px|LT]], '''RB''', [[File:XBox Y.png|25px|Y]], [[File:XBox B.png|25px|B]], [[File:XBox Y.png|25px|Y]]
+|-
+|Spawn [[Caddy]]
+|[[File:XBox B.png|25px|B]], '''LB''', [[File:Xbox Left.png|25px|D-Pad Left]], '''RB''', [[File:Xbox LTrigger.png|25px|LT]], [[File:XBox A.png|25px|A]], '''RB''', '''LB''', [[File:XBox B.png|25px|B]], [[File:XBox A.png|25px|A]]
+|-
+|Spawn [[Duster]]
+|[[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], '''RB''', '''RB''', '''RB''', [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox Y.png|25px|Y]], [[File:XBox Y.png|25px|Y]], [[File:XBox A.png|25px|A]], [[File:XBox B.png|25px|B]], '''LB''', '''LB'''
+|-
+|Spawn [[Rapid GT]]
+|[[File:Xbox RTrigger.png|25px|RT]], '''LB''', [[File:XBox B.png|25px|B]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB''', '''RB''', [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox B.png|25px|B]], [[File:Xbox RTrigger.png|25px|RT]]
+|-
+|Spawn [[PCJ-600]]
+|'''RB''', [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox X.png|25px|X]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox LTrigger.png|25px|LT]], '''LB''', '''LB'''
+|-
+|Give [[Parachute]]
+|[[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB''', [[File:Xbox LTrigger.png|25px|LT]], '''RB''', [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB'''
+|-
+|Raise Wanted Level (+1 star per use)
+|'''RB''', '''RB''', [[File:XBox B.png|25px|B]], [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]]
+|-
+|Lower Wanted Level (-1 star per use)
+|'''RB''', '''RB''', [[File:XBox B.png|25px|B]], [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]]
+|-
+|Explosive Melee Attacks
+|[[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox A.png|25px|A]], [[File:XBox Y.png|25px|Y]], '''RB''', [[File:XBox B.png|25px|B]], [[File:XBox B.png|25px|B]], [[File:XBox B.png|25px|B]], [[File:Xbox LTrigger.png|25px|LT]]
+|-
+|Drunk Mode
+|[[File:XBox Y.png|25px|Y]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox X.png|25px|X]], [[File:XBox B.png|25px|B]], [[File:Xbox Left.png|25px|D-Pad Left]]
+|-
+|Fast Running
+|[[File:XBox Y.png|25px|Y]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox LTrigger.png|25px|LT]], '''LB''', [[File:XBox X.png|25px|X]]
+|-
+|Change weather
+|[[File:Xbox RTrigger.png|25px|RT]], [[File:XBox A.png|25px|A]], '''LB''', '''LB''', [[File:Xbox LTrigger.png|25px|LT]], [[File:Xbox LTrigger.png|25px|LT]], [[File:Xbox LTrigger.png|25px|LT]], [[File:XBox X.png|25px|X]]
+|-
+|Slidey Cars
+|[[File:XBox Y.png|25px|Y]], '''RB''', '''RB''', [[File:Xbox Left.png|25px|D-Pad Left]], '''RB''', '''LB''', [[File:Xbox RTrigger.png|25px|RT]], '''LB'''
+|-
+|Slow Motion (Can be entered up to 4 times, each slowing even more, fourth time disables)
+|[[File:XBox Y.png|25px|Y]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox X.png|25px|X]], [[File:Xbox RTrigger.png|25px|RT]], '''RB'''
+|-
+|Slow Motion Aiming (Can be entered up to 4 times, each slowing even more, fourth time disables)
+|[[File:XBox X.png|25px|X]], [[File:Xbox LTrigger.png|25px|LT]], '''RB''', [[File:XBox Y.png|25px|Y]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox X.png|25px|X]], [[File:Xbox LTrigger.png|25px|LT]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox A.png|25px|A]]
+|-
+|Recharge Special Ability
+|[[File:XBox A.png|25px|A]], [[File:XBox A.png|25px|A]], [[File:XBox X.png|25px|X]], '''RB''', '''LB''', [[File:XBox A.png|25px|A]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox A.png|25px|A]]
+|-
+|
+Skyfall (Character is warped up to a great height and falls to the ground)
+|'''LB''', [[File:Xbox LTrigger.png|25px|LT]], '''RB''', [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB''', [[File:Xbox LTrigger.png|25px|LT]], '''RB''', [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]]
+|-
+|Invincibility (Lasts only 5 minutes)
+|[[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox A.png|25px|A]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], '''RB''', [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox A.png|25px|A]], [[File:XBox Y.png|25px|Y]]
+|-
+|Max Health & Armor
+|[[File:XBox B.png|25px|B]], '''LB''', [[File:XBox Y.png|25px|Y]], [[File:Xbox RTrigger.png|25px|RT]], [[File:XBox A.png|25px|A]], [[File:XBox X.png|25px|X]], [[File:XBox B.png|25px|B]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox X.png|25px|X]], '''LB''', '''LB''', '''LB'''
+|-
+|Weapons & Ammo
+|[[File:XBox Y.png|25px|Y]], [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Left.png|25px|D-Pad Left]], '''LB''', [[File:XBox A.png|25px|A]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox Y.png|25px|Y]], [[File:Xbox Down.png|25px|D-Pad Down]], [[File:XBox X.png|25px|X]], '''LB''', '''LB''', '''LB'''
+|-
+|Low Gravity
+|[[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Left.png|25px|D-Pad Left]], '''LB''', '''RB''', '''LB''', [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], '''LB''', [[File:Xbox Left.png|25px|D-Pad Left]]
+|-
+|Super Jump
+|[[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox Y.png|25px|Y]], [[File:XBox Y.png|25px|Y]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox X.png|25px|X]], '''RB''', [[File:Xbox RTrigger.png|25px|RT]]
+|-
+|Flaming Bullets
+|'''LB''', '''RB''', [[File:XBox X.png|25px|X]], '''RB''', [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox RTrigger.png|25px|RT]], '''RB''', [[File:Xbox Left.png|25px|D-Pad Left]], [[File:XBox X.png|25px|X]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB''', '''LB'''
+|-
+|Explosive Bullets
+|[[File:Xbox Right.png|25px|D-Pad Right]], [[File:XBox X.png|25px|X]], [[File:XBox A.png|25px|A]], [[File:Xbox Left.png|25px|D-Pad Left]], '''RB''', [[File:Xbox RTrigger.png|25px|RT]], [[File:Xbox Left.png|25px|D-Pad Left]], [[File:Xbox Right.png|25px|D-Pad Right]], [[File:Xbox Right.png|25px|D-Pad Right]], '''LB''', '''LB''', '''LB'''
+|}
+</div>
+
+==[[PS3]], [[PS4]] and [[PS5]]==
+<div align="center">
+{| class="wikitable"
+!Effect
+!Code
+|-
+|Spawn [[Trashmaster]]
+|
+[[File:PS3 Circle.png|25px|Circle]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Right.png|25px|D-Pad right]]
+|-
+|Spawn [[PCJ-600]]
+|
+[[File:PS3 R1.png|25px|R1]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Spawn [[Stretch]]
+|
+[[File:PS3 R2.png|25px|R2]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Right.png|25px|D-Pad right]]
+|-
+|Spawn [[Mallard]]
+|
+[[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Left.png|25px|D-Pad Left]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Triangle.png|25px|Triangle]]
+|-
+|Spawn [[Sanchez]]
+|
+[[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Spawn [[Comet]]
+|
+[[File:PS3 R1.png|25px|R1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 R1.png|25px|R1]]
+|-
+|Spawn [[Buzzard Attack Chopper]]
+|
+[[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Triangle.png|25px|Triangle]]
+|-
+|Spawn [[Caddy]]
+|
+[[File:PS3 Circle.png|25px|Circle]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Cross.png|25px|X]]
+|-
+|Spawn [[Duster]]
+|
+[[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Spawn [[Rapid GT]]
+|
+[[File:PS3 R2.png|25px|R2]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 R2.png|25px|R2]]
+|-
+|Give [[Parachute]]
+|
+[[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Raise Wanted Level (+1 star per use)
+|
+[[File:PS3 R1.png|25px|R1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]]
+|-
+|Lower Wanted Level (-1 star per use)
+|
+[[File:PS3 R1.png|25px|R1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]]
+|-
+|Explosive Melee Attacks
+|
+[[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 L2.png|25px|L2]]
+|-
+|Drunk Mode
+|
+[[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Left.png|25px|D-Pad left]]
+|-
+|Fast Running
+|
+[[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Square.png|25px|Square]]
+|-
+|Change Weather
+|
+[[File:PS3 R2.png|25px|R2]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 Square.png|25px|Square]],
+|-
+|Slidey Cars
+|
+[[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Slow Motion (Can be entered up to 4 times, each slowing even more, fourth time disables)
+|
+[[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 R1.png|25px|R1]]
+|-
+|Recharge Special Ability
+|
+[[File:PS3 Cross.png|25px|X]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Cross.png|25px|X]]
+|-
+|
+Skyfall (Character is warped up to a great height and falls to the ground)
+|
+[[File:PS3 L1.png|25px|L1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L2.png|25px|L2]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]]
+|-
+|Invincibility (Lasts only 5 minutes)
+|
+[[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Triangle.png|25px|Triangle]]
+|-
+|Max Health & Armor
+|[[File:PS3 Circle.png|25px|Circle]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 Circle.png|25px|Circle]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Weapons & Ammo
+|[[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Down.png|25px|D-Pad Down]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Low Gravity
+|[[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 Left.png|25px|D-Pad left]]
+|-
+|Super Jump
+|[[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Triangle.png|25px|Triangle]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R2.png|25px|R2]]
+|-
+|Flaming Bullets
+|[[File:PS3 L1.png|25px|L1]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]]
+|-
+|Explosive Bullets
+|[[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Square.png|25px|Square]], [[File:PS3 Cross.png|25px|X]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 R1.png|25px|R1]], [[File:PS3 R2.png|25px|R2]], [[File:PS3 Left.png|25px|D-Pad left]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 Right.png|25px|D-Pad right]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]], [[File:PS3 L1.png|25px|L1]]
+|}
+</div>
+
+
+==[[PC]]==
+Cheats have to be typed in a cheat console, activated by pressing {{Button|kbtilde}} or {{Button|kbslash}}.
+
+<div align="center">
+{| class="wikitable"
+!Effect
+!Code
+|-
+|Spawn [[BMX (HD Universe)|BMX]]
+|BANDIT
+|-
+|Spawn [[Buzzard Attack Chopper]]
+|BUZZOFF
+|-
+|Spawn [[Caddy]]
+|HOLEIN1
+|-
+|Spawn [[Comet]]
+|COMET
+|-
+|Spawn [[Dodo (HD Universe)|Dodo]]{{Ref|name=Seaplane|ref=Must be unlocked by completing [[Random Events in GTA V#Sea Plane|Sea Plane]]}}
+|EXTINCT
+|-
+|Spawn [[Duke O'Death]]{{Ref|name=Duelcar|ref=Must be unlocked by completing [[Random Events in GTA V#Duel|Duel]]}}
+|DEATHCAR
+|-
+|Spawn [[Duster]]
+|FLYSPRAY
+|-
+|Spawn [[Kraken]]{{Ref|name=Bubbles|ref=Must be unlocked by completing [[Wildlife Photography Challenge]]}}
+|BUBBLES
+|-
+|Spawn [[Mallard]]
+|BARNSTORM
+|-
+|Spawn [[Stretch]]
+|VINEWOOD
+|-
+|Spawn [[PCJ-600]]
+|ROCKET
+|-
+|Spawn [[Rapid GT]]
+|RAPIDGT
+|-
+|Spawn [[Sanchez]]
+|OFFROAD
+|-
+|Spawn [[Trashmaster]]
+|TRASHED
+|-
+|Weapons ([[Pump Shotgun]], [[RPG (HD Universe)|RPG]], [[Grenades]], [[SMG (HD Universe)|SMG]], [[Assault Rifle]])
+|TOOLUP
+|-
+|Super Jump
+|HOPTOIT
+|-
+|Change Weather
+|MAKEITRAIN
+|-
+|Moon Gravity
+|FLOATER
+|-
+|Drunk Mode
+|LIQUOR
+|-
+|Explosive Melee Attacks
+|HOTHANDS
+|-
+|Fast Run
+|CATCHME
+|-
+|Fast Swim
+|GOTGILLS
+|-
+|Flaming Bullets
+|INCENDIARY
+|-
+|Explosive Ammo Rounds
+|HIGHEX
+|-
+|Max Health & Armor
+|TURTLE
+|-
+|Raise Wanted Level (+1 star per cheat use)
+|FUGITIVE
+|-
+|Lower Wanted Level (-1 star per use)
+|LAWYERUP
+|-
+|Invincibility (lasts for 5 minutes)
+|PAINKILLER
+|-
+|Recharge Special Ability
+|POWERUP
+|-
+|Skyfall (Character is warped up to a great height and falls to the ground)
+|SKYFALL
+|-
+|Slow Motion Aim (Can be entered up to 4 times, each slowing even more; fourth time disables)
+|DEADEYE
+|-
+|Parachute
+|SKYDIVE
+|-
+|Slippery Car Tires
+|SNOWDAY
+|-
+|Slow Motion (Can be entered up to 4 times, each slowing even more; fourth time disables)
+|SLOWMO
+|}
+</div>
+
+==Phone Cheats==
+On the PS4, Xbox One and PC versions of the game, the cheats can alternatively be activated through the protagonist's mobile phone.
+
+<div align="center">
+{| class="wikitable"
+!Effect
+!Number
+|-
+|Spawn [[BMX (HD Universe)|BMX]]
+|
+1-999-226-348<br><small>(1-999-BANDIT)</small>
+|-
+|Spawn [[Buzzard Attack Chopper]]
+|1-999-289-9633<br><small>(1-999-BUZZ-OFF)</small>
+|-
+|Spawn [[Caddy]]
+|1-999-465-3461<br><small>(1-999-HOLE-IN-1)</small>
+|-
+|Spawn [[Comet]]
+|1-999-266-38<br><small>(1-999-COMET)</small>
+|-
+|Spawn [[Dodo (HD Universe)|Dodo]]{{Ref|name=Seaplane}}
+|1-999-3984628<br><small>(1-999-EXTINCT)</small>
+|-
+|Spawn [[Duke O'Death]]{{Ref|name=Duelcar}}
+|1-999-33284227<br><small>(1-999-DEATHCAR)</small>
+|-
+|Spawn [[Duster]]
+|1-999-359-77729<br><small>(1-999-FLY-SPRAY)</small>
+|-
+|Spawn [[Kraken]]{{Ref|name=Bubbles}}
+|1-999-282-2537<br><small>(1-999-BUBBLES)</small>
+|-
+|Spawn [[Stretch]]
+|1-999-846-39663<br><small>(1-999-VINEWOOD)</small>
+|-
+|Spawn [[PCJ-600]]
+|1-999-762-538<br><small>(1-999-ROCKET)</small>
+|-
+|Spawn [[Rapid GT]]
+|1-999-727-4348<br><small>(1-999-RAPID-GT)</small>
+|-
+|Spawn [[Sanchez]]
+|1-999-633-7623<br><small>(1-999-OFF-ROAD)</small>
+|-
+|Spawn [[Mallard]]
+|1-999-227-678-676<br><small>(1-999-BARN-STORM)</small>
+|-
+|Spawn [[Trashmaster]]
+|1-999-872-433<br><small>(1-999-TRASHED)</small>
+|-
+|Give all Weapons
+|1-999-866-587<br><small>(1-999-TOOL-UP)</small>
+|-
+|Director Mode
+|1-999-57825368
+(1-999-LS-TALENT)
+|-
+|Black Cellphone
+|1-999-367-3767
+(1-999-EMPEROR)
+|-
+|Super Jump
+|1-999-467-8648<br><small>(1-999-HOP-TO-IT)</small>
+|-
+|Change Weather{{Ref|name=weather|ref=Can switch between:
+#Sunny
+#Extra Sunny
+#Smoggy
+#Raining
+#Thundery
+#Clearing
+#Snow}}
+|1-999-625-348-7246<br><small>(1-999-MAKE-IT-RAIN)</small>
+|-
+|Moon Gravity
+|1-999-356-2837<br><small>(1-999-FLOATER)</small>
+|-
+|Drunk Mode
+|1-999-547-867<br><small>(1-999-LIQUOR)</small>
+|-
+|Explosive Melee Attacks
+|1-999-468-42637<br><small>(1-999 HOT-HANDS)</small>
+|-
+|Fast Run
+|1-999-228-2463<br><small>(1-999-CATCH-ME)</small>
+|-
+|Fast Swim
+|1-999-468-44557<br><small>(1-999-GOT-GILLS)</small>
+|-
+|Flaming Bullets
+|1-999-462-363-4279<br><small>(1-999-INCENDIARY)</small>
+|-
+|Explosive Ammo Rounds
+|1-999-444-439<br><small>(1-999-HIGHEX)</small>
+|-
+|Max Health & Armor
+|1-999-887-853<br><small>(1-999-TURTLE)</small>
+|-
+|Raise Wanted Level
+|1-999-384-48483<br><small>(1-999-FUGITIVE)</small>
+|-
+|Lower Wanted Level
+|1-999-529-93787<br><small>(1-999-LAWYERUP)</small>
+|-
+|Invincibility
+|1-999-724-654-5537{{Ref|name=error|ref=Erroneously stated in guides as 1-999-724-654-5537 - a number that is too long to be entered into the phone.}}<br><small>(1-999-PAINKILLER)</small>
+|-
+|Recharge Special Ability
+|1-999-769-3787<br><small>(1-999-POWERUP)</small>
+|-
+|Skyfall
+|1-999-759-3255<br><small>(1-999-SKY-FALL)</small>
+|-
+|Slow Motion Aim
+|1-999-332-3393<br><small>(1-999-DEAD-EYE)</small>
+|-
+|Parachute
+|1-999-759-3483<br><small>(1-999-SKY-DIVE)</small>
+|-
+|Slippery Cars
+|1-999-766-9329<br><small>(1-999-SNOW-DAY)</small>
+|-
+|Slow Motion
+|1-999-756-966<br><small>(1-999-SLOW-MO)</small>
+|}
+</div>
+
+==Notes==
+{{Reflist}}
+
+==Oversights==
+*When having the skyfall cheat activated and having a wanted level, the player is unable to turn left or right when flying, and they will also be unable to fly at a possible 90 degree angle towards the ground (PS3 and Xbox 360 confirmed).
+*When switching to another character, and a [[Switch Scenes|switch scene]] is playing (e.g. Franklin coming out of [[Smoke On The Water]], [[Trevor Philips|Trevor]] seen lying down drunk) and the player quickly enters the Skyfall cheat before they are playable, the in-game camera will still be in place of where the [[protagonist]] was standing, and the buildings and structures will lose their texture. After a couple seconds, the in-game camera will usually spawn right behind the protagonist, though it may rarely stay where he was standing until he is killed.
+*If the player deploys their [[parachute]] while in skyfall (seen above) with a [[Wanted Level in GTA V|wanted level]] of at least three stars, after a couple of seconds of parachuting, the protagonist will switch to a standing stance while parachuting.
+
+==Trivia==
+*Unlike in ''Grand Theft Auto IV'', cheats will not disable [[Achievements and Trophies in GTA V|achievements]] permanently, but only for that game session. This change is likely due to the autosave function in ''GTA V''. Consequently, players should not worry if the game autosaves while cheats are active (for example, if the player accidentally [[Under the Bridge|flies under a bridge]]).
+*The cheat combination for the [[Buzzard Attack Chopper]] is the same combination for the [[Rhino (3D Universe)|Rhino]] cheat in both {{VC}} and {{SA}} (with a few buttons modifications).
+*Crashing into buildings at the right stop will lead to the player glitching into buildings if the invincibility cheat is on, even in the [[Enhanced Edition|enhanced version]] (the most notable of which are the [[Federal Investigation Bureau|FIB]] and [[International Affairs Agency|IAA]] buildings, which can be accessed by crashing into the right stop on the glass roof and the windows used to snipe IAA agents in the mission [[Three's Company]], respectively, on older and enhanced versions).
+*When far out in the ocean with the invincibility cheat on, trying to swim down to the ocean floor will result in the cheat automatically deactivating. The reason for this is presumably because Rockstar hasn't made the ocean floor go on forever, keeping the player from going down any further.
+*Activating a cheat during a mission will disable 100% completion for that mission.
+*Like ''Grand Theft Auto IV'' and its DLCs, cheats do not prevent the player from achieving 100% game completion and do not corrupt save files.
+*Some cheats are not available during missions.
+*The player characters are now able to survive explosions from explosives, exploding vehicles with the character nearby or a vehicle exploded with the character still inside or driving it and falling off from high altitudes if the Invincibility cheat is activated, unlike in ''GTA San Andreas''.
+**However, if the player follows another protagonist, the playable protagonist can still be wasted if they are attacked by the protagonist they are following.
+*The invincibility cheat is instantly disabled if the player switches to another character with the Invincibility cheat code enabled.
+*When the player has a parachute and they enter the skyfall cheat, when the screen goes black for a couple of seconds, quickly tap {{Button|cross}} (PS3) or {{Button|Xbox A}} (Xbox 360). Once the black screen is gone, the protagonist will immediately open his parachute and can parachute down to the ground.
+*Activating the slow motion aim cheat may disable the player's [[Special Ability|special ability]] (except for [[Franklin Clinton|Franklin]]'s). The player will not be able to use it until the cheat is deactivated.
+*If the player activates the max health & armor cheat while inside a damaged vehicle, that vehicle will be repaired with missing parts restored. In addition, if the vehicle is on fire, activating the cheat will result into the fire being extinguished.
+*If the player activates the slow motion aim cheat and holds {{Button|l2}} (PS3) or {{Button|Xbox LT}} (Xbox 360) while entering a vehicle, the game will remain in slow motion mode, despite the cheat originally affecting only the aim. The slow motion can be then deactivated simply by leaving the vehicle.
+*The flaming bullets cheat also affects melee attacks on vehicles. If the player melee attacks a vehicle with the flaming bullets cheat activated, that vehicle will be set on fire as if it were shot by bullets with the cheat on.
+*In the enhanced versions of ''GTA V'', the Skyfall cheat will not work if the Super Jump cheat is turned on.
+*If the player enters a weather cheat on and quick save the game, then reload; all of the cheats will be deactivated once loaded, but the weather effect will still be present, meaning if the player completes this process straight before starting a mission, they can complete the mission in their desired weather conditions (even snow) and still get 100% completion on missions, as the game does not recognize any cheats being activated (tested on the PlayStation 4 edition).
+*The slidey cars cheat use to be able to make vehicles accelerate faster than normal. If the player upgrades a super car to its fastest speed, the cheat would make it go twice as fast. This was fixed so the cheat is more accurate.
+*If the player melee attacks a land vehicle with the explosive melee cheat activated, it is much more dangerous if playing as Trevor in which the explosion will kill him instantly unlike with [[Michael De Santa|Michael]] and Franklin which will simply damage the vehicle, although this only applies to the Xbox and PS4 versions, as in the PC version, melee attacking a vehicle will also cause that vehicle to explode even if playing as Michael or Franklin causing either protagonist to get killed, unless the Invincibility Cheat is activated since this cheat causes all three protagonists to survive explosions.
+*In ''GTA V'', one of the options for the weather cheat is snowfall, which is a weather pattern that doesn't occur in normal gameplay or outside the holiday update. Note that going to Sandy Shores while it's snowing will make it extremely foggy and makes it unable for the player to see a few feet in front of the character.
+*In the enhanced version of ''GTA V'', the super jump cheat is not as controllable while in the air as it is in the last gen version. 
+
+==Video==
+[[File:GTA 5 Cheats (PC, PS4, Xbox One, PS3 & Xbox 360)|center|350x350px]]
+
+==Navigation==
+{{Navboxes
+|title = Navigation
+|list1 = 
+{{Navbox gta|state=collapsed}}
+{{Navbox gtav|state=collapsed}}
+}}
+
+[[de:Cheats (V)]]
+[[es:Trucos de Grand Theft Auto V]]
+[[fr:Codes dans GTA V]]
+[[pl:Kody do GTA V]]
+[[ru:Читы в GTA V]]
+
+[[Category:GTA V]]
+[[Category:Cheats]]
+[[Category:Exclusive Enhanced Version Content in GTA V]]
+[[Category:Exclusive Expanded & Enhanced Version Content in GTA V]]
