@@ -23,6 +23,10 @@ final class CDNContentRepository<Item: ContentItem>: ContentRemoteRepository {
     }
 
     func fetchAll() async throws -> [Item] {
+        // La source doit être décidée AVANT qu'on demande si elle l'est : sinon
+        // l'écran qui gagne la course au lancement conclut « pas de CDN » et
+        // part sur Firestore, en lectures facturées.
+        await ContentSourceConfigurator.ready()
         guard await cdn.isConfigured() else {
             return try await firestoreFallback.fetchAll()
         }
@@ -54,6 +58,7 @@ struct CDNContentVersionProvider: ContentVersionProviding {
     }
 
     func currentVersion() async throws -> Int {
+        await ContentSourceConfigurator.ready()
         guard await cdn.isConfigured() else {
             return try await firestoreFallback.currentVersion()
         }

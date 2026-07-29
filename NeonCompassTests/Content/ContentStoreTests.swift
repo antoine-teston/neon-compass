@@ -37,6 +37,28 @@ struct ContentStoreTests {
         #expect(remote.fetchCallCount == 1)
     }
 
+    /// Une version distante à 0 ne déclenche aucune requête, socle ou pas.
+    ///
+    /// Ce test défend la propriété qui rend le lancement gratuit, et il a servi
+    /// de garde-fou le 29 juillet 2026 : la première correction du fil actu vide
+    /// affaiblissait cette garde (« si la collection est vide, télécharge quand
+    /// même »). Elle traitait le symptôme. La vraie cause était que
+    /// `RemoteConfigVersionProvider` rendait 0 tant que Remote Config n'était
+    /// pas activé — corrigé en amont par `ContentSourceConfigurator.ready()`,
+    /// pour que la version soit toujours digne de foi quand la garde la lit.
+    @Test func syncStaysQuietOnUnknownVersionWhenSeedAlreadyShowsSomething() async throws {
+        let remote = FakeContentRepository<POI>()
+        remote.itemsToReturn = [samplePOI(id: "b")]
+        let version = FakeContentVersionProvider()
+        let store = ContentStore<POI>(collectionName: "poi", seed: [samplePOI(id: "a")],
+                                      remote: remote, versionProvider: version, modelContext: makeContext())
+
+        try await store.syncIfNeeded()
+
+        #expect(store.items.map(\.id) == ["a"])
+        #expect(remote.fetchCallCount == 0)
+    }
+
     @Test func syncIsNoOpWhenVersionUnchanged() async throws {
         let remote = FakeContentRepository<POI>()
         remote.itemsToReturn = [samplePOI(id: "a")]

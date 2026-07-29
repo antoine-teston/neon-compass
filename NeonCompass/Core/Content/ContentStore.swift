@@ -47,6 +47,16 @@ final class ContentStore<Item: ContentItem> {
     func syncIfNeeded() async throws {
         let remoteVersion = try await versionProvider.currentVersion()
         let localVersion = Self.cachedVersion(collectionName: collectionName, from: modelContext)
+        // Cette garde est ce qui rend le lancement gratuit : sans nouvelle
+        // version, aucun fragment n'est téléchargé.
+        //
+        // Elle suppose que `remoteVersion` est une VRAIE version, jamais un
+        // « je ne sais pas encore ». C'est le rôle de
+        // `ContentSourceConfigurator.ready()`, attendu par les fournisseurs de
+        // version : sans lui, Remote Config pas encore activé rendait 0, la
+        // garde lisait « à jour », et la collection restait vide pour toute la
+        // session — sans erreur. Ne pas affaiblir cette garde pour compenser :
+        // c'est en amont que la version doit être digne de foi.
         guard remoteVersion > localVersion else { return }
 
         let fetched = try await remote.fetchAll()

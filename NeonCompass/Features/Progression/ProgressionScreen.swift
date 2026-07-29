@@ -14,9 +14,16 @@ struct ProgressionScreen: View {
                 ProgressionListView(model: model)
             } else {
                 ProgressView()
-                    .task { await loadModel() }
             }
         }
+        // Cf. FeedScreen : accrochée au ProgressView, cette tâche s'annulait
+        // elle-même dès que `model` était assigné. Les QUATRE synchronisations
+        // qui suivent ne repartaient donc jamais — l'écran vivait sur le seul
+        // socle embarqué. Les trophées, qui n'en ont pas, restaient vides, et
+        // l'overlay distant ne s'appliquait pas : corriger un POI publié sans
+        // repasser par l'App Store, tout l'intérêt de l'overlay, ne marchait
+        // pas ici.
+        .task { await loadModel() }
         .onAppear {
             model?.refreshFoundState()
             reattachSyncIfNeeded()
