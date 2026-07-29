@@ -1,16 +1,17 @@
 import SwiftUI
 
+/// Le mode « manette en main » : un seul code, aussi gros que possible, et
+/// l'écran qui ne s'éteint pas pendant qu'on le saisit.
 struct CheatReaderView: View {
     let cheats: [Cheat]
-    let platform: Platform
+    let inputMode: CheatInputMode
     let onDismiss: () -> Void
 
     @State private var currentIndex: Int
-    @Environment(\.dismiss) private var dismiss
 
-    init(cheats: [Cheat], startIndex: Int, platform: Platform, onDismiss: @escaping () -> Void) {
+    init(cheats: [Cheat], startIndex: Int, inputMode: CheatInputMode, onDismiss: @escaping () -> Void) {
         self.cheats = cheats
-        self.platform = platform
+        self.inputMode = inputMode
         self.onDismiss = onDismiss
         _currentIndex = State(initialValue: startIndex)
     }
@@ -29,7 +30,10 @@ struct CheatReaderView: View {
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
 
-                glyphRows
+                if let code = cheats[currentIndex].codes[inputMode] {
+                    CheatCodeView(code: code, glyphSize: 44)
+                        .frame(maxWidth: .infinity)
+                }
 
                 Button("cheats.reader.close", action: onDismiss)
                     .buttonStyle(.glassProminent)
@@ -37,6 +41,10 @@ struct CheatReaderView: View {
             }
             .padding(32)
         }
+        // Le geste reste tel quel, avec ses défauts : ni suivi du doigt, ni
+        // rebond en butée, ni indicateur de position, et il intercepte les
+        // balayages d'accessibilité. C'est antérieur aux quatre modes de saisie,
+        // et le corriger ici serait un refactor d'opportunité.
         .gesture(
             DragGesture(minimumDistance: 40)
                 .onEnded { value in
@@ -49,16 +57,5 @@ struct CheatReaderView: View {
         )
         .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
         .onDisappear { UIApplication.shared.isIdleTimerDisabled = false }
-    }
-
-    private var glyphRows: some View {
-        let sequence = cheats[currentIndex].sequence[platform] ?? []
-        return HStack(spacing: 24) {
-            ForEach(Array(sequence.enumerated()), id: \.offset) { _, button in
-                Image(systemName: GamepadGlyph.systemImage(for: button, platform: platform))
-                    .font(.system(size: 64))
-                    .foregroundStyle(NCColor.neonCyan)
-            }
-        }
     }
 }

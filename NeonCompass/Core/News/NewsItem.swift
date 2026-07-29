@@ -36,25 +36,12 @@ enum NewsCategory: String, CaseIterable, Codable, Sendable {
 /// se priverait des deux tiers de l'actualité. Mais un lecteur doit savoir en un
 /// coup d'œil de quoi on lui parle — d'où la pastille sur la carte.
 ///
-/// Réutilise le vocabulaire de `MapGame` (`leonida` / `gtav`) plutôt que d'en
-/// inventer un second : deux vocabulaires pour la même distinction finissent
-/// toujours par diverger.
-enum NewsGame: String, CaseIterable, Codable, Sendable {
-    case leonida
-    case reference = "gtav"
-
-    var shortLabel: String {
-        switch self {
-        case .leonida: "VI"
-        case .reference: "V"
-        }
-    }
-
-    init(from decoder: any Decoder) throws {
-        let raw = try decoder.singleValueContainer().decode(String.self)
-        self = NewsGame(rawValue: raw) ?? .leonida
-    }
-}
+/// Ce commentaire affirmait réutiliser le vocabulaire de `MapGame` « plutôt que
+/// d'en inventer un second » — tout en déclarant un second type aux mêmes
+/// valeurs brutes. Les deux ne sont plus que des alias de `Game`
+/// (`Core/Game.swift`), et la tolérance aux valeurs inconnues que ce type
+/// portait est descendue dans `init(from:)` ci-dessous, seul endroit qui la veut.
+typealias NewsGame = Game
 
 /// Ce que vaut une information, tel que la veille l'a jugé.
 ///
@@ -113,7 +100,12 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
         title = try container.decode(LocalizedText.self, forKey: .title)
         body = try container.decode(LocalizedText.self, forKey: .body)
         publishedAt = try container.decode(String.self, forKey: .publishedAt)
-        game = try container.decodeIfPresent(NewsGame.self, forKey: .game) ?? .leonida
+        // `try?` couvre les deux tolérances que le fil veut, et lui seul : la
+        // clé absente d'une entrée écrite avant que le champ n'existe, et une
+        // valeur qu'une version future du pipeline produirait sans que l'app
+        // installée la connaisse. Un rejet ferait disparaître l'entrée du fil,
+        // là où la ranger sous le jeu à venir est le moindre mal.
+        game = (try? container.decodeIfPresent(NewsGame.self, forKey: .game)) ?? .leonida
         // `try?` et non `try` : c'est ici qu'un palier de confiance inconnu est
         // absorbé, au lieu de faire tomber le décodage du fragment entier.
         confidence = (try? container.decodeIfPresent(NewsConfidence.self, forKey: .confidence)) ?? nil

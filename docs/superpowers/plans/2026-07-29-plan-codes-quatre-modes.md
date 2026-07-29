@@ -24,6 +24,25 @@
 
 ---
 
+## Une limite de découpage, assumée
+
+Les tâches 4 à 10 ne sont pas indépendamment compilables. La tâche 4 supprime
+`Platform`, dont dépendent `CheatsModel`, `CheatsListView`, `CheatCard`,
+`CheatReaderView` et `CheatsScreen` — réparés par les tâches 6 à 10. Entre les
+deux, le projet ne construit pas, et l'étape « lancer les tests » de chaque
+tâche intermédiaire ne peut pas passer.
+
+Ce n'est pas rattrapable par un meilleur découpage : un type partagé par cinq
+vues se remplace d'un bloc, ou se double d'un adaptateur temporaire dont le seul
+rôle serait de faire verdir des étapes intermédiaires. La seconde option coûte
+plus qu'elle ne rapporte.
+
+**En conséquence** : les tâches 4 à 10 s'implémentent d'affilée, et la
+vérification a lieu une fois, à la fin de la tâche 10. Chaque tâche garde son
+commit — les commits restent lisibles séparément, ils ne sont simplement pas
+tous verts pris isolément. Les tâches 1 à 3, elles, sont bien indépendantes et
+vérifiées chacune.
+
 ## Structure des fichiers
 
 **Créés**

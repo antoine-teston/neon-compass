@@ -151,8 +151,12 @@ struct RootView: View {
             widgetSummaryCoordinator: widgetSummaryCoordinator
         )
 
+        // Le socle, comme pour la carte de référence : sans lui ce chemin ne voit
+        // rien au premier lancement, et le widget annoncerait un favori absent
+        // pendant que l'écran, lui, l'affiche.
         let cheatStore = ContentStore<Cheat>.live(
             collectionName: "cheats",
+            seed: CheatLoader.bundled,
             modelContext: modelContext
         )
         _ = CheatsModel(
