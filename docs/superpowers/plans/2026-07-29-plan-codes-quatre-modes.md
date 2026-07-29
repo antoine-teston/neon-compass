@@ -209,21 +209,39 @@ Attendu : `validate: N/N OK`, sans `FAIL`.
 
 - [ ] **Step 5: Vérifier que le schéma refuse bien ce qu'il doit refuser**
 
-```bash
-cd tools/content-cli && cat > /tmp/bad-cheat.json <<'EOF'
-{"id":"cheat_gtav_bad","game":"gtav","category":"misc","effect":{"en":"x"},
- "codes":{},"blocksTrophies":false,"status":"draft","verifiedBy":[]}
-EOF
-node -e "
-const Ajv=require('ajv');const fs=require('fs');
-const ajv=new Ajv({strict:false});
-const v=ajv.compile(JSON.parse(fs.readFileSync('../../content/schema/cheat.schema.json','utf8')));
-console.log('codes vide accepté ?', v(JSON.parse(fs.readFileSync('/tmp/bad-cheat.json','utf8'))));
-console.log(v.errors);
-"
+Écrire un script jetable dans `tools/content-cli/` (il a les `node_modules`) et le supprimer après. **L'import doit être `ajv/dist/2020.js`** comme dans `cli.js:41` : le `ajv` par défaut ne connaît pas la méta-schéma draft 2020-12 et lève `no schema with key or ref`.
+
+```js
+import Ajv from 'ajv/dist/2020.js';
+import { readFileSync } from 'node:fs';
+const ajv = new Ajv({ allErrors: true });
+const v = ajv.compile(JSON.parse(readFileSync('../../content/schema/cheat.schema.json', 'utf8')));
+const base = {
+  id: 'cheat_gtav_bad', game: 'gtav', category: 'misc', effect: { en: 'x' },
+  blocksTrophies: false, status: 'draft', verifiedBy: [],
+};
+const cases = {
+  'codes vide': { ...base, codes: {} },
+  'charge mal étiquetée (keyword avec number)': { ...base, codes: { pc: { kind: 'keyword', number: '1-999-1' } } },
+  'mode inconnu (switch)': { ...base, codes: { switch: { kind: 'buttons', buttons: ['up'] } } },
+  'bouton inconnu': { ...base, codes: { xbox: { kind: 'buttons', buttons: ['up', 'nope'] } } },
+  'séquence vide': { ...base, codes: { xbox: { kind: 'buttons', buttons: [] } } },
+  'id sans jeu': { ...base, id: 'cheat_invincibility', codes: { pc: { kind: 'keyword', keyword: 'X' } } },
+  'numéro hors format': { ...base, codes: { phone: { kind: 'phone', number: '555-1234' } } },
+  'mot-clé en minuscules': { ...base, codes: { pc: { kind: 'keyword', keyword: 'comet' } } },
+};
+let wrong = 0;
+for (const [name, doc] of Object.entries(cases)) {
+  if (v(doc)) { console.log(`ACCEPTÉ À TORT  ${name}`); wrong++; }
+  else console.log(`refusé  ${name}`);
+}
+const good = { ...base, id: 'cheat_gtav_ok', codes: { phone: { kind: 'phone', number: '1-999-266-38', mnemonic: '1-999-COMET' } } };
+if (!v(good)) { console.log('REFUSÉ À TORT  cas valide', v.errors); wrong++; }
+else console.log('accepté  cas valide (téléphone seul)');
+process.exit(wrong === 0 ? 0 : 1);
 ```
 
-Attendu : `codes vide accepté ? false`, avec une erreur mentionnant `minProperties`.
+Attendu : les huit cas refusés, le cas valide accepté, code de sortie 0.
 
 - [ ] **Step 6: Commit**
 

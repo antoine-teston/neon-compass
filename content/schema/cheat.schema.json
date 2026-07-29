@@ -3,10 +3,11 @@
   "$id": "cheat.schema.json",
   "title": "Neon Compass Cheat",
   "type": "object",
-  "required": ["id", "category", "effect", "sequence", "blocksTrophies", "status", "verifiedBy"],
+  "required": ["id", "game", "category", "effect", "codes", "blocksTrophies", "status", "verifiedBy"],
   "additionalProperties": false,
   "properties": {
-    "id": { "type": "string", "pattern": "^cheat_[a-z0-9_]+$" },
+    "id": { "type": "string", "pattern": "^cheat_(gtav|leonida)_[a-z0-9_]+$" },
+    "game": { "enum": ["gtav", "leonida"] },
     "category": {
       "enum": ["player", "weapons", "vehicles", "world", "misc"]
     },
@@ -22,13 +23,15 @@
         "de": { "type": "string" }
       }
     },
-    "sequence": {
+    "codes": {
       "type": "object",
-      "required": ["ps5", "xbox"],
+      "minProperties": 1,
       "additionalProperties": false,
       "properties": {
-        "ps5": { "$ref": "#/$defs/buttons" },
-        "xbox": { "$ref": "#/$defs/buttons" }
+        "playstation": { "$ref": "#/$defs/buttonsCode" },
+        "xbox": { "$ref": "#/$defs/buttonsCode" },
+        "pc": { "$ref": "#/$defs/keywordCode" },
+        "phone": { "$ref": "#/$defs/phoneCode" }
       }
     },
     "blocksTrophies": { "type": "boolean" },
@@ -40,17 +43,44 @@
     "processedFrom": { "type": "string" }
   },
   "$defs": {
-    "buttons": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "enum": [
-          "up", "down", "left", "right",
-          "cross", "circle", "square", "triangle",
-          "a", "b", "x", "y",
-          "l1", "l2", "r1", "r2",
-          "lb", "lt", "rb", "rt"
-        ]
+    "buttonsCode": {
+      "type": "object",
+      "required": ["kind", "buttons"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "buttons" },
+        "buttons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "up", "down", "left", "right",
+              "cross", "circle", "square", "triangle",
+              "a", "b", "x", "y",
+              "l1", "l2", "r1", "r2",
+              "lb", "lt", "rb", "rt"
+            ]
+          }
+        }
+      }
+    },
+    "keywordCode": {
+      "type": "object",
+      "required": ["kind", "keyword"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "keyword" },
+        "keyword": { "type": "string", "pattern": "^[A-Z0-9]+$" }
+      }
+    },
+    "phoneCode": {
+      "type": "object",
+      "required": ["kind", "number"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "phone" },
+        "number": { "type": "string", "pattern": "^1-999-[0-9]+(-[0-9]+)*$" },
+        "mnemonic": { "type": "string", "pattern": "^1-999-[A-Z0-9-]+$" }
       }
     }
   }
