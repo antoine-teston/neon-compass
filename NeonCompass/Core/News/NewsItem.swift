@@ -56,9 +56,35 @@ enum NewsGame: String, CaseIterable, Codable, Sendable {
     }
 }
 
-/// Les champs pipeline-only du schéma (`status`, `sources`, `confidence`,
-/// `processedFrom`, `sourceClaim`) sont absents ici : Codable ignore
-/// silencieusement les clés JSON inconnues au décodage.
+/// Ce que vaut une information, tel que la veille l'a jugé.
+///
+/// Longtemps resté pipeline-only, ce champ remonte dans le modèle parce qu'il
+/// répond à la question que se pose vraiment un lecteur de ce fil : « est-ce
+/// sûr ? ». Trois des entrées les plus utiles sont des démentis de rumeurs
+/// virales — leur valeur tient entièrement à ce qu'on assume de dire d'où on
+/// tient l'information.
+///
+/// Contrairement à `NewsCategory` et `NewsGame`, pas de repli sur une valeur par
+/// défaut : un niveau de confiance inventé serait pire que pas de niveau du tout.
+/// L'absence — comme une valeur inconnue — se traduit par `nil` côté `NewsItem`,
+/// et la vue n'affiche alors rien. La tolérance est là, mais elle est portée par
+/// le site d'appel, pas par un cas fourre-tout dans l'énumération.
+enum NewsConfidence: String, CaseIterable, Codable, Sendable {
+    case confirmedOfficial = "confirmed-official"
+    case multiSource = "multi-source"
+    case singleSource = "single-source"
+    case rumor
+}
+
+/// Les champs restés pipeline-only (`status`, `sources`, `processedFrom`,
+/// `sourceClaim`) sont absents ici : Codable ignore silencieusement les clés
+/// JSON inconnues au décodage.
+///
+/// `sources` en particulier n'est PAS embarqué, et pas par oubli : les URL des
+/// sources contiennent les marques (`gtaboom.com/rockstar-confirms-…`). Les
+/// afficher mettrait à l'écran exactement la surface de marque que la politique
+/// stricte évite jusqu'à l'approbation App Store. Elles reviendront avec la
+/// bascule (docs/superpowers/plans/2026-07-29-plan-bascule-marques.md).
 struct NewsItem: Codable, Equatable, Identifiable, Sendable {
     let id: String
     let category: NewsCategory
@@ -70,8 +96,14 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
     /// elles portaient toutes sur celui à venir, d'où le défaut.
     let game: NewsGame
 
+    /// `nil` si le champ est absent OU si sa valeur est inconnue de cette version
+    /// de l'app. Dans les deux cas la vue n'affiche pas de niveau — ce qui vaut
+    /// mieux qu'un niveau faux, et surtout mieux qu'un fragment entier qui ne se
+    /// décode plus parce que le pipeline a ajouté un palier.
+    let confidence: NewsConfidence?
+
     private enum CodingKeys: String, CodingKey {
-        case id, category, title, body, publishedAt, game
+        case id, category, title, body, publishedAt, game, confidence
     }
 
     init(from decoder: any Decoder) throws {
@@ -82,6 +114,9 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
         body = try container.decode(LocalizedText.self, forKey: .body)
         publishedAt = try container.decode(String.self, forKey: .publishedAt)
         game = try container.decodeIfPresent(NewsGame.self, forKey: .game) ?? .leonida
+        // `try?` et non `try` : c'est ici qu'un palier de confiance inconnu est
+        // absorbé, au lieu de faire tomber le décodage du fragment entier.
+        confidence = (try? container.decodeIfPresent(NewsConfidence.self, forKey: .confidence)) ?? nil
     }
 
     init(
@@ -90,7 +125,8 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
         title: LocalizedText,
         body: LocalizedText,
         publishedAt: String,
-        game: NewsGame = .leonida
+        game: NewsGame = .leonida,
+        confidence: NewsConfidence? = nil
     ) {
         self.id = id
         self.category = category
@@ -98,5 +134,6 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
         self.body = body
         self.publishedAt = publishedAt
         self.game = game
+        self.confidence = confidence
     }
 }

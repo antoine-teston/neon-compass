@@ -95,6 +95,7 @@ final class ContentStore<Item: ContentItem> {
         if let existing = try modelContext.fetch(descriptor).first {
             existing.json = data
             existing.version = remoteVersion
+            existing.appBuild = ContentCacheEntry.currentAppBuild
         } else {
             modelContext.insert(ContentCacheEntry(collectionName: name, json: data, version: remoteVersion))
         }
@@ -103,23 +104,38 @@ final class ContentStore<Item: ContentItem> {
         items = ContentMerge.merge(seed: seed, overlay: fetched)
     }
 
-    private static func loadCached(collectionName: String, from modelContext: ModelContext) -> [Item] {
+    /// Entrée de cache utilisable pour cette collection, ou `nil`.
+    ///
+    /// « Utilisable » exclut un cache écrit par un AUTRE build de l'app. Le cache
+    /// contient le modèle Swift ré-encodé, pas la charge reçue : il est donc
+    /// amputé de tout champ que le build de l'époque ne connaissait pas. Sans
+    /// cette exclusion, un champ ajouté au modèle restait invisible chez les
+    /// utilisateurs existants jusqu'à la prochaine publication de contenu — la
+    /// garde de version voyant un contenu « à jour », elle ne re-téléchargeait
+    /// rien. Silencieusement, comme d'habitude.
+    private static func usableEntry(
+        collectionName: String,
+        from modelContext: ModelContext
+    ) -> ContentCacheEntry? {
         let name = collectionName
         let descriptor = FetchDescriptor<ContentCacheEntry>(
             predicate: #Predicate { $0.collectionName == name }
         )
-        guard let entry = try? modelContext.fetch(descriptor).first,
+        guard let entry = try? modelContext.fetch(descriptor).first else { return nil }
+        return entry.appBuild == ContentCacheEntry.currentAppBuild ? entry : nil
+    }
+
+    private static func loadCached(collectionName: String, from modelContext: ModelContext) -> [Item] {
+        guard let entry = usableEntry(collectionName: collectionName, from: modelContext),
               let decoded = try? JSONDecoder().decode([Item].self, from: entry.json) else {
             return []
         }
         return decoded
     }
 
+    /// Zéro quand le cache vient d'un autre build : c'est ce qui force la
+    /// première synchronisation après une mise à jour de l'app.
     private static func cachedVersion(collectionName: String, from modelContext: ModelContext) -> Int {
-        let name = collectionName
-        let descriptor = FetchDescriptor<ContentCacheEntry>(
-            predicate: #Predicate { $0.collectionName == name }
-        )
-        return (try? modelContext.fetch(descriptor).first?.version) ?? 0
+        usableEntry(collectionName: collectionName, from: modelContext)?.version ?? 0
     }
 }

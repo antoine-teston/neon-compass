@@ -5,13 +5,12 @@ struct FeedListView: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.horizontalSizeClass) private var sizeClass
 
-    /// Cartes dépliées, par identifiant.
+    /// L'entrée ouverte, s'il y en a une.
     ///
-    /// Un `Set` d'identifiants et non un drapeau par carte : `LazyVStack` recycle
-    /// ses vues au défilement, donc un état porté par la carte serait rendu à une
-    /// autre entrée en remontant. L'état appartient à la liste, la carte ne fait
-    /// que le lire.
-    @State private var expandedIDs: Set<String> = []
+    /// L'état appartient à la LISTE et pas à la carte : `LazyVStack` recycle ses
+    /// vues au défilement, donc un état porté par la carte serait rendu à une
+    /// autre entrée en remontant le fil.
+    @State private var openedItem: NewsItem?
 
     var body: some View {
         ScrollView {
@@ -38,6 +37,13 @@ struct FeedListView: View {
         // plus envie de réessayer.
         .refreshable { await model.refresh() }
         .background(NCColor.nightSky.ignoresSafeArea())
+        // Même présentation que le détail d'un POI et que le paywall : une
+        // feuille à hauteur moyenne, redimensionnable. Le fil n'a pas de raison
+        // de se présenter autrement que le reste de l'app.
+        .sheet(item: $openedItem) { item in
+            NewsDetailView(item: item) { openedItem = nil }
+                .presentationDetents([.medium, .large])
+        }
     }
 
     /// Les positions viennent du modèle, tirées une fois par contenu. La vue ne
@@ -62,19 +68,15 @@ struct FeedListView: View {
             .glassEffect(.regular, in: .rect(cornerRadius: 14))
     }
 
-    /// Une carte se déplie sur place, elle n'ouvre pas d'écran.
+    /// La carte reste un résumé de trois lignes et ouvre l'entrée.
     ///
-    /// Le corps d'un item fait deux à trois phrases : ouvrir une vue de détail
-    /// pour deux lignes de plus ferait payer une navigation, une animation et un
-    /// retour arrière pour un gain de trois mots. Le jour où le fil portera de
-    /// vrais articles, la question se reposera — pas avant.
+    /// Elle a d'abord déplié le texte sur place, ce qui suffisait pour deux
+    /// lignes de plus. Mais une carte dépliée n'a nulle part où faire grandir
+    /// l'entrée : dès qu'il s'agit d'ajouter le niveau de confiance, la date
+    /// complète et le reste, il faut un écran à soi.
     private func card(for item: NewsItem) -> some View {
-        let isExpanded = expandedIDs.contains(item.id)
-
-        return Button {
-            withAnimation(.snappy(duration: 0.25)) {
-                if isExpanded { expandedIDs.remove(item.id) } else { expandedIDs.insert(item.id) }
-            }
+        Button {
+            openedItem = item
         } label: {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 6) {
@@ -93,25 +95,25 @@ struct FeedListView: View {
                 Text(item.title.resolved(for: currentLanguageCode))
                     .font(NCTypography.cardTitle)
                     .foregroundStyle(.white)
-                    .lineLimit(isExpanded ? nil : 3)
+                    .lineLimit(3)
 
                 HStack(alignment: .bottom, spacing: 8) {
                     Text(item.body.resolved(for: currentLanguageCode))
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.75))
-                        // Replié, trois lignes : assez pour décider si on veut
-                        // lire, et c'est ce qui garde plusieurs entrées à
-                        // l'écran. Déplié, aucune limite.
-                        .lineLimit(isExpanded ? nil : 3)
+                        // Trois lignes : assez pour décider si on veut lire,
+                        // et c'est ce qui garde plusieurs entrées à l'écran.
+                        .lineLimit(3)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    // Le chevron est la seule chose qui dit que la carte
-                    // s'ouvre. Sans lui, le texte coupé se lit comme une
-                    // troncature subie, pas comme une invitation.
-                    Image(systemName: "chevron.down")
+                    // Le chevron est la seule chose qui dit que la carte ouvre
+                    // quelque chose. Sans lui, le texte coupé se lit comme une
+                    // troncature subie, pas comme une invitation. Il pointe à
+                    // DROITE et non plus vers le bas : ce n'est plus un
+                    // dépliage, c'est une ouverture.
+                    Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.4))
-                        .rotationEffect(.degrees(isExpanded ? 180 : 0))
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -122,7 +124,7 @@ struct FeedListView: View {
         // Sans style « plain », le bouton teinte tout son contenu de la couleur
         // d'accentuation — titre, corps et pastille comprises.
         .buttonStyle(.plain)
-        .accessibilityHint(isExpanded ? "feed.card.collapse" : "feed.card.expand")
+        .accessibilityHint("feed.card.open")
     }
 
     private var emptyState: some View {

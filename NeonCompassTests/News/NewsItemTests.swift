@@ -76,6 +76,31 @@ struct NewsItemTests {
         #expect(decoded.game == .leonida)
     }
 
+    @Test func decodesEveryConfidenceLevel() throws {
+        for (raw, expected): (String, NewsConfidence) in [
+            ("confirmed-official", .confirmedOfficial), ("multi-source", .multiSource),
+            ("single-source", .singleSource), ("rumor", .rumor),
+        ] {
+            #expect(try item(#""category": "announcement", "confidence": "\#(raw)""#).confidence == expected)
+        }
+    }
+
+    /// Un palier de confiance inconnu devient `nil`, il ne fait pas tomber le
+    /// fragment.
+    ///
+    /// C'est la même exigence que sur la rubrique et le jeu, mais la réponse
+    /// diffère : ici pas de repli sur une valeur par défaut, parce qu'un niveau
+    /// de confiance inventé serait pire que pas de niveau. La vue n'affiche
+    /// alors rien.
+    @Test func anUnknownConfidenceBecomesNilInsteadOfThrowing() throws {
+        let decoded = try item(#""category": "announcement", "confidence": "plutot-sur""#)
+        #expect(decoded.confidence == nil)
+    }
+
+    @Test func anAbsentConfidenceIsNil() throws {
+        #expect(try item(#""category": "announcement""#).confidence == nil)
+    }
+
     /// Le vocabulaire du jeu doit rester celui de la carte. Deux énumérations
     /// pour la même distinction finissent toujours par diverger — ce test est le
     /// seul endroit où elles se regardent.

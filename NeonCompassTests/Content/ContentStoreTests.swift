@@ -1,4 +1,5 @@
 import Testing
+import Foundation
 import SwiftData
 @testable import NeonCompass
 
@@ -97,6 +98,59 @@ struct ContentStoreTests {
 
         try await store.refresh()
         #expect(version.invalidateCallCount == 1)
+    }
+
+    /// Un cache écrit par un AUTRE build de l'app est ignoré, même à version de
+    /// contenu identique.
+    ///
+    /// Régression réelle, trouvée le 29 juillet 2026 en ajoutant `confidence` à
+    /// `NewsItem` : le champ ne s'affichait pas, alors que le CDN le servait et
+    /// que le décodage était couvert par des tests. La cause n'était pas le
+    /// décodage — c'est que le cache ne contient PAS la charge reçue, mais le
+    /// modèle Swift ré-encodé. Un cache écrit par un build qui ignorait le champ
+    /// en était amputé, et la garde de version, voyant un contenu à jour, ne
+    /// re-téléchargeait rien. Tout ajout de champ au modèle serait donc resté
+    /// invisible chez les utilisateurs existants jusqu'à la publication de
+    /// contenu suivante — sans erreur, sans trace.
+    @Test func aCacheWrittenByAnotherAppBuildIsIgnored() async throws {
+        let context = makeContext()
+        let stale = try JSONEncoder().encode([samplePOI(id: "ancien")])
+        context.insert(ContentCacheEntry(collectionName: "poi", json: stale, version: 9, appBuild: "0.9+1"))
+        try context.save()
+
+        let remote = FakeContentRepository<POI>()
+        remote.itemsToReturn = [samplePOI(id: "neuf")]
+        let version = FakeContentVersionProvider()
+        // MÊME version que le cache : sans le garde-fou, la garde conclurait
+        // « rien à faire » et le contenu amputé resterait affiché.
+        version.version = 9
+        let store = ContentStore<POI>(collectionName: "poi", remote: remote, versionProvider: version, modelContext: context)
+
+        #expect(store.items.isEmpty)
+
+        try await store.syncIfNeeded()
+
+        #expect(remote.fetchCallCount == 1)
+        #expect(store.items.map(\.id) == ["neuf"])
+    }
+
+    /// Et un cache sans build du tout — écrit avant que l'app ne trace ses
+    /// caches — est traité de la même façon.
+    @Test func aCacheWithNoRecordedBuildIsIgnored() async throws {
+        let context = makeContext()
+        let stale = try JSONEncoder().encode([samplePOI(id: "ancien")])
+        context.insert(ContentCacheEntry(collectionName: "poi", json: stale, version: 9, appBuild: nil))
+        try context.save()
+
+        let remote = FakeContentRepository<POI>()
+        remote.itemsToReturn = [samplePOI(id: "neuf")]
+        let version = FakeContentVersionProvider()
+        version.version = 9
+        let store = ContentStore<POI>(collectionName: "poi", remote: remote, versionProvider: version, modelContext: context)
+
+        try await store.syncIfNeeded()
+
+        #expect(remote.fetchCallCount == 1)
     }
 
     @Test func syncIsNoOpWhenVersionUnchanged() async throws {
