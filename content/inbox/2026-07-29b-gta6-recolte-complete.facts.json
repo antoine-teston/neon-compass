@@ -1,0 +1,220 @@
+{
+  "run": {
+    "date": "2026-07-29",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://www.gtaboom.com/gta-6-pre-load-guide-size-speed-and-storage-prep-181f",
+      "https://www.gtaboom.com/a-phone-company-is-giving-away-gta-6-for-free-in-norway-8764",
+      "https://www.gtaboom.com/the-more-expensive-gta-6-edition-is-topping-pre-order-charts-0ed9",
+      "https://www.gtaboom.com/rockstar-games-workers-union-meets-management-four-months-before-gta-6-b9e8",
+      "https://www.gtaboom.com/everything-rockstar-still-has-not-shown-about-gta-6-c9f0",
+      "https://www.gtaboom.com/call-of-duty-says-it-is-not-scared-of-gta-6-but-it-already-moved-out-of-the-way-28d5",
+      "https://www.gtaboom.com/could-gta-5-cut-content-appear-in-gta-6-sort-of-a3af",
+      "https://www.gtaboom.com/what-the-creator-of-gta-really-said-about-the-end-of-physical-discs-d374",
+      "https://www.gtaboom.com/a-youtube-channel-just-uploaded-the-gta-6-trailers-a-year-late-and-it-says-a-lot-9518",
+      "https://www.gtaboom.com/why-the-kortz-center-heist-might-be-a-gta-6-test-run-b4b3",
+      "https://www.gtaboom.com/rockstar-just-switched-off-the-gta-online-casino-in-australia-e112",
+      "https://www.gtaboom.com/the-gta-back-catalogue-goes-on-sale-before-gta-6-da72",
+      "https://www.gtaboom.com/rockstar-is-dropping-support-for-older-iphones-ae84",
+      "https://www.gtaboom.com/gta-online-july-pegassi-ignus-pursuit-update-f4d9",
+      "https://www.gtaboom.com/fivem-for-gta-v-enhanced-is-live-c7cc",
+      "https://www.gtaboom.com/how-to-make-the-kortz-center-heist-easier-with-businesses-and-mansion-upgrades-5b8f",
+      "https://www.gtaboom.com/how-to-complete-the-kortz-center-heist-solo-on-hard-mode-with-the-elite-challenge-3464",
+      "https://www.gtaboom.com/what-this-48-hour-gta-v-stream-reveals-about-gta-6-3f2d",
+      "https://www.gtaboom.com/viral-san-andreas-clips-set-a-bar-gta-6-must-clear-9233",
+      "https://www.gtaboom.com/lazlow-reveals-rockstar-spent-years-deliberately-making-his-gta-character-more-pathetic-b5d6",
+      "https://www.gtaboom.com/modder-connects-the-entire-gta-trilogy-through-portals-in-grove-street-6e02"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le préchargement du jeu ouvre le 12 novembre 2026, une semaine avant le déverrouillage du 19, pour qui veut jouer dès la première minute. Les acheteurs de boîtes physiques sont les plus susceptibles d'attendre, leur code n'étant utilisable qu'à réception.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-pre-load-guide-size-speed-and-storage-prep-181f",
+      "source_date": "2026-07-21",
+      "confidence": "multi-source",
+      "processed": true
+    },
+    {
+      "claim": "Un opérateur télécom nordique offre un code de téléchargement du jeu aux clients qui souscrivent ou passent à certains forfaits mobiles en Norvège. Un détaillant du même pays annonce par ailleurs offrir des exemplaires aux parents dont l'enfant naît le jour de la sortie.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/a-phone-company-is-giving-away-gta-6-for-free-in-norway-8764",
+      "source_date": "2026-07-22",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Au 21 juillet 2026, l'édition la plus chère du jeu occupe la première place des classements de précommande du store PlayStation dans neuf marchés suivis, dont les États-Unis, le Canada, le Royaume-Uni, la France, le Japon, l'Inde et la Corée du Sud.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-more-expensive-gta-6-edition-is-topping-pre-order-charts-0ed9",
+      "source_date": "2026-07-21",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le syndicat des salariés du studio annonce avoir tenu sa première réunion formelle avec la direction, décrit l'issue comme un pas dans la bonne direction, et dit avoir obtenu une feuille de route vers une négociation plus rapide. La rencontre a lieu quatre mois avant la sortie.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-games-workers-union-meets-management-four-months-before-gta-6-b9e8",
+      "source_date": "2026-07-22",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "À quatre mois de la sortie, aucune séquence de jeu n'a été montrée : le public dispose de deux bandes-annonces, d'une soixantaine de captures, de la pochette, d'un site dédié et des prix fixés sur tous les marchés. Aucune information sur la taille de la carte ni sur le mode en ligne.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/everything-rockstar-still-has-not-shown-about-gta-6-c9f0",
+      "source_date": "2026-07-26",
+      "confidence": "multi-source",
+      "processed": true
+    },
+    {
+      "claim": "Le co-responsable d'un studio concurrent déclare que la sortie à venir n'ajoute aucune pression particulière sur son propre jeu de tir annuel, et juge sain que les gros titres se poussent mutuellement. Son jeu a néanmoins été programmé hors de la fenêtre de novembre.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/call-of-duty-says-it-is-not-scared-of-gta-6-but-it-already-moved-out-of-the-way-28d5",
+      "source_date": "2026-07-21",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un ancien producteur du studio, interrogé sur un podcast, estime que du contenu coupé de l'épisode précédent pourrait réapparaître dans le nouveau, en citant des précédents. Il assortit sa réponse d'une condition technique — l'évolution des moteurs — qui rend une reprise directe peu probable.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/could-gta-5-cut-content-appear-in-gta-6-sort-of-a3af",
+      "source_date": "2026-07-22",
+      "confidence": "rumor",
+      "processed": true
+    },
+    {
+      "claim": "Les propos d'un co-fondateur du studio sur la fin du support physique, largement repris comme une critique du constructeur qui abandonne les disques, sont plus nuancés dans l'entretien complet : son argument peut aussi bien être lu comme allant dans le sens de cette décision.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/what-the-creator-of-gta-really-said-about-the-end-of-physical-discs-d374",
+      "source_date": "2026-07-25",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Une chaîne vidéo a remis en ligne les deux bandes-annonces du jeu comme s'il s'agissait de nouveautés, plus d'un an après leur sortie. La plaisanterie a fonctionné, ce qui en dit surtout long sur la disette d'informations officielles.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/a-youtube-channel-just-uploaded-the-gta-6-trailers-a-year-late-and-it-says-a-lot-9518",
+      "source_date": "2026-07-29",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le braquage ajouté ce mois-ci au jeu en ligne actuel, quatre mois avant la sortie du suivant, introduit plusieurs mécaniques inédites. La presse spécialisée se demande s'il sert de test pour le futur mode en ligne ou s'il n'est qu'un apport de contenu pour occuper les joueurs jusqu'en novembre. Aucune confirmation.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/why-the-kortz-center-heist-might-be-a-gta-6-test-run-b4b3",
+      "source_date": "2026-07-29",
+      "confidence": "rumor",
+      "processed": true
+    },
+    {
+      "claim": "Les joueurs australiens du jeu en ligne ne peuvent plus miser au casino : la fonction a été désactivée sans annonce. L'éditeur n'a donné aucune explication ; le rapprochement est fait avec les obligations locales de vérification d'âge.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/rockstar-just-switched-off-the-gta-online-casino-in-australia-e112",
+      "source_date": "2026-07-28",
+      "confidence": "multi-source",
+      "processed": true
+    },
+    {
+      "claim": "Une vague de remises touche le catalogue ancien de la série sur les trois grandes boutiques en ligne, plusieurs titres atteignant leur prix le plus bas jamais pratiqué — l'épisode de 2008 passant sous les sept dollars.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/the-gta-back-catalogue-goes-on-sale-before-gta-6-da72",
+      "source_date": "2026-07-27",
+      "confidence": "multi-source",
+      "processed": true
+    },
+    {
+      "claim": "Une note d'assistance officielle confirme que les versions mobiles de la série exigent désormais iOS 17 ou plus récent. Les appareils restés en iOS 16 ou antérieur ne reçoivent plus de mises à jour et ne bénéficient plus du support technique.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/rockstar-is-dropping-support-for-older-iphones-ae84",
+      "source_date": "2026-07-25",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "La mise à jour hebdomadaire du jeu en ligne, active du 23 au 29 juillet 2026, met en vente une supercar aux couleurs de la police, fait passer un autre véhicule d'une exclusivité d'abonnement à la vente générale, et applique une série de bonus sur les véhicules.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/gta-online-july-pegassi-ignus-pursuit-update-f4d9",
+      "source_date": "2026-07-23",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "La plateforme de jeu de rôle multijoueur pour la version remaniée de l'épisode précédent est passée en accès anticipé le 21 juillet, exactement à la date annoncée par ses développeurs, après plus d'un an d'attente.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/fivem-for-gta-v-enhanced-is-live-c7cc",
+      "source_date": "2026-07-22",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un comparatif testé en jeu détaille l'effet des propriétés et des améliorations de résidence sur le nouveau braquage en solo. Les mesures ne sont pas contrôlées pour chaque élément listé : le document se présente comme un repère pratique, pas comme une quantification.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/how-to-make-the-kortz-center-heist-easier-with-businesses-and-mansion-upgrades-5b8f",
+      "source_date": "2026-07-25",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un itinéraire testé permet de terminer le nouveau braquage en solo, en difficulté élevée, avec le défi d'élite validé : préparation, passage en infiltration, salle des lasers, chambre forte, cibles secondaires et fuite par la surface. Réalisé en 16 minutes et 14 secondes, avec des variations possibles d'une partie à l'autre.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/how-to-complete-the-kortz-center-heist-solo-on-hard-mode-with-the-elite-challenge-3464",
+      "source_date": "2026-07-24",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un streamer suivi s'est imposé de ne pas s'arrêter avant d'avoir terminé l'histoire de l'épisode précédent : il y est parvenu en un peu plus de quarante-huit heures d'affilée, et lui a attribué la note maximale.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/what-this-48-hour-gta-v-stream-reveals-about-gta-6-3f2d",
+      "source_date": "2026-07-23",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un montage de fans réutilise les répliques et les personnages du volet de 2004 pour raconter l'intrigue d'un film d'époque sorti en 2026. Il doit son succès au fait que le matériau d'origine, vieux de vingt et un ans, reste immédiatement reconnaissable.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/viral-san-andreas-clips-set-a-bar-gta-6-must-clear-9233",
+      "source_date": "2026-07-29",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "L'animateur radio le plus reconnaissable de la série existe réellement, et il explique lui-même que le studio a délibérément rendu son personnage plus pathétique d'un épisode à l'autre, comme objectif d'écriture assumé. Propos tenus à un média spécialisé lors d'une convention.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/lazlow-reveals-rockstar-spent-years-deliberately-making-his-gta-character-more-pathetic-b5d6",
+      "source_date": "2026-07-28",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un moddeur a poussé plus loin son projet d'imbrication : des portails posés dans une rue emblématique du volet de 2004 font désormais passer le personnage d'un jeu de la trilogie à l'autre, là où il n'avait auparavant réussi qu'à en faire tourner un sur un téléviseur dans l'autre.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/modder-connects-the-entire-gta-trilogy-through-portals-in-grove-street-6e02",
+      "source_date": "2026-07-22",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}

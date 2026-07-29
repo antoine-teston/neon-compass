@@ -161,6 +161,22 @@ test('les quatre confiances du contrat data-scout sont acceptées', () => {
   assert.equal(result.writes.length, confidences.length);
 });
 
+test('le jeu du fait est porté dans le squelette, et vaut leonida par défaut', () => {
+  const withGame = materializeNews([newsFact({ game: 'gtav' })], []);
+  assert.equal(withGame.writes[0].data.game, 'gtav');
+
+  const without = materializeNews([newsFact({ claim: 'Un fait sans jeu déclaré.' })], []);
+  assert.equal(without.writes[0].data.game, 'leonida');
+});
+
+test('un jeu inconnu bloque le lot', () => {
+  const result = materializeNews([newsFact({ game: 'gta4' })], []);
+
+  assert.equal(result.writes.length, 0);
+  assert.equal(result.conflicts.length, 1);
+  assert.match(result.conflicts[0].reason, /jeu/i);
+});
+
 test('une confiance inconnue bloque le lot', () => {
   const result = materializeNews([newsFact({ confidence: 'à peu près sûr' })], []);
 

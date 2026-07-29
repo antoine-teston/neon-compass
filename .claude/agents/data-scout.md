@@ -61,6 +61,7 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
     {
       "claim": "reformulation en une phrase, tes propres mots",
       "kind": "poi | cheat | news | game-fact",
+      "game": "leonida | gtav",
       "source_url": "…",
       "source_date": "…",
       "confidence": "confirmed-official | multi-source | single-source | rumor"
@@ -73,6 +74,12 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
 
 - `claim` est TOUJOURS reformulé — ne jamais recopier une phrase de la source.
 - Un fait sans URL de source est jeté.
+- **`game` désigne le jeu concerné** : `leonida` pour celui à venir, `gtav` pour
+  celui en ligne actuel. Absent = `leonida`. Le fil couvre les deux — la presse
+  spécialisée parle autant de l'un que de l'autre, et un compagnon qui écarterait
+  tout le second se priverait des deux tiers de l'actualité. Mais ne devine pas :
+  si l'article ne tranche pas, c'est un fait sur le jeu à venir ou ce n'est pas
+  un fait.
 - Les cheats sans confirmation post-lancement sont `rumor` (aucun code réel
   n'existe avant la sortie du jeu).
 - Termine par un log dans `content/inbox/runs/YYYY-MM-DD.md` : sources visitées,

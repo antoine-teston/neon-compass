@@ -1,6 +1,7 @@
 {
   "id": "news_9207e123",
   "category": "announcement",
+  "game": "leonida",
   "title": {
     "fr": "Non, le code du jeu n'expire pas au bout de 170 jours",
     "en": "No, the game code does not expire after 170 days"

@@ -60,6 +60,7 @@ struct FeedListView: View {
                 Label(categoryTitleKey(item.category), systemImage: categorySymbol(item.category))
                     .font(NCTypography.cardMeta)
                     .foregroundStyle(NCColor.neonCyan)
+                gameBadge(item.game)
                 Spacer(minLength: 8)
                 if let date = formattedDate(item.publishedAt) {
                     Text(date)
@@ -120,11 +121,33 @@ struct FeedListView: View {
         return formatter
     }()
 
+    /// « VI » ou « V », et rien d'autre.
+    ///
+    /// Le fil couvre les deux jeux, donc un lecteur doit savoir en un coup d'œil
+    /// duquel on lui parle — sinon un braquage du jeu en ligne actuel se lit
+    /// comme une révélation sur celui à venir. Pas de texte localisé ici : un
+    /// chiffre romain se lit dans les cinq langues.
+    ///
+    /// Volontairement neutre pour le jeu à venir et discret pour l'autre : c'est
+    /// une aide au repérage, pas un troisième accent lumineux sur l'écran
+    /// (CLAUDE.md : au plus trois par écran, et le cyan en prend déjà un).
+    private func gameBadge(_ game: NewsGame) -> some View {
+        Text(game.shortLabel)
+            .font(NCTypography.cardMeta)
+            .foregroundStyle(.white.opacity(game == .leonida ? 0.7 : 0.4))
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(.white.opacity(0.08), in: .capsule)
+    }
+
     private func categoryTitleKey(_ category: NewsCategory) -> LocalizedStringKey {
         switch category {
         case .announcement: "feed.category.announcement"
         case .patch: "feed.category.patch"
         case .event: "feed.category.event"
+        case .guide: "feed.category.guide"
+        case .business: "feed.category.business"
+        case .community: "feed.category.community"
         }
     }
 
@@ -133,6 +156,9 @@ struct FeedListView: View {
         case .announcement: "megaphone"
         case .patch: "wrench.and.screwdriver"
         case .event: "calendar"
+        case .guide: "lightbulb"
+        case .business: "tag"
+        case .community: "person.2"
         }
     }
 }

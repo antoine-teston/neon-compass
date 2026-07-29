@@ -8,8 +8,12 @@
   "properties": {
     "id": { "type": "string", "pattern": "^news_[a-z0-9_]+$" },
     "category": {
-      "enum": ["announcement", "patch", "event"],
-      "description": "Doit rester aligné sur NewsCategory (NeonCompass/Core/News/NewsItem.swift) : une valeur inconnue fait échouer le décodage de TOUT le fragment côté app, pas seulement de l'entrée fautive."
+      "enum": ["announcement", "patch", "event", "guide", "business", "community"],
+      "description": "Doit rester aligné sur NewsCategory (NeonCompass/Core/News/NewsItem.swift). Le décodage y est tolérant depuis l'élargissement des rubriques — une valeur inconnue retombe sur `announcement` au lieu de faire échouer le fragment entier — mais ce schéma reste la liste de référence : publier une rubrique hors de cette liste ferait afficher la mauvaise pastille aux clients déjà installés."
+    },
+    "game": {
+      "enum": ["leonida", "gtav"],
+      "description": "Jeu concerné : `leonida` = celui à venir, `gtav` = celui en ligne actuel. Même vocabulaire que MapGame côté app. Absent = `leonida`, ce qui correspond aux entrées publiées avant l'ouverture du fil aux deux jeux."
     },
     "title": { "$ref": "#/$defs/localized" },
     "body": { "$ref": "#/$defs/localized" },

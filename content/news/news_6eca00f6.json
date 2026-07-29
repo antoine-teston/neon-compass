@@ -1,0 +1,21 @@
+{
+  "id": "news_6eca00f6",
+  "category": "business",
+  "game": "gtav",
+  "title": {
+    "fr": "Le catalogue ancien de la série au prix le plus bas jamais vu",
+    "en": "The back catalogue hits its lowest prices ever"
+  },
+  "body": {
+    "fr": "Une vague de remises touche les trois grandes boutiques en ligne. Plusieurs titres atteignent leur plancher historique — l'épisode de 2008 passe sous les sept dollars.",
+    "en": "A wave of discounts landed across the three major stores. Several titles reached all-time lows — the 2008 entry drops under seven dollars."
+  },
+  "publishedAt": "2026-07-27",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/the-gta-back-catalogue-goes-on-sale-before-gta-6-da72"
+  ],
+  "confidence": "multi-source",
+  "processedFrom": "inbox:news:6a1a6fb060da",
+  "sourceClaim": "Une vague de remises touche le catalogue ancien de la série sur les trois grandes boutiques en ligne, plusieurs titres atteignant leur prix le plus bas jamais pratiqué — l'épisode de 2008 passant sous les sept dollars."
+}

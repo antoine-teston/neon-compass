@@ -1,0 +1,21 @@
+{
+  "id": "news_5e3b0097",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "À quatre mois de la sortie, toujours aucune séquence de jeu",
+    "en": "Four months out, still no gameplay shown"
+  },
+  "body": {
+    "fr": "Le public a deux bandes-annonces, une soixantaine de captures, la pochette, un site et les prix de tous les marchés. Ni séquence de jeu, ni taille de carte, ni détail sur le mode en ligne.",
+    "en": "The public has two trailers, around sixty screenshots, the cover art, a website and pricing in every market. No gameplay footage, no map size, no online details."
+  },
+  "publishedAt": "2026-07-26",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/everything-rockstar-still-has-not-shown-about-gta-6-c9f0"
+  ],
+  "confidence": "multi-source",
+  "processedFrom": "inbox:news:b4ab78d775e0",
+  "sourceClaim": "À quatre mois de la sortie, aucune séquence de jeu n'a été montrée : le public dispose de deux bandes-annonces, d'une soixantaine de captures, de la pochette, d'un site dédié et des prix fixés sur tous les marchés. Aucune information sur la taille de la carte ni sur le mode en ligne."
+}

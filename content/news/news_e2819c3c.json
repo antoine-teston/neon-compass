@@ -1,0 +1,21 @@
+{
+  "id": "news_e2819c3c",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "L'édition la plus chère domine les précommandes dans neuf marchés",
+    "en": "The pricier edition leads pre-orders in nine markets"
+  },
+  "body": {
+    "fr": "Au 21 juillet, l'édition ultime est première des classements de précommande du store PlayStation dans neuf marchés suivis, dont la France, le Japon et la Corée du Sud. Ce sont des classements de plateforme, pas des chiffres de ventes.",
+    "en": "As of July 21, the ultimate edition tops PlayStation Store pre-order charts across nine tracked markets, including France, Japan and South Korea. These are platform charts, not sales figures."
+  },
+  "publishedAt": "2026-07-21",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/the-more-expensive-gta-6-edition-is-topping-pre-order-charts-0ed9"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:9e13fcc84668",
+  "sourceClaim": "Au 21 juillet 2026, l'édition la plus chère du jeu occupe la première place des classements de précommande du store PlayStation dans neuf marchés suivis, dont les États-Unis, le Canada, le Royaume-Uni, la France, le Japon, l'Inde et la Corée du Sud."
+}

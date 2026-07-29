@@ -1,0 +1,21 @@
+{
+  "id": "news_fb82e4c6",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Un studio concurrent dit ne pas craindre novembre — mais a bougé sa date",
+    "en": "A rival studio says it isn't worried — but moved its date anyway"
+  },
+  "body": {
+    "fr": "Le co-responsable d'un studio de jeux de tir annuels déclare ne subir aucune pression particulière, et juge sain que les gros titres se poussent. Son propre jeu est néanmoins programmé hors de la fenêtre de novembre.",
+    "en": "The co-head of an annual shooter studio says he feels no particular pressure, and calls it healthy for big titles to push each other. His own game is nonetheless scheduled outside the November window."
+  },
+  "publishedAt": "2026-07-21",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/call-of-duty-says-it-is-not-scared-of-gta-6-but-it-already-moved-out-of-the-way-28d5"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:c66f65d9a2d3",
+  "sourceClaim": "Le co-responsable d'un studio concurrent déclare que la sortie à venir n'ajoute aucune pression particulière sur son propre jeu de tir annuel, et juge sain que les gros titres se poussent mutuellement. Son jeu a néanmoins été programmé hors de la fenêtre de novembre."
+}

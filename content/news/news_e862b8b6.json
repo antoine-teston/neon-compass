@@ -1,0 +1,21 @@
+{
+  "id": "news_e862b8b6",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Le syndicat du studio rencontre la direction pour la première fois",
+    "en": "The studio's union meets management for the first time"
+  },
+  "body": {
+    "fr": "Le syndicat des salariés annonce une première réunion formelle, qualifie l'issue de pas dans la bonne direction, et dit avoir obtenu une feuille de route vers une négociation plus rapide. À quatre mois de la sortie.",
+    "en": "The workers' union reports a first formal meeting, calls the outcome a step in the right direction, and says it secured a roadmap toward faster negotiation. Four months before launch."
+  },
+  "publishedAt": "2026-07-22",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-games-workers-union-meets-management-four-months-before-gta-6-b9e8"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:136c841ba8f6",
+  "sourceClaim": "Le syndicat des salariés du studio annonce avoir tenu sa première réunion formelle avec la direction, décrit l'issue comme un pas dans la bonne direction, et dit avoir obtenu une feuille de route vers une négociation plus rapide. La rencontre a lieu quatre mois avant la sortie."
+}
