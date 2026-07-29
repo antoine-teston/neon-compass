@@ -3001,3 +3001,42 @@ EOF
 - **Libellés courts distincts pour le segmenté** (tâche 8), parce que quatre segments dont l'un dit « Manette PlayStation » tronquent tout le reste en largeur compacte.
 
 **Ce que le plan ne fait pas** : aucune bascule FR-primaire, aucun ajout au registre de sources, aucune généralisation du notifieur, aucun code GTA VI, aucun `es`/`it`/`de` dans `content/` (les chaînes d'interface, elles, sont bien traduites dans les 5 langues, comme l'exige la contrainte globale).
+
+---
+
+## Exécution — ce que le plan n'avait pas vu
+
+Exécuté le 2026-07-29. Les dix tâches sont livrées ; 271 tests côté app,
+63 côté outillage.
+
+Trois choses que seule l'exécution a révélées :
+
+1. **Trois suites de tests existaient déjà** (`CheatTests`, `CheatsModelTests`,
+   `GamepadGlyphTests`), que le plan listait comme à créer. Une exécution fidèle
+   les aurait écrasées et huit tests auraient disparu sans décision.
+2. **Le mode PlayStation affichait des lettres Xbox.** Le plan faisait partager
+   leurs glyphes aux boutons de même position, avec un raisonnement qui sonnait
+   juste — et un test qui verrouillait l'égalité. Vu sur simulateur : △ rendu Ⓨ,
+   □ rendu Ⓧ. Corrigé, test inversé.
+3. **Le sélecteur V/VI ne s'affichait pas.** `ToolbarItem(.topBarTrailing)` n'a
+   nulle part où se rendre dans un écran sans barre de navigation, et SwiftUI ne
+   le signale pas. Ni le plan ni le build ne pouvaient l'attraper.
+
+Les deux derniers ont la même leçon : **aucun raisonnement sur une UI ne
+remplace le fait de la regarder.** Les deux défauts compilaient, passaient les
+tests, et se lisaient bien dans le plan.
+
+### Vérification visuelle incomplète, assumée
+
+Vérifié à l'écran sur iPhone 17 Pro : les quatre segments tiennent sans
+troncature, la rangée de glyphes passe à la ligne, les sections par catégorie
+s'affichent, les glyphes PlayStation sont corrects, la bascule V/VI est présente
+et active.
+
+**Non vérifié à l'écran** : le rendu des modes Clavier et Téléphone avec leur
+bouton copier, le groupe replié des codes indisponibles, l'état d'attente de
+GTA VI, et la disposition iPad. Le pilotage du simulateur par coordonnées s'est
+révélé trop peu fiable pour valoir le temps qu'il coûtait. Ces quatre points sont
+couverts par des tests de modèle (`isAwaitingContent` et ses trois cas,
+`copyableText`, `unavailableInActiveMode`), ce qui vaut mieux pour la durée mais
+ne dit rien de leur apparence. **À regarder avant publication.**
