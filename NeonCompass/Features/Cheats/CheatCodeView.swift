@@ -99,53 +99,78 @@ struct CheatCodeView: View {
 /// Disposition en flux : les enfants s'alignent en rangée et passent à la ligne
 /// quand la largeur manque.
 ///
-/// Un `HStack` ne le fait pas — il compresse ou déborde — et le `Grid` de
-/// SwiftUI demande un nombre de colonnes fixe, là où une séquence fait de quatre
-/// à seize boutons. Une séquence tronquée est un code inutilisable, ce qui
-/// justifie les trente lignes que ce `Layout` coûte.
+/// Un `HStack` ne le fait pas — il compresse ou déborde — et un `LazyVGrid` à
+/// colonnes adaptatives répartit l'espace restant entre ses colonnes, ce qui
+/// étale une séquence de quatre boutons sur toute la largeur au lieu de la
+/// donner à lire comme une suite. Une séquence fait de quatre à seize boutons :
+/// il faut un vrai passage à la ligne.
+///
+/// Une première version mesurait et plaçait selon deux règles écrites
+/// séparément, et mesurait avec `proposal.width ?? .infinity`. Interrogée sans
+/// largeur — ce que fait un `HStack` pour jauger la souplesse de ses enfants —
+/// elle annonçait donc UNE rangée, puis en plaçait deux : la seconde sortait de
+/// la carte par le bas. D'où le calcul unique ci-dessous, partagé par les deux
+/// passes, et la largeur de secours finie.
 struct FlowLayout: Layout {
     var spacing: CGFloat
 
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) -> CGSize {
-        let maxWidth = proposal.width ?? .infinity
-        var rowWidth: CGFloat = 0
-        var rowHeight: CGFloat = 0
-        var total = CGSize.zero
+    /// Largeur retenue quand aucune n'est proposée. Finie, délibérément : une
+    /// largeur infinie mesure une rangée unique, et c'est cette réponse-là qui
+    /// faisait déborder les glyphes.
+    private static let fallbackWidth: CGFloat = 320
+
+    private struct Row {
+        var positions: [CGPoint] = []
+        var height: CGFloat = 0
+        var width: CGFloat = 0
+    }
+
+    /// Seul endroit qui décide où va quoi. Mesure et placement en dérivent tous
+    /// les deux, donc ils ne peuvent pas se contredire.
+    private func rows(_ subviews: Subviews, maxWidth: CGFloat) -> (size: CGSize, rows: [Row]) {
+        var rows: [Row] = []
+        var current = Row()
+        var y: CGFloat = 0
 
         for subview in subviews {
             let size = subview.sizeThatFits(.unspecified)
-            if rowWidth > 0, rowWidth + spacing + size.width > maxWidth {
-                total.width = max(total.width, rowWidth)
-                total.height += rowHeight + spacing
-                rowWidth = size.width
-                rowHeight = size.height
-            } else {
-                rowWidth += rowWidth > 0 ? spacing + size.width : size.width
-                rowHeight = max(rowHeight, size.height)
+            let needed = current.positions.isEmpty ? size.width : current.width + spacing + size.width
+            if !current.positions.isEmpty, needed > maxWidth {
+                rows.append(current)
+                y += current.height + spacing
+                current = Row()
             }
+            let x = current.positions.isEmpty ? 0 : current.width + spacing
+            current.positions.append(CGPoint(x: x, y: y))
+            current.width = x + size.width
+            current.height = max(current.height, size.height)
         }
-        total.width = max(total.width, rowWidth)
-        total.height += rowHeight
-        return total
+        if !current.positions.isEmpty { rows.append(current) }
+
+        let width = rows.map(\.width).max() ?? 0
+        let height = rows.map(\.height).reduce(0, +)
+            + spacing * CGFloat(max(0, rows.count - 1))
+        return (CGSize(width: width, height: height), rows)
+    }
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) -> CGSize {
+        rows(subviews, maxWidth: proposal.width ?? Self.fallbackWidth).size
     }
 
     func placeSubviews(
         in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void
     ) {
-        var x = bounds.minX
-        var y = bounds.minY
-        var rowHeight: CGFloat = 0
-
-        for subview in subviews {
-            let size = subview.sizeThatFits(.unspecified)
-            if x > bounds.minX, x + size.width > bounds.maxX {
-                x = bounds.minX
-                y += rowHeight + spacing
-                rowHeight = 0
+        let laid = rows(subviews, maxWidth: bounds.width).rows
+        var index = 0
+        for row in laid {
+            for point in row.positions {
+                subviews[index].place(
+                    at: CGPoint(x: bounds.minX + point.x, y: bounds.minY + point.y),
+                    anchor: .topLeading,
+                    proposal: .unspecified
+                )
+                index += 1
             }
-            subview.place(at: CGPoint(x: x, y: y), anchor: .topLeading, proposal: .unspecified)
-            x += size.width + spacing
-            rowHeight = max(rowHeight, size.height)
         }
     }
 }
