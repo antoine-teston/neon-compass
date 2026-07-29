@@ -32,8 +32,9 @@ struct CheatsScreen: View {
 
     @ViewBuilder
     private func cheatsContent(model: CheatsModel) -> some View {
-        Group {
-            if isAwaitingContent(model) {
+        VStack(spacing: 0) {
+            gameRow(model: model)
+            if model.isAwaitingContent {
                 CheatsEmptyGameView()
             } else {
                 CheatsListView(model: model) { cheat in
@@ -41,11 +42,7 @@ struct CheatsScreen: View {
                 }
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                gamePicker(model: model)
-            }
-        }
+        .background(NCColor.nightSky.ignoresSafeArea())
         .fullScreenCover(item: $readerCheat) { cheat in
             let readable = model.sections.flatMap(\.cheats)
             if let index = readable.firstIndex(where: { $0.id == cheat.id }) {
@@ -59,31 +56,28 @@ struct CheatsScreen: View {
         }
     }
 
-    /// Un jeu dont aucun code n'existe encore — pas une recherche sans résultat.
-    /// La condition inclut donc `searchQuery.isEmpty` : afficher « pas encore de
-    /// codes » parce qu'une recherche ne trouve rien serait un mensonge.
-    private func isAwaitingContent(_ model: CheatsModel) -> Bool {
-        model.sections.isEmpty
-            && model.unavailableInActiveMode.isEmpty
-            && model.searchQuery.isEmpty
-    }
-
     /// Le jeu est un changement de contexte — tout le contenu change — donc il
-    /// vit dans le chrome, pas dans la liste. Deux segments, l'étiquette courte
-    /// que le fil d'actu utilise déjà.
-    private func gamePicker(model: CheatsModel) -> some View {
-        Picker("cheats.game.picker", selection: Binding(
-            get: { model.activeGame },
-            set: { model.activeGame = $0 }
-        )) {
-            // Ordre explicite, pas `allCases` : l'énumération déclare `leonida`
-            // en premier et le sélecteur afficherait « VI | V ».
-            ForEach([Game.reference, .leonida]) { game in
-                Text(game.shortLabel).tag(game)
-            }
+    /// se distingue du mode de saisie, qui n'est qu'une loupe sur une même liste.
+    ///
+    /// Hors du défilement, et au-dessus des deux états : sur l'état d'attente de
+    /// GTA VI, une bascule qui aurait vécu dans la liste aurait disparu avec
+    /// elle, et on serait parti sur VI sans pouvoir revenir.
+    ///
+    /// Pas dans une toolbar : cet écran n'a pas de barre de navigation. `RootView`
+    /// empile ses écrans dans un `ZStack` avec une barre d'onglets maison en
+    /// compact, et un `TabView` en régulier — un
+    /// `ToolbarItem(placement: .topBarTrailing)` n'y a nulle part où se rendre, et
+    /// disparaissait sans la moindre erreur.
+    private func gameRow(model: CheatsModel) -> some View {
+        HStack {
+            Spacer()
+            GameSwitch(game: Binding(
+                get: { model.activeGame },
+                set: { model.activeGame = $0 }
+            ))
         }
-        .pickerStyle(.segmented)
-        .fixedSize()
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
     }
 
     private func loadCheatsModel() async {

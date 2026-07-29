@@ -109,6 +109,17 @@ final class CheatsModel {
         matching.filter { $0.codes[activeInputMode] == nil }
     }
 
+    /// Le jeu actif n'a aucun code — et non « la recherche ne trouve rien ».
+    ///
+    /// La distinction est le fond du sujet : afficher « pas encore de codes »
+    /// parce qu'une recherche échoue serait un mensonge. D'où la condition sur
+    /// `searchQuery`, et d'où la place de ce calcul ici plutôt que dans la vue :
+    /// c'est un état dérivé du modèle, et il se teste.
+    var isAwaitingContent: Bool {
+        searchQuery.isEmpty
+            && !cheats.contains { $0.game == activeGame }
+    }
+
     func isFavorite(_ cheat: Cheat) -> Bool {
         favoriteCheatIDs.contains(cheat.id)
     }

@@ -47,30 +47,10 @@ struct MapDisplayControls: View {
     }
 #endif
 
-    /// Chiffres romains nus, jamais la marque : CLAUDE.md interdit les marques
-    /// déposées dans l'app.
+    /// Le contrôle lui-même vit dans `Core/DesignSystem/GameSwitch.swift` :
+    /// l'écran Codes en a besoin aussi, et un second exemplaire aurait divergé.
     private var gameSwitch: some View {
-        HStack(spacing: 4) {
-            ForEach(MapGame.allCases) { candidate in
-                Button {
-                    guard candidate != game else { return }
-                    withAnimation(.snappy) { game = candidate }
-                } label: {
-                    Text(candidate.shortLabel)
-                        .font(.system(size: 15, weight: .semibold, design: .rounded))
-                        .monospacedDigit()
-                        .foregroundStyle(candidate == game ? NCColor.nightSky : .white)
-                        .frame(width: 36, height: 36)
-                        .background(
-                            Circle().fill(candidate == game ? NCColor.neonCyan : .clear)
-                        )
-                }
-                .accessibilityLabel(Text(candidate == .leonida ? "map.game.upcoming" : "map.game.reference"))
-                .accessibilityAddTraits(candidate == game ? [.isSelected] : [])
-            }
-        }
-        .padding(4)
-        .glassEffect(.regular.interactive(), in: .capsule)
+        GameSwitch(game: $game)
     }
 
     private var styleButton: some View {

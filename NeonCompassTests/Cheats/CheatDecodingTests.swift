@@ -113,6 +113,24 @@ struct CheatDecodingTests {
         }
     }
 
+    // Ce qui décide de la présence du bouton copier. Une séquence de boutons n'a
+    // rien à copier : proposer « Copier » y serait une promesse vide.
+    @Test func onlyTextCodesAreCopyable() {
+        #expect(CheatCode.buttons([.circle, .r1]).copyableText == nil)
+        #expect(CheatCode.keyword("COMET").copyableText == "COMET")
+        #expect(
+            CheatCode.phone(number: "1-999-266-38", mnemonic: "1-999-COMET").copyableText
+                == "1-999-266-38"
+        )
+    }
+
+    // C'est le numéro qu'on copie, pas le mnémonique : un téléphone in-game ne
+    // compose pas des lettres.
+    @Test func copyingAPhoneCodeYieldsTheDigitsNotTheMnemonic() {
+        let code = CheatCode.phone(number: "1-999-724-654-5537", mnemonic: "1-999-PAINKILLER")
+        #expect(code.copyableText == "1-999-724-654-5537")
+    }
+
     // Le vrai contenu, décodé pour de vrai : le schéma et le modèle Swift ont
     // déjà divergé une fois — lb/lt/rb/rt autorisés côté schéma, absents côté
     // Swift — et cette divergence ne se voyait dans aucun test unitaire, parce

@@ -203,6 +203,41 @@ struct CheatsModelTests {
         #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a"])
     }
 
+    // MARK: - État d'attente
+
+    @Test func awaitsContentForAGameThatHasNoCodes() throws {
+        let sut = try model([
+            cheat("v", .misc, game: .reference, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("await"))
+        #expect(!sut.isAwaitingContent)
+        sut.activeGame = .leonida
+        #expect(sut.isAwaitingContent)
+    }
+
+    // La distinction qui compte : « ce jeu n'a pas encore de codes » n'est pas
+    // « ta recherche ne trouve rien ». Afficher le premier pour le second serait
+    // un mensonge.
+    @Test func aFruitlessSearchIsNotAnAbsenceOfContent() throws {
+        let sut = try model([
+            cheat("comet", .vehicles, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("await-search"))
+        sut.searchQuery = "rienquicorresponde"
+        #expect(sut.sections.isEmpty)
+        #expect(!sut.isAwaitingContent)
+    }
+
+    // Un mode de saisie qui ne couvre rien n'est pas non plus une absence de
+    // contenu : le groupe des codes indisponibles a de quoi s'afficher.
+    @Test func aModeThatCoversNothingIsNotAnAbsenceOfContent() throws {
+        let sut = try model([
+            cheat("phone-only", .misc, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("await-mode"))
+        sut.activeInputMode = .xbox
+        #expect(sut.sections.isEmpty)
+        #expect(!sut.unavailableInActiveMode.isEmpty)
+        #expect(!sut.isAwaitingContent)
+    }
+
     // MARK: - Favoris (repris de la version précédente du fichier)
 
     private var favoritable: [Cheat] {
