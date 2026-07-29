@@ -1,0 +1,20 @@
+{
+  "id": "news_624a452a",
+  "category": "announcement",
+  "title": {
+    "fr": "Date de sortie confirmée : 19 novembre 2026",
+    "en": "Release date confirmed: November 19, 2026"
+  },
+  "body": {
+    "fr": "Le jeu sortira le 19 novembre 2026 sur PS5 et Xbox Series X|S. Les précommandes sont ouvertes depuis le 25 juin, avec une édition standard à 79,99 $ et une édition ultime à 99,99 $.",
+    "en": "The game arrives on November 19, 2026 for PS5 and Xbox Series X|S. Pre-orders opened on June 25, with a standard edition at $79.99 and an ultimate edition at $99.99."
+  },
+  "publishedAt": "2026-06-25",
+  "status": "published",
+  "sources": [
+    "https://www.rockstargames.com/VI"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:726cef055641",
+  "sourceClaim": "Le jeu est prévu pour le 19 novembre 2026 sur PS5 et Xbox Series X|S, avec des précommandes ouvertes depuis le 25 juin 2026 pour une édition standard à 79,99$ et une édition ultime à 99,99$."
+}

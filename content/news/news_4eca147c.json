@@ -1,0 +1,20 @@
+{
+  "id": "news_4eca147c",
+  "category": "event",
+  "title": {
+    "fr": "Résultats trimestriels de l'éditeur attendus le 7 août",
+    "en": "Publisher's quarterly results due August 7"
+  },
+  "body": {
+    "fr": "L'éditeur publie le 7 août les résultats de son premier trimestre d'exercice 2027. Ce sera son premier rapport financier couvrant une partie de la période de précommandes, ouverte depuis le 25 juin.",
+    "en": "The publisher reports its first-quarter fiscal 2027 results on August 7. It will be the first financial report covering part of the pre-order window, open since June 25."
+  },
+  "publishedAt": "2026-07-27",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/the-take-two-august-7-earnings-call-is-when-we-finally-get-gta-6-pre-order-numbers-35ce"
+  ],
+  "confidence": "multi-source",
+  "processedFrom": "inbox:news:837406112d68",
+  "sourceClaim": "Take-Two Interactive doit publier le 7 août 2026 les résultats de son premier trimestre d'exercice fiscal 2027, ce qui constituera son premier rapport financier couvrant une partie de la période de précommandes du jeu ouverte depuis le 25 juin 2026."
+}

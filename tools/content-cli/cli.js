@@ -21,6 +21,10 @@
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 //   pull-drafts --file X   même chose depuis un fichier exporté par l'app (repli sans
 //                          compte, cf. FileEditorDraftStore) ; aucun credential requis.
+//   pull-news              matérialise les faits `kind: "news"` de content/inbox en
+//                          squelettes content/news/*.json à rédiger ; idempotent
+//                          (cf. facts-to-news.mjs), aucun credential requis.
+//   pull-news --dry-run    montre ce qui serait matérialisé sans rien écrire.
 //   build-cdn              construit le site statique de contenu dans dist/ (JSON
 //                          versionné, lisible sans SDK — voir cdn-build.mjs)
 //   content-source [url|off]  affiche ou change la source de contenu lue par l'app
@@ -31,7 +35,7 @@
 //                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
 
 import { execSync } from 'node:child_process';
-import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync, renameSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync, renameSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
@@ -41,7 +45,7 @@ const CONTENT = join(ROOT, 'content');
 const LANGS = ['fr', 'es', 'it', 'de'];
 // Champs affichés dans l'UI : jamais de marque déposée (CLAUDE.md, spec §1).
 const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
-const UI_FIELDS = ['title', 'note', 'effect'];
+const UI_FIELDS = ['title', 'note', 'effect', 'body'];
 // Doit rester aligné sur BUNDLE_CHUNK_SIZE dans firestore-client.js et
 // ContentBundle.chunkSize côté Swift — ici uniquement pour annoncer le nombre de
 // fragments en dry-run.
@@ -52,6 +56,7 @@ const compiled = {
   poi: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'poi.schema.json')))),
   cheats: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'cheat.schema.json')))),
   collections: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'collection.schema.json')))),
+  news: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'news.schema.json')))),
 };
 
 // Un « kind » est un répertoire de content/. Il porte son schéma et la
@@ -67,6 +72,7 @@ const KINDS = {
   'poi-gtav': { schema: 'poi', collection: 'poi_gtav' },
   cheats: { schema: 'cheats', collection: 'cheats' },
   collections: { schema: 'collections', collection: 'collections' },
+  news: { schema: 'news', collection: 'news' },
 };
 const schemas = Object.fromEntries(
   Object.entries(KINDS).map(([kind, { schema }]) => [kind, compiled[schema]]),
@@ -76,6 +82,11 @@ function loadAll() {
   const entries = [];
   for (const kind of Object.keys(KINDS)) {
     const dir = join(CONTENT, kind);
+    // Un kind dont le répertoire n'existe pas encore n'est pas une erreur : il
+    // est simplement vide. Sans ce garde-fou, déclarer un kind avant sa première
+    // matérialisation ferait échouer TOUTES les commandes, `pull-news` comprise
+    // — c'est-à-dire précisément celle qui crée le répertoire.
+    if (!existsSync(dir)) continue;
     for (const f of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
       entries.push({ kind, file: `${kind}/${f}`, data: JSON.parse(readFileSync(join(dir, f))) });
     }
@@ -102,6 +113,21 @@ function checkPublishable(entries) {
     const problems = [];
     if (kind === 'cheats' && data.status === 'published' && (data.verifiedBy?.length ?? 0) < 2) {
       problems.push('published cheat requires verifiedBy >= 2 sources');
+    }
+    // Un squelette de `pull-news` porte encore son texte d'attente. Publier
+    // « À rédiger » dans le fil est un accident que seule une machine peut
+    // attraper de façon fiable — c'est exactement ce qui arriverait à un run
+    // hebdomadaire dont l'étape de rédaction a échoué en silence.
+    if (kind === 'news' && data.status === 'published' && data.needsRewrite) {
+      problems.push('published news item is still an unwritten skeleton (needsRewrite)');
+    }
+    // Une rumeur ne part pas dans le fil. L'app est un compagnon non officiel :
+    // sa crédibilité tient à ne jamais présenter une spéculation de presse comme
+    // une actualité. Une rumeur peut vivre en `draft` (elle garde sa trace et
+    // son id), elle ne franchit pas la publication. Assouplir cette règle est
+    // une décision éditoriale, pas un détail de pipeline.
+    if (kind === 'news' && data.status === 'published' && data.confidence === 'rumor') {
+      problems.push('published news item cannot rest on a rumor (confidence: rumor)');
     }
     for (const field of UI_FIELDS) {
       for (const [lang, text] of Object.entries(data[field] ?? {})) {
@@ -516,6 +542,95 @@ switch (cmd) {
 
       await markApplied(result.applied);
       console.log(`pull-drafts: ${result.applied.length} brouillon(s) appliqué(s) — relire puis committer`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
+  // Le maillon qui manquait entre la veille et le fil : les faits `kind: "news"`
+  // s'accumulaient dans content/inbox sans aucune sortie possible, faute de
+  // schéma, de kind et de commande. Les faits `poi`, eux, étaient traités —
+  // parce qu'ils avaient un tuyau.
+  //
+  // Cette commande ne RÉDIGE pas : elle pose des squelettes identifiés et
+  // idempotents, marqués `needsRewrite`. La reformulation reste le seul maillon
+  // confié à un modèle, et `check-publishable` refuse de publier ce qu'il n'a
+  // pas rédigé.
+  case 'pull-news':
+    try {
+      const { materializeNews } = await import('./facts-to-news.mjs');
+
+      const inbox = join(CONTENT, 'inbox');
+      const factFiles = existsSync(inbox)
+        ? readdirSync(inbox).filter((f) => f.endsWith('.facts.json')).sort()
+        : [];
+      const facts = factFiles.flatMap((file) => {
+        const data = JSON.parse(readFileSync(join(inbox, file), 'utf8'));
+        return (data.facts ?? []).map((fact, index) => ({ ...fact, file, index }));
+      });
+
+      const newsDir = join(CONTENT, 'news');
+      const existing = existsSync(newsDir)
+        ? readdirSync(newsDir)
+            .filter((name) => name.endsWith('.json'))
+            .map((name) => ({
+              path: join('content', 'news', name),
+              data: JSON.parse(readFileSync(join(newsDir, name), 'utf8')),
+            }))
+        : [];
+
+      const result = materializeNews(facts, existing);
+
+      if (result.conflicts.length) {
+        result.conflicts.forEach((c) => console.error(`  conflit: ${c.reason}\n           « ${c.claim?.slice(0, 80)}… »`));
+        console.error("pull-news: rien matérialisé — corriger les faits d'inbox d'abord");
+        ok = false;
+        break;
+      }
+
+      if (dry) {
+        result.writes.forEach(({ path, data }) => console.log(`  écrirait ${path}  [${data.confidence}] ${data.publishedAt}`));
+        console.log(
+          `pull-news --dry-run: ${result.writes.length} squelette(s), ` +
+            `${result.alreadyMaterialized.length} déjà matérialisé(s), aucune écriture`,
+        );
+        ok = true;
+        break;
+      }
+
+      if (result.writes.length) mkdirSync(newsDir, { recursive: true });
+      result.writes.forEach(({ path, data }) => {
+        writeFileSync(join(ROOT, path), `${JSON.stringify(data, null, 2)}\n`);
+        console.log(`  écrit ${path}  [${data.confidence}] ${data.publishedAt}`);
+      });
+
+      // L'inbox est marquée pour la veille, PAS pour l'idempotence : celle-ci
+      // vient de `processedFrom` (facts-to-news.mjs). Le drapeau sert au
+      // data-scout, qui relit les faits déjà émis pour ne pas les re-signaler.
+      const coveredByFile = new Map();
+      for (const { fact } of result.covered) {
+        if (!coveredByFile.has(fact.file)) coveredByFile.set(fact.file, new Set());
+        coveredByFile.get(fact.file).add(fact.index);
+      }
+      let marked = 0;
+      for (const [file, indices] of coveredByFile) {
+        const path = join(inbox, file);
+        const data = JSON.parse(readFileSync(path, 'utf8'));
+        let touched = false;
+        indices.forEach((index) => {
+          if (data.facts[index].processed) return;
+          data.facts[index].processed = true;
+          touched = true;
+          marked++;
+        });
+        if (touched) writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`);
+      }
+
+      console.log(
+        `pull-news: ${result.writes.length} squelette(s) écrit(s), ` +
+          `${result.alreadyMaterialized.length} déjà présent(s), ${marked} fait(s) marqué(s) — à rédiger puis committer`,
+      );
       ok = true;
     } catch (err) {
       console.error(err.message);

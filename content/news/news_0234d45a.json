@@ -1,0 +1,20 @@
+{
+  "id": "news_0234d45a",
+  "category": "announcement",
+  "title": {
+    "fr": "Troisième bande-annonce : une fenêtre avancée autour du 6 août",
+    "en": "Third trailer: a window floated around August 6"
+  },
+  "body": {
+    "fr": "Au 27 juillet, toujours pas de troisième bande-annonce. Un initié reconnu du secteur évoque le 6 août, veille de la publication des résultats trimestriels de l'éditeur. Le studio n'a rien confirmé à ce jour.",
+    "en": "As of July 27, still no third trailer. A well-known industry insider points to August 6, the day before the publisher's quarterly results. The studio has confirmed nothing so far."
+  },
+  "publishedAt": "2026-07-27",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/insider-gta-6-trailer-3-will-drop-on-august-6-45ac"
+  ],
+  "confidence": "rumor",
+  "processedFrom": "inbox:news:e58f5b58446f",
+  "sourceClaim": "Au 27 juillet 2026, aucun troisième trailer officiel n'est encore sorti ; un initié reconnu du secteur avance, sans confirmation de Rockstar, une fenêtre probable autour du 6 août, la veille de la publication des résultats trimestriels de l'éditeur Take-Two — une estimation plus tardive que celle circulant lors du run précédent."
+}

@@ -1,0 +1,20 @@
+{
+  "id": "news_18b84c1f",
+  "category": "announcement",
+  "title": {
+    "fr": "Des analystes projettent 37 à 51 millions d'exemplaires la première semaine",
+    "en": "Analysts project 37 to 51 million copies in week one"
+  },
+  "body": {
+    "fr": "Un cabinet d'analyse cité par la presse spécialisée projette des précommandes environ six fois supérieures à celles de deux des plus grosses franchises annuelles réunies, et 37 à 51 millions d'exemplaires vendus la première semaine. Ce sont des estimations d'analystes, pas des chiffres de l'éditeur.",
+    "en": "An analyst firm cited by specialist press projects pre-orders around six times those of two of the biggest annual franchises combined, and 37 to 51 million copies sold in the first week. These are analyst estimates, not publisher figures."
+  },
+  "publishedAt": "2026-07-27",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-is-on-track-for-the-biggest-launch-ever-54f7"
+  ],
+  "confidence": "rumor",
+  "processedFrom": "inbox:news:97746af53d49",
+  "sourceClaim": "Un cabinet d'analyse cité par la presse spécialisée projette des ventes de précommandes environ six fois supérieures à celles d'EA Sports FC et Call of Duty réunis, avec une estimation de 37 à 51 millions d'exemplaires vendus lors de la première semaine — une projection d'analystes, non des chiffres officiels de Take-Two."
+}
