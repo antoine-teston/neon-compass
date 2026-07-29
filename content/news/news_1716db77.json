@@ -3,12 +3,12 @@
   "category": "announcement",
   "game": "leonida",
   "title": {
-    "fr": "« Terminé à 90 % » : ce n'est pas ce qui a été dit",
-    "en": "\"90 percent done\" is not what was said"
+    "fr": "« Terminé à 90 % » : ce n'est pas ce que Jason Schreier a dit",
+    "en": "\"90 percent done\" is not what Jason Schreier said"
   },
   "body": {
-    "fr": "Un journaliste s'est dit confiant à 90 % sur la tenue de la date du 19 novembre. Le chiffre porte sur le calendrier, pas sur l'avancement du développement. La reprise virale a transformé une estimation de confiance en état d'achèvement.",
-    "en": "A reporter said he was 90 percent confident the November 19 date would hold. The figure is about the schedule, not about how finished the game is. The viral retelling turned a confidence estimate into a completion status."
+    "fr": "Le journaliste de Bloomberg s’est dit confiant à 90 % sur la tenue de la date du 19 novembre. Le chiffre porte sur le calendrier, pas sur l’avancement du développement. La reprise virale a transformé une estimation de confiance en état d’achèvement.",
+    "en": "The Bloomberg reporter said he was 90 percent confident the November 19 date would hold. The figure is about the schedule, not about how finished the game is. The viral retelling turned a confidence estimate into a completion status."
   },
   "publishedAt": "2026-07-24",
   "status": "published",

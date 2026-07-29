@@ -94,11 +94,27 @@ Les périphrases à remplacer, telles qu'elles ont été employées :
 | « le jeu en ligne actuel » | le nom du mode en ligne |
 | « l'éditeur » | le nom de l'éditeur, quand c'est lui qui agit |
 | « le studio » | le nom du studio |
-| « un studio concurrent », « deux jeux de sport annuels » | à laisser tels quels : ce sont des marques de TIERS, hors du périmètre de cette bascule |
+**Les marques de tiers, elles, sont déjà nommées** — et ce plan n'a rien à en
+dire. Corrigé le 29 juillet, le jour même de sa rédaction : les concurrents
+(NBA 2K27, EA Sports FC 27, Call of Duty, Infinity Ward), les médias (Bloomberg,
+IGN), les entreprises (Telia, Sony) et les personnes sont cités par leur nom.
 
-**Point de vigilance** : la bascule autorise les marques *Rockstar/Take-Two*. Elle
-ne dit rien des marques de concurrents (les deux jeux de sport, le jeu de tir
-annuel). Les nommer relève d'un autre arbitrage, à ne pas emporter dans celui-ci.
+Ils l'étaient masqués derrière des périphrases — « un studio concurrent », « deux
+jeux de sport annuels », « un média spécialisé » — non pas par une règle, mais
+parce que j'avais étendu de moi-même l'interdiction Rockstar à tout le monde en
+rédigeant. `check-publishable` ne l'a jamais demandé : sa liste ne contient que
+les marques Rockstar/Take-Two. C'était de l'autocensure, et elle coûtait de la
+crédibilité — un démenti qui ne nomme ni le journaliste ni son média est un
+démenti qu'on ne peut pas vérifier.
+
+Le risque est d'ailleurs plus faible pour les tiers que pour Rockstar : personne
+n'imagine qu'un compagnon de jeu soit affilié à un éditeur qu'il cite en
+comparaison, et la ligne Apple 5.2.1 porte sur la confusion avec l'app dont on
+parle, pas avec celles qu'on mentionne.
+
+Seul cas laissé en périphrase faute de source : `news_18b84c1f` parle d'« un
+cabinet d'analyse » parce que l'article ne le nommait pas. On ne nomme pas ce
+qu'on n'a pas lu.
 
 **Ce qui ne change pas** : `sourceClaim` reste tel quel — il n'est pas affiché, et
 il porte déjà les noms exacts. C'est d'ailleurs la trace qui rend cette réécriture
@@ -158,6 +174,8 @@ cher que de remettre des périphrases.
 
 ## Ce que ce plan ne fait pas
 
+- **Il ne concerne que les marques Rockstar/Take-Two.** Les marques de tiers sont
+  déjà nommées (cf. étape 2) : il n'y a rien à basculer de ce côté.
 - **Il ne touche pas aux images.** Les captures et artworks des sites sources
   restent interdits : c'est du droit d'auteur, pas du droit des marques, et
   l'approbation de l'app n'y change rien. La piste permise reste celle que
