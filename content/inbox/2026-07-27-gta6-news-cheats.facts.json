@@ -18,28 +18,32 @@
       "kind": "news",
       "source_url": "https://www.gtaboom.com/insider-gta-6-trailer-3-will-drop-on-august-6-45ac",
       "source_date": "2026-07-27",
-      "confidence": "rumor"
+      "confidence": "rumor",
+      "processed": true
     },
     {
       "claim": "Take-Two Interactive doit publier le 7 août 2026 les résultats de son premier trimestre d'exercice fiscal 2027, ce qui constituera son premier rapport financier couvrant une partie de la période de précommandes du jeu ouverte depuis le 25 juin 2026.",
       "kind": "news",
       "source_url": "https://www.gtaboom.com/the-take-two-august-7-earnings-call-is-when-we-finally-get-gta-6-pre-order-numbers-35ce",
       "source_date": "2026-07-27",
-      "confidence": "multi-source"
+      "confidence": "multi-source",
+      "processed": true
     },
     {
       "claim": "Take-Two a déposé auprès du régulateur boursier américain des prévisions de revenus nets compris entre 8 et 8,2 milliards de dollars pour son exercice fiscal 2027, un chiffre que la presse spécialisée interprète comme un engagement financier renforçant la crédibilité de la date de sortie du 19 novembre 2026.",
       "kind": "news",
       "source_url": "https://www.gtaboom.com/no-more-delays-take-two-has-filed-the-number-that-locks-gta-6-to-november-db88",
       "source_date": "2026-07-27",
-      "confidence": "multi-source"
+      "confidence": "multi-source",
+      "processed": true
     },
     {
       "claim": "Un cabinet d'analyse cité par la presse spécialisée projette des ventes de précommandes environ six fois supérieures à celles d'EA Sports FC et Call of Duty réunis, avec une estimation de 37 à 51 millions d'exemplaires vendus lors de la première semaine — une projection d'analystes, non des chiffres officiels de Take-Two.",
       "kind": "news",
       "source_url": "https://www.gtaboom.com/gta-6-is-on-track-for-the-biggest-launch-ever-54f7",
       "source_date": "2026-07-27",
-      "confidence": "rumor"
+      "confidence": "rumor",
+      "processed": true
     },
     {
       "claim": "La presse spécialisée maintient, autour du 16 juillet 2026, qu'aucune liste de codes de triche officielle n'a été publiée par Rockstar, et estime qu'un éventuel code d'argent illimité serait peu probable, par contraste avec certains épisodes précédents de la série.",

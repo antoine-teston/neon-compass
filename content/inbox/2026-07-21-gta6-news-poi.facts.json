@@ -71,14 +71,16 @@
       "kind": "news",
       "source_url": "https://www.rockstargames.com/VI",
       "source_date": "2026-06-25",
-      "confidence": "confirmed-official"
+      "confidence": "confirmed-official",
+      "processed": true
     },
     {
       "claim": "Un troisième trailer officiel n'était toujours pas sorti au 21 juillet 2026 ; la presse spécialisée évoquait une fenêtre probable autour de mi-juillet, sans confirmation de Rockstar.",
       "kind": "news",
       "source_url": "https://www.gtaboom.com/when-is-gta-6-trailer-3-coming-the-window-is-clearer-19a0",
       "source_date": "2026-07-19",
-      "confidence": "rumor"
+      "confidence": "rumor",
+      "processed": true
     }
   ]
 }

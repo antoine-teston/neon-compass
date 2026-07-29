@@ -9,7 +9,7 @@
     "bundle": "node cli.js bundle",
     "release:dry": "node cli.js release --dry-run",
     "release": "node cli.js release",
-    "test": "node --test ui/actions.test.mjs && npm run check"
+    "test": "node --test ui/actions.test.mjs draft-to-poi.test.mjs facts-to-news.test.mjs && npm run check"
   },
   "keywords": [],
   "author": "",

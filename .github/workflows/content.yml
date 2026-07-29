@@ -56,8 +56,17 @@ jobs:
 
       # Surface d'attaque de la console web locale : liste blanche d'actions et
       # refus des identifiants hostiles. Sans dépendance non plus.
-      - name: Tests de la console web
-        run: node --test tools/content-cli/ui/actions.test.mjs
+      #
+      # Les deux transformations de matérialisation tournent ici pour la même
+      # raison : elles portent l'idempotence des runs (`processedFrom`), donc un
+      # doublon silencieux dans le fil ou la carte. Elles n'ont aucune dépendance
+      # — rien ne doit pouvoir les rendre inexécutables.
+      - name: Tests de la console web et des matérialisations
+        run: >
+          node --test
+          tools/content-cli/ui/actions.test.mjs
+          tools/content-cli/draft-to-poi.test.mjs
+          tools/content-cli/facts-to-news.test.mjs
 
       - name: Installer les dépendances du CLI
         working-directory: tools/content-cli
