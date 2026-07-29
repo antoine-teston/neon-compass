@@ -1,0 +1,20 @@
+{
+  "id": "news_9207e123",
+  "category": "announcement",
+  "title": {
+    "fr": "Non, le code du jeu n'expire pas au bout de 170 jours",
+    "en": "No, the game code does not expire after 170 days"
+  },
+  "body": {
+    "fr": "La rumeur venait d'un contresens sur les boîtes japonaises, rectifié par l'auteur du message d'origine : la mention d'expiration couvre le contenu additionnel, pas le jeu. Seuls le pack bonus, jusqu'au 20 novembre, et l'essai du service par abonnement ont une date limite réelle.",
+    "en": "The rumour came from a misreading of Japanese packaging, corrected by the person who first posted it: the expiry notice covers add-on content, not the game itself. Only the bonus pack, until November 20, and the subscription trial have real deadlines."
+  },
+  "publishedAt": "2026-07-25",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-download-codes-do-not-expire-but-the-panic-makes-sense-0df5"
+  ],
+  "confidence": "multi-source",
+  "processedFrom": "inbox:news:abac89562fdd",
+  "sourceClaim": "La rumeur d'un code de téléchargement qui expirerait au bout de 170 jours au Japon est un contresens, rectifié par l'auteur du message d'origine lui-même : la mention d'expiration imprimée sur les boîtes japonaises couvre le contenu additionnel, pas le jeu. Seuls le pack de contenu bonus, jusqu'au 20 novembre, et l'essai du service par abonnement ont une date limite réelle."
+}

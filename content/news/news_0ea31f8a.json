@@ -1,0 +1,20 @@
+{
+  "id": "news_0ea31f8a",
+  "category": "announcement",
+  "title": {
+    "fr": "L'édition ultime à 99,99 $ devient l'une des moins chères de la rentrée",
+    "en": "The $99.99 ultimate edition is now among autumn's cheapest"
+  },
+  "body": {
+    "fr": "Deux jeux de sport annuels ont annoncé ce mois-ci des éditions haut de gamme à 149,99 $, cinquante dollars au-dessus. La comparaison ne dit rien de la valeur du jeu — seulement que le haut de gamme se déplace vers le haut partout.",
+    "en": "Two annual sports games announced top-tier editions at $149.99 this month, fifty dollars higher. The comparison says nothing about the game's value — only that premium tiers are climbing across the board."
+  },
+  "publishedAt": "2026-07-24",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/two-annual-sports-games-just-made-gta-6-look-like-a-bargain-0abb"
+  ],
+  "confidence": "multi-source",
+  "processedFrom": "inbox:news:a8d09e433b15",
+  "sourceClaim": "Deux jeux de sport annuels ont annoncé ce mois-ci des éditions haut de gamme à 149,99 $, soit cinquante dollars de plus que l'édition ultime du jeu à 99,99 $ — laquelle devient ainsi l'une des éditions premium les moins chères parmi les grosses sorties de la rentrée."
+}

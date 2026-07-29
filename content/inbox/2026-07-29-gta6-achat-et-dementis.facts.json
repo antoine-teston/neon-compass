@@ -1,0 +1,56 @@
+{
+  "run": {
+    "date": "2026-07-29",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://www.gtaboom.com/rockstar-confirms-region-locked-ps5-codes-but-only-on-xbox-d5f6",
+      "https://www.gtaboom.com/gta-6-download-codes-do-not-expire-but-the-panic-makes-sense-0df5",
+      "https://www.gtaboom.com/no-jason-schreier-did-not-say-gta-6-is-almost-complete-5bd4",
+      "https://www.gtaboom.com/there-is-no-gta-6-collectors-edition-and-thousands-are-searching-for-one-anyway-93ee",
+      "https://www.gtaboom.com/two-annual-sports-games-just-made-gta-6-look-like-a-bargain-0abb",
+      "https://leonidaverse.com/news-sitemap.xml"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "La page d'assistance officielle de l'éditeur confirme que le code de téléchargement contenu dans les boîtes PS5 est verrouillé par région : il exige un compte enregistré dans le pays d'achat, faute de quoi il ne s'active pas. Le code des boîtes Xbox Series X|S, lui, fonctionne partout. Aucune explication n'est donnée sur cette différence entre les deux plateformes.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/rockstar-confirms-region-locked-ps5-codes-but-only-on-xbox-d5f6",
+      "source_date": "2026-07-27",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "La rumeur d'un code de téléchargement qui expirerait au bout de 170 jours au Japon est un contresens, rectifié par l'auteur du message d'origine lui-même : la mention d'expiration imprimée sur les boîtes japonaises couvre le contenu additionnel, pas le jeu. Seuls le pack de contenu bonus, jusqu'au 20 novembre, et l'essai du service par abonnement ont une date limite réelle.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/gta-6-download-codes-do-not-expire-but-the-panic-makes-sense-0df5",
+      "source_date": "2026-07-25",
+      "confidence": "multi-source",
+      "processed": true
+    },
+    {
+      "claim": "L'affirmation virale selon laquelle un journaliste de Bloomberg aurait déclaré le jeu terminé à 90 % est un contresens sur ses propos : il s'est dit confiant à 90 % sur la tenue de la date du 19 novembre, ce qui porte sur le calendrier et non sur l'avancement du développement.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/no-jason-schreier-did-not-say-gta-6-is-almost-complete-5bd4",
+      "source_date": "2026-07-24",
+      "confidence": "multi-source",
+      "processed": true
+    },
+    {
+      "claim": "Il n'existe que deux éditions du jeu, standard et ultime, mises en vente à l'ouverture des précommandes le 25 juin. Aucune édition collector physique n'a été produite — pas de coffret, de statuette ni d'artbook — contrairement à de précédents titres du studio. Les annonces qui prétendent en vendre une sont non officielles.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/there-is-no-gta-6-collectors-edition-and-thousands-are-searching-for-one-anyway-93ee",
+      "source_date": "2026-07-26",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Deux jeux de sport annuels ont annoncé ce mois-ci des éditions haut de gamme à 149,99 $, soit cinquante dollars de plus que l'édition ultime du jeu à 99,99 $ — laquelle devient ainsi l'une des éditions premium les moins chères parmi les grosses sorties de la rentrée.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/two-annual-sports-games-just-made-gta-6-look-like-a-bargain-0abb",
+      "source_date": "2026-07-24",
+      "confidence": "multi-source",
+      "processed": true
+    }
+  ]
+}

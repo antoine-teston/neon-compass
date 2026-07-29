@@ -5,15 +5,23 @@ struct FeedListView: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.horizontalSizeClass) private var sizeClass
 
+    /// Une bannière intercalée toutes les cinq entrées. En dessous, un fil de
+    /// huit actus en porterait déjà deux en plus de celle du bas — on vendrait
+    /// plus d'espace publicitaire que de contenu.
+    private static let cardsBetweenAds = 5
+
     var body: some View {
         ZStack(alignment: .bottom) {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+                LazyVStack(alignment: .leading, spacing: 12) {
                     if model.newsItems.isEmpty {
                         emptyState
                     } else {
-                        ForEach(model.newsItems) { item in
+                        ForEach(Array(model.newsItems.enumerated()), id: \.element.id) { index, item in
                             card(for: item)
+                            if showsInlineAd(after: index) {
+                                inlineAd
+                            }
                         }
                     }
                 }
@@ -25,6 +33,15 @@ struct FeedListView: View {
             }
         }
         .background(NCColor.nightSky.ignoresSafeArea())
+    }
+
+    /// Jamais après la dernière carte : la bannière ancrée en bas y est déjà,
+    /// et deux publicités collées l'une à l'autre en fin de liste, c'est ce
+    /// qu'on voit dans les applications qu'on désinstalle.
+    private func showsInlineAd(after index: Int) -> Bool {
+        guard !proEntitlementModel.isProEntitled else { return false }
+        let position = index + 1
+        return position % Self.cardsBetweenAds == 0 && position < model.newsItems.count
     }
 
     /// La réservation vient désormais de `BannerAdView` lui-même, qui la définit
@@ -44,23 +61,46 @@ struct FeedListView: View {
             .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
     }
 
+    /// Volontairement plus sobre que la bannière ancrée : pas d'effet de verre,
+    /// une simple surface en retrait. Intercalée dans le fil, elle doit se lire
+    /// comme un espace acheté, jamais se déguiser en carte d'actu.
+    private var inlineAd: some View {
+        BannerAdView()
+            .padding(8)
+            .frame(maxWidth: .infinity)
+            .background(.white.opacity(0.04), in: .rect(cornerRadius: 12))
+    }
+
     private func card(for item: NewsItem) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label(categoryTitleKey(item.category), systemImage: categorySymbol(item.category))
-                .font(NCTypography.body.bold())
-                .foregroundStyle(NCColor.neonCyan)
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Label(categoryTitleKey(item.category), systemImage: categorySymbol(item.category))
+                    .font(NCTypography.cardMeta)
+                    .foregroundStyle(NCColor.neonCyan)
+                Spacer(minLength: 8)
+                if let date = formattedDate(item.publishedAt) {
+                    Text(date)
+                        .font(NCTypography.cardMeta)
+                        .foregroundStyle(.white.opacity(0.45))
+                }
+            }
 
             Text(item.title.resolved(for: currentLanguageCode))
-                .font(NCTypography.displayTitle)
+                .font(NCTypography.cardTitle)
                 .foregroundStyle(.white)
+                .lineLimit(3)
 
             Text(item.body.resolved(for: currentLanguageCode))
-                .font(NCTypography.body)
-                .foregroundStyle(.white.opacity(0.85))
+                .font(.subheadline)
+                .foregroundStyle(.white.opacity(0.75))
+                // Le corps d'une actu est un résumé, pas un article : trois
+                // lignes suffisent à décider si on veut en savoir plus, et
+                // c'est ce qui garde plusieurs entrées visibles à l'écran.
+                .lineLimit(3)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .glassEffect(.regular, in: .rect(cornerRadius: 16))
+        .padding(14)
+        .glassEffect(.regular, in: .rect(cornerRadius: 14))
     }
 
     private var emptyState: some View {
@@ -79,6 +119,23 @@ struct FeedListView: View {
     private var currentLanguageCode: String {
         Locale.current.language.languageCode?.identifier ?? "en"
     }
+
+    /// `publishedAt` est une date ISO courte (plan 3d, tâche 1), pas un `Date` :
+    /// c'est ce qui garde le `JSONDecoder` du `ContentStore` générique libre de
+    /// toute stratégie de date. Le formatage local ne concerne que l'affichage,
+    /// et une chaîne inattendue n'affiche simplement rien plutôt que de faire
+    /// tomber la carte.
+    private func formattedDate(_ isoDate: String) -> String? {
+        guard let date = Self.isoFormatter.date(from: isoDate) else { return nil }
+        return date.formatted(.dateTime.day().month(.abbreviated))
+    }
+
+    private static let isoFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 
     private func categoryTitleKey(_ category: NewsCategory) -> LocalizedStringKey {
         switch category {
