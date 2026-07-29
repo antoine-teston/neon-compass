@@ -186,9 +186,18 @@ Trois gains au passage :
 
 ## Ce qui reste ouvert
 
-- **Décision à prendre sur le spec §7** : son registre de sources liste encore
-  Rockstar et r/GTA6, que la politique refuse désormais. Le code fait autorité
-  en pratique ; le spec devrait être aligné.
+- ~~Décision à prendre sur le spec §7~~ — **tranchée le 29 juillet** : le
+  registre est révisé, Rockstar passe en « observation humaine uniquement »,
+  r/GTA6 et GTACodes.io en écartés. La table décrit l'intention ; l'autorité
+  opérationnelle est `source-policy.mjs`.
+
+  Sur r/GTA6, le détail qui a emporté la décision : l'API Data gratuite est
+  **non commerciale et sur pré-approbation manuelle** depuis novembre 2025
+  (2 à 4 semaines, sans garantie), et le tier commercial tourne autour de
+  12 000 $/mois. Même raisonnement que pour IGDB, écarté en son temps pour la
+  même raison. Les endpoints non authentifiés renvoient 403 depuis mai 2026 —
+  ce qui explique le 403 mesuré sur `/r/GTA6/new.json`. Et quand bien même :
+  ses faits seraient de confiance `rumor`, que le pipeline refuse de publier.
 - **`guides` et `trophies` sont dans la même situation qu'`actu` avant ce
   travail** : modèle Swift et règles Firestore présents, aucun kind dans le
   CLI, aucun répertoire de contenu. Les écrans correspondants resteront vides

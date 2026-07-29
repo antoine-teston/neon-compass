@@ -144,23 +144,27 @@ L'Actu est l'écran d'accueil par défaut ; les réglages sont une icône dans l
 
 **Interdits** : datamining/extraction des fichiers du jeu, scraping automatisé massif d'un site tiers (veille manuelle/semi-manuelle uniquement), copier-coller de textes de wikis ou de guides.
 
-### Registre des sources (audit 20 juillet 2026)
+### Registre des sources (audit 20 juillet 2026, révisé 29 juillet 2026)
 
 Principe : un **fait** (emplacement, séquence de cheat, nom, stat) est libre ; une **rédaction, un artwork, une base structurée** ne le sont pas. Une seule source est réutilisable directement ; tout le reste est référence factuelle à recouper (≥ 2 sources) puis réécrire.
+
+**Révision du 29 juillet 2026** — robots.txt relus domaine par domaine avant d'automatiser la veille. Trois sources en sont sorties : `rockstargames.com` (nous exclut nommément), r/GTA6 (exclut tout le monde, et son API est non commerciale), GTACodes.io (hors service). Cette table décrit l'intention ; l'autorité opérationnelle est `tools/content-cli/source-policy.mjs`, qui l'applique et lève sur un domaine interdit — une règle qu'un agent doit se rappeler a déjà été enfreinte une fois. Détail dans `docs/ops/2026-07-29-fil-actu-et-veille-automatique.md`.
 
 | Source | Donnée | Licence / statut | Usage |
 |---|---|---|---|
 | **OpenStreetMap** (extrait Floride, Geofabrik) | Littoral, routes, plans d'eau réels | ODbL 1.0 — attribution « © OpenStreetMap contributors » obligatoire ; share-alike sur la base dérivée, pas sur le rendu illustré | ✅ **Seule réutilisation directe** : trame du layout vectoriel du fond de carte |
-| Trailers, site officiel, Rockstar Newswire | Lieux, personnages, activités, annonces | Assets protégés Rockstar | ✅ Observation → faits reformulés, jamais l'asset |
+| Trailers, site officiel, Rockstar Newswire | Lieux, personnages, activités, annonces | Assets protégés Rockstar ; **robots.txt de `rockstargames.com` : `ClaudeBot Disallow: /`** (relevé 29 juillet 2026) | ⚠️ Observation **humaine** → faits reformulés, jamais l'asset. ❌ **Interdit à la veille automatique** : elle tourne sous un agent Claude. Les annonces nous parviennent relayées par la presse spécialisée |
 | Jeu en main (dès le 19 nov.) | POI, collectibles, cheats vérifiés | — | ✅ Source primaire n°1, via le mode éditeur intégré |
 | GTA Wiki Fandom (`gta.fandom.com`) | Personnages, véhicules, armes, radio | CC BY-SA (texte) | ✅ Exhaustivité factuelle ; rédaction refaite systématiquement |
 | Cartes communautaires (State of Leonida, gta6map.*, gtamaps.io) | Landmarks localisés | Artwork + base = propriété des auteurs ; robots.txt de SoL : `ai-train=no`, bots IA bannis | ⚠️ Référence factuelle uniquement — jamais leur artwork, leurs tuiles ni leur base de markers |
 | Repos GitHub de cartes (`gta6map/gta6map.github.io`, etc.) | Landmarks, reconstitution 3D | **`license: null` = tous droits réservés** — « open sur GitHub » ≠ réutilisable | ⚠️ Référence factuelle uniquement |
-| Sites cheats (GTABOOM, Leonidaverse, GTACodes.io, GTA6.gg) | Cheat codes post-lancement (aucun code réel avant) | Séquences = faits libres ; rédaction protégée | ✅ Agrégation recoupée, libellés réécrits |
+| Sites cheats (GTABOOM, Leonidaverse, GTA6.gg) | Cheat codes post-lancement (aucun code réel avant) | Séquences = faits libres ; rédaction protégée. robots.txt vérifiés le 29 juillet 2026 : les trois nous autorisent, Leonidaverse nomme même `ClaudeBot` en `Allow` | ✅ Agrégation recoupée, libellés réécrits. Flux d'abord (`feed.xml`, `news-sitemap.xml`) plutôt que parcours de pages |
+| ~~GTACodes.io~~ | — | Redirige vers `gtacheatcodes.net`, **certificat TLS cassé** (29 juillet 2026) | ❌ Source hors service |
 | OpenXBL (`xbl.io`) | Succès Xbox : listes, progression, rareté | API non officielle, free tier 150 req/h, OAuth Microsoft | ✅ v1.2 auto-cochage Xbox (consentement explicite) |
 | IGDB (API Twitch) | Métadonnées jeu (dates, éditions) | Gratuit **non-commercial** uniquement — or l'app est ad-funded | ❌ **Écarté en prod** ; outil interne de préparation au plus |
 | Endpoints PSN non officiels | Trophées PSN | Violation ToS Sony, risque Apple 5.2.2 | ❌ Écarté (décision §« Trophées ») |
-| r/GTA6, YouTube, GTAForums, presse | Veille, découvertes | Textes protégés ; ToS des plateformes | ✅ Veille semi-manuelle, faits recoupés puis réécrits |
+| YouTube, GTAForums, presse spécialisée | Veille, découvertes | Textes protégés ; ToS des plateformes | ✅ Veille semi-manuelle, faits recoupés puis réécrits |
+| ~~r/GTA6~~ | Veille communautaire | robots.txt : `User-agent: * Disallow: /`. API Data : gratuite **non commerciale** et sur pré-approbation manuelle depuis nov. 2025 — or l'app est ad-funded ; tier commercial ~12 k$/mois. Endpoints non authentifiés en 403 depuis mai 2026 | ❌ **Écarté** (décision 29 juillet 2026). Même raisonnement qu'IGDB : gratuit mais non commercial. Ses faits seraient de confiance `rumor`, que le pipeline refuse de publier |
 
 ### Tuyauterie de publication
 
