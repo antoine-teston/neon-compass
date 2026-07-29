@@ -5,74 +5,63 @@ struct FeedListView: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.horizontalSizeClass) private var sizeClass
 
-    /// Une bannière intercalée toutes les cinq entrées. En dessous, un fil de
-    /// huit actus en porterait déjà deux en plus de celle du bas — on vendrait
-    /// plus d'espace publicitaire que de contenu.
+    /// Une bannière intercalée toutes les cinq entrées, et c'est la SEULE
+    /// publicité de cet écran : la bannière ancrée au-dessus de la barre
+    /// d'onglets a été retirée.
+    ///
+    /// Le fil y gagne toute la hauteur de l'écran, et la publicité y gagne
+    /// d'être lue — une bannière collée en bas est le premier élément qu'un œil
+    /// apprend à ignorer, alors qu'un encart rencontré dans le défilement est
+    /// regardé. La contrepartie est assumée : un fil de moins de six entrées ne
+    /// porte plus aucune publicité.
     private static let cardsBetweenAds = 5
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 12) {
-                    if model.newsItems.isEmpty {
-                        emptyState
-                    } else {
-                        ForEach(Array(model.newsItems.enumerated()), id: \.element.id) { index, item in
-                            card(for: item)
-                            if showsInlineAd(after: index) {
-                                inlineAd
-                            }
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 12) {
+                if model.newsItems.isEmpty {
+                    emptyState
+                } else {
+                    ForEach(Array(model.newsItems.enumerated()), id: \.element.id) { index, item in
+                        card(for: item)
+                        if showsInlineAd(after: index) {
+                            inlineAd
                         }
                     }
                 }
-                .padding(16)
-                .padding(.bottom, proEntitlementModel.isProEntitled ? 0 : bannerClearance)
             }
-            // Le geste porte sur le ScrollView, donc il reste disponible même
-            // quand le fil est vide : c'est précisément l'écran où l'on a le
-            // plus envie de réessayer.
-            .refreshable { await model.refresh() }
-            if !proEntitlementModel.isProEntitled {
-                adBanner
-            }
+            .padding(16)
+            // La barre d'onglets flotte au-dessus du contenu : sans cette
+            // réserve, la dernière carte finirait dessous. Elle ne dépend pas
+            // de Pro — la barre est là pour tout le monde.
+            .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
         }
+        // Le geste porte sur le ScrollView, donc il reste disponible même
+        // quand le fil est vide : c'est précisément l'écran où l'on a le
+        // plus envie de réessayer.
+        .refreshable { await model.refresh() }
         .background(NCColor.nightSky.ignoresSafeArea())
     }
 
-    /// Jamais après la dernière carte : la bannière ancrée en bas y est déjà,
-    /// et deux publicités collées l'une à l'autre en fin de liste, c'est ce
-    /// qu'on voit dans les applications qu'on désinstalle.
+    /// Jamais après la dernière carte : terminer une liste par une publicité,
+    /// c'est ce qu'on voit dans les applications qu'on désinstalle.
     private func showsInlineAd(after index: Int) -> Bool {
         guard !proEntitlementModel.isProEntitled else { return false }
         let position = index + 1
         return position % Self.cardsBetweenAds == 0 && position < model.newsItems.count
     }
 
-    /// La réservation vient désormais de `BannerAdView` lui-même, qui la définit
-    /// à partir de la taille qu'il DEMANDE et qu'il clampe. La constante de 150
-    /// qui vivait ici se décrivait comme « une estimation haute délibérément
-    /// conservatrice, pas une mesure » — et elle était fausse de 50 pt, autant
-    /// de contenu perdu à chaque écran.
-    private var bannerClearance: CGFloat {
-        (sizeClass == .compact ? NCLayout.compactTabBarClearance : 0) + BannerAdView.reservedHeight
-    }
-
-    private var adBanner: some View {
-        BannerAdView()
-            .padding(12)
-            .glassEffect(.regular, in: .rect(cornerRadius: 20))
-            .padding(.horizontal, 16)
-            .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
-    }
-
-    /// Volontairement plus sobre que la bannière ancrée : pas d'effet de verre,
-    /// une simple surface en retrait. Intercalée dans le fil, elle doit se lire
-    /// comme un espace acheté, jamais se déguiser en carte d'actu.
+    /// Même gabarit qu'une carte — mêmes marges, même rayon, même verre.
+    ///
+    /// Non pour la déguiser en actu, mais parce qu'un encart d'une autre taille
+    /// dans une colonne de cartes casse le rythme de lecture : l'œil bute sur
+    /// la rupture avant même de lire ce qu'elle contient. `BannerAdView` se
+    /// dimensionne lui-même en hauteur ; seule la largeur est alignée ici.
     private var inlineAd: some View {
         BannerAdView()
-            .padding(8)
             .frame(maxWidth: .infinity)
-            .background(.white.opacity(0.04), in: .rect(cornerRadius: 12))
+            .padding(14)
+            .glassEffect(.regular, in: .rect(cornerRadius: 14))
     }
 
     private func card(for item: NewsItem) -> some View {
