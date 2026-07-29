@@ -1,0 +1,26 @@
+{
+  "id": "cheat_gtav_director_mode",
+  "game": "gtav",
+  "category": "misc",
+  "effect": {
+    "en": "Opens Director Mode, the free-roam scene editor.",
+    "fr": "Ouvre le mode Réalisateur, l’éditeur de scènes en roue libre."
+  },
+  "codes": {
+    "pc": {
+      "kind": "keyword",
+      "keyword": "JRTALENT"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-57825368",
+      "mnemonic": "1-999-LS-TALENT"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

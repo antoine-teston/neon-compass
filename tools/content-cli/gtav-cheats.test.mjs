@@ -77,6 +77,30 @@ test('le mode Réalisateur, dont le mnémonique est entre parenthèses nues, est
   assert.equal(phone.mnemonic, '1-999-LS-TALENT');
 });
 
+test('un mnémonique dont la source oublie un tiret est ramené à la forme canonique', () => {
+  const cheats = parseCheats(wiki);
+  // La source écrit « (1-999 HOT-HANDS) » avec une espace, là où toutes ses
+  // autres entrées mettent un tiret. Effacer l'espace donnerait
+  // « 1-999HOT-HANDS », que rien ne reconnaît.
+  assert.equal(cheats.get('explosive_melee').codes.phone.mnemonic, '1-999-HOT-HANDS');
+});
+
+test('tous les mnémoniques respectent la forme attendue par le schéma', () => {
+  const cheats = parseCheats(wiki);
+  for (const [key, c] of cheats) {
+    const m = c.codes.phone?.mnemonic;
+    if (m) assert.match(m, /^1-999-[A-Z0-9-]+$/, `${key} : mnémonique hors forme — ${m}`);
+  }
+});
+
+test('tous les numéros respectent la forme attendue par le schéma', () => {
+  const cheats = parseCheats(wiki);
+  for (const [key, c] of cheats) {
+    const n = c.codes.phone?.number;
+    if (n) assert.match(n, /^1-999-[0-9]+(-[0-9]+)*$/, `${key} : numéro hors forme — ${n}`);
+  }
+});
+
 test('chaque alias canonique est réellement rencontré dans la source', () => {
   const cheats = parseCheats(wiki);
   for (const key of Object.keys(CANONICAL_ALIASES)) {

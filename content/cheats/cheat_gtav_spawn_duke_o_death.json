@@ -1,0 +1,26 @@
+{
+  "id": "cheat_gtav_spawn_duke_o_death",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops the armoured Duke O’Death next to you.",
+    "fr": "Fait apparaître la Duke O’Death blindée à côté de vous."
+  },
+  "codes": {
+    "pc": {
+      "kind": "keyword",
+      "keyword": "DEATHCAR"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-33284227",
+      "mnemonic": "1-999-DEATHCAR"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

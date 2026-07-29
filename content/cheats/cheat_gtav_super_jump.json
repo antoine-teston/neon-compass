@@ -1,0 +1,58 @@
+{
+  "id": "cheat_gtav_super_jump",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Turns every jump into a huge leap.",
+    "fr": "Transforme chaque saut en bond démesuré."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "left",
+        "triangle",
+        "triangle",
+        "right",
+        "right",
+        "left",
+        "right",
+        "square",
+        "r1",
+        "r2"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "left",
+        "y",
+        "y",
+        "right",
+        "right",
+        "left",
+        "right",
+        "x",
+        "rb",
+        "rt"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "HOPTOIT"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-467-8648",
+      "mnemonic": "1-999-HOP-TO-IT"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

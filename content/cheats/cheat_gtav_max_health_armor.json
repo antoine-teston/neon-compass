@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_max_health_armor",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Refills your health and armour to full.",
+    "fr": "Remet votre santé et votre gilet au maximum."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "circle",
+        "l1",
+        "triangle",
+        "r2",
+        "cross",
+        "square",
+        "circle",
+        "right",
+        "square",
+        "l1",
+        "l1",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "b",
+        "lb",
+        "y",
+        "rt",
+        "a",
+        "x",
+        "b",
+        "right",
+        "x",
+        "lb",
+        "lb",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "TURTLE"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-887-853",
+      "mnemonic": "1-999-TURTLE"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

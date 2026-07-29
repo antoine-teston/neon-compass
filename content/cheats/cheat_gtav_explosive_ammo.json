@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_explosive_ammo",
+  "game": "gtav",
+  "category": "weapons",
+  "effect": {
+    "en": "Your bullets detonate on impact.",
+    "fr": "Vos balles explosent à l’impact."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "square",
+        "cross",
+        "left",
+        "r1",
+        "r2",
+        "left",
+        "right",
+        "right",
+        "l1",
+        "l1",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "x",
+        "a",
+        "left",
+        "rb",
+        "rt",
+        "left",
+        "right",
+        "right",
+        "lb",
+        "lb",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "HIGHEX"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-444-439",
+      "mnemonic": "1-999-HIGHEX"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

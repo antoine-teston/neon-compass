@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_spawn_sanchez",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Sanchez dirt bike next to you.",
+    "fr": "Fait apparaître une moto tout-terrain Sanchez à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "circle",
+        "cross",
+        "l1",
+        "circle",
+        "circle",
+        "l1",
+        "circle",
+        "r1",
+        "r2",
+        "l2",
+        "l1",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "b",
+        "a",
+        "lb",
+        "b",
+        "b",
+        "lb",
+        "b",
+        "rb",
+        "rt",
+        "lt",
+        "lb",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "OFFROAD"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-633-7623",
+      "mnemonic": "1-999-OFF-ROAD"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

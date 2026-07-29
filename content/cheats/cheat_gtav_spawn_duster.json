@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_spawn_duster",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Duster crop-dusting plane next to you.",
+    "fr": "Fait apparaître un avion d’épandage Duster à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "left",
+        "r1",
+        "r1",
+        "r1",
+        "left",
+        "triangle",
+        "triangle",
+        "cross",
+        "circle",
+        "l1",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "left",
+        "rb",
+        "rb",
+        "rb",
+        "left",
+        "y",
+        "y",
+        "a",
+        "b",
+        "lb",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "FLYSPRAY"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-359-77729",
+      "mnemonic": "1-999-FLY-SPRAY"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

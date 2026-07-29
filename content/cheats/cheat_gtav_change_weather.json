@@ -1,0 +1,52 @@
+{
+  "id": "cheat_gtav_change_weather",
+  "game": "gtav",
+  "category": "world",
+  "effect": {
+    "en": "Switches the weather to the next setting in the cycle.",
+    "fr": "Passe la météo au réglage suivant du cycle."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "r2",
+        "cross",
+        "l1",
+        "l1",
+        "l2",
+        "l2",
+        "l2",
+        "square"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "rt",
+        "a",
+        "lb",
+        "lb",
+        "lt",
+        "lt",
+        "lt",
+        "x"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "MAKEITRAIN"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-625-348-7246",
+      "mnemonic": "1-999-MAKE-IT-RAIN"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

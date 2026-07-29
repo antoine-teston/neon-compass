@@ -1,0 +1,26 @@
+{
+  "id": "cheat_gtav_spawn_kraken",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Kraken submarine next to you.",
+    "fr": "Fait apparaître un sous-marin Kraken à côté de vous."
+  },
+  "codes": {
+    "pc": {
+      "kind": "keyword",
+      "keyword": "BUBBLES"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-282-2537",
+      "mnemonic": "1-999-BUBBLES"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

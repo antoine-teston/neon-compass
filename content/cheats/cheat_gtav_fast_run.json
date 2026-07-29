@@ -1,0 +1,50 @@
+{
+  "id": "cheat_gtav_fast_run",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Doubles how fast you run.",
+    "fr": "Double votre vitesse de course."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "triangle",
+        "left",
+        "right",
+        "right",
+        "l2",
+        "l1",
+        "square"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "y",
+        "left",
+        "right",
+        "right",
+        "lt",
+        "lb",
+        "x"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "CATCHME"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-228-2463",
+      "mnemonic": "1-999-CATCH-ME"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

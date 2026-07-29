@@ -1,0 +1,52 @@
+{
+  "id": "cheat_gtav_slippery_cars",
+  "game": "gtav",
+  "category": "world",
+  "effect": {
+    "en": "Strips tyre grip, so every car slides.",
+    "fr": "Supprime l’adhérence des pneus : toutes les voitures glissent."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "triangle",
+        "r1",
+        "r1",
+        "left",
+        "r1",
+        "l1",
+        "r2",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "y",
+        "rb",
+        "rb",
+        "left",
+        "rb",
+        "lb",
+        "rt",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "SNOWDAY"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-766-9329",
+      "mnemonic": "1-999-SNOW-DAY"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

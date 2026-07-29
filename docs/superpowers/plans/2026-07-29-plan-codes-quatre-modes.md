@@ -250,7 +250,7 @@ git add content/schema/cheat.schema.json content/cheats/
 git commit -m "$(cat <<'EOF'
 feat(schema): les codes ont quatre modes de saisie, tous optionnels
 
-sequence exigeait ps5 ET xbox. Huit des 36 triches de GTA V n'ont aucun
+sequence exigeait ps5 ET xbox. Cinq des 36 triches de GTA V n'ont aucun
 combo manette — elles étaient inexprimables. codes les remplace : un
 dictionnaire par mode, dont la charge est étiquetée par kind parce qu'une
 séquence de boutons, un mot-clé et un numéro de téléphone ne se rendent
@@ -601,7 +601,7 @@ const PRIMARY_SOURCE = 'gta.fandom.com:Cheats in GTA V';
  *  (voir tâche 3) : `{ verifiedBy: [...], status: 'published' | 'draft' }`.
  *  Absent, la triche reste en `draft` avec la seule source primaire — ce que
  *  `check-publishable` refuserait de publier, et c'est voulu. */
-export function writeContent(cheats, { categories, effects, sources = {} }) {
+export function writeContent(cheats, { categories, effects, corroboration = {} }) {
   let written = 0;
   for (const [key, entry] of cheats) {
     const id = `cheat_gtav_${key}`;
@@ -610,16 +610,16 @@ export function writeContent(cheats, { categories, effects, sources = {} }) {
     try {
       existing = JSON.parse(readFileSync(path, 'utf8'));
     } catch {}
-    const corroboration = sources[key];
+    const second = corroboration[key];
     const doc = {
       id,
       game: 'gtav',
       category: existing.category ?? categories[key],
       effect: existing.effect ?? effects[key],
-      codes: entry.codes,
+      codes: orderedCodes({ ...entry.codes, ...(second?.addCodes ?? {}) }),
       blocksTrophies: false,
-      status: corroboration?.status ?? existing.status ?? 'draft',
-      verifiedBy: corroboration?.verifiedBy ?? existing.verifiedBy ?? [PRIMARY_SOURCE],
+      status: second?.status ?? existing.status ?? 'draft',
+      verifiedBy: second?.verifiedBy ?? existing.verifiedBy ?? [PRIMARY_SOURCE],
     };
     if (!doc.category) throw new Error(`Catégorie manquante pour ${key}`);
     if (!doc.effect) throw new Error(`Texte d'effet manquant pour ${key}`);
@@ -717,16 +717,33 @@ Attendu : `mode: 'allow'`. Récupérer ensuite les pages de codes de cette sourc
 
 Cas particulier de `slow_motion_aim` : Fandom lui donne un combo Xbox et aucun combo PlayStation, là où les 27 autres triches à combo en ont deux. Si la seconde source fournit le combo PlayStation, l'ajouter et ajuster le compte attendu de la tâche 5 (28 → 29). Si elle est muette aussi, laisser `codes.playstation` absent : c'est alors un fait, pas une lacune de notre pipeline, et la tâche 8 l'affichera dans le groupe des codes indisponibles. **Ne jamais transposer un combo Xbox en combo PlayStation par symétrie** — les mappages ne sont pas des transpositions mécaniques l'un de l'autre.
 
-La sortie de cette étape est un fichier `tools/content-cli/gtav-cheats-sources.json`, consommé par `writeContent` à l'étape 3 :
+La sortie de cette étape est `tools/content-cli/gtav-cheats-corroboration.json`, consommé par `writeContent` à l'étape 3. Il porte une en-tête `$source` décrivant la méthode et le relevé, puis une entrée par triche :
 
 ```json
 {
-  "spawn_comet": { "status": "published", "verifiedBy": ["gta.fandom.com:Cheats in GTA V", "gtaboom.com:GTA 5 cheats"] },
-  "director_mode": { "status": "draft", "verifiedBy": ["gta.fandom.com:Cheats in GTA V"] }
+  "$source": {
+    "primary": "gta.fandom.com — …, fixture figée dans fixtures/cheats-in-gtav.wiki",
+    "secondary": "gtaboom.com — <url>, relevé le <date>",
+    "method": "comparaison code par code, jetons normalisés des deux côtés",
+    "result": "<n> codes en accord, <n> désaccord(s) tranché(s), …",
+    "whyNotAFixture": "la page de la seconde source pèse 1 Mo de HTML applicatif ; ce fichier dérivé EST la trace, et il se relit"
+  },
+  "cheats": {
+    "spawn_comet": { "verifiedBy": ["…primaire", "…secondaire"], "status": "published" },
+    "slow_motion_aim": {
+      "verifiedBy": ["…primaire", "…secondaire"], "status": "published",
+      "addCodes": { "playstation": { "kind": "buttons", "buttons": ["square", "l2", "…"] } },
+      "addCodesNote": "codes absents de la source primaire, fournis par la seconde"
+    }
+  }
 }
 ```
 
-Consigner dans le message de commit : le nombre de codes confirmés par deux sources, le nombre restés en `draft`, et tout désaccord rencontré.
+`addCodes` porte les codes que la source primaire n'a pas. Ils ne sont **pas** fusionnés dans `parseCheats`, qui ne doit décrire que ce que la page primaire contient réellement — sans quoi la provenance d'un code deviendrait indevinable, et le test « chaque alias est rencontré dans la source » mentirait.
+
+Ne pas committer le HTML de la seconde source : 1 Mo de balisage applicatif, illisible en revue. Le fichier dérivé est la trace, et il se relit.
+
+Consigner dans le message de commit : le nombre de codes en accord, les désaccords et comment ils ont été tranchés, les codes apportés par la seconde source.
 
 - [ ] **Step 2: Écrire les catégories et les textes**
 
@@ -810,16 +827,16 @@ Ajouter en fin de `tools/content-cli/gtav-cheats.mjs` :
 // Exécution directe : `node gtav-cheats.mjs --write`
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { categories, effects } = await import('./gtav-cheats-editorial.mjs');
-  let sources = {};
+  let corroboration = {};
   try {
-    sources = JSON.parse(readFileSync(join(HERE, 'gtav-cheats-sources.json'), 'utf8'));
+    corroboration = JSON.parse(readFileSync(join(HERE, 'gtav-cheats-corroboration.json'), 'utf8')).cheats);
   } catch {
-    console.warn('gtav-cheats-sources.json absent : tout restera en draft mono-sourcé');
+    console.warn('gtav-cheats-corroboration.json absent : tout restera en draft mono-sourcé');
   }
   const wiki = readFileSync(join(HERE, 'fixtures', 'cheats-in-gtav.wiki'), 'utf8');
   const cheats = parseCheats(wiki);
   if (process.argv.includes('--write')) {
-    console.log(`écrit : ${writeContent(cheats, { categories, effects, sources })} fichier(s)`);
+    console.log(`écrit : ${writeContent(cheats, { categories, effects, corroboration })} fichier(s)`);
   } else {
     console.log(`${cheats.size} triche(s) — ajouter --write pour écrire dans content/cheats/`);
   }
@@ -836,7 +853,7 @@ cd tools/content-cli && node gtav-cheats.mjs --write \
 
 Attendu : `écrit : 36 fichier(s)`, puis `validate: N/N OK` et `check-publishable: N/N OK`, sans `FAIL`. `ls ../../content/cheats/*.json | wc -l` doit donner 36.
 
-Un `FAIL … published cheat requires verifiedBy >= 2 sources` signifie que l'étape 1 a marqué une triche `published` sans lui donner deux sources : corriger `gtav-cheats-sources.json`, pas le seuil.
+Un `FAIL … published cheat requires verifiedBy >= 2 sources` signifie que l'étape 1 a marqué une triche `published` sans lui donner deux sources : corriger `gtav-cheats-corroboration.json`, pas le seuil.
 
 - [ ] **Step 4: Relire les 36 textes — porte de conformité IP**
 
@@ -880,7 +897,7 @@ Reste enfin la relecture humaine, qu'aucun des deux contrôles ne remplace : le 
 
 ```bash
 git add content/cheats tools/content-cli/gtav-cheats-editorial.mjs tools/content-cli/gtav-cheats.mjs \
-        tools/content-cli/gtav-cheats-sources.json tools/content-cli/check-originality.mjs
+        tools/content-cli/gtav-cheats-corroboration.json tools/content-cli/check-originality.mjs
 git commit -m "$(cat <<'EOF'
 content(cheats): les 36 codes de GTA V, recoupés et rédigés dans nos mots
 
@@ -1512,14 +1529,14 @@ struct CheatLoaderTests {
             }
         )
         #expect(byMode[.phone] == 36)
-        #expect(byMode[.pc] == 34)
-        #expect(byMode[.xbox] == 29)
-        #expect(byMode[.playstation] == 28)
+        #expect(byMode[.pc] == 35)
+        #expect(byMode[.xbox] == 31)
+        #expect(byMode[.playstation] == 31)
     }
 }
 ```
 
-Si la tâche 3 a comblé la lacune PlayStation depuis la source secondaire, ajuster `byMode[.playstation]` à 29 et le noter dans le commit.
+Ces quatre chiffres sont le résultat mesuré du recoupement de la tâche 3, pas une estimation : la source primaire seule donnait 36 / 34 / 29 / 28.
 
 - [ ] **Step 2: Lancer, vérifier l'échec**
 
@@ -2363,10 +2380,11 @@ import SwiftUI
 
 /// Les triches que le mode actif ne permet pas de saisir.
 ///
-/// Repliées en bas de liste plutôt que masquées : huit des trente-six codes de
-/// GTA V n'ont aucun combo manette, et les masquer ferait croire à un joueur
-/// console qu'ils n'existent pas. Repliées plutôt qu'en ligne : la liste
-/// dépliée sert le scan rapide, qui est la raison d'être de l'écran.
+/// Repliées en bas de liste plutôt que masquées : cinq des trente-six codes de
+/// GTA V n'ont aucun combo manette — dont trois véhicules, qu'on cherche par
+/// leur nom — et les masquer ferait croire à un joueur console qu'ils
+/// n'existent pas. Repliées plutôt qu'en ligne : la liste dépliée sert le scan
+/// rapide, qui est la raison d'être de l'écran.
 struct CheatsUnavailableGroup: View {
     let cheats: [Cheat]
     @Bindable var model: CheatsModel
@@ -2612,7 +2630,7 @@ Trente-six codes à plat se scrollent mal, et quatorze d'entre eux sont
 des apparitions de véhicules. Des sections par catégorie, favoris en tête
 de chaque groupe.
 
-Les huit codes qu'un joueur manette ne peut pas saisir ne sont plus
+Les cinq codes qu'un joueur manette ne peut pas saisir ne sont plus
 invisibles : un groupe replié en bas les nomme, et le tap emmène dans le
 mode où ils existent au lieu de se contenter de l'annoncer.
 

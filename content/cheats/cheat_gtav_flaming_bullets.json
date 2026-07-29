@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_flaming_bullets",
+  "game": "gtav",
+  "category": "weapons",
+  "effect": {
+    "en": "Your bullets set what they hit on fire.",
+    "fr": "Vos balles enflamment ce qu’elles touchent."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "l1",
+        "r1",
+        "square",
+        "r1",
+        "left",
+        "r2",
+        "r1",
+        "left",
+        "square",
+        "right",
+        "l1",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "lb",
+        "rb",
+        "x",
+        "rb",
+        "left",
+        "rt",
+        "rb",
+        "left",
+        "x",
+        "right",
+        "lb",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "INCENDIARY"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-462-363-4279",
+      "mnemonic": "1-999-INCENDIARY"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

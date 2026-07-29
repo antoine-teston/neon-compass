@@ -1,0 +1,56 @@
+{
+  "id": "cheat_gtav_raise_wanted",
+  "game": "gtav",
+  "category": "misc",
+  "effect": {
+    "en": "Adds one star to your wanted level.",
+    "fr": "Ajoute une étoile à votre niveau de recherche."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "r1",
+        "r1",
+        "circle",
+        "r2",
+        "left",
+        "right",
+        "left",
+        "right",
+        "left",
+        "right"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "rb",
+        "rb",
+        "b",
+        "rt",
+        "left",
+        "right",
+        "left",
+        "right",
+        "left",
+        "right"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "FUGITIVE"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-384-48483",
+      "mnemonic": "1-999-FUGITIVE"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

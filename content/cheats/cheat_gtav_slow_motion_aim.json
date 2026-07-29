@@ -1,0 +1,54 @@
+{
+  "id": "cheat_gtav_slow_motion_aim",
+  "game": "gtav",
+  "category": "world",
+  "effect": {
+    "en": "Slows time only while you aim. Stacks up to three times; a fourth entry turns it off.",
+    "fr": "Ralentit le temps seulement pendant que vous visez. Cumulable trois fois ; une quatrième saisie désactive."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "square",
+        "l2",
+        "r1",
+        "triangle",
+        "left",
+        "square",
+        "l2",
+        "right",
+        "cross"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "x",
+        "lt",
+        "rb",
+        "y",
+        "left",
+        "x",
+        "lt",
+        "right",
+        "a"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "DEADEYE"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-332-3393",
+      "mnemonic": "1-999-DEAD-EYE"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

@@ -121,15 +121,26 @@ function extractButtons(cell, mode) {
   return out;
 }
 
+/** Forme canonique d'un mnémonique : `1-999-XXX-XXX`.
+ *
+ *  La source écrit une fois `(1-999 HOT-HANDS)` avec une espace là où toutes
+ *  les autres entrées mettent un tiret — coquille confirmée par la seconde
+ *  source, qui écrit `1-999-HOT-HANDS`. Les espaces deviennent donc des tirets
+ *  plutôt que d'être supprimées : les effacer produirait `1-999HOT-HANDS`, une
+ *  forme que rien ne reconnaît. */
+function canonicalMnemonic(raw) {
+  return cleanLabel(raw).replace(/\s+/g, '-').replace(/-{2,}/g, '-');
+}
+
 /** Le mnémonique est tantôt dans un `<small>`, tantôt entre parenthèses nues. */
 function extractPhone(cell) {
   const text = cleanLabel(cell);
   const paren = text.match(/^([\d-]+)\s*\(([^)]+)\)$/);
-  if (paren) return { kind: 'phone', number: paren[1], mnemonic: paren[2].replace(/\s+/g, '') };
+  if (paren) return { kind: 'phone', number: paren[1], mnemonic: canonicalMnemonic(paren[2]) };
   const small = cell.match(/<small>\s*\(([^)]*)\)\s*<\/small>/s);
   const number = cleanLabel(cell.replace(/<small>.*?<\/small>/gs, ''));
   const code = { kind: 'phone', number };
-  if (small) code.mnemonic = cleanLabel(small[1]).replace(/\s+/g, '');
+  if (small) code.mnemonic = canonicalMnemonic(small[1]);
   return code;
 }
 
@@ -189,18 +200,31 @@ export function parseCheats(wikitext) {
   return cheats;
 }
 
+/** L'ordre dans lequel les modes sont écrits, pour que le JSON produit ne
+ *  dépende pas de l'ordre d'insertion — sinon un code ajouté par la seconde
+ *  source apparaîtrait en queue d'objet et le diff serait illisible. */
+const MODE_ORDER = ['playstation', 'xbox', 'pc', 'phone'];
+
+function orderedCodes(codes) {
+  return Object.fromEntries(
+    MODE_ORDER.filter((mode) => codes[mode]).map((mode) => [mode, codes[mode]]),
+  );
+}
+
 /** Écrit les fichiers de contenu.
  *
- *  Les codes viennent de la source et sont réécrits à chaque passage. Les
- *  textes d'effet sont notre rédaction : `effects` les fournit, et un fichier
- *  déjà présent les conserve — une réextraction ne doit jamais pouvoir écraser
- *  un texte relu.
+ *  Les codes viennent des sources et sont réécrits à chaque passage. Les textes
+ *  d'effet sont notre rédaction : `effects` les fournit, et un fichier déjà
+ *  présent les conserve — une réextraction ne doit jamais pouvoir écraser un
+ *  texte relu.
  *
- *  `sources[clé]` porte le résultat du recoupement sur une seconde source :
- *  `{ verifiedBy: [...], status: 'published' | 'draft' }`. Absent, la triche
- *  reste en `draft` avec la seule source primaire — ce que `check-publishable`
- *  refuserait de publier, et c'est voulu. */
-export function writeContent(cheats, { categories, effects, sources = {} }) {
+ *  `corroboration[clé]` porte le résultat du recoupement sur la seconde source :
+ *  `{ verifiedBy: [...], status, addCodes? }`. `addCodes` fournit les codes que
+ *  la source primaire n'a pas — ils ne sont pas fusionnés dans le parseur, qui
+ *  ne doit décrire que ce que la page primaire contient réellement. Absent, la
+ *  triche reste en `draft` mono-sourcée : `check-publishable` la refuserait à la
+ *  publication, et c'est exactement le signal voulu. */
+export function writeContent(cheats, { categories, effects, corroboration = {} }) {
   let written = 0;
   for (const [key, entry] of cheats) {
     const id = `cheat_gtav_${key}`;
@@ -209,16 +233,16 @@ export function writeContent(cheats, { categories, effects, sources = {} }) {
     try {
       existing = JSON.parse(readFileSync(path, 'utf8'));
     } catch {}
-    const corroboration = sources[key];
+    const second = corroboration[key];
     const doc = {
       id,
       game: 'gtav',
       category: existing.category ?? categories[key],
       effect: existing.effect ?? effects[key],
-      codes: entry.codes,
+      codes: orderedCodes({ ...entry.codes, ...(second?.addCodes ?? {}) }),
       blocksTrophies: false,
-      status: corroboration?.status ?? existing.status ?? 'draft',
-      verifiedBy: corroboration?.verifiedBy ?? existing.verifiedBy ?? [PRIMARY_SOURCE],
+      status: second?.status ?? existing.status ?? 'draft',
+      verifiedBy: second?.verifiedBy ?? existing.verifiedBy ?? [PRIMARY_SOURCE],
     };
     if (!doc.category) throw new Error(`Catégorie manquante pour ${key}`);
     if (!doc.effect) throw new Error(`Texte d'effet manquant pour ${key}`);
@@ -231,16 +255,18 @@ export function writeContent(cheats, { categories, effects, sources = {} }) {
 // Exécution directe : `node gtav-cheats.mjs --write`
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { categories, effects } = await import('./gtav-cheats-editorial.mjs');
-  let sources = {};
+  let corroboration = {};
   try {
-    sources = JSON.parse(readFileSync(join(HERE, 'gtav-cheats-sources.json'), 'utf8'));
+    corroboration = JSON.parse(
+      readFileSync(join(HERE, 'gtav-cheats-corroboration.json'), 'utf8'),
+    ).cheats;
   } catch {
-    console.warn('gtav-cheats-sources.json absent : tout restera en draft mono-sourcé');
+    console.warn('gtav-cheats-corroboration.json absent : tout restera en draft mono-sourcé');
   }
   const wiki = readFileSync(join(HERE, 'fixtures', 'cheats-in-gtav.wiki'), 'utf8');
   const cheats = parseCheats(wiki);
   if (process.argv.includes('--write')) {
-    console.log(`écrit : ${writeContent(cheats, { categories, effects, sources })} fichier(s)`);
+    console.log(`écrit : ${writeContent(cheats, { categories, effects, corroboration })} fichier(s)`);
   } else {
     console.log(`${cheats.size} triche(s) — ajouter --write pour écrire dans content/cheats/`);
   }

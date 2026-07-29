@@ -1,0 +1,354 @@
+{
+  "$source": {
+    "primary": "gta.fandom.com — page « Cheats in GTA V » via api.php, fixture figée dans fixtures/cheats-in-gtav.wiki",
+    "secondary": "gtaboom.com — https://www.gtaboom.com/every-gta-5-cheat-console-code-and-phone-number-0740, relevé le 2026-07-29",
+    "method": "comparaison code par code, jetons normalisés des deux côtés",
+    "result": "126 codes en accord, 1 désaccord tranché, 6 codes apportés par la seconde source, 0 code que la seconde source ignore",
+    "whyNotAFixture": "la page de la seconde source pèse 1 Mo de HTML applicatif ; ce fichier dérivé EST la trace, et il se relit"
+  },
+  "cheats": {
+    "black_cellphone": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "change_weather": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "director_mode": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published",
+      "addCodes": {
+        "pc": {
+          "kind": "keyword",
+          "keyword": "JRTALENT"
+        }
+      },
+      "addCodesNote": "codes absents de la source primaire, fournis par la seconde"
+    },
+    "drunk_mode": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published",
+      "note": "désaccord tranché : la seconde source donne 1-999-547-861, mais LIQUOR s'encode 547867 sur un clavier téléphonique (R = 7, et le 1 ne porte aucune lettre). Numéro de la source primaire retenu."
+    },
+    "explosive_ammo": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "explosive_melee": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "fast_run": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "fast_swim": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published",
+      "addCodes": {
+        "playstation": {
+          "kind": "buttons",
+          "buttons": [
+            "left",
+            "left",
+            "l1",
+            "right",
+            "right",
+            "r2",
+            "left",
+            "l2",
+            "right"
+          ]
+        },
+        "xbox": {
+          "kind": "buttons",
+          "buttons": [
+            "left",
+            "left",
+            "lb",
+            "right",
+            "right",
+            "rt",
+            "left",
+            "lt",
+            "right"
+          ]
+        }
+      },
+      "addCodesNote": "codes absents de la source primaire, fournis par la seconde"
+    },
+    "flaming_bullets": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "invincibility": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "lower_wanted": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "max_health_armor": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "moon_gravity": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "parachute": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "raise_wanted": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "recharge_special": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "skyfall": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "slippery_cars": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "slow_motion": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "slow_motion_aim": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published",
+      "addCodes": {
+        "playstation": {
+          "kind": "buttons",
+          "buttons": [
+            "square",
+            "l2",
+            "r1",
+            "triangle",
+            "left",
+            "square",
+            "l2",
+            "right",
+            "cross"
+          ]
+        }
+      },
+      "addCodesNote": "codes absents de la source primaire, fournis par la seconde"
+    },
+    "spawn_bmx": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published",
+      "addCodes": {
+        "playstation": {
+          "kind": "buttons",
+          "buttons": [
+            "left",
+            "left",
+            "right",
+            "right",
+            "left",
+            "right",
+            "square",
+            "circle",
+            "triangle",
+            "r1",
+            "r2"
+          ]
+        },
+        "xbox": {
+          "kind": "buttons",
+          "buttons": [
+            "left",
+            "left",
+            "right",
+            "right",
+            "left",
+            "right",
+            "x",
+            "b",
+            "y",
+            "rb",
+            "rt"
+          ]
+        }
+      },
+      "addCodesNote": "codes absents de la source primaire, fournis par la seconde"
+    },
+    "spawn_buzzard_attack_chopper": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_caddy": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_comet": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_dodo": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_duke_o_death": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_duster": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_kraken": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_mallard": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_pcj_600": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_rapid_gt": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_sanchez": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_stretch": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "spawn_trashmaster": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "super_jump": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    },
+    "weapons": {
+      "verifiedBy": [
+        "gta.fandom.com:Cheats in GTA V",
+        "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+      ],
+      "status": "published"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "cheat_gtav_drunk_mode",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Blurs the picture and makes your character stagger.",
+    "fr": "Trouble l’image et fait tituber votre personnage."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "triangle",
+        "right",
+        "right",
+        "left",
+        "right",
+        "square",
+        "circle",
+        "left"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "y",
+        "right",
+        "right",
+        "left",
+        "right",
+        "x",
+        "b",
+        "left"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "LIQUOR"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-547-867",
+      "mnemonic": "1-999-LIQUOR"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_spawn_pcj_600",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a PCJ-600 motorcycle next to you.",
+    "fr": "Fait apparaître une moto PCJ-600 à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "r1",
+        "right",
+        "left",
+        "right",
+        "r2",
+        "left",
+        "right",
+        "square",
+        "right",
+        "l2",
+        "l1",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "rb",
+        "right",
+        "left",
+        "right",
+        "rt",
+        "left",
+        "right",
+        "x",
+        "right",
+        "lt",
+        "lb",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "ROCKET"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-762-538",
+      "mnemonic": "1-999-ROCKET"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

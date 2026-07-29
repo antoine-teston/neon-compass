@@ -1,0 +1,54 @@
+{
+  "id": "cheat_gtav_fast_swim",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Doubles how fast you swim.",
+    "fr": "Double votre vitesse de nage."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "left",
+        "l1",
+        "right",
+        "right",
+        "r2",
+        "left",
+        "l2",
+        "right"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "left",
+        "lb",
+        "right",
+        "right",
+        "rt",
+        "left",
+        "lt",
+        "right"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "GOTGILLS"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-468-44557",
+      "mnemonic": "1-999-GOT-GILLS"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

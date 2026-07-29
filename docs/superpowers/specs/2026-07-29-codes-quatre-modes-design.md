@@ -26,7 +26,7 @@ Deux causes, indépendantes :
    qu'un JSON écrit à la main.
 
 2. **Un modèle trop étroit.** `sequence` exige `ps5` **et** `xbox`. GTA V a
-   quatre modes de saisie, et 8 de ses 36 triches n'ont aucun combo manette.
+   quatre modes de saisie, et cinq de ses 36 triches n'ont aucun combo manette.
    Ces triches sont inexprimables aujourd'hui.
 
 ## La donnée réelle
@@ -35,14 +35,15 @@ Extraite de `gta.fandom.com` via `api.php` (mode `api` du registre de sources,
 spec §7), page *Cheats in GTA V*, `action=parse&prop=wikitext`. Les quatre
 sections de la page donnent quatre modes :
 
-| Mode | Codes | Forme |
-|---|---|---|
-| Manette Xbox (360 / One / Series) | 29 | séquence de boutons |
-| Manette PlayStation (3 / 4 / 5) | 28 | séquence de boutons |
-| Clavier PC (console de triche) | 34 | mot-clé — `COMET` |
-| Téléphone in-game | 36 | numéro + mnémonique — `1-999-266-38` / `1-999-COMET` |
+| Mode | Codes (source primaire) | Après recoupement | Forme |
+|---|---|---|---|
+| Manette Xbox (360 / One / Series) | 29 | **31** | séquence de boutons |
+| Manette PlayStation (3 / 4 / 5) | 28 | **31** | séquence de boutons |
+| Clavier PC (console de triche) | 34 | **35** | mot-clé — `COMET` |
+| Téléphone in-game | 36 | **36** | numéro + mnémonique — `1-999-266-38` / `1-999-COMET` |
 
-**36 triches canoniques**, dont 14 apparitions de véhicules (39 %).
+**36 triches canoniques**, dont 14 apparitions de véhicules (39 %). Le
+recoupement de D10 a apporté six codes que la source primaire n'avait pas.
 
 ### Le libellé n'est pas une clé de jointure
 
@@ -62,18 +63,22 @@ par le token seul.
 
 ### Couverture par mode
 
+État après le recoupement de D10 :
+
 | ps | xbox | pc | tél | triches |
 |---|---|---|---|---|
-| ✓ | ✓ | ✓ | ✓ | 28 |
-| | | ✓ | ✓ | 5 — BMX, Dodo, Duke O'Death, Kraken, nage rapide |
-| | | | ✓ | 2 — mode Réalisateur, téléphone noir |
-| | ✓ | ✓ | ✓ | 1 — visée au ralenti |
+| ✓ | ✓ | ✓ | ✓ | 31 |
+| | | ✓ | ✓ | 4 — Dodo, Duke O'Death, Kraken, mode Réalisateur |
+| | | | ✓ | 1 — téléphone noir |
 
-Le téléphone couvre les 36 triches, la manette 28-29. **Un joueur console ne
-voit que 28 des 36 codes** : c'est le cas central que l'UI doit traiter.
+Le téléphone couvre les 36 triches, la manette 31. **Cinq codes restent
+invisibles à un joueur manette** : c'est le cas que l'UI doit traiter, et il
+n'est pas marginal — deux d'entre eux sont des véhicules qu'on cherche par leur
+nom.
 
-Aucun conflit de valeur entre les quatre sections (vérifié : 0 divergence sur
-les codes partagés), ce qui rend la source fiable pour cet usage.
+Aucun conflit de valeur entre les quatre sections de la source primaire (vérifié :
+0 divergence sur les codes qu'elles partagent), ce qui la rend fiable pour cet
+usage.
 
 ## Source : pourquoi pas Red Bull
 
@@ -180,11 +185,12 @@ est un autre problème — un tap, aucun état caché.
 
 ### D4 — Les codes absents du mode actif restent visibles
 
-Les 8 triches sans combo manette ne sont pas masquées quand une manette est
-sélectionnée : un groupe replié en bas de liste — « 8 codes n'existent qu'au
-téléphone » — bascule le mode au tap. Les masquer ferait croire qu'elles
+Les cinq triches sans combo manette ne sont pas masquées quand une manette est
+sélectionnée : un groupe replié en bas de liste — « 5 codes passent par un autre
+mode de saisie » — bascule le mode au tap. Les masquer ferait croire qu'elles
 n'existent pas ; les griser en ligne polluerait le scan rapide, qui est la
-priorité de l'écran.
+priorité de l'écran. Le compte est un paramètre de la chaîne localisée, pas une
+constante : il suivra l'arrivée des codes de GTA VI sans retouche.
 
 ### D5 — Priorité à la saisie immédiate
 
@@ -244,13 +250,26 @@ reste en `draft` avec une seule source, et c'est dit.
   spéculatif : ce serait de la supposition présentée comme du fait, contraire à
   la ligne tenue par le fil d'actu.
 
-## À vérifier à l'implémentation
+## Résultat du recoupement
 
-`slow_motion_aim` a un combo Xbox mais aucun combo PlayStation dans la source,
-alors que les 27 autres triches à combo en ont deux. Lacune probable de Fandom,
-que le recoupement de D10 tranchera. Si la seconde source est muette aussi,
-`codes.playstation` reste absent : c'est alors un fait, et D4 l'affiche dans le
-groupe des codes indisponibles.
+Fait le 2026-07-29, jetons normalisés des deux côtés, consigné dans
+`tools/content-cli/gtav-cheats-corroboration.json` :
+
+- **126 codes en accord**, sur les 127 que les deux sources décrivent tous deux.
+- **1 désaccord**, tranché par la donnée : la seconde source donne
+  `1-999-547-861` pour le mode ivre, la première `1-999-547-867`. Les deux citent
+  le mnémonique `1-999-LIQUOR`, qui s'encode 547867 sur un clavier téléphonique
+  (`R` = 7, et le 1 ne porte aucune lettre). La première source a raison.
+- **6 codes apportés par la seconde source** : le combo PlayStation de la visée
+  au ralenti — la lacune anticipée —, les deux combos manette de la nage rapide
+  et du BMX, et le mot-clé PC du mode Réalisateur.
+- **0 code que la seconde source ignore.**
+- Une coquille de forme corrigée : la source primaire écrit une fois
+  `(1-999 HOT-HANDS)` avec une espace là où toutes ses autres entrées mettent un
+  tiret. La seconde confirme `1-999-HOT-HANDS`. Le parseur ramène les espaces à
+  des tirets plutôt que de les effacer, ce qui aurait produit `1-999HOT-HANDS`.
+
+Les 36 triches portent donc deux sources et le statut `published`.
 
 ## Tests
 

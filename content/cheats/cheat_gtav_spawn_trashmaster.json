@@ -1,0 +1,56 @@
+{
+  "id": "cheat_gtav_spawn_trashmaster",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Trashmaster garbage truck next to you.",
+    "fr": "Fait apparaître un camion-poubelle Trashmaster à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "circle",
+        "r1",
+        "circle",
+        "r1",
+        "left",
+        "left",
+        "r1",
+        "l1",
+        "circle",
+        "right"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "b",
+        "rb",
+        "b",
+        "rb",
+        "left",
+        "left",
+        "rb",
+        "lb",
+        "b",
+        "right"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "TRASHED"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-872-433",
+      "mnemonic": "1-999-TRASHED"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

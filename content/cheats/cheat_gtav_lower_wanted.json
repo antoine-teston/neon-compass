@@ -1,0 +1,56 @@
+{
+  "id": "cheat_gtav_lower_wanted",
+  "game": "gtav",
+  "category": "misc",
+  "effect": {
+    "en": "Removes one star from your wanted level.",
+    "fr": "Retire une étoile à votre niveau de recherche."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "r1",
+        "r1",
+        "circle",
+        "r2",
+        "right",
+        "left",
+        "right",
+        "left",
+        "right",
+        "left"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "rb",
+        "rb",
+        "b",
+        "rt",
+        "right",
+        "left",
+        "right",
+        "left",
+        "right",
+        "left"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "LAWYERUP"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-529-93787",
+      "mnemonic": "1-999-LAWYERUP"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

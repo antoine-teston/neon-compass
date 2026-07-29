@@ -1,0 +1,56 @@
+{
+  "id": "cheat_gtav_invincibility",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Makes you immune to damage for five minutes. Enter it again to renew.",
+    "fr": "Vous rend insensible aux dégâts pendant cinq minutes. À resaisir pour prolonger."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "cross",
+        "right",
+        "left",
+        "right",
+        "r1",
+        "right",
+        "left",
+        "cross",
+        "triangle"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "a",
+        "right",
+        "left",
+        "right",
+        "rb",
+        "right",
+        "left",
+        "a",
+        "y"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "PAINKILLER"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-724-654-5537",
+      "mnemonic": "1-999-PAINKILLER"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}
