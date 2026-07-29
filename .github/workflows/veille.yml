@@ -1,0 +1,139 @@
+name: Veille hebdomadaire
+
+# La chaîne complète, une fois par semaine : veille → matérialisation →
+# rédaction → garde-fous → PR. Elle ne publie JAMAIS.
+#
+# Pourquoi une PR et pas une publication directe : publier écrit dans le
+# Firestore de production et fait re-télécharger le contenu à tous les clients.
+# Le workflow `Contenu` garde cette décision en déclenchement manuel, et ce
+# workflow-ci n'y touche pas. Ce qu'il automatise, c'est tout ce qui précède —
+# c'est-à-dire tout ce qui était fait à la main, ou pas fait du tout : six faits
+# d'actu ont dormi dans content/inbox du 21 juillet au 29 juillet 2026 faute de
+# quelqu'un pour les traiter.
+#
+# La chaîne est construite pour se dégrader proprement. Les deux étapes qui
+# demandent un modèle sont conditionnées à la présence du secret
+# ANTHROPIC_API_KEY. Sans lui, le run se contente de matérialiser ce qui traîne
+# dans l'inbox et d'ouvrir une PR de squelettes en brouillon : aucun coût,
+# aucune écriture hasardeuse, et les faits ne se perdent plus. Avec lui, la
+# chaîne va jusqu'à la rédaction.
+#
+# Le garde-fou `npm test` est un mur, pas une formalité : si la rédaction échoue
+# à mi-parcours, ou publie une rumeur, ou laisse passer une marque déposée,
+# aucune PR ne s'ouvre.
+
+on:
+  schedule:
+    # Lundi 06:00 UTC. La veille regarde la semaine écoulée ; le lundi matin
+    # laisse la journée pour relire la PR avant de décider de publier.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+# Un seul run à la fois : deux veilles concurrentes matérialiseraient les mêmes
+# faits en parallèle. L'idempotence par `processedFrom` les réconcilierait au
+# commit suivant, mais elles ouvriraient deux PR pour le même contenu.
+concurrency:
+  group: veille-hebdomadaire
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  veille:
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Installer les dépendances du CLI
+        working-directory: tools/content-cli
+        run: npm ci
+
+      - name: Installer Claude Code
+        if: env.ANTHROPIC_API_KEY != ''
+        run: npm install -g @anthropic-ai/claude-code
+
+      # L'agent est défini dans .claude/agents/data-scout.md : liste blanche de
+      # sources, faits reformulés, jamais de crawl. Le workflow ne redéfinit pas
+      # ces règles, il invoque l'agent qui les porte.
+      #
+      # Liste d'outils explicite, jamais `--dangerously-skip-permissions` : cette
+      # étape lit des pages web, donc du texte écrit par des tiers, dont certains
+      # ont intérêt à détourner un agent. Le pire qu'une page puisse obtenir ici,
+      # c'est d'écrire un fichier dans content/ — qui passera ensuite par les
+      # garde-fous puis par une relecture humaine. Le jeton GitHub n'est PAS dans
+      # l'environnement de cette étape, seulement dans celle qui ouvre la PR.
+      - name: Veille — extraire les faits vers content/inbox
+        if: env.ANTHROPIC_API_KEY != ''
+        run: |
+          claude -p "Lance un run de veille pour la semaine écoulée. Relis d'abord les fichiers .facts.json existants de content/inbox pour ne pas re-signaler un fait déjà extrait, puis écris un nouveau fichier de faits et son compte-rendu de run." \
+            --agent data-scout \
+            --permission-mode acceptEdits \
+            --allowedTools "Read Write Glob Grep WebFetch WebSearch" \
+            --output-format text
+
+      # Toujours, même sans clé : c'est du code déterministe, et c'est le
+      # maillon qui manquait. Idempotent par construction (facts-to-news.mjs) —
+      # un fait déjà transformé ne produit pas un second item.
+      - name: Matérialiser les faits d'actu en squelettes
+        run: node tools/content-cli/cli.js pull-news
+
+      # La rédaction ne lit aucune page web : elle travaille sur `sourceClaim`,
+      # déjà reformulé par la veille. Sa liste d'outils est donc plus étroite —
+      # pas de réseau du tout, et le seul Bash autorisé sert à relancer les
+      # contrôles du CLI.
+      - name: Rédiger les squelettes
+        if: env.ANTHROPIC_API_KEY != ''
+        run: |
+          claude -p "$(cat tools/content-cli/prompts/rewrite-news.md)" \
+            --permission-mode acceptEdits \
+            --allowedTools "Read Edit Write Glob Grep Bash(node cli.js *)" \
+            --output-format text
+
+      # Le mur. Schémas, règles éditoriales, socles embarqués, et les tests des
+      # transformations qui portent l'idempotence. Rien ne sort d'ici si un seul
+      # de ces contrôles tombe.
+      - name: Garde-fous
+        working-directory: tools/content-cli
+        run: npm test
+
+      - name: Ouvrir la PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain content/)" ]; then
+            echo "veille: rien de neuf cette semaine — aucune PR"
+            exit 0
+          fi
+
+          TODAY="$(date -u +%Y-%m-%d)"
+          BRANCH="veille/$TODAY"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # `-B` et `--force` : le workflow est relançable à la main, et un
+          # second run le même jour doit mettre à jour sa branche au lieu
+          # d'échouer sur « branch already exists ».
+          git checkout -B "$BRANCH"
+          git add content/
+          git commit -m "content(veille): récolte du $TODAY"
+          git push -u origin "$BRANCH" --force
+
+          # Corps en fichier versionné plutôt qu'en heredoc : dans un bloc YAML,
+          # l'indentation d'un heredoc est un piège silencieux — le terminateur
+          # se décale et le shell avale la moitié du script.
+          #
+          # Une PR déjà ouverte sur cette branche vient d'être mise à jour par le
+          # push : `gh pr create` échoue alors, et c'est le cas nominal d'un
+          # relancement, pas une erreur.
+          gh pr create \
+            --title "Veille du $TODAY" \
+            --body-file .github/pr-body-veille.md \
+            || gh pr view "$BRANCH" --json url --jq .url

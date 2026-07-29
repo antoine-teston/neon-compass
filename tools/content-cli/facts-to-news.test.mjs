@@ -147,6 +147,20 @@ test('un fait sans source ne devient pas un item', () => {
   assert.equal(result.conflicts.length, 1);
 });
 
+test('les quatre confiances du contrat data-scout sont acceptées', () => {
+  // Un conflit bloque le lot ENTIER : une valeur que la veille émet mais que la
+  // transformation ignore ferait perdre toute la récolte de la semaine, sans
+  // que rien ne dise pourquoi. Ce test est le seul endroit où les deux
+  // définitions se regardent (.claude/agents/data-scout.md).
+  const confidences = ['confirmed-official', 'multi-source', 'single-source', 'rumor'];
+  const facts = confidences.map((confidence) => newsFact({ confidence, claim: `Fait ${confidence}.` }));
+
+  const result = materializeNews(facts, []);
+
+  assert.equal(result.conflicts.length, 0);
+  assert.equal(result.writes.length, confidences.length);
+});
+
 test('une confiance inconnue bloque le lot', () => {
   const result = materializeNews([newsFact({ confidence: 'à peu près sûr' })], []);
 

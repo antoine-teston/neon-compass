@@ -25,7 +25,7 @@
       "items": { "type": "string" }
     },
     "confidence": {
-      "enum": ["confirmed-official", "multi-source", "rumor"],
+      "enum": ["confirmed-official", "multi-source", "single-source", "rumor"],
       "description": "Reprise telle quelle du fait d'inbox. Gouverne la publication (check-publishable) : une rumeur ne part pas dans le fil. Champ pipeline-only, absent du modèle Swift."
     },
     "processedFrom": {

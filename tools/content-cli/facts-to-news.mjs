@@ -17,7 +17,11 @@ import { identityKey } from '../basemap/gtav-poi-ids.mjs';
 export const INBOX_SOURCE = 'inbox';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-const CONFIDENCES = new Set(['confirmed-official', 'multi-source', 'rumor']);
+/** Doit rester le contrat exact de `data-scout` (.claude/agents/data-scout.md).
+ *  Une valeur qu'il émet mais qu'on ne connaît pas ici devient un conflit — et
+ *  un conflit bloque le lot ENTIER. Un seul fait `single-source` suffirait donc
+ *  à faire perdre toute la veille de la semaine, en silence. */
+const CONFIDENCES = new Set(['confirmed-official', 'multi-source', 'single-source', 'rumor']);
 
 /** Catégorie par défaut du squelette. La rédaction peut la corriger : c'est une
  *  décision éditoriale (une date de sortie n'est pas un événement daté), pas
