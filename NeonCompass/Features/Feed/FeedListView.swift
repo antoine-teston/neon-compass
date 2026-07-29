@@ -5,6 +5,14 @@ struct FeedListView: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.horizontalSizeClass) private var sizeClass
 
+    /// Cartes dépliées, par identifiant.
+    ///
+    /// Un `Set` d'identifiants et non un drapeau par carte : `LazyVStack` recycle
+    /// ses vues au défilement, donc un état porté par la carte serait rendu à une
+    /// autre entrée en remontant. L'état appartient à la liste, la carte ne fait
+    /// que le lire.
+    @State private var expandedIDs: Set<String> = []
+
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
@@ -54,37 +62,67 @@ struct FeedListView: View {
             .glassEffect(.regular, in: .rect(cornerRadius: 14))
     }
 
+    /// Une carte se déplie sur place, elle n'ouvre pas d'écran.
+    ///
+    /// Le corps d'un item fait deux à trois phrases : ouvrir une vue de détail
+    /// pour deux lignes de plus ferait payer une navigation, une animation et un
+    /// retour arrière pour un gain de trois mots. Le jour où le fil portera de
+    /// vrais articles, la question se reposera — pas avant.
     private func card(for item: NewsItem) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
-                Label(categoryTitleKey(item.category), systemImage: categorySymbol(item.category))
-                    .font(NCTypography.cardMeta)
-                    .foregroundStyle(NCColor.neonCyan)
-                gameBadge(item.game)
-                Spacer(minLength: 8)
-                if let date = formattedDate(item.publishedAt) {
-                    Text(date)
+        let isExpanded = expandedIDs.contains(item.id)
+
+        return Button {
+            withAnimation(.snappy(duration: 0.25)) {
+                if isExpanded { expandedIDs.remove(item.id) } else { expandedIDs.insert(item.id) }
+            }
+        } label: {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 6) {
+                    Label(categoryTitleKey(item.category), systemImage: categorySymbol(item.category))
                         .font(NCTypography.cardMeta)
-                        .foregroundStyle(.white.opacity(0.45))
+                        .foregroundStyle(NCColor.neonCyan)
+                    gameBadge(item.game)
+                    Spacer(minLength: 8)
+                    if let date = formattedDate(item.publishedAt) {
+                        Text(date)
+                            .font(NCTypography.cardMeta)
+                            .foregroundStyle(.white.opacity(0.45))
+                    }
+                }
+
+                Text(item.title.resolved(for: currentLanguageCode))
+                    .font(NCTypography.cardTitle)
+                    .foregroundStyle(.white)
+                    .lineLimit(isExpanded ? nil : 3)
+
+                HStack(alignment: .bottom, spacing: 8) {
+                    Text(item.body.resolved(for: currentLanguageCode))
+                        .font(.subheadline)
+                        .foregroundStyle(.white.opacity(0.75))
+                        // Replié, trois lignes : assez pour décider si on veut
+                        // lire, et c'est ce qui garde plusieurs entrées à
+                        // l'écran. Déplié, aucune limite.
+                        .lineLimit(isExpanded ? nil : 3)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    // Le chevron est la seule chose qui dit que la carte
+                    // s'ouvre. Sans lui, le texte coupé se lit comme une
+                    // troncature subie, pas comme une invitation.
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.4))
+                        .rotationEffect(.degrees(isExpanded ? 180 : 0))
                 }
             }
-
-            Text(item.title.resolved(for: currentLanguageCode))
-                .font(NCTypography.cardTitle)
-                .foregroundStyle(.white)
-                .lineLimit(3)
-
-            Text(item.body.resolved(for: currentLanguageCode))
-                .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.75))
-                // Le corps d'une actu est un résumé, pas un article : trois
-                // lignes suffisent à décider si on veut en savoir plus, et
-                // c'est ce qui garde plusieurs entrées visibles à l'écran.
-                .lineLimit(3)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(.leading)
+            .padding(14)
+            .glassEffect(.regular, in: .rect(cornerRadius: 14))
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
-        .glassEffect(.regular, in: .rect(cornerRadius: 14))
+        // Sans style « plain », le bouton teinte tout son contenu de la couleur
+        // d'accentuation — titre, corps et pastille comprises.
+        .buttonStyle(.plain)
+        .accessibilityHint(isExpanded ? "feed.card.collapse" : "feed.card.expand")
     }
 
     private var emptyState: some View {
