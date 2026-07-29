@@ -116,14 +116,79 @@ détourner un agent. Trois choses limitent ce que ça peut donner :
   celles qui exécutent un agent ;
 - `npm test` est un mur entre la rédaction et la PR, et un humain relit ensuite.
 
+## L'accès aux sources
+
+### Le 403 n'était pas ce qu'on croyait
+
+Les deux runs de juillet concluaient à un blocage permanent en 403 sur les
+domaines de la liste blanche. Vérification faite le 29 juillet, robots.txt en
+main puis requête par requête :
+
+- `www.gtaboom.com` autorise tout le monde (`User-Agent: * / Allow: /`), et les
+  **cinq URLs qui avaient échoué répondent 200** — y compris avec l'UA par
+  défaut de `curl`. Le blocage était transitoire, probablement un bouclier
+  anti-bot momentané. `WebFetch` y accède d'ailleurs de nouveau.
+- Il n'y avait donc rien à contourner sur ce domaine. La réponse correcte est
+  un **réessai avec repli exponentiel**, pas un déguisement.
+
+### Mais deux sources doivent réellement sortir du circuit
+
+En lisant les robots.txt, deux problèmes de conformité sont apparus, sans
+rapport avec le 403 :
+
+- **`rockstargames.com` nomme `ClaudeBot: Disallow: /`.** La veille est un agent
+  Claude. Le registre du spec §7 liste pourtant « Rockstar Newswire et site
+  officiel », et le run du 21 juillet a cité `rockstargames.com/VI` comme source
+  d'un fait — devenu un item publié. **Contradiction tranchée en faveur du
+  robots.txt.** Les annonces officielles nous parviennent de toute façon par la
+  presse spécialisée qui les relaie.
+- **`reddit.com` : `User-agent: * / Disallow: /`.** Tout parcours automatique
+  est exclu, quel que soit l'agent. Le flux Atom répond bien 200, mais il est
+  sous `/` comme le reste. La voie sanctionnée est l'API Data officielle, avec
+  identifiants OAuth — et son usage commercial est à trancher, l'app étant
+  financée par la publicité. À noter : le contenu de r/GTA6 est de la
+  spéculation communautaire, donc de confiance `rumor`, que le pipeline refuse
+  de publier. L'ouvrir coûterait des identifiants et une question juridique pour
+  des faits qui n'atteindraient jamais le fil.
+
+`gtacodes.io` est par ailleurs hors service : il redirige vers
+`gtacheatcodes.net`, dont le certificat TLS est cassé.
+
+### La liste blanche est devenue du code
+
+`tools/content-cli/source-policy.mjs` porte la politique par domaine, et
+`fetch-source.mjs` l'applique :
+
+```sh
+node tools/content-cli/fetch-source.mjs policy       # l'état de la politique
+node tools/content-cli/fetch-source.mjs feed <hôte>  # titres + dates récents
+node tools/content-cli/fetch-source.mjs page <url>   # texte d'un article
+node tools/content-cli/fetch-source.mjs wiki <titre> # wiki, via son API
+```
+
+La règle « jamais un site dont le robots.txt exclut les bots IA » vivait
+uniquement dans le prompt de `data-scout` — et un run l'a malgré tout enfreinte.
+Une règle qu'un modèle doit se rappeler n'est pas une règle. Elle lève
+maintenant une exception, `WebFetch` a été retiré des outils de l'agent, et le
+workflow ne lui autorise que ce script.
+
+Trois gains au passage :
+
+1. **Les flux d'abord.** `feed` rend titres, liens et dates structurés sans lire
+   une seule page — donc sans parcourir le site. GTABOOM en publie un de 30
+   entrées, Leonidaverse un `news-sitemap.xml` bilingue.
+2. **Le wiki passe par son API.** Le HTML de `gta.fandom.com` est derrière un
+   défi Cloudflare ; `api.php` répond normalement et rend le wikitext.
+3. **Identification honnête.** L'UA annonce le bot et son dépôt, il n'emprunte
+   pas celui d'un navigateur. Les domaines interrogés nous autorisent
+   explicitement : se déguiser ne servirait à rien, et retirerait aux éditeurs
+   le moyen de nous reconnaître.
+
 ## Ce qui reste ouvert
 
-- **La veille est dégradée.** Les deux runs de juillet signalent le même
-  incident : `WebFetch` en 403 sur les domaines de la liste blanche
-  (`gtaboom.com`, `rockstargames.com/newswire`), et `reddit.com` refusé au
-  niveau même de l'outil `WebSearch`. Les faits actuels viennent d'extraits de
-  recherche, avec des `source_date` approximatives. Programmer la veille ne
-  répare pas ça — ça la répète.
+- **Décision à prendre sur le spec §7** : son registre de sources liste encore
+  Rockstar et r/GTA6, que la politique refuse désormais. Le code fait autorité
+  en pratique ; le spec devrait être aligné.
 - **`guides` et `trophies` sont dans la même situation qu'`actu` avant ce
   travail** : modèle Swift et règles Firestore présents, aucun kind dans le
   CLI, aucun répertoire de contenu. Les écrans correspondants resteront vides

@@ -75,7 +75,7 @@ jobs:
           claude -p "Lance un run de veille pour la semaine écoulée. Relis d'abord les fichiers .facts.json existants de content/inbox pour ne pas re-signaler un fait déjà extrait, puis écris un nouveau fichier de faits et son compte-rendu de run." \
             --agent data-scout \
             --permission-mode acceptEdits \
-            --allowedTools "Read Write Glob Grep WebFetch WebSearch" \
+            --allowedTools "Read Write Glob Grep WebSearch Bash(node tools/content-cli/fetch-source.mjs *)" \
             --output-format text
 
       # Toujours, même sans clé : c'est du code déterministe, et c'est le
