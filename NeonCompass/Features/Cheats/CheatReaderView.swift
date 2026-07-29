@@ -31,7 +31,9 @@ struct CheatReaderView: View {
                     .multilineTextAlignment(.center)
 
                 if let code = cheats[currentIndex].codes[inputMode] {
-                    CheatCodeView(code: code, glyphSize: 44)
+                    // Centré, comme le titre au-dessus : le lecteur affichait un
+                    // titre centré surmontant un code collé au bord gauche.
+                    CheatCodeView(code: code, glyphSize: 44, alignment: .center)
                         .frame(maxWidth: .infinity)
                 }
 

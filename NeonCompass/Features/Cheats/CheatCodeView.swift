@@ -4,28 +4,45 @@ import SwiftUI
 ///
 /// Un seul endroit sait qu'une séquence se lit en glyphes, qu'un mot-clé se
 /// tape et qu'un numéro se compose : la carte et le lecteur plein écran
-/// partagent cette vue et ne diffèrent que par `glyphSize`.
+/// partagent cette vue et ne diffèrent que par `glyphSize` et `alignment`.
 struct CheatCodeView: View {
     let code: CheatCode
     let glyphSize: CGFloat
+    /// À gauche dans une carte, pour s'aligner sur le texte de l'effet ; centré
+    /// dans le lecteur plein écran, dont le titre l'est aussi. Sans ce
+    /// paramètre, le lecteur affichait un titre centré au-dessus d'un code collé
+    /// au bord gauche.
+    var alignment: HorizontalAlignment = .leading
     var showsCopyButton: Bool = true
 
     @State private var didCopy = false
 
+    private var isCentered: Bool { alignment == .center }
+
     var body: some View {
         HStack(alignment: .center, spacing: glyphSize * 0.4) {
-            switch code {
-            case .buttons(let buttons):
-                buttonRow(buttons)
-            case .keyword(let keyword):
-                textCode(keyword, hint: "cheats.code.pc.hint")
-            case .phone(let number, let mnemonic):
-                phoneCode(number, mnemonic: mnemonic)
-            }
+            // Centré, le code et son bouton de copie forment un bloc centré
+            // ensemble. Aligné à gauche, le bouton part au bord opposé de la
+            // carte, là où le pouce le trouve sans recouvrir le code.
+            if isCentered { Spacer(minLength: 0) }
+            content
             if showsCopyButton, let text = code.copyableText {
-                Spacer(minLength: 8)
+                if !isCentered { Spacer(minLength: 8) }
                 copyButton(text)
             }
+            if isCentered { Spacer(minLength: 0) }
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch code {
+        case .buttons(let buttons):
+            buttonRow(buttons)
+        case .keyword(let keyword):
+            textCode(keyword, hint: "cheats.code.pc.hint")
+        case .phone(let number, let mnemonic):
+            phoneCode(number, mnemonic: mnemonic)
         }
     }
 
@@ -33,18 +50,18 @@ struct CheatCodeView: View {
     /// en compact, et une rangée qui déborde coupe la fin du code — c'est-à-dire
     /// la seule information que l'écran existe pour transmettre.
     private func buttonRow(_ buttons: [GamepadButton]) -> some View {
-        FlowLayout(spacing: glyphSize * 0.35) {
+        FlowLayout(spacing: glyphSize * 0.35, alignment: alignment) {
             ForEach(Array(buttons.enumerated()), id: \.offset) { _, button in
                 Image(systemName: GamepadGlyph.systemImage(for: button))
                     .font(.system(size: glyphSize))
                     .foregroundStyle(NCColor.neonCyan)
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: isCentered ? nil : .infinity, alignment: .leading)
     }
 
     private func textCode(_ text: String, hint: LocalizedStringKey) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: alignment, spacing: 2) {
             Text(text)
                 .font(.system(size: glyphSize * 0.8, weight: .heavy, design: .monospaced))
                 .foregroundStyle(NCColor.neonCyan)
@@ -54,11 +71,11 @@ struct CheatCodeView: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: isCentered ? nil : .infinity, alignment: isCentered ? .center : .leading)
     }
 
     private func phoneCode(_ number: String, mnemonic: String?) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: alignment, spacing: 2) {
             Text(number)
                 .font(.system(size: glyphSize * 0.8, weight: .heavy, design: .monospaced))
                 .foregroundStyle(NCColor.neonCyan)
@@ -76,7 +93,7 @@ struct CheatCodeView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: isCentered ? nil : .infinity, alignment: isCentered ? .center : .leading)
     }
 
     private func copyButton(_ text: String) -> some View {
@@ -85,7 +102,7 @@ struct CheatCodeView: View {
             didCopy = true
         } label: {
             Image(systemName: didCopy ? "checkmark" : "doc.on.doc")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: max(16, glyphSize * 0.45), weight: .semibold))
                 .foregroundStyle(didCopy ? NCColor.neonCyan : .secondary)
                 .frame(width: 32, height: 32)
                 .contentShape(.rect)
@@ -113,6 +130,9 @@ struct CheatCodeView: View {
 /// passes, et la largeur de secours finie.
 struct FlowLayout: Layout {
     var spacing: CGFloat
+    /// Centré, une seconde rangée plus courte se place sous le milieu de la
+    /// première au lieu de pendre à gauche.
+    var alignment: HorizontalAlignment = .leading
 
     /// Largeur retenue quand aucune n'est proposée. Finie, délibérément : une
     /// largeur infinie mesure une rangée unique, et c'est cette réponse-là qui
@@ -163,9 +183,10 @@ struct FlowLayout: Layout {
         let laid = rows(subviews, maxWidth: bounds.width).rows
         var index = 0
         for row in laid {
+            let offset = alignment == .center ? (bounds.width - row.width) / 2 : 0
             for point in row.positions {
                 subviews[index].place(
-                    at: CGPoint(x: bounds.minX + point.x, y: bounds.minY + point.y),
+                    at: CGPoint(x: bounds.minX + offset + point.x, y: bounds.minY + point.y),
                     anchor: .topLeading,
                     proposal: .unspecified
                 )
