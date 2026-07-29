@@ -59,6 +59,46 @@ struct ContentStoreTests {
         #expect(remote.fetchCallCount == 0)
     }
 
+    /// Un rafraîchissement demandé par l'utilisateur lit, même si rien n'a bougé.
+    ///
+    /// C'est tout l'intérêt du geste : quelqu'un qui tire sur l'écran demande
+    /// une vérification, pas une consultation de cache. Sans ce forçage, le
+    /// tirer-pour-rafraîchir n'est qu'une animation.
+    @Test func refreshFetchesEvenWhenTheVersionHasNotMoved() async throws {
+        let remote = FakeContentRepository<POI>()
+        remote.itemsToReturn = [samplePOI(id: "a")]
+        let version = FakeContentVersionProvider()
+        version.version = 1
+        let context = makeContext()
+        let store = ContentStore<POI>(collectionName: "poi", remote: remote, versionProvider: version, modelContext: context)
+        try await store.syncIfNeeded()
+        #expect(remote.fetchCallCount == 1)
+
+        remote.itemsToReturn = [samplePOI(id: "a"), samplePOI(id: "b")]
+        try await store.refresh()
+
+        #expect(remote.fetchCallCount == 2)
+        #expect(store.items.map(\.id).sorted() == ["a", "b"])
+    }
+
+    /// Et il jette d'abord ce que le fournisseur de version garde en mémoire.
+    ///
+    /// `ContentCDN` mémorise le manifeste pour toute la session. Sans
+    /// invalidation, rafraîchir relirait la version d'il y a une heure et ne
+    /// verrait jamais une publication faite entre-temps — précisément le cas où
+    /// l'on tire sur l'écran.
+    @Test func refreshInvalidatesTheVersionProviderFirst() async throws {
+        let remote = FakeContentRepository<POI>()
+        let version = FakeContentVersionProvider()
+        let store = ContentStore<POI>(collectionName: "poi", remote: remote, versionProvider: version, modelContext: makeContext())
+
+        try await store.syncIfNeeded()
+        #expect(version.invalidateCallCount == 0)
+
+        try await store.refresh()
+        #expect(version.invalidateCallCount == 1)
+    }
+
     @Test func syncIsNoOpWhenVersionUnchanged() async throws {
         let remote = FakeContentRepository<POI>()
         remote.itemsToReturn = [samplePOI(id: "a")]

@@ -28,6 +28,10 @@ struct FeedListView: View {
                 .padding(16)
                 .padding(.bottom, proEntitlementModel.isProEntitled ? 0 : bannerClearance)
             }
+            // Le geste porte sur le ScrollView, donc il reste disponible même
+            // quand le fil est vide : c'est précisément l'écran où l'on a le
+            // plus envie de réessayer.
+            .refreshable { await model.refresh() }
             if !proEntitlementModel.isProEntitled {
                 adBanner
             }

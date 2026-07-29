@@ -46,6 +46,15 @@ actor ContentCDN {
 
     func isConfigured() -> Bool { baseURL != nil }
 
+    /// Oublie le manifeste mémorisé. Le prochain `manifest()` le relira.
+    ///
+    /// Réservé au rafraîchissement demandé par l'utilisateur : le reste du
+    /// temps, relire le manifeste une fois par session est exactement ce qu'on
+    /// veut — un client à jour n'a aucune raison de le redemander.
+    func invalidateManifest() {
+        cachedManifest = nil
+    }
+
     func manifest() async throws -> ContentManifest {
         if let cachedManifest { return cachedManifest }
         guard let baseURL else { throw ContentCDNError.notConfigured }
