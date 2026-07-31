@@ -4177,6 +4177,7 @@
       }
     },
     "profile.header.anonymous" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4454,6 +4455,7 @@
       }
     },
     "profile.pending %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4627,6 +4629,7 @@
       }
     },
     "profile.signIn.missingNonce" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4661,6 +4664,7 @@
       }
     },
     "profile.signIn.missingToken" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4695,6 +4699,7 @@
       }
     },
     "profile.signIn.openSettings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4799,6 +4804,7 @@
       }
     },
     "profile.signIn.unexpectedCredential" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -5195,6 +5201,7 @@
       }
     },
     "settings.done" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
