@@ -8,27 +8,15 @@ import Foundation
 /// volet précédent, importée comme fixture (`tools/basemap/gtav-*.mjs`) — elle
 /// donne une carte dense et réellement explorable en attendant.
 ///
-/// Les libellés exposés à l'UI sont des chiffres romains nus, jamais la marque
-/// elle-même : CLAUDE.md interdit les marques déposées dans l'app.
-/// Les valeurs brutes sont celles du contenu (`content/schema/collection.schema.json`),
-/// pas les noms de cas : `reference` se lit bien dans le code — « la carte de
-/// référence » — mais ne veut rien dire dans le dépôt de contenu, où `gtav`
-/// est explicite. Une seule correspondance, ici, plutôt que deux vocabulaires
-/// qui dérivent. Aucune valeur n'est persistée (le choix de carte est un
-/// `@State`), donc les renommer ne casse aucune préférence enregistrée.
-enum MapGame: String, Codable, CaseIterable, Identifiable, Sendable {
-    case leonida
-    case reference = "gtav"
+/// Le type lui-même vit dans `Core/Game.swift` : la carte, le fil d'actu et les
+/// codes nomment la même distinction, et ce fichier en portait une copie
+/// jumelle de celle du fil. Ce nom reste parce qu'il se lit mieux ici — « la
+/// carte du jeu » — et qu'il évite de toucher une dizaine de sites d'appel.
+/// Aucune valeur n'est persistée (le choix de carte est un `@State`), donc rien
+/// d'enregistré ne dépendait de ce renommage.
+typealias MapGame = Game
 
-    var id: String { rawValue }
-
-    var shortLabel: String {
-        switch self {
-        case .leonida: "VI"
-        case .reference: "V"
-        }
-    }
-
+extension Game {
     /// La carte de référence est la seule à exister en deux habillages : le
     /// placeholder est déjà dessiné aux couleurs de l'app, il n'a pas de
     /// variante « couleurs d'origine ».
@@ -53,7 +41,7 @@ enum MapStyle: String, CaseIterable, Sendable {
     case classic
 }
 
-extension MapGame {
+extension Game {
     /// Nom de la ressource image dans `MapArt/`.
     func resourceName(style: MapStyle) -> String {
         switch self {

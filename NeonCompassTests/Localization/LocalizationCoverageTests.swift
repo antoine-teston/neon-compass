@@ -81,4 +81,95 @@ struct LocalizationCoverageTests {
         let pattern = /%(@|lld|ld|d)/
         return value.matches(of: pattern).map { String(value[$0.range]) }
     }
+
+    // MARK: - Accord entre les sites d'appel et les clés du catalogue
+
+    /// `Text("clé \(n)")` ne cherche pas `clé` : SwiftUI construit la clé
+    /// `clé %lld`, spécificateur compris. Une entrée de catalogue nommée sans
+    /// lui n'est donc jamais trouvée, et l'écran affiche le nom de la clé à la
+    /// place de la phrase. Le test de couverture ne voyait rien — l'entrée est
+    /// traduite dans les cinq langues, simplement inatteignable.
+    ///
+    /// Trois clés avaient déjà livré ce défaut (`cheats.unavailable.title`,
+    /// `progress.challenge.foundCount`, `progress.challenge.partialData`),
+    /// dont deux visibles à l'œil nu en production.
+    ///
+    /// L'idiome `String(format: String(localized: "clé"), x)` est l'exception
+    /// exacte : la recherche se fait sans interpolation, donc sa clé ne porte
+    /// pas de spécificateur. Ce test ne le voit pas, et c'est voulu — il ne
+    /// s'intéresse qu'aux littéraux qui interpolent.
+    @Test func interpolatedCallSitesResolveToACatalogKey() throws {
+        let catalog = try Self.loadCatalog()
+        let keys = Array((catalog["strings"] as? [String: Any] ?? [:]).keys)
+        #expect(!keys.isEmpty)
+
+        for file in try Self.swiftSources() {
+            let source = try String(contentsOf: file, encoding: .utf8)
+            let name = file.lastPathComponent
+            for prefix in Self.interpolatedLocalizedPrefixes(in: source) {
+                guard !prefix.isEmpty else {
+                    Issue.record("\(name) : une chaîne localisée réduite à sa seule interpolation — passer par Text(verbatim:)")
+                    continue
+                }
+                let isReachable = keys.contains {
+                    $0.hasPrefix(prefix) && !Self.formatSpecifiers(in: $0).isEmpty
+                }
+                #expect(
+                    isReachable,
+                    "\(name) : '\(prefix)…' interpole une valeur, mais aucune clé du catalogue ne commence par ce préfixe en portant un spécificateur — l'app afficherait le nom de la clé"
+                )
+            }
+        }
+    }
+
+    private static func swiftSources() throws -> [URL] {
+        let root = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+            .appendingPathComponent("NeonCompass")
+        guard let walker = FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil) else { return [] }
+        return walker.compactMap { $0 as? URL }.filter { $0.pathExtension == "swift" }
+    }
+
+    /// Les préfixes littéraux qui précèdent la première interpolation, un par
+    /// site d'appel localisé. `Text(verbatim:)` ne correspond à aucun de ces
+    /// ouvrants, et s'exclut donc tout seul.
+    private static func interpolatedLocalizedPrefixes(in source: String) -> [String] {
+        let openers = ["Text(\"", "Label(\"", "String(localized: \"", "LocalizedStringResource(\""]
+        var found: [String] = []
+        for opener in openers {
+            var searchRange = source.startIndex..<source.endIndex
+            while let match = source.range(of: opener, range: searchRange) {
+                if let prefix = Self.interpolatedPrefix(in: source, startingAt: match.upperBound) {
+                    found.append(prefix)
+                }
+                searchRange = match.upperBound..<source.endIndex
+            }
+        }
+        return found
+    }
+
+    /// Le texte qui précède la première interpolation du littéral ouvert à
+    /// `index`, ou `nil` si ce littéral se referme sans rien interpoler. On
+    /// s'arrête au `\(` sans lire l'interpolation : son contenu peut lui-même
+    /// contenir des guillemets.
+    private static func interpolatedPrefix(in source: String, startingAt index: String.Index) -> String? {
+        var prefix = ""
+        var cursor = index
+        while cursor < source.endIndex {
+            let character = source[cursor]
+            if character == "\"" || character == "\n" { return nil }
+            if character == "\\" {
+                let escaped = source.index(after: cursor)
+                guard escaped < source.endIndex else { return nil }
+                if source[escaped] == "(" { return prefix }
+                prefix.append(character)
+                prefix.append(source[escaped])
+                cursor = source.index(after: escaped)
+                continue
+            }
+            prefix.append(character)
+            cursor = source.index(after: cursor)
+        }
+        return nil
+    }
 }

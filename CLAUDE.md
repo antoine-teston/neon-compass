@@ -31,13 +31,13 @@ Project not yet created. Once the Xcode project exists (expected name: `NeonComp
 
 ```sh
 # Build
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' build
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' build
 
 # All tests
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 
 # Single test (Swift Testing)
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/SomeSuite/someTest
 
 # Lint / format (once configured)

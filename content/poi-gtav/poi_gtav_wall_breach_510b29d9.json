@@ -7,10 +7,12 @@
     "y": 0.712802
   },
   "title": {
-    "en": "Floyd's house"
+    "en": "Floyd's house",
+    "fr": "Appartement de Floyd"
   },
   "note": {
-    "en": "Go to the location as seen below. Walk upstairs and climb up the root. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Floyd's house."
+    "en": "Go to the location as seen below. Walk upstairs and climb up the root. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Floyd's house.",
+    "fr": "Rendez-vous à l'endroit indiqué. Montez à l'étage et grimpez sur le toit. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez chez Floyd."
   },
   "status": "published",
   "sources": [

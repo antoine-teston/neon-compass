@@ -24,7 +24,7 @@ struct CommunityBundleVersionProvider: ContentVersionProviding {
     /// dupliquée des deux côtés d'une frontière réseau, un test la fige.
     static let collectionName = "community_spots"
 
-    nonisolated(unsafe) private let document: DocumentReference
+    private let document: DocumentReference
 
     init(firestore: Firestore = Firestore.firestore()) {
         document = firestore.document(Self.manifestPath)

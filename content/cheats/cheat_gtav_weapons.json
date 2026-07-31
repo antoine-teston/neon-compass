@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_weapons",
+  "game": "gtav",
+  "category": "weapons",
+  "effect": {
+    "en": "Gives you the full arsenal, ammunition included.",
+    "fr": "Vous donne tout l’arsenal, munitions comprises."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "triangle",
+        "r2",
+        "left",
+        "l1",
+        "cross",
+        "right",
+        "triangle",
+        "down",
+        "square",
+        "l1",
+        "l1",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "y",
+        "rt",
+        "left",
+        "lb",
+        "a",
+        "right",
+        "y",
+        "down",
+        "x",
+        "lb",
+        "lb",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "TOOLUP"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-866-587",
+      "mnemonic": "1-999-TOOL-UP"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

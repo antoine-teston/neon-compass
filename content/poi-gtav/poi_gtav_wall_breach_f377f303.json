@@ -7,10 +7,12 @@
     "y": 0.662995
   },
   "title": {
-    "en": "Car park"
+    "en": "Car park",
+    "fr": "Parking"
   },
   "note": {
-    "en": "Go to the location as seen below. Drive into the wall about one meter besides the electricity box."
+    "en": "Go to the location as seen below. Drive into the wall about one meter besides the electricity box.",
+    "fr": "Rendez-vous à l'endroit indiqué. Roulez dans le mur, à environ un mètre du coffret électrique."
   },
   "status": "published",
   "sources": [

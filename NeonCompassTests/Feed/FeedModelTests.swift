@@ -47,13 +47,13 @@ struct FeedModelTests {
         for seed in 1...100 {
             var generator = SeededGenerator(state: UInt64(seed))
             for itemCount in 0...30 {
-                let positions = FeedModel
-                    .drawAdPositions(itemCount: itemCount, using: &generator)
+                let positions = InlineAdPlacement
+                    .positions(itemCount: itemCount, using: &generator)
                     .sorted()
                 var previous = -1
                 for position in positions {
                     let gap = position - previous
-                    #expect(FeedModel.adGapRange.contains(gap), "écart \(gap) hors bornes (graine \(seed), \(itemCount) entrées)")
+                    #expect(InlineAdPlacement.gapRange.contains(gap), "écart \(gap) hors bornes (graine \(seed), \(itemCount) entrées)")
                     previous = position
                 }
             }
@@ -67,7 +67,7 @@ struct FeedModelTests {
         for seed in 1...100 {
             var generator = SeededGenerator(state: UInt64(seed))
             for itemCount in 0...30 {
-                let positions = FeedModel.drawAdPositions(itemCount: itemCount, using: &generator)
+                let positions = InlineAdPlacement.positions(itemCount: itemCount, using: &generator)
                 for position in positions {
                     #expect(position < itemCount - 1, "encart après la dernière carte (graine \(seed), \(itemCount) entrées)")
                 }
@@ -80,7 +80,7 @@ struct FeedModelTests {
         // après la dernière. Il ne doit donc pas y en avoir.
         for seed in 1...50 {
             var generator = SeededGenerator(state: UInt64(seed))
-            #expect(FeedModel.drawAdPositions(itemCount: 2, using: &generator).isEmpty)
+            #expect(InlineAdPlacement.positions(itemCount: 2, using: &generator).isEmpty)
         }
     }
 

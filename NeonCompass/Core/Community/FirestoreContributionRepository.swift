@@ -20,7 +20,7 @@ final class FirestoreContributionRepository: ContributionRepository {
         let downvotes: Int
     }
 
-    nonisolated(unsafe) private let collection: CollectionReference
+    private let collection: CollectionReference
     private let typeName = "Contribution"
 
     init(firestore: Firestore = Firestore.firestore()) {

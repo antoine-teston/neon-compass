@@ -1,0 +1,1702 @@
+[
+  {
+    "id": "cheat_gtav_black_cellphone",
+    "game": "gtav",
+    "category": "misc",
+    "effect": {
+      "en": "Switches your in-game phone to its black theme.",
+      "fr": "Passe le téléphone du jeu sur son thème noir."
+    },
+    "codes": {
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-367-3767",
+        "mnemonic": "1-999-EMPEROR"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_change_weather",
+    "game": "gtav",
+    "category": "world",
+    "effect": {
+      "en": "Switches the weather to the next setting in the cycle.",
+      "fr": "Passe la météo au réglage suivant du cycle."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "r2",
+          "cross",
+          "l1",
+          "l1",
+          "l2",
+          "l2",
+          "l2",
+          "square"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "rt",
+          "a",
+          "lb",
+          "lb",
+          "lt",
+          "lt",
+          "lt",
+          "x"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "MAKEITRAIN"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-625-348-7246",
+        "mnemonic": "1-999-MAKE-IT-RAIN"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_director_mode",
+    "game": "gtav",
+    "category": "misc",
+    "effect": {
+      "en": "Opens Director Mode, the free-roam scene editor.",
+      "fr": "Ouvre le mode Réalisateur, l’éditeur de scènes en roue libre."
+    },
+    "codes": {
+      "pc": {
+        "kind": "keyword",
+        "keyword": "JRTALENT"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-57825368",
+        "mnemonic": "1-999-LS-TALENT"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_drunk_mode",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Blurs the picture and makes your character stagger.",
+      "fr": "Trouble l’image et fait tituber votre personnage."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "triangle",
+          "right",
+          "right",
+          "left",
+          "right",
+          "square",
+          "circle",
+          "left"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "y",
+          "right",
+          "right",
+          "left",
+          "right",
+          "x",
+          "b",
+          "left"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "LIQUOR"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-547-867",
+        "mnemonic": "1-999-LIQUOR"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_explosive_ammo",
+    "game": "gtav",
+    "category": "weapons",
+    "effect": {
+      "en": "Your bullets detonate on impact.",
+      "fr": "Vos balles explosent à l’impact."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "square",
+          "cross",
+          "left",
+          "r1",
+          "r2",
+          "left",
+          "right",
+          "right",
+          "l1",
+          "l1",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "x",
+          "a",
+          "left",
+          "rb",
+          "rt",
+          "left",
+          "right",
+          "right",
+          "lb",
+          "lb",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "HIGHEX"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-444-439",
+        "mnemonic": "1-999-HIGHEX"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_explosive_melee",
+    "game": "gtav",
+    "category": "weapons",
+    "effect": {
+      "en": "Your punches blow away whatever they land on.",
+      "fr": "Vos coups de poing font exploser ce qu’ils atteignent."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "left",
+          "cross",
+          "triangle",
+          "r1",
+          "circle",
+          "circle",
+          "circle",
+          "l2"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "left",
+          "a",
+          "y",
+          "rb",
+          "b",
+          "b",
+          "b",
+          "lt"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "HOTHANDS"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-468-42637",
+        "mnemonic": "1-999-HOT-HANDS"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_fast_run",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Doubles how fast you run.",
+      "fr": "Double votre vitesse de course."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "triangle",
+          "left",
+          "right",
+          "right",
+          "l2",
+          "l1",
+          "square"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "y",
+          "left",
+          "right",
+          "right",
+          "lt",
+          "lb",
+          "x"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "CATCHME"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-228-2463",
+        "mnemonic": "1-999-CATCH-ME"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_fast_swim",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Doubles how fast you swim.",
+      "fr": "Double votre vitesse de nage."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "l1",
+          "right",
+          "right",
+          "r2",
+          "left",
+          "l2",
+          "right"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "lb",
+          "right",
+          "right",
+          "rt",
+          "left",
+          "lt",
+          "right"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "GOTGILLS"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-468-44557",
+        "mnemonic": "1-999-GOT-GILLS"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_flaming_bullets",
+    "game": "gtav",
+    "category": "weapons",
+    "effect": {
+      "en": "Your bullets set what they hit on fire.",
+      "fr": "Vos balles enflamment ce qu’elles touchent."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "l1",
+          "r1",
+          "square",
+          "r1",
+          "left",
+          "r2",
+          "r1",
+          "left",
+          "square",
+          "right",
+          "l1",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "lb",
+          "rb",
+          "x",
+          "rb",
+          "left",
+          "rt",
+          "rb",
+          "left",
+          "x",
+          "right",
+          "lb",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "INCENDIARY"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-462-363-4279",
+        "mnemonic": "1-999-INCENDIARY"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_invincibility",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Makes you immune to damage for five minutes. Enter it again to renew.",
+      "fr": "Vous rend insensible aux dégâts pendant cinq minutes. À resaisir pour prolonger."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "cross",
+          "right",
+          "left",
+          "right",
+          "r1",
+          "right",
+          "left",
+          "cross",
+          "triangle"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "a",
+          "right",
+          "left",
+          "right",
+          "rb",
+          "right",
+          "left",
+          "a",
+          "y"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "PAINKILLER"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-724-654-5537",
+        "mnemonic": "1-999-PAINKILLER"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_lower_wanted",
+    "game": "gtav",
+    "category": "misc",
+    "effect": {
+      "en": "Removes one star from your wanted level.",
+      "fr": "Retire une étoile à votre niveau de recherche."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "r1",
+          "r1",
+          "circle",
+          "r2",
+          "right",
+          "left",
+          "right",
+          "left",
+          "right",
+          "left"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "rb",
+          "rb",
+          "b",
+          "rt",
+          "right",
+          "left",
+          "right",
+          "left",
+          "right",
+          "left"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "LAWYERUP"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-529-93787",
+        "mnemonic": "1-999-LAWYERUP"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_max_health_armor",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Refills your health and armour to full.",
+      "fr": "Remet votre santé et votre gilet au maximum."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "circle",
+          "l1",
+          "triangle",
+          "r2",
+          "cross",
+          "square",
+          "circle",
+          "right",
+          "square",
+          "l1",
+          "l1",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "b",
+          "lb",
+          "y",
+          "rt",
+          "a",
+          "x",
+          "b",
+          "right",
+          "x",
+          "lb",
+          "lb",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "TURTLE"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-887-853",
+        "mnemonic": "1-999-TURTLE"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_moon_gravity",
+    "game": "gtav",
+    "category": "world",
+    "effect": {
+      "en": "Weakens gravity, so vehicles and bodies drift.",
+      "fr": "Affaiblit la gravité : véhicules et corps se mettent à flotter."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "l1",
+          "r1",
+          "l1",
+          "right",
+          "left",
+          "l1",
+          "left"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "lb",
+          "rb",
+          "lb",
+          "right",
+          "left",
+          "lb",
+          "left"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "FLOATER"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-356-2837",
+        "mnemonic": "1-999-FLOATER"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_parachute",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Puts a parachute in your inventory.",
+      "fr": "Ajoute un parachute à votre inventaire."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "right",
+          "l1",
+          "l2",
+          "r1",
+          "r2",
+          "r2",
+          "left",
+          "left",
+          "right",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "right",
+          "lb",
+          "lt",
+          "rb",
+          "rt",
+          "rt",
+          "left",
+          "left",
+          "right",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "SKYDIVE"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-759-3483",
+        "mnemonic": "1-999-SKY-DIVE"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_raise_wanted",
+    "game": "gtav",
+    "category": "misc",
+    "effect": {
+      "en": "Adds one star to your wanted level.",
+      "fr": "Ajoute une étoile à votre niveau de recherche."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "r1",
+          "r1",
+          "circle",
+          "r2",
+          "left",
+          "right",
+          "left",
+          "right",
+          "left",
+          "right"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "rb",
+          "rb",
+          "b",
+          "rt",
+          "left",
+          "right",
+          "left",
+          "right",
+          "left",
+          "right"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "FUGITIVE"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-384-48483",
+        "mnemonic": "1-999-FUGITIVE"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_recharge_special",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Refills your character’s special ability meter.",
+      "fr": "Recharge la jauge de capacité spéciale de votre personnage."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "cross",
+          "cross",
+          "square",
+          "r1",
+          "l1",
+          "cross",
+          "right",
+          "left",
+          "cross"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "a",
+          "a",
+          "x",
+          "rb",
+          "lb",
+          "a",
+          "right",
+          "left",
+          "a"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "POWERUP"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-769-3787",
+        "mnemonic": "1-999-POWERUP"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_skyfall",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Teleports you high above the map and drops you in free fall.",
+      "fr": "Vous téléporte très haut au-dessus de la carte et vous lâche en chute libre."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "l1",
+          "l2",
+          "r1",
+          "r2",
+          "left",
+          "right",
+          "left",
+          "right",
+          "l1",
+          "l2",
+          "r1",
+          "r2",
+          "left",
+          "right",
+          "left",
+          "right"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "lb",
+          "lt",
+          "rb",
+          "rt",
+          "left",
+          "right",
+          "left",
+          "right",
+          "lb",
+          "lt",
+          "rb",
+          "rt",
+          "left",
+          "right",
+          "left",
+          "right"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "SKYFALL"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-759-3255",
+        "mnemonic": "1-999-SKY-FALL"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_slippery_cars",
+    "game": "gtav",
+    "category": "world",
+    "effect": {
+      "en": "Strips tyre grip, so every car slides.",
+      "fr": "Supprime l’adhérence des pneus : toutes les voitures glissent."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "triangle",
+          "r1",
+          "r1",
+          "left",
+          "r1",
+          "l1",
+          "r2",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "y",
+          "rb",
+          "rb",
+          "left",
+          "rb",
+          "lb",
+          "rt",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "SNOWDAY"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-766-9329",
+        "mnemonic": "1-999-SNOW-DAY"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_slow_motion",
+    "game": "gtav",
+    "category": "world",
+    "effect": {
+      "en": "Slows the whole world down. Stacks up to three times; a fourth entry turns it off.",
+      "fr": "Ralentit le monde entier. Cumulable trois fois ; une quatrième saisie désactive."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "triangle",
+          "left",
+          "right",
+          "right",
+          "square",
+          "r2",
+          "r1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "y",
+          "left",
+          "right",
+          "right",
+          "x",
+          "rt",
+          "rb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "SLOWMO"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-756-966",
+        "mnemonic": "1-999-SLOW-MO"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_slow_motion_aim",
+    "game": "gtav",
+    "category": "world",
+    "effect": {
+      "en": "Slows time only while you aim. Stacks up to three times; a fourth entry turns it off.",
+      "fr": "Ralentit le temps seulement pendant que vous visez. Cumulable trois fois ; une quatrième saisie désactive."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "square",
+          "l2",
+          "r1",
+          "triangle",
+          "left",
+          "square",
+          "l2",
+          "right",
+          "cross"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "x",
+          "lt",
+          "rb",
+          "y",
+          "left",
+          "x",
+          "lt",
+          "right",
+          "a"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "DEADEYE"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-332-3393",
+        "mnemonic": "1-999-DEAD-EYE"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_bmx",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a BMX bike next to you.",
+      "fr": "Fait apparaître un BMX à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "right",
+          "right",
+          "left",
+          "right",
+          "square",
+          "circle",
+          "triangle",
+          "r1",
+          "r2"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "right",
+          "right",
+          "left",
+          "right",
+          "x",
+          "b",
+          "y",
+          "rb",
+          "rt"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "BANDIT"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-226-348",
+        "mnemonic": "1-999-BANDIT"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_buzzard_attack_chopper",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops an armed Buzzard helicopter next to you.",
+      "fr": "Fait apparaître un hélicoptère armé Buzzard à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "circle",
+          "circle",
+          "l1",
+          "circle",
+          "circle",
+          "circle",
+          "l1",
+          "l2",
+          "r1",
+          "triangle",
+          "circle",
+          "triangle"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "b",
+          "b",
+          "lb",
+          "b",
+          "b",
+          "b",
+          "lb",
+          "lt",
+          "rb",
+          "y",
+          "b",
+          "y"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "BUZZOFF"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-289-9633",
+        "mnemonic": "1-999-BUZZ-OFF"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_caddy",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Caddy golf cart next to you.",
+      "fr": "Fait apparaître une voiturette de golf Caddy à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "circle",
+          "l1",
+          "left",
+          "r1",
+          "l2",
+          "cross",
+          "r1",
+          "l1",
+          "circle",
+          "cross"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "b",
+          "lb",
+          "left",
+          "rb",
+          "lt",
+          "a",
+          "rb",
+          "lb",
+          "b",
+          "a"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "HOLEIN1"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-465-3461",
+        "mnemonic": "1-999-HOLE-IN-1"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_comet",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Comet sports car next to you.",
+      "fr": "Fait apparaître une voiture de sport Comet à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "r1",
+          "circle",
+          "r2",
+          "right",
+          "l1",
+          "l2",
+          "cross",
+          "cross",
+          "square",
+          "r1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "rb",
+          "b",
+          "rt",
+          "right",
+          "lb",
+          "lt",
+          "a",
+          "a",
+          "x",
+          "rb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "COMET"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-266-38",
+        "mnemonic": "1-999-COMET"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_dodo",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Dodo seaplane next to you.",
+      "fr": "Fait apparaître un hydravion Dodo à côté de vous."
+    },
+    "codes": {
+      "pc": {
+        "kind": "keyword",
+        "keyword": "EXTINCT"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-3984628",
+        "mnemonic": "1-999-EXTINCT"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_duke_o_death",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops the armoured Duke O’Death next to you.",
+      "fr": "Fait apparaître la Duke O’Death blindée à côté de vous."
+    },
+    "codes": {
+      "pc": {
+        "kind": "keyword",
+        "keyword": "DEATHCAR"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-33284227",
+        "mnemonic": "1-999-DEATHCAR"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_duster",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Duster crop-dusting plane next to you.",
+      "fr": "Fait apparaître un avion d’épandage Duster à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "left",
+          "r1",
+          "r1",
+          "r1",
+          "left",
+          "triangle",
+          "triangle",
+          "cross",
+          "circle",
+          "l1",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "right",
+          "left",
+          "rb",
+          "rb",
+          "rb",
+          "left",
+          "y",
+          "y",
+          "a",
+          "b",
+          "lb",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "FLYSPRAY"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-359-77729",
+        "mnemonic": "1-999-FLY-SPRAY"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_kraken",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Kraken submarine next to you.",
+      "fr": "Fait apparaître un sous-marin Kraken à côté de vous."
+    },
+    "codes": {
+      "pc": {
+        "kind": "keyword",
+        "keyword": "BUBBLES"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-282-2537",
+        "mnemonic": "1-999-BUBBLES"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_mallard",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Mallard stunt biplane next to you.",
+      "fr": "Fait apparaître un biplan de voltige Mallard à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "circle",
+          "right",
+          "l1",
+          "l2",
+          "left",
+          "r1",
+          "l1",
+          "l1",
+          "left",
+          "left",
+          "cross",
+          "triangle"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "b",
+          "right",
+          "lb",
+          "lt",
+          "left",
+          "rb",
+          "lb",
+          "lb",
+          "left",
+          "left",
+          "a",
+          "y"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "BARNSTORM"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-227-678-676",
+        "mnemonic": "1-999-BARN-STORM"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_pcj_600",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a PCJ-600 motorcycle next to you.",
+      "fr": "Fait apparaître une moto PCJ-600 à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "r1",
+          "right",
+          "left",
+          "right",
+          "r2",
+          "left",
+          "right",
+          "square",
+          "right",
+          "l2",
+          "l1",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "rb",
+          "right",
+          "left",
+          "right",
+          "rt",
+          "left",
+          "right",
+          "x",
+          "right",
+          "lt",
+          "lb",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "ROCKET"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-762-538",
+        "mnemonic": "1-999-ROCKET"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_rapid_gt",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Rapid GT sports car next to you.",
+      "fr": "Fait apparaître une voiture de sport Rapid GT à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "r2",
+          "l1",
+          "circle",
+          "right",
+          "l1",
+          "r1",
+          "right",
+          "left",
+          "circle",
+          "r2"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "rt",
+          "lb",
+          "b",
+          "right",
+          "lb",
+          "rb",
+          "right",
+          "left",
+          "b",
+          "rt"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "RAPIDGT"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-727-4348",
+        "mnemonic": "1-999-RAPID-GT"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_sanchez",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Sanchez dirt bike next to you.",
+      "fr": "Fait apparaître une moto tout-terrain Sanchez à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "circle",
+          "cross",
+          "l1",
+          "circle",
+          "circle",
+          "l1",
+          "circle",
+          "r1",
+          "r2",
+          "l2",
+          "l1",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "b",
+          "a",
+          "lb",
+          "b",
+          "b",
+          "lb",
+          "b",
+          "rb",
+          "rt",
+          "lt",
+          "lb",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "OFFROAD"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-633-7623",
+        "mnemonic": "1-999-OFF-ROAD"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_stretch",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Stretch limousine next to you.",
+      "fr": "Fait apparaître une limousine Stretch à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "r2",
+          "right",
+          "l2",
+          "left",
+          "left",
+          "r1",
+          "l1",
+          "circle",
+          "right"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "rt",
+          "right",
+          "lt",
+          "left",
+          "left",
+          "rb",
+          "lb",
+          "b",
+          "right"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "VINEWOOD"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-846-39663",
+        "mnemonic": "1-999-VINEWOOD"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_spawn_trashmaster",
+    "game": "gtav",
+    "category": "vehicles",
+    "effect": {
+      "en": "Drops a Trashmaster garbage truck next to you.",
+      "fr": "Fait apparaître un camion-poubelle Trashmaster à côté de vous."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "circle",
+          "r1",
+          "circle",
+          "r1",
+          "left",
+          "left",
+          "r1",
+          "l1",
+          "circle",
+          "right"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "b",
+          "rb",
+          "b",
+          "rb",
+          "left",
+          "left",
+          "rb",
+          "lb",
+          "b",
+          "right"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "TRASHED"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-872-433",
+        "mnemonic": "1-999-TRASHED"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_super_jump",
+    "game": "gtav",
+    "category": "player",
+    "effect": {
+      "en": "Turns every jump into a huge leap.",
+      "fr": "Transforme chaque saut en bond démesuré."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "triangle",
+          "triangle",
+          "right",
+          "right",
+          "left",
+          "right",
+          "square",
+          "r1",
+          "r2"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "left",
+          "left",
+          "y",
+          "y",
+          "right",
+          "right",
+          "left",
+          "right",
+          "x",
+          "rb",
+          "rt"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "HOPTOIT"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-467-8648",
+        "mnemonic": "1-999-HOP-TO-IT"
+      }
+    },
+    "blocksTrophies": false
+  },
+  {
+    "id": "cheat_gtav_weapons",
+    "game": "gtav",
+    "category": "weapons",
+    "effect": {
+      "en": "Gives you the full arsenal, ammunition included.",
+      "fr": "Vous donne tout l’arsenal, munitions comprises."
+    },
+    "codes": {
+      "playstation": {
+        "kind": "buttons",
+        "buttons": [
+          "triangle",
+          "r2",
+          "left",
+          "l1",
+          "cross",
+          "right",
+          "triangle",
+          "down",
+          "square",
+          "l1",
+          "l1",
+          "l1"
+        ]
+      },
+      "xbox": {
+        "kind": "buttons",
+        "buttons": [
+          "y",
+          "rt",
+          "left",
+          "lb",
+          "a",
+          "right",
+          "y",
+          "down",
+          "x",
+          "lb",
+          "lb",
+          "lb"
+        ]
+      },
+      "pc": {
+        "kind": "keyword",
+        "keyword": "TOOLUP"
+      },
+      "phone": {
+        "kind": "phone",
+        "number": "1-999-866-587",
+        "mnemonic": "1-999-TOOL-UP"
+      }
+    },
+    "blocksTrophies": false
+  }
+]

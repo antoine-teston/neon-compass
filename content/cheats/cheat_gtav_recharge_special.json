@@ -1,0 +1,54 @@
+{
+  "id": "cheat_gtav_recharge_special",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Refills your character’s special ability meter.",
+    "fr": "Recharge la jauge de capacité spéciale de votre personnage."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "cross",
+        "cross",
+        "square",
+        "r1",
+        "l1",
+        "cross",
+        "right",
+        "left",
+        "cross"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "a",
+        "a",
+        "x",
+        "rb",
+        "lb",
+        "a",
+        "right",
+        "left",
+        "a"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "POWERUP"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-769-3787",
+      "mnemonic": "1-999-POWERUP"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

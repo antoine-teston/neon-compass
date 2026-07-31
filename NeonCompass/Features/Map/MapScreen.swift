@@ -60,21 +60,18 @@ struct MapScreen: View {
     @ViewBuilder
     private func content(model: MapModel) -> some View {
         if sizeClass == .compact {
-            ZStack(alignment: .top) {
-                mapCanvas(model: model)
-                MapFilterControls(
-                    model: model,
-                    showPersonalPinList: $showPersonalPinList,
-                    showRoutePlanner: $showRoutePlanner
-                )
-                displayControls
-            }
-            .sheet(item: Binding(get: { model.selectedPOI }, set: { model.selectedPOI = $0 })) { poi in
-                poiDetail(poi, model: model)
-                    .presentationDetents([.medium])
-            }
-        } else {
-            HStack(spacing: 0) {
+            // La fiche n'est plus une feuille présentée par le système, mais
+            // un panneau dans l'arbre de vues — le même qu'en régulier, posé
+            // en bas au lieu de la droite.
+            //
+            // Mesuré sur iPhone : présenter une feuille coûtait ~60 ms à
+            // l'ouverture ET ~46 ms à la fermeture, soit quatre images perdues
+            // à chaque aller-retour, QUEL QUE SOIT son contenu — une feuille
+            // vide coûtait exactement autant qu'une fiche complète, et le
+            // Release n'y changeait rien. Le même contenu en panneau, tel que
+            // l'iPad l'affichait déjà, ouvre et ferme en 16,7 ms, c'est-à-dire
+            // sans perdre une seule image.
+            ZStack(alignment: .bottom) {
                 ZStack(alignment: .top) {
                     mapCanvas(model: model)
                     MapFilterControls(
@@ -85,11 +82,45 @@ struct MapScreen: View {
                     displayControls
                 }
                 if let selected = model.selectedPOI {
-                    poiDetail(selected, model: model)
-                        .frame(width: 340)
-                        .transition(.move(edge: .trailing))
+                    detailPanel(selected, model: model, edge: .bottom)
+                        // Dégage la tab bar flottante, comme les contrôles
+                        // d'affichage juste au-dessus.
+                        .padding(.bottom, 76)
                 }
             }
+            .animation(.snappy, value: model.selectedPOI)
+        } else {
+            // Le panneau FLOTTE au-dessus de la carte au lieu de la pousser.
+            //
+            // Dans un HStack, ouvrir une fiche réduisait la largeur de la carte
+            // de 340 pt — et cette largeur s'anime. Mesuré : 29 passages dans
+            // `layoutSubviews` de la vue de défilement pour une seule ouverture,
+            // soit 29 recalculs d'échelle de couverture et d'encarts de
+            // centrage, sur une vue hébergée de 2048×2048 portant des centaines
+            // de pastilles. C'était toute la saccade.
+            //
+            // La surimpression est aussi ce que dit la langue visuelle du
+            // projet : le chrome en Liquid Glass flotte au-dessus du contenu —
+            // c'est déjà le parti pris de la barre d'onglets et des contrôles
+            // de carte, et la raison pour laquelle la carte passe sous les
+            // safe areas.
+            ZStack(alignment: .trailing) {
+                ZStack(alignment: .top) {
+                    mapCanvas(model: model)
+                    MapFilterControls(
+                        model: model,
+                        showPersonalPinList: $showPersonalPinList,
+                        showRoutePlanner: $showRoutePlanner
+                    )
+                    displayControls
+                }
+                if let selected = model.selectedPOI {
+                    detailPanel(selected, model: model, edge: .trailing, width: 340)
+                }
+            }
+            // `.transition` n'avait jamais joué : rien n'animait la mutation de
+            // `selectedPOI`, le panneau surgissait et disparaissait d'un coup.
+            .animation(.snappy, value: model.selectedPOI)
         }
     }
 
@@ -122,6 +153,9 @@ struct MapScreen: View {
                 personalPins: model.personalPins,
                 communitySpots: communityModel?.visibleSpots ?? [],
                 draftPins: editorDraftPins,
+                poisGeneration: model.poisGeneration,
+                spotsGeneration: communityModel?.spotsGeneration ?? 0,
+                personalPinsGeneration: model.personalPinsGeneration,
                 isFound: model.isFound,
                 viewport: $viewport,
                 onLongPress: { canvasPoint in
@@ -260,6 +294,59 @@ struct MapScreen: View {
 #else
         []
 #endif
+    }
+
+    /// La fiche telle qu'elle est POSÉE sur la carte : en bas en compact, à
+    /// droite en régulier. Une seule écriture pour les deux, parce que les deux
+    /// doivent se comporter pareil — c'est justement ce qui n'était pas vrai
+    /// tant que le compact passait par une feuille système.
+    ///
+    /// Ce que la feuille rendait gratuitement, et qu'il faut donc rendre ici :
+    /// le congédiement au balayage, l'isolement du contenu derrière pour
+    /// VoiceOver, et le geste d'échappement.
+    private func detailPanel(_ poi: POI, model: MapModel, edge: Edge, width: CGFloat? = nil) -> some View {
+        poiDetail(poi, model: model)
+            .frame(width: width)
+            // Le panneau flotte AU-DESSUS de la carte : sans forme explicite, le
+            // verre peint sans rien intercepter et un tap le traverserait pour
+            // atteindre un pin situé derrière.
+            .contentShape(.rect)
+            // Ce qui s'ouvre d'un geste se ferme d'un geste, vers le bord d'où
+            // le panneau est venu. La distance minimale laisse les boutons du
+            // panneau tranquilles.
+            .gesture(
+                DragGesture(minimumDistance: 24)
+                    .onEnded { drag in
+                        let travelled = edge == .bottom ? drag.translation.height : drag.translation.width
+                        guard travelled > 60 else { return }
+                        model.selectedPOI = nil
+                    }
+            )
+            // Une feuille rendait la carte derrière elle invisible à VoiceOver
+            // et répondait au geste d'échappement. Un panneau posé dans l'arbre
+            // ne fait ni l'un ni l'autre de lui-même : sans ces deux lignes, le
+            // gain de fluidité se paierait en accessibilité.
+            .accessibilityAddTraits(.isModal)
+            .accessibilityAction(.escape) { model.selectedPOI = nil }
+            // Borne ce qui est PROPOSÉ à la fiche, sans le lui imposer.
+            //
+            // La feuille système plafonnait la fiche à mi-écran et faisait
+            // défiler le reste. Il faut le refaire, mais pas avec un
+            // `.frame(maxHeight:)` posé sur la fiche : un cadre qui ne fixe
+            // qu'un maximum prend toute la hauteur proposée jusqu'à ce
+            // maximum, et une note de deux lignes se retrouvait centrée au
+            // milieu du vide.
+            //
+            // Ici le cadre est TRANSPARENT et la fiche s'y aligne sur le bord
+            // d'où elle vient : le vide éventuel laisse voir la carte, et ne
+            // capte aucun geste puisque la forme de frappe reste celle de la
+            // fiche, posée plus haut. La fiche, elle, reçoit une proposition
+            // bornée — ce qui permet à sa note de choisir entre sa hauteur
+            // naturelle et une version défilante.
+            .containerRelativeFrame(.vertical, alignment: edge == .bottom ? .bottom : .center) { height, _ in
+                height * 0.55
+            }
+            .transition(.move(edge: edge))
     }
 
     /// Fiche d'un POI, augmentée des actions d'édition quand l'éditeur est armé.

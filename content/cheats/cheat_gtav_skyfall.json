@@ -1,0 +1,68 @@
+{
+  "id": "cheat_gtav_skyfall",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Teleports you high above the map and drops you in free fall.",
+    "fr": "Vous téléporte très haut au-dessus de la carte et vous lâche en chute libre."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "l1",
+        "l2",
+        "r1",
+        "r2",
+        "left",
+        "right",
+        "left",
+        "right",
+        "l1",
+        "l2",
+        "r1",
+        "r2",
+        "left",
+        "right",
+        "left",
+        "right"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "lb",
+        "lt",
+        "rb",
+        "rt",
+        "left",
+        "right",
+        "left",
+        "right",
+        "lb",
+        "lt",
+        "rb",
+        "rt",
+        "left",
+        "right",
+        "left",
+        "right"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "SKYFALL"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-759-3255",
+      "mnemonic": "1-999-SKY-FALL"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

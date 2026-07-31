@@ -5,10 +5,28 @@ import SwiftData
 @Observable
 @MainActor
 final class CommunityModel {
-    private(set) var approvedSpots: [Contribution] = []
+    private(set) var approvedSpots: [Contribution] = [] {
+        didSet { refreshVisibleSpots() }
+    }
     private(set) var myContributions: [Contribution] = []
-    private(set) var blockedAuthorUIDs: Set<String>
+    private(set) var blockedAuthorUIDs: Set<String> {
+        didSet { refreshVisibleSpots() }
+    }
     private(set) var contributionsEnabled = true
+
+    /// Les spots que la carte rend : approuvés, moins ceux des auteurs bloqués.
+    /// Stocké et non calculé — cette liste est lue par le corps de la carte, qui
+    /// se réévalue pour quantité de raisons étrangères aux spots.
+    private(set) var visibleSpots: [Contribution] = []
+
+    /// Clé d'invalidation de `MapClusterCache` pour la famille des
+    /// contributions. Portée par les `didSet` des DEUX entrées plutôt que par
+    /// des incréments dispersés dans chaque mutateur : c'est ce qui la rend
+    /// exhaustive. En particulier `vote(on:)` n'écrit que
+    /// `approvedSpots[index].upvotes` — une mutation du CONTENU d'un membre,
+    /// invisible d'une comparaison de composition, mais qui traverse bien le
+    /// `didSet` du tableau.
+    private(set) var spotsGeneration = 0
 
     private let repository: ContributionRepository
     private let functions: ContributionFunctionsCalling
@@ -35,6 +53,10 @@ final class CommunityModel {
         // dès le premier rendu, y compris hors-ligne.
         self.approvedSpots = approvedStore.items
         self.refreshBlockedAuthors()
+        // Les `didSet` ne se déclenchent pas pour les affectations faites depuis
+        // l'initialiseur lui-même : sans cet appel, la carte ouvrirait sans le
+        // moindre spot jusqu'à la première mutation.
+        self.refreshVisibleSpots()
     }
 
     /// Câblage de production, en un seul endroit : les deux écrans qui
@@ -65,11 +87,12 @@ final class CommunityModel {
         blockedAuthorUIDs = Set((try? modelContext.fetch(FetchDescriptor<BlockedContributor>()))?.map(\.authorUid) ?? [])
     }
 
-    var visibleSpots: [Contribution] {
-        approvedSpots.filter { spot in
+    private func refreshVisibleSpots() {
+        visibleSpots = approvedSpots.filter { spot in
             guard let authorUid = spot.authorUid else { return true }
             return !blockedAuthorUIDs.contains(authorUid)
         }
+        spotsGeneration &+= 1
     }
 
     /// Ne télécharge que si la version du manifeste a bougé — sinon la seule

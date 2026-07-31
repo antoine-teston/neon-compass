@@ -7,10 +7,12 @@
     "y": 0.711757
   },
   "title": {
-    "en": "Beach Store"
+    "en": "Beach Store",
+    "fr": "Boutique de la plage"
   },
   "note": {
-    "en": "Go to the location as seen below. Turn to the open garage and drive straight throgh the wall. Note: during day time you need an bicycle because there are boxes that prevent you from entering the garage!"
+    "en": "Go to the location as seen below. Turn to the open garage and drive straight throgh the wall. Note: during day time you need an bicycle because there are boxes that prevent you from entering the garage!",
+    "fr": "Rendez-vous à l'endroit indiqué. Tournez-vous vers le garage ouvert et traversez le mur en roulant. Attention : de jour, il faut un vélo, des caisses bloquent l'accès au garage."
   },
   "status": "published",
   "sources": [

@@ -7,10 +7,12 @@
     "y": 0.659743
   },
   "title": {
-    "en": "FIB Tower"
+    "en": "FIB Tower",
+    "fr": "Tour du FIB"
   },
   "note": {
-    "en": "Go to the location as seen below. Get a helicopter and fly on top of the building. Get out and walk to the side of the building. Walk downstairs the ladder and turn right. At the end of that platform turn left and walk straight into the wall/border (not on the side with the big FIB logo). You should fall and end up on the next floor. After some seconds the textures should load and you should be inside the FIB building."
+    "en": "Go to the location as seen below. Get a helicopter and fly on top of the building. Get out and walk to the side of the building. Walk downstairs the ladder and turn right. At the end of that platform turn left and walk straight into the wall/border (not on the side with the big FIB logo). You should fall and end up on the next floor. After some seconds the textures should load and you should be inside the FIB building.",
+    "fr": "Rendez-vous à l'endroit indiqué. Posez un hélicoptère sur le toit du bâtiment. Descendez et rejoignez le bord. Empruntez l'échelle vers le bas, tournez à droite, puis à gauche au bout de la plateforme, et marchez droit dans le mur — pas du côté du grand logo FIB. Vous tomberez à l'étage inférieur ; les textures se chargent après quelques secondes et vous voilà dans la tour du FIB."
   },
   "status": "published",
   "sources": [

@@ -1,0 +1,22 @@
+{
+  "id": "cheat_gtav_black_cellphone",
+  "game": "gtav",
+  "category": "misc",
+  "effect": {
+    "en": "Switches your in-game phone to its black theme.",
+    "fr": "Passe le téléphone du jeu sur son thème noir."
+  },
+  "codes": {
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-367-3767",
+      "mnemonic": "1-999-EMPEROR"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

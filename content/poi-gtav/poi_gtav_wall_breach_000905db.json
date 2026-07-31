@@ -7,10 +7,12 @@
     "y": 0.419418
   },
   "title": {
-    "en": "Space Docker garage"
+    "en": "Space Docker garage",
+    "fr": "Garage du Space Docker"
   },
   "note": {
-    "en": "Go to the location as seen below. Get a decent sized vehicle and drive it against the trailer. Get on top and climb on the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage."
+    "en": "Go to the location as seen below. Get a decent sized vehicle and drive it against the trailer. Get on top and climb on the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage.",
+    "fr": "Rendez-vous à l'endroit indiqué. Amenez un véhicule assez volumineux contre la remorque. Montez dessus, puis sur le toit. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans le garage du Space Docker."
   },
   "status": "published",
   "sources": [

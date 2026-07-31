@@ -56,6 +56,7 @@ targets:
         excludes:
           - "Resources/MapArt/**"
           - "Resources/POI/**"
+          - "Resources/Cheats/**"
       - path: NeonCompass/Resources/MapArt
         type: folder
       # Référence de dossier, comme MapArt : sans `type: folder` XcodeGen
@@ -63,6 +64,12 @@ targets:
       # `subdirectory: "POI"` de POILoader.loadSeed ne le trouve jamais — la
       # carte se retrouvait alors sans le moindre POI.
       - path: NeonCompass/Resources/POI
+        type: folder
+      # Même raison que POI : sans `type: folder`, XcodeGen aplatit
+      # seed-cheats.json à la racine du bundle et le `subdirectory: "Cheats"` du
+      # chargeur ne le trouve jamais — l'écran Codes redeviendrait vide au
+      # premier lancement, exactement le défaut que ce socle corrige.
+      - path: NeonCompass/Resources/Cheats
         type: folder
       # WidgetSummary.swift lives under NeonCompassWidgets/ on disk (its natural home
       # alongside the rest of the widget extension) but is compiled into BOTH targets —

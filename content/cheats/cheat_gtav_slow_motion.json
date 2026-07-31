@@ -1,0 +1,50 @@
+{
+  "id": "cheat_gtav_slow_motion",
+  "game": "gtav",
+  "category": "world",
+  "effect": {
+    "en": "Slows the whole world down. Stacks up to three times; a fourth entry turns it off.",
+    "fr": "Ralentit le monde entier. Cumulable trois fois ; une quatrième saisie désactive."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "triangle",
+        "left",
+        "right",
+        "right",
+        "square",
+        "r2",
+        "r1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "y",
+        "left",
+        "right",
+        "right",
+        "x",
+        "rt",
+        "rb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "SLOWMO"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-756-966",
+      "mnemonic": "1-999-SLOW-MO"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "cheat_gtav_spawn_caddy",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Caddy golf cart next to you.",
+    "fr": "Fait apparaître une voiturette de golf Caddy à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "circle",
+        "l1",
+        "left",
+        "r1",
+        "l2",
+        "cross",
+        "r1",
+        "l1",
+        "circle",
+        "cross"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "b",
+        "lb",
+        "left",
+        "rb",
+        "lt",
+        "a",
+        "rb",
+        "lb",
+        "b",
+        "a"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "HOLEIN1"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-465-3461",
+      "mnemonic": "1-999-HOLE-IN-1"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

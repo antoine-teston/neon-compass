@@ -7,10 +7,12 @@
     "y": 0.673168
   },
   "title": {
-    "en": "LSPD police station"
+    "en": "LSPD police station",
+    "fr": "Commissariat du LSPD"
   },
   "note": {
-    "en": "Go to the location as seen below. Walk over the shrub and stand besides the building wall. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the police station."
+    "en": "Go to the location as seen below. Walk over the shrub and stand besides the building wall. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the police station.",
+    "fr": "Rendez-vous à l'endroit indiqué. Franchissez le buisson et placez-vous contre le mur du bâtiment. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans le commissariat."
   },
   "status": "published",
   "sources": [

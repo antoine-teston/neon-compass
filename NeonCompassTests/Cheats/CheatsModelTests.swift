@@ -1,70 +1,320 @@
-import Testing
 import Foundation
 import SwiftData
+import Testing
 @testable import NeonCompass
 
 @MainActor
 struct CheatsModelTests {
-    private func makeContext() -> ModelContext {
-        let schema = Schema([FavoriteCheat.self])
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try! ModelContainer(for: schema, configurations: [config])
+    private func makeContext() throws -> ModelContext {
+        let container = try ModelContainer(
+            for: FavoriteCheat.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
         return ModelContext(container)
     }
 
-    private func freshDefaults() -> UserDefaults {
-        let d = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
-        d.removePersistentDomain(forName: d.description)
-        return d
+    private func defaults(_ name: String) -> UserDefaults {
+        let suite = "CheatsModelTests.\(name)"
+        let store = UserDefaults(suiteName: suite)!
+        store.removePersistentDomain(forName: suite)
+        return store
     }
 
-    private func sampleCheats() -> [Cheat] {
+    private func cheat(
+        _ id: String,
+        _ category: CheatCategory = .misc,
+        game: Game = .reference,
+        codes: [CheatInputMode: CheatCode]
+    ) -> Cheat {
+        Cheat(
+            id: id, game: game, category: category,
+            effect: LocalizedText(en: id, fr: nil, es: nil, it: nil, de: nil),
+            codes: codes, blocksTrophies: false
+        )
+    }
+
+    private func model(_ cheats: [Cheat], defaults store: UserDefaults) throws -> CheatsModel {
+        CheatsModel(cheats: cheats, modelContext: try makeContext(), defaults: store)
+    }
+
+    // MARK: - Mode de saisie
+
+    // La clé « ps5 » stockée par l'ancienne version doit continuer à se lire :
+    // un renommage sec renverrait tout le monde au mode par défaut, et le
+    // joueur qui avait choisi PlayStation retrouverait le téléphone sans avoir
+    // rien touché.
+    @Test func migratesTheStoredPS5Platform() throws {
+        let store = defaults("migrate-ps5")
+        store.set("ps5", forKey: CheatsModel.legacyPlatformKey)
+        #expect(try model([], defaults: store).activeInputMode == .playstation)
+    }
+
+    @Test func migratesTheStoredXboxPlatform() throws {
+        let store = defaults("migrate-xbox")
+        store.set("xbox", forKey: CheatsModel.legacyPlatformKey)
+        #expect(try model([], defaults: store).activeInputMode == .xbox)
+    }
+
+    @Test func firstLaunchLandsOnTheOnlyCompleteMode() throws {
+        #expect(try model([], defaults: defaults("fresh")).activeInputMode == .phone)
+    }
+
+    @Test func remembersTheChosenMode() throws {
+        let store = defaults("remember")
+        let sut = try model([], defaults: store)
+        sut.activeInputMode = .pc
+        #expect(try model([], defaults: store).activeInputMode == .pc)
+    }
+
+    // Le nouveau choix prime sur l'ancienne clé : sans ça, quelqu'un qui avait
+    // « ps5 » puis choisit le clavier retrouverait la manette au relancement.
+    @Test func theNewChoiceWinsOverTheLegacyKey() throws {
+        let store = defaults("new-wins")
+        store.set("ps5", forKey: CheatsModel.legacyPlatformKey)
+        let sut = try model([], defaults: store)
+        sut.activeInputMode = .pc
+        #expect(try model([], defaults: store).activeInputMode == .pc)
+    }
+
+    // MARK: - Jeu actif
+
+    @Test func firstLaunchLandsOnTheGameThatHasCodes() throws {
+        #expect(try model([], defaults: defaults("fresh-game")).activeGame == .reference)
+    }
+
+    @Test func remembersTheChosenGame() throws {
+        let store = defaults("remember-game")
+        let sut = try model([], defaults: store)
+        sut.activeGame = .leonida
+        #expect(try model([], defaults: store).activeGame == .leonida)
+    }
+
+    @Test func keepsOnlyTheActiveGame() throws {
+        let sut = try model([
+            cheat("v", .misc, game: .reference, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("vi", .misc, game: .leonida, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+        ], defaults: defaults("game"))
+        sut.activeGame = .reference
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["v"])
+        sut.activeGame = .leonida
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["vi"])
+    }
+
+    // MARK: - Partition selon le mode actif
+
+    @Test func partitionsOnWhetherTheActiveModeHasACode() throws {
+        let padAndPhone = cheat("pad", .player, codes: [
+            .playstation: .buttons([.circle]), .phone: .phone(number: "1-999-1", mnemonic: nil),
+        ])
+        let phoneOnly = cheat("phone-only", .misc, codes: [
+            .phone: .phone(number: "1-999-2", mnemonic: nil),
+        ])
+        let sut = try model([padAndPhone, phoneOnly], defaults: defaults("partition"))
+
+        sut.activeInputMode = .playstation
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["pad"])
+        #expect(sut.unavailableInActiveMode.map(\.id) == ["phone-only"])
+
+        sut.activeInputMode = .phone
+        #expect(sut.unavailableInActiveMode.isEmpty)
+        #expect(sut.sections.flatMap(\.cheats).count == 2)
+    }
+
+    // Aucune triche ne doit pouvoir tomber dans les deux collections ni dans
+    // aucune : c'est l'invariant que la dérivation depuis un même ensemble filtré
+    // existe pour garantir.
+    @Test func thePartitionIsExhaustiveAndDisjoint() throws {
+        let all = [
+            cheat("a", .player, codes: [.playstation: .buttons([.circle]), .phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("b", .misc, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+            cheat("c", .weapons, codes: [.pc: .keyword("X"), .playstation: .buttons([.up])]),
+        ]
+        let sut = try model(all, defaults: defaults("disjoint"))
+        for mode in CheatInputMode.allCases {
+            sut.activeInputMode = mode
+            let shown = Set(sut.sections.flatMap(\.cheats).map(\.id))
+            let hidden = Set(sut.unavailableInActiveMode.map(\.id))
+            #expect(shown.isDisjoint(with: hidden), "mode \(mode) : recouvrement")
+            #expect(shown.union(hidden) == Set(all.map(\.id)), "mode \(mode) : triche perdue")
+        }
+    }
+
+    @Test func reportsWhichModesACheatSupports() throws {
+        let sut = try model([], defaults: defaults("modes"))
+        let c = cheat("x", .misc, codes: [
+            .pc: .keyword("X"), .phone: .phone(number: "1-999-1", mnemonic: nil),
+        ])
+        #expect(sut.modesAvailable(for: c) == [.pc, .phone])
+    }
+
+    // MARK: - Sections
+
+    // L'ordre suit la déclaration de l'énumération, pas l'ordre d'arrivée du
+    // contenu ni l'alphabet d'une langue — sinon la mise en page change d'une
+    // locale à l'autre. Les entrées sont fournies dans l'ordre inverse exprès.
+    @Test func groupsByCategoryInDeclarationOrder() throws {
+        let sut = try model([
+            cheat("m", .misc, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("v", .vehicles, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+            cheat("p", .player, codes: [.phone: .phone(number: "1-999-3", mnemonic: nil)]),
+        ], defaults: defaults("sections"))
+        #expect(sut.sections.map(\.category) == [.player, .vehicles, .misc])
+        #expect(sut.sections.map(\.cheats.count) == [1, 1, 1])
+    }
+
+    @Test func emptyCategoriesProduceNoSection() throws {
+        let sut = try model([
+            cheat("m", .misc, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("no-empty"))
+        #expect(sut.sections.count == 1)
+    }
+
+    // MARK: - Recherche et filtres
+
+    @Test func searchMatchesTheEffectText() throws {
+        let sut = try model([
+            cheat("comet", .vehicles, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("kraken", .vehicles, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+        ], defaults: defaults("search"))
+        sut.searchQuery = "krak"
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["kraken"])
+    }
+
+    // La recherche doit aussi porter sur les codes indisponibles : chercher une
+    // triche et ne rien trouver parce qu'elle est reléguée dans le groupe replié
+    // serait pire que de ne pas la filtrer du tout.
+    @Test func searchAlsoFiltersTheUnavailableGroup() throws {
+        let sut = try model([
+            cheat("kraken", .vehicles, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("comet", .vehicles, codes: [.playstation: .buttons([.circle])]),
+        ], defaults: defaults("search-unavailable"))
+        sut.activeInputMode = .playstation
+        sut.searchQuery = "krak"
+        #expect(sut.unavailableInActiveMode.map(\.id) == ["kraken"])
+        #expect(sut.sections.flatMap(\.cheats).isEmpty)
+    }
+
+    @Test func filtersByCategory() throws {
+        let sut = try model([
+            cheat("a", .weapons, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("b", .misc, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+        ], defaults: defaults("categories"))
+        sut.activeCategories = [.weapons]
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a"])
+    }
+
+    // MARK: - Colonne à plat et encarts
+
+    // Les encarts se comptent sur la colonne entière, pas par rubrique : une
+    // catégorie de deux codes n'a pas à porter son propre encart. L'index doit
+    // donc traverser les sections, pas repartir de zéro à chacune.
+    @Test func theFlatIndexSpansSectionsRatherThanRestarting() throws {
+        let sut = try model([
+            cheat("p1", .player, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("p2", .player, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+            cheat("w1", .weapons, codes: [.phone: .phone(number: "1-999-3", mnemonic: nil)]),
+            cheat("v1", .vehicles, codes: [.phone: .phone(number: "1-999-4", mnemonic: nil)]),
+        ], defaults: defaults("flat-index"))
+
+        #expect(sut.displayedCheats.map(\.id) == ["p1", "p2", "w1", "v1"])
+        let index = sut.flatIndexByID
+        #expect(index["p1"] == 0)
+        #expect(index["p2"] == 1)
+        #expect(index["w1"] == 2)
+        #expect(index["v1"] == 3)
+    }
+
+    @Test func theFlatIndexCoversExactlyTheDisplayedCheats() throws {
+        let sut = try model([
+            cheat("shown", .player, codes: [.playstation: .buttons([.circle])]),
+            cheat("hidden", .misc, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("flat-covers"))
+        sut.activeInputMode = .playstation
+        #expect(sut.flatIndexByID.keys.sorted() == ["shown"])
+    }
+
+    // Recalculées à chaque évaluation du corps de la vue : si elles n'étaient pas
+    // stables, les encarts changeraient de place au moindre rendu.
+    @Test func adPositionsAreStableAcrossEvaluations() throws {
+        let sut = try model(
+            (1...12).map { cheat("c\($0)", .player, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)]) },
+            defaults: defaults("ads-stable")
+        )
+        let first = sut.adPositions
+        #expect(sut.adPositions == first)
+        #expect(sut.adPositions == first)
+        #expect(!first.isEmpty)
+    }
+
+    @Test func adPositionsNeverPointPastTheDisplayedList() throws {
+        let sut = try model(
+            (1...12).map { cheat("c\($0)", .player, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)]) },
+            defaults: defaults("ads-bounds")
+        )
+        let count = sut.displayedCheats.count
+        for position in sut.adPositions {
+            #expect(position < count - 1)
+        }
+    }
+
+    // MARK: - État d'attente
+
+    @Test func awaitsContentForAGameThatHasNoCodes() throws {
+        let sut = try model([
+            cheat("v", .misc, game: .reference, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("await"))
+        #expect(!sut.isAwaitingContent)
+        sut.activeGame = .leonida
+        #expect(sut.isAwaitingContent)
+    }
+
+    // La distinction qui compte : « ce jeu n'a pas encore de codes » n'est pas
+    // « ta recherche ne trouve rien ». Afficher le premier pour le second serait
+    // un mensonge.
+    @Test func aFruitlessSearchIsNotAnAbsenceOfContent() throws {
+        let sut = try model([
+            cheat("comet", .vehicles, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("await-search"))
+        sut.searchQuery = "rienquicorresponde"
+        #expect(sut.sections.isEmpty)
+        #expect(!sut.isAwaitingContent)
+    }
+
+    // Un mode de saisie qui ne couvre rien n'est pas non plus une absence de
+    // contenu : le groupe des codes indisponibles a de quoi s'afficher.
+    @Test func aModeThatCoversNothingIsNotAnAbsenceOfContent() throws {
+        let sut = try model([
+            cheat("phone-only", .misc, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+        ], defaults: defaults("await-mode"))
+        sut.activeInputMode = .xbox
+        #expect(sut.sections.isEmpty)
+        #expect(!sut.unavailableInActiveMode.isEmpty)
+        #expect(!sut.isAwaitingContent)
+    }
+
+    // MARK: - Favoris (repris de la version précédente du fichier)
+
+    private var favoritable: [Cheat] {
         [
-            Cheat(id: "a", category: .weapons, effect: LocalizedText(en: "Alpha", fr: nil, es: nil, it: nil, de: nil),
-                  sequence: [.ps5: [.up], .xbox: [.up]], blocksTrophies: false),
-            Cheat(id: "b", category: .misc, effect: LocalizedText(en: "Beta", fr: nil, es: nil, it: nil, de: nil),
-                  sequence: [.ps5: [.down], .xbox: [.down]], blocksTrophies: true),
+            cheat("a", .weapons, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("b", .weapons, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
         ]
     }
 
-    @Test func defaultPlatformIsPS5() {
-        let model = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: freshDefaults())
-        #expect(model.activePlatform == .ps5)
+    @Test func favoritesAreToggleableAndPinnedFirst() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-pinned"))
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a", "b"])
+        sut.toggleFavorite(favoritable[1])
+        #expect(sut.sections.flatMap(\.cheats).first?.id == "b")
     }
 
-    @Test func platformPreferencePersistsAcrossInstances() {
-        let defaults = freshDefaults()
-        let model = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: defaults)
-        model.activePlatform = .xbox
-        let second = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: defaults)
-        #expect(second.activePlatform == .xbox)
-    }
-
-    @Test func favoritesAreToggleableAndPinnedFirst() {
-        let model = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: freshDefaults())
-        #expect(!model.isFavorite(model.filteredCheats[0]))
-        let second = sampleCheats()[1]
-        model.toggleFavorite(second)
-        #expect(model.isFavorite(second))
-        #expect(model.filteredCheats.first?.id == "b")
-    }
-
-    @Test func favoriteCheatIDsReflectsToggleImmediately() {
-        let model = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: freshDefaults())
-        let cheat = sampleCheats()[0]
-        #expect(!model.favoriteCheatIDs.contains(cheat.id))
-        model.toggleFavorite(cheat)
-        #expect(model.favoriteCheatIDs.contains(cheat.id))
-        model.toggleFavorite(cheat)
-        #expect(!model.favoriteCheatIDs.contains(cheat.id))
-    }
-
-    @Test func filtersByCategoryAndSearch() {
-        let model = CheatsModel(cheats: sampleCheats(), modelContext: makeContext(), defaults: freshDefaults())
-        model.activeCategories = [.weapons]
-        #expect(model.filteredCheats.map(\.id) == ["a"])
-        model.activeCategories = Set(CheatCategory.allCases)
-        model.searchQuery = "bet"
-        #expect(model.filteredCheats.map(\.id) == ["b"])
+    @Test func favoriteCheatIDsReflectsToggleImmediately() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-ids"))
+        let target = favoritable[0]
+        #expect(!sut.favoriteCheatIDs.contains(target.id))
+        sut.toggleFavorite(target)
+        #expect(sut.favoriteCheatIDs.contains(target.id))
+        sut.toggleFavorite(target)
+        #expect(!sut.favoriteCheatIDs.contains(target.id))
     }
 }

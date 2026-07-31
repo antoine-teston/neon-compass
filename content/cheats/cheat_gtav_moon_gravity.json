@@ -1,0 +1,54 @@
+{
+  "id": "cheat_gtav_moon_gravity",
+  "game": "gtav",
+  "category": "world",
+  "effect": {
+    "en": "Weakens gravity, so vehicles and bodies drift.",
+    "fr": "Affaiblit la gravité : véhicules et corps se mettent à flotter."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "left",
+        "l1",
+        "r1",
+        "l1",
+        "right",
+        "left",
+        "l1",
+        "left"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "left",
+        "lb",
+        "rb",
+        "lb",
+        "right",
+        "left",
+        "lb",
+        "left"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "FLOATER"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-356-2837",
+      "mnemonic": "1-999-FLOATER"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

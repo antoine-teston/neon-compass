@@ -7,10 +7,12 @@
     "y": 0.687994
   },
   "title": {
-    "en": "Highway"
+    "en": "Highway",
+    "fr": "Autoroute"
   },
   "note": {
-    "en": "Works the same like \"Bridge in Tataviam Mountains\". Go to the location as seen below. Walk towards the bridge wall. Turn left and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge."
+    "en": "Works the same like \"Bridge in Tataviam Mountains\". Go to the location as seen below. Walk towards the bridge wall. Turn left and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge.",
+    "fr": "Même principe que pour le pont des monts Tataviam. Rendez-vous à l'endroit indiqué. Approchez-vous du parapet, tournez à gauche et longez-le jusqu'à vous retrouver à l'intérieur du tablier. Faites demi-tour et repartez dans l'autre sens jusqu'à être complètement dedans."
   },
   "status": "published",
   "sources": [

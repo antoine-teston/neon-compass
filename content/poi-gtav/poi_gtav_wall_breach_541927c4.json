@@ -7,10 +7,12 @@
     "y": 0.655116
   },
   "title": {
-    "en": "Industrial building"
+    "en": "Industrial building",
+    "fr": "Bâtiment industriel"
   },
   "note": {
-    "en": "Go to the location as seen below. Climb up the ladder, run across the roof and jump onto the roof of the building next to it. Run at the end of the roof to the left corner. Once you're there you'll fall through the roof."
+    "en": "Go to the location as seen below. Climb up the ladder, run across the roof and jump onto the roof of the building next to it. Run at the end of the roof to the left corner. Once you're there you'll fall through the roof.",
+    "fr": "Rendez-vous à l'endroit indiqué. Montez à l'échelle, traversez le toit en courant et sautez sur celui du bâtiment voisin. Courez jusqu'à l'angle gauche, au bout du toit : vous passerez au travers."
   },
   "status": "published",
   "sources": [

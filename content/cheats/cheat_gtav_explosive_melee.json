@@ -1,0 +1,54 @@
+{
+  "id": "cheat_gtav_explosive_melee",
+  "game": "gtav",
+  "category": "weapons",
+  "effect": {
+    "en": "Your punches blow away whatever they land on.",
+    "fr": "Vos coups de poing font exploser ce qu’ils atteignent."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "left",
+        "cross",
+        "triangle",
+        "r1",
+        "circle",
+        "circle",
+        "circle",
+        "l2"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "right",
+        "left",
+        "a",
+        "y",
+        "rb",
+        "b",
+        "b",
+        "b",
+        "lt"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "HOTHANDS"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-468-42637",
+      "mnemonic": "1-999-HOT-HANDS"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

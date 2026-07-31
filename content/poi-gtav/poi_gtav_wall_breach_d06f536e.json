@@ -7,10 +7,12 @@
     "y": 0.565178
   },
   "title": {
-    "en": "Beach house"
+    "en": "Beach house",
+    "fr": "Maison de plage"
   },
   "note": {
-    "en": "Go to the location as seen below. Walk behind the house, turn right and sprint into the house."
+    "en": "Go to the location as seen below. Walk behind the house, turn right and sprint into the house.",
+    "fr": "Rendez-vous à l'endroit indiqué. Passez derrière la maison, tournez à droite et foncez dedans en sprintant."
   },
   "status": "published",
   "sources": [

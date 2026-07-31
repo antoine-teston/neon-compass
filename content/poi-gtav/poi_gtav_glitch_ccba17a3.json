@@ -7,10 +7,12 @@
     "y": 0.683911
   },
   "title": {
-    "en": "Rollercoaster seat glitch"
+    "en": "Rollercoaster seat glitch",
+    "fr": "Anomalie du siège de montagnes russes"
   },
   "note": {
-    "en": "Go to Rollercoaster. Choose a seat on the Rollercoaster. Someone can choose the same seat as you and will sit \"inside\" of you. (More people can also sit in the same exact seat)"
+    "en": "Go to Rollercoaster. Choose a seat on the Rollercoaster. Someone can choose the same seat as you and will sit \"inside\" of you. (More people can also sit in the same exact seat)",
+    "fr": "Rendez-vous aux montagnes russes et choisissez un siège. Un autre joueur peut choisir exactement le même et se retrouver « à l'intérieur » de vous — plusieurs personnes peuvent d'ailleurs occuper le même siège."
   },
   "status": "published",
   "sources": [

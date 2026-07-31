@@ -181,6 +181,7 @@ function publishDryRun(entries) {
 
 const COLLECTIONS_SEED = join(ROOT, 'NeonCompass', 'Resources', 'POI', 'collections.json');
 const POI_SEED = join(ROOT, 'NeonCompass', 'Resources', 'POI', 'seed-poi.json');
+const CHEATS_SEED = join(ROOT, 'NeonCompass', 'Resources', 'Cheats', 'seed-cheats.json');
 
 function collectionsSeedContent(entries) {
   const collections = entries
@@ -190,12 +191,49 @@ function collectionsSeedContent(entries) {
   return JSON.stringify(collections, null, 2) + '\n';
 }
 
-/** Régénère le catalogue de collections embarqué que l'app lit au démarrage.
+/** Un socle absent est un écart à signaler, pas une exception à faire remonter :
+ *  sur une copie fraîche du dépôt, `check-seeds` doit dire quoi lancer, pas
+ *  échouer sur un ENOENT. */
+function safeRead(path) {
+  try {
+    return readFileSync(path, 'utf8');
+  } catch {
+    return null;
+  }
+}
+
+/** Champs du cheat que le socle embarqué porte réellement — les autres sont
+ *  pipeline-only et absents du modèle Swift. */
+function cheatSeedProjection(cheat) {
+  const { id, game, category, effect, codes, blocksTrophies } = cheat;
+  return { id, game, category, effect, codes, blocksTrophies };
+}
+
+/** Socle des codes. Ils existent parce qu'un écran de codes qui attend le réseau
+ *  ne sert à rien manette en main, et parce que les codes d'un jeu terminé ne
+ *  changent plus.
+ *
+ *  Tri par identifiant : l'ordre du socle ne doit pas dépendre de l'ordre de
+ *  lecture du disque, sinon `check-seeds` signale une dérive d'une machine à
+ *  l'autre. Le kind est `cheats` — un kind est un répertoire de content/, pas un
+ *  nom de schéma (celui-ci s'appelle cheat.schema.json). */
+function cheatsSeedContent(entries) {
+  const cheats = entries
+    .filter((e) => e.kind === 'cheats')
+    .map((e) => cheatSeedProjection(e.data))
+    .sort((a, b) => a.id.localeCompare(b.id));
+  return JSON.stringify(cheats, null, 2) + '\n';
+}
+
+/** Régénère les socles embarqués que l'app lit au démarrage.
  *  Même rôle que seed-poi.json côté carte : content/ reste la source de vérité,
  *  le bundle en est une projection — jamais une copie éditée à la main.
  *  Le filtre draft/published ne s'applique pas ici : il gouverne la publication
  *  Firestore, pas ce que le binaire embarque. */
 function bundleCollections(entries) {
+  const cheats = cheatsSeedContent(entries);
+  writeFileSync(CHEATS_SEED, cheats);
+  console.log(`bundle: ${JSON.parse(cheats).length} cheat(s) -> ${CHEATS_SEED}`);
   const content = collectionsSeedContent(entries);
   writeFileSync(COLLECTIONS_SEED, content);
   console.log(`bundle: ${JSON.parse(content).length} collection(s) -> ${COLLECTIONS_SEED}`);
@@ -225,6 +263,14 @@ function checkSeeds(entries) {
 
   if (collectionsSeedContent(entries) !== readFileSync(COLLECTIONS_SEED, 'utf8')) {
     console.error(`FAIL ${COLLECTIONS_SEED} est en retard sur content/collections — lancer \`bundle\``);
+    failures++;
+  }
+
+  // Sans cette garde, éditer un code sans régénérer le socle livre un binaire
+  // dont les codes sont en retard sur le contenu, et rien ne le signale : le
+  // premier sync masque l'écart, pas le premier lancement ni le hors-ligne.
+  if (cheatsSeedContent(entries) !== safeRead(CHEATS_SEED)) {
+    console.error(`FAIL ${CHEATS_SEED} est en retard sur content/cheats — lancer \`bundle\``);
     failures++;
   }
 

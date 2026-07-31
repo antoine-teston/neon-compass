@@ -7,12 +7,19 @@ final class ProEntitlementModel {
     private(set) var isProEntitled = false
 
     private let provider: ProEntitlementProviding
-    // nonisolated(unsafe): deinit runs in a nonisolated context even for an
-    // @MainActor class (no isolated-deinit in this codebase's Swift mode),
-    // so cancelling here must not require the actor hop. Task<Void, Never>
-    // is Sendable and .cancel() is safe to call from any thread/isolation,
-    // so this is a benign use of nonisolated(unsafe), not a real data race.
-    private nonisolated(unsafe) var updatesTask: Task<Void, Never>?
+    // Un jeton d'annulation n'est pas de l'état de vue : `@ObservationIgnored`
+    // le sort du suivi. Sans lui, la macro @Observable en faisait une propriété
+    // CALCULÉE, sur laquelle `nonisolated(unsafe)` n'a aucun effet — d'où
+    // l'avertissement du compilateur, qui pointait le symptôme et pas la cause
+    // (et dont le remède suggéré, `nonisolated`, est interdit sur une propriété
+    // stockée mutable).
+    //
+    // `nonisolated(unsafe)` reste nécessaire une fois la propriété redevenue
+    // stockée : deinit s'exécute hors isolation même pour une classe @MainActor
+    // (pas d'isolated-deinit dans le mode Swift de ce projet), donc l'annulation
+    // ne doit pas exiger de saut d'acteur. `Task` est Sendable et `.cancel()`
+    // s'appelle depuis n'importe quelle isolation : usage bénin, pas une course.
+    @ObservationIgnored private nonisolated(unsafe) var updatesTask: Task<Void, Never>?
 
     init(provider: ProEntitlementProviding) {
         self.provider = provider

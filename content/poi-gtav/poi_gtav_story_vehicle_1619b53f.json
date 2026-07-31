@@ -7,10 +7,12 @@
     "y": 0.269694
   },
   "title": {
-    "en": "Mariachi"
+    "en": "Mariachi",
+    "fr": "Van des mariachis"
   },
   "note": {
-    "en": "Go to the location as seen below _at 19:00_. Drive down the hill and with a bit of luck you can catch the car."
+    "en": "Go to the location as seen below _at 19:00_. Drive down the hill and with a bit of luck you can catch the car.",
+    "fr": "Rendez-vous à l'endroit indiqué à 19 h. Descendez la colline en voiture : avec un peu de chance, vous rattraperez le véhicule."
   },
   "status": "published",
   "sources": [

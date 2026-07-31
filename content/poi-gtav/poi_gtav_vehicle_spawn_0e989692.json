@@ -7,10 +7,12 @@
     "y": 0.582682
   },
   "title": {
-    "en": "Rare Car Spawn"
+    "en": "Rare Car Spawn",
+    "fr": "Apparition de voiture rare"
   },
   "note": {
-    "en": "Number of different sports cars will spawn here regularly"
+    "en": "Number of different sports cars will spawn here regularly",
+    "fr": "Plusieurs voitures de sport différentes apparaissent régulièrement ici."
   },
   "status": "published",
   "sources": [

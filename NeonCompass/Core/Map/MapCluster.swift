@@ -89,6 +89,39 @@ enum MapClusterer {
         CGFloat(pow(2.0, Double(level) / 2))
     }
 
+    /// Tout ce qui, à collection de points constante, détermine le résultat de
+    /// `clusters`. C'est la clé de cache de `MapClusterCache`.
+    ///
+    /// Cette forme est calculée ICI, et `clusters` s'en sert lui-même : les deux
+    /// ne peuvent donc pas diverger. Un cache qui reconstruirait la règle de son
+    /// côté finirait par croire équivalents deux états qui ne le sont pas, et
+    /// afficherait des pastilles périmées.
+    ///
+    /// `disaggregated` ne se déduit surtout PAS de `level` : au zoom 1,9 comme
+    /// au zoom 2,0 le niveau vaut 2, mais le premier passe par la grille et le
+    /// second rend chaque point séparément. Une clé réduite au niveau
+    /// confondrait ces deux rendus.
+    struct Shape: Hashable, Sendable {
+        let disaggregated: Bool
+        let level: Int
+        let contentSize: Double
+        let spacing: Double
+
+        var isDegenerate: Bool { contentSize <= 0 || spacing <= 0 }
+    }
+
+    static func shape(zoomScale: CGFloat, contentSize: CGFloat, spacing: CGFloat = defaultSpacing) -> Shape {
+        let disaggregated = zoomScale >= disaggregationZoom
+        return Shape(
+            disaggregated: disaggregated,
+            // Au-delà du seuil le niveau ne détermine plus rien : le figer évite
+            // qu'un même rendu se présente sous plusieurs clés distinctes.
+            level: disaggregated ? 0 : level(for: zoomScale),
+            contentSize: Double(contentSize),
+            spacing: Double(spacing)
+        )
+    }
+
     /// - Parameters:
     ///   - contentSize: côté de la carte en coordonnées de contenu (px pleine
     ///     résolution), pour convertir l'espacement écran en taille de cellule.
@@ -103,9 +136,21 @@ enum MapClusterer {
         spacing: CGFloat = defaultSpacing,
         keyPrefix: String = "c"
     ) -> [MapCluster<Item>] {
-        guard contentSize > 0, spacing > 0 else { return [] }
+        clusters(
+            items: items,
+            shape: shape(zoomScale: zoomScale, contentSize: contentSize, spacing: spacing),
+            keyPrefix: keyPrefix
+        )
+    }
 
-        if zoomScale >= disaggregationZoom {
+    static func clusters<Item: MapClusterable>(
+        items: [Item],
+        shape: Shape,
+        keyPrefix: String = "c"
+    ) -> [MapCluster<Item>] {
+        guard !shape.isDegenerate else { return [] }
+
+        if shape.disaggregated {
             return items.compactMap { item in
                 guard let position = item.clusterPosition else { return nil }
                 return MapCluster(id: item.id, position: position, members: [item],
@@ -113,9 +158,10 @@ enum MapClusterer {
             }
         }
 
-        let scale = quantizedScale(forLevel: level(for: zoomScale))
+        let scale = quantizedScale(forLevel: shape.level)
         guard scale > 0, scale.isFinite else { return [] }
-        let cell = Double(spacing / scale)
+        let contentSize = shape.contentSize
+        let cell = shape.spacing / Double(scale)
         guard cell > 0, cell.isFinite else { return [] }
 
         var buckets: [Int64: [Item]] = [:]
@@ -166,5 +212,83 @@ enum MapClusterer {
             (counts[lhs] ?? 0, POICategory.allCases.firstIndex(of: rhs) ?? 0)
                 < (counts[rhs] ?? 0, POICategory.allCases.firstIndex(of: lhs) ?? 0)
         } ?? .landmark
+    }
+}
+
+/// Mémoire du dernier découpage calculé, par famille de points.
+///
+/// Le clusteriseur est en O(n), donc peu coûteux — mais il était rappelé à
+/// CHAQUE évaluation du corps de la carte, y compris quand rien de ce qui le
+/// détermine n'avait bougé. La quantification du zoom en demi-octaves garantit
+/// justement que son résultat est identique entre deux paliers : ce cache
+/// transforme cette garantie en économie.
+///
+/// La clé est `(famille, génération, forme)` :
+///
+/// - **famille** — POI éditoriaux (`c`) et contributions (`s`) sont agrégés
+///   séparément et ne doivent jamais se répondre l'un pour l'autre.
+/// - **génération** — un compteur porté par le modèle propriétaire de la
+///   collection, incrémenté dès que celle-ci change. C'est ce qui rend
+///   l'invalidation EXACTE et en O(1), là où comparer 537 points coûterait le
+///   prix d'un recalcul. La génération doit bouger même quand seul le CONTENU
+///   d'un membre change et pas la composition : un vote met à jour les
+///   compteurs portés par une contribution, et une pastille rendue depuis un
+///   membre périmé afficherait l'ancien décompte.
+/// - **forme** — `MapClusterer.Shape`, calculée par le clusteriseur lui-même.
+///
+/// `@MainActor` : un seul écran de carte à la fois, et seul `body` y touche.
+@MainActor
+enum MapClusterCache {
+    private struct Key: Hashable {
+        let family: String
+        let generation: Int
+        let shape: MapClusterer.Shape
+    }
+
+    /// Type effacé : la valeur est `[MapCluster<POI>]` ou
+    /// `[MapCluster<Contribution>]` selon la famille. Un transtypage qui
+    /// échouerait retomberait sur un recalcul — jamais sur une valeur fausse.
+    private static var entries: [Key: Any] = [:]
+
+    static func clusters<Item: MapClusterable>(
+        items: [Item],
+        zoomScale: CGFloat,
+        contentSize: CGFloat,
+        spacing: CGFloat = MapClusterer.defaultSpacing,
+        keyPrefix: String = "c",
+        generation: Int
+    ) -> [MapCluster<Item>] {
+        clusters(
+            items: items,
+            shape: MapClusterer.shape(zoomScale: zoomScale, contentSize: contentSize, spacing: spacing),
+            keyPrefix: keyPrefix,
+            generation: generation
+        )
+    }
+
+    /// Variante qui reçoit la forme déjà calculée — c'est celle qu'emprunte la
+    /// carte, dont l'état de rendu la porte (voir `MapRenderState`).
+    static func clusters<Item: MapClusterable>(
+        items: [Item],
+        shape: MapClusterer.Shape,
+        keyPrefix: String = "c",
+        generation: Int
+    ) -> [MapCluster<Item>] {
+        let key = Key(family: keyPrefix, generation: generation, shape: shape)
+        if let cached = entries[key] as? [MapCluster<Item>] { return cached }
+
+        // Une génération neuve périme tout ce que cette famille gardait :
+        // sans cette purge, le dictionnaire grossirait d'une entrée par
+        // (génération × palier de zoom) traversé depuis le lancement.
+        entries = entries.filter { $0.key.family != keyPrefix || $0.key.generation == generation }
+
+        let computed = MapClusterer.clusters(items: items, shape: shape, keyPrefix: keyPrefix)
+        entries[key] = computed
+        return computed
+    }
+
+    /// Pour les tests : repart d'une mémoire vide.
+    static func reset() {
+        entries = [:]
     }
 }

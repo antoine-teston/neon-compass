@@ -1,0 +1,58 @@
+{
+  "id": "cheat_gtav_parachute",
+  "game": "gtav",
+  "category": "player",
+  "effect": {
+    "en": "Puts a parachute in your inventory.",
+    "fr": "Ajoute un parachute à votre inventaire."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "right",
+        "l1",
+        "l2",
+        "r1",
+        "r2",
+        "r2",
+        "left",
+        "left",
+        "right",
+        "l1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "left",
+        "right",
+        "lb",
+        "lt",
+        "rb",
+        "rt",
+        "rt",
+        "left",
+        "left",
+        "right",
+        "lb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "SKYDIVE"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-759-3483",
+      "mnemonic": "1-999-SKY-DIVE"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

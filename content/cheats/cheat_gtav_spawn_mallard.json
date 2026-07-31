@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_spawn_mallard",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Mallard stunt biplane next to you.",
+    "fr": "Fait apparaître un biplan de voltige Mallard à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "circle",
+        "right",
+        "l1",
+        "l2",
+        "left",
+        "r1",
+        "l1",
+        "l1",
+        "left",
+        "left",
+        "cross",
+        "triangle"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "b",
+        "right",
+        "lb",
+        "lt",
+        "left",
+        "rb",
+        "lb",
+        "lb",
+        "left",
+        "left",
+        "a",
+        "y"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "BARNSTORM"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-227-678-676",
+      "mnemonic": "1-999-BARN-STORM"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

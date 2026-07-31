@@ -7,10 +7,12 @@
     "y": 0.335274
   },
   "title": {
-    "en": "Sandy Shores Store"
+    "en": "Sandy Shores Store",
+    "fr": "Boutique de Sandy Shores"
   },
   "note": {
-    "en": "Go to the location as seen below. Walk towards the store right beside the entrance. Jump to get inside the building."
+    "en": "Go to the location as seen below. Walk towards the store right beside the entrance. Jump to get inside the building.",
+    "fr": "Rendez-vous à l'endroit indiqué. Avancez vers la boutique, juste à côté de l'entrée, et sautez pour entrer dans le bâtiment."
   },
   "status": "published",
   "sources": [

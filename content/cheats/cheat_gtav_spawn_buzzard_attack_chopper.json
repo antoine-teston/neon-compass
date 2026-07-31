@@ -1,0 +1,60 @@
+{
+  "id": "cheat_gtav_spawn_buzzard_attack_chopper",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops an armed Buzzard helicopter next to you.",
+    "fr": "Fait apparaître un hélicoptère armé Buzzard à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "circle",
+        "circle",
+        "l1",
+        "circle",
+        "circle",
+        "circle",
+        "l1",
+        "l2",
+        "r1",
+        "triangle",
+        "circle",
+        "triangle"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "b",
+        "b",
+        "lb",
+        "b",
+        "b",
+        "b",
+        "lb",
+        "lt",
+        "rb",
+        "y",
+        "b",
+        "y"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "BUZZOFF"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-289-9633",
+      "mnemonic": "1-999-BUZZ-OFF"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

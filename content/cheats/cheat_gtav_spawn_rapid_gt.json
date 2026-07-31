@@ -1,0 +1,56 @@
+{
+  "id": "cheat_gtav_spawn_rapid_gt",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Rapid GT sports car next to you.",
+    "fr": "Fait apparaître une voiture de sport Rapid GT à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "r2",
+        "l1",
+        "circle",
+        "right",
+        "l1",
+        "r1",
+        "right",
+        "left",
+        "circle",
+        "r2"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "rt",
+        "lb",
+        "b",
+        "right",
+        "lb",
+        "rb",
+        "right",
+        "left",
+        "b",
+        "rt"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "RAPIDGT"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-727-4348",
+      "mnemonic": "1-999-RAPID-GT"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}

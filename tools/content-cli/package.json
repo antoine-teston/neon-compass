@@ -5,11 +5,11 @@
   "main": "cli.js",
   "scripts": {
     "ui": "node ui/server.mjs",
-    "check": "node cli.js validate && node cli.js check-publishable && node cli.js check-seeds",
+    "check": "node cli.js validate && node cli.js check-publishable && node cli.js check-seeds && node check-originality.mjs",
     "bundle": "node cli.js bundle",
     "release:dry": "node cli.js release --dry-run",
     "release": "node cli.js release",
-    "test": "node --test ui/actions.test.mjs draft-to-poi.test.mjs facts-to-news.test.mjs source-policy.test.mjs && npm run check"
+    "test": "node --test ui/actions.test.mjs draft-to-poi.test.mjs facts-to-news.test.mjs source-policy.test.mjs gtav-cheats.test.mjs && npm run check"
   },
   "keywords": [],
   "author": "",

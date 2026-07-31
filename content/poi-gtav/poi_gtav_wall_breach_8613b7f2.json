@@ -7,10 +7,12 @@
     "y": 0.646401
   },
   "title": {
-    "en": "Kayton Skyscraper"
+    "en": "Kayton Skyscraper",
+    "fr": "Gratte-ciel Kayton"
   },
   "note": {
-    "en": "Go to the location as seen below. Get into a helicopter and fly about 15 meters above the ground. Fly straigt ahead the tower to wall breach. If you are inside just fly down and land your helicopter."
+    "en": "Go to the location as seen below. Get into a helicopter and fly about 15 meters above the ground. Fly straigt ahead the tower to wall breach. If you are inside just fly down and land your helicopter.",
+    "fr": "Rendez-vous à l'endroit indiqué. Prenez un hélicoptère et volez à une quinzaine de mètres du sol. Foncez droit sur la tour pour traverser le mur. Une fois à l'intérieur, descendez et posez l'appareil."
   },
   "status": "published",
   "sources": [

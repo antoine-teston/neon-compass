@@ -7,10 +7,12 @@
     "y": 0.403983
   },
   "title": {
-    "en": "Bulldozer"
+    "en": "Bulldozer",
+    "fr": "Bulldozer"
   },
   "note": {
-    "en": "Located in the quarry in Tataviam Mountains."
+    "en": "Located in the quarry in Tataviam Mountains.",
+    "fr": "Situé dans la carrière des monts Tataviam."
   },
   "status": "published",
   "sources": [

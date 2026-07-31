@@ -1,0 +1,56 @@
+{
+  "id": "cheat_gtav_spawn_comet",
+  "game": "gtav",
+  "category": "vehicles",
+  "effect": {
+    "en": "Drops a Comet sports car next to you.",
+    "fr": "Fait apparaître une voiture de sport Comet à côté de vous."
+  },
+  "codes": {
+    "playstation": {
+      "kind": "buttons",
+      "buttons": [
+        "r1",
+        "circle",
+        "r2",
+        "right",
+        "l1",
+        "l2",
+        "cross",
+        "cross",
+        "square",
+        "r1"
+      ]
+    },
+    "xbox": {
+      "kind": "buttons",
+      "buttons": [
+        "rb",
+        "b",
+        "rt",
+        "right",
+        "lb",
+        "lt",
+        "a",
+        "a",
+        "x",
+        "rb"
+      ]
+    },
+    "pc": {
+      "kind": "keyword",
+      "keyword": "COMET"
+    },
+    "phone": {
+      "kind": "phone",
+      "number": "1-999-266-38",
+      "mnemonic": "1-999-COMET"
+    }
+  },
+  "blocksTrophies": false,
+  "status": "published",
+  "verifiedBy": [
+    "gta.fandom.com:Cheats in GTA V",
+    "gtaboom.com:Every GTA 5 Cheat, Console Code and Phone Number"
+  ]
+}
