@@ -871,7 +871,10 @@ Remplacer dans `ProfileScreen.swift` le bloc `HStack` du bouton d'engrenage (T2,
 ```swift
                 ProfileHeaderView(
                     profile: profileModel.profile,
-                    isSignedIn: authModel.userID != nil,
+                    // Sans Cloud Functions, `loadProfile` ne trouve aucun document
+                    // et le pseudo resterait un « … » perpétuel : c'est la garde que
+                    // portait l'ancien `if serverFeatures.isEnabled`.
+                    isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
                     isProEntitled: proEntitlementModel.isProEntitled,
                     pendingContributionCount: communityModel?.myContributions
                         .filter { $0.status == .pending }.count ?? 0,
@@ -1053,7 +1056,10 @@ Remplacer le corps de `ProfileScreen.body` par :
                 VStack(spacing: 24) {
                     ProfileHeaderView(
                         profile: profileModel.profile,
-                        isSignedIn: authModel.userID != nil,
+                        // Sans Cloud Functions, `loadProfile` ne trouve aucun document
+                        // et le pseudo resterait un « … » perpétuel : c'est la garde que
+                        // portait l'ancien `if serverFeatures.isEnabled`.
+                        isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
                         isProEntitled: proEntitlementModel.isProEntitled,
                         pendingContributionCount: communityModel?.myContributions
                             .filter { $0.status == .pending }.count ?? 0,
