@@ -1075,12 +1075,16 @@ Créer `NeonCompass/Features/Social/SocialScreen.swift` :
 ```swift
 import SwiftUI
 import SwiftData
+// `Timer.publish` vient de Combine, et SwiftUI ne le réexporte pas de façon
+// fiable. Aucun autre fichier du dépôt n'importe Combine : c'est le premier.
+import Combine
 
 /// L'onglet Social. Lisible sans compte : c'est du contenu éditorial publié,
 /// pas de l'UGC. Le compte n'est demandé qu'au palier B2, et seulement pour
 /// FIGURER au classement, jamais pour le lire.
 struct SocialScreen: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @State private var model: OnlineEventsModel?
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
     /// la valeur qu'il avait à l'ouverture de l'onglet.
@@ -1105,9 +1109,8 @@ struct SocialScreen: View {
     }
 
     private func content(_ model: OnlineEventsModel) -> some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 20) {
+        ScrollView {
+            VStack(spacing: 20) {
                     if model.showsGamePicker {
                         Picker(selection: Binding(
                             get: { model.selectedGame },
@@ -1129,15 +1132,20 @@ struct SocialScreen: View {
                     } else {
                         emptyState
                     }
+                // Écran de liste : la bannière s'y applique (spec §5), jamais
+                // sur la carte en interaction. Posée DANS le défilement, en
+                // queue de colonne — même motif que `GuidesListView`.
+                //
+                // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
+                // suppression des pubs. En afficher une à quelqu'un qui a payé
+                // pour ne plus en voir est le pire retour possible.
+                if !proEntitlementModel.isProEntitled {
+                    BannerAdView()
                 }
-                .padding(20)
             }
-            .refreshable { await model.refresh() }
-
-            // Écran de liste : la bannière s'y applique (spec §5). Jamais sur
-            // la carte en interaction.
-            BannerAdView()
+            .padding(20)
         }
+        .refreshable { await model.refresh() }
     }
 
     /// Rien de publié : on le dit, on n'invente pas une semaine.
