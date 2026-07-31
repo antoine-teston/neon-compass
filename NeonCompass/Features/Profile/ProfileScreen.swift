@@ -11,25 +11,21 @@ struct ProfileScreen: View {
     )
     @State private var communityModel: CommunityModel?
     @Environment(ServerFeaturesModel.self) private var serverFeatures
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @State private var showSettings = false
 
     var body: some View {
         ZStack {
             NCColor.nightSky.ignoresSafeArea()
             VStack(spacing: 24) {
-                HStack {
-                    Spacer()
-                    Button {
-                        showSettings = true
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .font(.system(size: 20))
-                            .foregroundStyle(.white)
-                            .frame(width: 44, height: 44)
-                    }
-                    .glassEffect(.regular.interactive(), in: .circle)
-                    .accessibilityLabel(Text("settings.title"))
-                }
+                ProfileHeaderView(
+                    profile: profileModel.profile,
+                    isSignedIn: authModel.userID != nil,
+                    isProEntitled: proEntitlementModel.isProEntitled,
+                    pendingContributionCount: communityModel?.myContributions
+                        .filter { $0.status == .pending }.count ?? 0,
+                    onOpenSettings: { showSettings = true }
+                )
                 if let userID = authModel.userID {
                     signedInContent(userID: userID)
                 }
@@ -52,39 +48,15 @@ struct ProfileScreen: View {
 
     private func signedInContent(userID: String) -> some View {
         VStack(spacing: 16) {
-            // Pseudo, XP, régénération et contributions viennent tous de Cloud
-            // Functions (createUserProfile, regenerateHandle, submitContribution).
-            // Sans elles, le pseudo resterait un « … » perpétuel et les boutons
-            // échoueraient en silence.
+            // La liste des contributions vient de submitContribution (Cloud
+            // Function) : sans elle, ce bloc n'aurait rien à afficher. Le
+            // pseudo et l'XP sont désormais portés par ProfileHeaderView.
             if serverFeatures.isEnabled {
-                Text(profileModel.profile?.handle ?? "…")
-                    .font(NCTypography.displayTitle)
-                    .foregroundStyle(NCColor.neonCyan)
-
-                if let profile = profileModel.profile {
-                    levelBadge(profile)
-                }
-
                 if let communityModel {
                     myContributionsSection(communityModel)
                 }
             }
         }
-    }
-
-    private func levelBadge(_ profile: Profile) -> some View {
-        HStack {
-            Text(String(format: String(localized: "profile.level.format"), profile.level))
-                .font(NCTypography.body.bold())
-                .foregroundStyle(NCColor.neonCyan)
-            Spacer()
-            Text(String(format: String(localized: "profile.xp.format"), profile.xp))
-                .font(NCTypography.body)
-                .foregroundStyle(.white.opacity(0.7))
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity)
-        .glassEffect(.regular, in: .rect(cornerRadius: 16))
     }
 
     private func myContributionsSection(_ communityModel: CommunityModel) -> some View {
