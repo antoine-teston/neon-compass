@@ -72,6 +72,7 @@ jobs:
           tools/content-cli/ui/actions.test.mjs
           tools/content-cli/draft-to-poi.test.mjs
           tools/content-cli/facts-to-news.test.mjs
+          tools/content-cli/facts-to-online-event.test.mjs
           tools/content-cli/source-policy.test.mjs
 
       - name: Installer les dépendances du CLI
