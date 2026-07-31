@@ -32,6 +32,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+    match /online_events/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
     match /trophies/{document=**} {
       allow read: if true;
       allow write: if false;

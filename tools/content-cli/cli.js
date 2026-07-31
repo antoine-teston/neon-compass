@@ -57,6 +57,7 @@ const compiled = {
   cheats: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'cheat.schema.json')))),
   collections: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'collection.schema.json')))),
   news: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'news.schema.json')))),
+  'online-events': ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'online-event.schema.json'), 'utf8'))),
 };
 
 // Un « kind » est un répertoire de content/. Il porte son schéma et la
@@ -73,6 +74,7 @@ const KINDS = {
   cheats: { schema: 'cheats', collection: 'cheats' },
   collections: { schema: 'collections', collection: 'collections' },
   news: { schema: 'news', collection: 'news' },
+  'online-events': { schema: 'online-events', collection: 'online_events' },
 };
 const schemas = Object.fromEntries(
   Object.entries(KINDS).map(([kind, { schema }]) => [kind, compiled[schema]]),
@@ -118,7 +120,7 @@ function checkPublishable(entries) {
     // « À rédiger » dans le fil est un accident que seule une machine peut
     // attraper de façon fiable — c'est exactement ce qui arriverait à un run
     // hebdomadaire dont l'étape de rédaction a échoué en silence.
-    if (kind === 'news' && data.status === 'published' && data.needsRewrite) {
+    if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.needsRewrite) {
       problems.push('published news item is still an unwritten skeleton (needsRewrite)');
     }
     // Une rumeur ne part pas dans le fil. L'app est un compagnon non officiel :
