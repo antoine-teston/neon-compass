@@ -17,6 +17,12 @@ import { identityKey } from '../basemap/gtav-poi-ids.mjs';
 export const INBOX_SOURCE = 'inbox';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** Jeux que la veille peut désigner. Même vocabulaire que `MapGame` côté app.
+ *  Un fait sans `game` porte sur le jeu à venir : c'était le seul sujet du fil
+ *  avant qu'il ne s'ouvre aux deux. */
+const GAMES = new Set(['leonida', 'gtav']);
+const DEFAULT_GAME = 'leonida';
 /** Doit rester le contrat exact de `data-scout` (.claude/agents/data-scout.md).
  *  Une valeur qu'il émet mais qu'on ne connaît pas ici devient un conflit — et
  *  un conflit bloque le lot ENTIER. Un seul fait `single-source` suffirait donc
@@ -58,6 +64,7 @@ function invalidReason(fact) {
   if (!fact.source_url) return 'fait sans source_url — un item d’actu doit pouvoir être remonté à sa source';
   if (!ISO_DATE.test(fact.source_date ?? '')) return `date de source malformée : ${fact.source_date} (attendu AAAA-MM-JJ)`;
   if (!CONFIDENCES.has(fact.confidence)) return `confiance inconnue : ${fact.confidence}`;
+  if (fact.game !== undefined && !GAMES.has(fact.game)) return `jeu inconnu : ${fact.game}`;
   return null;
 }
 
@@ -120,6 +127,7 @@ export function materializeNews(facts, existing) {
     const data = {
       id,
       category: DEFAULT_CATEGORY,
+      game: fact.game ?? DEFAULT_GAME,
       title: { ...PLACEHOLDER.title },
       body: { ...PLACEHOLDER.body },
       publishedAt: fact.source_date,

@@ -1,0 +1,21 @@
+{
+  "id": "news_074832ce",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Telia offre le jeu avec certains forfaits en Norvège",
+    "en": "Telia is bundling the game with some Norwegian plans"
+  },
+  "body": {
+    "fr": "L'opérateur nordique donne un code de téléchargement aux clients qui souscrivent ou passent à certains forfaits mobiles. Dans le même pays, un détaillant annonce en offrir aux parents dont l'enfant naît le jour de la sortie.",
+    "en": "The Nordic carrier is giving a download code to customers who sign up for or upgrade to certain mobile plans. In the same country, a retailer says it will give copies to parents whose child is born on launch day."
+  },
+  "publishedAt": "2026-07-22",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/a-phone-company-is-giving-away-gta-6-for-free-in-norway-8764"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:5318ecdebf36",
+  "sourceClaim": "Un opérateur télécom nordique offre un code de téléchargement du jeu aux clients qui souscrivent ou passent à certains forfaits mobiles en Norvège. Un détaillant du même pays annonce par ailleurs offrir des exemplaires aux parents dont l'enfant naît le jour de la sortie."
+}

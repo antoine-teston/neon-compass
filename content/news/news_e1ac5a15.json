@@ -1,0 +1,21 @@
+{
+  "id": "news_e1ac5a15",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Il n'existe pas d'édition collector",
+    "en": "There is no collector's edition"
+  },
+  "body": {
+    "fr": "Deux éditions seulement ont été mises en vente le 25 juin : standard et ultime. Aucun coffret, aucune statuette, aucun artbook — contrairement à de précédents titres du studio. Les annonces qui prétendent en vendre une sont non officielles.",
+    "en": "Only two editions went on sale on June 25: standard and ultimate. No box set, no statue, no art book — unlike earlier titles from the studio. Any listing claiming to sell one is unofficial."
+  },
+  "publishedAt": "2026-07-26",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/there-is-no-gta-6-collectors-edition-and-thousands-are-searching-for-one-anyway-93ee"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:dd27fa088d3e",
+  "sourceClaim": "Il n'existe que deux éditions du jeu, standard et ultime, mises en vente à l'ouverture des précommandes le 25 juin. Aucune édition collector physique n'a été produite — pas de coffret, de statuette ni d'artbook — contrairement à de précédents titres du studio. Les annonces qui prétendent en vendre une sont non officielles."
+}

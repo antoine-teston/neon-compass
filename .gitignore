@@ -4,3 +4,4 @@ DerivedData/
 *.xcodeproj
 .build/
 tools/content-cli/dist/
+.firebase/

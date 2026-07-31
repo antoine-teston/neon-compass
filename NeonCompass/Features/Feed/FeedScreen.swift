@@ -31,7 +31,7 @@ struct FeedScreen: View {
             collectionName: "news",
             modelContext: modelContext
         )
-        model = FeedModel(newsItems: contentStore.items)
+        model = FeedModel(newsItems: contentStore.items, contentStore: contentStore)
         try? await contentStore.syncIfNeeded()
         model?.updateNewsItems(contentStore.items)
     }

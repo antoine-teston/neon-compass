@@ -1,0 +1,21 @@
+{
+  "id": "news_7c55f382",
+  "category": "community",
+  "game": "leonida",
+  "title": {
+    "fr": "Rotten Tomatoes Games republie les deux bandes-annonces, un an après",
+    "en": "Rotten Tomatoes Games re-uploaded both trailers, a year late"
+  },
+  "body": {
+    "fr": "La chaîne les a mises en ligne comme s'il s'agissait de nouveautés. La plaisanterie a fonctionné, et c'est surtout ce qu'elle dit de la disette d'informations officielles qui est notable.",
+    "en": "The channel posted them as if they were new. The joke landed — and what it says about the official information drought is the notable part."
+  },
+  "publishedAt": "2026-07-29",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/a-youtube-channel-just-uploaded-the-gta-6-trailers-a-year-late-and-it-says-a-lot-9518"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:c2a5d539120c",
+  "sourceClaim": "Une chaîne vidéo a remis en ligne les deux bandes-annonces du jeu comme s'il s'agissait de nouveautés, plus d'un an après leur sortie. La plaisanterie a fonctionné, ce qui en dit surtout long sur la disette d'informations officielles."
+}

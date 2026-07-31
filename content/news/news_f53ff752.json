@@ -1,0 +1,21 @@
+{
+  "id": "news_f53ff752",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Dan Houser et la fin du disque : ce qu’il a vraiment dit",
+    "en": "Dan Houser on the end of discs: what he actually said"
+  },
+  "body": {
+    "fr": "Ses propos à IGN ont été repris comme une charge contre Sony, qui abandonne les disques. L’entretien complet est plus nuancé — son argument peut tout aussi bien être lu comme allant dans le sens de cette décision.",
+    "en": "His remarks to IGN were retold as an attack on Sony for dropping discs. The full interview is more nuanced — his argument can just as easily be read as supporting that decision."
+  },
+  "publishedAt": "2026-07-25",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/what-the-creator-of-gta-really-said-about-the-end-of-physical-discs-d374"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:16b73f008580",
+  "sourceClaim": "Les propos d'un co-fondateur du studio sur la fin du support physique, largement repris comme une critique du constructeur qui abandonne les disques, sont plus nuancés dans l'entretien complet : son argument peut aussi bien être lu comme allant dans le sens de cette décision."
+}

@@ -1,0 +1,21 @@
+{
+  "id": "news_65c37308",
+  "category": "community",
+  "game": "gtav",
+  "title": {
+    "fr": "Le nouveau braquage sert-il de test pour le prochain mode en ligne ?",
+    "en": "Is the new heist a test run for the next online mode?"
+  },
+  "body": {
+    "fr": "Il arrive quatre mois avant la sortie du volet suivant et introduit plusieurs mécaniques inédites. La presse s'interroge, sans confirmation : banc d'essai, ou simple apport de contenu pour patienter jusqu'en novembre ?",
+    "en": "It landed four months before the next game and brings several new mechanics. The press wonders, with no confirmation: a testbed, or just content to fill the wait until November?"
+  },
+  "publishedAt": "2026-07-29",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/why-the-kortz-center-heist-might-be-a-gta-6-test-run-b4b3"
+  ],
+  "confidence": "rumor",
+  "processedFrom": "inbox:news:dab5ae1676af",
+  "sourceClaim": "Le braquage ajouté ce mois-ci au jeu en ligne actuel, quatre mois avant la sortie du suivant, introduit plusieurs mécaniques inédites. La presse spécialisée se demande s'il sert de test pour le futur mode en ligne ou s'il n'est qu'un apport de contenu pour occuper les joueurs jusqu'en novembre. Aucune confirmation."
+}

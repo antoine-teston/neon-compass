@@ -1,0 +1,21 @@
+{
+  "id": "news_7c8bc3f2",
+  "category": "patch",
+  "game": "gtav",
+  "title": {
+    "fr": "Le jeu de rôle multijoueur arrive sur la version remaniée",
+    "en": "Multiplayer roleplay arrives on the reworked version"
+  },
+  "body": {
+    "fr": "La plateforme est passée en accès anticipé le 21 juillet, exactement à la date annoncée par ses développeurs — après plus d'un an d'attente.",
+    "en": "The platform entered early access on July 21, exactly on the date its developers had promised — after more than a year of waiting."
+  },
+  "publishedAt": "2026-07-22",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/fivem-for-gta-v-enhanced-is-live-c7cc"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:ce368153027e",
+  "sourceClaim": "La plateforme de jeu de rôle multijoueur pour la version remaniée de l'épisode précédent est passée en accès anticipé le 21 juillet, exactement à la date annoncée par ses développeurs, après plus d'un an d'attente."
+}

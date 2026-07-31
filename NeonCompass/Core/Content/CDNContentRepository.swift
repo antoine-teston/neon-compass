@@ -57,6 +57,11 @@ struct CDNContentVersionProvider: ContentVersionProviding {
         self.cdn = cdn
     }
 
+    func invalidate() async {
+        await cdn.invalidateManifest()
+        await firestoreFallback.invalidate()
+    }
+
     func currentVersion() async throws -> Int {
         await ContentSourceConfigurator.ready()
         guard await cdn.isConfigured() else {

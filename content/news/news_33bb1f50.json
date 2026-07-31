@@ -1,0 +1,21 @@
+{
+  "id": "news_33bb1f50",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Du contenu coupé de l'épisode précédent pourrait resservir",
+    "en": "Cut content from the previous game could resurface"
+  },
+  "body": {
+    "fr": "John Ricchio, ancien producteur du studio, l’estime possible sur le podcast Kiwi Talkz et cite des précédents. Il assortit sa réponse d’une condition : l’évolution des moteurs rend une reprise directe peu probable. Rien de confirmé.",
+    "en": "John Ricchio, a former producer at the studio, thinks it possible on the Kiwi Talkz podcast and cites precedents. He attaches a condition: engine changes make direct reuse unlikely. Nothing confirmed."
+  },
+  "publishedAt": "2026-07-22",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/could-gta-5-cut-content-appear-in-gta-6-sort-of-a3af"
+  ],
+  "confidence": "rumor",
+  "processedFrom": "inbox:news:ed6474cff369",
+  "sourceClaim": "Un ancien producteur du studio, interrogé sur un podcast, estime que du contenu coupé de l'épisode précédent pourrait réapparaître dans le nouveau, en citant des précédents. Il assortit sa réponse d'une condition technique — l'évolution des moteurs — qui rend une reprise directe peu probable."
+}

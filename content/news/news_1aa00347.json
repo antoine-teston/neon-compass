@@ -1,0 +1,21 @@
+{
+  "id": "news_1aa00347",
+  "category": "guide",
+  "game": "gtav",
+  "title": {
+    "fr": "Le nouveau braquage en solo, difficulté élevée, défi d'élite validé",
+    "en": "The new heist solo, hard mode, elite challenge cleared"
+  },
+  "body": {
+    "fr": "Un itinéraire testé couvre la préparation, l'infiltration, la salle des lasers, la chambre forte, les cibles secondaires et la fuite par la surface. Réalisé en 16 min 14, avec des variations d'une partie à l'autre.",
+    "en": "A tested route covers prep, the stealth path, the laser room, the vault, secondary targets and the surface escape. Done in 16:14, with variation from run to run."
+  },
+  "publishedAt": "2026-07-24",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/how-to-complete-the-kortz-center-heist-solo-on-hard-mode-with-the-elite-challenge-3464"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:1de90d9204fd",
+  "sourceClaim": "Un itinéraire testé permet de terminer le nouveau braquage en solo, en difficulté élevée, avec le défi d'élite validé : préparation, passage en infiltration, salle des lasers, chambre forte, cibles secondaires et fuite par la surface. Réalisé en 16 minutes et 14 secondes, avec des variations possibles d'une partie à l'autre."
+}

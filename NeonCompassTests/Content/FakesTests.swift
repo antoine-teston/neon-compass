@@ -3,7 +3,9 @@ import Testing
 
 final class FakeContentVersionProvider: ContentVersionProviding {
     nonisolated(unsafe) var version: Int = 0
+    nonisolated(unsafe) private(set) var invalidateCallCount = 0
     func currentVersion() async throws -> Int { version }
+    func invalidate() async { invalidateCallCount += 1 }
 }
 
 final class FakeContentRepository<Item: Sendable>: ContentRemoteRepository {

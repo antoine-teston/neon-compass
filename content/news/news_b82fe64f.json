@@ -1,0 +1,21 @@
+{
+  "id": "news_b82fe64f",
+  "category": "community",
+  "game": "gtav",
+  "title": {
+    "fr": "Lazlow existe, et son personnage a empiré exprès",
+    "en": "Lazlow is real, and his character got worse on purpose"
+  },
+  "body": {
+    "fr": "Jeffrey Jones, l’animateur radio le plus reconnaissable de la série, explique lui-même que le studio a délibérément rendu son personnage plus pathétique d’un épisode à l’autre, comme objectif d’écriture assumé. Propos tenus à IGN au Comic-Con de San Diego.",
+    "en": "Jeffrey Jones, the series' most recognisable radio host, explains it himself: the studio deliberately made his character more pathetic with each entry, as a stated writing goal. Said to IGN at San Diego Comic-Con."
+  },
+  "publishedAt": "2026-07-28",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/lazlow-reveals-rockstar-spent-years-deliberately-making-his-gta-character-more-pathetic-b5d6"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:622076b953fb",
+  "sourceClaim": "L'animateur radio le plus reconnaissable de la série existe réellement, et il explique lui-même que le studio a délibérément rendu son personnage plus pathétique d'un épisode à l'autre, comme objectif d'écriture assumé. Propos tenus à un média spécialisé lors d'une convention."
+}

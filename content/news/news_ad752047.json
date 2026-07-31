@@ -1,0 +1,21 @@
+{
+  "id": "news_ad752047",
+  "category": "guide",
+  "game": "gtav",
+  "title": {
+    "fr": "Ce que les propriétés changent vraiment sur le nouveau braquage",
+    "en": "What properties actually change on the new heist"
+  },
+  "body": {
+    "fr": "Un comparatif testé en jeu détaille l'effet des propriétés et des améliorations de résidence sur les tentatives en solo. Les mesures ne sont pas contrôlées pour chaque élément : à prendre comme un repère, pas comme un chiffrage.",
+    "en": "An in-game comparison details how properties and residence upgrades affect solo runs. The measurements aren't controlled for every item: treat it as a guide, not a quantification."
+  },
+  "publishedAt": "2026-07-25",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/how-to-make-the-kortz-center-heist-easier-with-businesses-and-mansion-upgrades-5b8f"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:4b103478aab0",
+  "sourceClaim": "Un comparatif testé en jeu détaille l'effet des propriétés et des améliorations de résidence sur le nouveau braquage en solo. Les mesures ne sont pas contrôlées pour chaque élément listé : le document se présente comme un repère pratique, pas comme une quantification."
+}

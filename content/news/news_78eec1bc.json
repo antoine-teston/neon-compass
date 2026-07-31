@@ -1,0 +1,21 @@
+{
+  "id": "news_78eec1bc",
+  "category": "community",
+  "game": "gtav",
+  "title": {
+    "fr": "Un streamer termine l'épisode précédent en 48 heures d'affilée",
+    "en": "A streamer finished the previous game in 48 straight hours"
+  },
+  "body": {
+    "fr": "Il s'était imposé de ne pas s'arrêter avant la fin de l'histoire. Un peu plus de quarante-huit heures plus tard, générique atteint, il lui a mis la note maximale.",
+    "en": "He had set himself a rule: no stopping before the story was done. A little over forty-eight hours later, credits reached, he gave it top marks."
+  },
+  "publishedAt": "2026-07-23",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/what-this-48-hour-gta-v-stream-reveals-about-gta-6-3f2d"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:ddeccf751bd9",
+  "sourceClaim": "Un streamer suivi s'est imposé de ne pas s'arrêter avant d'avoir terminé l'histoire de l'épisode précédent : il y est parvenu en un peu plus de quarante-huit heures d'affilée, et lui a attribué la note maximale."
+}

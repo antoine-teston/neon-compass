@@ -1,0 +1,21 @@
+{
+  "id": "news_ec1ce1d8",
+  "category": "patch",
+  "game": "gtav",
+  "title": {
+    "fr": "Les paris du casino coupés pour les joueurs australiens",
+    "en": "Casino betting switched off for Australian players"
+  },
+  "body": {
+    "fr": "La fonction a été désactivée sans annonce, et l'éditeur n'a donné aucune explication. Le rapprochement est fait avec les obligations locales de vérification d'âge.",
+    "en": "The feature was disabled without notice and the publisher has given no explanation. The link being drawn is to local age-assurance rules."
+  },
+  "publishedAt": "2026-07-28",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-just-switched-off-the-gta-online-casino-in-australia-e112"
+  ],
+  "confidence": "multi-source",
+  "processedFrom": "inbox:news:dca47bb7e540",
+  "sourceClaim": "Les joueurs australiens du jeu en ligne ne peuvent plus miser au casino : la fonction a été désactivée sans annonce. L'éditeur n'a donné aucune explication ; le rapprochement est fait avec les obligations locales de vérification d'âge."
+}

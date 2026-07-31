@@ -1,0 +1,21 @@
+{
+  "id": "news_cba01418",
+  "category": "community",
+  "game": "gtav",
+  "title": {
+    "fr": "Un montage de fans transpose un film de 2026 dans un jeu de 2004",
+    "en": "A fan edit retells a 2026 film inside a 2004 game"
+  },
+  "body": {
+    "fr": "Répliques et personnages du volet de 2004 réassemblés pour raconter l'intrigue d'une épopée sortie cette année. Ça marche parce que, vingt et un ans après, tout le monde reconnaît encore chaque ligne.",
+    "en": "Lines and characters from the 2004 entry recut to tell the plot of this year’s epic. It works because, twenty-one years on, everyone still recognises every line."
+  },
+  "publishedAt": "2026-07-29",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/viral-san-andreas-clips-set-a-bar-gta-6-must-clear-9233"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:b1d474927cc5",
+  "sourceClaim": "Un montage de fans réutilise les répliques et les personnages du volet de 2004 pour raconter l'intrigue d'un film d'époque sorti en 2026. Il doit son succès au fait que le matériau d'origine, vieux de vingt et un ans, reste immédiatement reconnaissable."
+}

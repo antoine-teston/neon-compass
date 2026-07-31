@@ -1,0 +1,21 @@
+{
+  "id": "news_8b4bf210",
+  "category": "patch",
+  "game": "gtav",
+  "title": {
+    "fr": "Les versions mobiles exigent désormais iOS 17",
+    "en": "Mobile versions now require iOS 17"
+  },
+  "body": {
+    "fr": "Une note d'assistance officielle le confirme. Les appareils restés en iOS 16 ou antérieur ne reçoivent plus de mises à jour et ne bénéficient plus du support technique.",
+    "en": "An official support notice confirms it. Devices still on iOS 16 or earlier no longer receive updates and are no longer covered by technical support."
+  },
+  "publishedAt": "2026-07-25",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-is-dropping-support-for-older-iphones-ae84"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:ac078fdba62f",
+  "sourceClaim": "Une note d'assistance officielle confirme que les versions mobiles de la série exigent désormais iOS 17 ou plus récent. Les appareils restés en iOS 16 ou antérieur ne reçoivent plus de mises à jour et ne bénéficient plus du support technique."
+}

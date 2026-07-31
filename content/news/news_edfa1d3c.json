@@ -1,0 +1,21 @@
+{
+  "id": "news_edfa1d3c",
+  "category": "community",
+  "game": "gtav",
+  "title": {
+    "fr": "Dryxio relie toute la trilogie par des portails",
+    "en": "Dryxio links the whole trilogy through portals"
+  },
+  "body": {
+    "fr": "Des portails posés dans une rue emblématique du volet de 2004 font passer le personnage d'un jeu à l'autre. Le même moddeur n'était auparavant parvenu qu'à faire tourner un jeu sur un téléviseur dans l'autre.",
+    "en": "Portals placed on a landmark street in the 2004 entry now move the character between games. The same modder had previously only managed to run one game on a TV set inside another."
+  },
+  "publishedAt": "2026-07-22",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/modder-connects-the-entire-gta-trilogy-through-portals-in-grove-street-6e02"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:5d7d6e1ed03a",
+  "sourceClaim": "Un moddeur a poussé plus loin son projet d'imbrication : des portails posés dans une rue emblématique du volet de 2004 font désormais passer le personnage d'un jeu de la trilogie à l'autre, là où il n'avait auparavant réussi qu'à en faire tourner un sur un téléviseur dans l'autre."
+}

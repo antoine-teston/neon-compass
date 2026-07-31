@@ -1,0 +1,21 @@
+{
+  "id": "news_702b2b1c",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Codes PS5 en boîte : verrouillés par région, pas sur Xbox",
+    "en": "Boxed PS5 codes are region-locked, Xbox codes are not"
+  },
+  "body": {
+    "fr": "Le code de téléchargement contenu dans les boîtes PS5 exige un compte enregistré dans le pays d'achat : acheter à l'étranger peut vous laisser avec un code qui ne s'active pas. Sur Xbox Series X|S, le même code fonctionne partout. L'assistance officielle le confirme, sans expliquer la différence.",
+    "en": "The download code inside PS5 boxes requires an account registered in the country of purchase — buying abroad can leave you with a code that will not redeem. On Xbox Series X|S the same code works anywhere. Official support confirms it, without explaining the difference."
+  },
+  "publishedAt": "2026-07-27",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-confirms-region-locked-ps5-codes-but-only-on-xbox-d5f6"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:63ba438a479b",
+  "sourceClaim": "La page d'assistance officielle de l'éditeur confirme que le code de téléchargement contenu dans les boîtes PS5 est verrouillé par région : il exige un compte enregistré dans le pays d'achat, faute de quoi il ne s'active pas. Le code des boîtes Xbox Series X|S, lui, fonctionne partout. Aucune explication n'est donnée sur cette différence entre les deux plateformes."
+}

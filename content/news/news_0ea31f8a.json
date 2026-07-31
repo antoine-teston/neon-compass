@@ -1,0 +1,21 @@
+{
+  "id": "news_0ea31f8a",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "L'édition ultime à 99,99 $ devient l'une des moins chères de la rentrée",
+    "en": "The $99.99 ultimate edition is now among autumn's cheapest"
+  },
+  "body": {
+    "fr": "NBA 2K27 et EA Sports FC 27 ont tous deux annoncé ce mois-ci une édition haut de gamme à 149,99 $, cinquante dollars au-dessus. La comparaison ne dit rien de la valeur du jeu — seulement que le haut de gamme monte partout.",
+    "en": "NBA 2K27 and EA Sports FC 27 both announced a $149.99 top tier this month, fifty dollars higher. The comparison says nothing about the game's value — only that premium tiers are climbing across the board."
+  },
+  "publishedAt": "2026-07-24",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/two-annual-sports-games-just-made-gta-6-look-like-a-bargain-0abb"
+  ],
+  "confidence": "multi-source",
+  "processedFrom": "inbox:news:a8d09e433b15",
+  "sourceClaim": "Deux jeux de sport annuels ont annoncé ce mois-ci des éditions haut de gamme à 149,99 $, soit cinquante dollars de plus que l'édition ultime du jeu à 99,99 $ — laquelle devient ainsi l'une des éditions premium les moins chères parmi les grosses sorties de la rentrée."
+}
