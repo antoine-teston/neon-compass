@@ -21,19 +21,20 @@
 - **Édition du catalogue à la main, en respectant le format d'Xcode** : indentation 2 espaces, `"clé" : valeur` avec un espace **avant et après** le deux-points. `tools/xcstrings-locale/apply-locale.js` ne convient pas ici : il exige des traductions pour la totalité des clés du catalogue et lève sur toute clé manquante — c'est un outil d'import en masse, pas d'ajout incrémental.
 - **XcodeGen glob les sources** (`sources: - path: NeonCompass`) : un nouveau fichier ou dossier sous `NeonCompass/` est pris automatiquement, `project.yml` n'a pas à être modifié.
 - **Jamais de `ToolbarItem` dans un écran d'onglet.** Aucun n'a de `NavigationStack` ; `RootView` les empile dans un `ZStack` sous une barre maison. Un item de toolbar ne s'affiche nulle part et SwiftUI ne signale rien.
+- **Interpolation et clés de catalogue.** `Text("clé \(n)")` ne cherche PAS `clé` : SwiftUI construit la clé `clé %lld`, spécificateur compris. La clé du catalogue doit donc le porter (`progress.challenge.foundCount %lld` est le précédent), et le littéral Swift ne le porte jamais. Trois clés du projet ont déjà livré ce défaut, dont deux visibles en production ; `LocalizationCoverageTests.interpolatedCallSitesResolveToACatalogKey` l'attrape désormais. Corollaire : un nombre nu sans phrase autour (`Text("\(n)")`) doit passer par `Text(verbatim:)`, sinon il devient une souche vide dans le catalogue.
 - **Marques déposées interdites** dans toute chaîne visible. Les jeux se nomment par leurs chiffres romains nus (`Game.shortLabel` → « V », « VI »).
 
 **Commandes :**
 
 ```sh
 # Build
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' build
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' build
 
 # Suite complète
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 
 # Une suite précise
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/AppleSignInCoordinatorTests
 ```
 
@@ -172,7 +173,7 @@ struct AppleSignInCoordinatorTests {
 - [ ] **Step 2: Lancer les tests pour vérifier qu'ils échouent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/AppleSignInCoordinatorTests
 ```
 
@@ -254,7 +255,7 @@ struct AppleSignInCoordinator: Sendable {
 - [ ] **Step 4: Lancer les tests pour vérifier qu'ils passent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/AppleSignInCoordinatorTests
 ```
 
@@ -371,7 +372,7 @@ Les clés du catalogue sont triées alphabétiquement : insérer chacune à sa p
 - [ ] **Step 7: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert, `LocalizationCoverageTests` compris.
@@ -502,7 +503,7 @@ Vérifier d'abord si `FakeAccountDeleting` existe déjà dans le fichier ; si ou
 - [ ] **Step 2: Lancer le test pour vérifier qu'il échoue**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/SettingsModelTests
 ```
 
@@ -559,7 +560,7 @@ final class SettingsModel {
 - [ ] **Step 4: Lancer le test pour vérifier qu'il passe**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/SettingsModelTests
 ```
 
@@ -759,7 +760,7 @@ Même forme d'entrée qu'à la tâche 1, insérées à leur place alphabétique.
 - [ ] **Step 8: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert.
@@ -850,7 +851,7 @@ struct ProfileHeaderView: View {
                 // l'envoi et la modération, le rang ne bouge pas. Sans cette
                 // ligne, le contributeur subit un silence inexplicable.
                 if pendingContributionCount > 0 {
-                    Text("profile.pending.format \(pendingContributionCount)")
+                    Text("profile.pending \(pendingContributionCount)")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.5))
                 }
@@ -885,14 +886,14 @@ Supprimer `levelBadge(_:)` de `ProfileScreen.swift`.
 | Clé | en | fr | es | it | de |
 |---|---|---|---|---|---|
 | `profile.header.anonymous` | Your profile | Ton profil | Tu perfil | Il tuo profilo | Dein Profil |
-| `profile.pending.format` | %lld awaiting review | %lld en attente de relecture | %lld en espera de revisión | %lld in attesa di revisione | %lld warten auf Prüfung |
+| `profile.pending %lld` | %lld awaiting review | %lld en attente de relecture | %lld en espera de revisión | %lld in attesa di revisione | %lld warten auf Prüfung |
 
-`profile.pending.format` porte un `%lld` : `LocalizationCoverageTests.formatSpecifiersMatchAcrossLocales` vérifie que les cinq langues portent le même spécificateur. Aucune ne doit l'omettre.
+`profile.pending %lld` porte un `%lld` : `LocalizationCoverageTests.formatSpecifiersMatchAcrossLocales` vérifie que les cinq langues portent le même spécificateur. Aucune ne doit l'omettre.
 
 - [ ] **Step 4: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert.
@@ -1114,7 +1115,7 @@ Conserver `myContributionsSection(_:)` et `statusKey(_:)` dans `ProfileScreen.sw
 - [ ] **Step 4: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert, `ProgressionModelTests` et `ChallengeProgressCalculatorTests` compris — ils n'ont pas été touchés et ne doivent pas bouger.
@@ -1178,7 +1179,7 @@ Le plan A s'arrête à **quatre** onglets : la carte n'est donc plus au centre, 
 - [ ] **Step 2: Lancer le test pour vérifier qu'il échoue**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/AppTabTests
 ```
 
@@ -1239,7 +1240,7 @@ git rm NeonCompass/Features/Progression/ProgressionScreen.swift
 - [ ] **Step 4: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert. La clé `tab.progress` du catalogue devient inutilisée — la **laisser** : `LocalizationCoverageTests` ne se plaint pas d'une clé orpheline, et le plan B ajoutera `tab.social` à côté.
@@ -1269,8 +1270,8 @@ La leçon de la section Codes est explicite : deux défauts d'UI ont compilé, p
 - [ ] **Step 1: Lancer l'app**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' build
-xcrun simctl boot "iPhone 16" 2>/dev/null || true
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' build
+xcrun simctl boot "iPhone 17" 2>/dev/null || true
 open -a Simulator
 ```
 
@@ -1296,7 +1297,7 @@ Installer et lancer la build, puis ouvrir l'onglet Profil.
 - [ ] **Step 4: Vérifier l'iPad**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4)' build
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M5)' build
 ```
 
 - [ ] La sidebar adaptative montre bien quatre entrées

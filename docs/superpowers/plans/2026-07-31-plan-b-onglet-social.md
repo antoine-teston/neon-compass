@@ -16,6 +16,7 @@
 - **iOS 26 minimum**, iPhone + iPad. **Swift 6, `SWIFT_STRICT_CONCURRENCY: complete`.**
 - **Tests en Swift Testing** côté app, `node --test` côté CLI, le harnais existant côté Functions.
 - **Aucune chaîne littérale visible** : tout passe par `Localizable.xcstrings`, et `LocalizationCoverageTests` exige les cinq locales `en, fr, es, it, de` non vides pour chaque clé. Format Xcode : indentation 2 espaces, `"clé" : valeur` avec un espace avant **et** après le deux-points. `tools/xcstrings-locale/apply-locale.js` ne sert pas ici — il exige des traductions pour la totalité du catalogue.
+- **Interpolation et clés de catalogue.** `Text("clé \(n)")` ne cherche PAS `clé` : SwiftUI construit la clé `clé %lld`, spécificateur compris. La clé du catalogue doit donc le porter (`progress.challenge.foundCount %lld` est le précédent), et le littéral Swift ne le porte jamais. Trois clés du projet ont déjà livré ce défaut, dont deux visibles en production ; `LocalizationCoverageTests.interpolatedCallSitesResolveToACatalogKey` l'attrape désormais. Corollaire : un nombre nu sans phrase autour (`Text("\(n)")`) doit passer par `Text(verbatim:)`, sinon il devient une souche vide dans le catalogue.
 - **Marques déposées interdites** dans toute chaîne d'interface. Les jeux se nomment par leurs chiffres romains (`Game.shortLabel`).
 - **`sources` n'est jamais embarqué dans le modèle Swift** : les URL contiennent les marques (`gtaboom.com/rockstar-…`). Même règle que `NewsItem`, dont le commentaire l'explique — elles reviendront avec la bascule de marques.
 - **Sources autorisées uniquement** : GTABOOM, Leonidaverse, GTA6.gg. `rockstargames.com` est interdit à la veille automatique (`robots.txt : ClaudeBot Disallow: /`). `tools/content-cli/source-policy.mjs` fait autorité et lève sur un domaine interdit.
@@ -26,7 +27,7 @@
 
 ```sh
 # App
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 
 # CLI de contenu
 cd tools/content-cli && node --test
@@ -541,7 +542,7 @@ struct OnlineEventTests {
 - [ ] **Step 2: Lancer les tests pour vérifier qu'ils échouent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/OnlineEventTests
 ```
 
@@ -652,7 +653,7 @@ struct OnlineEvent: ContentItem, Equatable {
 - [ ] **Step 4: Lancer les tests pour vérifier qu'ils passent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/OnlineEventTests
 ```
 
@@ -783,7 +784,7 @@ struct OnlineEventsModelTests {
 - [ ] **Step 2: Lancer les tests pour vérifier qu'ils échouent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/OnlineEventsModelTests
 ```
 
@@ -868,7 +869,7 @@ final class OnlineEventsModel {
 - [ ] **Step 4: Lancer les tests pour vérifier qu'ils passent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/OnlineEventsModelTests
 ```
 
@@ -953,7 +954,7 @@ Ajouter dans `NeonCompassTests/App/AppTabTests.swift`, à côté de `progressTab
 - [ ] **Step 2: Lancer le test — il doit maintenant passer**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/AppTabTests
 ```
 
@@ -1176,8 +1177,8 @@ Dans `RootView.screen(for:)` :
 | `social.event.bonuses` | Bonuses | Bonus | Bonificaciones | Bonus | Boni |
 | `social.event.discounts` | Discounts | Remises | Descuentos | Sconti | Rabatte |
 | `social.event.podium` | Podium vehicle | Véhicule du podium | Vehículo del podio | Veicolo del podio | Podiumsfahrzeug |
-| `social.event.percentOff` | −%lld%% | −%lld%% | −%lld%% | −%lld%% | −%lld%% |
-| `social.event.remaining` | %lld d %lld h left | Il reste %lld j %lld h | Quedan %lld d %lld h | Restano %lld g %lld h | Noch %lld T %lld Std |
+| `social.event.percentOff %lld` | −%lld%% | −%lld%% | −%lld%% | −%lld%% | −%lld%% |
+| `social.event.remaining %lld %lld` | %lld d %lld h left | Il reste %lld j %lld h | Quedan %lld d %lld h | Restano %lld g %lld h | Noch %lld T %lld Std |
 | `social.event.over` | This window is over. | Cette fenêtre est terminée. | Esta ventana ha terminado. | Questa finestra è terminata. | Dieser Zeitraum ist vorbei. |
 | `social.empty.title` | Nothing published yet | Rien de publié pour l'instant | Aún no hay nada publicado | Ancora nulla di pubblicato | Noch nichts veröffentlicht |
 | `social.empty.body` | The next weekly update will show up here. | La prochaine mise à jour hebdomadaire s'affichera ici. | La próxima actualización semanal aparecerá aquí. | Il prossimo aggiornamento settimanale apparirà qui. | Das nächste wöchentliche Update erscheint hier. |
@@ -1187,7 +1188,7 @@ Dans `RootView.screen(for:)` :
 - [ ] **Step 6: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert, `mapSitsInTheMiddle` compris — le cinquième onglet remet la carte au centre.
@@ -1291,7 +1292,7 @@ struct EventReminderSchedulerTests {
 - [ ] **Step 2: Lancer les tests pour vérifier qu'ils échouent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/EventReminderSchedulerTests
 ```
 
@@ -1384,7 +1385,7 @@ struct EventReminderScheduler: Sendable {
 - [ ] **Step 4: Lancer les tests pour vérifier qu'ils passent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/EventReminderSchedulerTests
 ```
 
@@ -1433,7 +1434,7 @@ Dans `SocialScreen.swift`, ajouter la propriété et l'appel après la synchroni
 - [ ] **Step 7: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert.
@@ -1505,7 +1506,7 @@ Attendu : validation au vert.
 - [ ] **Step 3: Vérifier l'iPad**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4)' build
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M5)' build
 ```
 
 - [ ] Cinq entrées dans la sidebar adaptative
@@ -1826,7 +1827,7 @@ struct LeaderboardTests {
 - [ ] **Step 2: Lancer les tests pour vérifier qu'ils échouent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/LeaderboardTests
 ```
 
@@ -1903,7 +1904,7 @@ Toute construction existante de `Profile` (doublures de test comprises) doit rec
 - [ ] **Step 4: Lancer les tests pour vérifier qu'ils passent**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' \
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/LeaderboardTests
 ```
 
@@ -1935,7 +1936,10 @@ struct LeaderboardSection: View {
                 VStack(spacing: 0) {
                     ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
                         HStack {
-                            Text("\(index + 1)")
+                            // `verbatim` : un rang nu n'a rien à traduire, mais sans ça
+                            // SwiftUI en fait la clé `%lld` et l'extracteur la reverse
+                            // dans le catalogue comme une souche vide. Cf. ProgressRing.
+                            Text(verbatim: "\(index + 1)")
                                 .font(NCTypography.body.bold())
                                 .foregroundStyle(.white.opacity(0.4))
                                 .frame(width: 32, alignment: .leading)
@@ -2001,7 +2005,7 @@ Dans `ProfileHeaderView.swift`, ajouter sous la ligne de niveau :
 
 ```swift
                 if let rank = profile.rank {
-                    Text("profile.rank.format \(rank)")
+                    Text("profile.rank \(rank)")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.5))
                 }
@@ -2013,13 +2017,13 @@ Dans `ProfileHeaderView.swift`, ajouter sous la ligne de niveau :
 |---|---|---|---|---|---|
 | `social.leaderboard.title` | Top contributors | Meilleurs contributeurs | Mejores colaboradores | Migliori contributori | Top-Beitragende |
 | `social.leaderboard.empty` | No approved spots yet. | Aucun spot approuvé pour l'instant. | Aún no hay lugares aprobados. | Nessun luogo approvato per ora. | Noch keine freigegebenen Orte. |
-| `social.leaderboard.spots` | %lld spots | %lld spots | %lld lugares | %lld luoghi | %lld Orte |
-| `profile.rank.format` | Rank %lld | %lld en classement | Puesto %lld | Posizione %lld | Platz %lld |
+| `social.leaderboard.spots %lld` | %lld spots | %lld spots | %lld lugares | %lld luoghi | %lld Orte |
+| `profile.rank %lld` | Rank %lld | %lld en classement | Puesto %lld | Posizione %lld | Platz %lld |
 
 - [ ] **Step 7: Lancer la suite complète**
 
 ```sh
-xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
+xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
 
 Attendu : tout au vert.
