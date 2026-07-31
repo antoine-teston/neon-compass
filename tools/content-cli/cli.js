@@ -57,7 +57,7 @@ const compiled = {
   cheats: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'cheat.schema.json')))),
   collections: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'collection.schema.json')))),
   news: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'news.schema.json')))),
-  'online-events': ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'online-event.schema.json'), 'utf8'))),
+  'online-events': ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'online-event.schema.json')))),
 };
 
 // Un « kind » est un répertoire de content/. Il porte son schéma et la
@@ -128,7 +128,7 @@ function checkPublishable(entries) {
     // une actualité. Une rumeur peut vivre en `draft` (elle garde sa trace et
     // son id), elle ne franchit pas la publication. Assouplir cette règle est
     // une décision éditoriale, pas un détail de pipeline.
-    if (kind === 'news' && data.status === 'published' && data.confidence === 'rumor') {
+    if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.confidence === 'rumor') {
       problems.push('published news item cannot rest on a rumor (confidence: rumor)');
     }
     for (const field of UI_FIELDS) {
