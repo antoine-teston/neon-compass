@@ -56,10 +56,27 @@ contenu, déjà construit et déjà arbitré :
 `tools/content-cli/source-policy.mjs` fait déjà autorité et lève sur un domaine
 interdit ; ce spec n'ajoute aucune source, il réutilise le registre existant.
 
-**Coût d'exploitation, dit franchement** : un run le jeudi, environ vingt minutes
-de relecture humaine, chaîne `data-scout → facts-to-online-event → content-qa →
-publish`. C'est un engagement récurrent, pas une livraison ponctuelle. Il doit
-être accepté maintenant plutôt que découvert en décembre.
+**Coût d'exploitation.** Les événements n'ont pas de run à eux : ils montent sur
+le run de veille, dont la cadence passe de l'hebdomadaire au **quotidien** pour
+l'ensemble du contenu (actu et connaissances). Un `facts-to-online-event.mjs`
+calqué sur `facts-to-news.mjs` s'ajoute à la chaîne existante `data-scout →
+content-qa → PR`.
+
+Cette bascule hebdomadaire → quotidienne concerne
+`.github/workflows/veille.yml` dans son ensemble, pas seulement les événements :
+elle **n'est pas dans le périmètre de ce spec**, mais celui-ci en dépend. Deux
+conséquences à en tirer :
+
+- **Le coût marginal des événements devient quasi nul** — plus d'engagement
+  hebdomadaire propre à tenir, c'est le run quotidien qui les ramasse.
+- **Une mise à jour du jeudi est en ligne le jour même** au lieu d'attendre
+  jusqu'à six jours. C'est ce qui rend le compte à rebours crédible : un
+  événement qui apparaîtrait trois jours après son début ne vaudrait rien.
+- En contrepartie, un run quotidien ouvre une PR par jour. Sans relecture, les
+  faits s'empilent dans l'inbox — exactement le symptôme que le run hebdomadaire
+  avait été construit pour corriger (six faits d'actu y ont dormi du 21 au
+  29 juillet). La cadence déplace le goulot d'étranglement, elle ne le supprime
+  pas.
 
 ### Un type de contenu à part
 
@@ -157,6 +174,13 @@ est méritée et ingâchable par son propre bénéficiaire.
 **Classer sur les contributions approuvées, jamais soumises.** C'est la
 différence entre récompenser la qualité et récompenser le volume — et c'est la
 modération qui encaisserait la seconde.
+
+Contribuer exige déjà un compte, et pas seulement dans l'interface :
+`submitContribution` refuse en `unauthenticated` avant tout traitement, sous
+App Check. L'identité derrière chaque ligne du classement est donc acquise. Reste
+le délai de modération, pendant lequel un rang reste immobile : le Profil affiche
+le décompte des contributions en attente à côté du rang (spec A), pour que
+l'attente soit dite plutôt que subie.
 
 ### L'architecture : jamais une requête client sur les profils
 
@@ -259,7 +283,8 @@ TestFlight anticipé »).
 
 | Risque | Parade |
 |---|---|
-| **Le jeudi devient un engagement.** Une semaine ratée fait vieillir l'onglet | L'app dit « terminé » d'elle-même et ne prétend jamais qu'un bonus est en cours. Un onglet honnêtement vide vaut mieux qu'un onglet qui ment |
+| **Un jour raté fait vieillir l'onglet** | Le run quotidien réduit la fenêtre à 24 h au lieu d'une semaine. Et l'app dit « terminé » d'elle-même : elle ne prétend jamais qu'un bonus expiré est en cours. Un onglet honnêtement vide vaut mieux qu'un onglet qui ment |
+| **Le run quotidien produit une PR par jour** ; sans relecture, l'inbox s'empile | Le run ne publie jamais de lui-même — c'est déjà la règle. Le contenu périmé se signale à l'écran, il ne se déguise pas en contenu frais |
 | **Le classement noie la modération** sous des spots médiocres | Classer sur les approuvées uniquement ; le monitoring de vélocité de la spec §Anti-abus marque déjà les bursts |
 | **Une source tierce ferme ou change de format** | Trois sources autorisées, run tolérant à la perte de l'une ; en dernier recours, saisie manuelle — le volume est d'un événement par semaine |
 | **L'Online de Leonida n'ouvre pas avant longtemps** | L'onglet vit sur GTA V Online entre-temps, ce qui était de toute façon le plan de départ |

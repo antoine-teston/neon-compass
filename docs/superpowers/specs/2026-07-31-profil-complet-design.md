@@ -74,6 +74,15 @@ pouvoir consulter toute sa progression sans jamais croiser un obstacle.
 Function planifiée du spec B. Tant que B n'est pas livré, le champ est absent et
 la ligne ne s'affiche pas — la page n'en dépend pas.
 
+**Le délai de modération se dit, il ne se subit pas.** L'XP ne se gagne que sur
+les contributions *approuvées* (spec B) : entre l'envoi et la modération, un
+contributeur voit son rang immobile sans savoir pourquoi. La ligne de rang porte
+donc, quand il y en a, le décompte des contributions en attente — « 342ᵉ ·
+3 en attente ». La donnée existe déjà : `CommunityModel.myContributions` porte le
+statut `pending`, aujourd'hui affiché uniquement dans la liste plus bas. C'est
+une lecture supplémentaire de rien du tout, et elle transforme un silence
+inexplicable en information.
+
 ### Les réglages sortent
 
 Un `SettingsScreen` ouvert par une icône d'engrenage dans la toolbar du Profil.
