@@ -1,11 +1,8 @@
 import SwiftUI
 import SwiftData
-import AuthenticationServices
-import UIKit
 
 struct ProfileScreen: View {
     @Environment(AuthModel.self) private var authModel
-    @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.modelContext) private var modelContext
     @State private var profileModel = ProfileModel(
         repository: FirestoreProfileRepository(),
@@ -13,43 +10,34 @@ struct ProfileScreen: View {
         localDeletion: FirebaseClientAccountDeletion()
     )
     @State private var communityModel: CommunityModel?
-    @State private var currentNonce: String?
-    @State private var showDeleteConfirmation = false
-    @State private var showPaywall = false
-    @State private var followedCategoriesStore = FollowedCategoriesStore(notifier: FirebaseFollowedCategoryNotifier())
-    @Environment(ThemeStore.self) private var themeStore
     @Environment(ServerFeaturesModel.self) private var serverFeatures
-    @State private var deletionFailed = false
-    @State private var signInError: String?
+    @State private var showSettings = false
 
     var body: some View {
         ZStack {
             NCColor.nightSky.ignoresSafeArea()
             VStack(spacing: 24) {
-                if proEntitlementModel.isProEntitled {
-                    Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
-                        .foregroundStyle(NCColor.neonCyan)
-                    // Les notifications suivies sont envoyées par une Cloud
-                    // Function : sans elle, l'écran promettrait un service qui
-                    // n'arrive jamais.
-                    if serverFeatures.isEnabled {
-                        followedCategoriesSection
+                HStack {
+                    Spacer()
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.white)
+                            .frame(width: 44, height: 44)
                     }
-                    themeSection
-                    iconSection
-                } else {
-                    Button("profile.pro.upgradeButton") { showPaywall = true }
+                    .glassEffect(.regular.interactive(), in: .circle)
+                    .accessibilityLabel(Text("settings.title"))
                 }
                 if let userID = authModel.userID {
                     signedInContent(userID: userID)
-                } else {
-                    signedOutContent
                 }
             }
             .padding(24)
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
+        .sheet(isPresented: $showSettings) {
+            SettingsScreen(profileModel: profileModel, communityModel: communityModel)
         }
         .task(id: authModel.userID) {
             if let userID = authModel.userID {
@@ -59,72 +47,6 @@ struct ProfileScreen: View {
                 }
                 await communityModel?.loadMyContributions(uid: userID)
             }
-        }
-        .onAppear { communityModel?.refreshBlockedAuthors() }
-        .alert(
-            "profile.deleteAccount.confirmTitle",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("profile.deleteAccount.cancelButton", role: .cancel) {}
-            Button("profile.deleteAccount.confirmButton", role: .destructive) {
-                Task { await deleteAccount() }
-            }
-        } message: {
-            Text("profile.deleteAccount.confirmMessage")
-        }
-        .alert("profile.deleteAccount.failed", isPresented: $deletionFailed) {
-            Button("profile.deleteAccount.cancelButton", role: .cancel) {}
-        }
-        .alert(
-            "profile.signIn.failed",
-            isPresented: Binding(get: { signInError != nil }, set: { if !$0 { signInError = nil } })
-        ) {
-            Button("profile.deleteAccount.cancelButton", role: .cancel) { signInError = nil }
-        } message: {
-            // Le détail technique n'est pas traduit : il vient du système ou de
-            // Firebase, et c'est lui qui permet de comprendre le blocage.
-            Text(signInError ?? "")
-        }
-    }
-
-    /// Sans Cloud Functions, la suppression en cascade n'existe pas — mais
-    /// l'obligation App Store, elle, demeure dès qu'on propose une connexion.
-    /// Le périmètre à effacer est heureusement réduit d'autant : pas de profil,
-    /// pas de contributions à anonymiser, seulement la progression synchronisée
-    /// et le compte lui-même, tous deux effaçables par leur propriétaire.
-    private func deleteAccount() async {
-        guard let userID = authModel.userID else { return }
-        do {
-            if serverFeatures.isEnabled {
-                try await profileModel.deleteAccount()
-            } else {
-                try await profileModel.deleteAccountLocally(uid: userID)
-            }
-            try? authModel.signOut()
-        } catch {
-            // `user.delete()` exige une connexion récente : l'échec le plus
-            // probable se répare en se reconnectant, ce que le message dit.
-            deletionFailed = true
-        }
-    }
-
-    private var signedOutContent: some View {
-        VStack(spacing: 16) {
-            Text(serverFeatures.isEnabled ? "profile.signIn.prompt" : "profile.signIn.syncOnlyPrompt")
-                .font(NCTypography.body)
-                .foregroundStyle(.white.opacity(0.85))
-                .multilineTextAlignment(.center)
-
-            SignInWithAppleButton(.signIn) { request in
-                let nonce = AppleSignInCoordinator.makeRawNonce()
-                currentNonce = nonce
-                request.requestedScopes = []
-                request.nonce = AppleSignInCoordinator.sha256(nonce)
-            } onCompletion: { result in
-                handleSignInResult(result)
-            }
-            .signInWithAppleButtonStyle(.white)
-            .frame(height: 44)
         }
     }
 
@@ -143,22 +65,9 @@ struct ProfileScreen: View {
                     levelBadge(profile)
                 }
 
-                Button("profile.handle.regenerate") {
-                    Task { try? await profileModel.regenerateHandle() }
-                }
-
                 if let communityModel {
                     myContributionsSection(communityModel)
-                    blockedContributorsSection(communityModel)
                 }
-            }
-
-            Button("profile.signOut") {
-                try? authModel.signOut()
-            }
-
-            Button("profile.deleteAccount", role: .destructive) {
-                showDeleteConfirmation = true
             }
         }
     }
@@ -177,49 +86,6 @@ struct ProfileScreen: View {
         .frame(maxWidth: .infinity)
         .glassEffect(.regular, in: .rect(cornerRadius: 16))
     }
-
-    private var themeSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("profile.theme.title")
-                .font(NCTypography.body)
-                .foregroundStyle(.white)
-            Picker(
-                selection: Binding(
-                    get: { themeStore.selectedTheme },
-                    set: { themeStore.selectTheme($0) }
-                )
-            ) {
-                ForEach(NCTheme.allCases) { theme in
-                    Text(theme.nameKey)
-                        .tag(theme)
-                        .foregroundStyle(theme.accent)
-                }
-            } label: {
-                Text("profile.theme.title")
-            }
-            .pickerStyle(.segmented)
-        }
-    }
-
-    private var iconSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Toggle(
-                "profile.icon.title",
-                isOn: Binding(
-                    get: { UIApplication.shared.alternateIconName != nil },
-                    set: { themeStore.setAlternateIcon(named: $0 ? Self.neonIconName : nil) }
-                )
-            )
-            .foregroundStyle(.white)
-        }
-    }
-
-    // Assumes the "AppIcon-Neon" asset-catalog icon set will exist once a
-    // designer creates it (see docs/ops/2026-07-23-alternate-app-icons.md);
-    // this string is not yet declared anywhere in project.yml/Info.plist, so
-    // toggling this on a current build silently no-ops via UIKit's
-    // completion handler until that follow-up ships.
-    private static let neonIconName = "AppIcon-Neon"
 
     private func myContributionsSection(_ communityModel: CommunityModel) -> some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -244,94 +110,11 @@ struct ProfileScreen: View {
         }
     }
 
-    private func blockedContributorsSection(_ communityModel: CommunityModel) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("profile.blockedContributors.title")
-                .font(NCTypography.body)
-                .foregroundStyle(.white)
-            if communityModel.blockedAuthorUIDs.isEmpty {
-                Text("profile.blockedContributors.empty")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            } else {
-                ForEach(Array(communityModel.blockedAuthorUIDs), id: \.self) { authorUid in
-                    HStack {
-                        Text(authorUid)
-                        Spacer()
-                        Button("profile.blockedContributors.unblock") {
-                            communityModel.unblock(authorUid: authorUid)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private var followedCategoriesSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("profile.followedCategories.title")
-                .font(NCTypography.body)
-                .foregroundStyle(.white)
-            ForEach(POICategory.allCases, id: \.self) { category in
-                Toggle(
-                    isOn: Binding(
-                        get: { followedCategoriesStore.followedCategories.contains(category) },
-                        set: { _ in
-                            Task { await followedCategoriesStore.toggle(category) }
-                        }
-                    )
-                ) {
-                    Text(category.localizedNameKey)
-                }
-            }
-        }
-    }
-
     private func statusKey(_ status: Contribution.Status) -> LocalizedStringKey {
         switch status {
         case .pending: "profile.myContributions.status.pending"
         case .approved: "profile.myContributions.status.approved"
         case .rejected: "profile.myContributions.status.rejected"
         }
-    }
-
-    /// Chaque échec est désormais dit. La version précédente les avalait tous —
-    /// `guard … else { return }` puis `try?` — donc un utilisateur bloqué n'avait
-    /// aucun moyen de savoir pourquoi, et nous non plus. C'est la seule
-    /// connexion de l'app : elle ne peut pas échouer en silence.
-    private func handleSignInResult(_ result: Result<ASAuthorization, Error>) {
-        switch result {
-        case .failure(let error):
-            report(AppleSignInCoordinator.classify(error: error))
-        case .success(let authorization):
-            let credential = authorization.credential as? ASAuthorizationAppleIDCredential
-            switch AppleSignInCoordinator.resolve(credential: credential, rawNonce: currentNonce) {
-            case .failure(let failure):
-                report(failure)
-            case .success(let value):
-                Task {
-                    do {
-                        try await authModel.signIn(idTokenString: value.idToken, nonce: value.nonce)
-                    } catch {
-                        report(.underlying(error.localizedDescription))
-                    }
-                }
-            }
-        }
-    }
-
-    private func report(_ failure: AppleSignInFailure) {
-        let message: String
-        switch failure {
-        case .canceled: return
-        case .unexpectedCredentialType: message = String(localized: "profile.signIn.unexpectedCredential")
-        case .missingIdentityToken: message = String(localized: "profile.signIn.missingToken")
-        case .missingNonce: message = String(localized: "profile.signIn.missingNonce")
-        case .underlying(let detail): message = detail
-        }
-        // Imprimé en plus de l'alerte : c'est ce qui rend le diagnostic
-        // possible depuis les journaux du simulateur.
-        print("ProfileScreen: connexion refusée — \(message)")
-        signInError = message
     }
 }
