@@ -6,11 +6,47 @@ import SwiftData
 @MainActor
 final class MapModel {
     private(set) var pois: [POI]
-    var activeCategories: Set<POICategory>
-    var searchQuery: String = ""
+    var activeCategories: Set<POICategory> {
+        didSet { refreshFilteredPOIs() }
+    }
+    var searchQuery: String = "" {
+        didSet { refreshFilteredPOIs() }
+    }
     var selectedPOI: POI?
     private(set) var foundPOIIDs: Set<String>
-    var hideFoundPOIs = false
+    var hideFoundPOIs = false {
+        didSet { refreshFilteredPOIs() }
+    }
+
+    // MARK: - Vues dérivées, STOCKÉES et non calculées
+    //
+    // Ces deux valeurs étaient des propriétés calculées lues à chaque rendu de
+    // `MapScreen` — et `MapScreen` se réévalue pour quantité de raisons
+    // étrangères à la carte : présenter une feuille, ouvrir une alerte, et
+    // surtout FRAPPER UN CARACTÈRE dans le champ de nom d'une épingle, dont le
+    // `@State` vit sur l'écran. Chaque caractère payait donc une requête
+    // SwiftData plus un filtrage des 537 points.
+    //
+    // Mesuré à la sonde : chaque étape du flux « ajouter une épingle »
+    // (appui long, ouverture du menu, ouverture de l'alerte) déclenchait un
+    // rendu complet, et donc une requête et un filtrage de plus.
+    //
+    // Même correctif que `CheatsModel` et `FeedModel` : on stocke, et on
+    // recalcule aux seuls moments où une entrée change.
+    private(set) var filteredPOIs: [POI] = []
+    /// Incrémenté à chaque reconstruction de `filteredPOIs`. Sert de clé
+    /// d'invalidation à `MapClusterCache` : comparer 537 points pour détecter un
+    /// changement coûterait le prix d'un recalcul, ce compteur coûte zéro.
+    private(set) var poisGeneration = 0
+    /// Une requête SwiftData n'a rien à faire dans une propriété lue par le
+    /// corps d'une vue : c'est de l'entrée/sortie sur le fil principal, à
+    /// chaque rendu.
+    private(set) var personalPins: [PersonalPin] = []
+    /// Même rôle que `poisGeneration`, pour les épingles personnelles : donner
+    /// au moteur de carte un moyen en O(1) de savoir si sa liste a changé.
+    /// `PersonalPin` est une classe SwiftData — comparer les tableaux ne dirait
+    /// rien d'un titre modifié, et compter les éléments encore moins.
+    private(set) var personalPinsGeneration = 0
 
     private let modelContext: ModelContext
     private var sync: ProgressionSyncing?
@@ -21,6 +57,9 @@ final class MapModel {
         self.modelContext = modelContext
         self.sync = sync
         self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
+        // Les `didSet` ne se déclenchent pas pendant l'initialisation.
+        refreshFilteredPOIs()
+        refreshPersonalPins()
     }
 
     /// Quels POI afficher pour la carte sélectionnée.
@@ -45,15 +84,16 @@ final class MapModel {
         Locale.current.language.languageCode?.identifier ?? "en"
     }
 
-    var filteredPOIs: [POI] {
+    private func refreshFilteredPOIs() {
         let languageCode = currentLanguageCode
-        return pois.filter { poi in
+        filteredPOIs = pois.filter { poi in
             poi.position != nil
                 && activeCategories.contains(poi.category)
                 && !(hideFoundPOIs && isFound(poi))
                 && (searchQuery.isEmpty
                     || poi.title.resolved(for: languageCode).localizedCaseInsensitiveContains(searchQuery))
         }
+        poisGeneration &+= 1
     }
 
     func isFound(_ poi: POI) -> Bool {
@@ -75,25 +115,31 @@ final class MapModel {
             try? modelContext.save()
             Task { await sync?.upload(itemID: poiID, kind: .poi, found: true, updatedAt: now) }
         }
+        // « Masquer les trouvés » fait dépendre la liste filtrée de cet état.
+        refreshFilteredPOIs()
     }
 
-    var personalPins: [PersonalPin] {
+    private func refreshPersonalPins() {
         let descriptor = FetchDescriptor<PersonalPin>(sortBy: [SortDescriptor(\.createdAt)])
-        return (try? modelContext.fetch(descriptor)) ?? []
+        personalPins = (try? modelContext.fetch(descriptor)) ?? []
+        personalPinsGeneration &+= 1
     }
 
     func addPersonalPin(at point: NormalizedPoint, title: String) {
         modelContext.insert(PersonalPin(x: point.x, y: point.y, title: title))
         try? modelContext.save()
+        refreshPersonalPins()
     }
 
     func deletePersonalPin(_ pin: PersonalPin) {
         modelContext.delete(pin)
         try? modelContext.save()
+        refreshPersonalPins()
     }
 
     func updatePOIs(_ newPOIs: [POI]) {
         pois = newPOIs
+        refreshFilteredPOIs()
     }
 
     /// Attaches sync after construction if it wasn't available yet at init
@@ -136,5 +182,6 @@ final class MapModel {
             }
         }
         try? modelContext.save()
+        refreshFilteredPOIs()
     }
 }

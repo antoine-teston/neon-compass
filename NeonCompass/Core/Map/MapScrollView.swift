@@ -42,6 +42,45 @@ private enum MapArtLoader {
     }
 }
 
+/// Tout ce que le contenu de carte retient du zoom ET du panoramique — et rien
+/// de plus.
+///
+/// Le zoom brut change à CHAQUE frame de pincement, et le contenu le stockait
+/// tel quel : la moindre variation faisait donc réévaluer le corps de la vue et
+/// reconstruire toutes les pastilles, alors que le rendu, lui, ne dépend que de
+/// fonctions EN ESCALIER de la position de la vue :
+///
+/// - `pinScale`, plafonnée à 1 — donc constante sur toute la plage sous le zoom
+///   neutre, c'est-à-dire précisément au dézoom maximal ;
+/// - `clusterShape`, quantifiée en demi-octaves — donc constante entre deux
+///   paliers ;
+/// - `window`, quantifiée sur une grille de tuiles mesurées À L'ÉCRAN — donc
+///   constante tant qu'on ne franchit pas une tuile, à une cadence qui ne
+///   dépend pas du zoom (voir `MapRenderWindow`).
+///
+/// En ne retenant que celles-là, la valeur de la vue reste identique d'une
+/// frame à l'autre et SwiftUI saute le corps. `Equatable` est ce qui lui permet
+/// de le constater.
+struct MapRenderState: Equatable {
+    var pinScale: CGFloat
+    var clusterShape: MapClusterer.Shape
+    /// Seule composante qui dépende aussi du PANORAMIQUE. C'est un compromis
+    /// assumé : le panoramique, jusqu'ici gratuit en réévaluations, en paie
+    /// désormais une par tuile franchie — mais chacune est bien moins chère,
+    /// puisqu'elle ne bâtit plus que les pastilles visibles.
+    var window: MapRenderWindow
+
+    init(zoomScale: CGFloat, contentSize: CGFloat, window: MapRenderWindow = .whole) {
+        // Contre-échelle pour garder les pins à taille écran constante, mais
+        // PLAFONNÉE à 1 : sans ce plafond, une carte dézoomée à 0,43 gonflait
+        // chaque pin à ~51 pt (22 × 1/0,43) et la fixture de référence noyait
+        // entièrement la carte sous les pastilles.
+        pinScale = min(1 / max(zoomScale, 0.01), 1)
+        clusterShape = MapClusterer.shape(zoomScale: zoomScale, contentSize: contentSize)
+        self.window = window
+    }
+}
+
 /// Contenu SwiftUI hébergé — l'image de la carte plus tous les pins, en
 /// coordonnées de contenu plein-résolution (indépendantes du zoom/pan
 /// courant, voir `MapGeometry.contentPoint`). `zoomScale` n'est utilisé QUE
@@ -57,8 +96,12 @@ private struct MapContentSwiftUIView: View {
     /// Toujours vide en Release : le mode éditeur n'existe pas dans le binaire
     /// soumis. C'est ce qui évite un `#if DEBUG` dans le moteur de carte.
     let draftPins: [DraftPin]
+    /// Clés d'invalidation de `MapClusterCache`, portées par les modèles
+    /// propriétaires des deux collections. Voir `MapClusterCache`.
+    let poisGeneration: Int
+    let spotsGeneration: Int
     let isFound: (POI) -> Bool
-    var zoomScale: CGFloat = 1
+    var zoom: MapRenderState
     let onTapPOI: (POI) -> Void
     let onTapCluster: (POICluster) -> Void
     /// Reçoit la position plutôt que le groupe : zoomer n'a besoin que d'un
@@ -73,11 +116,7 @@ private struct MapContentSwiftUIView: View {
 
     private var fullSize: CGFloat { MapGeometry.fullSize(for: manifest) }
 
-    /// Contre-échelle pour garder les pins à taille écran constante, mais
-    /// PLAFONNÉE à 1 : sans ce plafond, une carte dézoomée à 0,43 gonflait
-    /// chaque pin à ~51 pt (22 × 1/0,43) et la fixture de référence noyait
-    /// entièrement la carte sous les pastilles.
-    private var pinScale: CGFloat { min(1 / max(zoomScale, 0.01), 1) }
+    private var pinScale: CGFloat { zoom.pinScale }
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -99,7 +138,7 @@ private struct MapContentSwiftUIView: View {
                     clusterBubble(cluster)
                 }
             }
-            ForEach(personalPins) { pin in
+            ForEach(visiblePersonalPins) { pin in
                 personalPin(pin)
             }
             ForEach(communityClusters) { cluster in
@@ -111,7 +150,7 @@ private struct MapContentSwiftUIView: View {
                     communityBubble(cluster)
                 }
             }
-            ForEach(draftPins) { pin in
+            ForEach(visibleDraftPins) { pin in
                 draftPin(pin)
             }
         }
@@ -180,11 +219,21 @@ private struct MapContentSwiftUIView: View {
             )
             .scaleEffect(pinScale)
             .position(MapGeometry.contentPoint(for: pin.position, manifest: manifest))
-            .accessibilityLabel(Text("Brouillon"))
+            // `verbatim` : l'éditeur interne ne sort jamais du binaire de
+            // debug, il n'a pas à peupler le catalogue des cinq langues — et
+            // ce littéral s'y extrayait en souche vide.
+            .accessibilityLabel(Text(verbatim: "Brouillon"))
     }
 
+    /// Le découpage par fenêtre s'applique APRÈS le cache, jamais dedans : le
+    /// cache reste indexé sur (famille, génération, forme), donc panoramiquer
+    /// ne le périme pas. Filtrer 537 groupes coûte quelques centièmes de
+    /// milliseconde, contre ~0,066 ms la pastille effectivement bâtie.
     private var clusters: [POICluster] {
-        MapClusterer.clusters(items: pois, zoomScale: zoomScale, contentSize: fullSize)
+        MapClusterCache.clusters(
+            items: pois, shape: zoom.clusterShape,
+            generation: poisGeneration
+        ).filter { zoom.window.contains($0.position) }
     }
 
     /// Agrégés séparément des POI éditoriaux, et pas mêlés à eux : les deux
@@ -197,7 +246,21 @@ private struct MapContentSwiftUIView: View {
     /// pastilles porteraient le même id — SwiftUI confondrait deux vues qui
     /// n'ont rien à voir.
     private var communityClusters: [ContributionCluster] {
-        MapClusterer.clusters(items: communitySpots, zoomScale: zoomScale, contentSize: fullSize, keyPrefix: "s")
+        MapClusterCache.clusters(
+            items: communitySpots, shape: zoom.clusterShape,
+            keyPrefix: "s", generation: spotsGeneration
+        ).filter { zoom.window.contains($0.position) }
+    }
+
+    /// Épingles personnelles et brouillons passent par la même fenêtre : ils
+    /// sont peu nombreux aujourd'hui, mais rien ne garantit qu'ils le restent,
+    /// et une exception silencieuse serait une régression en attente.
+    private var visiblePersonalPins: [PersonalPin] {
+        personalPins.filter { zoom.window.contains(NormalizedPoint(x: $0.x, y: $0.y)) }
+    }
+
+    private var visibleDraftPins: [DraftPin] {
+        draftPins.filter { zoom.window.contains($0.position) }
     }
 
     private func poiPin(_ poi: POI, at position: NormalizedPoint) -> some View {
@@ -332,6 +395,9 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let personalPins: [PersonalPin]
     let communitySpots: [Contribution]
     var draftPins: [DraftPin] = []
+    let poisGeneration: Int
+    let spotsGeneration: Int
+    let personalPinsGeneration: Int
     let isFound: (POI) -> Bool
     @Binding var viewport: MapViewport
     let onLongPress: (CGPoint) -> Void
@@ -354,7 +420,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
         scrollView.contentInsetAdjustmentBehavior = .never
         let fullSize = MapGeometry.fullSize(for: manifest)
 
-        let hostingController = UIHostingController(rootView: makeContent(zoomScale: 1, coordinator: context.coordinator))
+        let hostingController = UIHostingController(rootView: makeContent(zoom: MapRenderState(zoomScale: 1, contentSize: fullSize), coordinator: context.coordinator))
         hostingController.view.backgroundColor = .clear
         hostingController.view.frame = CGRect(x: 0, y: 0, width: fullSize, height: fullSize)
 
@@ -370,6 +436,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
         context.coordinator.contentView = hostingController.view
         context.coordinator.hostingController = hostingController
         context.coordinator.scrollView = scrollView
+        context.coordinator.contentFullSize = fullSize
         scrollView.backgroundColor = .black
 
         DispatchQueue.main.async { [weak scrollView] in
@@ -386,6 +453,39 @@ struct TiledMapRepresentable: UIViewRepresentable {
         return scrollView
     }
 
+    /// Tout ce qui, dans le contenu poussé vers la vue hébergée, peut changer.
+    ///
+    /// Le zoom et le panoramique n'en font PAS partie : ils sont poussés
+    /// directement par `Coordinator.sync`, sur chaque frame, sans passer par ici.
+    ///
+    /// Les générations remplacent une comparaison de tableaux qui serait à la
+    /// fois plus chère et FAUSSE : `POI` et `PersonalPin` sont des références,
+    /// donc deux tableaux identiques peuvent porter des membres modifiés.
+    struct ContentToken: Equatable {
+        let game: MapGame
+        let style: MapStyle
+        let poisGeneration: Int
+        let spotsGeneration: Int
+        let personalPinsGeneration: Int
+        let draftPins: [DraftPin]
+        /// L'éditeur armé change les gestes disponibles sans forcément changer
+        /// les brouillons — sans ça, l'armer ne prendrait effet qu'au prochain
+        /// changement de données.
+        let canAdopt: Bool
+    }
+
+    private var contentToken: ContentToken {
+        ContentToken(
+            game: game,
+            style: style,
+            poisGeneration: poisGeneration,
+            spotsGeneration: spotsGeneration,
+            personalPinsGeneration: personalPinsGeneration,
+            draftPins: draftPins,
+            canAdopt: onAdopt != nil
+        )
+    }
+
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
         // Rafraîchit les données (pois/personalPins/communitySpots) sans
         // écraser le zoomScale que `Coordinator.sync` maintient déjà en
@@ -397,11 +497,23 @@ struct TiledMapRepresentable: UIViewRepresentable {
             context.coordinator.displayedGame = game
             (scrollView as? FitToBoundsScrollView)?.refit()
         }
-        let currentZoom = context.coordinator.hostingController?.rootView.zoomScale ?? viewport.zoomScale
-        context.coordinator.hostingController?.rootView = makeContent(zoomScale: currentZoom, coordinator: context.coordinator)
+        // Rien de la carte n'a changé : ne pas repousser le contenu.
+        //
+        // Remplacer `rootView` fait reconstruire TOUTES les pastilles. Or
+        // `updateUIView` est appelé pour quantité de raisons étrangères à la
+        // carte — au premier chef l'ouverture et la fermeture d'une fiche de
+        // POI, qui invalident le corps de l'écran sans toucher au contenu.
+        // Mesuré sur iPhone : trois ouvertures et trois fermetures
+        // provoquaient dix reconstructions complètes.
+        let token = contentToken
+        guard context.coordinator.displayedContent != token else { return }
+        context.coordinator.displayedContent = token
+
+        let currentZoom = context.coordinator.hostingController?.rootView.zoom ?? MapRenderState(zoomScale: viewport.zoomScale, contentSize: MapGeometry.fullSize(for: manifest))
+        context.coordinator.hostingController?.rootView = makeContent(zoom: currentZoom, coordinator: context.coordinator)
     }
 
-    private func makeContent(zoomScale: CGFloat, coordinator: Coordinator) -> MapContentSwiftUIView {
+    private func makeContent(zoom: MapRenderState, coordinator: Coordinator) -> MapContentSwiftUIView {
         MapContentSwiftUIView(
             manifest: manifest,
             game: game,
@@ -410,8 +522,10 @@ struct TiledMapRepresentable: UIViewRepresentable {
             personalPins: personalPins,
             communitySpots: communitySpots,
             draftPins: draftPins,
+            poisGeneration: poisGeneration,
+            spotsGeneration: spotsGeneration,
             isFound: isFound,
-            zoomScale: zoomScale,
+            zoom: zoom,
             onTapPOI: onTapPOI,
             onTapCluster: { [weak coordinator] cluster in
                 coordinator?.zoom(to: cluster.position, manifest: manifest)
@@ -434,6 +548,12 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// de carte dans `updateUIView`, qui est appelé pour bien d'autres
         /// raisons (chaque frame de scroll/zoom, notamment).
         fileprivate var displayedGame: MapGame?
+        /// Dernier jeton poussé — voir `TiledMapRepresentable.ContentToken`.
+        fileprivate var displayedContent: TiledMapRepresentable.ContentToken?
+        /// Côté du contenu en coordonnées pleine résolution. Retenu ici parce
+        /// que `sync` en a besoin pour reconstruire l'état de zoom et n'a pas
+        /// accès au manifeste.
+        fileprivate var contentFullSize: CGFloat = 0
         @Binding private var viewport: MapViewport
         private let onLongPress: (CGPoint) -> Void
 
@@ -472,7 +592,19 @@ struct TiledMapRepresentable: UIViewRepresentable {
             // le moins coûteux pour garder les pins à taille constante à
             // l'écran (contre-échelle) sans dépendre d'un aller-retour par
             // SwiftUI côté MapScreen.
-            hostingController?.rootView.zoomScale = newViewport.zoomScale
+            hostingController?.rootView.zoom = MapRenderState(
+                zoomScale: newViewport.zoomScale,
+                contentSize: contentFullSize,
+                window: MapRenderWindow(
+                    visibleContentRect: MapGeometry.visibleContentRect(
+                        bounds: scrollView.bounds.size,
+                        contentOffset: newViewport.contentOffset,
+                        zoomScale: newViewport.zoomScale
+                    ),
+                    contentSize: contentFullSize,
+                    zoomScale: newViewport.zoomScale
+                )
+            )
         }
 
         @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {

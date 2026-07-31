@@ -17,9 +17,147 @@ struct ContentInsets: Equatable, Sendable {
     var right: CGFloat = 0
 }
 
+/// Portion de carte pour laquelle on construit réellement des pastilles.
+///
+/// Le contenu zoomable couvre la carte ENTIÈRE, à toutes les échelles : au zoom
+/// maximal, 5 % de sa surface est à l'écran, et les 95 % restants étaient tout
+/// de même bâtis en vues SwiftUI. Or le coût mesuré est linéaire en nombre de
+/// pastilles (~0,066 ms l'unité, contre 12 ms de plancher fixe par frame) : à
+/// 537 points désagrégés, c'est 35 ms par frame pour une trentaine de pastilles
+/// effectivement visibles.
+///
+/// La fenêtre est QUANTIFIÉE et débordante d'une marge. Les deux propriétés
+/// comptent, pour des raisons opposées :
+///
+/// - sans quantification, la fenêtre changerait à chaque frame de panoramique
+///   et ferait réévaluer le contenu en continu — le panoramique, sinon gratuit,
+///   deviendrait le chemin le plus cher ;
+/// - sans marge, une pastille apparaîtrait pile au bord de l'écran au moment
+///   où elle y entre, ce qui se voit.
+struct MapRenderWindow: Equatable, Sendable {
+    /// Côté d'une tuile de quantification, en points d'ÉCRAN.
+    ///
+    /// En points d'écran, et non en pixels de contenu : c'est tout le sujet.
+    /// Une tuile de taille fixe dans le CONTENU vaut, à l'écran, une distance
+    /// qui varie avec le zoom — 27 pt au dézoom maximal contre 160 pt au zoom
+    /// maximal, sur iPhone. Panoramiquer d'une même distance visible franchissait
+    /// donc six fois plus de tuiles une fois dézoomé, et chaque franchissement
+    /// reconstruit toutes les pastilles.
+    ///
+    /// Mesuré, panoramique scripté de 300 images à zoom constant : 131
+    /// reconstructions au dézoom maximal contre 45 au zoom maximal, pour 129
+    /// pastilles contre 79. D'où 58,6 fps d'un côté et 59,4 de l'autre — et
+    /// 60,0 dès qu'on retirait les pastilles, l'illustration restant affichée.
+    ///
+    /// Exprimée à l'écran, la cadence de franchissement devient la même partout.
+    /// Effet de bord voulu : au dézoom maximal les tuiles deviennent si larges
+    /// dans le contenu que la fenêtre dépasse le seuil de repli et se ramène à
+    /// la carte entière — donc plus aucune reconstruction pendant un panoramique,
+    /// exactement là où le découpage ne rapportait presque rien.
+    static let tileScreenSize: CGFloat = 96
+    /// Marge, en tuiles, ajoutée de chaque côté — l'ordre de grandeur d'une
+    /// pastille suffit, la fenêtre étant recalculée sur la frame même où on
+    /// franchit une tuile.
+    static let marginTiles: Double = 1
+
+    /// Au-delà de cette part de la carte couverte, la fenêtre est ramenée à
+    /// `whole`. Ce n'est pas une approximation, c'est le point d'équilibre :
+    ///
+    /// une fenêtre découpée dépend du panoramique, donc elle change — et chaque
+    /// changement est une réévaluation du contenu. Mesuré au dézoom maximal sur
+    /// iPad, où presque toute la carte est visible : le découpage retranchait
+    /// UNE pastille sur 204 et faisait passer les réévaluations de 6 à 26 sur
+    /// 240 frames, soit 56,3 → 53,8 fps. Il se payait sans rien rapporter.
+    ///
+    /// En dessous du seuil il rapporte largement : au zoom maximal, 531
+    /// pastilles tombent à 237, et 19,0 → 36,0 fps.
+    static let coverageSnappingToWhole = 0.6
+
+    /// Bornes normalisées [0, 1], déjà arrondies vers l'extérieur sur la grille.
+    let minX: Double
+    let minY: Double
+    let maxX: Double
+    let maxY: Double
+
+    /// Toute la carte. C'est le repli SÛR : une géométrie inconnue doit tout
+    /// afficher, jamais rien — une pastille manquante est un défaut visible,
+    /// une pastille en trop ne coûte que du temps.
+    static let whole = MapRenderWindow(unchecked: 0, 0, 1, 1)
+
+    private init(unchecked minX: Double, _ minY: Double, _ maxX: Double, _ maxY: Double) {
+        self.minX = minX
+        self.minY = minY
+        self.maxX = maxX
+        self.maxY = maxY
+    }
+
+    /// - Parameters:
+    ///   - visibleContentRect: fenêtre visible en coordonnées de contenu pleine
+    ///     résolution (donc déjà divisée par le zoom).
+    ///   - zoomScale: nécessaire parce que la quantification se mesure à
+    ///     l'écran, pas dans le contenu.
+    init(visibleContentRect rect: CGRect, contentSize: CGFloat, zoomScale: CGFloat) {
+        guard contentSize > 0, zoomScale > 0, zoomScale.isFinite,
+              rect.width > 0, rect.height > 0,
+              rect.minX.isFinite, rect.minY.isFinite,
+              rect.maxX.isFinite, rect.maxY.isFinite else {
+            self = .whole
+            return
+        }
+        let tile = Double(Self.tileScreenSize / zoomScale)
+        let size = Double(contentSize)
+        guard tile > 0, tile.isFinite else {
+            self = .whole
+            return
+        }
+        func lower(_ value: CGFloat) -> Double {
+            ((Double(value) / tile).rounded(.down) - Self.marginTiles) * tile / size
+        }
+        func upper(_ value: CGFloat) -> Double {
+            ((Double(value) / tile).rounded(.up) + Self.marginTiles) * tile / size
+        }
+        self.init(
+            minX: lower(rect.minX), minY: lower(rect.minY),
+            maxX: upper(rect.maxX), maxY: upper(rect.maxY)
+        )
+    }
+
+    init(minX: Double, minY: Double, maxX: Double, maxY: Double) {
+        let clampedMinX = min(max(minX, 0), 1)
+        let clampedMinY = min(max(minY, 0), 1)
+        let clampedMaxX = min(max(maxX, clampedMinX), 1)
+        let clampedMaxY = min(max(maxY, clampedMinY), 1)
+
+        let coverage = (clampedMaxX - clampedMinX) * (clampedMaxY - clampedMinY)
+        if coverage >= Self.coverageSnappingToWhole {
+            self = .whole
+            return
+        }
+        self.init(unchecked: clampedMinX, clampedMinY, clampedMaxX, clampedMaxY)
+    }
+
+    func contains(_ point: NormalizedPoint) -> Bool {
+        point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY
+    }
+}
+
 enum MapGeometry {
     static func fullSize(for manifest: MapManifest) -> CGFloat {
         CGFloat(manifest.size)
+    }
+
+    /// Fenêtre visible en coordonnées de contenu, à partir de l'état d'une vue
+    /// de défilement. `contentOffset` peut être négatif quand les encarts de
+    /// centrage laissent du vide autour de la carte — la fenêtre déborde alors
+    /// du contenu, ce que `MapRenderWindow` borne.
+    static func visibleContentRect(bounds: CGSize, contentOffset: CGPoint, zoomScale: CGFloat) -> CGRect {
+        let scale = max(zoomScale, 0.0001)
+        return CGRect(
+            x: contentOffset.x / scale,
+            y: contentOffset.y / scale,
+            width: bounds.width / scale,
+            height: bounds.height / scale
+        )
     }
 
     /// A point's position in content-space (full-resolution, un-zoomed) —

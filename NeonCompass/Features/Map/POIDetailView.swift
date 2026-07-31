@@ -25,18 +25,49 @@ struct POIDetailView: View {
                     .font(NCTypography.displayTitle)
                     .foregroundStyle(.white)
                 Spacer()
+                // 17 pt en `.secondary` : la seule sortie du panneau iPad était
+                // un point gris qu'on ne voyait pas et qu'on manquait. La
+                // feuille du compact se balaie, elle pardonnait ; le panneau
+                // latéral n'a que ce bouton, il lui faut la cible de 44 pt du
+                // HIG. Le retrait négatif la rend grande sans la décoller du
+                // coin.
                 Button {
                     onDismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.secondary)
+                        .font(.title2)
+                        .foregroundStyle(.white.opacity(0.7))
+                        .frame(width: 44, height: 44)
+                        .contentShape(.rect)
                 }
+                .buttonStyle(.plain)
+                .padding(.trailing, -10)
+                .accessibilityLabel(Text("poi.detail.close"))
             }
 
             if let note = poi.note {
-                Text(note.resolved(for: currentLanguageCode))
-                    .font(NCTypography.body)
-                    .foregroundStyle(.secondary)
+                // La fiche n'est plus une feuille système : plus personne ne
+                // plafonne sa hauteur ni ne la fait défiler à notre place. Or
+                // les notes de la fixture vont jusqu'à 819 caractères — un
+                // mode d'emploi de cascade — et une fiche haute de tout ça
+                // avalerait la carte sur iPhone.
+                //
+                // `ViewThatFits` prend la première variante qui tient dans la
+                // hauteur proposée : la note à sa taille naturelle si elle y
+                // tient, la version défilante sinon. La fiche suit donc son
+                // texte, et ne se fige qu'une fois le plafond atteint.
+                //
+                // Le plafond n'est PAS posé ici, et c'est délibéré : un
+                // `.frame(maxHeight:)` ne se contente pas de borner, il prend
+                // toute la hauteur proposée jusqu'à son maximum et centre son
+                // contenu dedans — une note de deux lignes se retrouvait au
+                // milieu de 220 pt de vide. C'est l'appelant qui borne, en
+                // limitant ce qu'il PROPOSE (voir `MapScreen.detailPanel`).
+                ViewThatFits(in: .vertical) {
+                    noteText(note)
+                    ScrollView { noteText(note) }
+                        .scrollBounceBehavior(.basedOnSize)
+                }
             }
 
             Button {
@@ -61,6 +92,13 @@ struct POIDetailView: View {
         .padding(20)
         .glassEffect(.regular, in: .rect(cornerRadius: 24))
         .padding(16)
+    }
+
+    private func noteText(_ note: LocalizedText) -> some View {
+        Text(note.resolved(for: currentLanguageCode))
+            .font(NCTypography.body)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
 #if DEBUG

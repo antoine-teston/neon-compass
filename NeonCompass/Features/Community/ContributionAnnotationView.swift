@@ -45,15 +45,26 @@ struct ContributionAnnotationView: View {
                 .foregroundStyle(.secondary)
 
             HStack(spacing: 16) {
+                // `verbatim` : un décompte nu n'a rien à traduire, et sans ça
+                // SwiftUI en fait la clé de localisation « %lld », qui finit en
+                // souche vide dans le catalogue.
                 Button {
                     onVote(.up)
                 } label: {
-                    Label("\(spot.upvotes)", systemImage: "arrow.up")
+                    Label {
+                        Text(verbatim: "\(spot.upvotes)")
+                    } icon: {
+                        Image(systemName: "arrow.up")
+                    }
                 }
                 Button {
                     onVote(.down)
                 } label: {
-                    Label("\(spot.downvotes)", systemImage: "arrow.down")
+                    Label {
+                        Text(verbatim: "\(spot.downvotes)")
+                    } icon: {
+                        Image(systemName: "arrow.down")
+                    }
                 }
                 Spacer()
                 Button("map.spot.report", action: onReport)
