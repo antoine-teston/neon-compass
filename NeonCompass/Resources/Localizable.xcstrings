@@ -4524,6 +4524,74 @@
         }
       }
     },
+    "profile.signIn.missingNonce" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Anfrage wurde nicht vorbereitet. Versuche es erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The request wasn't prepared. Try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La solicitud no se preparó. Inténtalo de nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La demande n'a pas été préparée. Réessaie."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La richiesta non è stata preparata. Riprova."
+          }
+        }
+      }
+    },
+    "profile.signIn.missingToken" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple hat kein Identitätstoken zurückgegeben."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple didn't return an identity token."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple no devolvió un token de identidad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple n'a pas renvoyé de jeton d'identité."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple non ha restituito un token di identità."
+          }
+        }
+      }
+    },
     "profile.signIn.prompt" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4590,6 +4658,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accedi per sincronizzare i tuoi progressi tra iPhone e iPad."
+          }
+        }
+      }
+    },
+    "profile.signIn.unexpectedCredential" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple hat einen unerwarteten Anmeldedatentyp zurückgegeben."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple returned an unexpected credential type."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple devolvió un tipo de credencial inesperado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'identifiant Apple reçu est d'un type inattendu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple ha restituito un tipo di credenziale imprevisto."
           }
         }
       }

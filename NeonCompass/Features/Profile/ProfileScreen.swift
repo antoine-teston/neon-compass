@@ -1,7 +1,6 @@
 import SwiftUI
 import SwiftData
 import AuthenticationServices
-import CryptoKit
 import UIKit
 
 struct ProfileScreen: View {
@@ -117,10 +116,10 @@ struct ProfileScreen: View {
                 .multilineTextAlignment(.center)
 
             SignInWithAppleButton(.signIn) { request in
-                let nonce = Self.randomNonceString()
+                let nonce = AppleSignInCoordinator.makeRawNonce()
                 currentNonce = nonce
                 request.requestedScopes = []
-                request.nonce = Self.sha256(nonce)
+                request.nonce = AppleSignInCoordinator.sha256(nonce)
             } onCompletion: { result in
                 handleSignInResult(result)
             }
@@ -303,52 +302,38 @@ struct ProfileScreen: View {
     private func handleSignInResult(_ result: Result<ASAuthorization, Error>) {
         switch result {
         case .failure(let error):
-            // L'annulation volontaire n'est pas une erreur : refermer la feuille
-            // ne doit pas déclencher d'alerte.
-            if (error as? ASAuthorizationError)?.code == .canceled { return }
-            report(signInError: error.localizedDescription)
+            let failure = AppleSignInCoordinator.classify(error: error)
+            if failure == .canceled { return }
+            report(failure)
         case .success(let authorization):
-            guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-                return report(signInError: "Identifiant Apple d'un type inattendu.")
-            }
-            guard let tokenData = credential.identityToken,
-                  let idTokenString = String(data: tokenData, encoding: .utf8) else {
-                return report(signInError: "Apple n'a pas renvoyé de jeton d'identité.")
-            }
-            guard let nonce = currentNonce else {
-                return report(signInError: "Nonce absent : la demande n'a pas été préparée.")
-            }
-            Task {
-                do {
-                    try await authModel.signIn(idTokenString: idTokenString, nonce: nonce)
-                } catch {
-                    report(signInError: error.localizedDescription)
+            let credential = authorization.credential as? ASAuthorizationAppleIDCredential
+            switch AppleSignInCoordinator.resolve(credential: credential, rawNonce: currentNonce) {
+            case .failure(let failure):
+                report(failure)
+            case .success(let value):
+                Task {
+                    do {
+                        try await authModel.signIn(idTokenString: value.idToken, nonce: value.nonce)
+                    } catch {
+                        report(AppleSignInCoordinator.classify(error: error))
+                    }
                 }
             }
         }
     }
 
-    private func report(signInError message: String) {
+    private func report(_ failure: AppleSignInFailure) {
+        let message: String
+        switch failure {
+        case .canceled: return
+        case .unexpectedCredentialType: message = String(localized: "profile.signIn.unexpectedCredential")
+        case .missingIdentityToken: message = String(localized: "profile.signIn.missingToken")
+        case .missingNonce: message = String(localized: "profile.signIn.missingNonce")
+        case .underlying(let detail): message = detail
+        }
         // Imprimé en plus de l'alerte : c'est ce qui rend le diagnostic
         // possible depuis les journaux du simulateur.
         print("ProfileScreen: connexion refusée — \(message)")
         signInError = message
-    }
-
-    // Standard Firebase + Sign in with Apple boilerplate: a random nonce is
-    // sent to Apple hashed (SHA256), and the raw nonce is sent to Firebase
-    // alongside Apple's signed identity token — this round-trip is what lets
-    // Firebase verify the token was issued for *this* sign-in attempt.
-    private static func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
-        var randomBytes = [UInt8](repeating: 0, count: length)
-        _ = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
-        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-        return String(randomBytes.map { charset[Int($0) % charset.count] })
-    }
-
-    private static func sha256(_ input: String) -> String {
-        let hashed = SHA256.hash(data: Data(input.utf8))
-        return hashed.map { String(format: "%02x", $0) }.joined()
     }
 }
