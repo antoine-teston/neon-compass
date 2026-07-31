@@ -60,7 +60,7 @@ Un `ScrollView` de sections sur verre, dans cet ordre :
 
 | Section | Contenu | Compte requis |
 |---|---|---|
-| **Identité** | Handle, niveau, barre d'XP vers le niveau suivant, rang contributeur, badge Pro | Non |
+| **Identité** | Handle, niveau, barre d'XP vers le niveau suivant, rang contributeur, badge Pro, bouton d'engrenage | Non |
 | **Progression** | Une carte par jeu : anneau + lignes de défis | Non |
 | **Trophées** | La carte à cocher existante | Non |
 | **Mes contributions** | Liste + statuts (en attente / approuvé / rejeté) | Oui |
@@ -85,7 +85,17 @@ inexplicable en information.
 
 ### Les réglages sortent
 
-Un `SettingsScreen` ouvert par une icône d'engrenage dans la toolbar du Profil.
+Un `SettingsScreen` présenté en **feuille**, ouvert par un bouton d'engrenage
+posé dans la ligne d'entête du contenu — **pas dans une `toolbar`**.
+
+La nuance n'est pas cosmétique. Aucun écran d'onglet n'a de `NavigationStack` :
+`RootView` empile ses écrans dans un `ZStack` surmonté d'une barre d'onglets
+maison, et seul `NewsDetailView`, qui est une feuille, en possède un. Un
+`ToolbarItem` ne s'afficherait donc nulle part, sans que SwiftUI ne signale quoi
+que ce soit — c'est précisément le défaut qui a frappé le sélecteur V/VI de la
+section Codes, vu seulement en regardant le simulateur. La feuille suit le motif
+déjà en place pour `PaywallView`.
+
 Il reçoit, déplacés sans changement de comportement :
 
 - Thème néon (Pro) et icône d'app alternative (Pro)

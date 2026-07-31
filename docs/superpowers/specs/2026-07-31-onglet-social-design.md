@@ -153,10 +153,12 @@ gratuites ». Un crochet de rétention derrière un paywall ne retient personne.
 
 GTA Online se met à jour le jeudi ; la cadence de Leonida est inconnue. Le compte
 à rebours vient donc **toujours de `endsAt` du contenu publié**, jamais d'un
-calcul de jour de semaine. Le seul usage d'un jour nommé est la phrase
-d'information affichée quand aucun événement n'est publié — un paramètre Remote
-Config (`onlineResetWeekday`, défaut jeudi) permet de la corriger sans mise à
-jour de l'app.
+calcul de jour de semaine.
+
+Corollaire pour l'état vide : il ne nomme aucun jour non plus. « La prochaine
+mise à jour hebdomadaire s'affichera ici » est vrai des deux jeux et ne peut pas
+se tromper. Un paramètre Remote Config pour corriger un jour affiché avait été
+envisagé — il n'a plus d'objet dès lors qu'aucun jour n'est affiché.
 
 ## Pilier 2 — Le classement des contributeurs (v1)
 
