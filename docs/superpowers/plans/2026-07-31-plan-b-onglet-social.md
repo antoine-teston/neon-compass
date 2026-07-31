@@ -943,13 +943,18 @@ Ajouter dans `NeonCompassTests/App/AppTabTests.swift`, à côté de `progressTab
 
 ```swift
     /// La carte est au centre, et c'est structurel : `CompactTabBar` la rend
-    /// comme un bouton proéminent à part des autres. Le plan A avait laissé la
-    /// barre à quatre onglets — donc décentrée ; ce test est ce qui empêche d'y
-    /// revenir sans s'en apercevoir.
+    /// comme un bouton proéminent à part des autres.
+    ///
+    /// Ce test RESTAURE une couverture qui existait avant le plan A, sous le nom
+    /// `fiveTabsWithMapInCenter` : ce plan-là a ramené la barre à quatre onglets,
+    /// rendant caduques ses assertions `count == 5` et `tabs[2] == .map`. Le
+    /// cinquième onglet les rétablit, et ce test empêche d'y revenir sans s'en
+    /// apercevoir. La troisième assertion de l'ancien test (`first == .feed`) a
+    /// survécu séparément sous le nom `feedComesFirst`.
     @Test func mapSitsInTheMiddle() {
         let tabs = AppTab.allCases
-        #expect(tabs.count % 2 == 1)
-        #expect(tabs[tabs.count / 2] == .map)
+        #expect(tabs.count == 5)
+        #expect(tabs[2] == .map)
     }
 ```
 

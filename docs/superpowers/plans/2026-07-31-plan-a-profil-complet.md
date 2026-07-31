@@ -1156,7 +1156,7 @@ commit suivant."
 - Modify: `NeonCompass/App/AppTab.swift:4-26`
 - Modify: `NeonCompass/App/RootView.swift:203-212`
 - Delete: `NeonCompass/Features/Progression/ProgressionScreen.swift`
-- Create: `NeonCompassTests/App/AppTabTests.swift`
+- Modify: `NeonCompassTests/App/AppTabTests.swift` — **le fichier EXISTE déjà** et porte deux tests (`fiveTabsWithMapInCenter`, `defaultTabIsFeed`). Étendre, jamais remplacer : `defaultTabIsFeed` reste valide, et seules les assertions `count == 5` / `tabs[2] == .map` de `fiveTabsWithMapInCenter` deviennent caduques à quatre onglets (sa troisième, `first == .feed`, survit sous le nom `feedComesFirst`).
 
 **Interfaces:**
 - Consumes: `ProgressionSection` (T4).
