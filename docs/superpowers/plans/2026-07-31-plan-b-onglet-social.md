@@ -202,11 +202,16 @@ Et au bloc `KINDS` :
   'online-events': { schema: 'online-events', collection: 'online_events' },
 ```
 
-Le garde-fou `needsRewrite` doit s'appliquer au nouveau kind comme à `news`. Localiser la ligne existante (~121) et l'étendre :
+**Les DEUX garde-fous de publication** doivent s'appliquer au nouveau kind, pas seulement le premier. Le CLI en porte deux, à quelques lignes l'un de l'autre :
 
 ```js
+    // celui qui refuse une entrée encore à rédiger
     if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.needsRewrite) {
+    // et celui qui refuse de publier une rumeur — à étendre AUSSI
+    if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.confidence === 'rumor') {
 ```
+
+N'en étendre qu'un est un piège vérifié : la description du champ `confidence` dans le schéma ci-dessus affirme que « check-publishable refuse déjà de publier une rumeur ». Si le second garde-fou ignore le nouveau kind, **le code contredit sa propre documentation** — et le trou ne se voit pas, puisque aucun contenu n'existe encore pour le révéler.
 
 - [ ] **Step 3: Ouvrir la lecture dans les règles Firestore**
 
