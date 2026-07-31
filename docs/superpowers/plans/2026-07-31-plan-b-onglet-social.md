@@ -20,6 +20,7 @@
 - **Marques déposées interdites** dans toute chaîne d'interface. Les jeux se nomment par leurs chiffres romains (`Game.shortLabel`).
 - **`sources` n'est jamais embarqué dans le modèle Swift** : les URL contiennent les marques (`gtaboom.com/rockstar-…`). Même règle que `NewsItem`, dont le commentaire l'explique — elles reviendront avec la bascule de marques.
 - **Sources autorisées uniquement** : GTABOOM, Leonidaverse, GTA6.gg. `rockstargames.com` est interdit à la veille automatique (`robots.txt : ClaudeBot Disallow: /`). `tools/content-cli/source-policy.mjs` fait autorité et lève sur un domaine interdit.
+- **`xcodegen generate` après toute création de fichier source.** `project.yml` n'a jamais à être modifié (il glob `NeonCompass/`), mais sans régénération le `.xcodeproj` ignore le fichier — et `xcodebuild` rapporte alors silencieusement « 0 tests » **au lieu d'un échec de compilation**. C'est le piège qui vide l'étape « vérifier que le test échoue » de tout son sens : on croit voir un échec TDD là où rien n'a été compilé.
 - **Jamais de `ToolbarItem` dans un écran d'onglet** : aucun n'a de `NavigationStack`, `RootView` les empile dans un `ZStack` sous une barre maison, et l'item ne s'afficherait nulle part sans erreur.
 - **Firebase reste derrière un protocole dans `Core/`.**
 
