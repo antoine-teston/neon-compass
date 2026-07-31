@@ -936,9 +936,13 @@ enum AppTab: String, CaseIterable, Identifiable, Sendable {
 
 L'ordre place `social` **après** `map` : `CompactTabBar` traite la carte à part et la veut au centre. Avec cinq onglets, `map` est à l'index 2.
 
-Dans `NeonCompassTests/App/AppTabTests.swift`, retirer le `.disabled(...)` posé au plan A :
+Ajouter dans `NeonCompassTests/App/AppTabTests.swift`, à côté de `progressTabIsGone` posé au plan A :
 
 ```swift
+    /// La carte est au centre, et c'est structurel : `CompactTabBar` la rend
+    /// comme un bouton proéminent à part des autres. Le plan A avait laissé la
+    /// barre à quatre onglets — donc décentrée ; ce test est ce qui empêche d'y
+    /// revenir sans s'en apercevoir.
     @Test func mapSitsInTheMiddle() {
         let tabs = AppTab.allCases
         #expect(tabs.count % 2 == 1)
@@ -1186,7 +1190,7 @@ Dans `RootView.screen(for:)` :
 xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 16' test
 ```
 
-Attendu : tout au vert, `mapSitsInTheMiddle` compris — il repasse au vert avec le cinquième onglet.
+Attendu : tout au vert, `mapSitsInTheMiddle` compris — le cinquième onglet remet la carte au centre.
 
 - [ ] **Step 7: Commit**
 

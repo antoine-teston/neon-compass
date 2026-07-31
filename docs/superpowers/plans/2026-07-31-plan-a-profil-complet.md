@@ -1170,23 +1170,10 @@ struct AppTabTests {
     @Test func progressTabIsGone() {
         #expect(!AppTab.allCases.contains { $0.rawValue == "progress" })
     }
-
-    /// La carte reste au centre : CompactTabBar la traite à part, et un nombre
-    /// pair d'onglets la décentrerait.
-    @Test func mapSitsInTheMiddle() {
-        let tabs = AppTab.allCases
-        #expect(tabs.count % 2 == 1)
-        #expect(tabs[tabs.count / 2] == .map)
-    }
 }
 ```
 
-**Attention** : ce second test **échoue volontairement** à la fin de cette tâche — quatre onglets, la carte n'est plus centrée. C'est le signal que l'onglet Social du plan B doit suivre. Le laisser rouge n'est pas acceptable : le marquer explicitement en attente.
-
-```swift
-    @Test(.disabled("Repasse au vert avec l'onglet Social — plan B, tâche 1"))
-    func mapSitsInTheMiddle() {
-```
+Le plan A s'arrête à **quatre** onglets : la carte n'est donc plus au centre, et `CompactTabBar` la traite pourtant à part. C'est un état transitoire assumé, que l'onglet Social du plan B referme. Le test qui garde ce centrage appartient au plan B, où il passe — un test volontairement désactivé pendant tout un plan serait un défaut, pas un garde-fou.
 
 - [ ] **Step 2: Lancer le test pour vérifier qu'il échoue**
 
@@ -1195,7 +1182,7 @@ xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 
   test -only-testing:NeonCompassTests/AppTabTests
 ```
 
-Attendu : `progressTabIsGone` en échec (l'onglet existe encore), `mapSitsInTheMiddle` ignoré.
+Attendu : `progressTabIsGone` en échec — l'onglet existe encore.
 
 - [ ] **Step 3: Retirer le cas de `AppTab`**
 
@@ -1268,8 +1255,7 @@ Aucune migration : AppModel.selectedTab est un défaut non persisté, aucune
 valeur brute \"progress\" ne traîne chez un utilisateur installé.
 
 La barre passe temporairement à quatre onglets, donc la carte n'est plus
-centrée — mapSitsInTheMiddle est désactivé avec la raison, et repasse au vert
-avec l'onglet Social du plan B."
+centrée. L'onglet Social du plan B referme cet état."
 ```
 
 ---
