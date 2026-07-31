@@ -36,8 +36,7 @@ struct AppleSignInCoordinatorTests {
     }
 
     /// `Result` porte un tuple, donc il n'est pas `Equatable` : on ne peut pas
-    /// écrire `#expect(result == .failure(...))`. Le motif ci-dessous est celui
-    /// à reprendre pour les trois cas d'échec.
+    /// écrire `#expect(result == .failure(...))`.
     @Test func resolveRejectsUnexpectedCredentialType() {
         let result = AppleSignInCoordinator.resolve(credential: nil, rawNonce: "nonce-1")
         guard case .failure(let failure) = result else {
@@ -49,6 +48,19 @@ struct AppleSignInCoordinatorTests {
 
     @Test func resolveRejectsMissingIdentityToken() {
         let credential = FakeCredential(identityTokenData: nil)
+        let result = AppleSignInCoordinator.resolve(credential: credential, rawNonce: "nonce-1")
+        guard case .failure(let failure) = result else {
+            Issue.record("attendu : un échec")
+            return
+        }
+        #expect(failure == .missingIdentityToken)
+    }
+
+    /// Deuxième chemin vers le même verdict : des octets qui ne sont pas de
+    /// l'UTF-8 valide. Le premier chemin (données absentes) est déjà couvert ;
+    /// celui-ci ne l'était pas.
+    @Test func resolveRejectsNonUTF8IdentityToken() {
+        let credential = FakeCredential(identityTokenData: Data([0xFF, 0xFE]))
         let result = AppleSignInCoordinator.resolve(credential: credential, rawNonce: "nonce-1")
         guard case .failure(let failure) = result else {
             Issue.record("attendu : un échec")

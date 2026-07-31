@@ -302,9 +302,7 @@ struct ProfileScreen: View {
     private func handleSignInResult(_ result: Result<ASAuthorization, Error>) {
         switch result {
         case .failure(let error):
-            let failure = AppleSignInCoordinator.classify(error: error)
-            if failure == .canceled { return }
-            report(failure)
+            report(AppleSignInCoordinator.classify(error: error))
         case .success(let authorization):
             let credential = authorization.credential as? ASAuthorizationAppleIDCredential
             switch AppleSignInCoordinator.resolve(credential: credential, rawNonce: currentNonce) {
@@ -315,7 +313,7 @@ struct ProfileScreen: View {
                     do {
                         try await authModel.signIn(idTokenString: value.idToken, nonce: value.nonce)
                     } catch {
-                        report(AppleSignInCoordinator.classify(error: error))
+                        report(.underlying(error.localizedDescription))
                     }
                 }
             }

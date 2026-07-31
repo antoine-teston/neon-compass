@@ -1,6 +1,7 @@
 import Foundation
 import CryptoKit
 import AuthenticationServices
+import Security
 
 /// Ce dont le coordinateur a besoin d'un identifiant Apple, et rien de plus.
 ///
@@ -38,7 +39,11 @@ struct AppleSignInCoordinator: Sendable {
     static func makeRawNonce(length: Int = 32) -> String {
         precondition(length > 0)
         var randomBytes = [UInt8](repeating: 0, count: length)
-        _ = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+        let status = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+        // Bruyant délibérément : un échec de la RNG laisserait `randomBytes` à
+        // zéro, donc un nonce constant — la protection anti-rejeu disparaîtrait
+        // sans que rien ne le dise. Mieux vaut ne pas s'authentifier du tout.
+        precondition(status == errSecSuccess, "SecRandomCopyBytes a échoué : \(status)")
         return String(randomBytes.map { charset[Int($0) % charset.count] })
     }
 
