@@ -129,7 +129,7 @@ function checkPublishable(entries) {
     // son id), elle ne franchit pas la publication. Assouplir cette règle est
     // une décision éditoriale, pas un détail de pipeline.
     if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.confidence === 'rumor') {
-      problems.push('published news item cannot rest on a rumor (confidence: rumor)');
+      problems.push('published entry cannot rest on a rumor (confidence: rumor)');
     }
     for (const field of UI_FIELDS) {
       for (const [lang, text] of Object.entries(data[field] ?? {})) {
