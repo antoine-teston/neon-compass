@@ -4,7 +4,7 @@ import Foundation
 /// Implémentation réelle de AccountFunctionsCalling, région europe-west1
 /// (miroir de functions/src/regenerateHandle.ts / deleteAccount.ts).
 final class FirebaseAccountFunctions: AccountFunctionsCalling {
-    nonisolated(unsafe) private let functions: Functions
+    private let functions: Functions
 
     init(functions: Functions = Functions.functions(region: "europe-west1")) {
         self.functions = functions

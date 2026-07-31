@@ -5,7 +5,7 @@ import Foundation
 /// europe-west1 (miroir de functions/src/submitContribution.ts,
 /// castVote.ts, reportContribution.ts).
 final class FirebaseContributionFunctions: ContributionFunctionsCalling {
-    nonisolated(unsafe) private let functions: Functions
+    private let functions: Functions
 
     init(functions: Functions = Functions.functions(region: "europe-west1")) {
         self.functions = functions

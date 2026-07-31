@@ -192,7 +192,7 @@ private struct BannerAdRepresentable: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> BannerView {
-        let banner = BannerView(adSize: inlineAdaptiveBanner(width: width > 0 ? width : UIScreen.main.bounds.width, maxHeight: maxHeight))
+        let banner = BannerView(adSize: inlineAdaptiveBanner(width: width > 0 ? width : AdPresentationContext.fallbackAdWidth, maxHeight: maxHeight))
         banner.adUnitID = adUnitID
         banner.rootViewController = AdPresentationContext.topViewController()
         // Fond transparent, et pas le noir par défaut d'`UIView`.

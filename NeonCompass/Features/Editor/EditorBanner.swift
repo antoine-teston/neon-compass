@@ -16,13 +16,16 @@ struct EditorBanner: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(pendingMove
+            // `verbatim` partout ici : cet outillage interne ne sort jamais du
+            // binaire de debug et n'a pas à peupler le catalogue des cinq
+            // langues, où ses littéraux s'extrayaient en souches vides.
+            Text(verbatim: pendingMove
                  ? "Déplacement : appui long sur la nouvelle position"
                  : "Éditeur armé — \(draftCount) brouillon\(draftCount == 1 ? "" : "s")")
                 .font(.caption.weight(.semibold))
 
             if undeliveredCount > 0 {
-                Text("\(undeliveredCount) en attente d'envoi")
+                Text(verbatim: "\(undeliveredCount) en attente d'envoi")
                     .font(.caption2)
                     .foregroundStyle(NCColor.sunsetOrange)
             }

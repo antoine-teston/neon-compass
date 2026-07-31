@@ -41,6 +41,11 @@ struct CheatCard: View {
             }
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
+            // Le verre qui peint la carte est posé HORS du bouton : sans forme
+            // explicite, SwiftUI ne teste que les glyphes dessinés, et tout le
+            // vide de la carte n'ouvrait rien. Invisible sur iPhone où le texte
+            // occupe la largeur, béant sur iPad où il en occupe le tiers.
+            .contentShape(.rect)
         }
         .buttonStyle(.plain)
         .glassEffect(.regular, in: .rect(cornerRadius: 20))

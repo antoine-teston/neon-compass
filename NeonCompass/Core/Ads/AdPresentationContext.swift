@@ -22,4 +22,14 @@ enum AdPresentationContext {
     static func topViewController() -> UIViewController? {
         keyWindow?.rootViewController
     }
+
+    /// Largeur de repli quand SwiftUI n'a pas encore mesuré l'emplacement.
+    /// `UIScreen.main` tenait ce rôle : déprécié depuis iOS 26, et de toute
+    /// façon faux sur iPad, où il rend l'écran entier alors que l'app peut
+    /// n'occuper qu'une fraction de la largeur en Split View. La fenêtre, elle,
+    /// dit la vraie place disponible. Le dernier recours est la plus petite
+    /// largeur de bannière que vend AdMob.
+    static var fallbackAdWidth: CGFloat {
+        keyWindow?.bounds.width ?? 320
+    }
 }

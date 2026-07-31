@@ -65,7 +65,7 @@ struct RootView: View {
         // on every unrelated state change.
         .task(id: onboarding.needsConsentPrompt) {
             guard !onboarding.needsDisclaimer, !onboarding.needsATTPrompt, !onboarding.needsConsentPrompt else { return }
-            MobileAds.shared.start()
+            await MobileAds.shared.start()
         }
         .task {
             // Seeds the widget with real data at launch, BEFORE the user ever
@@ -94,10 +94,44 @@ struct RootView: View {
         }
     }
 
+    /// Onglets déjà visités, donc construits. Sert à reproduire en compact la
+    /// sémantique que `TabView` offre gratuitement en régulier : un onglet est
+    /// bâti à sa première visite, puis CONSERVÉ.
+    @State private var builtTabs: Set<AppTab> = []
+
+    /// La disposition compacte affichait `screen(for: model.selectedTab)`, un
+    /// `switch` : changer d'onglet remplaçait donc le sous-arbre, et SwiftUI
+    /// jetait tout l'état de l'écran quitté.
+    ///
+    /// Mesuré sur trois aller-retours carte ↔ actu : `loadModel()` de la carte
+    /// s'exécutait 4 fois sur iPhone contre 1 seule sur iPad. Chacune de ces
+    /// exécutions reconstruit deux `ContentStore`, un `MapModel` (requête
+    /// SwiftData + filtrage des 537 points + requête des épingles) et un
+    /// `CommunityModel`. C'était la lenteur propre à l'iPhone.
+    ///
+    /// Ce n'était pas qu'une affaire de vitesse : le zoom, le panoramique, la
+    /// recherche et la position de défilement étaient perdus à chaque passage
+    /// par un autre onglet.
+    ///
+    /// Les écrans masqués restent montés — c'est le prix de la conservation, et
+    /// c'est exactement ce que fait déjà le `TabView` du régulier. Ils ne
+    /// reçoivent ni touche ni lecture d'accessibilité.
     private var compactLayout: some View {
         ZStack(alignment: .bottom) {
-            screen(for: model.selectedTab)
+            ZStack {
+                ForEach(AppTab.allCases) { tab in
+                    if builtTabs.contains(tab) {
+                        screen(for: tab)
+                            .opacity(tab == model.selectedTab ? 1 : 0)
+                            .allowsHitTesting(tab == model.selectedTab)
+                            .accessibilityHidden(tab != model.selectedTab)
+                    }
+                }
+            }
             CompactTabBar(selection: $model.selectedTab)
+        }
+        .onChange(of: model.selectedTab, initial: true) { _, tab in
+            builtTabs.insert(tab)
         }
     }
 
