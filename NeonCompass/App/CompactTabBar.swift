@@ -1,6 +1,10 @@
 import SwiftUI
 
-/// Barre iPhone : 5 items, carte en bouton central proéminent.
+/// Barre iPhone : carte en bouton central proéminent, rendu à part des
+/// autres items. Le centrage suppose un nombre IMPAIR d'onglets — la
+/// fusion des Défis dans le Profil l'a ramené à quatre, donc décentré,
+/// jusqu'à ce qu'un cinquième onglet le rétablisse. `AppTabTests` garde
+/// cette invariante.
 /// Sur iPad, RootView utilise la TabView système (sidebarAdaptable).
 struct CompactTabBar: View {
     @Binding var selection: AppTab

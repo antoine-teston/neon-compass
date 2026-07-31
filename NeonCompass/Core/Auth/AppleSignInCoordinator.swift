@@ -32,7 +32,11 @@ enum AppleSignInFailure: Error, Equatable {
 /// Un nonce aléatoire part chez Apple **haché** (SHA-256) ; le nonce brut part
 /// chez Firebase avec le jeton signé par Apple. Cet aller-retour est ce qui
 /// prouve que le jeton a été émis pour CETTE tentative de connexion.
-struct AppleSignInCoordinator: Sendable {
+/// `enum` et non `struct` : rien que des membres statiques, aucun stockage.
+/// C'est la convention du dépôt pour un espace de noms (cf. `NCColor`,
+/// `NCTypography`) — en `struct`, `AppleSignInCoordinator()` resterait
+/// constructible pour rien.
+enum AppleSignInCoordinator {
     private static let charset: [Character] =
         Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
 
