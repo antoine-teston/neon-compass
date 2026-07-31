@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// Entête du Profil. Utile connecté ou non : hors connexion elle affiche un
-/// titre neutre plutôt qu'un mur de connexion, parce que toute la progression
-/// en dessous est locale et n'exige aucun compte.
+/// Entête du Profil. Reste lisible dans les deux états : hors connexion, un
+/// titre neutre remplace le pseudo plutôt que d'afficher un mur de connexion,
+/// et le bouton de réglages reste atteignable connecté comme déconnecté.
 struct ProfileHeaderView: View {
     let profile: Profile?
     let isSignedIn: Bool
@@ -29,8 +29,9 @@ struct ProfileHeaderView: View {
                         .font(.system(size: 20))
                         .foregroundStyle(.white)
                         .frame(width: 44, height: 44)
+                        .contentShape(.circle)
                 }
-                .glassEffect(.regular.interactive(), in: .circle)
+                .buttonStyle(.plain)
                 .accessibilityLabel(Text("settings.title"))
             }
 

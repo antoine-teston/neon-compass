@@ -20,7 +20,10 @@ struct ProfileScreen: View {
             VStack(spacing: 24) {
                 ProfileHeaderView(
                     profile: profileModel.profile,
-                    isSignedIn: authModel.userID != nil,
+                    // La garde que portait l'ancien `if serverFeatures.isEnabled` :
+                    // sans Cloud Functions, `loadProfile` ne trouve aucun document
+                    // et le pseudo resterait un « … » perpétuel.
+                    isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
                     isProEntitled: proEntitlementModel.isProEntitled,
                     pendingContributionCount: communityModel?.myContributions
                         .filter { $0.status == .pending }.count ?? 0,
