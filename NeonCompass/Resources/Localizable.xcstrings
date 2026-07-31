@@ -4592,6 +4592,40 @@
         }
       }
     },
+    "profile.signIn.invitation" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melde dich an, um Orte vorzuschlagen und deinen Fortschritt zu synchronisieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to contribute spots and sync your progress."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia sesión para proponer lugares y sincronizar tu progreso."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecte-toi pour proposer des spots et synchroniser ta progression."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accedi per proporre luoghi e sincronizzare i tuoi progressi."
+          }
+        }
+      }
+    },
     "profile.signIn.missingNonce" : {
       "localizations" : {
         "de" : {
@@ -4656,6 +4690,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apple non ha restituito un token di identità."
+          }
+        }
+      }
+    },
+    "profile.signIn.openSettings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open settings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir ajustes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir les réglages"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri le impostazioni"
           }
         }
       }

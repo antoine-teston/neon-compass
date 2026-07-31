@@ -4,16 +4,12 @@ struct ProgressionListView: View {
     @Bindable var model: ProgressionModel
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                ForEach(model.gamesWithChallenges) { game in
-                    gameCard(game)
-                }
-                trophyCard
+        VStack(spacing: 20) {
+            ForEach(model.gamesWithChallenges) { game in
+                gameCard(game)
             }
-            .padding(16)
+            trophyCard
         }
-        .background(NCColor.nightSky.ignoresSafeArea())
     }
 
     /// Une carte par jeu : les défis d'un volet ne se mélangent pas à ceux d'un

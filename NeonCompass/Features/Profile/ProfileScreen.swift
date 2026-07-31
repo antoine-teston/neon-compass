@@ -17,23 +17,32 @@ struct ProfileScreen: View {
     var body: some View {
         ZStack {
             NCColor.nightSky.ignoresSafeArea()
-            VStack(spacing: 24) {
-                ProfileHeaderView(
-                    profile: profileModel.profile,
-                    // La garde que portait l'ancien `if serverFeatures.isEnabled` :
-                    // sans Cloud Functions, `loadProfile` ne trouve aucun document
-                    // et le pseudo resterait un « … » perpétuel.
-                    isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
-                    isProEntitled: proEntitlementModel.isProEntitled,
-                    pendingContributionCount: communityModel?.myContributions
-                        .filter { $0.status == .pending }.count ?? 0,
-                    onOpenSettings: { showSettings = true }
-                )
-                if let userID = authModel.userID {
-                    signedInContent(userID: userID)
+            ScrollView {
+                VStack(spacing: 24) {
+                    ProfileHeaderView(
+                        profile: profileModel.profile,
+                        // Sans Cloud Functions, `loadProfile` ne trouve aucun document
+                        // et le pseudo resterait un « … » perpétuel : c'est la garde que
+                        // portait l'ancien `if serverFeatures.isEnabled`.
+                        isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
+                        isProEntitled: proEntitlementModel.isProEntitled,
+                        pendingContributionCount: communityModel?.myContributions
+                            .filter { $0.status == .pending }.count ?? 0,
+                        onOpenSettings: { showSettings = true }
+                    )
+
+                    ProgressionSection()
+
+                    if authModel.userID != nil, serverFeatures.isEnabled, let communityModel {
+                        myContributionsSection(communityModel)
+                    }
+
+                    if authModel.userID == nil {
+                        signInInvitation
+                    }
                 }
+                .padding(24)
             }
-            .padding(24)
         }
         .sheet(isPresented: $showSettings) {
             SettingsScreen(profileModel: profileModel, communityModel: communityModel)
@@ -49,17 +58,19 @@ struct ProfileScreen: View {
         }
     }
 
-    private func signedInContent(userID: String) -> some View {
-        VStack(spacing: 16) {
-            // La liste des contributions vient de submitContribution (Cloud
-            // Function) : sans elle, ce bloc n'aurait rien à afficher. Le
-            // pseudo et l'XP sont désormais portés par ProfileHeaderView.
-            if serverFeatures.isEnabled {
-                if let communityModel {
-                    myContributionsSection(communityModel)
-                }
-            }
+    /// Invitation, pas obstacle : elle est en pied de page, sous toute la
+    /// progression, et n'empêche rien.
+    private var signInInvitation: some View {
+        VStack(spacing: 8) {
+            Text("profile.signIn.invitation")
+                .font(NCTypography.body)
+                .foregroundStyle(.white.opacity(0.7))
+                .multilineTextAlignment(.center)
+            Button("profile.signIn.openSettings") { showSettings = true }
         }
+        .padding(20)
+        .frame(maxWidth: .infinity)
+        .glassEffect(.regular, in: .rect(cornerRadius: 20))
     }
 
     private func myContributionsSection(_ communityModel: CommunityModel) -> some View {
