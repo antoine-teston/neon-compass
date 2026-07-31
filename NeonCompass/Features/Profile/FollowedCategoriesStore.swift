@@ -3,7 +3,7 @@ import Observation
 
 /// Persists which `POICategory` values the user wants push notifications
 /// for, and drives the FCM topic subscribe/unsubscribe calls through
-/// `FollowedCategoryNotifying`. Pro-gated at the call site (`ProfileScreen`),
+/// `FollowedCategoryNotifying`. Pro-gated at the call site (`SettingsScreen`),
 /// not here — this store has no opinion about entitlement.
 @Observable
 @MainActor

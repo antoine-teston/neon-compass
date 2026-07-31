@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftData
 import AuthenticationServices
 import UIKit
 
@@ -15,7 +14,6 @@ struct SettingsScreen: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(ThemeStore.self) private var themeStore
     @Environment(ServerFeaturesModel.self) private var serverFeatures
-    @Environment(\.modelContext) private var modelContext
 
     let profileModel: ProfileModel
     let communityModel: CommunityModel?
@@ -54,7 +52,7 @@ struct SettingsScreen: View {
                         Button("profile.pro.upgradeButton") { showPaywall = true }
                     }
 
-                    if let communityModel {
+                    if serverFeatures.isEnabled, let communityModel {
                         blockedContributorsSection(communityModel)
                     }
 
