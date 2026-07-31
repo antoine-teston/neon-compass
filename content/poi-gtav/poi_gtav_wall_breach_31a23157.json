@@ -7,10 +7,12 @@
     "y": 0.603763
   },
   "title": {
-    "en": "Casino"
+    "en": "Casino",
+    "fr": "Casino"
   },
   "note": {
-    "en": "Go to the location as seen below. Get a Sanchez motor-bike and go the right corner of the building. Drive between the buildings and try to fall off to breach into the Casino."
+    "en": "Go to the location as seen below. Get a Sanchez motor-bike and go the right corner of the building. Drive between the buildings and try to fall off to breach into the Casino.",
+    "fr": "Rendez-vous à l'endroit indiqué. Prenez une moto Sanchez et gagnez l'angle droit du bâtiment. Roulez entre les bâtiments et laissez-vous tomber pour entrer dans le casino."
   },
   "status": "published",
   "sources": [

@@ -7,10 +7,12 @@
     "y": 0.561281
   },
   "title": {
-    "en": "Vinewood Observatory"
+    "en": "Vinewood Observatory",
+    "fr": "Observatoire de Vinewood"
   },
   "note": {
-    "en": "Go to the location as seen below. Climb up the ladder and turn left. Run to the gap between the two roof elements. Try to fall between them to breach into the building."
+    "en": "Go to the location as seen below. Climb up the ladder and turn left. Run to the gap between the two roof elements. Try to fall between them to breach into the building.",
+    "fr": "Rendez-vous à l'endroit indiqué. Montez à l'échelle et tournez à gauche. Rejoignez l'interstice entre les deux pans de toiture et laissez-vous tomber entre eux pour pénétrer dans le bâtiment."
   },
   "status": "published",
   "sources": [

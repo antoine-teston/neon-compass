@@ -7,10 +7,12 @@
     "y": 0.591638
   },
   "title": {
-    "en": "Michaels mansion"
+    "en": "Michaels mansion",
+    "fr": "Villa de Michael"
   },
   "note": {
-    "en": "Go to the location as seen below. Use a helicopter to get ontop of the roof. Walk in the middle, pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Micheals mansion."
+    "en": "Go to the location as seen below. Use a helicopter to get ontop of the roof. Walk in the middle, pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Micheals mansion.",
+    "fr": "Rendez-vous à l'endroit indiqué. Posez un hélicoptère sur le toit, placez-vous au milieu, sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans la villa de Michael."
   },
   "status": "published",
   "sources": [

@@ -7,10 +7,12 @@
     "y": 0.655364
   },
   "title": {
-    "en": "Skateboard/Surfboard"
+    "en": "Skateboard/Surfboard",
+    "fr": "Skateboard / planche de surf"
   },
   "note": {
-    "en": "Go to the location on the beach with lots of blue fences. Run anyone of them over. Stand in the center of the fence. Shoot at the top to go forward."
+    "en": "Go to the location on the beach with lots of blue fences. Run anyone of them over. Stand in the center of the fence. Shoot at the top to go forward.",
+    "fr": "Rendez-vous sur la plage aux nombreuses barrières bleues. Renversez-en une, placez-vous en son centre et tirez vers le haut pour avancer."
   },
   "status": "published",
   "sources": [

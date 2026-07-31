@@ -120,6 +120,53 @@ test('un ré-import préserve les décisions humaines déjà prises', () => {
   assert.equal(second.pois[0].id, reviewed.id);
 });
 
+test('un ré-import préserve les traductions déjà écrites', () => {
+  // Sans ça, relancer le pipeline rendrait muettes toutes les traductions FR
+  // d'un coup, sans rien signaler : l'app replierait juste sur l'anglais.
+  const entry = {
+    ...poi('letter_scrap', identityKey('danharper/GTAV', 'letter_scrap', '412'), 'Letter Scrap #19'),
+    note: { en: 'At the far end of the beach.' },
+  };
+  const translated = {
+    ...reconcileIds([entry], new Map()).pois[0],
+    title: { en: 'Letter Scrap #19', fr: 'Fragment de lettre #19' },
+    note: { en: 'At the far end of the beach.', fr: "Le fragment est à l'extrémité de la plage." },
+  };
+
+  const second = reconcileIds([entry], new Map([[translated.processedFrom, translated]]));
+  assert.equal(second.pois[0].title.fr, 'Fragment de lettre #19');
+  assert.equal(second.pois[0].note.fr, "Le fragment est à l'extrémité de la plage.");
+});
+
+test('un libellé amont retouché abandonne sa traduction périmée', () => {
+  // Reporter un FR qui ne dit plus la même chose que l'EN est pire que le
+  // champ manquant : le manque, lui, ressort dans `translate --dry-run`.
+  const key = identityKey('danharper/GTAV', 'letter_scrap', '412');
+  const translated = {
+    ...reconcileIds([poi('letter_scrap', key, 'Letter Scrap #19')], new Map()).pois[0],
+    title: { en: 'Letter Scrap #19', fr: 'Fragment de lettre #19' },
+  };
+
+  const renamed = poi('letter_scrap', key, 'Letter Scrap #19 - Pacific Ocean');
+  const second = reconcileIds([renamed], new Map([[translated.processedFrom, translated]]));
+  assert.equal(second.pois[0].title.en, 'Letter Scrap #19 - Pacific Ocean');
+  assert.equal(second.pois[0].title.fr, undefined);
+});
+
+test('le pipeline reste autorité sur le FR qu’il dérive lui-même', () => {
+  // Le `fr` des titres vient de la table TYPES : la corriger doit se propager
+  // au ré-import, sinon la table devient décorative.
+  const key = identityKey('DurtyFree', 'gas', worldDiscriminant(10, 10));
+  const stale = {
+    ...reconcileIds([poi('gas', key, 'Gas Station')], new Map()).pois[0],
+    title: { en: 'Gas Station', fr: 'Poste à essence' },
+  };
+
+  const fresh = { ...poi('gas', key, 'Gas Station'), title: { en: 'Gas Station', fr: 'Station-service' } };
+  const second = reconcileIds([fresh], new Map([[stale.processedFrom, stale]]));
+  assert.equal(second.pois[0].title.fr, 'Station-service');
+});
+
 test('un POI neuf n’hérite d’aucun champ éditorial', () => {
   // Une entrée fraîchement importée doit demander une décision explicite : le
   // pipeline ne publie rien de lui-même.

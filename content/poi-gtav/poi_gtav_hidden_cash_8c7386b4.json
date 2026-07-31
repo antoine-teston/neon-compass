@@ -7,10 +7,12 @@
     "y": 0.635986
   },
   "title": {
-    "en": "Hidden Package #9 - $25,000"
+    "en": "Hidden Package #9 - $25,000",
+    "fr": "Magot caché n°9 — 25 000 $"
   },
   "note": {
-    "en": "This briefcase is exploitable for unlimited money"
+    "en": "This briefcase is exploitable for unlimited money",
+    "fr": "Cette mallette peut être ramassée en boucle, pour de l'argent illimité."
   },
   "status": "published",
   "sources": [

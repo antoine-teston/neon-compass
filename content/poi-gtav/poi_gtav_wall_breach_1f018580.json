@@ -7,10 +7,12 @@
     "y": 0.722338
   },
   "title": {
-    "en": "Recycling Plant"
+    "en": "Recycling Plant",
+    "fr": "Centre de recyclage"
   },
   "note": {
-    "en": "Go to the location as seen below. Climb up the ladders and walk in the middle of the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage."
+    "en": "Go to the location as seen below. Climb up the ladders and walk in the middle of the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage.",
+    "fr": "Rendez-vous à l'endroit indiqué. Montez les échelles et placez-vous au milieu du toit. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans le garage du Space Docker."
   },
   "status": "published",
   "sources": [

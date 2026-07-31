@@ -71,6 +71,43 @@ export function mintId(game, collection, key) {
  *  toutes les pierres tombales — silencieusement. */
 export const EDITORIAL_FIELDS = ['status', 'mergedInto', 'deleted'];
 
+/** Champs localisés d'un POI, et langues que le pipeline ne produit pas lui-même.
+ *  L'anglais est exclu : il vient de l'amont, il n'est jamais reporté. */
+const LOCALIZED_FIELDS = ['title', 'note'];
+const TRANSLATED_LANGUAGES = ['fr', 'es', 'it', 'de'];
+
+/**
+ * Reporte sur une entrée fraîche les traductions déjà écrites pour la même clé.
+ *
+ * Même raison d'être que EDITORIAL_FIELDS : traduire est une décision qui vit
+ * dans le fichier, pas dans la source. Sans ce report, un ré-import rendrait
+ * muettes les 389 traductions FR d'un coup, et rien ne le signalerait — l'app
+ * replierait simplement sur l'anglais.
+ *
+ * Deux garde-fous délibérés :
+ *  - on ne reporte que si l'`en` est IDENTIQUE. Un libellé amont retouché rend
+ *    sa traduction périmée ; mieux vaut un champ manquant, que `translate`
+ *    reverra, qu'une traduction qui ne dit plus la même chose.
+ *  - on ne recouvre jamais une langue que le pipeline vient d'émettre (le `fr`
+ *    dérivé de la table TYPES). Il reste autorité sur ce qu'il dérive, ici on
+ *    ne fait que combler ce qu'il laisse vide.
+ */
+export function carryTranslations(fresh, previous) {
+  if (!previous) return fresh;
+  const carried = { ...fresh };
+  for (const field of LOCALIZED_FIELDS) {
+    const before = previous[field];
+    const after = carried[field];
+    if (!before || !after || before.en !== after.en) continue;
+    const merged = { ...after };
+    for (const lang of TRANSLATED_LANGUAGES) {
+      if (merged[lang] === undefined && before[lang] !== undefined) merged[lang] = before[lang];
+    }
+    carried[field] = merged;
+  }
+  return carried;
+}
+
 /** Indexe les fichiers déjà présents : `processedFrom` -> document complet.
  *  Renvoie une Map vide si le répertoire n'existe pas (premier run). */
 export function loadExisting(dir) {
@@ -158,12 +195,13 @@ export function reconcileIds(pois, existing, { game = 'gtav' } = {}) {
     }
     mintedIds.add(id);
 
-    // Les décisions humaines déjà prises sur ce POI survivent au ré-import.
+    // Les décisions humaines déjà prises sur ce POI survivent au ré-import :
+    // son statut éditorial, et les traductions déjà écrites pour ses libellés.
     const editorial = {};
     for (const field of EDITORIAL_FIELDS) {
       if (previous?.[field] !== undefined) editorial[field] = previous[field];
     }
-    resolved.push({ id, ...poi, ...editorial });
+    resolved.push({ id, ...carryTranslations(poi, previous), ...editorial });
   }
 
   const liveKeys = new Set(pois.map((p) => p.processedFrom));

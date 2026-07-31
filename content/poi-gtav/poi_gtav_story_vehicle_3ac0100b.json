@@ -7,10 +7,12 @@
     "y": 0.692377
   },
   "title": {
-    "en": "Karin Intruder"
+    "en": "Karin Intruder",
+    "fr": "Karin Intruder"
   },
   "note": {
-    "en": "Go to the location as seen below. With a bit of luck it will spawn there."
+    "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
+    "fr": "Rendez-vous à l'endroit indiqué. Avec un peu de chance, le véhicule y apparaîtra."
   },
   "status": "published",
   "sources": [

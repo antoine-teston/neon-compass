@@ -7,10 +7,12 @@
     "y": 0.600982
   },
   "title": {
-    "en": "Insurance store in San Andreas"
+    "en": "Insurance store in San Andreas",
+    "fr": "Agence d'assurance de San Andreas"
   },
   "note": {
-    "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building."
+    "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building.",
+    "fr": "Rendez-vous à l'endroit indiqué. Avancez jusqu'à la porte d'entrée, tournez-vous vers le mur et sautez pour entrer dans le bâtiment."
   },
   "status": "published",
   "sources": [

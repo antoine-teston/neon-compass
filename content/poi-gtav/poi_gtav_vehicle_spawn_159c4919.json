@@ -7,10 +7,12 @@
     "y": 0.623698
   },
   "title": {
-    "en": "Adder"
+    "en": "Adder",
+    "fr": "Adder"
   },
   "note": {
-    "en": "In-game version of the Bugatti"
+    "en": "In-game version of the Bugatti",
+    "fr": "Version du jeu de la Bugatti."
   },
   "status": "published",
   "sources": [
