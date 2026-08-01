@@ -20,7 +20,7 @@ struct OnlineEventDiscount: Codable, Equatable, Sendable {
 /// `status`, `sources`, `processedFrom`, `sourceClaim` et `needsRewrite` sont
 /// absents : Codable ignore les clés inconnues, et les URL de sources
 /// contiennent les marques. Même règle que `NewsItem`.
-struct OnlineEvent: ContentItem, Equatable {
+struct OnlineEvent: Codable, Equatable, Sendable, Identifiable {
     let id: String
     let game: Game
     let startsAt: Date
@@ -47,16 +47,24 @@ struct OnlineEvent: ContentItem, Equatable {
         // Décodage strict des deux dates : un horodatage illisible rendrait
         // l'événement inaffichable de toute façon, et un repli silencieux
         // (« maintenant », « jamais ») produirait un compte à rebours faux —
-        // pire qu'une absence.
+        // pire qu'une absence. Les deux vérifications sont séparées pour que
+        // chacune lève sur SA clé : une erreur qui pointe toujours `.endsAt`
+        // enverrait sur la mauvaise piste quand c'est `startsAt` qui est en cause.
         let startsRaw = try container.decode(String.self, forKey: .startsAt)
         let endsRaw = try container.decode(String.self, forKey: .endsAt)
         let formatter = Self.formatter()
-        guard let starts = formatter.date(from: startsRaw),
-              let ends = formatter.date(from: endsRaw) else {
+        guard let starts = formatter.date(from: startsRaw) else {
+            throw DecodingError.dataCorruptedError(
+                forKey: .startsAt,
+                in: container,
+                debugDescription: "Horodatage ISO 8601 attendu, reçu « \(startsRaw) »"
+            )
+        }
+        guard let ends = formatter.date(from: endsRaw) else {
             throw DecodingError.dataCorruptedError(
                 forKey: .endsAt,
                 in: container,
-                debugDescription: "Horodatage ISO 8601 attendu, reçu « \(startsRaw) » / « \(endsRaw) »"
+                debugDescription: "Horodatage ISO 8601 attendu, reçu « \(endsRaw) »"
             )
         }
         startsAt = starts

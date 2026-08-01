@@ -92,4 +92,15 @@ struct OnlineEventTests {
         let event = try JSONDecoder().decode(OnlineEvent.self, from: json())
         #expect(event.remaining(at: date("2026-08-14T00:00:00Z")) == nil)
     }
+
+    /// Le cache local réécrit les entrées : `encode(to:)` est un chemin
+    /// réellement emprunté en production, pas seulement le décodage. Un
+    /// événement COMPLET (bonus, remises, véhicule du podium) pour que
+    /// l'aller-retour ait quelque chose à perdre.
+    @Test func encodingRoundTripsToAnEqualEvent() throws {
+        let original = try JSONDecoder().decode(OnlineEvent.self, from: json())
+        let reencoded = try JSONEncoder().encode(original)
+        let decoded = try JSONDecoder().decode(OnlineEvent.self, from: reencoded)
+        #expect(decoded == original)
+    }
 }
