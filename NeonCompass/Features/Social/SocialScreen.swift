@@ -56,10 +56,9 @@ struct SocialScreen: View {
                     .pickerStyle(.segmented)
                 }
 
-                if let event = model.currentEvent(at: now) {
-                    OnlineEventCard(event: event, now: now)
-                } else if let latest = model.latestEvent() {
-                    OnlineEventCard(event: latest, now: now)
+                let shown = model.currentEvent(at: now) ?? model.latestEvent()
+                if let shown {
+                    OnlineEventCard(event: shown, now: now)
                 } else {
                     emptyState
                 }
@@ -70,10 +69,21 @@ struct SocialScreen: View {
                 // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
                 // suppression des pubs. En afficher une à quelqu'un qui a payé
                 // pour ne plus en voir est le pire retour possible.
-                if !proEntitlementModel.isProEntitled {
+                // ET une carte à montrer : vu au simulateur, l'écran du jour J
+                // — aucun événement publié — affichait « rien pour l'instant »
+                // suivi d'une publicité dans un écran par ailleurs vide. Ça se
+                // lit « on n'a rien pour toi, voilà une pub ». La spec §5 pose
+                // la bannière sur les écrans de LISTE ; un état vide n'en est
+                // pas un.
+                if shown != nil, !proEntitlementModel.isProEntitled {
                     BannerAdView()
                 }
             }
+            // Plafonnée pour l'iPad : vu au simulateur, la carte s'étirait sur
+            // les 13 pouces, deux lignes centrées perdues dans la largeur. Une
+            // colonne de lecture vaut mieux qu'une bande.
+            .frame(maxWidth: 640)
+            .frame(maxWidth: .infinity)
             .padding(20)
         }
         .refreshable {
