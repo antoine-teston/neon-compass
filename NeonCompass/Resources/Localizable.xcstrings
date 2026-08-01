@@ -4582,7 +4582,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld en classement"
+            "value" : "Rang %lld"
           }
         },
         "it" : {
