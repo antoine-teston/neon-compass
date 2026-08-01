@@ -1211,7 +1211,7 @@ Dans `RootView.screen(for:)` :
         case .social: SocialScreen()
 ```
 
-- [ ] **Step 5: Ajouter les huit clés au catalogue, dans les cinq langues**
+- [ ] **Step 5: Ajouter les dix clés au catalogue, dans les cinq langues**
 
 | Clé | en | fr | es | it | de |
 |---|---|---|---|---|---|
