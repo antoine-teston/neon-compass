@@ -10,7 +10,6 @@ import UserNotifications
 protocol LocalNotificationScheduling: Sendable {
     func requestPermissionIfNeeded() async -> Bool
     func schedule(id: String, title: String, body: String, at fireDate: Date) async
-    func cancel(ids: [String]) async
 }
 
 /// Implémentation `UserNotifications`. Aucun Firebase ici : ce rappel ne quitte
@@ -40,9 +39,5 @@ struct SystemLocalNotificationScheduler: LocalNotificationScheduling {
         // lieu d'empiler. C'est ce qui interdit les doublons par construction.
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         try? await UNUserNotificationCenter.current().add(request)
-    }
-
-    func cancel(ids: [String]) async {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
     }
 }

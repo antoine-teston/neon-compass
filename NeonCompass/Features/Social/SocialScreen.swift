@@ -76,7 +76,13 @@ struct SocialScreen: View {
             }
             .padding(20)
         }
-        .refreshable { await model.refresh() }
+        .refreshable {
+            await model.refresh()
+            // Sans ça, une date de fin corrigée côté contenu ne bougeait le
+            // rappel qu'au prochain lancement à froid — cf. `loadModel()`,
+            // seul autre appelant, gardé par `guard model == nil`.
+            await scheduleReminders(for: model.events)
+        }
     }
 
     /// Rien de publié : on le dit, on n'invente pas une semaine.
