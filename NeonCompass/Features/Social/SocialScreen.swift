@@ -21,6 +21,7 @@ struct SocialScreen: View {
     /// `RootView`). Un simple `let` recréerait le pipeline Combine — et donc la
     /// minuterie — à chaque reconstruction au lieu de le laisser survivre.
     @State private var tick = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    private let notifications: any LocalNotificationScheduling = SystemLocalNotificationScheduler()
 
     var body: some View {
         ZStack {
@@ -103,5 +104,23 @@ struct SocialScreen: View {
         model = OnlineEventsModel(events: contentStore.items, contentStore: contentStore)
         try? await contentStore.syncIfNeeded()
         model?.update(events: contentStore.items)
+        await scheduleReminders(for: contentStore.items)
+    }
+
+    /// Reprogrammé à chaque synchronisation : un événement corrigé côté contenu
+    /// doit déplacer son rappel, pas en ajouter un second. L'identifiant étant
+    /// celui de l'événement, la reprogrammation remplace.
+    private func scheduleReminders(for events: [OnlineEvent]) async {
+        let pending = EventReminderScheduler.reminders(for: events, at: Date())
+        guard !pending.isEmpty else { return }
+        guard await notifications.requestPermissionIfNeeded() else { return }
+        for reminder in pending {
+            await notifications.schedule(
+                id: reminder.id,
+                title: String(localized: "social.reminder.title"),
+                body: String(localized: "social.reminder.body"),
+                at: reminder.fireAt
+            )
+        }
     }
 }
