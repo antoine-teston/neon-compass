@@ -263,6 +263,29 @@ extension de news."
 
 ### Task 2: La transformation fait d'inbox → événement
 
+> **Cette tâche a été livrée puis REFAITE. Le code ci-dessous est celui du plan
+> d'origine, faux sur trois points ; la vérité est dans
+> `tools/content-cli/facts-to-online-event.mjs` (commits `0ddc610` puis `e89e3fc`).**
+>
+> 1. **La fonction d'identité était réinventée.** Le plan faisait écrire un
+>    `identityKey(fact)` rendant un condensat SHA-256, alors qu'`identityKey`
+>    existe déjà dans `tools/basemap/gtav-poi-ids.mjs` et rend une chaîne
+>    LISIBLE `<source>:<collection>:<discriminant>` — c'est elle que
+>    `facts-to-news.mjs` importe, et c'est cette forme qui est écrite dans
+>    `processedFrom` partout ailleurs. Deux sémantiques opposées sous un même nom.
+> 2. **La forme du fait était inventée.** Le plan donnait un `sources` en
+>    tableau ; un fait d'inbox réel porte `source_url`, une chaîne. Les tests
+>    passaient parce qu'ils testaient la fixture inventée, pas le contrat réel.
+> 3. **La fenêtre de dates ne venait de nulle part.** `data-scout` n'émettait
+>    aucune date d'événement, et le schéma les exige. Le contrat de la veille a
+>    donc été étendu (`kind: online-event`, `starts_at`/`ends_at` en UTC) —
+>    on ne devine pas une fenêtre depuis un texte, et la fabriquer depuis
+>    `source_date` serait inventer de la donnée.
+>
+> Leçon transposable aux tâches suivantes : **lire la transformation sœur AVANT
+> d'écrire le bloc de code du plan**, pas seulement avant de l'implémenter.
+
+
 **Files:**
 - Create: `tools/content-cli/facts-to-online-event.mjs`
 - Create: `tools/content-cli/facts-to-online-event.test.mjs`
@@ -357,7 +380,7 @@ import { createHash } from 'node:crypto';
 /// l'inbox : c'est ce qui rend le run idempotent. Un fait déjà transformé se
 /// réapparie sur son événement au lieu d'en créer un second.
 export function identityKey(fact) {
-  const material = [fact.claim, fact.game, fact.startsAt, fact.endsAt, ...(fact.sources ?? [])].join(' ');
+  const material = [fact.claim, fact.game, fact.startsAt, fact.endsAt, ...(fact.sources ?? [])].join(' ');
   return createHash('sha256').update(material).digest('hex').slice(0, 16);
 }
 
