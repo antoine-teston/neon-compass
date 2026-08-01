@@ -66,9 +66,16 @@ export function shouldRebuild(manifest: Manifest | undefined, nowMs: number): bo
 
 /** Un spot visible publiquement.
  *
- *  `shadowHidden` est filtré ICI et nulle part ailleurs : le client ne lit plus
- *  la collection `contributions`, donc la Security Rule qui portait ce filtre ne
- *  protège plus rien sur ce chemin. C'est le point de vigilance du chantier. */
+ *  `shadowHidden` est filtré ICI, côté application : le client ne lit plus la
+ *  collection `contributions`, donc la Security Rule qui portait ce filtre ne
+ *  protège plus rien sur ce chemin. C'est le point de vigilance du chantier.
+ *
+ *  Ce n'était le SEUL point de filtrage que jusqu'au classement des
+ *  contributeurs : `leaderboard.ts::tallyApproved` applique la même règle sur
+ *  son propre chemin d'agrégation. Les deux sont d'accord, et volontairement
+ *  séparés — celui-ci décide ce qui s'affiche sur la carte, l'autre ce qui
+ *  compte au classement. Un troisième chemin devrait rejoindre cette liste
+ *  plutôt que de la contredire en silence. */
 export function isPubliclyVisible(doc: Record<string, unknown>): boolean {
   return doc.status === 'approved' && doc.shadowHidden !== true;
 }
