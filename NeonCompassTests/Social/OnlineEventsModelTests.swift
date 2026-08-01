@@ -73,6 +73,29 @@ struct OnlineEventsModelTests {
         #expect(model.selectedGame == .leonida)
     }
 
+    /// Une synchronisation qui arrive sur un modèle vide choisit le jeu par
+    /// défaut : aucun choix n'avait pu être fait avant elle.
+    @Test func updateChoosesDefaultGameWhenModelWasEmpty() throws {
+        let six = try event(id: "online_vi", game: .leonida, startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let model = OnlineEventsModel(events: [])
+        model.update(events: [six])
+        #expect(model.selectedGame == .leonida)
+    }
+
+    /// Un modèle qui avait déjà des événements garde la sélection de
+    /// l'utilisateur à la synchronisation suivante, même si le nouveau jeu de
+    /// données ferait pencher le jeu par défaut vers l'autre volet : le volet
+    /// affiché ne doit pas changer sous les yeux de quelqu'un qui venait d'en
+    /// choisir un.
+    @Test func updatePreservesSelectionWhenModelAlreadyHadEvents() throws {
+        let five = try event(id: "online_v", game: .reference, startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let model = OnlineEventsModel(events: [five])
+        model.selectedGame = .leonida
+        let onlyReference = try event(id: "online_v2", game: .reference, startsAt: "2026-08-13T09:00:00Z", endsAt: "2026-08-20T09:00:00Z")
+        model.update(events: [onlyReference])
+        #expect(model.selectedGame == .leonida)
+    }
+
     @Test func emptyModelHasNothingAndCrashesNowhere() {
         let model = OnlineEventsModel(events: [])
         #expect(model.currentEvent(at: date("2026-08-10T00:00:00Z")) == nil)
