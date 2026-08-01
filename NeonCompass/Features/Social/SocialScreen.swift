@@ -10,7 +10,10 @@ import Combine
 struct SocialScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    @Environment(ServerFeaturesModel.self) private var serverFeatures
     @State private var model: OnlineEventsModel?
+    @State private var leaderboardRows: [LeaderboardRow] = []
+    private let leaderboardRepository: any LeaderboardRepository = FirestoreLeaderboardRepository()
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
     /// la valeur qu'il avait à l'ouverture de l'onglet.
     @State private var now = Date()
@@ -62,6 +65,9 @@ struct SocialScreen: View {
                 } else {
                     emptyState
                 }
+                if serverFeatures.isEnabled {
+                    LeaderboardSection(rows: leaderboardRows)
+                }
                 // Écran de liste : la bannière s'y applique (spec §5), jamais
                 // sur la carte en interaction. Posée DANS le défilement, en
                 // queue de colonne — même motif que `GuidesListView`.
@@ -92,6 +98,7 @@ struct SocialScreen: View {
             // rappel qu'au prochain lancement à froid — cf. `loadModel()`,
             // seul autre appelant, gardé par `guard model == nil`.
             await scheduleReminders(for: model.events)
+            await loadLeaderboard()
         }
     }
 
@@ -121,6 +128,18 @@ struct SocialScreen: View {
         try? await contentStore.syncIfNeeded()
         model?.update(events: contentStore.items)
         await scheduleReminders(for: contentStore.items)
+        await loadLeaderboard()
+    }
+
+    /// Une lecture, gardée par le drapeau serveur : sans Cloud Functions
+    /// déployées, `leaderboards/weekly` n'existe pas et l'interroger ne
+    /// produirait qu'une erreur silencieuse à chaque ouverture d'onglet.
+    ///
+    /// L'échec laisse la liste vide, et la section dit alors « aucun spot
+    /// approuvé » — état honnête, jamais un écran en erreur.
+    private func loadLeaderboard() async {
+        guard serverFeatures.isEnabled else { return }
+        leaderboardRows = (try? await leaderboardRepository.fetchWeekly())?.rows ?? []
     }
 
     /// Reprogrammé à chaque synchronisation : un événement corrigé côté contenu

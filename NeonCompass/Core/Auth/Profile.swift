@@ -8,4 +8,7 @@ struct Profile: Codable, Equatable, Sendable {
     let xp: Int
     let level: Int
     let isPremium: Bool
+    /// Déposé par `rebuildLeaderboard`. Absent tant qu'elle n'a pas tourné —
+    /// le Profil n'affiche alors pas de ligne de rang, plutôt qu'un zéro faux.
+    let rank: Int?
 }

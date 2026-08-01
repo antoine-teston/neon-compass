@@ -53,6 +53,11 @@ struct ProfileHeaderView: View {
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.5))
                 }
+                if let rank = profile.rank {
+                    Text("profile.rank \(rank)")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.5))
+                }
             }
         }
         .padding(20)
