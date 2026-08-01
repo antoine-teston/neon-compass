@@ -15,7 +15,12 @@ struct SocialScreen: View {
     /// la valeur qu'il avait à l'ouverture de l'onglet.
     @State private var now = Date()
 
-    private let tick = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    /// `@State`, comme `now` juste au-dessus : en disposition compacte, l'onglet
+    /// reste monté et sa valeur de vue est reconstruite à chaque réévaluation
+    /// du parent (changement d'onglet, ou tout autre changement d'état de
+    /// `RootView`). Un simple `let` recréerait le pipeline Combine — et donc la
+    /// minuterie — à chaque reconstruction au lieu de le laisser survivre.
+    @State private var tick = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ZStack {
@@ -36,27 +41,27 @@ struct SocialScreen: View {
     private func content(_ model: OnlineEventsModel) -> some View {
         ScrollView {
             VStack(spacing: 20) {
-                    if model.showsGamePicker {
-                        Picker(selection: Binding(
-                            get: { model.selectedGame },
-                            set: { model.selectedGame = $0 }
-                        )) {
-                            ForEach(model.availableGames) { game in
-                                Text(game.shortLabel).tag(game)
-                            }
-                        } label: {
-                            Text("social.game.picker")
+                if model.showsGamePicker {
+                    Picker(selection: Binding(
+                        get: { model.selectedGame },
+                        set: { model.selectedGame = $0 }
+                    )) {
+                        ForEach(model.availableGames) { game in
+                            Text(game.shortLabel).tag(game)
                         }
-                        .pickerStyle(.segmented)
+                    } label: {
+                        Text("social.game.picker")
                     }
+                    .pickerStyle(.segmented)
+                }
 
-                    if let event = model.currentEvent(at: now) {
-                        OnlineEventCard(event: event, now: now)
-                    } else if let latest = model.latestEvent() {
-                        OnlineEventCard(event: latest, now: now)
-                    } else {
-                        emptyState
-                    }
+                if let event = model.currentEvent(at: now) {
+                    OnlineEventCard(event: event, now: now)
+                } else if let latest = model.latestEvent() {
+                    OnlineEventCard(event: latest, now: now)
+                } else {
+                    emptyState
+                }
                 // Écran de liste : la bannière s'y applique (spec §5), jamais
                 // sur la carte en interaction. Posée DANS le défilement, en
                 // queue de colonne — même motif que `GuidesListView`.
