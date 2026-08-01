@@ -59,6 +59,10 @@ service cloud.firestore {
     match /reports/{id} {
       allow read, write: if false;
     }
+    match /leaderboards/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
     // Brouillons du mode éditeur interne (build debug uniquement). Réservés à un
     // UID unique, celui de l'auteur du projet. Tant que l'UID n'est pas
     // renseigné, personne ne passe — le défaut est fermé, pas ouvert. L'UID se
