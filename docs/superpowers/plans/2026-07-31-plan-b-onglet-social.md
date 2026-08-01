@@ -1573,20 +1573,39 @@ S'il n'y a rien à corriger, ne rien commiter.
 
 ### Task 8: La Function planifiée
 
+> **Section RÉÉCRITE avant exécution.** La version d'origine lisait `approvedCount`
+> et `shadowHidden` sur `profiles/{uid}`. **Ces deux champs n'y existent pas.**
+> Vérifié dans le dépôt : `createUserProfile.ts` écrit exactement
+> `handle`, `xp`, `level`, `isPremium`, `createdAt`, et `shadowHidden` vit sur les
+> CONTRIBUTIONS (`submitContribution.ts`, `flagSuspiciousContribution.ts`), pas sur
+> le profil. La Function n'aurait rien classé.
+>
+> La forme réelle donne une conception meilleure : une contribution porte
+> `authorUid`, `authorHandle` (dénormalisé) et `shadowHidden`. Et surtout —
+> **un auteur shadow-banni a TOUTES ses contributions masquées, donc son décompte
+> tombe à zéro et il quitte le classement de lui-même.** Le mécanisme existant fait
+> déjà l'exclusion ; aucun drapeau de profil n'est à inventer.
+
 **Files:**
 - Create: `functions/src/leaderboard.ts`
 - Create: `functions/src/leaderboard.test.ts`
 - Create: `functions/src/rebuildLeaderboard.ts`
 - Modify: `functions/src/index.ts`
+- Modify: `firestore.rules`
 
 **Interfaces:**
-- Consumes: les documents `profiles/{uid}` et `contributions`.
-- Produces:
+- Consumes: la collection `contributions` et les documents `profiles/{uid}`.
+- Produces :
+  - `export interface ApprovedContribution { authorUid: string; authorHandle: string; shadowHidden?: boolean }`
   - `export interface LeaderboardRow { uid: string; handle: string; xp: number; approvedCount: number }`
-  - `export function rankProfiles(profiles: LeaderboardInput[], limit: number): LeaderboardRow[]`
+  - `export function tallyApproved(contributions: ApprovedContribution[]): Map<string, { handle: string; approvedCount: number }>`
+  - `export function rankContributors(tally, xpByUid: Map<string, number>, limit: number): LeaderboardRow[]`
   - la Function planifiée `rebuildLeaderboard`
 
-Lire `functions/src/rebuildCommunityBundles.ts` **et** `functions/src/communityBundles.test.ts` avant d'écrire : le motif d'agrégation planifiée vers un document unique et son harnais de test s'en reprennent. Ne pas inventer un second motif.
+**Lire d'abord** `functions/src/rebuildCommunityBundles.ts` : il interroge déjà
+`contributions where status == 'approved'` et c'est le motif d'agrégation planifiée
+à reprendre. Lire aussi `functions/src/communityBundles.ts`, dont
+`isPubliclyVisible` porte déjà la règle `status === 'approved' && shadowHidden !== true`.
 
 - [ ] **Step 1: Écrire les tests qui échouent**
 
@@ -1595,47 +1614,61 @@ Créer `functions/src/leaderboard.test.ts` :
 ```ts
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { rankProfiles } from './leaderboard.js';
+import { tallyApproved, rankContributors } from './leaderboard.js';
 
-const base = { uid: 'u1', handle: 'NEON-FALCON-88', xp: 100, approvedCount: 4, shadowHidden: false };
+const c = (authorUid: string, extra = {}) => ({ authorUid, authorHandle: `H-${authorUid}`, ...extra });
 
-describe('rankProfiles', () => {
-  it('classe par XP décroissante', () => {
-    const rows = rankProfiles(
-      [{ ...base, uid: 'u1', xp: 100 }, { ...base, uid: 'u2', xp: 300 }, { ...base, uid: 'u3', xp: 200 }],
-      50,
-    );
-    assert.deepEqual(rows.map((r) => r.uid), ['u2', 'u3', 'u1']);
+describe('tallyApproved', () => {
+  it('compte les contributions par auteur', () => {
+    const tally = tallyApproved([c('u1'), c('u1'), c('u2')]);
+    assert.equal(tally.get('u1')?.approvedCount, 2);
+    assert.equal(tally.get('u2')?.approvedCount, 1);
   });
 
-  it('exclut les comptes shadow-bannés', () => {
-    const rows = rankProfiles(
-      [{ ...base, uid: 'u1', xp: 500, shadowHidden: true }, { ...base, uid: 'u2', xp: 100 }],
-      50,
-    );
-    assert.deepEqual(rows.map((r) => r.uid), ['u2']);
+  it('écarte les contributions masquées', () => {
+    const tally = tallyApproved([c('u1'), c('u1', { shadowHidden: true })]);
+    assert.equal(tally.get('u1')?.approvedCount, 1);
   });
 
-  it('exclut ceux qui n’ont aucune contribution approuvée', () => {
-    const rows = rankProfiles(
-      [{ ...base, uid: 'u1', xp: 500, approvedCount: 0 }, { ...base, uid: 'u2', xp: 100 }],
-      50,
-    );
-    assert.deepEqual(rows.map((r) => r.uid), ['u2']);
+  it('fait disparaître un auteur entièrement masqué', () => {
+    const tally = tallyApproved([c('u1', { shadowHidden: true })]);
+    assert.equal(tally.has('u1'), false);
   });
 
-  it('tronque au nombre demandé', () => {
-    const many = Array.from({ length: 80 }, (_, i) => ({ ...base, uid: `u${i}`, xp: i }));
-    assert.equal(rankProfiles(many, 50).length, 50);
+  it('retient le handle dénormalisé de la contribution', () => {
+    const tally = tallyApproved([c('u1')]);
+    assert.equal(tally.get('u1')?.handle, 'H-u1');
+  });
+});
+
+describe('rankContributors', () => {
+  const tally = tallyApproved([c('u1'), c('u2'), c('u2'), c('u3')]);
+
+  it("classe par XP décroissante, pas par nombre de contributions", () => {
+    const xp = new Map([['u1', 300], ['u2', 100], ['u3', 200]]);
+    assert.deepEqual(rankContributors(tally, xp, 50).map((r) => r.uid), ['u1', 'u3', 'u2']);
+  });
+
+  it("traite une XP absente comme zéro plutôt que d'écarter l'auteur", () => {
+    const xp = new Map([['u1', 10]]);
+    const rows = rankContributors(tally, xp, 50);
+    assert.equal(rows.length, 3);
+    assert.equal(rows.find((r) => r.uid === 'u2')?.xp, 0);
   });
 
   it('départage à XP égale par identifiant, pour un ordre déterministe', () => {
-    const rows = rankProfiles([{ ...base, uid: 'b', xp: 100 }, { ...base, uid: 'a', xp: 100 }], 50);
-    assert.deepEqual(rows.map((r) => r.uid), ['a', 'b']);
+    const t = tallyApproved([c('b'), c('a')]);
+    const xp = new Map([['a', 100], ['b', 100]]);
+    assert.deepEqual(rankContributors(t, xp, 50).map((r) => r.uid), ['a', 'b']);
   });
 
-  it('ne recopie jamais un champ absent du classement public', () => {
-    const rows = rankProfiles([{ ...base, uid: 'u1' }], 50);
+  it('tronque au nombre demandé', () => {
+    const many = tallyApproved(Array.from({ length: 80 }, (_, i) => c(`u${i}`)));
+    assert.equal(rankContributors(many, new Map(), 50).length, 50);
+  });
+
+  it('ne publie que les quatre champs du classement', () => {
+    const rows = rankContributors(tallyApproved([c('u1')]), new Map([['u1', 5]]), 50);
     assert.deepEqual(Object.keys(rows[0]).sort(), ['approvedCount', 'handle', 'uid', 'xp']);
   });
 });
@@ -1654,12 +1687,13 @@ Attendu : `Cannot find module './leaderboard.js'`.
 Créer `functions/src/leaderboard.ts` :
 
 ```ts
-export interface LeaderboardInput {
-  uid: string;
-  handle: string;
-  xp: number;
-  approvedCount: number;
-  shadowHidden: boolean;
+/** Ce que le classement a besoin de savoir d'une contribution approuvée.
+ *  Forme réelle du document (`submitContribution.ts`) : le handle y est
+ *  dénormalisé, donc compter n'exige aucune lecture de profil. */
+export interface ApprovedContribution {
+  authorUid: string;
+  authorHandle: string;
+  shadowHidden?: boolean;
 }
 
 export interface LeaderboardRow {
@@ -1670,22 +1704,59 @@ export interface LeaderboardRow {
 }
 
 /**
+ * Décompte par auteur, masquées exclues.
+ *
+ * `shadowHidden` vit sur la CONTRIBUTION, jamais sur le profil — et c'est ce
+ * qui rend l'exclusion gratuite : un auteur shadow-banni voit toutes les
+ * siennes masquées (`flagSuspiciousContribution.ts` les reprend
+ * rétroactivement), son décompte tombe à zéro, et il disparaît du classement
+ * sans qu'aucune règle ne le nomme.
+ */
+export function tallyApproved(
+  contributions: ApprovedContribution[]
+): Map<string, { handle: string; approvedCount: number }> {
+  const tally = new Map<string, { handle: string; approvedCount: number }>();
+  for (const contribution of contributions) {
+    if (contribution.shadowHidden === true) continue;
+    const existing = tally.get(contribution.authorUid);
+    if (existing) {
+      existing.approvedCount += 1;
+    } else {
+      tally.set(contribution.authorUid, { handle: contribution.authorHandle, approvedCount: 1 });
+    }
+  }
+  return tally;
+}
+
+/**
  * Classement des contributeurs, sans aucun appel Firestore — c'est ce qui le
  * rend testable, comme la logique de contribution l'est déjà.
  *
- * Classer sur les contributions APPROUVÉES et jamais soumises : c'est la
- * différence entre récompenser la qualité et récompenser le volume, et c'est
- * la modération qui encaisserait la seconde.
+ * Classé sur l'XP et non sur le décompte : l'XP se gagne aussi par les votes
+ * reçus (`xp.ts`), donc elle récompense ce que les autres ont jugé utile, pas
+ * le volume produit. Le décompte reste affiché, il ne classe pas.
+ *
+ * Une XP absente vaut zéro plutôt qu'une exclusion : un profil peut ne pas
+ * encore porter le champ, et disparaître du classement pour cette raison serait
+ * incompréhensible pour son auteur.
  */
-export function rankProfiles(profiles: LeaderboardInput[], limit: number): LeaderboardRow[] {
-  return profiles
-    .filter((p) => !p.shadowHidden && p.approvedCount > 0)
+export function rankContributors(
+  tally: Map<string, { handle: string; approvedCount: number }>,
+  xpByUid: Map<string, number>,
+  limit: number
+): LeaderboardRow[] {
+  return [...tally.entries()]
+    .map(([uid, { handle, approvedCount }]) => ({
+      uid,
+      handle,
+      xp: xpByUid.get(uid) ?? 0,
+      approvedCount,
+    }))
     // Départage par uid à XP égale : sans ça l'ordre dépendrait de celui que
     // Firestore a rendu, et le classement bougerait sans raison d'un run à
     // l'autre.
     .sort((a, b) => b.xp - a.xp || a.uid.localeCompare(b.uid))
-    .slice(0, limit)
-    .map(({ uid, handle, xp, approvedCount }) => ({ uid, handle, xp, approvedCount }));
+    .slice(0, limit);
 }
 ```
 
@@ -1695,16 +1766,16 @@ export function rankProfiles(profiles: LeaderboardInput[], limit: number): Leade
 cd functions && npm test
 ```
 
-Attendu : 6 tests au vert, plus les suites existantes.
+Attendu : les 9 nouveaux tests au vert, plus les suites existantes.
 
 - [ ] **Step 5: Écrire la Function planifiée**
 
-Créer `functions/src/rebuildLeaderboard.ts`. Reprendre la forme de `rebuildCommunityBundles.ts` — même région, même déclencheur planifié.
+Créer `functions/src/rebuildLeaderboard.ts`, sur la forme de `rebuildCommunityBundles.ts` :
 
 ```ts
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { getFirestore } from 'firebase-admin/firestore';
-import { rankProfiles, type LeaderboardInput } from './leaderboard.js';
+import { tallyApproved, rankContributors, type ApprovedContribution } from './leaderboard.js';
 
 const TOP_N = 50;
 
@@ -1715,35 +1786,38 @@ const TOP_N = 50;
  * sont deny-by-default, et la balayer serait à la fois un coût et une fuite.
  * Chaque client lit deux documents — `leaderboards/weekly` et le sien — quel
  * que soit le nombre d'utilisateurs.
+ *
+ * Les profils ne sont lus que pour les auteurs QUI ONT une contribution
+ * approuvée, jamais toute la collection : le décompte vient des contributions,
+ * dont le handle est déjà dénormalisé.
  */
 export const rebuildLeaderboard = onSchedule(
   { region: 'europe-west1', schedule: 'every day 04:00' },
   async () => {
     const db = getFirestore();
-    const snapshot = await db.collection('profiles').get();
+    const snapshot = await db.collection('contributions').where('status', '==', 'approved').get();
+    const tally = tallyApproved(snapshot.docs.map((doc) => doc.data() as ApprovedContribution));
 
-    const inputs: LeaderboardInput[] = snapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        uid: doc.id,
-        handle: data.handle ?? '',
-        xp: data.xp ?? 0,
-        approvedCount: data.approvedCount ?? 0,
-        shadowHidden: data.shadowHidden === true,
-      };
-    });
+    const uids = [...tally.keys()];
+    const xpByUid = new Map<string, number>();
+    // getAll ne prend pas un tableau vide, et un premier run sans aucune
+    // contribution approuvée est le cas normal, pas une anomalie.
+    if (uids.length > 0) {
+      const profiles = await db.getAll(...uids.map((uid) => db.doc(`profiles/${uid}`)));
+      profiles.forEach((profile) => {
+        if (profile.exists) xpByUid.set(profile.id, (profile.data()?.xp as number | undefined) ?? 0);
+      });
+    }
 
-    const rows = rankProfiles(inputs, TOP_N);
+    const rows = rankContributors(tally, xpByUid, TOP_N);
     await db.doc('leaderboards/weekly').set({ rows, updatedAt: Date.now() });
 
     // Le rang personnel va dans le document de chacun : c'est ce qui permet au
     // Profil de l'afficher sans lire le classement entier.
     //
     // Découpé en lots : un batch Firestore plafonne à 500 écritures, et cette
-    // boucle parcourt TOUS les contributeurs, pas seulement le top 50. Poser la
-    // limite maintenant plutôt que de la découvrir le jour où le classement
-    // dépasse 500 entrées — c'est-à-dire au pic de sortie.
-    const ranked = rankProfiles(inputs, inputs.length);
+    // boucle parcourt TOUS les contributeurs, pas seulement le top 50.
+    const ranked = rankContributors(tally, xpByUid, tally.size);
     const CHUNK = 400;
     for (let i = 0; i < ranked.length; i += CHUNK) {
       const batch = db.batch();
@@ -1762,7 +1836,7 @@ Exporter dans `functions/src/index.ts`, à côté des autres :
 export { rebuildLeaderboard } from './rebuildLeaderboard.js';
 ```
 
-Ouvrir la lecture dans `firestore.rules` :
+Ouvrir la lecture dans `firestore.rules`, à côté des autres collections publiques :
 
 ```
     match /leaderboards/{document=**} {
@@ -1790,9 +1864,15 @@ Un seul document lu par client, jamais une requête sur la collection des
 profils : les règles sont deny-by-default et la balayer serait un coût et une
 fuite. Le rang personnel est déposé dans le document de chacun.
 
-Classé sur les contributions APPROUVÉES, jamais soumises — sinon on récompense
-le volume et c'est la modération qui encaisse. Les comptes shadow-bannés en
-sont exclus.
+Le décompte vient des contributions approuvées, dont le handle est déjà
+dénormalisé — les profils ne sont lus que pour les auteurs qui en ont une, et
+seulement pour leur XP.
+
+Classé sur l'XP, pas sur le volume : elle se gagne aussi par les votes reçus,
+donc elle récompense ce que les autres ont jugé utile.
+
+Un auteur shadow-banni sort du classement sans qu'aucune règle ne le nomme :
+toutes ses contributions sont masquées, son décompte tombe à zéro.
 
 Le calcul est pur, sans appel Firestore : c'est ce qui le rend testable."
 ```
