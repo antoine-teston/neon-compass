@@ -1,0 +1,102 @@
+import SwiftUI
+import SwiftData
+// `Timer.publish` vient de Combine, et SwiftUI ne le réexporte pas de façon
+// fiable. Aucun autre fichier du dépôt n'importe Combine : c'est le premier.
+import Combine
+
+/// L'onglet Social. Lisible sans compte : c'est du contenu éditorial publié,
+/// pas de l'UGC. Le compte n'est demandé qu'au palier B2, et seulement pour
+/// FIGURER au classement, jamais pour le lire.
+struct SocialScreen: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    @State private var model: OnlineEventsModel?
+    /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
+    /// la valeur qu'il avait à l'ouverture de l'onglet.
+    @State private var now = Date()
+
+    private let tick = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+
+    var body: some View {
+        ZStack {
+            NCColor.nightSky.ignoresSafeArea()
+            if let model {
+                content(model)
+            } else {
+                ProgressView()
+            }
+        }
+        // La tâche appartient à l'ÉCRAN, jamais au ProgressView : accrochée au
+        // ProgressView elle s'annulerait elle-même dès que `model` est assigné.
+        // Cf. FeedScreen, où ce défaut avait gardé le fil vide.
+        .task { await loadModel() }
+        .onReceive(tick) { now = $0 }
+    }
+
+    private func content(_ model: OnlineEventsModel) -> some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                    if model.showsGamePicker {
+                        Picker(selection: Binding(
+                            get: { model.selectedGame },
+                            set: { model.selectedGame = $0 }
+                        )) {
+                            ForEach(model.availableGames) { game in
+                                Text(game.shortLabel).tag(game)
+                            }
+                        } label: {
+                            Text("social.game.picker")
+                        }
+                        .pickerStyle(.segmented)
+                    }
+
+                    if let event = model.currentEvent(at: now) {
+                        OnlineEventCard(event: event, now: now)
+                    } else if let latest = model.latestEvent() {
+                        OnlineEventCard(event: latest, now: now)
+                    } else {
+                        emptyState
+                    }
+                // Écran de liste : la bannière s'y applique (spec §5), jamais
+                // sur la carte en interaction. Posée DANS le défilement, en
+                // queue de colonne — même motif que `GuidesListView`.
+                //
+                // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
+                // suppression des pubs. En afficher une à quelqu'un qui a payé
+                // pour ne plus en voir est le pire retour possible.
+                if !proEntitlementModel.isProEntitled {
+                    BannerAdView()
+                }
+            }
+            .padding(20)
+        }
+        .refreshable { await model.refresh() }
+    }
+
+    /// Rien de publié : on le dit, on n'invente pas une semaine.
+    private var emptyState: some View {
+        VStack(spacing: 8) {
+            Text("social.empty.title")
+                .font(NCTypography.body.bold())
+                .foregroundStyle(.white)
+            Text("social.empty.body")
+                .font(NCTypography.body)
+                .foregroundStyle(.white.opacity(0.6))
+                .multilineTextAlignment(.center)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity)
+        .glassEffect(.regular, in: .rect(cornerRadius: 20))
+    }
+
+    private func loadModel() async {
+        guard model == nil else { return }
+        let contentStore = ContentStore<OnlineEvent>.live(
+            collectionName: "online_events",
+            modelContext: modelContext
+        )
+        model = OnlineEventsModel(events: contentStore.items, contentStore: contentStore)
+        try? await contentStore.syncIfNeeded()
+        model?.update(events: contentStore.items)
+    }
+}
