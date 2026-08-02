@@ -226,6 +226,20 @@ export function parseDiscount(label) {
   return null;
 }
 
+/**
+ * Marques déposées. Reprise à l'identique de `TRADEMARKS` (cli.js), qui reste
+ * l'autorité — comme `GAMES`/`CONFIDENCES` sont reprises plutôt qu'exportées
+ * entre `facts-to-news.mjs` et `facts-to-online-event.mjs`.
+ *
+ * Elle sert ici à ÉCARTER, pas à corriger. Un nom d'activité comme « GTA+ Shark
+ * Cards » porte la marque dans le nom lui-même : on ne peut ni l'afficher, ni le
+ * reformuler sans mentir sur ce qu'il désigne. Le laisser passer ferait échouer
+ * `check-publishable` sur une entrée déjà écrite — un aller-retour manuel chaque
+ * semaine. Accessoirement c'est la bonne décision éditoriale : les avantages
+ * d'un abonnement payant de l'éditeur ne sont pas notre contenu.
+ */
+const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
+
 /** Suffixe de condition. Le NOM du bien reste tel quel — c'est un nom propre,
  *  pas une rédaction — mais la condition doit se lire, sinon la carte annonce
  *  à tout le monde une remise réservée aux abonnés. */
@@ -298,6 +312,15 @@ export function hubToFact({ hub, articleURL, articleDate, hubURL = HUB_URL, game
       skipped.push({ name: '(sans nom)', label: entry.multiplierLabel, reason: 'bonus sans activityName' });
       continue;
     }
+    const brand = entry.activityName.match(TRADEMARKS);
+    if (brand) {
+      skipped.push({
+        name: entry.activityName,
+        label: entry.multiplierLabel,
+        reason: `marque « ${brand[0] } » dans le nom — inaffichable, et irreformulable sans mentir sur ce qu'il désigne`,
+      });
+      continue;
+    }
     bonuses.push({ activity: localizedName(entry.activityName), label: localizedMultiplier(parsed) });
   }
 
@@ -314,6 +337,15 @@ export function hubToFact({ hub, articleURL, articleDate, hubURL = HUB_URL, game
     }
     if (!entry.itemName) {
       skipped.push({ name: '(sans nom)', label: entry.discountLabel, reason: 'remise sans itemName' });
+      continue;
+    }
+    const brand = entry.itemName.match(TRADEMARKS);
+    if (brand) {
+      skipped.push({
+        name: entry.itemName,
+        label: entry.discountLabel,
+        reason: `marque « ${brand[0]} » dans le nom — inaffichable, et irreformulable sans mentir sur ce qu'il désigne`,
+      });
       continue;
     }
     discounts.push({ item: localizedName(entry.itemName, parsed.requires), percent: parsed.percent });

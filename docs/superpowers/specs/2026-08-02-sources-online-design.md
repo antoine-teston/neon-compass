@@ -161,28 +161,38 @@ sans multiplicateur ; remise en montant fixe).
 `check-originality` 61 champs — et les deux garde-fous vérifiés en les faisant
 échouer exprès (prose recopiée dans un `label` ; description déguisée en nom).
 
-**Le point qui reste à trancher, et il bloque la publication.** L'entrée sort en
-`confidence: single-source`. `check-publishable` l'accepte (il ne refuse que
-`rumor`), mais la règle éditoriale de `content-editor.md` réserve `published` à
-`confirmed-official` et `multi-source`. Deux issues, au choix :
+### `single-source` est publiable pour ce kind — tranché le 2026-08-02
 
-1. **C5 devient un prérequis** — corroborer chaque semaine par Leonidaverse pour
-   atteindre `multi-source`.
-2. **Un humain ratifie** — la semaine est vérifiable en jeu en trente secondes ;
-   `single-source` + relecture vaut mieux qu'une corroboration entre deux sites
-   qui relaient le même communiqué.
+L'entrée sort en `confidence: single-source`. `check-publishable` l'acceptait
+déjà (il ne refuse que `rumor`), mais la règle éditoriale de
+`content-editor.md` réservait `published` à `confirmed-official` et
+`multi-source`, héritée de l'actu. Elle ne s'applique pas ici : **les deux
+temporalités n'ont rien à voir.** Une actu spéculative reste fausse pour
+toujours ; une semaine du mode en ligne se vérifie en jeu en trente secondes et
+périme d'elle-même en sept jours. Exiger `multi-source` n'achèterait qu'une
+illusion de rigueur — deux sites qui relaient le même communiqué ne font pas
+deux sources indépendantes.
 
-La deuxième est plus honnête et moins coûteuse, mais elle demande d'écrire noir
-sur blanc que `single-source` est publiable pour ce kind. Tant que ce n'est pas
-tranché, l'entrée reste `draft` — donc invisible dans l'app, ce qui est le bon
-défaut.
+Ce qui tient lieu de garantie est donc la **relecture humaine avant
+publication** : le pipeline sort `draft`, un humain passe à `published`.
+`content-editor` a désormais la consigne explicite de ne jamais franchir ce pas.
+C5 (corroboration Leonidaverse) reste utile pour la confiance affichée, mais
+n'est plus un prérequis de publication.
+
+Contrepartie assumée, et traitée : publier ces entrées met à l'écran des textes
+que `check-publishable` ne regardait pas. Son filet à marques s'arrêtait à
+`UI_FIELDS` (`title`, `note`, `effect`, `body`) alors qu'une carte affiche aussi
+`podiumVehicle` et les textes portés par `bonuses[]`/`discounts[]` — or une
+étiquette vient tout droit d'une source qui écrit « 2x GTA$ ». Ces champs sont
+désormais scannés, sans rejoindre `UI_FIELDS` pour autant : celui-ci sert aussi
+à `translate`, qui réclamerait alors une traduction pour des noms propres.
 
 ## Découpage
 
 | Lot | Contenu | État |
 |---|---|---|
 | **C1** | `weekly-hub.mjs`, commande `weekly`, faits structurés honorés par `factToOnlineEvent`, contrôle d'originalité recalibré, tests sur payload réel | **livré (PoC)** |
-| **C2** | Étanchéité : `UI_FIELDS` couvre les listes ; détection de dérive du payload en échec bruyant ; entrée dans `veille.yml` | à faire |
+| **C2** | Détection de dérive du payload en échec de run bruyant ; entrée dans `veille.yml`. Le filet à marques sur les listes est fait (voir ci-dessus) | à faire |
 | **C3** | Catégories 4/5/9 — remise en montant fixe et condition d'abonnement (champs `amount`, `requires`) | à arbitrer |
 | **C4** | Catégories 6/7/8 — récompenses, défi, rotations. Extension de schéma + écran, parsing DOM | à arbitrer |
 | **C5** | Corroboration Leonidaverse → `multi-source`, et repli saisie humaine | à faire |

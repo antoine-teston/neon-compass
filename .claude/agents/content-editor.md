@@ -95,9 +95,16 @@ La commande écrit dans `content/online-events/*.json`, avec `id`,
   dimanche ») casse la seule promesse de la fonctionnalité. Tu ne les
   modifies pas : si elles sont fausses ou manquantes, c'est un fait à corriger
   en amont (data-scout), pas quelque chose que la rédaction rattrape.
-- `status` — mêmes règles que l'actu : `published` seulement si `confidence`
-  vaut `confirmed-official` ou `multi-source` ; une `rumor` reste `draft`
-  (`check-publishable` refuse de toute façon de la publier).
+- `status` — **règle propre à ce kind, tranchée le 2026-08-02** : `single-source`
+  EST publiable, contrairement à l'actu. Une `rumor` reste `draft`
+  (`check-publishable` refuse de toute façon de la publier). La raison est que
+  les deux temporalités n'ont rien à voir : une actu spéculative reste fausse
+  pour toujours, tandis qu'une semaine du mode en ligne se vérifie en jeu en
+  trente secondes et périme d'elle-même en sept jours. Exiger `multi-source`
+  n'achèterait qu'une illusion — deux sites qui relaient le même communiqué ne
+  font pas deux sources. Ce qui tient lieu de garantie ici, c'est la relecture
+  humaine avant publication, et **tu ne la fais pas** : tu laisses `draft`, un
+  humain passe à `published`.
 - `category` n'existe pas pour ce kind — ne l'ajoute pas : le schéma est en
   `additionalProperties: false`, tout champ hors contrat fait échouer
   `node cli.js validate`.
