@@ -267,10 +267,42 @@ cours s'en trouvait orphelinée, ce qui est arrivé deux fois.
 | **C2b** | Fenêtre mutable : identité par le début, révision au lieu de duplication, sélection déterministe côté app | **livré** |
 | **C3** | Catégories 4/5/9 — remise en montant fixe et condition d'abonnement (champs `amount`, `requires`) | à arbitrer |
 | **C4** | Catégories 6/7/8 — récompenses, défi, rotations. Extension de schéma + écran, parsing DOM | à arbitrer |
-| **C5** | Corroboration Leonidaverse → `multi-source`, et repli saisie humaine | à faire |
+| **C5** | Corroboration → `multi-source` | **abandonné, voir ci-dessous.** La détection de source qui se ferme, elle, est livrée |
 
 C3 et C4 sont des décisions produit : chaque catégorie ajoutée est une ligne
 d'écran de plus et une source de dérive de plus.
+
+### Pourquoi C5 est abandonné, et ce qu'on a fait à la place
+
+La corroboration automatique n'est **pas réalisable avec le registre actuel**,
+vérifié le 2026-08-02 plutôt que supposé :
+
+- **Leonidaverse** : son flux ne contient que **deux entrées, datées du
+  26 juin**, sur le jeu à venir. Aucune couverture de l'update hebdomadaire du
+  mode en ligne.
+- **GTA6.gg** : aucun flux au registre, et le registre interdit de parcourir un
+  site pour aller chercher une page — donc rien à interroger.
+- **GTA Wiki** : des pages de fond, pas des rotations hebdomadaires éphémères.
+- **L'article de GTABOOM** corrobore le hub, mais c'est le même éditeur : deux
+  pages d'une même maison ne font pas deux sources.
+
+Ajouter une source suppose de lire son robots.txt et de trancher — pas de la
+fetcher pour voir. C'est une décision, pas une tâche. `single-source` +
+ratification humaine reste donc le régime, ce qui est cohérent avec la décision
+de publication ci-dessus.
+
+**En revanche l'autre moitié de la motivation de C5 cachait le mode de panne le
+plus dangereux de toute la chaîne, et il est traité.** Si la source cesse de
+tenir son hub à jour, la page répond toujours 200 et le payload s'analyse
+toujours : rien ne casse. On republierait la semaine dernière indéfiniment, soit
+un compte à rebours sur une fenêtre déjà close — pire qu'une carte absente.
+
+`hubToFact` refuse désormais une fenêtre expirée. `now` y est un paramètre
+**obligatoire**, jamais lu depuis l'horloge — même discipline
+qu'`OnlineEvent.isActive(at:)` côté app, et pour la même raison : un contrôle
+temporel dont l'appelant peut omettre le temps est un contrôle qu'on désactive
+par accident. Le cas le plus probable en pratique est bénin et le message le dit :
+le run du jeudi est passé avant que la source ait publié la semaine.
 
 ## Risques
 

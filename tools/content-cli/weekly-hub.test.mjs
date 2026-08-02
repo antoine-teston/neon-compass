@@ -157,11 +157,16 @@ test('un nom propre n’est pas traduit, une condition l’est', () => {
 
 // --- Normalisation complète, sur le payload réel -------------------------
 
-const REAL = () =>
+/** Instant situé DANS la fenêtre relevée (30/07 → 05/08). Injecté, jamais lu de
+ *  l'horloge : sinon ce fichier de tests cesserait de passer le 6 août. */
+const PENDANT_LA_SEMAINE = new Date('2026-08-02T12:00:00Z');
+
+const REAL = (now = PENDANT_LA_SEMAINE) =>
   hubToFact({
     hub: PAYLOAD,
     articleURL: 'https://www.gtaboom.com/gta-online-summer-heist-event-july-2026',
     articleDate: '2026-07-30',
+    now,
   });
 
 test('la semaine réelle produit un fait complet', () => {
@@ -252,13 +257,14 @@ test('le claim porte la fenêtre — sans quoi deux semaines partageraient une i
     hub: { ...PAYLOAD, currentPhaseEndsAt: '2026-08-12T23:59:59+00:00' },
     articleURL: 'https://www.gtaboom.com/x',
     articleDate: '2026-08-06',
+    now: new Date('2026-08-08T12:00:00Z'),
   });
   assert.notEqual(week1.claim, week2.claim);
 });
 
 test('une fenêtre incohérente lève plutôt que d’afficher un compte à rebours faux', () => {
   assert.throws(
-    () => hubToFact({ hub: PAYLOAD, articleURL: 'https://www.gtaboom.com/x', articleDate: '2026-09-01' }),
+    () => hubToFact({ hub: PAYLOAD, articleURL: 'https://www.gtaboom.com/x', articleDate: '2026-09-01', now: PENDANT_LA_SEMAINE }),
     /fenêtre incohérente/,
   );
 });
@@ -270,6 +276,7 @@ test('un hub dont plus aucune étiquette n’est reconnue lève', () => {
         hub: { ...PAYLOAD, bonuses: [{ activityName: 'X', multiplierLabel: 'twice the money' }], discounts: [] },
         articleURL: 'https://www.gtaboom.com/x',
         articleDate: '2026-07-30',
+        now: PENDANT_LA_SEMAINE,
       }),
     /ni bonus ni remise retenus/,
   );
@@ -287,4 +294,32 @@ test('tout nom émis tient la promesse qui lui vaut son exception', () => {
   for (const name of names) {
     assert.equal(notANominativeName(name), null, name);
   }
+});
+
+// --- Péremption du hub ----------------------------------------------------
+//
+// Le mode de panne le plus dangereux de la chaîne, parce qu'il ne casse rien :
+// une source qui cesse de tenir son hub répond toujours 200 et s'analyse
+// toujours. Sans ce contrôle, on republierait la semaine dernière indéfiniment.
+
+test('une fenêtre déjà close est un ÉCHEC, pas une donnée', () => {
+  assert.throws(() => REAL(new Date('2026-08-06T12:00:00Z')), /fenêtre déjà expirée/);
+});
+
+test('la seconde exacte de la fin est déjà trop tard', () => {
+  // `endsAt <= now` et non `<` : à l'instant de la fin, il n'y a plus rien à
+  // décompter, et `OnlineEvent.remaining(at:)` rendrait déjà nil côté app.
+  assert.throws(() => REAL(new Date('2026-08-05T23:59:59Z')), /fenêtre déjà expirée/);
+  assert.doesNotThrow(() => REAL(new Date('2026-08-05T23:59:58Z')));
+});
+
+test('now est obligatoire — un oubli ne doit pas désactiver le contrôle en silence', () => {
+  assert.throws(
+    () => hubToFact({ hub: PAYLOAD, articleURL: 'https://www.gtaboom.com/x', articleDate: '2026-07-30' }),
+    /now est obligatoire/,
+  );
+  assert.throws(
+    () => hubToFact({ hub: PAYLOAD, articleURL: 'https://www.gtaboom.com/x', articleDate: '2026-07-30', now: '2026-08-02' }),
+    /now est obligatoire/,
+  );
 });
