@@ -230,6 +230,65 @@ begin
   reset role;
 end $$;
 
+-- ---------------------------------------------------------------------------
+-- Les DEUX verrous — privilèges, pas seulement politiques
+-- ---------------------------------------------------------------------------
+
+-- Ce bloc a été écrit APRÈS avoir découvert, sur le vrai projet, que
+-- `pg_default_acl` accorde SELECT/INSERT/UPDATE/DELETE à `anon` et
+-- `authenticated` sur toute table nouvellement créée. RLS suffisait à protéger
+-- les données, mais le second verrou n'était pas là où on le croyait, et rien
+-- ne l'aurait signalé : une suite qui ne teste que « combien de lignes je vois »
+-- passe aussi bien avec un seul verrou qu'avec deux.
+do $$
+declare
+  leaked text;
+begin
+  -- Aucune écriture directe, nulle part, sauf les trois tables où le client
+  -- n'écrit que ses propres lignes.
+  select string_agg(table_name || ':' || privilege_type, ', ')
+    into leaked
+    from information_schema.role_table_grants
+   where grantee in ('anon', 'authenticated')
+     and table_schema = 'public'
+     and privilege_type in ('INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER')
+     and table_name not in ('progression', 'push_tokens', 'editor_drafts');
+  assert leaked is null, format('écriture accordée là où elle ne devrait pas : %s', leaked);
+
+  -- Les tables entièrement fermées le sont aussi au niveau du privilège.
+  select string_agg(distinct table_name, ', ')
+    into leaked
+    from information_schema.role_table_grants
+   where grantee in ('anon', 'authenticated')
+     and table_schema = 'public'
+     and table_name in ('reports', 'editors', 'community_bundle_state', 'push_outbox');
+  assert leaked is null, format('tables censées être fermées mais accordées : %s', leaked);
+
+  -- `anon` ne lit que ce qui est public. Notamment pas les profils.
+  select string_agg(distinct table_name, ', ')
+    into leaked
+    from information_schema.role_table_grants
+   where grantee = 'anon'
+     and table_schema = 'public'
+     and table_name not in ('app_config', 'contributions');
+  assert leaked is null, format('anon a accès à des tables non publiques : %s', leaked);
+end $$;
+
+-- Et le second verrou mord vraiment : une écriture directe est refusée par le
+-- PRIVILÈGE, avant même que RLS n'ait son mot à dire.
+do $$
+begin
+  set local role authenticated;
+  perform set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', true);
+  begin
+    update public.profiles set xp = 999999 where uid = '11111111-1111-1111-1111-111111111111';
+    assert false, 'un client ne doit pas pouvoir écrire son XP';
+  exception when insufficient_privilege then
+    null; -- attendu
+  end;
+  reset role;
+end $$;
+
 -- Le mode éditeur est fermé tant que la table `editors` est vide, et s'ouvre
 -- par un INSERT — là où firestore.rules exigeait de redéployer des règles.
 do $$

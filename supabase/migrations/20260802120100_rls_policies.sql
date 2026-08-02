@@ -13,12 +13,27 @@
 --   1. les GRANT décident si le rôle peut TOUCHER la table ;
 --   2. les politiques RLS décident QUELLES LIGNES il voit.
 --
--- Depuis que `auth_expose_new_tables` est éteint par défaut (voir
--- supabase/config.toml), une table nouvellement créée n'est exposée à AUCUN
--- rôle de l'API tant qu'on ne l'a pas accordée explicitement. Une politique
--- parfaite sur une table sans GRANT donne « permission denied », pas un
--- résultat vide — et le message ne dit pas lequel des deux verrous a mordu.
--- D'où les GRANT écrits ici table par table, à côté de leurs politiques.
+-- **Le premier verrou est OUVERT par défaut, et c'est contre-intuitif.** Vérifié
+-- sur le projet le 2026-08-02 : `pg_default_acl` accorde `arwdDxtm` — donc
+-- SELECT, INSERT, UPDATE et DELETE — à `anon` ET `authenticated` sur toute
+-- nouvelle table du schéma `public`. Un `grant select` posé par-dessus ne retire
+-- rien : c'est une non-opération sur des privilèges déjà complets.
+--
+-- Sans le bloc de REVOKE de cette dernière migration, RLS serait la SEULE chose entre
+-- un client anonyme et l'intégralité des données. Ça tient — une table avec RLS
+-- et sans politique refuse tout — mais ça ne tient qu'à ça : un
+-- `alter table … disable row level security` de trop, ou une politique
+-- permissive ajoutée sans y penser, et tout est exposé, en écriture comprise.
+--
+-- Les politiques ci-dessous décrivent QUI voit QUOI. Les privilèges — qui a le
+-- droit de poser la question — vivent dans `20260802140000_privileges.sql`,
+-- seul et en dernier : `revoke … on all tables` ne peut porter que sur les
+-- tables qui existent DÉJÀ, et les migrations suivantes en créent.
+--
+-- (`auto_expose_new_tables` dans supabase/config.toml documente l'inverse comme
+-- nouveau défaut cloud, le réglage disparaissant au 2026-10-30. Ce projet est
+-- encore sous l'ancien régime. Les REVOKE explicites sont corrects sous les
+-- deux — c'est précisément pourquoi ils sont écrits.)
 --
 -- Rappel : `service_role` contourne RLS mais PAS les GRANT.
 
@@ -41,11 +56,8 @@ as $$
   select exists (select 1 from public.editors where uid = auth.uid());
 $$;
 
-revoke all on function public.is_editor() from public;
-grant execute on function public.is_editor() to authenticated, service_role;
-
 -- ---------------------------------------------------------------------------
--- profiles — lecture de son seul profil
+-- Politiques
 -- ---------------------------------------------------------------------------
 
 alter table public.profiles enable row level security;
@@ -54,36 +66,23 @@ create policy profiles_select_own on public.profiles
   for select to authenticated
   using (auth.uid() = uid);
 
-grant select on public.profiles to authenticated;
-grant all on public.profiles to service_role;
-
 -- Aucune politique d'écriture cliente : handle, XP, niveau et rang sont
 -- calculés serveur (spec : « le niveau est calculé serveur, jamais par le
 -- client »).
 
--- ---------------------------------------------------------------------------
--- progression — le seul endroit où le client écrit vraiment
--- ---------------------------------------------------------------------------
-
 alter table public.progression enable row level security;
 
+-- Le seul endroit où le client écrit vraiment.
 create policy progression_all_own on public.progression
   for all to authenticated
   using (auth.uid() = uid)
   with check (auth.uid() = uid);
 
-grant select, insert, update, delete on public.progression to authenticated;
-grant all on public.progression to service_role;
-
--- ---------------------------------------------------------------------------
--- contributions — approuvées et non masquées, plus les siennes
--- ---------------------------------------------------------------------------
-
 alter table public.contributions enable row level security;
 
 -- Même condition que firestore.rules. Elle sert de filet : le chemin de lecture
--- normal passe désormais par les fragments publiés sur Storage, où
--- `shadow_hidden` est filtré à la construction.
+-- normal passe par les fragments publiés sur Storage, où `shadow_hidden` est
+-- filtré à la construction.
 create policy contributions_select_public_or_own on public.contributions
   for select to anon, authenticated
   using (
@@ -91,34 +90,15 @@ create policy contributions_select_public_or_own on public.contributions
     or (auth.uid() is not null and author_uid = auth.uid())
   );
 
-grant select on public.contributions to anon, authenticated;
-grant all on public.contributions to service_role;
-
--- ---------------------------------------------------------------------------
--- votes — chacun voit les siens
--- ---------------------------------------------------------------------------
-
 alter table public.votes enable row level security;
 
 create policy votes_select_own on public.votes
   for select to authenticated
   using (auth.uid() = uid);
 
-grant select on public.votes to authenticated;
-grant all on public.votes to service_role;
-
--- ---------------------------------------------------------------------------
--- reports — aucun accès client, dans les deux sens
--- ---------------------------------------------------------------------------
-
+-- `reports` : RLS active, AUCUNE politique. Y compris en lecture pour l'auteur
+-- du signalement — firestore.rules refusait déjà `read, write`.
 alter table public.reports enable row level security;
--- Ni GRANT ni politique. Y compris en lecture pour l'auteur du signalement :
--- firestore.rules refusait déjà `read, write` sur `reports`.
-grant all on public.reports to service_role;
-
--- ---------------------------------------------------------------------------
--- app_config — lecture publique
--- ---------------------------------------------------------------------------
 
 alter table public.app_config enable row level security;
 
@@ -128,13 +108,6 @@ create policy app_config_select_all on public.app_config
   for select to anon, authenticated
   using (true);
 
-grant select on public.app_config to anon, authenticated;
-grant all on public.app_config to service_role;
-
--- ---------------------------------------------------------------------------
--- push_tokens — chacun gère les siens
--- ---------------------------------------------------------------------------
-
 alter table public.push_tokens enable row level security;
 
 create policy push_tokens_all_own on public.push_tokens
@@ -142,19 +115,11 @@ create policy push_tokens_all_own on public.push_tokens
   using (auth.uid() = uid)
   with check (auth.uid() = uid);
 
-grant select, insert, update, delete on public.push_tokens to authenticated;
-grant all on public.push_tokens to service_role;
-
--- ---------------------------------------------------------------------------
--- editors / editor_drafts — mode éditeur interne, build debug
--- ---------------------------------------------------------------------------
-
+-- `editors` : RLS active, aucune politique. La table se remplit par
+-- `service_role` (CLI d'admin). Tant qu'elle est vide, `is_editor()` rend faux
+-- et personne n'atteint les brouillons — même défaut fermé que l'UID en dur de
+-- firestore.rules, mais renseignable sans redéployer quoi que ce soit.
 alter table public.editors enable row level security;
--- Ni GRANT ni politique : la table se remplit par `service_role` (CLI d'admin).
--- Tant qu'elle est vide, `is_editor()` rend faux et personne n'atteint les
--- brouillons — le défaut est fermé, comme l'UID en dur de firestore.rules,
--- mais renseignable sans redéployer quoi que ce soit.
-grant all on public.editors to service_role;
 
 alter table public.editor_drafts enable row level security;
 
@@ -162,36 +127,3 @@ create policy editor_drafts_all_editors on public.editor_drafts
   for all to authenticated
   using (public.is_editor())
   with check (public.is_editor() and author_uid = auth.uid());
-
-grant select, insert, update, delete on public.editor_drafts to authenticated;
-grant all on public.editor_drafts to service_role;
-
--- ---------------------------------------------------------------------------
--- leaderboard — vue matérialisée, publique
--- ---------------------------------------------------------------------------
-
--- Une vue matérialisée ne porte pas de RLS : elle s'ouvre ou se ferme par les
--- seuls droits. Publique ici, comme `leaderboards` l'était dans
--- firestore.rules — elle ne contient aucune donnée personnelle, le handle étant
--- généré par nous et jamais saisi.
-revoke all on public.leaderboard from public;
-grant select on public.leaderboard to anon, authenticated, service_role;
-
--- ---------------------------------------------------------------------------
--- Fonctions internes — jamais appelables depuis l'API
--- ---------------------------------------------------------------------------
-
--- Ces quatre-là ne sont invoquées que par des triggers ou par `service_role`.
--- Les laisser exécutables par `anon`/`authenticated` exposerait un
--- rafraîchissement de classement (coûteux) et un générateur de pseudonyme à
--- n'importe quel appelant.
-revoke all on function public.generate_handle() from public;
-revoke all on function public.handle_new_user() from public;
-revoke all on function public.sync_vote_counts() from public;
-revoke all on function public.refresh_leaderboard() from public;
-
--- `service_role` seulement. `generate_handle` est appelée par l'Edge Function
--- de régénération de pseudonyme ; l'ouvrir à `authenticated` laisserait
--- n'importe qui tirer des noms sans passer par le compteur de tentatives.
-grant execute on function public.generate_handle() to service_role;
-grant execute on function public.refresh_leaderboard() to service_role;
