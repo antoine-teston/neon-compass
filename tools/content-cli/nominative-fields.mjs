@@ -35,12 +35,15 @@ export const NOMINATIVE_LIST_FIELDS = {
   ],
 };
 
-/** Textes RÉDIGÉS portés par une liste — soumis à tous les contrôles, eux.
- *  `label` est composé par nous (weekly-hub.mjs) : rien ne justifie qu'il porte
- *  une marque, et il n'est pas un nom. */
-export const REDACTED_LIST_FIELDS = {
-  'online-events': [['bonuses', 'label']],
-};
+/**
+ * Textes RÉDIGÉS portés par une liste — soumis à tous les contrôles, eux.
+ *
+ * Vide aujourd'hui, et ce n'est pas un oubli : `bonuses[].label` en était le seul
+ * membre, et il a disparu quand le bonus est devenu structuré (un nombre, plus un
+ * texte) pour que l'app puisse écrire « GTA$ ». Le mécanisme reste en place — la
+ * prochaine liste qui portera de la prose n'aura qu'à s'inscrire ici.
+ */
+export const REDACTED_LIST_FIELDS = {};
 
 /** Au-delà, ce n'est plus un nom mais une phrase. Le plus long relevé sur une
  *  semaine réelle en fait cinq (« Galaxy Super Yacht and modifications ») ;

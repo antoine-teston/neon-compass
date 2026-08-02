@@ -274,30 +274,45 @@ export function parseMultiplier(label) {
   return null;
 }
 
-/** Compose l'étiquette dans les cinq langues. Aucune marque, aucun segment
- *  repris de la source : `check-originality.mjs` la compare à la prose source. */
-export function localizedMultiplier(parsed) {
-  if (parsed.percentBonus !== undefined) {
-    const n = parsed.percentBonus;
-    return {
-      en: `+${n}% cash`,
-      fr: `+${n} % d’argent`,
-      es: `+${n}% de dinero`,
-      it: `+${n}% di denaro`,
-      de: `+${n} % Geld`,
-    };
-  }
-  const n = parsed.times;
-  return parsed.rp
-    ? {
-        en: `${n}× cash & RP`,
-        fr: `${n}× argent & RP`,
-        es: `${n}× dinero y RP`,
-        it: `${n}× denaro e RP`,
-        de: `${n}× Geld & RP`,
-      }
-    : { en: `${n}× cash`, fr: `${n}× argent`, es: `${n}× dinero`, it: `${n}× denaro`, de: `${n}× Geld` };
+/**
+ * Extrait la date de fin PROPRE à un bonus depuis la prose de la source.
+ *
+ * C'est la seule information exploitable que cette prose contienne : le reste est
+ * une reformulation de ce qu'on a déjà en structuré, et une date est un FAIT — on
+ * peut la reprendre sans reprendre une phrase. Certains bonus courent une semaine
+ * de plus que la fenêtre (« pays double GTA$ and RP through August 12 » quand la
+ * semaine finit le 5), et la carte le cachait.
+ *
+ * Ne rend une date que si elle DÉPASSE la fin de fenêtre : la plupart des détails
+ * répètent la fin de la semaine, ce qui n'apprend rien et ferait afficher une
+ * mention redondante sur chaque ligne.
+ *
+ * @param endsAt fin de fenêtre, `AAAA-MM-JJTHH:MM:SSZ`
+ * @returns `AAAA-MM-JJ`, ou `null`
+ */
+export function parseBonusUntil(details, endsAt) {
+  if (typeof details !== 'string' || typeof endsAt !== 'string') return null;
+  const match = details.match(/through\s+([A-Z][a-z]+)\s+(\d{1,2})\b/);
+  if (!match) return null;
+  const month = MONTHS[match[1]];
+  if (month === undefined) return null;
+
+  // L'année n'est pas dans la phrase. Elle vient de la fenêtre — et si la date
+  // ainsi formée tombe AVANT elle, c'est que la source parle de l'année suivante
+  // (une semaine à cheval sur le 31 décembre).
+  const windowYear = Number(endsAt.slice(0, 4));
+  const day = String(match[2]).padStart(2, '0');
+  const mm = String(month).padStart(2, '0');
+  let candidate = `${windowYear}-${mm}-${day}`;
+  if (candidate < endsAt.slice(0, 10)) candidate = `${windowYear + 1}-${mm}-${day}`;
+
+  return candidate > endsAt.slice(0, 10) ? candidate : null;
 }
+
+const MONTHS = {
+  January: 1, February: 2, March: 3, April: 4, May: 5, June: 6,
+  July: 7, August: 8, September: 9, October: 10, November: 11, December: 12,
+};
 
 /**
  * Analyse une étiquette de remise.
@@ -427,7 +442,13 @@ export function hubToFact({ hub, articleURL, articleDate, now, rewards = [], rew
       skipped.push({ name: '(sans nom)', label: entry.multiplierLabel, reason: 'bonus sans activityName' });
       continue;
     }
-    bonuses.push({ activity: localizedName(entry.activityName), label: localizedMultiplier(parsed) });
+    const until = parseBonusUntil(entry.details, endsAt);
+    bonuses.push({
+      activity: localizedName(entry.activityName),
+      ...(parsed.times !== undefined ? { multiplier: parsed.times } : { percentBonus: parsed.percentBonus }),
+      includesRP: parsed.rp,
+      ...(until ? { until } : {}),
+    });
   }
 
   const discounts = [];

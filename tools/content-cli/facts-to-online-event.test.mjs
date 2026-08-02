@@ -167,7 +167,7 @@ test('un item déjà rédigé n’est jamais réécrasé par son squelette', () 
   const rewritten = {
     ...skeleton,
     title: { en: 'Sea race weekend', fr: 'Week-end courses en mer' },
-    bonuses: [{ activity: { en: 'Sea races' }, label: { en: 'Double payout' } }],
+    bonuses: [{ activity: { en: 'Sea races' }, multiplier: 2, includesRP: false }],
     status: 'published',
   };
   delete rewritten.needsRewrite;
@@ -276,7 +276,7 @@ const STRUCTURED = {
   claim: 'Fenêtre du mode en ligne du 2026-07-30 au 2026-08-05 : 1 bonus et 1 remise.',
   sources: ['https://www.gtaboom.com/gta-online-weekly-updates', 'https://www.gtaboom.com/semaine'],
   title: { en: 'Weekly update — 2026-07-30', fr: 'Mise à jour hebdomadaire — 2026-07-30' },
-  bonuses: [{ activity: { en: 'Fleeca Heist Finale' }, label: { en: '2× cash', fr: '2× argent' } }],
+  bonuses: [{ activity: { en: 'Fleeca Heist Finale' }, multiplier: 2, includesRP: true }],
   discounts: [{ item: { en: 'Karin Kuruma' }, percent: 60 }],
   source_prose: 'Fleeca Heist Finale — 2x GTA$ — First completion pays double GTA$ through August 5.',
 };
@@ -308,11 +308,14 @@ test('un squelette reste un squelette', () => {
 });
 
 test('un fait structuré mal formé échoue ICI, pas au validate suivant', () => {
-  assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: { en: 'X' } }] }), /bonuses\[0\]\.label/);
+    assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: { en: 'X' } }] }), /ni multiplier ni percentBonus/);
+    assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: { en: 'X' }, multiplier: 2, percentBonus: 15 }] }), /les deux s.excluent/);
+    assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: { en: 'X' }, multiplier: 1 }] }), /entier 2-10/);
+    assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: { en: 'X' }, multiplier: 2, until: '12 août' }] }), /AAAA-MM-JJ/);
   assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: 'deux fois plus' }), /bonuses : tableau attendu/);
   assert.throws(() => factToOnlineEvent({ ...STRUCTURED, discounts: [{ item: { en: 'X' }, percent: 0 }] }), /entier 1-100/);
   assert.throws(() => factToOnlineEvent({ ...STRUCTURED, discounts: [{ item: { en: 'X' }, percent: 12.5 }] }), /entier 1-100/);
-  assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: {}, label: { en: 'x' } }] }), /avec au moins/);
+    assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: {}, multiplier: 2 }] }), /avec au moins/);
 });
 
 test('un fait structuré traverse la matérialisation par lot', () => {

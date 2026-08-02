@@ -131,7 +131,7 @@ export function factToOnlineEvent(fact) {
   // rédiger par `content-editor`.
   const structured = fact.bonuses !== undefined || fact.discounts !== undefined;
   if (structured) {
-    assertLocalizedList(fact.bonuses, 'bonuses', ['activity', 'label']);
+    assertBonusList(fact.bonuses);
     assertDiscountList(fact.discounts);
     assertRewardList(fact.rewards);
   }
@@ -172,6 +172,32 @@ function assertLocalized(value, path) {
   if (!value || typeof value !== 'object' || typeof value.en !== 'string' || !value.en) {
     throw new Error(`${path} : texte localisé attendu, avec au moins « en »`);
   }
+}
+
+/** Le bonus est structuré depuis que « GTA$ » est composé par l'app et non porté
+ *  par le contenu : ce qui se valide ici, c'est un nombre, pas un texte. */
+function assertBonusList(list) {
+  if (list === undefined) return;
+  if (!Array.isArray(list)) throw new Error('bonuses : tableau attendu');
+  list.forEach((entry, index) => {
+    assertLocalized(entry?.activity, `bonuses[${index}].activity`);
+    const { multiplier, percentBonus } = entry;
+    if (multiplier === undefined && percentBonus === undefined) {
+      throw new Error(`bonuses[${index}] : ni multiplier ni percentBonus — un bonus sans valeur n'en est pas un`);
+    }
+    if (multiplier !== undefined && percentBonus !== undefined) {
+      throw new Error(`bonuses[${index}] : multiplier ET percentBonus — les deux s'excluent`);
+    }
+    if (multiplier !== undefined && (!Number.isInteger(multiplier) || multiplier < 2 || multiplier > 10)) {
+      throw new Error(`bonuses[${index}].multiplier : entier 2-10 attendu, reçu ${multiplier}`);
+    }
+    if (percentBonus !== undefined && (!Number.isInteger(percentBonus) || percentBonus < 1 || percentBonus > 100)) {
+      throw new Error(`bonuses[${index}].percentBonus : entier 1-100 attendu, reçu ${percentBonus}`);
+    }
+    if (entry.until !== undefined && !ISO_DATE.test(entry.until)) {
+      throw new Error(`bonuses[${index}].until : date AAAA-MM-JJ attendue, reçue ${entry.until}`);
+    }
+  });
 }
 
 function assertLocalizedList(list, name, fields) {
