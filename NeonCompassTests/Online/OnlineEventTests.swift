@@ -103,4 +103,65 @@ struct OnlineEventTests {
         let decoded = try JSONDecoder().decode(OnlineEvent.self, from: reencoded)
         #expect(decoded == original)
     }
+
+    // MARK: - Récompenses
+
+    /// La nature est une énumération FERMÉE, pas un libellé : c'est l'app qui la
+    /// localise. Le contenu ne porte que le nom de l'objet, qui est un fait.
+    @Test func rewardsDecodeWithTheirKind() throws {
+        let event = try JSONDecoder().decode(OnlineEvent.self, from: Data("""
+        {
+          "id": "online_a", "game": "gtav",
+          "startsAt": "2026-07-30T00:00:00Z", "endsAt": "2026-08-05T23:59:59Z",
+          "title": { "en": "Weekly update" },
+          "rewards": [
+            { "kind": "vehicle", "item": { "en": "Grotti Veleno GT in Attack livery" } },
+            { "kind": "login", "item": { "en": "Pacific Standard Sweater" } }
+          ]
+        }
+        """.utf8))
+
+        #expect(event.rewards.count == 2)
+        #expect(event.rewards[0].kind == .vehicle)
+        #expect(event.rewards[0].item.resolved(for: "fr") == "Grotti Veleno GT in Attack livery")
+        #expect(event.rewards[1].kind == .login)
+    }
+
+    /// Absentes, elles valent vide — comme les bonus et les remises. Une semaine
+    /// sans rien à réclamer reste une semaine.
+    @Test func missingRewardsAreEmptyNotAFailure() throws {
+        let event = try JSONDecoder().decode(OnlineEvent.self, from: Data("""
+        {
+          "id": "online_a", "game": "gtav",
+          "startsAt": "2026-07-30T00:00:00Z", "endsAt": "2026-08-05T23:59:59Z",
+          "title": { "en": "Weekly update" }
+        }
+        """.utf8))
+        #expect(event.rewards.isEmpty)
+    }
+
+    /// Une nature hors énumération fait ÉCHOUER le décodage plutôt que d'être
+    /// avalée : le schéma la ferme et `validate` la contrôle en CI, donc elle ne
+    /// peut venir que d'un contenu qui n'est pas passé par la chaîne. L'écarter en
+    /// silence priverait la carte d'une récompense sans que personne l'apprenne.
+    @Test func unknownRewardKindFailsLoudly() throws {
+        #expect(throws: (any Error).self) {
+            try JSONDecoder().decode(OnlineEvent.self, from: Data("""
+            {
+              "id": "online_a", "game": "gtav",
+              "startsAt": "2026-07-30T00:00:00Z", "endsAt": "2026-08-05T23:59:59Z",
+              "title": { "en": "Weekly update" },
+              "rewards": [{ "kind": "mystere", "item": { "en": "X" } }]
+            }
+            """.utf8))
+        }
+    }
+
+    /// Toutes les natures du schéma ont une clé de catalogue, et elle suit la
+    /// convention des autres clés de la carte.
+    @Test func everyRewardKindHasALocalizationKey() {
+        for kind in OnlineEventRewardKind.allCases {
+            #expect(kind.localizationKey == "social.event.reward.\(kind.rawValue)")
+        }
+    }
 }

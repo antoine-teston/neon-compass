@@ -162,6 +162,38 @@
       "percent": 50
     }
   ],
+  "rewards": [
+    {
+      "kind": "challenge",
+      "item": {
+        "en": "Fleeca Circuit livery for the Übermacht Cypher"
+      }
+    },
+    {
+      "kind": "login",
+      "item": {
+        "en": "Pacific Standard Sweater"
+      }
+    },
+    {
+      "kind": "challenge",
+      "item": {
+        "en": "Weekly Challenge reward"
+      }
+    },
+    {
+      "kind": "vehicle",
+      "item": {
+        "en": "Grotti Veleno GT in Attack livery"
+      }
+    },
+    {
+      "kind": "cash",
+      "item": {
+        "en": "Monthly GTA+ cash"
+      }
+    }
+  ],
   "status": "published",
   "sources": [
     "https://www.gtaboom.com/gta-online-weekly-updates",

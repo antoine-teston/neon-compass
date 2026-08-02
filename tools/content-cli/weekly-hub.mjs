@@ -18,6 +18,8 @@
 // publication de l'article lié, lue dans le flux — donc sans parcourir le site,
 // ce que le registre interdit (source-policy.mjs).
 //
+import { notANominativeName } from './nominative-fields.mjs';
+
 // Discipline générale, la même que `OnlineEvent.init(from:)` côté app : une
 // structure qu'on ne reconnaît pas LÈVE. Un repli silencieux produirait un
 // compte à rebours faux, ce qui est pire qu'une absence.
@@ -134,7 +136,95 @@ export function parseWeeklyHub(html) {
     );
   }
 
-  return { hub, articlePath };
+  // Les récompenses viennent du marquage, pas du payload — elles sont donc
+  // lues ici, où le HTML est encore disponible. Best-effort : `parseRewards` ne
+  // lève jamais, et une section absente rend un tableau vide.
+  const { rewards, skipped: rewardsSkipped } = parseRewards(html);
+
+  return { hub, articlePath, rewards, rewardsSkipped };
+}
+
+/**
+ * Les récompenses de la semaine, lues dans le MARQUAGE et non dans le payload —
+ * la source ne les publie pas en JSON, contrairement aux bonus et aux remises.
+ *
+ * Conséquence assumée : cette extraction est fragile là où l'autre est solide.
+ * Elle s'accroche donc à ce qui a le plus de chances de survivre à un
+ * redesign — l'`id` de section, la balise `<article>`, l'attribut
+ * `data-variant="overline"` — et jamais à une classe Tailwind, qui change à
+ * chaque coup de peinture.
+ *
+ * Et surtout : **elle ne lève jamais.** Une carte sans ses récompenses reste
+ * utile ; une semaine entière perdue parce qu'un `<article>` est devenu un
+ * `<li>` ne l'est pas. L'appelant reçoit un tableau vide et le signale.
+ */
+const REWARD_KINDS = {
+  'challenge reward': 'challenge',
+  'login reward': 'login',
+  'free vehicle': 'vehicle',
+  'cash bonus': 'cash',
+};
+
+/** Le texte d'une balise, dépouillé de tout marquage imbriqué (les cartes
+ *  contiennent des `<svg>` et des `<span>`). */
+function tagText(html) {
+  return html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Découpe la section `id="<name>"` jusqu'à la section suivante. */
+function sectionSlice(html, name) {
+  if (typeof html !== 'string') return null;
+  const at = html.indexOf(`id="${name}"`);
+  if (at < 0) return null;
+  const next = html.indexOf('<section id="', at + 1);
+  return html.slice(at, next < 0 ? undefined : next);
+}
+
+/**
+ * @returns {{ rewards: Array<{kind: string, item: {en: string}}>, skipped: Array<{name: string, label: string|null, reason: string}> }}
+ */
+export function parseRewards(html) {
+  const rewards = [];
+  const skipped = [];
+  const slice = sectionSlice(html, 'weekly-rewards');
+  if (!slice) return { rewards, skipped };
+
+  for (const [, article] of [...slice.matchAll(/<article[\s>]([\s\S]*?)<\/article>/gi)]) {
+    const overline = article.match(/data-variant="overline"[^>]*>([\s\S]*?)<\/p>/i);
+    const heading = article.match(/<h3[^>]*>([\s\S]*?)<\/h3>/i);
+    const label = overline ? tagText(overline[1]).toLowerCase() : null;
+    const name = heading ? tagText(heading[1]) : null;
+
+    if (!name) continue; // une carte sans titre n'est pas une récompense
+    const kind = label ? REWARD_KINDS[label] : undefined;
+    if (!kind) {
+      skipped.push({
+        name,
+        label,
+        reason: `nature de récompense inconnue — l'énumération du schéma est fermée, « Autre » n'apprendrait rien sur une carte étroite`,
+      });
+      continue;
+    }
+    // Le nom doit tenir la promesse qui vaut aux champs nominatifs leur
+    // exception aux marques (nominative-fields.mjs). Une source qui met une
+    // phrase dans son titre ferait sinon échouer `check-publishable` sur la
+    // semaine ENTIÈRE — un aller-retour manuel chaque jeudi.
+    const problem = notANominativeName(name);
+    if (problem) {
+      skipped.push({ name, label, reason: `le titre n'est pas un nom — ${problem}` });
+      continue;
+    }
+    rewards.push({ kind, item: { en: name } });
+  }
+
+  return { rewards, skipped };
 }
 
 /** Normalise un instant en l'horodatage UTC que le schéma impose
@@ -279,7 +369,7 @@ export function localizedTitle(startDate) {
  *          nous ne montrons pas. Le compte-rendu de run l'affiche, faute de quoi
  *          une catégorie entière disparaîtrait sans que personne le remarque.
  */
-export function hubToFact({ hub, articleURL, articleDate, now, hubURL = HUB_URL, game = 'gtav' }) {
+export function hubToFact({ hub, articleURL, articleDate, now, rewards = [], rewardsSkipped = [], hubURL = HUB_URL, game = 'gtav' }) {
   // `now` est TOUJOURS injecté, jamais lu depuis `new Date()` — même discipline
   // qu'`OnlineEvent.isActive(at:)` côté app. Sans paramètre obligatoire, l'appel
   // du run pourrait l'omettre et perdre le contrôle de péremption sans que rien
@@ -318,7 +408,10 @@ export function hubToFact({ hub, articleURL, articleDate, now, hubURL = HUB_URL,
     );
   }
 
-  const skipped = [];
+  // Ce que `parseRewards` a écarté remonte dans le MÊME compte-rendu que le
+  // reste : une catégorie perdue doit se voir au même endroit, quelle que soit
+  // l'étape qui l'a perdue.
+  const skipped = [...rewardsSkipped];
   const bonuses = [];
   for (const entry of hub.bonuses) {
     const parsed = parseMultiplier(entry.multiplierLabel);
@@ -355,6 +448,8 @@ export function hubToFact({ hub, articleURL, articleDate, now, hubURL = HUB_URL,
     discounts.push({ item: localizedName(entry.itemName, parsed.requires), percent: parsed.percent });
   }
 
+  // La carte reste utile sans récompenses ; elle ne l'est pas sans bonus ni
+  // remise. Le seuil d'échec ne porte donc que sur le cœur.
   if (!bonuses.length && !discounts.length) {
     throw new Error(
       'ni bonus ni remise retenus — les étiquettes de la source ont changé de forme, ' +
@@ -389,6 +484,7 @@ export function hubToFact({ hub, articleURL, articleDate, now, hubURL = HUB_URL,
       title: localizedTitle(startDate),
       bonuses,
       discounts,
+      rewards,
       // La prose de la source, conservée telle quelle : c'est le CORPUS auquel
       // `check-originality.mjs` compare les champs rédigés. La remplacer par un
       // résumé viderait le contrôle de sa substance.

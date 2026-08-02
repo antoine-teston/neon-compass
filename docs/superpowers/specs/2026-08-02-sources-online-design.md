@@ -36,7 +36,7 @@ Relevé sur la semaine du 30/07/2026, qui est représentative. Colonne « porté
 | 3 | Véhicule du podium | *aucun cette semaine* | ✅ `podiumVehicle` |
 | 4 | Remises en montant fixe | Art Studio, −1 000 000 | ❌ `percent` est un entier 1-100 |
 | 5 | Remises conditionnelles | Hao's Special Works, −50 % **abonnés** | ⚠️ la condition n'a pas de champ |
-| 6 | Récompenses à réclamer | livrée Fleeca Circuit, pull Pacific Standard | ❌ |
+| 6 | Récompenses à réclamer | livrée Fleeca Circuit, pull Pacific Standard | ✅ `rewards[]` (C4) |
 | 7 | Défi hebdomadaire + sa prime | gagner deux modes, 100 000 + tee-shirt | ❌ |
 | 8 | Rotations de stock | Gun Van, lineup d'œuvres du Kortz Center | ❌ |
 | 9 | Avantages d'abonnement | véhicule offert, +15 % sur les cartes | ⚠️ passe en `bonuses` sans sa condition |
@@ -266,11 +266,62 @@ cours s'en trouvait orphelinée, ce qui est arrivé deux fois.
 | **C2** | Entrée dans `veille.yml` avec cron du jeudi, dérive signalée sans emporter le run, filet à marques sur les listes | **livré** |
 | **C2b** | Fenêtre mutable : identité par le début, révision au lieu de duplication, sélection déterministe côté app | **livré** |
 | **C3** | Catégories 4/5/9 — remise en montant fixe et condition d'abonnement (champs `amount`, `requires`) | à arbitrer |
-| **C4** | Catégories 6/7/8 — récompenses, défi, rotations. Extension de schéma + écran, parsing DOM | à arbitrer |
+| **C4** | Catégorie 6 — les récompenses à réclamer : `rewards[]` au schéma, extraction du marquage, section sur la carte | **livré** |
+| **C4b** | Catégories 7/8 — défi hebdomadaire chiffré, Gun Van, rotations d'inventaire | pas fait, voir ci-dessous |
 | **C5** | Corroboration → `multi-source` | **abandonné, voir ci-dessous.** La détection de source qui se ferme, elle, est livrée |
 
 C3 et C4 sont des décisions produit : chaque catégorie ajoutée est une ligne
 d'écran de plus et une source de dérive de plus.
+
+### Les récompenses : la première extraction fragile, traitée comme telle
+
+`rewards[]` porte la catégorie 6 — ce qu'il y a à **réclamer** cette semaine. Une
+livrée, un vêtement, un véhicule offert : c'est le contenu le plus périssable de
+la carte, il expire avec la fenêtre, et c'est exactement ce que le compte à
+rebours existe pour rattraper.
+
+Différence de nature avec tout le reste : **la source ne les publie pas en
+JSON.** Elles vivent dans le marquage. L'extraction s'accroche donc à ce qui a le
+plus de chances de survivre à un redesign — l'`id` de section, la balise
+`<article>`, l'attribut `data-variant="overline"` — et jamais à une classe
+Tailwind. Et surtout **elle ne lève jamais** : une carte sans récompenses reste
+utile, une semaine perdue parce qu'un `<article>` est devenu un `<li>` ne l'est
+pas. Le seuil d'échec ne porte que sur le cœur (bonus et remises).
+
+Deux choix de conception qui se répondent :
+
+- **`kind` est une énumération fermée, pas un libellé.** Contrairement à
+  `bonuses[].label`, composé dans le contenu, ce qui s'affiche ici est un texte
+  d'interface : il vit donc dans le String Catalog, comme l'exige `CLAUDE.md`. Le
+  contenu ne transporte que la nature ; le nom de l'objet, lui, est un fait. Une
+  nature hors vocabulaire est **écartée à l'extraction** et signalée — « Autre »
+  n'apprendrait rien sur une carte étroite.
+- **Le nom passe par le garde-fou nominatif** (`notANominativeName`) avant d'être
+  émis. Sans ça, une source qui met une phrase dans son titre ferait échouer
+  `check-publishable` sur la semaine ENTIÈRE, et coûterait un aller-retour manuel
+  chaque jeudi. C'est la composition qui justifie que ce garde-fou soit un module
+  partagé plutôt qu'un bout de code dans un script.
+
+Relevé sur la semaine réelle : 5 récompenses retenues sur 6 cartes, la sixième
+(« Gun Van ») écartée et nommée.
+
+### Ce qui n'est pas fait, et pourquoi
+
+**C4b — défi hebdomadaire, Gun Van, rotations.** Le défi arrive déjà en partie
+comme récompense (`kind: challenge`), mais sa condition chiffrée (« gagner deux
+modes ») est de la prose : la porter demanderait soit un champ rédigé — donc le
+retour d'un modèle dans la chaîne, dont tout ce lot s'est employé à sortir — soit
+une grammaire de conditions, qui est un projet à elle seule. Le Gun Van est une
+liste d'armes avec des remises : c'est un `discounts[]` d'un autre lieu, et
+l'afficher demanderait de distinguer les deux sur la carte.
+
+**C3 — remise en montant fixe.** Écarté volontairement. Ça récupérerait **une
+ligne par semaine** (« −1 000 000 sur l'Art Studio », réservée aux abonnés) au
+prix de rendre `percent` optionnel dans le schéma, donc dans le modèle Swift, donc
+dans la carte, qui affiche aujourd'hui « −60 % » sans condition. Un champ de cœur
+qu'on rend optionnel pour un cas marginal se paie partout, indéfiniment. La remise
+reste **signalée comme écartée** à chaque run : elle est visible, simplement pas
+affichée.
 
 ### Pourquoi C5 est abandonné, et ce qu'on a fait à la place
 

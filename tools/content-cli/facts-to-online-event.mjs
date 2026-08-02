@@ -83,7 +83,7 @@ export function windowDiscriminant(fact) {
  * de fenêtre ne la reprend pas) et `id`/`processedFrom`, qui SONT l'identité.
  */
 const WINDOW_FIELDS = ['startsAt', 'endsAt'];
-const CONTENT_FIELDS = ['title', 'bonuses', 'discounts', 'podiumVehicle', 'sources', 'confidence', 'sourceClaim', 'game'];
+const CONTENT_FIELDS = ['title', 'bonuses', 'discounts', 'rewards', 'podiumVehicle', 'sources', 'confidence', 'sourceClaim', 'game'];
 
 /** La machine est-elle l'unique auteur de cette entrée ? */
 export function machineAuthored(entry) {
@@ -133,6 +133,7 @@ export function factToOnlineEvent(fact) {
   if (structured) {
     assertLocalizedList(fact.bonuses, 'bonuses', ['activity', 'label']);
     assertDiscountList(fact.discounts);
+    assertRewardList(fact.rewards);
   }
 
   const key = identityKey(INBOX_SOURCE, 'online-events', windowDiscriminant(fact));
@@ -148,6 +149,7 @@ export function factToOnlineEvent(fact) {
     title: fact.title ?? { en: `Weekly update — ${fact.starts_at.slice(0, 10)}` },
     bonuses: fact.bonuses ?? [],
     discounts: fact.discounts ?? [],
+    rewards: fact.rewards ?? [],
     status: 'draft',
     // Un fait peut citer plusieurs URL de la même semaine (le hub ET l'article
     // qui la raconte) : la traçabilité y gagne, la confiance non — deux pages
@@ -177,6 +179,21 @@ function assertLocalizedList(list, name, fields) {
   if (!Array.isArray(list)) throw new Error(`${name} : tableau attendu`);
   list.forEach((entry, index) => {
     for (const field of fields) assertLocalized(entry?.[field], `${name}[${index}].${field}`);
+  });
+}
+
+/** Doit rester le contrat exact de l'énumération du schéma. Une nature inconnue
+ *  ici est un fait d'inbox fautif, pas une donnée à afficher. */
+const REWARD_KINDS = new Set(['challenge', 'login', 'vehicle', 'cash']);
+
+function assertRewardList(list) {
+  if (list === undefined) return;
+  if (!Array.isArray(list)) throw new Error('rewards : tableau attendu');
+  list.forEach((entry, index) => {
+    assertLocalized(entry?.item, `rewards[${index}].item`);
+    if (!REWARD_KINDS.has(entry.kind)) {
+      throw new Error(`rewards[${index}].kind : nature inconnue « ${entry.kind} » (attendu ${[...REWARD_KINDS].join(' | ')})`);
+    }
   });
 }
 
