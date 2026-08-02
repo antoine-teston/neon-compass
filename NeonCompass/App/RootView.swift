@@ -12,10 +12,10 @@ struct RootView: View {
     // `self`/sibling properties) — built in `init()` instead.
     @State private var widgetSummaryCoordinator: WidgetSummaryCoordinator
     @State private var themeStore = ThemeStore()
-    /// Faux par défaut : sans Cloud Functions déployées, les écrans de compte et
-    /// de communauté ne mènent nulle part. Un paramètre Remote Config les
-    /// rallume tous d'un coup, sans mise à jour de l'app.
-    @State private var serverFeatures = ServerFeaturesModel(gate: RemoteConfigServerFeatureGate())
+    /// Faux par défaut : tant que les Edge Functions ne sont pas déployées, les
+    /// écrans de compte et de communauté ne mènent nulle part. Une ligne de
+    /// `app_config` les rallume tous d'un coup, sans mise à jour de l'app.
+    @State private var serverFeatures = ServerFeaturesModel(gate: SupabaseServerFeatureGate())
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.modelContext) private var modelContext
 
@@ -74,11 +74,11 @@ struct RootView: View {
             // doc comment). Without this, a Pro user who adds the widget but
             // starts on the default Feed tab would see 0%/no-favorite-cheat
             // even if real `FoundEntry`/`FavoriteCheat` data already exists.
-            // AVANT toute lecture : configure la source de contenu (CDN ou
-            // Firestore) pour que la première synchronisation parte déjà du bon
-            // côté. Sans réseau, la valeur reste nil et tout retombe sur
-            // Firestore — le comportement d'avant.
-            await ContentSourceConfigurator.configureFromRemoteConfig()
+            // AVANT toute lecture : configure la source de contenu pour que la
+            // première synchronisation parte déjà du bon côté. Sans réseau, la
+            // valeur reste nil et tout retombe sur le socle embarqué et le
+            // cache.
+            await ContentSourceConfigurator.configureFromAppConfig()
             hydrateWidgetSummaryFromCache()
             await proEntitlementModel.refresh()
             await serverFeatures.refresh()

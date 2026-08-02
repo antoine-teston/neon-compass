@@ -68,7 +68,7 @@ final class CommunityModel {
         return CommunityModel(
             repository: FirestoreContributionRepository(),
             functions: FirebaseContributionFunctions(),
-            gateProvider: RemoteConfigCommunityGateProvider(),
+            gateProvider: SupabaseCommunityGateProvider(),
             modelContext: modelContext,
             approvedStore: ContentStore<Contribution>(
                 collectionName: collectionName,
