@@ -23,6 +23,12 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { effects } from './gtav-cheats-editorial.mjs';
+import {
+  notANominativeName,
+  nominativeFieldsFor,
+  nominativeListFieldsFor,
+  redactedListFieldsFor,
+} from './nominative-fields.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CONTENT = join(HERE, '..', '..', 'content');
@@ -84,32 +90,15 @@ for (const [key, text] of Object.entries(effects)) {
 // figure forcément dans la prose de la source dont il est tiré. Le passer au
 // contrôle de reprise le ferait échouer sur une donnée parfaitement légitime,
 // et la seule façon de le faire passer serait de déformer le nom — donc de
-// mentir. Ces champs ont leur propre contrainte : RESTER un nom. On ne peut
-// donc pas y faire entrer de la prose en la déguisant.
+// mentir.
+//
+// La liste de ces champs et la contrainte qui les accompagne — RESTER un nom —
+// vivent dans `nominative-fields.mjs`, partagées avec `check-publishable`, qui
+// s'appuie sur la même notion pour accorder son exception aux marques.
 //
 // Les champs rédigés, eux, restent comparés à la prose source. Ce sont les
 // seuls que quelqu'un pourrait être tenté de recopier.
 const REDACTED_FIELDS = ['title'];
-const REDACTED_LIST_FIELDS = [['bonuses', 'label']];
-
-/** Champs qui ne portent qu'un nom propre. */
-const NAME_FIELDS = ['podiumVehicle'];
-const NAME_LIST_FIELDS = [
-  ['bonuses', 'activity'],
-  ['discounts', 'item'],
-];
-/** Au-delà, ce n'est plus un nom mais une phrase. Le plus long relevé sur une
- *  semaine réelle en fait cinq (« Galaxy Super Yacht and modifications ») ;
- *  huit laisse de la marge sans laisser passer une description. */
-const MAX_NAME_WORDS = 8;
-
-/** @returns la description du problème, ou `null` si `value` est bien un nom. */
-function notAName(value) {
-  if (/[.!?;:]/.test(value)) return `PONCTUATION DE PHRASE : ${value}`;
-  const words = value.split(/\s+/).filter(Boolean).length;
-  if (words > MAX_NAME_WORDS) return `${words} mots — un nom en fait au plus ${MAX_NAME_WORDS} : ${value}`;
-  return null;
-}
 
 function* localizedTexts(localized) {
   if (!localized) return;
@@ -139,7 +128,7 @@ for (const file of onlineEventFiles) {
 
   const checkName = (label, value) => {
     onlineEventsChecked++;
-    const problem = notAName(value);
+    const problem = notANominativeName(value);
     if (problem) {
       console.error(`${file}  ${label} : ${problem}`);
       problems++;
@@ -149,15 +138,15 @@ for (const file of onlineEventFiles) {
   for (const field of REDACTED_FIELDS) {
     for (const [lang, value] of localizedTexts(data[field])) check(`${field}.${lang}`, value);
   }
-  for (const [listField, textField] of REDACTED_LIST_FIELDS) {
+  for (const [listField, textField] of redactedListFieldsFor('online-events')) {
     (data[listField] ?? []).forEach((item, index) => {
       for (const [lang, value] of localizedTexts(item[textField])) check(`${listField}[${index}].${textField}.${lang}`, value);
     });
   }
-  for (const field of NAME_FIELDS) {
+  for (const field of nominativeFieldsFor('online-events')) {
     for (const [lang, value] of localizedTexts(data[field])) checkName(`${field}.${lang}`, value);
   }
-  for (const [listField, textField] of NAME_LIST_FIELDS) {
+  for (const [listField, textField] of nominativeListFieldsFor('online-events')) {
     (data[listField] ?? []).forEach((item, index) => {
       for (const [lang, value] of localizedTexts(item[textField])) checkName(`${listField}[${index}].${textField}.${lang}`, value);
     });
@@ -167,7 +156,7 @@ for (const file of onlineEventFiles) {
 console.log(
   problems === 0
     ? `originalité : ${cheatsChecked} effet(s) de cheat, ${onlineEventsChecked} champ(s) d'événement en ligne — ` +
-      `aucune reprise littérale ni segment de ${MIN_WORDS} mots dans les champs rédigés, aucun nom qui soit une phrase`
+      `aucune reprise littérale ni segment de ${MIN_WORDS} mots dans les champs rédigés, aucun nom qui soit une phrase ni une marque nue`
     : `${problems} reprise(s)`,
 );
 process.exit(problems === 0 ? 0 : 1);

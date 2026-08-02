@@ -82,9 +82,16 @@ La commande écrit dans `content/online-events/*.json`, avec `id`,
 - **Les champs qui ne portent qu'un NOM ne se reformulent pas** :
   `bonuses[].activity`, `discounts[].item`, `podiumVehicle`. Le nom d'une
   activité ou d'un véhicule est un fait, comme un nom de POI — le déformer
-  ferait mentir la carte. Ces champs ont leur propre contrôle : rester un nom,
-  donc pas de ponctuation de phrase et au plus huit mots. Y glisser une
-  description fait échouer la CI.
+  ferait mentir la carte. Ces champs-là **peuvent porter une marque déposée**
+  (« GTA+ Shark Cards » est le nom d'un produit, le nommer pour en parler est
+  l'usage référentiel ; voir `CLAUDE.md`). En échange ils doivent rester des
+  noms : pas de ponctuation de phrase, huit mots au plus, et jamais une marque
+  nue — « GTA » tout seul ne nomme rien. Y glisser une description ou un slogan
+  fait échouer la CI.
+- **Partout où TU rédiges, la marque reste interdite** : `title`,
+  `bonuses[].label`. C'est la frontière, et elle est simple — un nom que la
+  source te donne, tu le recopies ; une phrase que tu écris, tu l'écris sans
+  marque.
 - **`sourceClaim` n'est jamais affiché** — c'est le fait brut conservé pour la
   relecture, exactement comme pour l'actu. Lui seul a le droit de citer ses
   sources mot pour mot, marques déposées comprises ; ne le recopie jamais dans
