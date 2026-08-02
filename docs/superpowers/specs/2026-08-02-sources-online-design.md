@@ -116,6 +116,37 @@ quels ; les étiquettes sont **composées** dans les cinq langues à partir du
 multiplicateur analysé. `needsRewrite` tombe donc à `false` et l'entrée est
 publiable après relecture humaine, sans passage par `content-editor`.
 
+### La cadence : un second cron, pas un run quotidien
+
+La spec de l'onglet Social prévoyait de faire passer `veille.yml` à
+l'hebdomadaire → quotidien, et s'en déclarait dépendante. Retenu à la place :
+**un second cron le jeudi 16:00 UTC**, qui ne fait que le mode en ligne.
+
+Le lundi seul ne marchait pas, et pas d'un peu : la semaine bascule le jeudi et
+finit le mercredi suivant. Récoltée le lundi, elle arriverait avec deux jours de
+fenêtre sur sept — or c'est le compte à rebours qui justifie la fonctionnalité.
+16:00 laisse quelques heures à la source pour publier après la bascule.
+
+Le quotidien reste écarté pour la raison que la spec pointait elle-même : sept PR
+par semaine sans relecture reproduiraient le symptôme que le run hebdomadaire
+avait été bâti pour corriger. Deux runs suffisent à rendre le compte à rebours
+crédible.
+
+Le run du jeudi ne dépense rien : la récupération est déterministe, donc les
+étapes de veille et de rédaction (les deux appels de modèle) sont sautées via
+`ONLINE_ONLY`. Un `workflow_dispatch` fait toujours la chaîne complète.
+
+Une dérive de structure chez la source **ne fait pas tomber le reste de la
+veille** — `continue-on-error` sur l'étape, puis une étape finale, après
+l'ouverture de la PR, qui écrit le compte-rendu dans le résumé du run et fait
+rougir le job. Les faits d'actu déjà dans l'inbox continuent d'être
+matérialisés ; c'était précisément le mode de panne à éviter.
+
+Corollaire dans `data-scout.md` : l'agent n'émet **plus jamais** de fait
+`kind: "online-event"`. L'identité d'un fait est le hachage de
+`source_url + claim` — un fait rédigé à la main et un fait extrait porteraient
+deux identités pour la même semaine, donc deux cartes concurrentes dans l'app.
+
 ### Pourquoi la normalisation ne peut pas recopier les étiquettes
 
 `"2x GTA$"` contient une marque. `TRADEMARKS` (cli.js) la rejetterait sur
@@ -192,7 +223,7 @@ désormais scannés, sans rejoindre `UI_FIELDS` pour autant : celui-ci sert auss
 | Lot | Contenu | État |
 |---|---|---|
 | **C1** | `weekly-hub.mjs`, commande `weekly`, faits structurés honorés par `factToOnlineEvent`, contrôle d'originalité recalibré, tests sur payload réel | **livré (PoC)** |
-| **C2** | Détection de dérive du payload en échec de run bruyant ; entrée dans `veille.yml`. Le filet à marques sur les listes est fait (voir ci-dessus) | à faire |
+| **C2** | Entrée dans `veille.yml` avec cron du jeudi, dérive signalée sans emporter le run, filet à marques sur les listes | **livré** |
 | **C3** | Catégories 4/5/9 — remise en montant fixe et condition d'abonnement (champs `amount`, `requires`) | à arbitrer |
 | **C4** | Catégories 6/7/8 — récompenses, défi, rotations. Extension de schéma + écran, parsing DOM | à arbitrer |
 | **C5** | Corroboration Leonidaverse → `multi-source`, et repli saisie humaine | à faire |

@@ -60,7 +60,7 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
   "facts": [
     {
       "claim": "reformulation en une phrase, tes propres mots",
-      "kind": "poi | cheat | news | game-fact | online-event",
+      "kind": "poi | cheat | news | game-fact",
       "game": "leonida | gtav",
       "source_url": "…",
       "source_date": "…",
@@ -84,10 +84,18 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
   un fait.
 - Les cheats sans confirmation post-lancement sont `rumor` (aucun code réel
   n'existe avant la sortie du jeu).
-- Un fait `kind: online-event` exige `starts_at` et `ends_at`, deux horodatages
-  UTC complets (`AAAA-MM-JJTHH:MM:SSZ`), pas de simples dates courtes comme
-  `source_date` : sans fenêtre de fin il n'y a pas de compte à rebours, et le
-  compte à rebours est ce qui justifie la fonctionnalité.
+- **N'émets JAMAIS de fait `kind: "online-event"`.** Ce kind a son propre
+  producteur, déterministe : `node tools/content-cli/fetch-source.mjs weekly`,
+  qui lit le hub hebdomadaire de la source comme le tableau qu'il est. Une
+  semaine du mode en ligne, ce n'est pas une phrase mais huit bonus, onze remises
+  et une fenêtre horaire — une reformulation en prose y perdrait les nombres.
+  Danger concret si tu en écris un quand même : l'identité d'un fait est le
+  hachage de `source_url + claim`, donc ton fait et celui de l'outil porteraient
+  deux identités pour la MÊME semaine, et l'app afficherait deux cartes
+  concurrentes.
+- Si tu croises une mise à jour hebdomadaire du mode en ligne dans un flux, elle
+  reste un bon fait `kind: "news"` — c'est une annonce datée, et l'outil ci-dessus
+  s'occupe de la fenêtre.
 - Termine par un log dans `content/inbox/runs/YYYY-MM-DD.md` : sources visitées,
   nombre de faits, doutes à trancher par un humain. **Signale toute source qui a
   échoué après réessais** — c'est le seul endroit où une source qui se ferme

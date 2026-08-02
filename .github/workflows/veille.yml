@@ -1,7 +1,11 @@
 name: Veille hebdomadaire
 
-# La chaîne complète, une fois par semaine : veille → matérialisation →
-# rédaction → garde-fous → PR. Elle ne publie JAMAIS.
+# Veille → matérialisation → rédaction → garde-fous → PR. Elle ne publie JAMAIS.
+#
+# Deux cadences, pour deux contenus dont le temps ne s'écoule pas pareil : le
+# lundi la chaîne complète (actu et connaissances), le jeudi le seul mode en
+# ligne, dont la semaine bascule ce jour-là. Voir les commentaires des deux
+# crons.
 #
 # Pourquoi une PR et pas une publication directe : publier écrit dans le
 # Firestore de production et fait re-télécharger le contenu à tous les clients.
@@ -27,6 +31,21 @@ on:
     # Lundi 06:00 UTC. La veille regarde la semaine écoulée ; le lundi matin
     # laisse la journée pour relire la PR avant de décider de publier.
     - cron: '0 6 * * 1'
+    # Jeudi 16:00 UTC — le mode en ligne, et lui seul.
+    #
+    # Le lundi ne suffit pas pour ce contenu, et pas d'un peu : la semaine du
+    # mode en ligne bascule le jeudi et se termine le mercredi suivant. Récoltée
+    # le lundi, elle arriverait avec deux jours de fenêtre restants sur sept —
+    # or c'est le compte à rebours qui justifie la fonctionnalité, pas la carte.
+    # 16:00 laisse quelques heures à la source pour publier après la bascule.
+    #
+    # Pourquoi pas un run quotidien, comme l'envisage la spec : sept PR par
+    # semaine sans relecture reproduiraient le symptôme que le run hebdomadaire
+    # avait été construit pour corriger (six faits d'actu ont dormi dans l'inbox
+    # du 21 au 29 juillet). Deux runs suffisent à rendre le compte à rebours
+    # crédible ; passer au quotidien est une décision de cadence à prendre quand
+    # la relecture suivra.
+    - cron: '0 16 * * 4'
   workflow_dispatch:
 
 # Un seul run à la fois : deux veilles concurrentes matérialiseraient les mêmes
@@ -45,6 +64,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      # Le run du jeudi ne fait que le mode en ligne : sa récupération est
+      # déterministe et gratuite, alors que la veille d'actu et la rédaction
+      # coûtent deux appels de modèle et ouvriraient une seconde PR de la semaine
+      # à relire. `github.event.schedule` est vide sur `workflow_dispatch`, donc
+      # un lancement à la main fait toujours la chaîne complète.
+      ONLINE_ONLY: ${{ github.event.schedule == '0 16 * * 4' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -56,7 +81,7 @@ jobs:
         run: npm ci
 
       - name: Installer Claude Code
-        if: env.ANTHROPIC_API_KEY != ''
+        if: env.ANTHROPIC_API_KEY != '' && env.ONLINE_ONLY != 'true'
         run: npm install -g @anthropic-ai/claude-code
 
       # L'agent est défini dans .claude/agents/data-scout.md : liste blanche de
@@ -70,13 +95,32 @@ jobs:
       # garde-fous puis par une relecture humaine. Le jeton GitHub n'est PAS dans
       # l'environnement de cette étape, seulement dans celle qui ouvre la PR.
       - name: Veille — extraire les faits vers content/inbox
-        if: env.ANTHROPIC_API_KEY != ''
+        if: env.ANTHROPIC_API_KEY != '' && env.ONLINE_ONLY != 'true'
         run: |
           claude -p "Lance un run de veille pour la semaine écoulée. Relis d'abord les fichiers .facts.json existants de content/inbox pour ne pas re-signaler un fait déjà extrait, puis écris un nouveau fichier de faits et son compte-rendu de run." \
             --agent data-scout \
             --permission-mode acceptEdits \
             --allowedTools "Read Write Glob Grep WebSearch Bash(node tools/content-cli/fetch-source.mjs *)" \
             --output-format text
+
+      # Aucun modèle ici, et c'est tout l'intérêt : la semaine du mode en ligne
+      # est publiée en tableau par la source, `weekly-hub.mjs` la lit comme un
+      # tableau. Cette étape tourne donc même sans ANTHROPIC_API_KEY.
+      #
+      # `continue-on-error` n'est PAS une tolérance à l'échec : une dérive de la
+      # structure du hub est signalée en fin de run par une étape qui fait
+      # rougir le job (« Signaler une dérive… »). Ce qu'on refuse, c'est qu'un
+      # redesign chez la source emporte le reste de la veille avec lui — les
+      # faits d'actu déjà dans l'inbox doivent continuer à être matérialisés.
+      #
+      # `pipefail` est explicite : le shell par défaut des actions est `bash -e`
+      # sans lui, et le code de sortie de `node` serait avalé par `tee`.
+      - name: Récupérer la semaine du mode en ligne
+        id: weekly
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          node tools/content-cli/fetch-source.mjs weekly --write 2>&1 | tee "$RUNNER_TEMP/weekly.log"
 
       # Toujours, même sans clé : c'est du code déterministe, et c'est le
       # maillon qui manquait. Idempotent par construction (facts-to-news.mjs,
@@ -96,7 +140,7 @@ jobs:
       # pas de réseau du tout, et le seul Bash autorisé sert à relancer les
       # contrôles du CLI.
       - name: Rédiger les squelettes
-        if: env.ANTHROPIC_API_KEY != ''
+        if: env.ANTHROPIC_API_KEY != '' && env.ONLINE_ONLY != 'true'
         run: |
           claude -p "$(cat tools/content-cli/prompts/rewrite-news.md)" \
             --permission-mode acceptEdits \
@@ -144,3 +188,24 @@ jobs:
             --title "Veille du $TODAY" \
             --body-file .github/pr-body-veille.md \
             || gh pr view "$BRANCH" --json url --jq .url
+
+      # Le compte-rendu, toujours — et le rouge s'il y a lieu, une fois la PR
+      # ouverte. Deux raisons de le mettre ici plutôt que d'échouer sur place :
+      # la récolte du jour doit arriver malgré tout, et le résumé de run est le
+      # seul endroit où « écarté » se lit sans dérouler un log (une catégorie que
+      # la source publie et que le schéma ne porte pas doit se VOIR).
+      - name: Signaler une dérive de la source du mode en ligne
+        if: always()
+        run: |
+          {
+            echo '### Mode en ligne'
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/weekly.log" 2>/dev/null || echo '(aucune sortie)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ '${{ steps.weekly.outcome }}' != 'success' ]; then
+            echo "::error title=Source du mode en ligne::Récupération en échec — structure du hub probablement changée (voir le résumé du run). Le reste de la veille a continué, et la PR est ouverte."
+            exit 1
+          fi
