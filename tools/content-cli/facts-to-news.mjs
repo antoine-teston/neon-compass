@@ -1,5 +1,5 @@
 // Transformation pure « fait d'inbox → squelette content/news ». Aucune I/O,
-// aucun Firestore : tout ce qui décide vit ici, et `cli.js` ne fait qu'écrire ce
+// aucun accès distant : tout ce qui décide vit ici, et `cli.js` ne fait qu'écrire ce
 // qu'on lui rend — même partage des rôles que `draft-to-poi.mjs`.
 //
 // Ce module existe pour une raison précise : la rédaction d'un item d'actu est

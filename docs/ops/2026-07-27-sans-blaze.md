@@ -1,3 +1,12 @@
+> **Périmé depuis le 2026-08-02.** La contrainte que ce document décrit a disparu avec la
+> migration vers Supabase : les Edge Functions sont incluses dans l'offre gratuite, il n'y a plus
+> de plan Blaze à activer, et les cinq surfaces listées ci-dessous n'ont plus de raison d'être
+> éteintes. Conservé pour l'historique — c'est lui qui explique pourquoi la v1 était amputée, et
+> pourquoi la suppression de compte passait par un contournement client.
+>
+> Ce qui reste vrai : `backendFeaturesEnabled` gouverne toujours l'allumage, et il vaut toujours
+> faux par défaut. Il se pose désormais dans la table `app_config`, plus dans Remote Config.
+
 # Fonctionner sans Blaze — ce qui est coupé, et comment tout rallumer
 
 **Date** : 2026-07-27

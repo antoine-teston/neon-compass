@@ -83,17 +83,14 @@ export const ACTIONS = {
   release: {
     label: 'Publier',
     group: 'prod',
-    hint: 'Contrôles, push Firestore, bump de contentVersion. Fait re-télécharger le contenu à tous les clients.',
+    hint: 'Contrôles, construction du site et téléversement sur le CDN. Toute collection modifiée est retéléchargée par les clients.',
     argv: [CLI, 'release'],
     destructive: true,
   },
-  'deploy-rules': {
-    label: 'Déployer firestore.rules',
-    group: 'prod',
-    hint: 'Remplace le ruleset actif du projet live',
-    argv: [CLI, 'deploy-rules'],
-    destructive: true,
-  },
+  // Pas d'action de déploiement des règles d'accès : ce sont des politiques RLS
+  // versionnées dans supabase/migrations/, appliquées par `supabase db push` et
+  // relues en pull request. Une console web n'a pas à pouvoir les remplacer d'un
+  // clic.
   'kill-switch-status': {
     label: 'État du coupe-circuit communauté',
     group: 'prod',
@@ -153,9 +150,9 @@ export const ACTIONS = {
   },
 };
 
-/// Identifiants Firestore et UID : alphanumériques, tirets, underscores. Assez
-/// permissif pour tout ce que Firebase génère, assez strict pour exclure tout
-/// ce qui ressemble à un chemin, un espace ou un métacaractère.
+/// UUID et identifiants : alphanumériques, tirets, underscores. Assez permissif
+/// pour un UUID de contribution comme pour un uid de compte, assez strict pour
+/// exclure tout ce qui ressemble à un chemin, un espace ou un métacaractère.
 export const ID_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
 
 /**

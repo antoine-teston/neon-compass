@@ -116,3 +116,130 @@ export async function setConfig(key, value) {
     .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' });
   if (error) throw new Error(`écriture de ${key} : ${error.message}`);
 }
+
+// ---------------------------------------------------------------------------
+// Modération
+// ---------------------------------------------------------------------------
+
+/** Contributions en attente, les signalées d'abord.
+ *
+ *  L'ordre n'est pas cosmétique : `flagged_for_review` est posé par le
+ *  monitoring de vélocité, qui ne bloque jamais personne mais demande un regard
+ *  humain en priorité. Les noyer au milieu du reste reviendrait à ne pas les
+ *  avoir marquées. */
+export async function listPendingContributions() {
+  const { data, error } = await client()
+    .from('contributions')
+    .select('id,category,title,author_handle,flagged_for_review,created_at')
+    .eq('status', 'pending')
+    .order('flagged_for_review', { ascending: false })
+    .order('created_at', { ascending: true });
+  if (error) throw new Error(`lecture des contributions en attente : ${error.message}`);
+  return (data ?? []).map((row) => ({
+    id: row.id,
+    category: row.category,
+    title: row.title,
+    authorHandle: row.author_handle,
+    flaggedForReview: row.flagged_for_review,
+  }));
+}
+
+/** Approuve, et attribue l'XP de contribution approuvée.
+ *
+ *  L'XP est incrémentée ici et pas par un trigger : approuver est un geste
+ *  humain, pas un effet de bord d'une écriture. Le NIVEAU, lui, se recalcule
+ *  seul — c'est une colonne générée, il n'y a rien à écrire.
+ *
+ *  Le passage à `approved` fait par ailleurs deux choses via les triggers :
+ *  il périme les fragments communautaires, et il dépose une notification dans
+ *  la file pour ceux qui suivent la catégorie. */
+export async function approveContribution(id) {
+  const supabase = client();
+  const { data: row, error } = await supabase
+    .from('contributions')
+    .update({ status: 'approved' })
+    .eq('id', id)
+    .select('author_uid')
+    .single();
+  if (error) throw new Error(`approbation de ${id} : ${error.message}`);
+
+  if (row?.author_uid) {
+    const { error: xpError } = await supabase.rpc('award_contribution_xp', { author: row.author_uid });
+    if (xpError) throw new Error(`attribution d'XP à ${row.author_uid} : ${xpError.message}`);
+  }
+}
+
+export async function rejectContribution(id) {
+  const { error } = await client().from('contributions').update({ status: 'rejected' }).eq('id', id);
+  if (error) throw new Error(`rejet de ${id} : ${error.message}`);
+}
+
+/** Shadow-ban, avec masquage RÉTROACTIF.
+ *
+ *  Un ban qui ne vaudrait que pour l'avenir laisserait publiquement visible tout
+ *  ce qui a déjà été approuvé. Les deux écritures vont ensemble, toujours. */
+export async function shadowBanUser(uid) {
+  const supabase = client();
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .update({ is_shadow_banned: true })
+    .eq('uid', uid);
+  if (profileError) throw new Error(`shadow-ban de ${uid} : ${profileError.message}`);
+
+  const { error: spotsError } = await supabase
+    .from('contributions')
+    .update({ shadow_hidden: true })
+    .eq('author_uid', uid);
+  if (spotsError) throw new Error(`masquage des spots de ${uid} : ${spotsError.message}`);
+}
+
+export async function liftShadowBan(uid) {
+  const supabase = client();
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .update({ is_shadow_banned: false, flagged_burst_count: 0 })
+    .eq('uid', uid);
+  if (profileError) throw new Error(`levée du ban de ${uid} : ${profileError.message}`);
+
+  const { error: spotsError } = await supabase
+    .from('contributions')
+    .update({ shadow_hidden: false })
+    .eq('author_uid', uid);
+  if (spotsError) throw new Error(`réaffichage des spots de ${uid} : ${spotsError.message}`);
+}
+
+// ---------------------------------------------------------------------------
+// Coupe-circuit
+// ---------------------------------------------------------------------------
+
+/** Défaut OUVERT : pas de ligne = activé. Même sémantique que côté app. */
+export async function getCommunityContributionsEnabled() {
+  return (await getConfig('communityContributionsEnabled')) !== false;
+}
+
+export async function setCommunityContributionsEnabled(enabled) {
+  await setConfig('communityContributionsEnabled', enabled);
+}
+
+// ---------------------------------------------------------------------------
+// Brouillons du mode éditeur
+// ---------------------------------------------------------------------------
+
+export async function listEditorDrafts() {
+  const { data, error } = await client()
+    .from('editor_drafts')
+    .select('id,payload')
+    .is('applied_at', null)
+    .order('created_at', { ascending: true });
+  if (error) throw new Error(`lecture des brouillons : ${error.message}`);
+  return (data ?? []).map((row) => ({ ...row.payload, id: row.id }));
+}
+
+export async function markEditorDraftsApplied(ids) {
+  if (!ids?.length) return;
+  const { error } = await client()
+    .from('editor_drafts')
+    .update({ applied_at: new Date().toISOString() })
+    .in('id', ids);
+  if (error) throw new Error(`archivage des brouillons : ${error.message}`);
+}

@@ -412,3 +412,11 @@ enabled = true
 # declarative_schema_path = "./database"
 # JSON string passed through to pg-delta SQL formatting.
 # format_options = "{\"keywordCase\":\"upper\",\"indent\":2,\"maxWidth\":80,\"commaStyle\":\"trailing\"}"
+
+# Apple appelle ce webhook sans jeton Supabase : la vérification par défaut le
+# rejetterait avant d'atteindre notre code. Ce qui la remplace, c'est la
+# signature JWS d'Apple, vérifiée contre sa chaîne de certificats AVANT toute
+# lecture du contenu (voir l'en-tête de la fonction). C'est la SEULE fonction du
+# projet dans ce cas.
+[functions.app-store-notification]
+verify_jwt = false

@@ -8,7 +8,7 @@ name: Veille hebdomadaire
 # crons.
 #
 # Pourquoi une PR et pas une publication directe : publier écrit dans le
-# Firestore de production et fait re-télécharger le contenu à tous les clients.
+# CDN de production et fait re-télécharger le contenu à tous les clients.
 # Le workflow `Contenu` garde cette décision en déclenchement manuel, et ce
 # workflow-ci n'y touche pas. Ce qu'il automatise, c'est tout ce qui précède —
 # c'est-à-dire tout ce qui était fait à la main, ou pas fait du tout : six faits
