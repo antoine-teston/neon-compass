@@ -31,6 +31,7 @@ export const NOMINATIVE_LIST_FIELDS = {
   'online-events': [
     ['bonuses', 'activity'],
     ['discounts', 'item'],
+    ['rewards', 'item'],
   ],
 };
 

@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { factToOnlineEvent, materializeOnlineEvents, windowDiscriminant, revisedFields } from './facts-to-online-event.mjs';
 import { identityKey } from '../basemap/gtav-poi-ids.mjs';
 import { INBOX_SOURCE } from './facts-to-news.mjs';
@@ -86,9 +87,15 @@ test('une confiance inconnue est refusée', () => {
 
 /// Le schéma est en additionalProperties:false : tout champ hors contrat fait
 /// échouer la validation du CLI, pas la transformation — d'où ce test ici.
+// La liste des champs permis est LUE DANS LE SCHÉMA, pas recopiée ici : une liste
+// recopiée dérive au premier champ ajouté, et c'est ce qui est arrivé — le test a
+// échoué sur `rewards` alors que le schéma le déclarait. Le schéma est en
+// `additionalProperties: false`, il fait donc autorité.
 test('aucun champ hors schéma n’est produit', () => {
-  const permis = new Set(['id', 'game', 'startsAt', 'endsAt', 'title', 'bonuses', 'discounts',
-    'podiumVehicle', 'status', 'sources', 'confidence', 'processedFrom', 'sourceClaim', 'needsRewrite']);
+  const schema = JSON.parse(
+    readFileSync(new URL('../../content/schema/online-event.schema.json', import.meta.url), 'utf8'),
+  );
+  const permis = new Set(Object.keys(schema.properties));
   for (const key of Object.keys(factToOnlineEvent(FACT))) {
     assert.ok(permis.has(key), `champ hors schéma : ${key}`);
   }

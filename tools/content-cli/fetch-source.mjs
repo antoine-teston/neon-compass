@@ -147,7 +147,7 @@ async function commandWiki(title) {
 async function commandWeekly({ write }) {
   const { HUB_URL, parseWeeklyHub, resolveArticleDate, hubToFact } = await import('./weekly-hub.mjs');
 
-  const { hub, articlePath } = parseWeeklyHub(await fetchWithRetry(HUB_URL));
+  const { hub, articlePath, rewards, rewardsSkipped } = parseWeeklyHub(await fetchWithRetry(HUB_URL));
   const articleURL = new URL(articlePath, HUB_URL).toString();
   const feedURL = feedURLFor(HUB_URL);
   if (!feedURL) throw new Error(`${new URL(HUB_URL).hostname} n’a plus de flux au registre — le début de fenêtre en dépend`);
@@ -156,10 +156,10 @@ async function commandWeekly({ write }) {
   // Le seul endroit de la chaîne qui lit l'horloge. `hubToFact` refuse une
   // fenêtre déjà close — c'est ce qui empêche un hub cessant d'être tenu à jour
   // de faire republier la semaine dernière en silence, indéfiniment.
-  const { fact, skipped } = hubToFact({ hub, articleURL, articleDate, now: new Date() });
+  const { fact, skipped } = hubToFact({ hub, articleURL, articleDate, rewards, rewardsSkipped, now: new Date() });
 
   console.error(`fenêtre ${fact.starts_at} → ${fact.ends_at}`);
-  console.error(`  ${fact.bonuses.length} bonus, ${fact.discounts.length} remise(s) retenus`);
+  console.error(`  ${fact.bonuses.length} bonus, ${fact.discounts.length} remise(s), ${fact.rewards.length} récompense(s) retenus`);
   // Écarté ≠ absent. Une catégorie que la source publie et que le schéma ne peut
   // pas porter doit se VOIR, sinon elle disparaît sans que personne le remarque.
   for (const entry of skipped) {

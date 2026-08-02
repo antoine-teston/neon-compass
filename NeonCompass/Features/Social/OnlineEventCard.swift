@@ -49,6 +49,24 @@ struct OnlineEventCard: View {
                 }
             }
 
+            if !event.rewards.isEmpty {
+                section("social.event.rewards") {
+                    ForEach(Array(event.rewards.enumerated()), id: \.offset) { _, reward in
+                        // La nature au-dessus du nom, et non en regard : les noms
+                        // d'objets font jusqu'à huit mots, un `HStack` les
+                        // renverrait à la ligne au milieu.
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(LocalizedStringKey(reward.kind.localizationKey))
+                                .font(.caption)
+                                .foregroundStyle(NCColor.neonCyan)
+                            Text(reward.item.resolved(for: languageCode))
+                                .font(NCTypography.body)
+                                .foregroundStyle(.white)
+                        }
+                    }
+                }
+            }
+
             if let podium = event.podiumVehicle {
                 section("social.event.podium") {
                     Text(podium.resolved(for: languageCode))

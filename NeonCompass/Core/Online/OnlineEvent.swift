@@ -10,6 +10,32 @@ struct OnlineEventDiscount: Codable, Equatable, Sendable {
     let percent: Int
 }
 
+/// Comment une récompense de la semaine s'obtient.
+///
+/// Une énumération FERMÉE et non un libellé localisé, contrairement à
+/// `OnlineEventBonus.label` : ce qui s'affiche ici est un texte d'interface, pas
+/// une donnée, donc il vit dans le String Catalog comme tout le reste
+/// (CLAUDE.md). Le contenu ne transporte que la nature ; le nom de l'objet, lui,
+/// est un fait et reste dans `item`.
+enum OnlineEventRewardKind: String, Codable, Sendable, CaseIterable {
+    case challenge
+    case login
+    case vehicle
+    case cash
+
+    /// Clé du String Catalog. Rendue en `String` et non en `LocalizedStringKey` :
+    /// ce type vit dans `Core/` et n'importe pas SwiftUI.
+    var localizationKey: String { "social.event.reward.\(rawValue)" }
+}
+
+/// Ce qu'il y a à réclamer cette semaine — une livrée, un vêtement, un véhicule
+/// offert. C'est la catégorie la plus périssable de la carte : elle expire avec
+/// la fenêtre, et personne ne prévient.
+struct OnlineEventReward: Codable, Equatable, Sendable {
+    let kind: OnlineEventRewardKind
+    let item: LocalizedText
+}
+
 /// Une fenêtre de bonus et de remises du mode en ligne.
 ///
 /// Distinct de `NewsItem`, et pas par goût de la symétrie : une entrée d'actu
@@ -28,10 +54,11 @@ struct OnlineEvent: Codable, Equatable, Sendable, Identifiable {
     let title: LocalizedText
     let bonuses: [OnlineEventBonus]
     let discounts: [OnlineEventDiscount]
+    let rewards: [OnlineEventReward]
     let podiumVehicle: LocalizedText?
 
     private enum CodingKeys: String, CodingKey {
-        case id, game, startsAt, endsAt, title, bonuses, discounts, podiumVehicle
+        case id, game, startsAt, endsAt, title, bonuses, discounts, rewards, podiumVehicle
     }
 
     /// Une fonction et non une `static let` : `ISO8601DateFormatter` n'est pas
@@ -72,6 +99,13 @@ struct OnlineEvent: Codable, Equatable, Sendable, Identifiable {
         // Listes optionnelles au schéma : leur absence vaut vide, pas échec.
         bonuses = try container.decodeIfPresent([OnlineEventBonus].self, forKey: .bonuses) ?? []
         discounts = try container.decodeIfPresent([OnlineEventDiscount].self, forKey: .discounts) ?? []
+        // Décodage STRICT des natures, pas un repli silencieux sur « autre » : le
+        // schéma ferme l'énumération et `validate` la contrôle en CI, donc une
+        // nature inconnue ici signifie du contenu qui n'est pas passé par la
+        // chaîne. L'avaler en écartant l'entrée priverait la carte d'une
+        // récompense sans que personne l'apprenne — c'est précisément le mode de
+        // panne que ce projet passe son temps à supprimer.
+        rewards = try container.decodeIfPresent([OnlineEventReward].self, forKey: .rewards) ?? []
         podiumVehicle = try container.decodeIfPresent(LocalizedText.self, forKey: .podiumVehicle)
     }
 
@@ -85,6 +119,7 @@ struct OnlineEvent: Codable, Equatable, Sendable, Identifiable {
         try container.encode(title, forKey: .title)
         try container.encode(bonuses, forKey: .bonuses)
         try container.encode(discounts, forKey: .discounts)
+        try container.encode(rewards, forKey: .rewards)
         try container.encodeIfPresent(podiumVehicle, forKey: .podiumVehicle)
     }
 

@@ -13,6 +13,7 @@ import {
   localizedName,
   localizedTitle,
   hubToFact,
+  parseRewards,
 } from './weekly-hub.mjs';
 import { notANominativeName } from './nominative-fields.mjs';
 
@@ -322,4 +323,80 @@ test('now est obligatoire — un oubli ne doit pas désactiver le contrôle en s
     () => hubToFact({ hub: PAYLOAD, articleURL: 'https://www.gtaboom.com/x', articleDate: '2026-07-30', now: '2026-08-02' }),
     /now est obligatoire/,
   );
+});
+
+// --- Récompenses : lues dans le MARQUAGE, best-effort ---------------------
+//
+// Contrairement aux bonus et remises, la source ne les publie pas en JSON. Cette
+// extraction est donc la partie fragile de la chaîne, et elle est traitée comme
+// telle : elle ne lève jamais, et son absence n'invalide pas la semaine.
+
+const REWARDS_HTML = readFileSync(new URL('./fixtures/weekly-hub-rewards.html', import.meta.url), 'utf8');
+
+test('la section réelle rend ses cinq récompenses, typées', () => {
+  const { rewards } = parseRewards(REWARDS_HTML);
+  assert.deepEqual(
+    rewards.map((r) => r.kind),
+    ['challenge', 'login', 'challenge', 'vehicle', 'cash'],
+  );
+  assert.equal(rewards[0].item.en, 'Fleeca Circuit livery for the Übermacht Cypher');
+  assert.equal(rewards[3].item.en, 'Grotti Veleno GT in Attack livery');
+});
+
+test('une carte dont la nature n’est pas au vocabulaire est écartée, avec sa raison', () => {
+  // La carte « Gun Van » de la semaine réelle : pas de nature reconnue.
+  const { skipped } = parseRewards(REWARDS_HTML);
+  assert.equal(skipped.length, 1);
+  assert.match(skipped[0].reason, /nature de récompense inconnue/);
+  assert.ok(skipped[0].name);
+});
+
+test('un nom de récompense qui n’est pas un nom est écarté, pas publié', () => {
+  // Sinon `check-publishable` échouerait sur la semaine ENTIÈRE, et il faudrait
+  // un aller-retour manuel chaque jeudi.
+  const html = `<section id="weekly-rewards"><article>
+      <p data-variant="overline">login reward</p>
+      <h3>Log in before August 5 to receive the sweater, then wait 72 hours.</h3>
+    </article></section>`;
+  const { rewards, skipped } = parseRewards(html);
+  assert.equal(rewards.length, 0);
+  assert.match(skipped[0].reason, /n'est pas un nom/);
+});
+
+test('tout nom de récompense émis tient la promesse de son exception', () => {
+  for (const reward of parseRewards(REWARDS_HTML).rewards) {
+    assert.equal(notANominativeName(reward.item.en), null, reward.item.en);
+  }
+});
+
+test('l’extraction des récompenses ne lève JAMAIS', () => {
+  // Une semaine perdue parce qu'un `<article>` est devenu un `<li>` coûterait
+  // plus que des récompenses manquantes.
+  for (const input of [null, undefined, '', '<html></html>', '<section id="weekly-rewards">', 42, {}]) {
+    assert.doesNotThrow(() => parseRewards(input), String(input));
+    assert.deepEqual(parseRewards(input).rewards, []);
+  }
+});
+
+test('une semaine sans récompenses reste une semaine valide', () => {
+  const { fact } = hubToFact({
+    hub: PAYLOAD,
+    articleURL: 'https://www.gtaboom.com/x',
+    articleDate: '2026-07-30',
+    now: PENDANT_LA_SEMAINE,
+  });
+  assert.deepEqual(fact.rewards, []);
+  assert.ok(fact.bonuses.length > 0);
+});
+
+test('les récompenses écartées remontent au même compte-rendu que le reste', () => {
+  const { skipped } = hubToFact({
+    hub: PAYLOAD,
+    articleURL: 'https://www.gtaboom.com/x',
+    articleDate: '2026-07-30',
+    now: PENDANT_LA_SEMAINE,
+    rewards: [],
+    rewardsSkipped: [{ name: 'Gun Van', label: null, reason: 'nature inconnue' }],
+  });
+  assert.ok(skipped.some((entry) => entry.name === 'Gun Van'));
 });
