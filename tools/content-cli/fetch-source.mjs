@@ -153,7 +153,10 @@ async function commandWeekly({ write }) {
   if (!feedURL) throw new Error(`${new URL(HUB_URL).hostname} n’a plus de flux au registre — le début de fenêtre en dépend`);
   const articleDate = resolveArticleDate(articlePath, parseFeed(await fetchWithRetry(feedURL)));
 
-  const { fact, skipped } = hubToFact({ hub, articleURL, articleDate });
+  // Le seul endroit de la chaîne qui lit l'horloge. `hubToFact` refuse une
+  // fenêtre déjà close — c'est ce qui empêche un hub cessant d'être tenu à jour
+  // de faire republier la semaine dernière en silence, indéfiniment.
+  const { fact, skipped } = hubToFact({ hub, articleURL, articleDate, now: new Date() });
 
   console.error(`fenêtre ${fact.starts_at} → ${fact.ends_at}`);
   console.error(`  ${fact.bonuses.length} bonus, ${fact.discounts.length} remise(s) retenus`);

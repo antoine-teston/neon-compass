@@ -279,7 +279,14 @@ export function localizedTitle(startDate) {
  *          nous ne montrons pas. Le compte-rendu de run l'affiche, faute de quoi
  *          une catégorie entière disparaîtrait sans que personne le remarque.
  */
-export function hubToFact({ hub, articleURL, articleDate, hubURL = HUB_URL, game = 'gtav' }) {
+export function hubToFact({ hub, articleURL, articleDate, now, hubURL = HUB_URL, game = 'gtav' }) {
+  // `now` est TOUJOURS injecté, jamais lu depuis `new Date()` — même discipline
+  // qu'`OnlineEvent.isActive(at:)` côté app. Sans paramètre obligatoire, l'appel
+  // du run pourrait l'omettre et perdre le contrôle de péremption sans que rien
+  // ne le signale ; c'est exactement le genre d'oubli silencieux qu'on chasse.
+  if (!(now instanceof Date) || Number.isNaN(now.getTime())) {
+    throw new Error('now est obligatoire (Date) — le contrôle de péremption du hub en dépend');
+  }
   const endsAt = normalizeInstant(hub.currentPhaseEndsAt);
   // Début de fenêtre : le jour de publication de l'article, à minuit UTC. On
   // n'invente PAS l'heure du reset (la spec interdit d'en dépendre, et la
@@ -291,6 +298,23 @@ export function hubToFact({ hub, articleURL, articleDate, hubURL = HUB_URL, game
     throw new Error(
       `fenêtre incohérente : début ${startsAt} au-delà de la fin ${endsAt} — ` +
         'le hub annonce probablement une phase déjà passée, ou l’article lié n’est pas celui de la semaine',
+    );
+  }
+
+  // **Le mode de panne le plus dangereux de toute la chaîne**, et le seul qui ne
+  // se voit pas : si la source cesse de tenir son hub à jour, la page continue de
+  // répondre 200, le payload continue de s'analyser, et rien ne casse. On
+  // republierait la semaine dernière indéfiniment — un compte à rebours sur une
+  // fenêtre déjà close, ce qui est pire qu'une carte absente.
+  //
+  // Une fenêtre expirée est donc un ÉCHEC, pas une donnée. Cas le plus probable
+  // en pratique, et le message le dit : le run du jeudi est passé avant que la
+  // source ait publié la nouvelle semaine.
+  if (endsAt <= normalizeInstant(now)) {
+    throw new Error(
+      `fenêtre déjà expirée : elle finissait le ${endsAt} et il est ${normalizeInstant(now)} — ` +
+        'la source n’a pas encore publié la semaine en cours, ou son hub n’est plus tenu à jour. ' +
+        'Republier cette fenêtre afficherait un compte à rebours sur une semaine close',
     );
   }
 
