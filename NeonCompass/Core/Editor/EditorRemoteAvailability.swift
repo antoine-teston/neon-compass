@@ -1,19 +1,19 @@
 #if DEBUG
-@preconcurrency import FirebaseAuth
-
-/// Le chemin Firestore de l'éditeur est-il réellement utilisable ?
+/// Le chemin distant de l'éditeur est-il réellement utilisable ?
 ///
-/// Deux conditions, et l'ordre compte : `Auth.auth()` plante d'une erreur
-/// fatale non rattrapable si `FirebaseApp.configure()` n'a pas tourné, donc le
-/// court-circuit du `&&` est ce qui protège l'appel.
+/// Deux conditions : un projet configuré, et une session ouverte. La seconde est
+/// celle qui mord — RLS réserve `editor_drafts` aux comptes inscrits dans
+/// `editors`, et il n'existe aucun compte tant que Sign in with Apple n'est pas
+/// utilisable, ce qui demande l'adhésion payante au programme développeur Apple.
+/// D'où le repli fichier.
 ///
-/// La seconde condition est celle qui mord aujourd'hui : les règles réservent
-/// `editor_drafts` à un UID, et il n'existe aucun compte tant que Sign in with
-/// Apple n'est pas utilisable — ce qui demande l'adhésion payante au programme
-/// développeur Apple. D'où le repli fichier.
+/// L'ordre des conditions n'a plus l'importance qu'il avait : `Auth.auth()`
+/// plantait d'une erreur fatale non rattrapable si Firebase n'était pas
+/// configuré, et le court-circuit du `&&` était ce qui protégeait l'appel.
+/// `SupabaseClientProvider.shared` rend simplement nil.
 enum EditorRemoteAvailability {
     static var isUsable: Bool {
-        FirebaseAvailability.isConfigured && Auth.auth().currentUser != nil
+        SupabaseClientProvider.shared?.auth.currentUser != nil
     }
 }
 #endif

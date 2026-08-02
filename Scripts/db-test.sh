@@ -23,7 +23,9 @@ if [[ $FORCE_STUBS -eq 0 ]] && docker info >/dev/null 2>&1; then
   echo "→ pile Supabase locale"
   supabase db reset
   DB_URL="$(supabase status --output json | sed -n 's/.*"DB_URL":[[:space:]]*"\([^"]*\)".*/\1/p')"
-  psql "$DB_URL" -v ON_ERROR_STOP=1 -q -f supabase/tests/schema_test.sql
+  for suite in supabase/tests/*_test.sql; do
+    psql "$DB_URL" -v ON_ERROR_STOP=1 -q -f "$suite"
+  done
   exit 0
 fi
 
@@ -63,4 +65,6 @@ psql -h "$SOCKET_DIR" -p "$PORT" -U postgres -q -c 'create database nc;'
 for migration in supabase/migrations/*.sql; do
   "${PSQL[@]}" -f "$migration"
 done
-"${PSQL[@]}" -f supabase/tests/schema_test.sql
+for suite in supabase/tests/*_test.sql; do
+  "${PSQL[@]}" -f "$suite"
+done

@@ -20,7 +20,7 @@ struct SettingsScreen: View {
 
     @State private var settingsModel: SettingsModel
     @State private var followedCategoriesStore = FollowedCategoriesStore(
-        notifier: FirebaseFollowedCategoryNotifier()
+        notifier: APNsFollowedCategoryNotifier.shared
     )
     @State private var showDeleteConfirmation = false
     @State private var showPaywall = false

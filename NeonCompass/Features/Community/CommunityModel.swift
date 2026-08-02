@@ -66,8 +66,8 @@ final class CommunityModel {
     static func live(modelContext: ModelContext) -> CommunityModel {
         let collectionName = CommunityBundleVersionProvider.collectionName
         return CommunityModel(
-            repository: FirestoreContributionRepository(),
-            functions: FirebaseContributionFunctions(),
+            repository: SupabaseContributionRepository(),
+            functions: SupabaseContributionFunctions(),
             gateProvider: SupabaseCommunityGateProvider(),
             modelContext: modelContext,
             approvedStore: ContentStore<Contribution>(

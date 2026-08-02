@@ -13,7 +13,7 @@ struct SocialScreen: View {
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @State private var model: OnlineEventsModel?
     @State private var leaderboardRows: [LeaderboardRow] = []
-    private let leaderboardRepository: any LeaderboardRepository = FirestoreLeaderboardRepository()
+    private let leaderboardRepository: any LeaderboardRepository = SupabaseLeaderboardRepository()
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
     /// la valeur qu'il avait à l'ouverture de l'onglet.
     @State private var now = Date()

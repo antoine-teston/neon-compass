@@ -1,27 +1,29 @@
 import UIKit
-@preconcurrency import FirebaseMessaging
 
-/// UIApplicationDelegate is required for APNs registration/FCM token
-/// handoff — SwiftUI's App protocol has no direct hook for
+/// `UIApplicationDelegate` est nécessaire pour l'enregistrement APNs :
+/// le protocole `App` de SwiftUI n'expose aucun point d'accroche pour
 /// `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`.
-/// Kept minimal: nothing here does app setup that belongs in
-/// NeonCompassApp.init() (FirebaseApp.configure() etc. stay there).
+/// Volontairement minimal — rien ici ne fait de configuration d'app, ça reste
+/// dans `NeonCompassApp`.
 ///
-/// `UIApplicationDelegate` methods are implicitly main-actor-isolated
-/// (UIKit's apinotes annotate the protocol), so no explicit `@MainActor`
-/// is needed here — verified via UIApplication.h's declarations for
-/// `application(_:didFinishLaunchingWithOptions:)` and
-/// `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`,
-/// both of which are called on the main thread by UIKit.
+/// Les méthodes de `UIApplicationDelegate` sont implicitement isolées au
+/// main actor (UIKit annote le protocole), donc aucun `@MainActor` explicite
+/// n'est nécessaire.
 final class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         true
     }
 
+    /// Le jeton n'est plus remis à un SDK tiers mais à notre propre table :
+    /// `push_tokens` porte l'abonnement par catégorie, là où FCM offrait des
+    /// topics. « Qui suit cette catégorie » redevient une requête SQL.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        // Verified against FIRMessaging.h: `APNSToken` (NS_SWIFT_NAME apnsToken)
-        // is the documented manual hand-off point when app-delegate-proxy
-        // swizzling isn't relied upon.
-        Messaging.messaging().apnsToken = deviceToken
+        Task { await APNsFollowedCategoryNotifier.shared.setDeviceToken(deviceToken) }
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // Sans jeton, les abonnements restent en mémoire et repartiront au
+        // prochain enregistrement réussi. Rien à réparer ici.
+        print("AppDelegate: enregistrement APNs impossible — \(error)")
     }
 }
