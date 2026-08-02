@@ -23,9 +23,14 @@ settings:
     INFOPLIST_KEY_UIUserInterfaceStyle: Dark
     INFOPLIST_KEY_NSUserTrackingUsageDescription: "This lets us show ads relevant to you instead of generic ones."
 packages:
+  # Firebase reste déclaré le temps de la migration (spec du 2026-08-02, D6 :
+  # bascule par couche, implémentations côte à côte). Il part à l'étape 6.
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk
     from: 11.0.0
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: 2.54.0
   GoogleMobileAds:
     url: https://github.com/googleads/swift-package-manager-google-mobile-ads
     from: 13.0.0
@@ -91,6 +96,12 @@ targets:
         product: FirebaseAppCheck
       - package: Firebase
         product: FirebaseMessaging
+      # Produit parapluie : Auth, PostgREST, Storage, Functions et Realtime.
+      # Realtime n'est utilisé par aucune feature — aucun écran ne s'abonne à
+      # des changements en direct — mais le parapluie évite d'énumérer quatre
+      # produits qui bougeront au fil des versions du paquet.
+      - package: Supabase
+        product: Supabase
       - package: GoogleMobileAds
         product: GoogleMobileAds
       - package: GoogleUserMessagingPlatform

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Identifiants du projet Supabase. À remplacer par les valeurs réelles une fois
+  le projet créé (Dashboard → Project Settings → API).
+
+  La clé anonyme est PUBLIQUE par construction : elle est embarquée dans chaque
+  binaire client et ne donne accès qu'à ce que les politiques RLS autorisent.
+  La committer est la pratique normale et attendue. Ce qui ne doit jamais
+  atterrir ici, ni nulle part dans le dépôt, c'est la clé `service_role` — elle
+  contourne RLS et ne vit que dans les secrets GitHub et Supabase.
+
+  Tant que les valeurs valent REMPLACER, SupabaseClientProvider rend nil et
+  l'app tourne en local seul : socle embarqué + cache SwiftData, sans réseau.
+-->
+<plist version="1.0">
+<dict>
+	<key>SUPABASE_URL</key>
+	<string>REMPLACER</string>
+	<key>SUPABASE_ANON_KEY</key>
+	<string>REMPLACER</string>
+</dict>
+</plist>
