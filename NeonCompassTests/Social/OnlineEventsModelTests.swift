@@ -28,6 +28,54 @@ struct OnlineEventsModelTests {
         #expect(model.currentEvent(at: date("2026-08-10T00:00:00Z"))?.id == "online_b")
     }
 
+    /// Deux fenêtres actives en même temps : la source prolonge parfois un
+    /// événement, ou publie une phase qui empiète sur la précédente. `events` n'a
+    /// aucun ordre garanti (`ContentMerge.merge`, pas un tri), donc un `first`
+    /// rendait un résultat arbitraire — le compte à rebours aurait été tiré au
+    /// sort. Le plus récemment COMMENCÉ gagne.
+    @Test func overlappingWindowsResolveToTheMostRecentlyStarted() throws {
+        let ancienne = try event(id: "online_a", startsAt: "2026-07-30T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let nouvelle = try event(id: "online_b", startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let instant = date("2026-08-10T00:00:00Z")
+
+        // Les deux ordres d'arrivée doivent donner la MÊME réponse : c'est tout
+        // l'objet du correctif.
+        #expect(OnlineEventsModel(events: [ancienne, nouvelle]).currentEvent(at: instant)?.id == "online_b")
+        #expect(OnlineEventsModel(events: [nouvelle, ancienne]).currentEvent(at: instant)?.id == "online_b")
+    }
+
+    /// À début égal, la fenêtre qui dure le plus longtemps l'emporte — c'est le cas
+    /// d'une prolongation dont l'ancienne version traîne encore dans le lot.
+    @Test func equalStartsResolveToTheLaterEnd() throws {
+        let courte = try event(id: "online_a", startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let prolongée = try event(id: "online_b", startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-20T09:00:00Z")
+        let instant = date("2026-08-10T00:00:00Z")
+
+        #expect(OnlineEventsModel(events: [courte, prolongée]).currentEvent(at: instant)?.id == "online_b")
+        #expect(OnlineEventsModel(events: [prolongée, courte]).currentEvent(at: instant)?.id == "online_b")
+    }
+
+    /// Deux fenêtres rigoureusement identiques ne devraient pas exister, mais si
+    /// elles arrivent, la réponse doit rester la même d'une synchronisation à
+    /// l'autre. L'`id` départage.
+    @Test func identicalWindowsStillResolveDeterministically() throws {
+        let a = try event(id: "online_a", startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let b = try event(id: "online_b", startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let instant = date("2026-08-10T00:00:00Z")
+
+        #expect(OnlineEventsModel(events: [a, b]).currentEvent(at: instant)?.id == "online_b")
+        #expect(OnlineEventsModel(events: [b, a]).currentEvent(at: instant)?.id == "online_b")
+    }
+
+    /// `latestEvent` cherche ce qui vient de SE TERMINER : il trie sur la fin, pas
+    /// sur le début, et ne doit pas dériver vers l'ordre de `currentEvent`.
+    @Test func latestEventSortsOnTheEndOfTheWindow() throws {
+        let commencéeAvant = try event(id: "online_a", startsAt: "2026-07-30T09:00:00Z", endsAt: "2026-08-20T09:00:00Z")
+        let commencéeAprès = try event(id: "online_b", startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let model = OnlineEventsModel(events: [commencéeAprès, commencéeAvant])
+        #expect(model.latestEvent()?.id == "online_a")
+    }
+
     /// Hors de toute fenêtre, il n'y a pas d'événement courant — la vue dira
     /// « terminé », elle ne montrera pas le dernier comme s'il durait encore.
     @Test func noCurrentEventOutsideEveryWindow() throws {

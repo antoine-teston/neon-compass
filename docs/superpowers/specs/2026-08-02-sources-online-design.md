@@ -264,6 +264,7 @@ cours s'en trouvait orphelinée, ce qui est arrivé deux fois.
 |---|---|---|
 | **C1** | `weekly-hub.mjs`, commande `weekly`, faits structurés honorés par `factToOnlineEvent`, contrôle d'originalité recalibré, tests sur payload réel | **livré (PoC)** |
 | **C2** | Entrée dans `veille.yml` avec cron du jeudi, dérive signalée sans emporter le run, filet à marques sur les listes | **livré** |
+| **C2b** | Fenêtre mutable : identité par le début, révision au lieu de duplication, sélection déterministe côté app | **livré** |
 | **C3** | Catégories 4/5/9 — remise en montant fixe et condition d'abonnement (champs `amount`, `requires`) | à arbitrer |
 | **C4** | Catégories 6/7/8 — récompenses, défi, rotations. Extension de schéma + écran, parsing DOM | à arbitrer |
 | **C5** | Corroboration Leonidaverse → `multi-source`, et repli saisie humaine | à faire |
@@ -279,4 +280,5 @@ d'écran de plus et une source de dérive de plus.
 | Une source unique | `single-source` assumé, C5 corrobore |
 | GTABOOM synthétise elle-même l'article (son hub écrit « the article does not state the exact increase ») | La donnée est un relais, pas la vérité primaire. Le jeu en main reste l'arbitre |
 | Fenêtre à cheval sur deux phases (« semaine 1 sur 2 ») | Une phase = une entrée. `currentPhaseEndsAt` borne la phase courante, pas l'événement entier — c'est bien ce que le compte à rebours doit annoncer |
+| **Une fenêtre MUTE** — la source dit elle-même que Rockstar prolonge parfois un événement | Traité : l'identité tient au DÉBUT de fenêtre (`windowDiscriminant`), donc une prolongation RÉVISE l'entrée au lieu d'en créer une seconde. Deux étages de propriété : la fenêtre appartient toujours à la machine, le reste seulement quand elle en est l'unique auteur. Côté app, `currentEvent(at:)` départage désormais totalement |
 | Marques dans les noms de biens | Les noms d'activités et de véhicules sont des références factuelles, comme les POI. `title` reste scanné |
