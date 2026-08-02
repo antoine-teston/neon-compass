@@ -44,6 +44,12 @@ import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync, renameSync
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
+import {
+  notANominativeName,
+  nominativeFieldsFor,
+  nominativeListFieldsFor,
+  redactedListFieldsFor,
+} from './nominative-fields.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CONTENT = join(ROOT, 'content');
@@ -51,13 +57,6 @@ const LANGS = ['fr', 'es', 'it', 'de'];
 // Champs affichés dans l'UI : jamais de marque déposée (CLAUDE.md, spec §1).
 const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
 const UI_FIELDS = ['title', 'note', 'effect', 'body'];
-/** Textes affichés qu'un événement en ligne porte dans ses listes. Hors
- *  `UI_FIELDS` à dessein : voir `check-publishable`. */
-const ONLINE_EVENT_LIST_UI_FIELDS = [
-  ['bonuses', 'activity'],
-  ['bonuses', 'label'],
-  ['discounts', 'item'],
-];
 // Doit rester aligné sur BUNDLE_CHUNK_SIZE dans firestore-client.js et
 // ContentBundle.chunkSize côté Swift — ici uniquement pour annoncer le nombre de
 // fragments en dry-run.
@@ -149,25 +148,44 @@ function checkPublishable(entries) {
         if (m) problems.push(`trademark "${m[0]}" in ${field}.${lang}`);
       }
     }
-    // Une carte d'événement en ligne affiche aussi des champs que `UI_FIELDS`
-    // ne voit pas : le véhicule du podium, et les textes portés par les listes
-    // de bonus et de remises. Le filet à marques s'arrêtait donc à `title`,
-    // alors qu'une étiquette vient tout droit d'une source qui écrit « 2x GTA$ ».
-    // Ils ne rejoignent pas `UI_FIELDS` pour autant : celui-ci sert aussi à
-    // `translate`, qui réclamerait alors une traduction pour des noms propres.
-    if (kind === 'online-events') {
-      for (const [lang, text] of Object.entries(data.podiumVehicle ?? {})) {
-        const m = text.match(TRADEMARKS);
-        if (m) problems.push(`trademark "${m[0]}" in podiumVehicle.${lang}`);
+    // Une carte affiche aussi des textes que `UI_FIELDS` ne voit pas — ceux que
+    // portent les listes. Ils ne rejoignent pas `UI_FIELDS` pour autant : celui-ci
+    // sert aussi à `translate`, qui réclamerait alors une traduction pour des
+    // noms propres.
+    //
+    // Deux régimes, et la frontière est celle de l'usage référentiel :
+    //
+    //  - un texte RÉDIGÉ par nous (`bonuses[].label`) n'a aucune raison de porter
+    //    une marque. Il est scanné comme `title`.
+    //  - un champ NOMINATIF ne fait que nommer le produit d'un tiers pour en
+    //    parler. C'est l'usage que la presse spécialisée fait tous les jours, et
+    //    la contrainte IP du projet (CLAUDE.md) porte sur l'IDENTITÉ de l'app —
+    //    nom, icône, sous-titre App Store, bundle ID — pas sur le contenu.
+    //    L'exception n'est PAS gratuite : ces champs doivent prouver qu'ils sont
+    //    bien des noms, et c'est vérifié ICI même. Déléguer cette vérification à
+    //    `check-originality` aurait laissé les deux contrôles se renvoyer la
+    //    responsabilité d'une permission qu'aucun des deux n'aurait justifiée.
+    for (const [listField, textField] of redactedListFieldsFor(kind)) {
+      (data[listField] ?? []).forEach((item, index) => {
+        for (const [lang, text] of Object.entries(item?.[textField] ?? {})) {
+          const m = text.match(TRADEMARKS);
+          if (m) problems.push(`trademark "${m[0]}" in ${listField}[${index}].${textField}.${lang}`);
+        }
+      });
+    }
+    for (const field of nominativeFieldsFor(kind)) {
+      for (const [lang, text] of Object.entries(data[field] ?? {})) {
+        const problem = notANominativeName(text);
+        if (problem) problems.push(`${field}.${lang} n'est pas un nom — ${problem}`);
       }
-      for (const [listField, textField] of ONLINE_EVENT_LIST_UI_FIELDS) {
-        (data[listField] ?? []).forEach((item, index) => {
-          for (const [lang, text] of Object.entries(item?.[textField] ?? {})) {
-            const m = text.match(TRADEMARKS);
-            if (m) problems.push(`trademark "${m[0]}" in ${listField}[${index}].${textField}.${lang}`);
-          }
-        });
-      }
+    }
+    for (const [listField, textField] of nominativeListFieldsFor(kind)) {
+      (data[listField] ?? []).forEach((item, index) => {
+        for (const [lang, text] of Object.entries(item?.[textField] ?? {})) {
+          const problem = notANominativeName(text);
+          if (problem) problems.push(`${listField}[${index}].${textField}.${lang} n'est pas un nom — ${problem}`);
+        }
+      });
     }
     if (problems.length) {
       failures++;

@@ -8,7 +8,7 @@
   },
   "facts": [
     {
-      "claim": "Fenêtre du mode en ligne du 2026-07-30 au 2026-08-05 : 6 bonus d’activité et 10 remise(s) relevés sur le hub hebdomadaire de la source.",
+      "claim": "Fenêtre du mode en ligne du 2026-07-30 au 2026-08-05, relevée sur le hub hebdomadaire de la source.",
       "kind": "online-event",
       "game": "gtav",
       "source_url": "https://www.gtaboom.com/gta-online-weekly-updates",
@@ -98,6 +98,18 @@
             "es": "2× dinero y RP",
             "it": "2× denaro e RP",
             "de": "2× Geld & RP"
+          }
+        },
+        {
+          "activity": {
+            "en": "GTA+ Shark Cards"
+          },
+          "label": {
+            "en": "+15% cash",
+            "fr": "+15 % d’argent",
+            "es": "+15% de dinero",
+            "it": "+15% di denaro",
+            "de": "+15 % Geld"
           }
         }
       ],

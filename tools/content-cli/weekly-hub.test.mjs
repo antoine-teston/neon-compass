@@ -14,6 +14,7 @@ import {
   localizedTitle,
   hubToFact,
 } from './weekly-hub.mjs';
+import { notANominativeName } from './nominative-fields.mjs';
 
 // Le payload RÉEL d'une semaine, relevé le 2026-08-02. C'est lui qui porte les
 // cas tordus que personne n'inventerait : une entrée sans multiplicateur, un
@@ -174,20 +175,35 @@ test('la semaine réelle produit un fait complet', () => {
   assert.equal(fact.confidence, 'single-source');
 });
 
-test('un nom qui porte une marque est écarté, pas reformulé', () => {
-  // « GTA+ Shark Cards » de la semaine réelle : la marque est DANS le nom. Le
-  // reformuler mentirait sur ce qu'il désigne, et le laisser passer ferait
-  // échouer `check-publishable` sur une entrée déjà écrite.
-  const { fact, skipped } = REAL();
-  assert.ok(!fact.bonuses.some((b) => /GTA/i.test(b.activity.en)));
-  assert.ok(skipped.some((entry) => /marque/.test(entry.reason) && entry.name.includes('Shark Cards')));
+test('un nom qui porte une marque passe tel quel — usage référentiel', () => {
+  // « GTA+ Shark Cards » de la semaine réelle. L'extracteur l'écartait, et privait
+  // la carte d'un bonus réel alors que la remise du MÊME abonnement passait déjà.
+  // L'exception et sa contrepartie vivent dans `nominative-fields.mjs`.
+  const { fact } = REAL();
+  const shark = fact.bonuses.find((b) => b.activity.en.includes('Shark Cards'));
+  assert.ok(shark, 'le bonus d’abonnement doit être retenu');
+  assert.equal(shark.activity.en, 'GTA+ Shark Cards');
+  // L'espace avant le % est INSÉCABLE, et c'est voulu : typographie française.
+  // Écrite en échappement pour que le test ne se laisse pas « corriger » par un
+  // éditeur qui normaliserait les espaces sans le dire.
+  assert.equal(shark.label.fr, '+15\u00A0% d’argent');
 });
 
-test('six bonus et dix remises sont retenus, trois entrées écartées avec leur raison', () => {
+test('les langues qui l’exigent ont une espace insécable avant le pour-cent', () => {
+  const label = localizedMultiplier({ percentBonus: 15, rp: false });
+  assert.ok(label.fr.includes('\u00A0%'), label.fr);
+  assert.ok(label.de.includes('\u00A0%'), label.de);
+  // L'anglais n'en met pas, et l'espagnol comme l'italien collent le signe.
+  assert.ok(label.en.includes('15%'), label.en);
+  assert.ok(label.es.includes('15%'), label.es);
+  assert.ok(label.it.includes('15%'), label.it);
+});
+
+test('sept bonus et dix remises sont retenus, deux entrées écartées avec leur raison', () => {
   const { fact, skipped } = REAL();
-  assert.equal(fact.bonuses.length, 6);
+  assert.equal(fact.bonuses.length, 7);
   assert.equal(fact.discounts.length, 10);
-  assert.equal(skipped.length, 3);
+  assert.equal(skipped.length, 2);
   // Ce qui est écarté doit être NOMMÉ : une catégorie qui disparaît en silence
   // ne se remarque que des semaines plus tard.
   assert.ok(skipped.every((entry) => entry.name && entry.reason));
@@ -208,12 +224,13 @@ test('la condition d’abonnement se lit sur le bien concerné', () => {
   assert.equal(members[0].percent, 50);
 });
 
-test('aucun champ affichable ne porte de marque', () => {
+test('aucun champ RÉDIGÉ ne porte de marque', () => {
+  // Les noms en portent, eux, et c'est permis. Ce qui est composé par nous n'a
+  // aucune raison d'en porter : `check-publishable` les scanne.
   const { fact } = REAL();
   const texts = [
     ...Object.values(fact.title),
-    ...fact.bonuses.flatMap((b) => [...Object.values(b.label), ...Object.values(b.activity)]),
-    ...fact.discounts.flatMap((d) => Object.values(d.item)),
+    ...fact.bonuses.flatMap((b) => Object.values(b.label)),
   ];
   for (const text of texts) {
     assert.doesNotMatch(text, /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i, text);
@@ -256,4 +273,18 @@ test('un hub dont plus aucune étiquette n’est reconnue lève', () => {
       }),
     /ni bonus ni remise retenus/,
   );
+});
+
+test('tout nom émis tient la promesse qui lui vaut son exception', () => {
+  // Sans ça, l'exception aux marques accordée par `check-publishable` reposerait
+  // sur un contrat que l'extracteur ne respecte pas forcément.
+  const { fact } = REAL();
+  const names = [
+    ...fact.bonuses.flatMap((b) => Object.values(b.activity)),
+    ...fact.discounts.flatMap((d) => Object.values(d.item)),
+  ];
+  assert.ok(names.length > 0);
+  for (const name of names) {
+    assert.equal(notANominativeName(name), null, name);
+  }
 });

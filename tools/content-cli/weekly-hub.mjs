@@ -226,19 +226,17 @@ export function parseDiscount(label) {
   return null;
 }
 
-/**
- * Marques déposées. Reprise à l'identique de `TRADEMARKS` (cli.js), qui reste
- * l'autorité — comme `GAMES`/`CONFIDENCES` sont reprises plutôt qu'exportées
- * entre `facts-to-news.mjs` et `facts-to-online-event.mjs`.
- *
- * Elle sert ici à ÉCARTER, pas à corriger. Un nom d'activité comme « GTA+ Shark
- * Cards » porte la marque dans le nom lui-même : on ne peut ni l'afficher, ni le
- * reformuler sans mentir sur ce qu'il désigne. Le laisser passer ferait échouer
- * `check-publishable` sur une entrée déjà écrite — un aller-retour manuel chaque
- * semaine. Accessoirement c'est la bonne décision éditoriale : les avantages
- * d'un abonnement payant de l'éditeur ne sont pas notre contenu.
- */
-const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
+// Un nom d'activité ou de bien passe tel quel, MARQUE COMPRISE. « GTA+ Shark
+// Cards » désigne un produit de l'éditeur ; le nommer pour en parler est l'usage
+// référentiel, et la contrainte IP du projet porte sur l'identité de l'app, pas
+// sur son contenu éditorial (CLAUDE.md). L'exception et sa contrepartie — rester
+// un nom, ne jamais être une marque nue — sont portées par
+// `nominative-fields.mjs`, que `check-publishable` applique.
+//
+// L'extracteur n'a donc aucun filtre de marque : il en avait un, qui écartait
+// « GTA+ Shark Cards » et privait la carte d'un bonus réel, alors que la remise
+// « Hao's Special Works (abonnés) » du même abonnement passait déjà. L'incohérence
+// venait du filtre, pas de la donnée.
 
 /** Suffixe de condition. Le NOM du bien reste tel quel — c'est un nom propre,
  *  pas une rédaction — mais la condition doit se lire, sinon la carte annonce
@@ -312,15 +310,6 @@ export function hubToFact({ hub, articleURL, articleDate, hubURL = HUB_URL, game
       skipped.push({ name: '(sans nom)', label: entry.multiplierLabel, reason: 'bonus sans activityName' });
       continue;
     }
-    const brand = entry.activityName.match(TRADEMARKS);
-    if (brand) {
-      skipped.push({
-        name: entry.activityName,
-        label: entry.multiplierLabel,
-        reason: `marque « ${brand[0] } » dans le nom — inaffichable, et irreformulable sans mentir sur ce qu'il désigne`,
-      });
-      continue;
-    }
     bonuses.push({ activity: localizedName(entry.activityName), label: localizedMultiplier(parsed) });
   }
 
@@ -337,15 +326,6 @@ export function hubToFact({ hub, articleURL, articleDate, hubURL = HUB_URL, game
     }
     if (!entry.itemName) {
       skipped.push({ name: '(sans nom)', label: entry.discountLabel, reason: 'remise sans itemName' });
-      continue;
-    }
-    const brand = entry.itemName.match(TRADEMARKS);
-    if (brand) {
-      skipped.push({
-        name: entry.itemName,
-        label: entry.discountLabel,
-        reason: `marque « ${brand[0]} » dans le nom — inaffichable, et irreformulable sans mentir sur ce qu'il désigne`,
-      });
       continue;
     }
     discounts.push({ item: localizedName(entry.itemName, parsed.requires), percent: parsed.percent });
@@ -365,9 +345,12 @@ export function hubToFact({ hub, articleURL, articleDate, hubURL = HUB_URL, game
       // `source_url + claim`, et l'URL du hub ne change JAMAIS. Sans la
       // fenêtre dans le claim, la semaine 2 se réapparierait à la semaine 1 et
       // ne serait jamais matérialisée.
-      claim:
-        `Fenêtre du mode en ligne du ${startDate} au ${endsAt.slice(0, 10)} : ` +
-        `${bonuses.length} bonus d’activité et ${discounts.length} remise(s) relevés sur le hub hebdomadaire de la source.`,
+      //
+      // La fenêtre, et RIEN d'autre. Y compter les bonus retenus — ce que faisait
+      // la première version — refrappe un id à chaque fois qu'on change ce qui
+      // est retenu, et orpheline l'entrée déjà relue et publiée de la semaine en
+      // cours. C'est arrivé deux fois avant que la leçon soit tirée.
+      claim: `Fenêtre du mode en ligne du ${startDate} au ${endsAt.slice(0, 10)}, relevée sur le hub hebdomadaire de la source.`,
       kind: 'online-event',
       game,
       source_url: hubURL,

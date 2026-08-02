@@ -215,8 +215,48 @@ que `check-publishable` ne regardait pas. Son filet à marques s'arrêtait à
 `UI_FIELDS` (`title`, `note`, `effect`, `body`) alors qu'une carte affiche aussi
 `podiumVehicle` et les textes portés par `bonuses[]`/`discounts[]` — or une
 étiquette vient tout droit d'une source qui écrit « 2x GTA$ ». Ces champs sont
-désormais scannés, sans rejoindre `UI_FIELDS` pour autant : celui-ci sert aussi
+désormais couverts, sans rejoindre `UI_FIELDS` pour autant : celui-ci sert aussi
 à `translate`, qui réclamerait alors une traduction pour des noms propres.
+
+### Une marque peut vivre dans un NOM — tranché le 2026-08-02
+
+Le premier scan a fait échouer notre propre donnée : `bonuses[].activity` valait
+« GTA+ Shark Cards ». Réaction initiale : écarter ces entrées à l'extraction.
+Elle était fausse, pour trois raisons qui se tiennent.
+
+1. **La règle du projet ne disait pas ça.** `CLAUDE.md` interdit les marques dans
+   le nom de l'app, l'icône, le sous-titre App Store et le bundle ID — son
+   *identité*. Pas dans le contenu. Le scan appliqué à tout `title` était un
+   durcissement jamais énoncé comme tel.
+2. **Nommer le produit d'un tiers pour en parler est l'usage référentiel.** C'est
+   ce qui permet à la presse spécialisée d'écrire « GTA Online ». « GRAND THEFT
+   AUTO » et « GTA » sont bien des marques déposées de Take-Two — la question
+   n'est pas là.
+3. **Le filtre était incohérent avec lui-même.** Il écartait le bonus
+   « GTA+ Shark Cards » tout en laissant passer la remise « Hao's Special Works
+   (abonnés) », qui relève du même abonnement. L'incohérence venait du filtre.
+
+D'où l'exception, et elle est étroite : `nominative-fields.mjs` énumère par kind
+les champs dont la valeur entière est un nom propre — `bonuses[].activity`,
+`discounts[].item`, `podiumVehicle`. Eux seuls échappent au scan de marques. Ce
+que nous rédigeons — `title`, `bonuses[].label` — reste interdit.
+
+**L'exception n'est pas gratuite.** Ces champs doivent prouver qu'ils sont des
+noms : pas de ponctuation de phrase, huit mots au plus, et **jamais une marque
+nue** (« GTA » seul ne nomme rien ; « GTA+ Shark Cards » nomme un produit). On ne
+peut donc pas y glisser un slogan déposé.
+
+Détail d'architecture qui compte : `check-publishable` applique le test de nom
+**lui-même**, au moment d'accorder l'exception, plutôt que de compter sur
+`check-originality` qui utilise pourtant la même notion. Les deux scripts
+tournent ensemble dans `npm run check`, ce qui rendait la délégation tentante —
+et aurait laissé deux contrôles se renvoyer la responsabilité d'une permission
+qu'aucun des deux n'aurait justifiée.
+
+Effet de bord réparé au passage : le `claim` du fait ne compte plus les bonus
+retenus. Il ne porte que la fenêtre. Compter les entrées refrappait un `id` à
+chaque changement de filtrage — l'entrée déjà relue et publiée de la semaine en
+cours s'en trouvait orphelinée, ce qui est arrivé deux fois.
 
 ## Découpage
 
