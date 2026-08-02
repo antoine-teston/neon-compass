@@ -83,11 +83,32 @@ Projection, avec `coût ≈ MAU × bumps × charge + MAU × sessions × manifest
 
 Trois contre-mesures, toutes dans le périmètre de cette migration :
 
-1. **Upload pré-gzippé** avec `contentEncoding: 'gzip'` — Supabase Storage ne compresse pas à la
-   volée. Facteur ÷6.
+1. **Fragments pré-compressés, décompressés par l'app.** Mesuré à l'implémentation : 423 Ko → 60 Ko,
+   soit ÷7.
+
+   *Corrigé en cours de route.* Le design initial disait « upload gzippé avec
+   `contentEncoding: 'gzip'` ». **Supabase Storage ne permet pas de poser `Content-Encoding` au
+   téléversement** — seuls `contentType` et `cacheControl` existent, et le reste est une demande de
+   fonctionnalité ouverte ([supabase-js#1883](https://github.com/supabase/supabase-js/issues/1883)).
+   La décompression transparente par `URLSession` est donc hors d'atteinte.
+
+   Les fragments partent en **DEFLATE brut** (RFC 1951) sous `.json.z`, décompressés par
+   `ContentCDN.inflate`. Brut et pas gzip parce que c'est exactement ce qu'attend
+   `NSData.decompressed(using: .zlib)` — dont le nom trompe : c'est du DEFLATE brut, pas le format
+   zlib de la RFC 1950 — et exactement ce que produit `zlib.deflateRawSync` côté Node, sans en-tête
+   à retirer de part et d'autre. Cet accord vit des deux côtés d'une frontière réseau, donc un test
+   le fige à partir d'une charge réellement produite par Node.
+
+   Ce qu'on perd : le `curl | jq` direct sur un fragment. Le manifeste, lui, reste en clair — c'est
+   celui qu'on inspecte à la main. Et un fragment reste lisible partout : zlib est universel, un
+   navigateur a `DecompressionStream('deflate-raw')`.
 2. **Version par collection** dans le manifeste (voir D7). Facteur ÷10 environ.
 3. **`contentBaseURL` reste piloté à distance.** Changer d'hébergeur ne demandera jamais une mise à
    jour de l'app. C'est la porte de sortie, et elle existe déjà dans l'architecture.
+
+Le bucket s'appelle **`cdn`** et non `content` : les objets portent déjà un préfixe `content/` —
+l'arborescence du site, volontairement indépendante de l'hébergeur — et un bucket homonyme donnerait
+des URL en `.../public/content/content/manifest.json`.
 
 À réévaluer sur des chiffres réels après lancement. Le seuil d'alarme est le passage au plan Pro :
 s'il devient nécessaire *à cause de l'egress statique* et non de la charge applicative, sortir les
@@ -125,12 +146,15 @@ device token via `didRegisterForRemoteNotificationsWithDeviceToken` — là où 
 Postgres ne stocke de contenu — **y compris les fragments de spots communautaires**, qui vont eux
 aussi sur Storage, écrits par `rebuildCommunityBundles`.
 
-Leur version reste **séparée** de celle du contenu éditorial, comme aujourd'hui : une clé
-`communitySpotsVersion` dans `app_config`, upsertée par la même fonction. Écarté : les faire entrer
-dans le manifeste comme une collection ordinaire de D7. C'était tentant, mais le manifeste serait
-alors écrit par deux producteurs à des cadences différentes — la CI de publication et une tâche
-planifiée à cinq minutes — avec une course à la clé. Le document de version distinct qu'utilise déjà
-`CommunityBundleVersionProvider` est la bonne réponse, et il se porte tel quel.
+Leur version reste **séparée** de celle du contenu éditorial. Écarté : les faire entrer dans le
+manifeste comme une collection ordinaire de D7. C'était tentant, mais le manifeste serait alors
+écrit par deux producteurs à des cadences différentes — la CI de publication et une tâche planifiée
+à cinq minutes — avec une course à la clé.
+
+Ils ont donc **leur propre manifeste** sur le CDN, `content/community_spots/manifest.json`, écrit par
+`rebuildCommunityBundles`. Un fichier par producteur, aucune course. C'est le même raisonnement qui
+avait donné un document de version distinct côté Firestore ; il se porte tel quel, et rien de tout
+ça n'atterrit dans `app_config` — qui ne contient plus aucune version de contenu.
 
 Le repli réseau n'est pas remplacé, il est **rendu inutile** par un filet meilleur, déjà en place :
 le socle embarqué dans le binaire (`seed-poi.json`, `seed-cheats.json`) fusionné avec le cache
@@ -159,10 +183,19 @@ compare cette version unique. **Une publication d'actu fait donc retélécharger
 tous les clients.**
 
 `CollectionInfo` gagne un champ `version`. `ContentStore` compare la version de *sa* collection.
-`cdn-build.mjs` la calcule par collection.
+`cdn-build.mjs` la calcule par collection, à partir d'une empreinte du contenu (clés triées, pour
+qu'un simple réenregistrement ne fasse pas avancer la version), et la mémorise dans un verrou
+versionné `content/cdn-versions.json` — déterministe, hors ligne, et le diff se relit en PR.
+
+**Règle exacte**, apprise d'un défaut trouvé à l'implémentation : une collection dont l'empreinte
+change prend `max(nombre de commits, version précédente + 1)`. Le `+ 1` n'est pas décoratif — sans
+lui, deux publications depuis le même commit avec un contenu différent donnaient la même version,
+donc le même chemin, servi `immutable` pour un an. Le nouveau contenu n'aurait jamais atteint un
+client déjà passé par là, et la garde `remoteVersion > localVersion` n'aurait rien vu non plus.
 
 C'est le principal levier sur l'egress de D2, et une correction de fond indépendamment : le portillon
-de version prétendait déjà être un delta.
+de version prétendait déjà être un delta. Vérifié de bout en bout : modifier une seule actu ne fait
+avancer que `news`, les 327 Ko de POI gardant leur URL.
 
 ## Architecture cible
 

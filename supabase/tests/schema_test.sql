@@ -205,8 +205,13 @@ begin
   select count(*) into n from public.contributions;
   assert n = 1, format('un anonyme ne doit voir que l''approuvé non masqué, il en voit %s', n);
 
+  -- Trois clés, et aucune version de contenu parmi elles : celles-ci vivent
+  -- dans les manifestes servis par le CDN, un par producteur.
   select count(*) into n from public.app_config;
-  assert n = 4, format('la configuration doit être lisible sans connexion, obtenu %s lignes', n);
+  assert n = 3, format('la configuration doit être lisible sans connexion, obtenu %s lignes', n);
+
+  select count(*) into n from public.app_config where key like '%ersion%';
+  assert n = 0, 'aucune version de contenu ne doit vivre dans app_config';
 
   reset role;
 end $$;

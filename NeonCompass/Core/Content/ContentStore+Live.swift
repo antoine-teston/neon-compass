@@ -15,11 +15,8 @@ extension ContentStore {
         ContentStore(
             collectionName: collectionName,
             seed: seed,
-            remote: CDNContentRepository<Item>(
-                collectionName: collectionName,
-                firestoreFallback: ChunkedContentRepository<Item>(collectionName: collectionName)
-            ),
-            versionProvider: CDNContentVersionProvider(firestoreFallback: RemoteConfigVersionProvider()),
+            remote: CDNContentRepository<Item>(collectionName: collectionName),
+            versionProvider: CDNContentVersionProvider(collectionName: collectionName),
             modelContext: modelContext
         )
     }

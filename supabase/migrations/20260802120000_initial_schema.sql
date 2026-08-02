@@ -368,19 +368,23 @@ $$;
 -- Stockage : le bucket public qui sert le contenu
 -- ---------------------------------------------------------------------------
 
+-- Nommé `cdn` et pas `content` : les objets portent déjà un préfixe `content/`
+-- (l'arborescence du site, volontairement indépendante de l'hébergeur), et un
+-- bucket homonyme donnerait des URL en `.../public/content/content/manifest.json`.
 insert into storage.buckets (id, name, public)
-values ('content', 'content', true)
+values ('cdn', 'cdn', true)
 on conflict (id) do nothing;
 
 -- ---------------------------------------------------------------------------
 -- Valeurs de configuration initiales
 -- ---------------------------------------------------------------------------
 
--- `contentVersion` n'y figure pas : la version du contenu éditorial vient
--- désormais du manifeste, par collection (spec D7).
+-- Ni `contentVersion` ni `communitySpotsVersion` : les deux viennent désormais
+-- de manifestes servis par le CDN — un par producteur, ce qui supprime la
+-- course à la clé entre la publication éditoriale et la reconstruction des
+-- spots. Il ne reste ici que ce qui doit être modifiable à la main.
 insert into public.app_config (key, value) values
   ('contentBaseURL', '""'::jsonb),
   ('backendFeaturesEnabled', 'false'::jsonb),
-  ('communityContributionsEnabled', 'true'::jsonb),
-  ('communitySpotsVersion', '0'::jsonb)
+  ('communityContributionsEnabled', 'true'::jsonb)
 on conflict (key) do nothing;

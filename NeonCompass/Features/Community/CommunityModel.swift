@@ -72,7 +72,7 @@ final class CommunityModel {
             modelContext: modelContext,
             approvedStore: ContentStore<Contribution>(
                 collectionName: collectionName,
-                remote: ChunkedContentRepository<Contribution>(collectionName: collectionName),
+                remote: CommunityBundleRepository<Contribution>(),
                 versionProvider: CommunityBundleVersionProvider(),
                 modelContext: modelContext
             )

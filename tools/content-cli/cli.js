@@ -42,6 +42,7 @@
 import { execSync } from 'node:child_process';
 import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync, renameSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { deflateRawSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
 import {
@@ -524,25 +525,24 @@ switch (cmd) {
     break;
   case 'content-source':
     try {
-      const { getRemoteConfigParameter, setRemoteConfigParameter } = await import('./firestore-client.js');
+      const { getConfig, setConfig } = await import('./supabase-client.js');
       const [target] = flags;
       if (!target) {
-        const current = await getRemoteConfigParameter('contentBaseURL');
-        console.log(current ? `content-source: CDN — ${current}` : 'content-source: Firestore (contentBaseURL vide)');
+        const current = await getConfig('contentBaseURL');
+        console.log(current ? `content-source: ${current}` : 'content-source: aucune (socle embarqué seul)');
         ok = true;
         break;
       }
-      // `off` efface la valeur plutôt que de la supprimer : le paramètre reste
-      // visible en console, ce qui rend le repli explicite au lieu d'être une
-      // absence qu'on interprète.
+      // `off` efface la valeur plutôt que de supprimer la ligne : le paramètre
+      // reste visible dans l'éditeur de table, ce qui rend l'extinction
+      // explicite au lieu d'être une absence qu'on interprète.
+      //
+      // C'est la porte de sortie de la décision d'héberger le contenu sur
+      // Storage : changer d'hébergeur ne demande aucune mise à jour de l'app.
       const value = target === 'off' ? '' : target;
       if (value && !/^https:\/\/[^\s]+$/.test(value)) throw new Error(`URL refusée : ${target}`);
-      await setRemoteConfigParameter(
-        'contentBaseURL',
-        value,
-        "Base du contenu statique servi par CDN. Vide = l'app lit Firestore (repli sans mise à jour)."
-      );
-      console.log(value ? `content-source: les clients liront ${value}` : 'content-source: repli sur Firestore');
+      await setConfig('contentBaseURL', value);
+      console.log(value ? `content-source: les clients liront ${value}` : 'content-source: source éteinte');
       ok = true;
     } catch (err) {
       console.error(err.message);
@@ -551,25 +551,81 @@ switch (cmd) {
     break;
   case 'build-cdn': {
     // La version vient du nombre de commits : monotone, déterministe, et
-    // calculable hors ligne — contrairement à `contentVersion` de Remote Config,
-    // qui exige des credentials. La construction doit tourner en CI sans secret.
+    // calculable hors ligne. La construction doit tourner en CI sans secret.
     const version = Number(execSync('git rev-list --count HEAD', { cwd: ROOT, encoding: 'utf8' }).trim());
     const commit = execSync('git rev-parse --short HEAD', { cwd: ROOT, encoding: 'utf8' }).trim();
     const { buildSite } = await import('./cdn-build.mjs');
-    const files = buildSite(entries, KINDS, { version, commit });
+
+    // Le verrou porte la version ET l'empreinte de chaque collection à la
+    // dernière publication. C'est lui qui permet à une collection inchangée de
+    // garder son chemin, donc son cache. Versionné dans le dépôt plutôt que relu
+    // depuis le CDN : déterministe, hors ligne, et le diff se relit en PR.
+    const lockPath = join(CONTENT, 'cdn-versions.json');
+    const previous = existsSync(lockPath) ? JSON.parse(readFileSync(lockPath, 'utf8')) : {};
+
+    const { files, collections } = buildSite(entries, KINDS, { version, commit, previous });
 
     const dist = join(ROOT, 'tools', 'content-cli', 'dist');
     rmSync(dist, { recursive: true, force: true });
     for (const file of files) {
       const target = join(dist, file.path);
       mkdirSync(dirname(target), { recursive: true });
-      writeFileSync(target, `${JSON.stringify(file.json)}\n`);
+      const bytes = Buffer.from(`${JSON.stringify(file.json)}\n`);
+
+      // Les FRAGMENTS partent compressés, le manifeste en clair.
+      //
+      // Supabase Storage ne compresse pas à la volée et ne permet pas non plus
+      // de poser `Content-Encoding` au téléversement (supabase-js#1883, demande
+      // ouverte) : seuls `contentType` et `cacheControl` existent. La
+      // décompression transparente par le client HTTP est donc hors d'atteinte,
+      // et sans elle ce sont 423 Ko qui sortent au lieu de 70 — sur un quota
+      // d'egress partagé avec la base et l'authentification.
+      //
+      // D'où du DEFLATE BRUT (RFC 1951), décompressé par l'app. Brut et pas
+      // gzip parce que c'est exactement ce que `NSData.decompressed(using:
+      // .zlib)` attend côté iOS, sans en-tête à retirer à la main. Il reste lu
+      // par n'importe quel langage — zlib est partout, et un navigateur a
+      // `DecompressionStream('deflate-raw')`. Ce qu'on perd, c'est le
+      // `curl | jq` direct sur un fragment ; le manifeste, lui, reste lisible à
+      // l'œil, et c'est celui qu'on inspecte à la main.
+      if (file.immutable) {
+        writeFileSync(`${target}.z`, deflateRawSync(bytes, { level: 9 }));
+      } else {
+        writeFileSync(target, bytes);
+      }
     }
 
+    writeFileSync(lockPath, `${JSON.stringify(collections, null, 2)}\n`);
+
+    const changed = Object.entries(collections)
+      .filter(([name]) => previous[name]?.version !== collections[name].version)
+      .map(([name, info]) => `${name}→v${info.version}`);
     const published = entries.filter((e) => e.data.status === 'published').length;
-    console.log(`build-cdn: v${version} (${commit}) — ${published} entrée(s) publiée(s), ${files.length} fichier(s) dans dist/`);
-    console.log('  déploiement : firebase deploy --only hosting');
+    console.log(`build-cdn: publication ${commit} — ${published} entrée(s), ${files.length} fichier(s) dans dist/`);
+    console.log(changed.length ? `  collections modifiées : ${changed.join(', ')}` : '  aucune collection modifiée');
+    console.log('  déploiement : node cli.js deploy-cdn');
     ok = true;
+    break;
+  }
+  case 'deploy-cdn': {
+    // Téléverse dist/ vers le bucket public `content`. Les en-têtes de cache,
+    // qui vivaient dans firebase.json, se posent ici objet par objet : c'est la
+    // seule différence de fond avec un hébergeur statique.
+    const dist = join(ROOT, 'tools', 'content-cli', 'dist');
+    if (!existsSync(dist)) {
+      console.error('deploy-cdn: dist/ absent — lancer `node cli.js build-cdn` d’abord');
+      ok = false;
+      break;
+    }
+    try {
+      const { uploadSite } = await import('./supabase-client.js');
+      const count = await uploadSite(dist);
+      console.log(`deploy-cdn: ${count} objet(s) téléversé(s) dans le bucket content`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
     break;
   }
   case 'pull-drafts':

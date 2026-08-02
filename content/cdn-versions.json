@@ -1,0 +1,38 @@
+{
+  "poi": {
+    "version": 345,
+    "digest": "cf4ebce31b67787a",
+    "chunks": 1,
+    "count": 2
+  },
+  "poi_gtav": {
+    "version": 345,
+    "digest": "fded6f2e8a6c6a5e",
+    "chunks": 2,
+    "count": 537
+  },
+  "cheats": {
+    "version": 345,
+    "digest": "db51ad8bde9cc1d1",
+    "chunks": 1,
+    "count": 36
+  },
+  "collections": {
+    "version": 345,
+    "digest": "4f53cda18c2baa0c",
+    "chunks": 1,
+    "count": 0
+  },
+  "news": {
+    "version": 345,
+    "digest": "302bfdfbc7bb5f86",
+    "chunks": 1,
+    "count": 27
+  },
+  "online_events": {
+    "version": 345,
+    "digest": "6d79cc242df0fd0c",
+    "chunks": 1,
+    "count": 1
+  }
+}

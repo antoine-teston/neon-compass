@@ -120,9 +120,11 @@ actor SupabaseAppConfig: AppConfigReading {
 /// Clés de `app_config`. Regroupées ici pour que la liste des paramètres
 /// distants soit lisible d'un coup d'œil, et pour qu'aucune chaîne ne soit
 /// écrite deux fois de part et d'autre d'une frontière réseau.
+/// Ne contient AUCUNE version de contenu : celles-ci vivent dans les manifestes
+/// servis par le CDN, un par producteur. Ici ne restent que les paramètres qu'un
+/// humain modifie à la main depuis l'éditeur de table.
 enum AppConfigKey {
     static let contentBaseURL = "contentBaseURL"
     static let backendFeaturesEnabled = "backendFeaturesEnabled"
     static let communityContributionsEnabled = "communityContributionsEnabled"
-    static let communitySpotsVersion = "communitySpotsVersion"
 }
