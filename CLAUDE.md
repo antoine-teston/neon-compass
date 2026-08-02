@@ -27,7 +27,9 @@ Style of this file: Karpathy-minimal. High signal only. If a rule doesn't change
 
 ## Commands
 
-Project not yet created. Once the Xcode project exists (expected name: `NeonCompass.xcodeproj`, scheme `NeonCompass`):
+Projet `NeonCompass.xcodeproj`, scheme `NeonCompass`, généré par XcodeGen depuis `project.yml` — **relancer `xcodegen generate` après toute création ou suppression de fichier source**, sinon `xcodebuild` rapporte « 0 tests » au lieu d'un échec de compilation.
+
+Le simulateur disponible est `iPhone 17` (iOS 26.5) ; l'iPad est `iPad Pro 13-inch (M5)`.
 
 ```sh
 # Build
@@ -45,21 +47,12 @@ swiftlint
 swiftformat .
 ```
 
-Update this section with the real names the moment the project is scaffolded — stale commands are worse than none.
+## Architecture
 
-## Architecture (intended)
-
-Feature-first folders, not layer-first:
-
-```
-NeonCompass/
-  App/            # entry point, root navigation, DI
-  Features/       # one folder per feature: View + Model + tests colocated
-  Core/           # shared: networking, persistence, design system
-```
+Feature-first folders (`App/`, `Features/`, `Core/`), pas layer-first.
 
 - One `@Observable` model per feature screen. Views stay dumb.
-- Navigation via a single `NavigationStack` path owned at the App level.
+- **Aucun écran d'onglet n'a de `NavigationStack`.** `RootView` empile les écrans dans un `ZStack` sous une barre d'onglets maison (`CompactTabBar`) en compact, et une `TabView` `.sidebarAdaptable` en régulier. Conséquence à ne pas réapprendre à ses dépens : **un `ToolbarItem` posé sur un écran d'onglet ne s'affiche nulle part, sans erreur ni avertissement.** Ce qui doit vivre dans une barre passe par un bouton dans le contenu, ou par une feuille — celle-ci peut avoir son propre `NavigationStack` et donc sa toolbar.
 - Anything touching the network or disk lives in `Core/` behind a protocol so features are testable without I/O.
 
 ## Working style
