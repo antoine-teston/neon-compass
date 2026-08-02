@@ -206,7 +206,6 @@ struct RootView: View {
         case .feed: FeedScreen()
         case .map: MapScreen()
         case .cheats: CheatsScreen()
-        case .progress: ProgressionScreen()
         case .profile: ProfileScreen()
         }
     }

@@ -17,9 +17,11 @@
 - **Tests en Swift Testing** côté app, `node --test` côté CLI, le harnais existant côté Functions.
 - **Aucune chaîne littérale visible** : tout passe par `Localizable.xcstrings`, et `LocalizationCoverageTests` exige les cinq locales `en, fr, es, it, de` non vides pour chaque clé. Format Xcode : indentation 2 espaces, `"clé" : valeur` avec un espace avant **et** après le deux-points. `tools/xcstrings-locale/apply-locale.js` ne sert pas ici — il exige des traductions pour la totalité du catalogue.
 - **Interpolation et clés de catalogue.** `Text("clé \(n)")` ne cherche PAS `clé` : SwiftUI construit la clé `clé %lld`, spécificateur compris. La clé du catalogue doit donc le porter (`progress.challenge.foundCount %lld` est le précédent), et le littéral Swift ne le porte jamais. Trois clés du projet ont déjà livré ce défaut, dont deux visibles en production ; `LocalizationCoverageTests.interpolatedCallSitesResolveToACatalogKey` l'attrape désormais. Corollaire : un nombre nu sans phrase autour (`Text("\(n)")`) doit passer par `Text(verbatim:)`, sinon il devient une souche vide dans le catalogue.
+- **Les souches `%@` de l'extracteur, à supprimer avant chaque commit.** Compiler un `Text("clé \(n)")` neuf fait ajouter par Xcode une entrée `clé %@` SANS aucune localisation, qui fait échouer `everyKeyHasAllFiveLocales`. Elle est toujours fausse : pour un `Int`, SwiftUI cherche `clé %lld` à l'exécution — Xcode marque d'ailleurs les entrées `%lld` correctes comme `"extractionState" : "stale"`, c'est un désaccord connu entre son extracteur et l'interpolation SwiftUI, et c'est l'extracteur qui a tort. Après le build, vérifier le catalogue et retirer toute entrée dépourvue de bloc `localizations`. Elles reviennent à chaque build : les supprimer une fois ne suffit pas.
 - **Marques déposées interdites** dans toute chaîne d'interface. Les jeux se nomment par leurs chiffres romains (`Game.shortLabel`).
 - **`sources` n'est jamais embarqué dans le modèle Swift** : les URL contiennent les marques (`gtaboom.com/rockstar-…`). Même règle que `NewsItem`, dont le commentaire l'explique — elles reviendront avec la bascule de marques.
 - **Sources autorisées uniquement** : GTABOOM, Leonidaverse, GTA6.gg. `rockstargames.com` est interdit à la veille automatique (`robots.txt : ClaudeBot Disallow: /`). `tools/content-cli/source-policy.mjs` fait autorité et lève sur un domaine interdit.
+- **`xcodegen generate` après toute création de fichier source.** `project.yml` n'a jamais à être modifié (il glob `NeonCompass/`), mais sans régénération le `.xcodeproj` ignore le fichier — et `xcodebuild` rapporte alors silencieusement « 0 tests » **au lieu d'un échec de compilation**. C'est le piège qui vide l'étape « vérifier que le test échoue » de tout son sens : on croit voir un échec TDD là où rien n'a été compilé.
 - **Jamais de `ToolbarItem` dans un écran d'onglet** : aucun n'a de `NavigationStack`, `RootView` les empile dans un `ZStack` sous une barre maison, et l'item ne s'afficherait nulle part sans erreur.
 - **Firebase reste derrière un protocole dans `Core/`.**
 
@@ -941,13 +943,18 @@ Ajouter dans `NeonCompassTests/App/AppTabTests.swift`, à côté de `progressTab
 
 ```swift
     /// La carte est au centre, et c'est structurel : `CompactTabBar` la rend
-    /// comme un bouton proéminent à part des autres. Le plan A avait laissé la
-    /// barre à quatre onglets — donc décentrée ; ce test est ce qui empêche d'y
-    /// revenir sans s'en apercevoir.
+    /// comme un bouton proéminent à part des autres.
+    ///
+    /// Ce test RESTAURE une couverture qui existait avant le plan A, sous le nom
+    /// `fiveTabsWithMapInCenter` : ce plan-là a ramené la barre à quatre onglets,
+    /// rendant caduques ses assertions `count == 5` et `tabs[2] == .map`. Le
+    /// cinquième onglet les rétablit, et ce test empêche d'y revenir sans s'en
+    /// apercevoir. La troisième assertion de l'ancien test (`first == .feed`) a
+    /// survécu séparément sous le nom `feedComesFirst`.
     @Test func mapSitsInTheMiddle() {
         let tabs = AppTab.allCases
-        #expect(tabs.count % 2 == 1)
-        #expect(tabs[tabs.count / 2] == .map)
+        #expect(tabs.count == 5)
+        #expect(tabs[2] == .map)
     }
 ```
 
@@ -1068,12 +1075,16 @@ Créer `NeonCompass/Features/Social/SocialScreen.swift` :
 ```swift
 import SwiftUI
 import SwiftData
+// `Timer.publish` vient de Combine, et SwiftUI ne le réexporte pas de façon
+// fiable. Aucun autre fichier du dépôt n'importe Combine : c'est le premier.
+import Combine
 
 /// L'onglet Social. Lisible sans compte : c'est du contenu éditorial publié,
 /// pas de l'UGC. Le compte n'est demandé qu'au palier B2, et seulement pour
 /// FIGURER au classement, jamais pour le lire.
 struct SocialScreen: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @State private var model: OnlineEventsModel?
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
     /// la valeur qu'il avait à l'ouverture de l'onglet.
@@ -1098,9 +1109,8 @@ struct SocialScreen: View {
     }
 
     private func content(_ model: OnlineEventsModel) -> some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 20) {
+        ScrollView {
+            VStack(spacing: 20) {
                     if model.showsGamePicker {
                         Picker(selection: Binding(
                             get: { model.selectedGame },
@@ -1122,15 +1132,20 @@ struct SocialScreen: View {
                     } else {
                         emptyState
                     }
+                // Écran de liste : la bannière s'y applique (spec §5), jamais
+                // sur la carte en interaction. Posée DANS le défilement, en
+                // queue de colonne — même motif que `GuidesListView`.
+                //
+                // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
+                // suppression des pubs. En afficher une à quelqu'un qui a payé
+                // pour ne plus en voir est le pire retour possible.
+                if !proEntitlementModel.isProEntitled {
+                    BannerAdView()
                 }
-                .padding(20)
             }
-            .refreshable { await model.refresh() }
-
-            // Écran de liste : la bannière s'y applique (spec §5). Jamais sur
-            // la carte en interaction.
-            BannerAdView()
+            .padding(20)
         }
+        .refreshable { await model.refresh() }
     }
 
     /// Rien de publié : on le dit, on n'invente pas une semaine.

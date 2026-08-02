@@ -139,7 +139,7 @@ final class ProgressionModel {
 
     /// Last-write-wins-per-item reconciliation of remote progression into the
     /// local TrophyProgress store. Pure/testable independent of Firestore —
-    /// the caller (ProgressionScreen) is responsible for fetching remoteItems
+    /// the caller (ProgressionSection) is responsible for fetching remoteItems
     /// and gating this on Pro + signed-in.
     func reconcile(with remoteItems: [ProgressionSyncItem]) {
         for item in remoteItems where item.kind == .trophy {
@@ -165,7 +165,7 @@ final class ProgressionModel {
         }
         try? modelContext.save()
         // La réconciliation ne touche que les trophées ici, mais l'appelant
-        // (ProgressionScreen) enchaîne avec refreshFoundState() pour les POI ;
+        // (ProgressionSection) enchaîne avec refreshFoundState() pour les POI ;
         // recalculer maintenant garde l'invariant « challenges reflète toujours
         // (pois, foundPOIIDs) » vrai à tout instant.
         recomputeChallenges()

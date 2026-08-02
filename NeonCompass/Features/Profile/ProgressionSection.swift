@@ -1,7 +1,17 @@
 import SwiftUI
 import SwiftData
 
-struct ProgressionScreen: View {
+/// Les défis et les trophées, embarqués dans le Profil.
+///
+/// Porte son propre chargement plutôt que de le recevoir : c'est exactement
+/// celui de l'ancien `ProgressionScreen`, déplacé sans être touché. Deux
+/// mécanismes subtils en dépendent — `RootView.hydrateWidgetSummaryFromCache()`
+/// construit un second `ProgressionModel` au lancement pour alimenter le
+/// widget, et `reattachSyncIfNeeded()` referme une course entre l'entitlement
+/// Pro et la construction du modèle. Tous deux sont nés de bugs réels ; les
+/// remanier en même temps qu'un déplacement d'écran mêlerait deux risques sans
+/// rapport.
+struct ProgressionSection: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
     @Environment(AuthModel.self) private var authModel
@@ -47,12 +57,9 @@ struct ProgressionScreen: View {
 
     private func loadModel() async {
         guard model == nil else { return }
-        let poiStore = ContentStore<POI>.live(
-            collectionName: "poi",
-            modelContext: modelContext
-        )
-        // Même socle + overlay que la carte : les défis de la carte de référence
-        // doivent compter les mêmes POI que ceux qu'on peut y cocher.
+        let poiStore = ContentStore<POI>.live(collectionName: "poi", modelContext: modelContext)
+        // Même socle + overlay que la carte : les défis de la carte de
+        // référence doivent compter les mêmes POI que ceux qu'on peut y cocher.
         let referenceStore = ContentStore<POI>.live(
             collectionName: "poi_gtav",
             seed: POILoader.bundled,
@@ -63,14 +70,12 @@ struct ProgressionScreen: View {
             seed: POICollectionLoader.bundled,
             modelContext: modelContext
         )
-        let trophyStore = ContentStore<Trophy>.live(
-            collectionName: "trophies",
-            modelContext: modelContext
-        )
+        let trophyStore = ContentStore<Trophy>.live(collectionName: "trophies", modelContext: modelContext)
         // Cloud progression sync is Pro + signed-in only (spec: "nécessite
         // le compte") — never constructed for free or signed-out users.
         let userID = authModel.userID
-        let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
+        let sync: ProgressionSyncing? =
+            (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
         model = ProgressionModel(
             pois: poiStore.items + referenceStore.items,
             collections: collectionStore.items,

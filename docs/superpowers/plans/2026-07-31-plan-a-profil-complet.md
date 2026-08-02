@@ -19,9 +19,10 @@
 - **Tests en Swift Testing** (`import Testing`), jamais XCTest.
 - **Aucune chaîne littérale visible.** Toute chaîne passe par `NeonCompass/Resources/Localizable.xcstrings`, et `LocalizationCoverageTests` exige les **cinq** locales `en, fr, es, it, de` non vides pour **chaque** clé. Une clé ajoutée sans ses cinq traductions fait échouer la suite.
 - **Édition du catalogue à la main, en respectant le format d'Xcode** : indentation 2 espaces, `"clé" : valeur` avec un espace **avant et après** le deux-points. `tools/xcstrings-locale/apply-locale.js` ne convient pas ici : il exige des traductions pour la totalité des clés du catalogue et lève sur toute clé manquante — c'est un outil d'import en masse, pas d'ajout incrémental.
-- **XcodeGen glob les sources** (`sources: - path: NeonCompass`) : un nouveau fichier ou dossier sous `NeonCompass/` est pris automatiquement, `project.yml` n'a pas à être modifié.
+- **XcodeGen glob les sources** (`sources: - path: NeonCompass`) : `project.yml` n'a jamais à être modifié pour un nouveau fichier. MAIS il faut relancer **`xcodegen generate`** après toute création de fichier source, sinon le `.xcodeproj` ne le connaît pas — et `xcodebuild` rapporte alors silencieusement « 0 tests » **au lieu d'un échec de compilation**. C'est le piège qui vide l'étape « vérifier que le test échoue » de tout son sens : on croit voir un échec TDD là où rien n'a été compilé.
 - **Jamais de `ToolbarItem` dans un écran d'onglet.** Aucun n'a de `NavigationStack` ; `RootView` les empile dans un `ZStack` sous une barre maison. Un item de toolbar ne s'affiche nulle part et SwiftUI ne signale rien.
 - **Interpolation et clés de catalogue.** `Text("clé \(n)")` ne cherche PAS `clé` : SwiftUI construit la clé `clé %lld`, spécificateur compris. La clé du catalogue doit donc le porter (`progress.challenge.foundCount %lld` est le précédent), et le littéral Swift ne le porte jamais. Trois clés du projet ont déjà livré ce défaut, dont deux visibles en production ; `LocalizationCoverageTests.interpolatedCallSitesResolveToACatalogKey` l'attrape désormais. Corollaire : un nombre nu sans phrase autour (`Text("\(n)")`) doit passer par `Text(verbatim:)`, sinon il devient une souche vide dans le catalogue.
+- **Les souches `%@` de l'extracteur, à supprimer avant chaque commit.** Compiler un `Text("clé \(n)")` neuf fait ajouter par Xcode une entrée `clé %@` SANS aucune localisation, qui fait échouer `everyKeyHasAllFiveLocales`. Elle est toujours fausse : pour un `Int`, SwiftUI cherche `clé %lld` à l'exécution — Xcode marque d'ailleurs les entrées `%lld` correctes comme `"extractionState" : "stale"`, c'est un désaccord connu entre son extracteur et l'interpolation SwiftUI, et c'est l'extracteur qui a tort. Après le build, vérifier le catalogue et retirer toute entrée dépourvue de bloc `localizations`. Elles reviennent à chaque build : les supprimer une fois ne suffit pas.
 - **Marques déposées interdites** dans toute chaîne visible. Les jeux se nomment par leurs chiffres romains nus (`Game.shortLabel` → « V », « VI »).
 
 **Commandes :**
@@ -871,7 +872,10 @@ Remplacer dans `ProfileScreen.swift` le bloc `HStack` du bouton d'engrenage (T2,
 ```swift
                 ProfileHeaderView(
                     profile: profileModel.profile,
-                    isSignedIn: authModel.userID != nil,
+                    // Sans Cloud Functions, `loadProfile` ne trouve aucun document
+                    // et le pseudo resterait un « … » perpétuel : c'est la garde que
+                    // portait l'ancien `if serverFeatures.isEnabled`.
+                    isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
                     isProEntitled: proEntitlementModel.isProEntitled,
                     pendingContributionCount: communityModel?.myContributions
                         .filter { $0.status == .pending }.count ?? 0,
@@ -1053,7 +1057,10 @@ Remplacer le corps de `ProfileScreen.body` par :
                 VStack(spacing: 24) {
                     ProfileHeaderView(
                         profile: profileModel.profile,
-                        isSignedIn: authModel.userID != nil,
+                        // Sans Cloud Functions, `loadProfile` ne trouve aucun document
+                        // et le pseudo resterait un « … » perpétuel : c'est la garde que
+                        // portait l'ancien `if serverFeatures.isEnabled`.
+                        isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
                         isProEntitled: proEntitlementModel.isProEntitled,
                         pendingContributionCount: communityModel?.myContributions
                             .filter { $0.status == .pending }.count ?? 0,
@@ -1149,7 +1156,7 @@ commit suivant."
 - Modify: `NeonCompass/App/AppTab.swift:4-26`
 - Modify: `NeonCompass/App/RootView.swift:203-212`
 - Delete: `NeonCompass/Features/Progression/ProgressionScreen.swift`
-- Create: `NeonCompassTests/App/AppTabTests.swift`
+- Modify: `NeonCompassTests/App/AppTabTests.swift` — **le fichier EXISTE déjà** et porte deux tests (`fiveTabsWithMapInCenter`, `defaultTabIsFeed`). Étendre, jamais remplacer : `defaultTabIsFeed` reste valide, et seules les assertions `count == 5` / `tabs[2] == .map` de `fiveTabsWithMapInCenter` deviennent caduques à quatre onglets (sa troisième, `first == .feed`, survit sous le nom `feedComesFirst`).
 
 **Interfaces:**
 - Consumes: `ProgressionSection` (T4).
