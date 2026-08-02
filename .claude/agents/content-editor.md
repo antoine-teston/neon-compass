@@ -56,20 +56,35 @@ Même mécanique que l'actu, dans son propre répertoire. Lance d'abord :
 node tools/content-cli/cli.js pull-online-events
 ```
 
-La commande écrit des squelettes `content/online-events/*.json` marqués
-`"needsRewrite": true`, avec leur `id`, leur `processedFrom`, `startsAt` et
-`endsAt` déjà frappés depuis le fait. Ton travail commence là : tu remplis
-`title` (FR + EN) et, s'il y a lieu, `bonuses` (`activity` + `label` par
-entrée), `discounts` (`item` + `percent`) et `podiumVehicle`, depuis le champ
-`sourceClaim`.
+La commande écrit dans `content/online-events/*.json`, avec `id`,
+`processedFrom`, `startsAt` et `endsAt` déjà frappés depuis le fait.
 
-- **Les libellés de bonus et de remises se reformulent**, exactement comme
-  `title`/`body` pour l'actu — jamais la phrase de `sourceClaim`, jamais la
-  formulation de la source. « Courses en mer : gains doublés » plutôt que
-  reprendre l'annonce mot pour mot. `check-originality.mjs` compare chaque
-  champ affiché (`title`, `podiumVehicle`, `bonuses[].activity`,
-  `bonuses[].label`, `discounts[].item`) à son PROPRE `sourceClaim` et fait
-  échouer la CI sur toute reprise d'au moins six mots.
+**Regarde `needsRewrite` avant toute chose.**
+
+- `"needsRewrite": false` — l'entrée vient d'un fait STRUCTURÉ, extrait
+  directement du hub hebdomadaire de la source (`weekly-hub.mjs`). Bonus,
+  remises et titre sont déjà là, dans les cinq langues, composés sans marque.
+  **Tu n'y touches pas.** Reformuler « Fleeca Heist Finale » ou « Karin Kuruma »
+  ne les rendrait pas plus originaux, seulement faux — et ferait échouer le
+  contrôle de nom (voir plus bas). Il n'y a qu'une décision humaine à prendre
+  sur ces entrées, et ce n'est pas la tienne : passer `status` à `published`.
+- `"needsRewrite": true` — squelette classique. Ton travail commence là : tu
+  remplis `title` (FR + EN) et, s'il y a lieu, `bonuses` (`activity` + `label`
+  par entrée), `discounts` (`item` + `percent`) et `podiumVehicle`, depuis le
+  champ `sourceClaim`.
+
+- **Les libellés de bonus se reformulent**, exactement comme `title`/`body`
+  pour l'actu — jamais la phrase de `sourceClaim`, jamais la formulation de la
+  source. « Courses en mer : gains doublés » plutôt que reprendre l'annonce mot
+  pour mot. `check-originality.mjs` compare `title` et `bonuses[].label` à leur
+  PROPRE `sourceClaim` et fait échouer la CI sur toute reprise d'au moins six
+  mots.
+- **Les champs qui ne portent qu'un NOM ne se reformulent pas** :
+  `bonuses[].activity`, `discounts[].item`, `podiumVehicle`. Le nom d'une
+  activité ou d'un véhicule est un fait, comme un nom de POI — le déformer
+  ferait mentir la carte. Ces champs ont leur propre contrôle : rester un nom,
+  donc pas de ponctuation de phrase et au plus huit mots. Y glisser une
+  description fait échouer la CI.
 - **`sourceClaim` n'est jamais affiché** — c'est le fait brut conservé pour la
   relecture, exactement comme pour l'actu. Lui seul a le droit de citer ses
   sources mot pour mot, marques déposées comprises ; ne le recopie jamais dans

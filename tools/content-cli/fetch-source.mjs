@@ -4,6 +4,8 @@
 //   feed <url|hôte>         liste les entrées récentes du flux d'un domaine
 //   page <url>              rend le texte d'un article
 //   wiki <titre>            rend l'extrait d'une page du wiki, via l'API
+//   weekly [--write]        la semaine du mode en ligne, normalisée en fait
+//                           d'inbox structuré (weekly-hub.mjs)
 //
 // Pourquoi ce script existe plutôt qu'un `WebFetch` direct :
 //
@@ -130,7 +132,65 @@ async function commandWiki(title) {
   console.log(page.revisions[0].slots.main.content);
 }
 
-const [command, ...rest] = process.argv.slice(2);
+/**
+ * Récupère la semaine du mode en ligne et l'écrit comme fait d'inbox structuré.
+ *
+ * Deux appels réseau, tous deux sur des sources du registre : le hub (qui porte
+ * bonus, remises et fin de fenêtre) et le flux (qui datte l'article lié, d'où
+ * vient le début de fenêtre). Aucune page de plus — le registre interdit de
+ * parcourir un site, et le flux existe pour ça.
+ *
+ * Pourquoi cette commande écrit, alors que les autres ne font qu'afficher : elle
+ * n'a pas de modèle en aval. Un fait déjà structuré n'a rien à faire relire par
+ * `data-scout` pour être recopié — c'est justement ce détour qu'on supprime.
+ */
+async function commandWeekly({ write }) {
+  const { HUB_URL, parseWeeklyHub, resolveArticleDate, hubToFact } = await import('./weekly-hub.mjs');
+
+  const { hub, articlePath } = parseWeeklyHub(await fetchWithRetry(HUB_URL));
+  const articleURL = new URL(articlePath, HUB_URL).toString();
+  const feedURL = feedURLFor(HUB_URL);
+  if (!feedURL) throw new Error(`${new URL(HUB_URL).hostname} n’a plus de flux au registre — le début de fenêtre en dépend`);
+  const articleDate = resolveArticleDate(articlePath, parseFeed(await fetchWithRetry(feedURL)));
+
+  const { fact, skipped } = hubToFact({ hub, articleURL, articleDate });
+
+  console.error(`fenêtre ${fact.starts_at} → ${fact.ends_at}`);
+  console.error(`  ${fact.bonuses.length} bonus, ${fact.discounts.length} remise(s) retenus`);
+  // Écarté ≠ absent. Une catégorie que la source publie et que le schéma ne peut
+  // pas porter doit se VOIR, sinon elle disparaît sans que personne le remarque.
+  for (const entry of skipped) {
+    console.error(`  écarté : ${entry.name} [${entry.label ?? 'sans étiquette'}] — ${entry.reason}`);
+  }
+
+  if (!write) {
+    console.log(JSON.stringify({ run: { date: articleDate, sources_visited: [HUB_URL, articleURL] }, facts: [fact] }, null, 2));
+    return;
+  }
+
+  const { writeFileSync, existsSync, readFileSync } = await import('node:fs');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const inbox = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'content', 'inbox');
+  const path = join(inbox, `${articleDate}-gtav-weekly.facts.json`);
+
+  // Réécrire le fichier de la semaine est sans danger : l'idempotence ne vient
+  // pas de l'inbox mais de `processedFrom` (facts-to-online-event.mjs). En
+  // revanche on ne PERD pas le drapeau `processed` d'un fait déjà matérialisé,
+  // sans quoi `data-scout` le re-signalerait à chaque run.
+  const previous = existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : null;
+  const wasProcessed = previous?.facts?.[0]?.claim === fact.claim && previous.facts[0].processed === true;
+  const payload = {
+    run: { date: articleDate, sources_visited: [HUB_URL, articleURL] },
+    facts: [wasProcessed ? { ...fact, processed: true } : fact],
+  };
+  writeFileSync(path, `${JSON.stringify(payload, null, 2)}\n`);
+  console.log(`écrit content/inbox/${articleDate}-gtav-weekly.facts.json — enchaîner sur « cli.js pull-online-events »`);
+}
+
+const argv = process.argv.slice(2).filter((arg) => arg !== '--write');
+const write = process.argv.includes('--write');
+const [command, ...rest] = argv;
 const target = rest.join(' ');
 
 try {
@@ -150,8 +210,11 @@ try {
       if (!target) throw new Error('usage: fetch-source.mjs wiki <titre de page>');
       await commandWiki(target);
       break;
+    case 'weekly':
+      await commandWeekly({ write });
+      break;
     default:
-      console.error('usage: fetch-source.mjs <policy|feed|page|wiki> [cible]');
+      console.error('usage: fetch-source.mjs <policy|feed|page|wiki|weekly> [cible] [--write]');
       process.exit(2);
   }
 } catch (err) {
