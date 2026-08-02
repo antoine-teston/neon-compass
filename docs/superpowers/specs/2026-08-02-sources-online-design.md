@@ -147,6 +147,41 @@ Corollaire dans `data-scout.md` : l'agent n'émet **plus jamais** de fait
 `source_url + claim` — un fait rédigé à la main et un fait extrait porteraient
 deux identités pour la même semaine, donc deux cartes concurrentes dans l'app.
 
+### « GTA$ » vit dans l'app, pas dans le contenu
+
+La désignation officielle de la monnaie est « GTA$ ». Elle porte donc une marque,
+et `bonuses[].label` était un champ **rédigé par nous** — pas nominatif. Deux
+issues également mauvaises : l'écrire et se faire refuser par
+`check-publishable`, ou la reformuler en « 2× argent » et perdre la désignation.
+
+Résolu en supprimant le champ. Le bonus est désormais **structuré** — `multiplier`
+ou `percentBonus`, plus `includesRP` — et c'est l'app qui compose « 2× GTA$ et RP »
+depuis son String Catalog. Même raisonnement que `rewards[].kind` : ce qui
+s'affiche est un texte d'interface, il n'a rien à faire dans le contenu.
+
+Trois bénéfices non prévus au départ :
+
+- la localisation devient gratuite et correcte (« et RP », « y RP », « e RP »)
+  au lieu d'être composée dans le contenu ;
+- un champ de prose en moins, donc une surface de plagiat en moins — le contrôle
+  d'originalité passe de 66 à 31 champs à surveiller, sans rien perdre ;
+- `REDACTED_LIST_FIELDS` devient vide : plus aucune liste ne porte de prose.
+
+### La prose de la source, ce qu'on en tire vraiment
+
+Question légitime : la source publie un paragraphe par bonus, peut-on l'afficher ?
+**Non — ce sont ses mots**, et tout ce lot existe pour ne jamais les republier.
+Les faire réécrire par un modèle ramènerait le coût et le risque dont on vient de
+sortir.
+
+Mais cette prose contient **une** chose exploitable : des dates. « pays double
+GTA$ and RP **through August 12** » quand la semaine finit le 5 — un bonus qui
+court une semaine de plus, information que la carte taisait. Une date est un
+fait, on peut la reprendre ; sa phrase, non. `parseBonusUntil` l'extrait, et
+seulement si elle **dépasse** la fin de fenêtre : la plupart des détails répètent
+la fin de la semaine, ce qui n'apprendrait rien et mettrait une mention redondante
+sur chaque ligne.
+
 ### Pourquoi la normalisation ne peut pas recopier les étiquettes
 
 `"2x GTA$"` contient une marque. `TRADEMARKS` (cli.js) la rejetterait sur

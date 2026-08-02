@@ -32,85 +32,51 @@
           "activity": {
             "en": "Fleeca Heist Finale"
           },
-          "label": {
-            "en": "2× cash",
-            "fr": "2× argent",
-            "es": "2× dinero",
-            "it": "2× denaro",
-            "de": "2× Geld"
-          }
+          "multiplier": 2,
+          "includesRP": false
         },
         {
           "activity": {
             "en": "Pacific Standard Heist Finale"
           },
-          "label": {
-            "en": "2× cash",
-            "fr": "2× argent",
-            "es": "2× dinero",
-            "it": "2× denaro",
-            "de": "2× Geld"
-          }
+          "multiplier": 2,
+          "includesRP": false
         },
         {
           "activity": {
             "en": "Motor Wars"
           },
-          "label": {
-            "en": "2× cash & RP",
-            "fr": "2× argent & RP",
-            "es": "2× dinero y RP",
-            "it": "2× denaro e RP",
-            "de": "2× Geld & RP"
-          }
+          "multiplier": 2,
+          "includesRP": true
         },
         {
           "activity": {
             "en": "Shipwrecks on Cayo Perico"
           },
-          "label": {
-            "en": "2× cash & RP",
-            "fr": "2× argent & RP",
-            "es": "2× dinero y RP",
-            "it": "2× denaro e RP",
-            "de": "2× Geld & RP"
-          }
+          "multiplier": 2,
+          "includesRP": true
         },
         {
           "activity": {
             "en": "A Kick in the Wallet mission series"
           },
-          "label": {
-            "en": "3× cash & RP",
-            "fr": "3× argent & RP",
-            "es": "3× dinero y RP",
-            "it": "3× denaro e RP",
-            "de": "3× Geld & RP"
-          }
+          "multiplier": 3,
+          "includesRP": true
         },
         {
           "activity": {
             "en": "A Superyacht Life missions"
           },
-          "label": {
-            "en": "2× cash & RP",
-            "fr": "2× argent & RP",
-            "es": "2× dinero y RP",
-            "it": "2× denaro e RP",
-            "de": "2× Geld & RP"
-          }
+          "multiplier": 2,
+          "includesRP": true,
+          "until": "2026-08-12"
         },
         {
           "activity": {
             "en": "GTA+ Shark Cards"
           },
-          "label": {
-            "en": "+15% cash",
-            "fr": "+15 % d’argent",
-            "es": "+15% de dinero",
-            "it": "+15% di denaro",
-            "de": "+15 % Geld"
-          }
+          "percentBonus": 15,
+          "includesRP": false
         }
       ],
       "discounts": [

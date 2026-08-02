@@ -41,19 +41,49 @@
     },
     "bonuses": {
       "type": "array",
+      "description": "Le multiplicateur est STRUCTURÉ, pas un libellé rédigé. La source écrit « 2x GTA$ » ; recopier ça dans le contenu ferait échouer check-publishable, et le reformuler en « 2× argent » perdrait la désignation officielle de la monnaie. La sortie est donc un nombre, et c'est l'app qui compose « 2× GTA$ » depuis son String Catalog — même raisonnement que rewards[].kind.",
       "items": {
         "type": "object",
         "required": [
-          "activity",
-          "label"
+          "activity"
         ],
         "additionalProperties": false,
+        "anyOf": [
+          {
+            "required": [
+              "multiplier"
+            ]
+          },
+          {
+            "required": [
+              "percentBonus"
+            ]
+          }
+        ],
         "properties": {
           "activity": {
             "$ref": "#/$defs/localized"
           },
-          "label": {
-            "$ref": "#/$defs/localized"
+          "multiplier": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 10,
+            "description": "« 2x », « 3x ». Exclusif avec percentBonus."
+          },
+          "percentBonus": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Une prime en pourcentage plutôt qu'un multiple (« 15% bonus cash »)."
+          },
+          "includesRP": {
+            "type": "boolean",
+            "description": "Le bonus porte aussi sur la réputation, pas seulement la monnaie."
+          },
+          "until": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "Date de fin PROPRE à ce bonus, présente seulement si elle dépasse `endsAt` — certains bonus courent une semaine de plus que la fenêtre, et c'est la seule information utile que porte la prose de la source. Absente = le bonus finit avec la fenêtre."
           }
         }
       }

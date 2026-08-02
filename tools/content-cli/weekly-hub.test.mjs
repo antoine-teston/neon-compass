@@ -8,7 +8,7 @@ import {
   normalizeInstant,
   resolveArticleDate,
   parseMultiplier,
-  localizedMultiplier,
+  parseBonusUntil,
   parseDiscount,
   localizedName,
   localizedTitle,
@@ -121,21 +121,20 @@ test('une entrée sans bonus chiffré n’est pas un bonus', () => {
   assert.equal(parseMultiplier('rotating art lineup'), null);
 });
 
-test('l’étiquette composée ne reprend aucune marque', () => {
-  const values = [
-    ...Object.values(localizedMultiplier({ times: 2, rp: true })),
-    ...Object.values(localizedMultiplier({ times: 2, rp: false })),
-    ...Object.values(localizedMultiplier({ percentBonus: 15, rp: false })),
-    ...Object.values(localizedTitle('2026-07-30')),
-  ];
-  for (const value of values) {
+test('le titre composé ne reprend aucune marque', () => {
+  for (const value of Object.values(localizedTitle('2026-07-30'))) {
     assert.doesNotMatch(value, /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i, value);
   }
 });
 
-test('l’étiquette est composée dans les cinq langues', () => {
-  for (const parsed of [{ times: 2, rp: true }, { times: 3, rp: false }, { percentBonus: 15, rp: false }]) {
-    assert.deepEqual(Object.keys(localizedMultiplier(parsed)).sort(), ['de', 'en', 'es', 'fr', 'it']);
+test('le bonus ne porte AUCUN texte — c’est ce qui permet à l’app d’écrire « GTA$ »', () => {
+  // Un libellé dans le contenu obligerait à choisir entre « 2× GTA$ », refusé par
+  // check-publishable, et « 2× argent », qui perd la désignation officielle.
+  const { fact } = REAL();
+  for (const bonus of fact.bonuses) {
+    assert.deepEqual(Object.keys(bonus).filter((k) => k !== 'activity').sort().filter((k) => k.includes('label')), []);
+    assert.ok(bonus.multiplier !== undefined || bonus.percentBonus !== undefined, JSON.stringify(bonus));
+    assert.equal(typeof bonus.includesRP, 'boolean');
   }
 });
 
@@ -189,20 +188,26 @@ test('un nom qui porte une marque passe tel quel — usage référentiel', () =>
   const shark = fact.bonuses.find((b) => b.activity.en.includes('Shark Cards'));
   assert.ok(shark, 'le bonus d’abonnement doit être retenu');
   assert.equal(shark.activity.en, 'GTA+ Shark Cards');
-  // L'espace avant le % est INSÉCABLE, et c'est voulu : typographie française.
-  // Écrite en échappement pour que le test ne se laisse pas « corriger » par un
-  // éditeur qui normaliserait les espaces sans le dire.
-  assert.equal(shark.label.fr, '+15\u00A0% d’argent');
+  assert.equal(shark.percentBonus, 15);
+  assert.equal(shark.multiplier, undefined);
 });
 
-test('les langues qui l’exigent ont une espace insécable avant le pour-cent', () => {
-  const label = localizedMultiplier({ percentBonus: 15, rp: false });
-  assert.ok(label.fr.includes('\u00A0%'), label.fr);
-  assert.ok(label.de.includes('\u00A0%'), label.de);
-  // L'anglais n'en met pas, et l'espagnol comme l'italien collent le signe.
-  assert.ok(label.en.includes('15%'), label.en);
-  assert.ok(label.es.includes('15%'), label.es);
-  assert.ok(label.it.includes('15%'), label.it);
+test('la date de fin propre à un bonus est extraite de la prose, et seulement si elle dépasse', () => {
+  assert.equal(parseBonusUntil('pays double through August 12.', '2026-08-05T23:59:59Z'), '2026-08-12');
+  // La plupart des détails répètent la fin de la semaine : rien à afficher.
+  assert.equal(parseBonusUntil('pays double through August 5.', '2026-08-05T23:59:59Z'), null);
+  // Une semaine à cheval sur le 31 décembre : l'année vient de la fenêtre.
+  assert.equal(parseBonusUntil('through January 3.', '2026-12-30T23:59:59Z'), '2027-01-03');
+  assert.equal(parseBonusUntil('aucune date ici', '2026-08-05T23:59:59Z'), null);
+  assert.equal(parseBonusUntil(null, '2026-08-05T23:59:59Z'), null);
+});
+
+test('la semaine réelle porte la seule fin de bonus qui dépasse la fenêtre', () => {
+  const { fact } = REAL();
+  const prolongés = fact.bonuses.filter((b) => b.until);
+  assert.equal(prolongés.length, 1);
+  assert.equal(prolongés[0].until, '2026-08-12');
+  assert.match(prolongés[0].activity.en, /Superyacht/);
 });
 
 test('sept bonus et dix remises sont retenus, deux entrées écartées avec leur raison', () => {
@@ -236,7 +241,6 @@ test('aucun champ RÉDIGÉ ne porte de marque', () => {
   const { fact } = REAL();
   const texts = [
     ...Object.values(fact.title),
-    ...fact.bonuses.flatMap((b) => Object.values(b.label)),
   ];
   for (const text of texts) {
     assert.doesNotMatch(text, /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i, text);

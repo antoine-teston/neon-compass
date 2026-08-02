@@ -1,8 +1,59 @@
 import Foundation
 
+/// Un bonus de la semaine : ce qui rapporte plus, et de combien.
+///
+/// La valeur est un NOMBRE, pas un libellé — c'est ce qui permet à l'app
+/// d'afficher « 2× GTA$ », la désignation officielle de la monnaie. La porter dans
+/// le contenu échouerait à `check-publishable` (« GTA » est une marque, et ce
+/// champ-là est rédigé par nous, pas nominatif) ; la reformuler en « 2× argent »
+/// perdrait la désignation. Même raisonnement que `OnlineEventRewardKind` : le
+/// texte d'interface vit dans le String Catalog.
 struct OnlineEventBonus: Codable, Equatable, Sendable {
     let activity: LocalizedText
-    let label: LocalizedText
+    /// « 2× », « 3× ». Exclusif avec `percentBonus`, le schéma l'impose.
+    let multiplier: Int?
+    /// Une prime en pourcentage plutôt qu'un multiple.
+    let percentBonus: Int?
+    /// Le bonus porte aussi sur la réputation.
+    let includesRP: Bool
+    /// Fin propre à CE bonus, présente seulement si elle dépasse celle de la
+    /// fenêtre — certains courent une semaine de plus, et la carte le taisait.
+    let until: Date?
+
+    private enum CodingKeys: String, CodingKey { case activity, multiplier, percentBonus, includesRP, until }
+
+    /// Une fonction et non une constante : `ISO8601DateFormatter` n'est pas
+    /// `Sendable`. Même contrainte que dans `OnlineEvent`.
+    private static func dayFormatter() -> ISO8601DateFormatter {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate]
+        return formatter
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        activity = try container.decode(LocalizedText.self, forKey: .activity)
+        multiplier = try container.decodeIfPresent(Int.self, forKey: .multiplier)
+        percentBonus = try container.decodeIfPresent(Int.self, forKey: .percentBonus)
+        includesRP = try container.decodeIfPresent(Bool.self, forKey: .includesRP) ?? false
+        // Une date illisible est ignorée plutôt que fatale : contrairement à la
+        // fenêtre de l'événement, celle-ci est une précision. La perdre retire une
+        // mention, elle ne fabrique pas un compte à rebours faux.
+        if let raw = try container.decodeIfPresent(String.self, forKey: .until) {
+            until = Self.dayFormatter().date(from: raw)
+        } else {
+            until = nil
+        }
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(activity, forKey: .activity)
+        try container.encodeIfPresent(multiplier, forKey: .multiplier)
+        try container.encodeIfPresent(percentBonus, forKey: .percentBonus)
+        try container.encode(includesRP, forKey: .includesRP)
+        try container.encodeIfPresent(until.map { Self.dayFormatter().string(from: $0) }, forKey: .until)
+    }
 }
 
 struct OnlineEventDiscount: Codable, Equatable, Sendable {

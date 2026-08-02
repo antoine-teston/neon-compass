@@ -73,12 +73,14 @@ La commande écrit dans `content/online-events/*.json`, avec `id`,
   par entrée), `discounts` (`item` + `percent`) et `podiumVehicle`, depuis le
   champ `sourceClaim`.
 
-- **Les libellés de bonus se reformulent**, exactement comme `title`/`body`
-  pour l'actu — jamais la phrase de `sourceClaim`, jamais la formulation de la
-  source. « Courses en mer : gains doublés » plutôt que reprendre l'annonce mot
-  pour mot. `check-originality.mjs` compare `title` et `bonuses[].label` à leur
-  PROPRE `sourceClaim` et fait échouer la CI sur toute reprise d'au moins six
-  mots.
+- **Un bonus n'a PAS de libellé à rédiger.** Il porte un nombre —
+  `multiplier` ou `percentBonus` — et un drapeau `includesRP` ; c'est l'app qui
+  compose « 2× GTA$ et RP » depuis son String Catalog. Ne cherche pas à y ajouter
+  du texte : le schéma est en `additionalProperties: false`.
+- **`title` se reformule**, lui, exactement comme `title`/`body` pour l'actu —
+  jamais la phrase de `sourceClaim`, jamais la formulation de la source.
+  `check-originality.mjs` le compare à son PROPRE `sourceClaim` et fait échouer
+  la CI sur toute reprise d'au moins six mots.
 - **Les champs qui ne portent qu'un NOM ne se reformulent pas** :
   `bonuses[].activity`, `discounts[].item`, `podiumVehicle`. Le nom d'une
   activité ou d'un véhicule est un fait, comme un nom de POI — le déformer
@@ -88,10 +90,9 @@ La commande écrit dans `content/online-events/*.json`, avec `id`,
   noms : pas de ponctuation de phrase, huit mots au plus, et jamais une marque
   nue — « GTA » tout seul ne nomme rien. Y glisser une description ou un slogan
   fait échouer la CI.
-- **Partout où TU rédiges, la marque reste interdite** : `title`,
-  `bonuses[].label`. C'est la frontière, et elle est simple — un nom que la
-  source te donne, tu le recopies ; une phrase que tu écris, tu l'écris sans
-  marque.
+- **Partout où TU rédiges, la marque reste interdite** — aujourd'hui `title`.
+  C'est la frontière, et elle est simple : un nom que la source te donne, tu le
+  recopies ; une phrase que tu écris, tu l'écris sans marque.
 - **`sourceClaim` n'est jamais affiché** — c'est le fait brut conservé pour la
   relecture, exactement comme pour l'actu. Lui seul a le droit de citer ses
   sources mot pour mot, marques déposées comprises ; ne le recopie jamais dans
