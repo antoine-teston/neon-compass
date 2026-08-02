@@ -128,7 +128,7 @@ struct SettingsScreen: View {
                         Task { try? await profileModel.regenerateHandle() }
                     }
                 }
-                Button("profile.signOut") { try? authModel.signOut() }
+                Button("profile.signOut") { Task { try? await authModel.signOut() } }
                 Button("profile.deleteAccount", role: .destructive) {
                     showDeleteConfirmation = true
                 }
@@ -139,7 +139,7 @@ struct SettingsScreen: View {
     private func deleteAccount() async {
         guard let userID = authModel.userID else { return }
         if await settingsModel.deleteAccount(uid: userID, serverEnabled: serverFeatures.isEnabled) {
-            try? authModel.signOut()
+            try? await authModel.signOut()
         }
     }
 

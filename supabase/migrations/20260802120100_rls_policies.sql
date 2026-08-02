@@ -189,4 +189,9 @@ revoke all on function public.generate_handle() from public;
 revoke all on function public.handle_new_user() from public;
 revoke all on function public.sync_vote_counts() from public;
 revoke all on function public.refresh_leaderboard() from public;
+
+-- `service_role` seulement. `generate_handle` est appelée par l'Edge Function
+-- de régénération de pseudonyme ; l'ouvrir à `authenticated` laisserait
+-- n'importe qui tirer des noms sans passer par le compteur de tentatives.
+grant execute on function public.generate_handle() to service_role;
 grant execute on function public.refresh_leaderboard() to service_role;

@@ -5,7 +5,7 @@ import SwiftUI
 struct RootView: View {
     @State private var model = AppModel()
     @State private var onboarding = OnboardingModel()
-    @State private var authModel = AuthModel(authProvider: FirebaseAuthProvider())
+    @State private var authModel = AuthModel(authProvider: SupabaseAuthProvider())
     @State private var proEntitlementModel: ProEntitlementModel
     // Constructed with a reference to proEntitlementModel, so it can't be a
     // plain `@State private var x = ...` default (those can't reference

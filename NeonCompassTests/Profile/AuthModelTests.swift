@@ -24,7 +24,21 @@ struct AuthModelTests {
     @Test func signOutClearsUserID() async throws {
         let model = AuthModel(authProvider: FakeAuthProvider())
         try await model.signIn(idTokenString: "token", nonce: "nonce")
-        try model.signOut()
+        try await model.signOut()
+        #expect(model.userID == nil)
+    }
+
+    /// Une révocation qui échoue côté serveur ne doit PAS retenir
+    /// l'utilisateur dans sa session : il vient de demander à en sortir, et le
+    /// réseau n'est pas son problème. L'erreur remonte pour être signalée,
+    /// elle n'annule pas la déconnexion locale.
+    @Test func signOutClearsUserIDEvenWhenRevocationFails() async throws {
+        let provider = FakeAuthProvider()
+        provider.signOutError = FakeAuthProvider.Unreachable()
+        let model = AuthModel(authProvider: provider)
+        try await model.signIn(idTokenString: "token", nonce: "nonce")
+
+        await #expect(throws: FakeAuthProvider.Unreachable.self) { try await model.signOut() }
         #expect(model.userID == nil)
     }
 }

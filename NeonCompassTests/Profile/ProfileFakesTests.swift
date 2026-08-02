@@ -13,9 +13,16 @@ final class FakeAuthProvider: AuthProviding {
         return uid
     }
 
-    func signOut() throws {
+    /// Erreur à lever à la déconnexion, pour exercer le cas où la révocation
+    /// côté serveur échoue mais où la session locale doit tomber quand même.
+    nonisolated(unsafe) var signOutError: (any Error)?
+
+    struct Unreachable: Error {}
+
+    func signOut() async throws {
         signOutCallCount += 1
         userIDToReturn = nil
+        if let signOutError { throw signOutError }
     }
 }
 
@@ -53,10 +60,10 @@ final class FakeAccountDeleting: AccountDeleting {
 }
 
 struct ProfileFakesTests {
-    @Test func authProviderTracksSignOutCalls() throws {
+    @Test func authProviderTracksSignOutCalls() async throws {
         let fake = FakeAuthProvider()
         fake.userIDToReturn = "existing-uid"
-        try fake.signOut()
+        try await fake.signOut()
         #expect(fake.signOutCallCount == 1)
         #expect(fake.currentUserID == nil)
     }

@@ -426,7 +426,7 @@ struct MapScreen: View {
         // Cloud progression sync is Pro + signed-in only (spec: "nécessite
         // le compte") — never constructed for free or signed-out users.
         let userID = authModel.userID
-        let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
+        let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? SupabaseProgressionSync() : nil
         remotePOIs = contentStore.items
         referencePOIs = referenceStore.items
         model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, sync: sync)
@@ -453,7 +453,7 @@ struct MapScreen: View {
     /// re-runs). Cheap no-op whenever the Pro/auth gate is still false.
     private func reattachSyncIfNeeded() {
         guard let model, proEntitlementModel.isProEntitled, let userID = authModel.userID else { return }
-        let sync = FirestoreProgressionSync()
+        let sync = SupabaseProgressionSync()
         guard model.attachSyncIfNeeded(sync) else { return }
         Task {
             let remoteItems = await sync.fetchAll(uid: userID)
