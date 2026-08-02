@@ -711,6 +711,10 @@ switch (cmd) {
         if (!coveredByFile.has(fact.file)) coveredByFile.set(fact.file, new Set());
         coveredByFile.get(fact.file).add(fact.index);
       }
+      // Note : un fait déjà marqué `processed` continue d'être relu à chaque run —
+      // c'est ce qui permet à une fenêtre prolongée d'être révisée. Le drapeau ne
+      // sert qu'à éviter que `data-scout` re-signale le fait, pas à l'exclure de
+      // la matérialisation.
       let marked = 0;
       for (const [file, indices] of coveredByFile) {
         const path = join(inbox, file);
@@ -774,11 +778,18 @@ switch (cmd) {
         break;
       }
 
+      // Une révision d'entrée PUBLIÉE change ce qui est en ligne. Elle est donc
+      // annoncée champ par champ, en dry-run comme en écriture : c'est ce que le
+      // relecteur de la PR doit voir sans dérouler un diff JSON.
+      const describeRevision = ({ path, data, changes }) =>
+        `  ${data.status === 'published' ? 'RÉVISE (PUBLIÉ)' : 'révise'} ${path}  ${data.startsAt} → ${data.endsAt}  [${changes.join(', ')}]`;
+
       if (dry) {
         result.writes.forEach(({ path, data }) => console.log(`  écrirait ${path}  [${data.confidence}] ${data.startsAt} → ${data.endsAt}`));
+        result.updates.forEach((entry) => console.log(describeRevision(entry)));
         console.log(
-          `pull-online-events --dry-run: ${result.writes.length} squelette(s), ` +
-            `${result.alreadyMaterialized.length} déjà matérialisé(s), aucune écriture`,
+          `pull-online-events --dry-run: ${result.writes.length} neuve(s), ${result.updates.length} révisée(s), ` +
+            `${result.alreadyMaterialized.length} déjà à jour, aucune écriture`,
         );
         ok = true;
         break;
@@ -788,6 +799,10 @@ switch (cmd) {
       result.writes.forEach(({ path, data }) => {
         writeFileSync(join(ROOT, path), `${JSON.stringify(data, null, 2)}\n`);
         console.log(`  écrit ${path}  [${data.confidence}] ${data.startsAt} → ${data.endsAt}`);
+      });
+      result.updates.forEach((entry) => {
+        writeFileSync(join(ROOT, entry.path), `${JSON.stringify(entry.data, null, 2)}\n`);
+        console.log(describeRevision(entry));
       });
 
       // L'inbox est marquée pour la veille, PAS pour l'idempotence : celle-ci
@@ -799,6 +814,10 @@ switch (cmd) {
         if (!coveredByFile.has(fact.file)) coveredByFile.set(fact.file, new Set());
         coveredByFile.get(fact.file).add(fact.index);
       }
+      // Note : un fait déjà marqué `processed` continue d'être relu à chaque run —
+      // c'est ce qui permet à une fenêtre prolongée d'être révisée. Le drapeau ne
+      // sert qu'à éviter que `data-scout` re-signale le fait, pas à l'exclure de
+      // la matérialisation.
       let marked = 0;
       for (const [file, indices] of coveredByFile) {
         const path = join(inbox, file);
@@ -814,8 +833,8 @@ switch (cmd) {
       }
 
       console.log(
-        `pull-online-events: ${result.writes.length} squelette(s) écrit(s), ` +
-          `${result.alreadyMaterialized.length} déjà présent(s), ${marked} fait(s) marqué(s) — à rédiger puis committer`,
+        `pull-online-events: ${result.writes.length} neuve(s), ${result.updates.length} révisée(s), ` +
+          `${result.alreadyMaterialized.length} déjà à jour, ${marked} fait(s) marqué(s) — à relire puis committer`,
       );
       ok = true;
     } catch (err) {

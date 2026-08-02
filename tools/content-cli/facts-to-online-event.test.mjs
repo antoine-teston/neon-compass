@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { factToOnlineEvent, materializeOnlineEvents } from './facts-to-online-event.mjs';
+import { factToOnlineEvent, materializeOnlineEvents, windowDiscriminant, revisedFields } from './facts-to-online-event.mjs';
 import { identityKey } from '../basemap/gtav-poi-ids.mjs';
-import { INBOX_SOURCE, factDiscriminant } from './facts-to-news.mjs';
+import { INBOX_SOURCE } from './facts-to-news.mjs';
 
 // Forme RÉELLE d'un fait d'inbox (.claude/agents/data-scout.md « Sortie ») :
 // `source_url` est une chaîne, pas un tableau `sources` — et un événement en
@@ -19,7 +19,7 @@ const FACT = {
 };
 
 function expectedKey(fact) {
-  return identityKey(INBOX_SOURCE, 'online-events', factDiscriminant(fact));
+  return identityKey(INBOX_SOURCE, 'online-events', windowDiscriminant(fact));
 }
 
 test('un squelette est produit, marqué à rédiger', () => {
@@ -35,8 +35,14 @@ test("l'identité est stable pour un même fait", () => {
   assert.equal(factToOnlineEvent(FACT).processedFrom, expectedKey(FACT));
 });
 
-test("l'identité change si le fait change", () => {
-  assert.notEqual(expectedKey(FACT), expectedKey({ ...FACT, claim: 'autre chose' }));
+test("l'identité change si la FENÊTRE change de début", () => {
+  assert.notEqual(expectedKey(FACT), expectedKey({ ...FACT, starts_at: '2026-08-13T09:00:00Z' }));
+});
+
+test("l'identité ne change PAS si seul le contenu du fait change", () => {
+  // C'est le cœur du choix : une fenêtre qu'on relit reste la même fenêtre.
+  // Hacher le claim en faisait une entrée neuve à chaque prolongation.
+  assert.equal(expectedKey(FACT), expectedKey({ ...FACT, claim: 'autre chose', ends_at: '2026-08-20T09:00:00Z' }));
 });
 
 test("l'identifiant respecte le motif du schéma", () => {
@@ -178,9 +184,9 @@ test('les faits d’un autre kind sont écartés, jamais transformés', () => {
   assert.equal(result.skipped.length, 2);
 });
 
-test('deux faits distincts produisent deux ids distincts', () => {
+test('deux fenêtres distinctes produisent deux ids distincts', () => {
   const result = materializeOnlineEvents(
-    [onlineEventFact(), onlineEventFact({ claim: 'Triple RP on stunt jumps until August 20.' })],
+    [onlineEventFact(), onlineEventFact({ starts_at: '2026-08-13T09:00:00Z', ends_at: '2026-08-20T09:00:00Z' })],
     [],
   );
 
@@ -215,7 +221,10 @@ test('un id frappé qui collisionne avec un autre processedFrom bloque tout le l
   // Un second fait parfaitement valide accompagne le fautif : il ne doit pas
   // être écrit non plus.
   const result = materializeOnlineEvents(
-    [onlineEventFact(), onlineEventFact({ claim: 'Un fait sain qui ne doit pas passer non plus.' })],
+    [
+      onlineEventFact(),
+      onlineEventFact({ starts_at: '2026-08-13T09:00:00Z', ends_at: '2026-08-20T09:00:00Z' }),
+    ],
     existing,
   );
 
@@ -305,4 +314,109 @@ test('un fait structuré traverse la matérialisation par lot', () => {
   assert.equal(result.writes.length, 1);
   assert.equal(result.writes[0].data.needsRewrite, false);
   assert.equal(result.writes[0].data.discounts[0].percent, 60);
+});
+
+// --- Une fenêtre MUTE : identité par le début, révision par la fin ---------
+//
+// La source le dit elle-même : Rockstar prolonge parfois un événement. C'est le
+// seul kind du dépôt dont le contenu peut changer après publication.
+
+test('l’identité tient au DÉBUT de fenêtre, pas à son contenu', () => {
+  const base = { ...STRUCTURED };
+  const prolongé = { ...base, ends_at: '2026-08-20T09:00:00Z', claim: 'autre claim, autre fin' };
+  // Une fin qui bouge, un claim qui bouge : la MÊME entrée.
+  assert.equal(factToOnlineEvent(base).id, factToOnlineEvent(prolongé).id);
+  assert.equal(factToOnlineEvent(base).processedFrom, factToOnlineEvent(prolongé).processedFrom);
+});
+
+test('un début différent est une autre fenêtre — la phase 2 a son entrée', () => {
+  const phase2 = { ...STRUCTURED, starts_at: '2026-08-13T09:00:00Z', ends_at: '2026-08-20T09:00:00Z' };
+  assert.notEqual(factToOnlineEvent(STRUCTURED).id, factToOnlineEvent(phase2).id);
+});
+
+test('un autre jeu est une autre fenêtre, même début', () => {
+  const leonida = { ...STRUCTURED, game: 'leonida' };
+  assert.notEqual(windowDiscriminant(STRUCTURED), windowDiscriminant(leonida));
+});
+
+test('une fenêtre prolongée est RÉVISÉE, pas doublée', () => {
+  const existing = [{ path: 'content/online-events/x.json', data: materializeOnlineEvents([STRUCTURED], []).writes[0].data }];
+  const prolongé = { ...STRUCTURED, ends_at: '2026-08-20T09:00:00Z' };
+
+  const result = materializeOnlineEvents([prolongé], existing);
+
+  assert.equal(result.writes.length, 0, 'aucune entrée neuve');
+  assert.equal(result.updates.length, 1);
+  assert.deepEqual(result.updates[0].changes, ['endsAt']);
+  assert.equal(result.updates[0].data.endsAt, '2026-08-20T09:00:00Z');
+  assert.equal(result.updates[0].data.id, existing[0].data.id);
+  assert.equal(result.updates[0].path, existing[0].path);
+});
+
+test('une entrée PUBLIÉE garde son statut quand sa fenêtre est corrigée', () => {
+  // C'est tout l'intérêt : un compte à rebours faux en ligne doit se corriger en
+  // ligne. Ce que la révision ne fait JAMAIS, c'est publier quelque chose.
+  const published = { ...materializeOnlineEvents([STRUCTURED], []).writes[0].data, status: 'published' };
+  const result = materializeOnlineEvents([{ ...STRUCTURED, ends_at: '2026-08-20T09:00:00Z' }], [
+    { path: 'content/online-events/x.json', data: published },
+  ]);
+  assert.equal(result.updates[0].data.status, 'published');
+
+  const draft = materializeOnlineEvents([STRUCTURED], []).writes[0].data;
+  const stillDraft = materializeOnlineEvents([{ ...STRUCTURED, ends_at: '2026-08-20T09:00:00Z' }], [
+    { path: 'content/online-events/y.json', data: draft },
+  ]);
+  assert.equal(stillDraft.updates[0].data.status, 'draft');
+});
+
+test('une rédaction humaine garde ses textes, mais pas sa fenêtre', () => {
+  // Un squelette rédigé à la main voit `needsRewrite` SUPPRIMÉ : c'est ce qui
+  // distingue « quelqu'un a pris le relais » de « la machine a tout écrit ».
+  const skeleton = materializeOnlineEvents([FACT], []).writes[0].data;
+  const rédigé = { ...skeleton, title: { en: 'Sea race weekend', fr: 'Courses en mer' }, status: 'published' };
+  delete rédigé.needsRewrite;
+
+  const result = materializeOnlineEvents([{ ...FACT, ends_at: '2026-08-20T09:00:00Z' }], [
+    { path: 'content/online-events/z.json', data: rédigé },
+  ]);
+
+  // La fenêtre est corrigée — personne d'autre que la machine ne l'écrit.
+  assert.deepEqual(result.updates[0].changes, ['endsAt']);
+  // Le titre écrit à la main survit, et le statut aussi.
+  assert.equal(result.updates[0].data.title.fr, 'Courses en mer');
+  assert.equal(result.updates[0].data.status, 'published');
+});
+
+test('un squelette non rédigé ne voit pas ses textes vides remplacés', () => {
+  const skeleton = materializeOnlineEvents([FACT], []).writes[0].data;
+  assert.equal(skeleton.needsRewrite, true);
+  const result = materializeOnlineEvents([{ ...FACT, bonuses: STRUCTURED.bonuses }], [
+    { path: 'content/online-events/z.json', data: skeleton },
+  ]);
+  // Le fait devient structuré, mais l'entrée existante est encore à rédiger :
+  // seule la fenêtre est révisable, et elle n'a pas bougé.
+  assert.equal(result.updates.length, 0);
+  assert.equal(result.alreadyMaterialized.length, 1);
+});
+
+test('une entrée déjà à jour n’est pas réécrite', () => {
+  const existing = [{ path: 'content/online-events/x.json', data: materializeOnlineEvents([STRUCTURED], []).writes[0].data }];
+  const result = materializeOnlineEvents([STRUCTURED], existing);
+  assert.equal(result.writes.length, 0);
+  assert.equal(result.updates.length, 0);
+  assert.equal(result.alreadyMaterialized.length, 1);
+});
+
+test('revisedFields ignore le statut et l’identité', () => {
+  const a = materializeOnlineEvents([STRUCTURED], []).writes[0].data;
+  assert.deepEqual(revisedFields(a, { ...a, status: 'published' }), []);
+  assert.deepEqual(revisedFields(a, { ...a, endsAt: 'X', confidence: 'single-source' }).sort(), ['confidence', 'endsAt']);
+});
+
+test('un champ révisable qui disparaît est retiré, pas laissé en place', () => {
+  // Un podium retiré par la source doit disparaître de la carte, pas y rester.
+  const withPodium = { ...materializeOnlineEvents([STRUCTURED], []).writes[0].data, podiumVehicle: { en: 'Karin Kuruma' } };
+  const result = materializeOnlineEvents([STRUCTURED], [{ path: 'content/online-events/x.json', data: withPodium }]);
+  assert.deepEqual(result.updates[0].changes, ['podiumVehicle']);
+  assert.equal('podiumVehicle' in result.updates[0].data, false);
 });

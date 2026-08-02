@@ -34,14 +34,44 @@ final class OnlineEventsModel {
     /// L'événement dont la fenêtre contient `now`, pour le jeu affiché.
     /// `nil` hors de toute fenêtre — la vue dit alors « terminé » plutôt que de
     /// montrer le dernier comme s'il durait encore.
+    ///
+    /// **Le plus récemment COMMENCÉ gagne, et ce n'est pas un détail de tri.**
+    /// Deux fenêtres peuvent se chevaucher : la source prolonge parfois un
+    /// événement, ou publie une phase 2 qui empiète d'une heure sur la phase 1.
+    /// `events` n'a aucun ordre garanti — il vient de `ContentMerge.merge`, pas
+    /// d'un tri — donc un `first` rendait un résultat ARBITRAIRE, capable de
+    /// changer d'une synchronisation à l'autre sans que la donnée bouge. Le
+    /// compte à rebours affiché aurait été tiré au sort entre deux dates.
+    ///
+    /// Le départage est total : à début égal, la fin la plus tardive, puis l'`id`.
+    /// Un ordre partiel laisserait exactement le même indéterminisme un cran plus
+    /// bas.
     func currentEvent(at now: Date) -> OnlineEvent? {
-        events.first { $0.game == selectedGame && $0.isActive(at: now) }
+        events
+            .filter { $0.game == selectedGame && $0.isActive(at: now) }
+            .max { isEarlier($0, than: $1) }
+    }
+
+    /// Ordre total sur deux événements : début, puis fin, puis `id`.
+    private func isEarlier(_ lhs: OnlineEvent, than rhs: OnlineEvent) -> Bool {
+        if lhs.startsAt != rhs.startsAt { return lhs.startsAt < rhs.startsAt }
+        if lhs.endsAt != rhs.endsAt { return lhs.endsAt < rhs.endsAt }
+        return lhs.id < rhs.id
     }
 
     /// Le plus récent du jeu affiché, actif ou non. Sert à dire ce qui vient de
     /// se terminer, jamais à le faire passer pour en cours.
+    ///
+    /// Trié sur la FIN — c'est « ce qui vient de se terminer » qu'on cherche ici,
+    /// pas « ce qui a commencé en dernier ». Départagé jusqu'au bout pour la même
+    /// raison que `currentEvent(at:)` : à fin égale, un ordre partiel rendait un
+    /// résultat arbitraire.
     func latestEvent() -> OnlineEvent? {
-        events.filter { $0.game == selectedGame }.max { $0.endsAt < $1.endsAt }
+        events.filter { $0.game == selectedGame }.max { lhs, rhs in
+            if lhs.endsAt != rhs.endsAt { return lhs.endsAt < rhs.endsAt }
+            if lhs.startsAt != rhs.startsAt { return lhs.startsAt < rhs.startsAt }
+            return lhs.id < rhs.id
+        }
     }
 
     func update(events newEvents: [OnlineEvent]) {

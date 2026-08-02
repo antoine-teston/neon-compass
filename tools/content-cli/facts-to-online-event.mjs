@@ -6,13 +6,16 @@
 // `news` — `claim`, `source_url`, `source_date`, `game`, `confidence` — plus
 // deux champs propres à ce kind : `starts_at` et `ends_at` (UTC complet), la
 // fenêtre qui justifie le compte à rebours. Sans elle il n'y a rien à
-// afficher qu'un `news` ne dirait déjà. C'est pour ça que l'identité se
-// frappe avec la même mécanique que `news` (`identityKey`, `factDiscriminant`
-// — gtav-poi-ids.mjs / facts-to-news.mjs), et pas une fonction réinventée ici.
+// afficher qu'un `news` ne dirait déjà.
+//
+// L'identité emprunte la mécanique de `news` (`identityKey` — gtav-poi-ids.mjs)
+// mais PAS son discriminant. Voir `windowDiscriminant` : ce kind est le seul dont
+// le contenu peut changer après coup, et un discriminant qui hache le contenu
+// s'y comporte mal.
 
 import { createHash } from 'node:crypto';
 import { identityKey } from '../basemap/gtav-poi-ids.mjs';
-import { INBOX_SOURCE, factDiscriminant } from './facts-to-news.mjs';
+import { INBOX_SOURCE } from './facts-to-news.mjs';
 
 /** Jeux que la veille peut désigner. Même vocabulaire que `MapGame` côté app,
  *  et même défaut que `facts-to-news.mjs` : un fait sans `game` porte sur le
@@ -33,6 +36,64 @@ const CONFIDENCES = new Set(['confirmed-official', 'multi-source', 'single-sourc
  *  chaque lecture — préfixe différent : le schéma impose `^online_[a-z0-9_]+$`. */
 export function mintOnlineEventId(key) {
   return `online_${createHash('sha256').update(key).digest('hex').slice(0, 8)}`;
+}
+
+/**
+ * Ce qui distingue une fenêtre d'une autre : sa source, son jeu, et son DÉBUT.
+ *
+ * Pourquoi pas `factDiscriminant` (facts-to-news.mjs), qui hache
+ * `source_url + claim` et sert à tous les autres kinds : une entrée d'actu est
+ * immuable — publiée, elle ne change plus — alors qu'une fenêtre du mode en ligne
+ * MUTE. La source le dit elle-même : Rockstar prolonge parfois un événement. Une
+ * prolongation change la fin de fenêtre, donc le claim, donc le discriminant,
+ * donc l'`id` : au lieu de corriger le compte à rebours, on créait une SECONDE
+ * entrée chevauchant la première, et l'app en choisissait une au hasard.
+ *
+ * Le début, lui, ne bouge pas — une semaine qui a commencé a commencé. Il porte
+ * donc l'identité, et la fin devient une donnée révisable comme les autres.
+ *
+ * Corollaire voulu : une phase 2 d'un événement de deux semaines a son propre
+ * début, donc sa propre entrée. C'est bien ce que le compte à rebours doit
+ * annoncer — la fin de la phase en cours, pas celle de l'événement entier.
+ */
+export function windowDiscriminant(fact) {
+  const game = fact.game ?? DEFAULT_GAME;
+  return createHash('sha256').update(`${fact.source_url}\n${game}\n${fact.starts_at}`).digest('hex').slice(0, 12);
+}
+
+/**
+ * Ce qu'une nouvelle lecture de la source a autorité pour corriger, en DEUX
+ * étages — parce que « qui possède ce champ » n'a pas la même réponse partout.
+ *
+ * `WINDOW` : la fenêtre appartient à la machine, toujours, sur n'importe quelle
+ * entrée. Aucun humain ne l'écrit — `content-editor.md` le lui interdit
+ * explicitement (« Tu ne les modifies pas : si elles sont fausses, c'est un fait
+ * à corriger en amont »). C'est aussi la seule révision qui compte vraiment : une
+ * prolongation d'événement rend le compte à rebours faux, et un compte à rebours
+ * faux est pire qu'une absence.
+ *
+ * `CONTENT` : tout le reste peut avoir été écrit par quelqu'un. On ne le révise
+ * que sur une entrée dont la machine est l'unique auteur, reconnaissable à un
+ * `needsRewrite: false` PRÉSENT — c'est sa signature (`factToOnlineEvent` écrit
+ * toujours la clé). Un squelette rédigé à la main, lui, voit la clé SUPPRIMÉE :
+ * c'est ce qui distingue « la machine a tout écrit » de « quelqu'un a pris le
+ * relais ». Un test l'exigeait déjà, et il avait raison de le faire.
+ *
+ * Jamais révisés : `status` (publier reste une décision humaine, une correction
+ * de fenêtre ne la reprend pas) et `id`/`processedFrom`, qui SONT l'identité.
+ */
+const WINDOW_FIELDS = ['startsAt', 'endsAt'];
+const CONTENT_FIELDS = ['title', 'bonuses', 'discounts', 'podiumVehicle', 'sources', 'confidence', 'sourceClaim', 'game'];
+
+/** La machine est-elle l'unique auteur de cette entrée ? */
+export function machineAuthored(entry) {
+  return entry.needsRewrite === false;
+}
+
+/** @returns les champs révisables qui diffèrent, `[]` si l'entrée est à jour. */
+export function revisedFields(existing, fresh) {
+  const fields = machineAuthored(existing) && machineAuthored(fresh) ? [...WINDOW_FIELDS, ...CONTENT_FIELDS] : WINDOW_FIELDS;
+  return fields.filter((field) => JSON.stringify(existing[field]) !== JSON.stringify(fresh[field]));
 }
 
 export function factToOnlineEvent(fact) {
@@ -74,7 +135,7 @@ export function factToOnlineEvent(fact) {
     assertDiscountList(fact.discounts);
   }
 
-  const key = identityKey(INBOX_SOURCE, 'online-events', factDiscriminant(fact));
+  const key = identityKey(INBOX_SOURCE, 'online-events', windowDiscriminant(fact));
 
   return {
     id: mintOnlineEventId(key),
@@ -151,7 +212,8 @@ function assertDiscountList(list) {
  * @param existing  [{ path, data }] — les fichiers actuels de
  *                  content/online-events
  * @returns {{
- *   writes: Array<{path: string, data: object}>,        squelettes à écrire
+ *   writes: Array<{path: string, data: object}>,        entrées neuves à écrire
+ *   updates: Array<{path: string, data: object, changes: string[]}>, fenêtres révisées
  *   alreadyMaterialized: Array<{key: string, id: string}>, déjà couverts
  *   covered: Array<{fact: object, key: string, id: string}>, à marquer dans l'inbox
  *   skipped: Array<{claim: string, reason: string}>,    écartés, mais classés
@@ -165,6 +227,7 @@ export function materializeOnlineEvents(facts, existing) {
   );
 
   const writes = [];
+  const updates = [];
   const alreadyMaterialized = [];
   const covered = [];
   const skipped = [];
@@ -187,12 +250,39 @@ export function materializeOnlineEvents(facts, existing) {
     const { processedFrom: key, id } = data;
 
     // Déjà matérialisé — par un run précédent, ou par un fait plus haut dans
-    // CE lot. On se réapparie, on n'écrit pas un second item. L'item déjà
-    // rédigé n'est pas touché : la rédaction est une décision humaine, la
-    // matérialisation ne l'écrase jamais.
+    // CE lot. On se réapparie, on n'écrit pas un second item.
     const previous = byProcessedFrom.get(key);
     if (previous) {
-      alreadyMaterialized.push({ key, id: previous.data.id });
+      // Une fenêtre MUTE : la source prolonge parfois un événement, ou corrige
+      // une remise. L'entrée doit alors être révisée, pas doublée — c'était le
+      // défaut que l'identité par le contenu masquait (windowDiscriminant).
+      //
+      // Ce qui est révisable, et pour qui, est tranché par `revisedFields` : la
+      // fenêtre appartient toujours à la machine, le reste seulement quand elle
+      // est l'unique auteur de l'entrée. `status` n'est jamais touché — une entrée
+      // publiée dont la fenêtre est prolongée RESTE publiée avec la bonne fin,
+      // c'est précisément ce qu'on veut, et un brouillon ne se publie pas seul.
+      //
+      // La révision d'une entrée déjà publiée modifie ce qui est en ligne. Elle
+      // n'est pas silencieuse pour autant : elle est listée au compte-rendu du
+      // run et arrive dans le diff d'une PR, où un humain peut la refuser. Même
+      // garantie que tout le reste de cette chaîne.
+      const changes = revisedFields(previous.data, data);
+      if (changes.length) {
+        const revised = { ...previous.data };
+        for (const field of changes) {
+          if (data[field] === undefined) delete revised[field];
+          else revised[field] = data[field];
+        }
+        const entry = { path: previous.path, data: revised, changes };
+        updates.push(entry);
+        // Réapparier l'index sur la version révisée : deux faits du même lot
+        // visant la même fenêtre ne doivent pas produire deux révisions.
+        byProcessedFrom.set(key, entry);
+        byID.set(revised.id, entry);
+      } else {
+        alreadyMaterialized.push({ key, id: previous.data.id });
+      }
       covered.push({ fact, key, id: previous.data.id });
       continue;
     }
@@ -217,8 +307,8 @@ export function materializeOnlineEvents(facts, existing) {
   // laisserait l'inbox à moitié marquée, et le fait fautif reviendrait au run
   // suivant sans qu'on sache ce qui a déjà été fait.
   if (conflicts.length) {
-    return { writes: [], alreadyMaterialized: [], covered: [], skipped: [], conflicts };
+    return { writes: [], updates: [], alreadyMaterialized: [], covered: [], skipped: [], conflicts };
   }
 
-  return { writes, alreadyMaterialized, covered, skipped, conflicts };
+  return { writes, updates, alreadyMaterialized, covered, skipped, conflicts };
 }
