@@ -51,6 +51,13 @@ const LANGS = ['fr', 'es', 'it', 'de'];
 // Champs affichés dans l'UI : jamais de marque déposée (CLAUDE.md, spec §1).
 const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
 const UI_FIELDS = ['title', 'note', 'effect', 'body'];
+/** Textes affichés qu'un événement en ligne porte dans ses listes. Hors
+ *  `UI_FIELDS` à dessein : voir `check-publishable`. */
+const ONLINE_EVENT_LIST_UI_FIELDS = [
+  ['bonuses', 'activity'],
+  ['bonuses', 'label'],
+  ['discounts', 'item'],
+];
 // Doit rester aligné sur BUNDLE_CHUNK_SIZE dans firestore-client.js et
 // ContentBundle.chunkSize côté Swift — ici uniquement pour annoncer le nombre de
 // fragments en dry-run.
@@ -140,6 +147,26 @@ function checkPublishable(entries) {
       for (const [lang, text] of Object.entries(data[field] ?? {})) {
         const m = text.match(TRADEMARKS);
         if (m) problems.push(`trademark "${m[0]}" in ${field}.${lang}`);
+      }
+    }
+    // Une carte d'événement en ligne affiche aussi des champs que `UI_FIELDS`
+    // ne voit pas : le véhicule du podium, et les textes portés par les listes
+    // de bonus et de remises. Le filet à marques s'arrêtait donc à `title`,
+    // alors qu'une étiquette vient tout droit d'une source qui écrit « 2x GTA$ ».
+    // Ils ne rejoignent pas `UI_FIELDS` pour autant : celui-ci sert aussi à
+    // `translate`, qui réclamerait alors une traduction pour des noms propres.
+    if (kind === 'online-events') {
+      for (const [lang, text] of Object.entries(data.podiumVehicle ?? {})) {
+        const m = text.match(TRADEMARKS);
+        if (m) problems.push(`trademark "${m[0]}" in podiumVehicle.${lang}`);
+      }
+      for (const [listField, textField] of ONLINE_EVENT_LIST_UI_FIELDS) {
+        (data[listField] ?? []).forEach((item, index) => {
+          for (const [lang, text] of Object.entries(item?.[textField] ?? {})) {
+            const m = text.match(TRADEMARKS);
+            if (m) problems.push(`trademark "${m[0]}" in ${listField}[${index}].${textField}.${lang}`);
+          }
+        });
       }
     }
     if (problems.length) {

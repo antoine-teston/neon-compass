@@ -61,6 +61,19 @@ export function factToOnlineEvent(fact) {
     throw new Error('starts_at manquant');
   }
 
+  // Un fait STRUCTURÉ porte déjà ses bonus et ses remises — c'est le cas de
+  // ceux que `weekly-hub.mjs` normalise depuis le payload de la source. Il n'y a
+  // alors plus rien à rédiger : les noms d'activités et de biens sont des faits
+  // (comme les noms de POI), et les étiquettes sont composées dans les cinq
+  // langues sans marque. `needsRewrite` tombe, et l'entrée est relisible telle
+  // quelle. Un fait sans ces champs reste ce qu'il était : un squelette à
+  // rédiger par `content-editor`.
+  const structured = fact.bonuses !== undefined || fact.discounts !== undefined;
+  if (structured) {
+    assertLocalizedList(fact.bonuses, 'bonuses', ['activity', 'label']);
+    assertDiscountList(fact.discounts);
+  }
+
   const key = identityKey(INBOX_SOURCE, 'online-events', factDiscriminant(fact));
 
   return {
@@ -69,17 +82,53 @@ export function factToOnlineEvent(fact) {
     startsAt: fact.starts_at,
     endsAt: fact.ends_at,
     // Squelette : le titre est une étiquette neutre, jamais la revendication
-    // de la source — elle cite ses marques mot pour mot.
-    title: { en: `Weekly update — ${fact.starts_at.slice(0, 10)}` },
-    bonuses: [],
-    discounts: [],
+    // de la source — elle cite ses marques mot pour mot. Un fait structuré
+    // apporte le sien, déjà localisé.
+    title: fact.title ?? { en: `Weekly update — ${fact.starts_at.slice(0, 10)}` },
+    bonuses: fact.bonuses ?? [],
+    discounts: fact.discounts ?? [],
     status: 'draft',
-    sources: [fact.source_url],
+    // Un fait peut citer plusieurs URL de la même semaine (le hub ET l'article
+    // qui la raconte) : la traçabilité y gagne, la confiance non — deux pages
+    // d'un même éditeur restent une source.
+    sources: fact.sources ?? [fact.source_url],
     confidence: fact.confidence,
     processedFrom: key,
-    sourceClaim: fact.claim,
-    needsRewrite: true,
+    // La prose de la source quand on l'a, le claim sinon. C'est le corpus
+    // auquel `check-originality.mjs` compare les champs rédigés : un résumé le
+    // viderait de sa substance.
+    sourceClaim: fact.source_prose ?? fact.claim,
+    needsRewrite: !structured,
   };
+}
+
+/** Les deux gardes ci-dessous font échouer un fait structuré mal formé ICI, au
+ *  lieu de le laisser produire un fichier que le `validate` suivant refusera —
+ *  noyé parmi les entrées saines, et sans dire quel fait d'inbox l'a produit. */
+function assertLocalized(value, path) {
+  if (!value || typeof value !== 'object' || typeof value.en !== 'string' || !value.en) {
+    throw new Error(`${path} : texte localisé attendu, avec au moins « en »`);
+  }
+}
+
+function assertLocalizedList(list, name, fields) {
+  if (list === undefined) return;
+  if (!Array.isArray(list)) throw new Error(`${name} : tableau attendu`);
+  list.forEach((entry, index) => {
+    for (const field of fields) assertLocalized(entry?.[field], `${name}[${index}].${field}`);
+  });
+}
+
+function assertDiscountList(list) {
+  if (list === undefined) return;
+  if (!Array.isArray(list)) throw new Error('discounts : tableau attendu');
+  list.forEach((entry, index) => {
+    assertLocalized(entry?.item, `discounts[${index}].item`);
+    const { percent } = entry;
+    if (!Number.isInteger(percent) || percent < 1 || percent > 100) {
+      throw new Error(`discounts[${index}].percent : entier 1-100 attendu, reçu ${percent}`);
+    }
+  });
 }
 
 /**

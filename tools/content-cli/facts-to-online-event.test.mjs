@@ -248,3 +248,61 @@ test('les faits couverts sont rendus pour que l’inbox puisse être marquée', 
   // ressortirait comme « à traiter » à chaque run.
   assert.equal(result.covered.length, 2);
 });
+
+// --- Faits STRUCTURÉS (weekly-hub.mjs) ------------------------------------
+//
+// Un fait qui porte déjà ses bonus et ses remises n'a plus rien à faire rédiger.
+// C'est tout l'intérêt de l'extraction déterministe : ce que la source publie en
+// tableau ne traverse aucun modèle.
+
+const STRUCTURED = {
+  ...FACT,
+  claim: 'Fenêtre du mode en ligne du 2026-07-30 au 2026-08-05 : 1 bonus et 1 remise.',
+  sources: ['https://www.gtaboom.com/gta-online-weekly-updates', 'https://www.gtaboom.com/semaine'],
+  title: { en: 'Weekly update — 2026-07-30', fr: 'Mise à jour hebdomadaire — 2026-07-30' },
+  bonuses: [{ activity: { en: 'Fleeca Heist Finale' }, label: { en: '2× cash', fr: '2× argent' } }],
+  discounts: [{ item: { en: 'Karin Kuruma' }, percent: 60 }],
+  source_prose: 'Fleeca Heist Finale — 2x GTA$ — First completion pays double GTA$ through August 5.',
+};
+
+test('un fait structuré produit un événement complet, sans rédaction à faire', () => {
+  const event = factToOnlineEvent(STRUCTURED);
+  assert.equal(event.needsRewrite, false);
+  assert.equal(event.status, 'draft');
+  assert.deepEqual(event.bonuses, STRUCTURED.bonuses);
+  assert.deepEqual(event.discounts, STRUCTURED.discounts);
+  assert.equal(event.title.fr, 'Mise à jour hebdomadaire — 2026-07-30');
+});
+
+test('les deux URL de la semaine sont conservées comme sources', () => {
+  assert.deepEqual(factToOnlineEvent(STRUCTURED).sources, STRUCTURED.sources);
+});
+
+test('sourceClaim porte la prose de la source, pas le résumé', () => {
+  // C'est ce qui donne sa substance à `check-originality.mjs` : comparer un champ
+  // rédigé à un résumé qu'on a soi-même écrit ne prouve rien.
+  assert.equal(factToOnlineEvent(STRUCTURED).sourceClaim, STRUCTURED.source_prose);
+  assert.equal(factToOnlineEvent(FACT).sourceClaim, FACT.claim);
+});
+
+test('un squelette reste un squelette', () => {
+  const event = factToOnlineEvent(FACT);
+  assert.equal(event.needsRewrite, true);
+  assert.deepEqual(event.bonuses, []);
+});
+
+test('un fait structuré mal formé échoue ICI, pas au validate suivant', () => {
+  assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: { en: 'X' } }] }), /bonuses\[0\]\.label/);
+  assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: 'deux fois plus' }), /bonuses : tableau attendu/);
+  assert.throws(() => factToOnlineEvent({ ...STRUCTURED, discounts: [{ item: { en: 'X' }, percent: 0 }] }), /entier 1-100/);
+  assert.throws(() => factToOnlineEvent({ ...STRUCTURED, discounts: [{ item: { en: 'X' }, percent: 12.5 }] }), /entier 1-100/);
+  assert.throws(() => factToOnlineEvent({ ...STRUCTURED, bonuses: [{ activity: {}, label: { en: 'x' } }] }), /avec au moins/);
+});
+
+test('un fait structuré traverse la matérialisation par lot', () => {
+  const result = materializeOnlineEvents([STRUCTURED], []);
+  assert.equal(result.conflicts.length, 0);
+  assert.equal(result.writes.length, 1);
+  assert.equal(result.writes[0].data.needsRewrite, false);
+  assert.equal(result.writes[0].data.discounts[0].percent, 60);
+});

@@ -1,0 +1,174 @@
+{
+  "run": {
+    "date": "2026-07-30",
+    "sources_visited": [
+      "https://www.gtaboom.com/gta-online-weekly-updates",
+      "https://www.gtaboom.com/gta-online-summer-heist-event-july-2026"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Fenêtre du mode en ligne du 2026-07-30 au 2026-08-05 : 6 bonus d’activité et 10 remise(s) relevés sur le hub hebdomadaire de la source.",
+      "kind": "online-event",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/gta-online-weekly-updates",
+      "source_date": "2026-07-30",
+      "confidence": "single-source",
+      "starts_at": "2026-07-30T00:00:00Z",
+      "ends_at": "2026-08-05T23:59:59Z",
+      "sources": [
+        "https://www.gtaboom.com/gta-online-weekly-updates",
+        "https://www.gtaboom.com/gta-online-summer-heist-event-july-2026"
+      ],
+      "title": {
+        "en": "Weekly update — 2026-07-30",
+        "fr": "Mise à jour hebdomadaire — 2026-07-30",
+        "es": "Actualización semanal — 2026-07-30",
+        "it": "Aggiornamento settimanale — 2026-07-30",
+        "de": "Wochen-Update — 2026-07-30"
+      },
+      "bonuses": [
+        {
+          "activity": {
+            "en": "Fleeca Heist Finale"
+          },
+          "label": {
+            "en": "2× cash",
+            "fr": "2× argent",
+            "es": "2× dinero",
+            "it": "2× denaro",
+            "de": "2× Geld"
+          }
+        },
+        {
+          "activity": {
+            "en": "Pacific Standard Heist Finale"
+          },
+          "label": {
+            "en": "2× cash",
+            "fr": "2× argent",
+            "es": "2× dinero",
+            "it": "2× denaro",
+            "de": "2× Geld"
+          }
+        },
+        {
+          "activity": {
+            "en": "Motor Wars"
+          },
+          "label": {
+            "en": "2× cash & RP",
+            "fr": "2× argent & RP",
+            "es": "2× dinero y RP",
+            "it": "2× denaro e RP",
+            "de": "2× Geld & RP"
+          }
+        },
+        {
+          "activity": {
+            "en": "Shipwrecks on Cayo Perico"
+          },
+          "label": {
+            "en": "2× cash & RP",
+            "fr": "2× argent & RP",
+            "es": "2× dinero y RP",
+            "it": "2× denaro e RP",
+            "de": "2× Geld & RP"
+          }
+        },
+        {
+          "activity": {
+            "en": "A Kick in the Wallet mission series"
+          },
+          "label": {
+            "en": "3× cash & RP",
+            "fr": "3× argent & RP",
+            "es": "3× dinero y RP",
+            "it": "3× denaro e RP",
+            "de": "3× Geld & RP"
+          }
+        },
+        {
+          "activity": {
+            "en": "A Superyacht Life missions"
+          },
+          "label": {
+            "en": "2× cash & RP",
+            "fr": "2× argent & RP",
+            "es": "2× dinero y RP",
+            "it": "2× denaro e RP",
+            "de": "2× Geld & RP"
+          }
+        }
+      ],
+      "discounts": [
+        {
+          "item": {
+            "en": "Galaxy Super Yacht and modifications"
+          },
+          "percent": 60
+        },
+        {
+          "item": {
+            "en": "Paleto Bay business properties"
+          },
+          "percent": 60
+        },
+        {
+          "item": {
+            "en": "Karin Kuruma"
+          },
+          "percent": 60
+        },
+        {
+          "item": {
+            "en": "High End Apartments"
+          },
+          "percent": 40
+        },
+        {
+          "item": {
+            "en": "Benny's conversion upgrades"
+          },
+          "percent": 40
+        },
+        {
+          "item": {
+            "en": "Invetero Coquette D1"
+          },
+          "percent": 30
+        },
+        {
+          "item": {
+            "en": "Imponte Ruiner ZZ-8"
+          },
+          "percent": 30
+        },
+        {
+          "item": {
+            "en": "Dinka Blista Kanjo"
+          },
+          "percent": 30
+        },
+        {
+          "item": {
+            "en": "Other select cars"
+          },
+          "percent": 30
+        },
+        {
+          "item": {
+            "en": "Hao's Special Works conversions (members)",
+            "fr": "Hao's Special Works conversions (abonnés)",
+            "es": "Hao's Special Works conversions (suscriptores)",
+            "it": "Hao's Special Works conversions (abbonati)",
+            "de": "Hao's Special Works conversions (Abonnenten)"
+          },
+          "percent": 50
+        }
+      ],
+      "source_prose": "Fleeca Heist Finale — 2x GTA$ — First completion of the Fleeca Heist Finale pays double GTA$ through August 5. Setup missions for Fleeca also pay more than usual, but the article does not state the exact increase.\nPacific Standard Heist Finale — 2x GTA$ — First completion of the Pacific Standard Heist Finale pays double GTA$ through August 5. Setup missions for Pacific Standard also pay more than usual, but the article does not state the exact increase.\nMotor Wars — 2x GTA$ and RP — Motor Wars pays double GTA$ and RP through August 5.\nShipwrecks on Cayo Perico — 2x GTA$ and RP — Shipwrecks on Cayo Perico pay double GTA$ and RP through August 5.\nA Kick in the Wallet mission series — 3x GTA$ and RP — The community mission series by II_TREIZIEME_II pays triple GTA$ and RP through August 5.\nA Superyacht Life missions — 2x GTA$ and RP — A Superyacht Life missions pay double GTA$ and RP through August 12.\nKortz Center Heist rotating art lineup — This week's art lineup features pieces from S.P. Carroll, Francesco Zozzone, and Mina Major. Selling your first Primary Target of the week comes with a bonus payout on top of the usual haul.\nGTA+ Shark Cards — 15% bonus cash — GTA+ members get access to Shark Cards with 15% bonus cash.\nGalaxy Super Yacht and modifications — 60% off — The Galaxy Super Yacht and all of its modifications are discounted.\nPaleto Bay business properties — 60% off\nKarin Kuruma — 60% off — Applies to both armored and standard Karin Kuruma models.\nHigh End Apartments — 40% off\nBenny's conversion upgrades — 40% off\nInvetero Coquette D1 — 30% off — Part of the select car discounts listed in the article.\nImponte Ruiner ZZ-8 — 30% off — Part of the select car discounts listed in the article.\nDinka Blista Kanjo — 30% off — Part of the select car discounts listed in the article.\nOther select cars — 30% off — The article mentions additional select cars but does not name them.\nHao's Special Works conversions — 50% off for GTA+ members — GTA+ members receive 50% off HSW conversions.\nArt Studio upgrade for the Kortz Center Heist — GTA$1,000,000 off for GTA+ members — GTA+ members receive a GTA$1,000,000 discount on the Mansion Art Studio upgrade used for the Kortz Center Heist.",
+      "processed": true
+    }
+  ]
+}
