@@ -17,7 +17,7 @@ private struct DeletionRefused: Error {}
 struct ProfileModelTests {
     @Test func loadProfileFetchesAndStoresTheProfile() async {
         let repository = FakeProfileRepository()
-        repository.profileToReturn = Profile(handle: "NEON-FALCON-88", xp: 0, level: 0, isPremium: false)
+        repository.profileToReturn = Profile(handle: "NEON-FALCON-88", xp: 0, level: 0, isPremium: false, rank: nil)
         let model = ProfileModel(repository: repository, functions: FakeAccountFunctions(), localDeletion: SpyAccountDeletion())
         await model.loadProfile(uid: "some-uid")
         #expect(model.profile?.handle == "NEON-FALCON-88")
@@ -31,7 +31,7 @@ struct ProfileModelTests {
 
     @Test func regenerateHandleUpdatesTheStoredProfile() async throws {
         let repository = FakeProfileRepository()
-        repository.profileToReturn = Profile(handle: "NEON-FALCON-88", xp: 0, level: 0, isPremium: false)
+        repository.profileToReturn = Profile(handle: "NEON-FALCON-88", xp: 0, level: 0, isPremium: false, rank: nil)
         let functions = FakeAccountFunctions()
         functions.handleToReturn = "CHROME-MIRAGE-42"
         let model = ProfileModel(repository: repository, functions: functions, localDeletion: SpyAccountDeletion())

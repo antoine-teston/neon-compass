@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum AppTab: String, CaseIterable, Identifiable, Sendable {
-    case feed, cheats, map, profile
+    case feed, cheats, map, social, profile
 
     var id: String { rawValue }
 
@@ -10,6 +10,7 @@ enum AppTab: String, CaseIterable, Identifiable, Sendable {
         case .feed: "tab.feed"
         case .cheats: "tab.cheats"
         case .map: "tab.map"
+        case .social: "tab.social"
         case .profile: "tab.profile"
         }
     }
@@ -19,6 +20,7 @@ enum AppTab: String, CaseIterable, Identifiable, Sendable {
         case .feed: "newspaper"
         case .cheats: "gamecontroller"
         case .map: "map.fill"
+        case .social: "person.2"
         case .profile: "person.crop.circle"
         }
     }

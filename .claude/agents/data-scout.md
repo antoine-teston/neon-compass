@@ -60,11 +60,13 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
   "facts": [
     {
       "claim": "reformulation en une phrase, tes propres mots",
-      "kind": "poi | cheat | news | game-fact",
+      "kind": "poi | cheat | news | game-fact | online-event",
       "game": "leonida | gtav",
       "source_url": "…",
       "source_date": "…",
-      "confidence": "confirmed-official | multi-source | single-source | rumor"
+      "confidence": "confirmed-official | multi-source | single-source | rumor",
+      "starts_at": "AAAA-MM-JJTHH:MM:SSZ — exigé seulement pour kind: online-event",
+      "ends_at": "AAAA-MM-JJTHH:MM:SSZ — exigé seulement pour kind: online-event"
     }
   ]
 }
@@ -82,6 +84,10 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
   un fait.
 - Les cheats sans confirmation post-lancement sont `rumor` (aucun code réel
   n'existe avant la sortie du jeu).
+- Un fait `kind: online-event` exige `starts_at` et `ends_at`, deux horodatages
+  UTC complets (`AAAA-MM-JJTHH:MM:SSZ`), pas de simples dates courtes comme
+  `source_date` : sans fenêtre de fin il n'y a pas de compte à rebours, et le
+  compte à rebours est ce qui justifie la fonctionnalité.
 - Termine par un log dans `content/inbox/runs/YYYY-MM-DD.md` : sources visitées,
   nombre de faits, doutes à trancher par un humain. **Signale toute source qui a
   échoué après réessais** — c'est le seul endroit où une source qui se ferme

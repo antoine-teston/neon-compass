@@ -32,6 +32,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+    match /online_events/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
     match /trophies/{document=**} {
       allow read: if true;
       allow write: if false;
@@ -54,6 +58,10 @@ service cloud.firestore {
     }
     match /reports/{id} {
       allow read, write: if false;
+    }
+    match /leaderboards/{document=**} {
+      allow read: if true;
+      allow write: if false;
     }
     // Brouillons du mode éditeur interne (build debug uniquement). Réservés à un
     // UID unique, celui de l'auteur du projet. Tant que l'UID n'est pas

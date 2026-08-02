@@ -72,15 +72,26 @@ jobs:
           tools/content-cli/ui/actions.test.mjs
           tools/content-cli/draft-to-poi.test.mjs
           tools/content-cli/facts-to-news.test.mjs
+          tools/content-cli/facts-to-online-event.test.mjs
           tools/content-cli/source-policy.test.mjs
 
       - name: Installer les dépendances du CLI
         working-directory: tools/content-cli
         run: npm ci
 
-      - name: Schémas, règles éditoriales, socles à jour
+      # `npm test` et pas `npm run check` : le script de test globe désormais TOUS
+      # les fichiers de test avant d'enchaîner sur les contrôles de contenu. Les
+      # étapes ci-dessus restent, et ce n'est pas une redite — elles tournent
+      # AVANT `npm ci`, pour qu'une panne d'installation ne puisse pas rendre
+      # inexécutables les invariants les plus coûteux du dépôt.
+      #
+      # Sans cette étape, gtav-cheats.test.mjs et cdn-build.test.mjs — vingt
+      # tests — ne tournaient sur AUCUNE pull request : la seule commande qui les
+      # atteignait vivait dans le workflow de veille, déclenché par cron du lundi.
+      # Une régression y aurait été vue après la fusion, pas avant.
+      - name: Suite complète et contrôles de contenu
         working-directory: tools/content-cli
-        run: npm run check
+        run: npm test
 
   publish:
     # Uniquement sur déclenchement manuel avec la case cochée. Le `needs` garantit

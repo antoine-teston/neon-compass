@@ -25,6 +25,11 @@
 //                          squelettes content/news/*.json à rédiger ; idempotent
 //                          (cf. facts-to-news.mjs), aucun credential requis.
 //   pull-news --dry-run    montre ce qui serait matérialisé sans rien écrire.
+//   pull-online-events     matérialise les faits `kind: "online-event"` de content/inbox
+//                          en squelettes content/online-events/*.json à rédiger ;
+//                          idempotent (cf. facts-to-online-event.mjs), aucun
+//                          credential requis.
+//   pull-online-events --dry-run  montre ce qui serait matérialisé sans rien écrire.
 //   build-cdn              construit le site statique de contenu dans dist/ (JSON
 //                          versionné, lisible sans SDK — voir cdn-build.mjs)
 //   content-source [url|off]  affiche ou change la source de contenu lue par l'app
@@ -57,6 +62,7 @@ const compiled = {
   cheats: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'cheat.schema.json')))),
   collections: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'collection.schema.json')))),
   news: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'news.schema.json')))),
+  'online-events': ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'online-event.schema.json')))),
 };
 
 // Un « kind » est un répertoire de content/. Il porte son schéma et la
@@ -73,6 +79,7 @@ const KINDS = {
   cheats: { schema: 'cheats', collection: 'cheats' },
   collections: { schema: 'collections', collection: 'collections' },
   news: { schema: 'news', collection: 'news' },
+  'online-events': { schema: 'online-events', collection: 'online_events' },
 };
 const schemas = Object.fromEntries(
   Object.entries(KINDS).map(([kind, { schema }]) => [kind, compiled[schema]]),
@@ -118,7 +125,7 @@ function checkPublishable(entries) {
     // « À rédiger » dans le fil est un accident que seule une machine peut
     // attraper de façon fiable — c'est exactement ce qui arriverait à un run
     // hebdomadaire dont l'étape de rédaction a échoué en silence.
-    if (kind === 'news' && data.status === 'published' && data.needsRewrite) {
+    if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.needsRewrite) {
       problems.push('published news item is still an unwritten skeleton (needsRewrite)');
     }
     // Une rumeur ne part pas dans le fil. L'app est un compagnon non officiel :
@@ -126,8 +133,8 @@ function checkPublishable(entries) {
     // une actualité. Une rumeur peut vivre en `draft` (elle garde sa trace et
     // son id), elle ne franchit pas la publication. Assouplir cette règle est
     // une décision éditoriale, pas un détail de pipeline.
-    if (kind === 'news' && data.status === 'published' && data.confidence === 'rumor') {
-      problems.push('published news item cannot rest on a rumor (confidence: rumor)');
+    if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.confidence === 'rumor') {
+      problems.push('published entry cannot rest on a rumor (confidence: rumor)');
     }
     for (const field of UI_FIELDS) {
       for (const [lang, text] of Object.entries(data[field] ?? {})) {
@@ -683,6 +690,94 @@ switch (cmd) {
       ok = false;
     }
     break;
+  // Sœur de `pull-news` : même mécanique, même absence de rédaction. Les faits
+  // `kind: "online-event"` dormaient dans content/inbox faute d'un tuyau — le
+  // schéma existait (online-event.schema.json), l'app savait déjà les
+  // afficher, mais rien ne matérialisait jamais un fichier. Cette commande ne
+  // RÉDIGE pas : elle pose des squelettes identifiés et idempotents, marqués
+  // `needsRewrite`, et `check-publishable` refuse déjà de publier ce qu'elle
+  // n'a pas rédigé.
+  case 'pull-online-events':
+    try {
+      const { materializeOnlineEvents } = await import('./facts-to-online-event.mjs');
+
+      const inbox = join(CONTENT, 'inbox');
+      const factFiles = existsSync(inbox)
+        ? readdirSync(inbox).filter((f) => f.endsWith('.facts.json')).sort()
+        : [];
+      const facts = factFiles.flatMap((file) => {
+        const data = JSON.parse(readFileSync(join(inbox, file), 'utf8'));
+        return (data.facts ?? []).map((fact, index) => ({ ...fact, file, index }));
+      });
+
+      const eventsDir = join(CONTENT, 'online-events');
+      const existing = existsSync(eventsDir)
+        ? readdirSync(eventsDir)
+            .filter((name) => name.endsWith('.json'))
+            .map((name) => ({
+              path: join('content', 'online-events', name),
+              data: JSON.parse(readFileSync(join(eventsDir, name), 'utf8')),
+            }))
+        : [];
+
+      const result = materializeOnlineEvents(facts, existing);
+
+      if (result.conflicts.length) {
+        result.conflicts.forEach((c) => console.error(`  conflit: ${c.reason}\n           « ${c.claim?.slice(0, 80)}… »`));
+        console.error("pull-online-events: rien matérialisé — corriger les faits d'inbox d'abord");
+        ok = false;
+        break;
+      }
+
+      if (dry) {
+        result.writes.forEach(({ path, data }) => console.log(`  écrirait ${path}  [${data.confidence}] ${data.startsAt} → ${data.endsAt}`));
+        console.log(
+          `pull-online-events --dry-run: ${result.writes.length} squelette(s), ` +
+            `${result.alreadyMaterialized.length} déjà matérialisé(s), aucune écriture`,
+        );
+        ok = true;
+        break;
+      }
+
+      if (result.writes.length) mkdirSync(eventsDir, { recursive: true });
+      result.writes.forEach(({ path, data }) => {
+        writeFileSync(join(ROOT, path), `${JSON.stringify(data, null, 2)}\n`);
+        console.log(`  écrit ${path}  [${data.confidence}] ${data.startsAt} → ${data.endsAt}`);
+      });
+
+      // L'inbox est marquée pour la veille, PAS pour l'idempotence : celle-ci
+      // vient de `processedFrom` (facts-to-online-event.mjs). Le drapeau sert
+      // au data-scout, qui relit les faits déjà émis pour ne pas les
+      // re-signaler.
+      const coveredByFile = new Map();
+      for (const { fact } of result.covered) {
+        if (!coveredByFile.has(fact.file)) coveredByFile.set(fact.file, new Set());
+        coveredByFile.get(fact.file).add(fact.index);
+      }
+      let marked = 0;
+      for (const [file, indices] of coveredByFile) {
+        const path = join(inbox, file);
+        const data = JSON.parse(readFileSync(path, 'utf8'));
+        let touched = false;
+        indices.forEach((index) => {
+          if (data.facts[index].processed) return;
+          data.facts[index].processed = true;
+          touched = true;
+          marked++;
+        });
+        if (touched) writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`);
+      }
+
+      console.log(
+        `pull-online-events: ${result.writes.length} squelette(s) écrit(s), ` +
+          `${result.alreadyMaterialized.length} déjà présent(s), ${marked} fait(s) marqué(s) — à rédiger puis committer`,
+      );
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
+    break;
   case 'moderate:list':
     try {
       const { listPendingContributions } = await import('./firestore-client.js');
@@ -773,7 +868,7 @@ switch (cmd) {
     }
     break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|content-source [url|off]|pull-drafts [--file X]|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
+    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|content-source [url|off]|pull-drafts [--file X]|pull-news [--dry-run]|pull-online-events [--dry-run]|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
     ok = false;
 }
 

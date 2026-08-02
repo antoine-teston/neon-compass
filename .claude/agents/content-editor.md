@@ -1,6 +1,6 @@
 ---
 name: content-editor
-description: Transforme les faits de content/inbox/ en contenu au schéma content/ (POI, cheats, guides, actu) avec rédaction originale EN + FR, statut draft. À lancer après data-scout.
+description: Transforme les faits de content/inbox/ en contenu au schéma content/ (POI, cheats, guides, actu, événements en ligne) avec rédaction originale EN + FR, statut draft. À lancer après data-scout.
 tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
@@ -47,3 +47,46 @@ l'idempotence de toute la chaîne, sans que rien ne le signale.
 Le détail des règles de rédaction vit dans
 `tools/content-cli/prompts/rewrite-news.md` — c'est le même texte que celui
 qu'exécute le run hebdomadaire automatique.
+
+## Événements en ligne (`kind: "online-event"`) : tu ne frappes PAS les identifiants
+
+Même mécanique que l'actu, dans son propre répertoire. Lance d'abord :
+
+```sh
+node tools/content-cli/cli.js pull-online-events
+```
+
+La commande écrit des squelettes `content/online-events/*.json` marqués
+`"needsRewrite": true`, avec leur `id`, leur `processedFrom`, `startsAt` et
+`endsAt` déjà frappés depuis le fait. Ton travail commence là : tu remplis
+`title` (FR + EN) et, s'il y a lieu, `bonuses` (`activity` + `label` par
+entrée), `discounts` (`item` + `percent`) et `podiumVehicle`, depuis le champ
+`sourceClaim`.
+
+- **Les libellés de bonus et de remises se reformulent**, exactement comme
+  `title`/`body` pour l'actu — jamais la phrase de `sourceClaim`, jamais la
+  formulation de la source. « Courses en mer : gains doublés » plutôt que
+  reprendre l'annonce mot pour mot. `check-originality.mjs` compare chaque
+  champ affiché (`title`, `podiumVehicle`, `bonuses[].activity`,
+  `bonuses[].label`, `discounts[].item`) à son PROPRE `sourceClaim` et fait
+  échouer la CI sur toute reprise d'au moins six mots.
+- **`sourceClaim` n'est jamais affiché** — c'est le fait brut conservé pour la
+  relecture, exactement comme pour l'actu. Lui seul a le droit de citer ses
+  sources mot pour mot, marques déposées comprises ; ne le recopie jamais dans
+  un champ qui s'affiche.
+- **Les dates de fenêtre (`startsAt`, `endsAt`) viennent du fait, jamais d'une
+  invention.** Ce sont elles qui pilotent le compte à rebours et le rappel
+  local dans l'app — une date approchée ou déduite (« probablement le
+  dimanche ») casse la seule promesse de la fonctionnalité. Tu ne les
+  modifies pas : si elles sont fausses ou manquantes, c'est un fait à corriger
+  en amont (data-scout), pas quelque chose que la rédaction rattrape.
+- `status` — mêmes règles que l'actu : `published` seulement si `confidence`
+  vaut `confirmed-official` ou `multi-source` ; une `rumor` reste `draft`
+  (`check-publishable` refuse de toute façon de la publier).
+- `category` n'existe pas pour ce kind — ne l'ajoute pas : le schéma est en
+  `additionalProperties: false`, tout champ hors contrat fait échouer
+  `node cli.js validate`.
+
+Ne touche jamais à `id`, `processedFrom`, `sources`, `confidence`, `startsAt`,
+`endsAt`, `sourceClaim`. `processedFrom` est ce qui empêche le run suivant de
+recréer un doublon du même fait.

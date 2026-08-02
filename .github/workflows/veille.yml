@@ -79,10 +79,17 @@ jobs:
             --output-format text
 
       # Toujours, même sans clé : c'est du code déterministe, et c'est le
-      # maillon qui manquait. Idempotent par construction (facts-to-news.mjs) —
-      # un fait déjà transformé ne produit pas un second item.
-      - name: Matérialiser les faits d'actu en squelettes
-        run: node tools/content-cli/cli.js pull-news
+      # maillon qui manquait. Idempotent par construction (facts-to-news.mjs,
+      # facts-to-online-event.mjs) — un fait déjà transformé ne produit pas un
+      # second item. Chaque commande matérialise son propre kind (`news`,
+      # `online-event`) dans son propre répertoire, indépendamment de l'autre —
+      # mais le shell reste `-eo pipefail` par défaut : un conflit qui fait
+      # échouer `pull-news` arrête l'étape avant `pull-online-events`, comme
+      # n'importe quelle autre garde de ce pipeline.
+      - name: Matérialiser les faits d'actu et d'événements en ligne en squelettes
+        run: |
+          node tools/content-cli/cli.js pull-news
+          node tools/content-cli/cli.js pull-online-events
 
       # La rédaction ne lit aucune page web : elle travaille sur `sourceClaim`,
       # déjà reformulé par la veille. Sa liste d'outils est donc plus étroite —

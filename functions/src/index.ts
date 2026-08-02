@@ -24,3 +24,4 @@ export { appStoreServerNotification } from './appStoreServerNotification.js';
 export { notifyFollowedCategory } from './notifyFollowedCategory.js';
 export { flagCommunityBundlesDirty } from './flagCommunityBundlesDirty.js';
 export { rebuildCommunityBundles } from './rebuildCommunityBundles.js';
+export { rebuildLeaderboard } from './rebuildLeaderboard.js';
