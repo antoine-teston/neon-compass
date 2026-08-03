@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
-# Câblage du projet Supabase : lien CLI, clé anonyme dans le binaire, secrets du
-# Vault et des Edge Functions, déploiement des fonctions.
+# Câblage du projet Supabase : clé anonyme dans le binaire, secrets du Vault et
+# des Edge Functions, déploiement des fonctions.
 #
-# Idempotent : relançable autant de fois que nécessaire. Chaque bloc annonce ce
-# qu'il fait et POURQUOI il est sauté quand il l'est — un script de mise en place
-# qui saute une étape en silence est pire que pas de script du tout.
+# ## Une seule chose à faire avant : `supabase login`
 #
-# Les valeurs se trouvent dans Dashboard → Settings → API (clés) et
-# Account → Access Tokens (jeton personnel). Rien n'est écrit dans le dépôt sauf
-# la clé ANONYME, qui est publique par construction : elle est embarquée dans
-# chaque binaire client et ne donne que ce que les politiques RLS autorisent.
+# Rien à recopier. La version précédente de ce script demandait un jeton et deux
+# clés en variables d'environnement, et c'était une mauvaise idée : recopier une
+# clé à la main est le geste qui rate, et il rate d'une façon qui ne se voit
+# qu'au premier appel réseau. Le CLI sait ouvrir une session par le navigateur et
+# relire les clés du projet lui-même — autant le laisser faire.
 #
 # Usage :
-#   export SUPABASE_ACCESS_TOKEN=sbp_…          # requis
-#   export SUPABASE_ANON_KEY=…                  # requis
-#   export SUPABASE_SERVICE_ROLE_KEY=…          # requis
-#   export SUPABASE_DB_URL=postgresql://…       # requis (pooler IPv4, voir plus bas)
-#   export APNS_KEY_ID=… APNS_TEAM_ID=…         # optionnel, pour le push
-#   export APNS_PRIVATE_KEY_PATH=AuthKey_X.p8   # optionnel
-#   export APP_STORE_APPLE_ID=…                 # optionnel, requis en production
+#   supabase login                              # une fois, interactif
 #   Scripts/supabase-setup.sh
+#
+# Optionnel, pour les notifications :
+#   export APNS_KEY_ID=… APNS_TEAM_ID=… APNS_PRIVATE_KEY_PATH=AuthKey_X.p8
+#   export APP_STORE_APPLE_ID=…                 # requis si APP_STORE_ENVIRONMENT=production
+#
+# Optionnel, pour les secrets du Vault (tâches pg_cron) :
+#   export SUPABASE_DB_URL=postgresql://…       # pooler IPv4, mot de passe URL-encodé
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -31,63 +31,57 @@ fail() { echo "❌ $1" >&2; exit 1; }
 skip() { echo "⏭  $1"; }
 done_() { echo "✅ $1"; }
 
-# Une valeur d'exemple recopiée telle quelle est le mode d'échec le plus probable
-# de ce script : les points de suspension d'une documentation sont un VRAI
-# caractère, que le shell ne remplace par rien. Sans cette garde, l'erreur
-# n'apparaît qu'au premier appel réseau, sous une forme qui ne la nomme pas.
-require() {
-  local name="$1" value="$2" where="$3"
-  [[ -n "$value" ]] || fail "$name manquant ($where)"
-  case "$value" in
-    *…*|*'...'*|REMPLACER|'<'*'>')
-      fail "$name vaut « $value » — c'est la valeur d'exemple, pas la vraie ($where)" ;;
+# Une valeur d'exemple recopiée telle quelle reste le mode d'échec le plus
+# probable de tout ce qui demande un secret. Ce script n'en demande plus, mais
+# les variables APNs, elles, s'écrivent encore à la main.
+placeholder() {
+  case "$1" in
+    ''|*…*|*'...'|*xxxx*|*XXXX*|REMPLACER|'<'*'>') return 0 ;;
+    *) return 1 ;;
   esac
 }
 
-require SUPABASE_ACCESS_TOKEN "${SUPABASE_ACCESS_TOKEN:-}" "Account → Access Tokens"
-require SUPABASE_ANON_KEY "${SUPABASE_ANON_KEY:-}" "Settings → API"
-[[ "$SUPABASE_ACCESS_TOKEN" == sbp_* ]] || fail "SUPABASE_ACCESS_TOKEN doit commencer par sbp_ (Account → Access Tokens)"
-[[ -n "${SUPABASE_SERVICE_ROLE_KEY:-}" ]] && require SUPABASE_SERVICE_ROLE_KEY "$SUPABASE_SERVICE_ROLE_KEY" "Settings → API"
+# ---------------------------------------------------------------------------
+# 0. Session
+# ---------------------------------------------------------------------------
+if ! supabase projects list --output json >/dev/null 2>&1; then
+  fail "aucune session CLI. Lancer d'abord : supabase login"
+fi
+done_ "session CLI ouverte"
 
 # ---------------------------------------------------------------------------
-# 1. Lien du CLI
+# 1. Clés du projet, relues depuis l'API
 # ---------------------------------------------------------------------------
-# `link` demande le mot de passe de la base de façon INTERACTIVE quand il ne le
-# trouve pas. Lancé depuis un script ou une CI, il attendrait alors indéfiniment
-# une saisie qui ne viendra jamais — un blocage sans message. On le lui donne, ou
-# on lui dit explicitement qu'il n'y en a pas.
-echo "→ lien du CLI sur $PROJECT_REF"
-if [[ -n "${SUPABASE_DB_PASSWORD:-}" ]]; then
-  supabase link --project-ref "$PROJECT_REF" --password "$SUPABASE_DB_PASSWORD" >/dev/null
-elif [[ -n "${SUPABASE_DB_URL:-}" ]]; then
-  # Le mot de passe est déjà dans l'URL de connexion : l'en extraire évite de le
-  # demander deux fois sous deux noms différents.
-  extracted="$(printf '%s' "$SUPABASE_DB_URL" | sed -n 's|^postgresql://[^:]*:\([^@]*\)@.*|\1|p')"
-  if [[ -n "$extracted" ]]; then
-    supabase link --project-ref "$PROJECT_REF" --password "$extracted" >/dev/null
-  else
-    supabase link --project-ref "$PROJECT_REF" --password "" >/dev/null
-  fi
-else
-  # Chaîne vide et pas d'omission : `--password ""` dit « pas de mot de passe »,
-  # l'omettre dit « demande-le-moi ».
-  supabase link --project-ref "$PROJECT_REF" --password "" >/dev/null
-fi
-done_ "CLI lié"
+KEYS_JSON="$(supabase projects api-keys --project-ref "$PROJECT_REF" --reveal --output json)"
+read_key() {
+  printf '%s' "$KEYS_JSON" | python3 -c "
+import json, sys
+wanted = sys.argv[1]
+for entry in json.load(sys.stdin):
+    if entry.get('name') == wanted:
+        print(entry.get('api_key') or entry.get('apiKey') or '')
+        break
+" "$1"
+}
+ANON_KEY="$(read_key anon)"
+SERVICE_KEY="$(read_key service_role)"
+[[ -n "$ANON_KEY" ]] || fail "clé anonyme introuvable dans la réponse de l'API — le projet $PROJECT_REF est-il bien le bon ?"
+done_ "clés du projet relues (anonyme : ${ANON_KEY:0:12}…)"
 
 # ---------------------------------------------------------------------------
 # 2. Clé anonyme dans le binaire
 # ---------------------------------------------------------------------------
-# Publique par construction. Ce qui ne doit JAMAIS atterrir ici, c'est
-# `service_role`, qui contourne RLS.
+# Publique par construction : elle est embarquée dans chaque binaire client et ne
+# donne que ce que les politiques RLS autorisent. Ce qui ne doit JAMAIS atterrir
+# ici, c'est `service_role`, qui les contourne.
 PLIST=NeonCompass/Resources/Supabase-Info.plist
-python3 - "$PLIST" "$PROJECT_URL" "$SUPABASE_ANON_KEY" <<'PY'
+python3 - "$PLIST" "$PROJECT_URL" "$ANON_KEY" <<'PY'
 import re, sys, pathlib
-path, url, key = sys.argv[1], sys.argv[2], sys.argv[3]
+path, url, key = sys.argv[1:4]
 p = pathlib.Path(path)
 s = p.read_text()
-s = re.sub(r'(<key>SUPABASE_URL</key>\s*\n\t<string>)[^<]*(</string>)', rf'\g<1>{url}\g<2>', s)
-s = re.sub(r'(<key>SUPABASE_ANON_KEY</key>\s*\n\t<string>)[^<]*(</string>)', rf'\g<1>{key}\g<2>', s)
+s = re.sub(r'(<key>SUPABASE_URL</key>\s*\n\t<string>)[^<]*(</string>)', lambda m: m.group(1) + url + m.group(2), s)
+s = re.sub(r'(<key>SUPABASE_ANON_KEY</key>\s*\n\t<string>)[^<]*(</string>)', lambda m: m.group(1) + key + m.group(2), s)
 p.write_text(s)
 PY
 done_ "clé anonyme posée dans $PLIST"
@@ -99,39 +93,42 @@ done_ "clé anonyme posée dans $PLIST"
 # de l'URL et d'une clé. Écrire ces valeurs dans une migration versionnée
 # reviendrait à committer une clé `service_role` — d'où le Vault.
 if [[ -z "${SUPABASE_DB_URL:-}" ]]; then
-  skip "secrets du Vault : SUPABASE_DB_URL manquant. Les tâches pg_cron ne pourront PAS appeler les fonctions."
-elif [[ -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ]]; then
-  skip "secrets du Vault : SUPABASE_SERVICE_ROLE_KEY manquant. Idem."
+  skip "secrets du Vault : SUPABASE_DB_URL absent. Les tâches pg_cron ne pourront PAS appeler les fonctions."
+elif [[ -z "$SERVICE_KEY" ]]; then
+  skip "secrets du Vault : l'API n'a pas rendu de clé service_role. Idem."
+elif ! command -v psql >/dev/null 2>&1; then
+  skip "secrets du Vault : psql introuvable (brew install postgresql@17)."
 else
-  command -v psql >/dev/null || fail "psql introuvable (brew install postgresql@17)"
   psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -tAc "
     select vault.create_secret('$PROJECT_URL', 'project_url')
      where not exists (select 1 from vault.secrets where name = 'project_url');
-    select vault.create_secret('$SUPABASE_SERVICE_ROLE_KEY', 'service_role_key')
+    select vault.create_secret('$SERVICE_KEY', 'service_role_key')
      where not exists (select 1 from vault.secrets where name = 'service_role_key');
   " >/dev/null
-  done_ "secrets du Vault posés (project_url, service_role_key)"
+  done_ "secrets du Vault posés"
 fi
 
 # ---------------------------------------------------------------------------
 # 4. Secrets des Edge Functions
 # ---------------------------------------------------------------------------
-supabase secrets set \
+supabase secrets set --project-ref "$PROJECT_REF" \
   APP_BUNDLE_ID="$BUNDLE_ID" \
   APP_STORE_ENVIRONMENT="${APP_STORE_ENVIRONMENT:-sandbox}" \
   >/dev/null
 done_ "secrets App Store posés (environnement : ${APP_STORE_ENVIRONMENT:-sandbox})"
 
-if [[ -n "${APP_STORE_APPLE_ID:-}" ]]; then
-  supabase secrets set APP_STORE_APPLE_ID="$APP_STORE_APPLE_ID" >/dev/null
+if [[ -n "${APP_STORE_APPLE_ID:-}" ]] && ! placeholder "${APP_STORE_APPLE_ID}"; then
+  supabase secrets set --project-ref "$PROJECT_REF" APP_STORE_APPLE_ID="$APP_STORE_APPLE_ID" >/dev/null
   done_ "APP_STORE_APPLE_ID posé"
 else
-  skip "APP_STORE_APPLE_ID absent — requis UNIQUEMENT en production (la vérification de signature échouera si APP_STORE_ENVIRONMENT=production sans lui)"
+  skip "APP_STORE_APPLE_ID absent — requis UNIQUEMENT en production (la vérification de signature échoue si APP_STORE_ENVIRONMENT=production sans lui)"
 fi
 
 if [[ -n "${APNS_KEY_ID:-}" && -n "${APNS_TEAM_ID:-}" && -n "${APNS_PRIVATE_KEY_PATH:-}" ]]; then
+  placeholder "$APNS_KEY_ID" && fail "APNS_KEY_ID vaut « $APNS_KEY_ID » — c'est une valeur d'exemple"
+  placeholder "$APNS_TEAM_ID" && fail "APNS_TEAM_ID vaut « $APNS_TEAM_ID » — c'est une valeur d'exemple"
   [[ -f "$APNS_PRIVATE_KEY_PATH" ]] || fail "APNS_PRIVATE_KEY_PATH pointe sur un fichier absent : $APNS_PRIVATE_KEY_PATH"
-  supabase secrets set \
+  supabase secrets set --project-ref "$PROJECT_REF" \
     APNS_KEY_ID="$APNS_KEY_ID" \
     APNS_TEAM_ID="$APNS_TEAM_ID" \
     APNS_BUNDLE_ID="$BUNDLE_ID" \
@@ -140,7 +137,7 @@ if [[ -n "${APNS_KEY_ID:-}" && -n "${APNS_TEAM_ID:-}" && -n "${APNS_PRIVATE_KEY_
     >/dev/null
   done_ "secrets APNs posés (hôte : ${APNS_HOST:-api.sandbox.push.apple.com})"
 else
-  skip "secrets APNs absents — send-push se déploiera mais échouera à l'envoi. Sans conséquence tant que backendFeaturesEnabled vaut false."
+  skip "secrets APNs absents — send-push se déploiera mais restera muette. Sans conséquence tant que backendFeaturesEnabled vaut false."
 fi
 
 # ---------------------------------------------------------------------------
@@ -148,7 +145,7 @@ fi
 # ---------------------------------------------------------------------------
 # `app-store-notification` est la seule en --no-verify-jwt : Apple l'appelle sans
 # jeton Supabase. Ce qui remplace cette vérification, c'est la signature JWS
-# d'Apple, vérifiée dans la fonction avant toute lecture du contenu.
+# d'Apple, vérifiée dans la fonction AVANT toute lecture du contenu.
 for fn in delete-account regenerate-handle submit-contribution send-push rebuild-community-bundles; do
   echo "→ déploiement de $fn"
   supabase functions deploy "$fn" --project-ref "$PROJECT_REF" >/dev/null
