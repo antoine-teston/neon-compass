@@ -46,7 +46,7 @@ l'idempotence de toute la chaîne, sans que rien ne le signale.
 
 Le détail des règles de rédaction vit dans
 `tools/content-cli/prompts/rewrite-news.md` — c'est le même texte que celui
-qu'exécute le run hebdomadaire automatique.
+qu'exécute le run quotidien automatique.
 
 ## Événements en ligne (`kind: "online-event"`) : tu ne frappes PAS les identifiants
 

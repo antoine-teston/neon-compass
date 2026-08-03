@@ -1,0 +1,21 @@
+{
+  "id": "news_0fb25643",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un ancien animateur du studio estime le jeu achevé à 80-90 %",
+    "en": "A former studio animator puts the game at 80 to 90 percent done"
+  },
+  "body": {
+    "fr": "Il y a travaillé de 2012 à 2017 et pense que l'équipe n'ajoute plus de contenu, pour se consacrer aux tests et à la finition — une phase qui prend souvent plus de temps que la fabrication elle-même. Il précise n'avoir aucune visibilité sur le projet et raisonner d'après son expérience passée. C'est donc une estimation extérieure, pas une information venue du studio.",
+    "en": "He worked there from 2012 to 2017 and believes the team has stopped adding content and moved on to testing and polish — a phase that often takes longer than building the game. He is explicit that he has no visibility into the project and is reasoning from past experience. It is an outside estimate, not word from the studio."
+  },
+  "publishedAt": "2026-07-30",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/an-ex-rockstar-dev-thinks-gta-6-is-almost-finished-8644"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:672832a63e4e",
+  "sourceClaim": "Un ancien animateur du studio, en poste de 2012 à 2017 et crédité sur trois de ses productions, estime en entretien que le jeu serait achevé à 80-90 % et vraisemblablement arrivé au stade où plus aucun contenu n'est ajouté, l'équipe étant passée aux tests et à la finition. Il précise lui-même n'avoir aucune implication dans le projet et raisonner d'après son expérience passée, non d'après une information interne."
+}
