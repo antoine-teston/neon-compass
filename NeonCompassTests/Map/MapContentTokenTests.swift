@@ -30,32 +30,32 @@ struct MapContentTokenTests {
     /// Le cas qui a motivé ce compteur : sans lui, poser une épingle ne
     /// changerait rien de comparable et la carte ne la dessinerait jamais.
     @Test func addingAPersonalPinAdvancesItsGeneration() {
-        let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
-        let before = model.personalPinsGeneration
-        model.addPersonalPin(at: NormalizedPoint(x: 0.5, y: 0.5), title: "Planque")
-        #expect(model.personalPinsGeneration != before)
-        #expect(model.personalPins.count == 1)
+        let store = PersonalPinStore(modelContext: makeContext())
+        let before = store.generation
+        store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)
+        #expect(store.generation != before)
+        #expect(store.pins.count == 1)
     }
 
     /// Supprimer compte autant qu'ajouter : une épingle retirée doit disparaître.
     @Test func deletingAPersonalPinAdvancesItsGeneration() {
-        let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
-        model.addPersonalPin(at: NormalizedPoint(x: 0.5, y: 0.5), title: "Planque")
-        let before = model.personalPinsGeneration
-        model.deletePersonalPin(model.personalPins[0])
-        #expect(model.personalPinsGeneration != before)
-        #expect(model.personalPins.isEmpty)
+        let store = PersonalPinStore(modelContext: makeContext())
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        let before = store.generation
+        store.delete(pin)
+        #expect(store.generation != before)
+        #expect(store.pins.isEmpty)
     }
 
     /// Deux épingles successives doivent donner deux générations distinctes —
     /// un compteur qui se contenterait de basculer entre deux valeurs
     /// retomberait sur la précédente une fois sur deux.
     @Test func successivePersonalPinsNeverRepeatAGeneration() {
-        let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
-        var seen: Set<Int> = [model.personalPinsGeneration]
+        let store = PersonalPinStore(modelContext: makeContext())
+        var seen: Set<Int> = [store.generation]
         for index in 0..<5 {
-            model.addPersonalPin(at: NormalizedPoint(x: 0.1 * Double(index), y: 0.5), title: "P\(index)")
-            #expect(seen.insert(model.personalPinsGeneration).inserted, "génération déjà vue au tour \(index)")
+            store.create(at: NormalizedPoint(x: 0.1 * Double(index), y: 0.5), game: .reference, isProEntitled: true)
+            #expect(seen.insert(store.generation).inserted, "génération déjà vue au tour \(index)")
         }
     }
 
@@ -127,12 +127,31 @@ struct MapContentTokenTests {
     /// une fiche ouverte modifiait le rendu d'une pastille, il faudrait
     /// l'ajouter au jeton — ce test le rappellerait.
     @Test func selectingAPOIChangesNoGeneration() {
-        let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
+        let context = makeContext()
+        let model = MapModel(pois: samplePOIs(), modelContext: context)
+        let store = PersonalPinStore(modelContext: context)
         let pois = model.poisGeneration
-        let pins = model.personalPinsGeneration
-        model.selectedPOI = model.filteredPOIs[0]
-        model.selectedPOI = nil
+        let pins = store.generation
+        model.selection = .poi(model.filteredPOIs[0])
+        model.selection = nil
         #expect(model.poisGeneration == pois)
-        #expect(model.personalPinsGeneration == pins)
+        #expect(store.generation == pins)
+    }
+
+    /// Et sélectionner une ÉPINGLE non plus : ouvrir sa fiche ne redessine pas le
+    /// calque. Le cas est distinct du précédent depuis que le panneau accueille
+    /// deux natures — c'est la seule des deux qui puisse être mutée par la fiche
+    /// ouverte, donc celle où la confusion coûterait.
+    @Test func selectingAPersonalPinChangesNoGeneration() {
+        let context = makeContext()
+        let model = MapModel(pois: samplePOIs(), modelContext: context)
+        let store = PersonalPinStore(modelContext: context)
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        let pois = model.poisGeneration
+        let pins = store.generation
+        model.selection = .pin(pin)
+        model.selection = nil
+        #expect(model.poisGeneration == pois)
+        #expect(store.generation == pins)
     }
 }

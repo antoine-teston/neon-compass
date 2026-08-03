@@ -152,4 +152,35 @@ struct PersonalPinStoreTests {
         store.refresh()
         #expect(store.pins.count == 1)
     }
+
+    // MARK: - Sélection
+
+    /// Le panneau tient une référence à l'épingle sélectionnée. La supprimer sans
+    /// vider la sélection laisserait le panneau sur un objet effacé.
+    @Test func deletingTheSelectedPinClearsTheSelection() {
+        let context = makeContext()
+        let store = PersonalPinStore(modelContext: context)
+        let model = MapModel(pois: [], modelContext: context)
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        model.selection = .pin(pin)
+        #expect(model.selection?.pin === pin)
+        model.clearSelectionIfPin(pin)
+        #expect(model.selection == nil)
+    }
+
+    /// La somme interdit l'état impossible : deux natures ne peuvent pas être
+    /// sélectionnées en même temps, ce que deux `Optional` côte à côte auraient
+    /// laissé exprimer.
+    @Test func selectingAPOIReplacesASelectedPin() {
+        let context = makeContext()
+        let store = PersonalPinStore(modelContext: context)
+        let model = MapModel(pois: [], modelContext: context)
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        model.selection = .pin(pin)
+        let poi = POI(id: "a", category: .landmark, position: NormalizedPoint(x: 0.1, y: 0.1),
+                      title: LocalizedText(en: "Alpha", fr: nil, es: nil, it: nil, de: nil), note: nil)
+        model.selection = .poi(poi)
+        #expect(model.selection?.pin == nil)
+        #expect(model.selection?.poi?.id == "a")
+    }
 }

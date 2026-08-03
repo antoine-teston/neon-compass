@@ -1,19 +1,18 @@
 import SwiftUI
 
 struct PersonalPinListSheet: View {
-    @Bindable var model: MapModel
+    let store: PersonalPinStore
+    let game: Game
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(model.personalPins) { pin in
+                ForEach(store.pins(for: game)) { pin in
                     Text(pin.title)
                 }
                 .onDelete { offsets in
-                    let pins = model.personalPins
-                    for index in offsets {
-                        model.deletePersonalPin(pins[index])
-                    }
+                    let pins = store.pins(for: game)
+                    for index in offsets { store.delete(pins[index]) }
                 }
             }
             .navigationTitle(Text("map.personalPins.title"))

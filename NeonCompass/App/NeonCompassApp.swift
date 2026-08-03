@@ -19,6 +19,11 @@ struct NeonCompassApp: App {
     /// un schéma qu'on n'arrive pas à ouvrir est une app qui n'a rien à afficher.
     private let modelContainer: ModelContainer
     @State private var foundStore: FoundStore
+    /// Construit ici et non dans l'écran, pour la même raison que `FoundStore` :
+    /// un magasin bâti par `MapScreen` serait reconstruit à chaque bascule
+    /// d'onglet sur iPad, et le carnet ouvert depuis un autre écran verrait une
+    /// autre liste.
+    @State private var personalPinStore: PersonalPinStore
 
     init() {
         let container = try! ModelContainer(
@@ -27,12 +32,14 @@ struct NeonCompassApp: App {
         )
         modelContainer = container
         _foundStore = State(initialValue: FoundStore(modelContext: container.mainContext))
+        _personalPinStore = State(initialValue: PersonalPinStore(modelContext: container.mainContext))
     }
 
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environment(foundStore)
+                .environment(personalPinStore)
         }
         .modelContainer(modelContainer)
     }

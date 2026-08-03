@@ -43,6 +43,7 @@ struct MapScreen: View {
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @Environment(FoundStore.self) private var foundStore
+    @Environment(PersonalPinStore.self) private var personalPinStore
 
     private let manifest = MapManifest.load() ?? MapManifest(size: 2048)
 
@@ -82,14 +83,14 @@ struct MapScreen: View {
                     )
                     displayControls
                 }
-                if let selected = model.selectedPOI {
-                    detailPanel(selected, model: model, edge: .bottom)
+                if let selection = model.selection {
+                    detailPanel(selection, model: model, edge: .bottom)
                         // Dégage la tab bar flottante, comme les contrôles
                         // d'affichage juste au-dessus.
                         .padding(.bottom, 76)
                 }
             }
-            .animation(.snappy, value: model.selectedPOI)
+            .animation(.snappy, value: model.selection)
         } else {
             // Le panneau FLOTTE au-dessus de la carte au lieu de la pousser.
             //
@@ -115,13 +116,13 @@ struct MapScreen: View {
                     )
                     displayControls
                 }
-                if let selected = model.selectedPOI {
-                    detailPanel(selected, model: model, edge: .trailing, width: 340)
+                if let selection = model.selection {
+                    detailPanel(selection, model: model, edge: .trailing, width: 340)
                 }
             }
             // `.transition` n'avait jamais joué : rien n'animait la mutation de
-            // `selectedPOI`, le panneau surgissait et disparaissait d'un coup.
-            .animation(.snappy, value: model.selectedPOI)
+            // `selection`, le panneau surgissait et disparaissait d'un coup.
+            .animation(.snappy, value: model.selection)
         }
     }
 
@@ -151,12 +152,15 @@ struct MapScreen: View {
                 game: mapGame,
                 style: mapStyle,
                 pois: model.filteredPOIs,
-                personalPins: model.personalPins,
+                // Filtré par CARTE en amont : le moteur ne reçoit que les
+                // épingles de la carte affichée, ce qui ferme la fuite d'une
+                // carte à l'autre.
+                personalPins: personalPinStore.pins(for: mapGame),
                 communitySpots: communityModel?.visibleSpots ?? [],
                 draftPins: editorDraftPins,
                 poisGeneration: model.poisGeneration,
                 spotsGeneration: communityModel?.spotsGeneration ?? 0,
-                personalPinsGeneration: model.personalPinsGeneration,
+                personalPinsGeneration: personalPinStore.generation,
                 foundPOIIDs: model.foundPOIIDs,
                 viewport: $viewport,
                 onLongPress: { canvasPoint in
@@ -169,7 +173,7 @@ struct MapScreen: View {
                     pendingPinLocation = normalized
                     showLongPressMenu = true
                 },
-                onTapPOI: { poi in model.selectedPOI = poi },
+                onTapPOI: { poi in model.selection = .poi(poi) },
                 onVote: { spot, direction in
                     Task { await communityModel?.vote(on: spot, direction: direction) }
                 },
@@ -202,10 +206,10 @@ struct MapScreen: View {
             // Les deux cartes ont des jeux de POI disjoints : changer de carte
             // change la source, pas seulement l'image de fond.
             model.updatePOIs(pois(for: newGame))
-            model.selectedPOI = nil
+            model.selection = nil
         }
         .sheet(isPresented: $showPersonalPinList) {
-            PersonalPinListSheet(model: model)
+            PersonalPinListSheet(store: personalPinStore, game: mapGame)
         }
         .sheet(isPresented: $showRoutePlanner) {
             RoutePlannerSheet(
@@ -226,7 +230,9 @@ struct MapScreen: View {
             TextField("map.personalPins.addPrompt", text: $pendingPinTitle)
             Button("map.personalPins.save") {
                 if let location = pendingPinLocation, !pendingPinTitle.isEmpty {
-                    model.addPersonalPin(at: location, title: pendingPinTitle)
+                    if let pin = personalPinStore.create(at: location, game: mapGame, isProEntitled: proEntitlementModel.isProEntitled) {
+                        personalPinStore.update(pin, title: pendingPinTitle, note: "")
+                    }
                 }
                 pendingPinTitle = ""
                 pendingPinLocation = nil
@@ -305,8 +311,8 @@ struct MapScreen: View {
     /// Ce que la feuille rendait gratuitement, et qu'il faut donc rendre ici :
     /// le congédiement au balayage, l'isolement du contenu derrière pour
     /// VoiceOver, et le geste d'échappement.
-    private func detailPanel(_ poi: POI, model: MapModel, edge: Edge, width: CGFloat? = nil) -> some View {
-        poiDetail(poi, model: model)
+    private func detailPanel(_ selection: MapSelection, model: MapModel, edge: Edge, width: CGFloat? = nil) -> some View {
+        panelContent(selection, model: model)
             .frame(width: width)
             // Le panneau flotte AU-DESSUS de la carte : sans forme explicite, le
             // verre peint sans rien intercepter et un tap le traverserait pour
@@ -320,7 +326,7 @@ struct MapScreen: View {
                     .onEnded { drag in
                         let travelled = edge == .bottom ? drag.translation.height : drag.translation.width
                         guard travelled > 60 else { return }
-                        model.selectedPOI = nil
+                        model.selection = nil
                     }
             )
             // Une feuille rendait la carte derrière elle invisible à VoiceOver
@@ -328,7 +334,7 @@ struct MapScreen: View {
             // ne fait ni l'un ni l'autre de lui-même : sans ces deux lignes, le
             // gain de fluidité se paierait en accessibilité.
             .accessibilityAddTraits(.isModal)
-            .accessibilityAction(.escape) { model.selectedPOI = nil }
+            .accessibilityAction(.escape) { model.selection = nil }
             // Borne ce qui est PROPOSÉ à la fiche, sans le lui imposer.
             //
             // La feuille système plafonnait la fiche à mi-écran et faisait
@@ -350,6 +356,22 @@ struct MapScreen: View {
             .transition(.move(edge: edge))
     }
 
+    /// Ce que le panneau montre — deux natures, une seule fente. Les
+    /// comportements de panneau (congédiement au balayage, `.isModal`, geste
+    /// d'échappement, cadre borné) sont posés une fois pour les deux par
+    /// `detailPanel` : ils décrivent le panneau, pas ce qu'on y met.
+    @ViewBuilder
+    private func panelContent(_ selection: MapSelection, model: MapModel) -> some View {
+        switch selection {
+        case .poi(let poi):
+            poiDetail(poi, model: model)
+        case .pin:
+            // La fiche d'épingle arrive au prochain pas. Jusque-là, rien ne
+            // sélectionne d'épingle : elles ne sont pas encore tapables.
+            EmptyView()
+        }
+    }
+
     /// Fiche d'un POI, augmentée des actions d'édition quand l'éditeur est armé.
     /// Construite ici plutôt qu'au site d'appel : les deux dispositions (feuille
     /// en compact, panneau latéral en régulier) partagent ainsi exactement la
@@ -359,17 +381,17 @@ struct MapScreen: View {
             poi: poi,
             isFound: model.isFound(poi),
             onToggleFound: { model.toggleFound(poi) },
-            onDismiss: { model.selectedPOI = nil }
+            onDismiss: { model.selection = nil }
         )
 #if DEBUG
         if editorModel.isArmed {
             view.onEditorMove = {
                 editorModel.beginMove(poiID: poi.id)
-                model.selectedPOI = nil
+                model.selection = nil
             }
             view.onEditorDelete = {
                 editorModel.delete(poiID: poi.id)
-                model.selectedPOI = nil
+                model.selection = nil
             }
         }
 #endif

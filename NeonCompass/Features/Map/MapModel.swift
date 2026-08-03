@@ -12,7 +12,12 @@ final class MapModel {
     var searchQuery: String = "" {
         didSet { refreshFilteredPOIs() }
     }
-    var selectedPOI: POI?
+    /// Ce que le panneau montre. Une SOMME, et non deux `Optional` côte à côte :
+    /// le panneau accueille désormais deux natures — un point d'intérêt éditorial
+    /// et une épingle du carnet — et ne peut en montrer qu'une. Deux facultatifs
+    /// laisseraient exprimer l'état impossible où les deux sont non nuls, qu'aucun
+    /// type n'interdirait.
+    var selection: MapSelection?
     /// Passe-plat vers le magasin partagé, et non plus un cache propre : deux
     /// caches d'une seule vérité divergeaient (voir `FoundStore`). L'observation
     /// traverse la chaîne — une vue qui lit `model.foundPOIIDs` s'abonne en fait
@@ -42,15 +47,6 @@ final class MapModel {
     /// d'invalidation à `MapClusterCache` : comparer 537 points pour détecter un
     /// changement coûterait le prix d'un recalcul, ce compteur coûte zéro.
     private(set) var poisGeneration = 0
-    /// Une requête SwiftData n'a rien à faire dans une propriété lue par le
-    /// corps d'une vue : c'est de l'entrée/sortie sur le fil principal, à
-    /// chaque rendu.
-    private(set) var personalPins: [PersonalPin] = []
-    /// Même rôle que `poisGeneration`, pour les épingles personnelles : donner
-    /// au moteur de carte un moyen en O(1) de savoir si sa liste a changé.
-    /// `PersonalPin` est une classe SwiftData — comparer les tableaux ne dirait
-    /// rien d'un titre modifié, et compter les éléments encore moins.
-    private(set) var personalPinsGeneration = 0
 
     private let modelContext: ModelContext
     private let found: FoundStore
@@ -72,7 +68,6 @@ final class MapModel {
         self.sync = sync
         // Les `didSet` ne se déclenchent pas pendant l'initialisation.
         refreshFilteredPOIs()
-        refreshPersonalPins()
     }
 
     /// Quels POI afficher pour la carte sélectionnée.
@@ -134,22 +129,11 @@ final class MapModel {
         }
     }
 
-    private func refreshPersonalPins() {
-        let descriptor = FetchDescriptor<PersonalPin>(sortBy: [SortDescriptor(\.createdAt)])
-        personalPins = (try? modelContext.fetch(descriptor)) ?? []
-        personalPinsGeneration &+= 1
-    }
-
-    func addPersonalPin(at point: NormalizedPoint, title: String) {
-        modelContext.insert(PersonalPin(x: point.x, y: point.y, title: title))
-        try? modelContext.save()
-        refreshPersonalPins()
-    }
-
-    func deletePersonalPin(_ pin: PersonalPin) {
-        modelContext.delete(pin)
-        try? modelContext.save()
-        refreshPersonalPins()
+    /// Vide la sélection si elle porte cette épingle. À appeler AVANT la
+    /// suppression : le panneau tient une référence, et un objet SwiftData effacé
+    /// sous elle est un plantage en attente.
+    func clearSelectionIfPin(_ pin: PersonalPin) {
+        if selection?.pin === pin { selection = nil }
     }
 
     func updatePOIs(_ newPOIs: [POI]) {
@@ -182,4 +166,19 @@ final class MapModel {
         found.reconcile(with: remoteItems)
         refreshFilteredPOIs()
     }
+}
+
+/// Ce qu'on peut sélectionner sur la carte, et que le panneau montre.
+///
+/// `POI` est une valeur, `PersonalPin` une classe SwiftData — `@Model` est déjà
+/// `Hashable`, donc l'égalité synthétisée compare le contenu pour le point et
+/// l'identité pour l'épingle. C'est exactement ce qu'il faut : renommer une
+/// épingle ouverte ne doit pas rejouer la transition du panneau sous les doigts
+/// de celui qui écrit dedans.
+enum MapSelection: Equatable {
+    case poi(POI)
+    case pin(PersonalPin)
+
+    var poi: POI? { if case .poi(let poi) = self { return poi } else { return nil } }
+    var pin: PersonalPin? { if case .pin(let pin) = self { return pin } else { return nil } }
 }
