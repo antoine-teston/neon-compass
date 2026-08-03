@@ -41,4 +41,115 @@ struct PersonalPinStoreTests {
         #expect(pin.note.isEmpty)
         #expect(pin.deletedAt == nil)
     }
+
+    // MARK: - Plafond
+
+    /// Vingt en gratuit, toutes cartes confondues — un plafond PAR carte en
+    /// vaudrait quarante et ne voudrait plus rien dire.
+    @Test func theFreeCapBlocksTheTwentyFirstPin() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        for index in 0..<PersonalPinStore.freeCap {
+            let created = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: false)
+            #expect(created != nil, "la création \(index) aurait dû passer")
+        }
+        #expect(store.isAtCap(isProEntitled: false))
+        #expect(store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: false) == nil)
+        #expect(store.pins.count == PersonalPinStore.freeCap)
+    }
+
+    /// Le plafond compte les DEUX cartes : quinze ici plus cinq là doivent buter.
+    @Test func theCapCountsEveryMapTogether() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        for _ in 0..<15 { store.create(at: NormalizedPoint(x: 0.1, y: 0.1), game: .reference, isProEntitled: false) }
+        for _ in 0..<5 { store.create(at: NormalizedPoint(x: 0.2, y: 0.2), game: .leonida, isProEntitled: false) }
+        #expect(store.create(at: NormalizedPoint(x: 0.3, y: 0.3), game: .leonida, isProEntitled: false) == nil)
+    }
+
+    @Test func proHasNoCap() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        for _ in 0..<(PersonalPinStore.freeCap + 5) {
+            store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)
+        }
+        #expect(store.pins.count == PersonalPinStore.freeCap + 5)
+        #expect(store.isAtCap(isProEntitled: true) == false)
+    }
+
+    /// Règle de déclassement : on ne supprime JAMAIS. Un carnet au-dessus du
+    /// plafond reste entièrement modifiable — seul l'ajout est fermé.
+    @Test func anOverCapNotebookStaysEditable() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        for _ in 0..<25 { store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true) }
+        let pin = store.pins[0]
+        store.update(pin, title: "Renommée", note: "Toujours modifiable")
+        store.toggleDone(pin)
+        #expect(pin.title == "Renommée")
+        #expect(pin.isDone)
+        store.delete(pin)
+        #expect(store.pins.count == 24)
+    }
+
+    // MARK: - Portée par carte
+
+    /// Le bug que ce chantier répare : une épingle ne doit apparaître que sur la
+    /// carte où elle a été posée.
+    @Test func aPinBelongsToExactlyOneMap() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        store.create(at: NormalizedPoint(x: 0.1, y: 0.1), game: .reference, isProEntitled: true)
+        store.create(at: NormalizedPoint(x: 0.2, y: 0.2), game: .leonida, isProEntitled: true)
+        #expect(store.pins(for: .reference).count == 1)
+        #expect(store.pins(for: .leonida).count == 1)
+        #expect(store.pins(for: .reference)[0].gameValue == .reference)
+    }
+
+    // MARK: - Générations
+
+    /// Sans génération qui avance, le moteur de carte ne repousse pas son
+    /// contenu et l'épingle posée n'apparaît jamais.
+    @Test func creatingDeletingAndTogglingAdvanceTheGeneration() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        var seen: Set<Int> = [store.generation]
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        #expect(seen.insert(store.generation).inserted, "la création n'a pas avancé la génération")
+        store.toggleDone(pin)
+        #expect(seen.insert(store.generation).inserted, "la coche n'a pas avancé la génération")
+        store.setIcon(.vehicle, on: pin)
+        #expect(seen.insert(store.generation).inserted, "l'icône n'a pas avancé la génération")
+        store.delete(pin)
+        #expect(seen.insert(store.generation).inserted, "la suppression n'a pas avancé la génération")
+    }
+
+    /// Le titre et la note ne changent PAS le dessin de l'épingle : les commettre
+    /// ne doit pas périmer le contenu du moteur, sans quoi chaque session
+    /// d'édition ferait rebâtir toutes les pastilles de la carte.
+    @Test func editingTextDoesNotAdvanceTheGeneration() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        let before = store.generation
+        store.update(pin, title: "Un nom", note: "Une note")
+        #expect(store.generation == before)
+    }
+
+    // MARK: - updatedAt
+
+    @Test func editingMovesUpdatedAtOnlyWhenSomethingChanged() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        pin.updatedAt = .distantPast
+        store.update(pin, title: "", note: "")   // rien n'a changé : le titre était déjà vide
+        #expect(pin.updatedAt == .distantPast, "une édition sans changement ne doit pas dater l'épingle")
+        store.update(pin, title: "Un nom", note: "")
+        #expect(pin.updatedAt > .distantPast)
+    }
+
+    /// Le magasin relit le disque, comme `FoundStore.refresh` : les tests et les
+    /// chemins d'amorçage insèrent parfois par-derrière.
+    @Test func refreshSeesWritesMadeBehindTheStore() {
+        let context = makeContext()
+        let store = PersonalPinStore(modelContext: context)
+        context.insert(PersonalPin(x: 0.4, y: 0.4, game: .reference, title: "Par-derrière"))
+        try? context.save()
+        #expect(store.pins.isEmpty)
+        store.refresh()
+        #expect(store.pins.count == 1)
+    }
 }
