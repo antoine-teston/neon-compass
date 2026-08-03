@@ -23,6 +23,7 @@ import { Environment, SignedDataVerifier } from 'npm:@apple/app-store-server-lib
 // plutôt qu'une reécriture de la vérification de signature.
 import { Buffer } from 'node:buffer';
 import { adminClient } from '../_shared/auth.ts';
+import { APPLE_ROOT_CA_G3_BASE64 } from './apple-root-ca.ts';
 
 // Les notifications du bac à sable d'Apple — celles de TestFlight — doivent
 // être vérifiées contre `SANDBOX`, sinon même une charge authentiquement signée
@@ -46,18 +47,16 @@ const REVOKE_TYPES = new Set(['REFUND', 'REVOKE']);
 
 let cachedVerifier: SignedDataVerifier | undefined;
 
-async function verifier(): Promise<SignedDataVerifier> {
+function verifier(): SignedDataVerifier {
   if (cachedVerifier) return cachedVerifier;
-  // Les certificats racines d'Apple ne sont PAS fournis par la bibliothèque :
-  // son propre README demande de les télécharger depuis
-  // https://www.apple.com/certificateauthority/ et de les passer soi-même.
-  // AppleRootCA-G3 est celui qui signe la chaîne actuelle des notifications.
-  const certificate = await Deno.readFile(new URL('./certs/AppleRootCA-G3.cer', import.meta.url));
+  // Le certificat vient d'un module, pas d'un fichier voisin : le déploiement
+  // n'empaquette que ce qui est atteint par un import. Voir apple-root-ca.ts.
+  const certificate = Buffer.from(APPLE_ROOT_CA_G3_BASE64, 'base64');
   // Contrôles en ligne activés : révocation et expiration vérifiées contre
   // l'heure courante, en défense supplémentaire contre un certificat
   // intermédiaire compromis ou expiré.
   cachedVerifier = new SignedDataVerifier(
-    [Buffer.from(certificate)],
+    [certificate],
     true,
     APP_STORE_ENVIRONMENT,
     BUNDLE_ID,
@@ -71,7 +70,7 @@ Deno.serve(async (request) => {
   const signedPayload = body?.signedPayload;
   if (typeof signedPayload !== 'string') return new Response('missing signedPayload', { status: 400 });
 
-  const check = await verifier();
+  const check = verifier();
 
   let notification;
   try {

@@ -543,7 +543,7 @@ switch (cmd) {
     try {
       const { uploadSite } = await import('./supabase-client.js');
       const count = await uploadSite(dist);
-      console.log(`deploy-cdn: ${count} objet(s) téléversé(s) dans le bucket content`);
+      console.log(`deploy-cdn: ${count} objet(s) téléversé(s) dans le bucket cdn`);
       ok = true;
     } catch (err) {
       console.error(err.message);
