@@ -13,21 +13,32 @@ La passerelle de sortie de ta session refuse le CONNECT sur les quatre domaines
 du registre — vérifié les 21/07, 27/07 et 03/08, à chaque fois un 403 sur les
 quatre à la fois. Ce n'est pas contournable, et il ne faut pas essayer.
 
-Le réseau vit sur un runner GitHub, dans le workflow `Récolte`. Il rapporte les
-flux et le texte des articles récents dans un **artefact** que tu viens
-chercher :
+Le réseau vit sur un runner GitHub, dans le workflow `Récolte`. Il dépose sa
+récolte sur la branche jetable `veille/recolte`, que tu lis par l'API :
 
 ```sh
 gh workflow run recolte.yml --ref main -f since=2 -f max=15
 gh run watch <id> --exit-status            # attendre la fin
-gh run download <id> -n recolte -D /tmp/recolte
+gh api "repos/$GITHUB_REPOSITORY/contents/recolte.json?ref=veille/recolte" \
+  -H "Accept: application/vnd.github.raw" > /tmp/recolte.json
 ```
 
-Tu lis ensuite, en local et sans réseau :
+**N'utilise PAS `gh run download`.** L'artefact existe, mais son téléchargement
+redirige vers un CDN Azure que ta passerelle refuse au CONNECT — vérifié le
+2026-08-03. L'API `contents` rend le fichier dans sa réponse, sans redirection :
+c'est le seul chemin praticable.
 
-- `/tmp/recolte/harvest.json` — ce qui a été rapporté, et ce qui a été écarté ;
-- `/tmp/recolte/feeds.json` — titres, liens et dates de tous les flux ;
-- `/tmp/recolte/pages/*.txt` — le texte des articles de la fenêtre.
+`/tmp/recolte.json` contient tout, en un fichier :
+
+- `feeds` — titres, liens et dates de tous les flux, par hôte ;
+- `pages` — le texte des articles, indexé par URL ;
+- `fetched` / `skipped` — ce qui a été rapporté, et ce qui a été écarté.
+
+**Supprime la branche après lecture**, c'est du texte de tiers :
+
+```sh
+gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/veille/recolte"
+```
 
 Les commandes qui ne demandent pas le réseau te restent utiles :
 
@@ -35,12 +46,12 @@ Les commandes qui ne demandent pas le réseau te restent utiles :
 node tools/content-cli/fetch-source.mjs policy      # qui est autorisé, et pourquoi
 ```
 
-**Commence toujours par `feeds.json`.** Les titres et dates suffisent à décider
-ce qui mérite un fait ; tu n'ouvres le `.txt` que des entrées retenues.
+**Commence toujours par `feeds`.** Les titres et dates suffisent à décider ce qui
+mérite un fait ; tu ne lis le texte que des entrées retenues.
 
-Si l'artefact manque une page que tu voulais, **ne va pas la chercher toi-même** :
+Si la récolte manque une page que tu voulais, **ne va pas la chercher toi-même** :
 relance `Récolte` avec un `--max` plus large, ou note le manque dans ton
-compte-rendu. `harvest.json` liste déjà ce qui a été écarté et pourquoi.
+compte-rendu. `skipped` liste déjà ce qui a été écarté et pourquoi.
 
 La liste blanche est appliquée par le code, sur le runner : `Récolte` ne
 rapporte que des domaines autorisés, et passe par l'API du wiki là où le HTML

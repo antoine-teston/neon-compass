@@ -277,7 +277,7 @@ export function recentEntries(items, { since, today, max }) {
  * décide ici, sinon personne ne la relit.
  */
 async function commandHarvest({ out, since, max, today }) {
-  const { mkdirSync, writeFileSync } = await import('node:fs');
+  const { mkdirSync, writeFileSync, readFileSync } = await import('node:fs');
   const { join } = await import('node:path');
 
   mkdirSync(join(out, 'pages'), { recursive: true });
@@ -319,6 +319,27 @@ async function commandHarvest({ out, since, max, today }) {
 
   writeFileSync(join(out, 'feeds.json'), `${JSON.stringify(feeds, null, 2)}\n`);
   writeFileSync(join(out, 'harvest.json'), `${JSON.stringify({ today, since, max, fetched, skipped }, null, 2)}\n`);
+
+  // Le même contenu, en UN fichier, textes des pages inclus.
+  //
+  // Pourquoi ce doublon : la veille lit sa récolte depuis une session dont la
+  // passerelle de sortie n'autorise que `api.github.com`. Les artefacts
+  // d'Actions n'y suffisent pas — leur téléchargement redirige vers un CDN
+  // Azure, refusé au CONNECT (constaté le 2026-08-03). Le transport passe donc
+  // par l'API `contents`, qui rend le fichier dans sa réponse ; et un seul
+  // appel vaut mieux qu'un par page.
+  writeFileSync(
+    join(out, 'recolte.json'),
+    `${JSON.stringify({
+      today,
+      since,
+      max,
+      fetched,
+      skipped,
+      feeds,
+      pages: Object.fromEntries(fetched.map((entry) => [entry.url, readFileSync(join(out, 'pages', `${harvestSlug(entry.url)}.txt`), 'utf8')])),
+    })}\n`,
+  );
 
   console.log(`récolte du ${today} — fenêtre de ${since} jour(s)`);
   console.log(`  ${fetched.length} page(s) rapportée(s), ${Object.keys(feeds).length} flux lu(s)`);

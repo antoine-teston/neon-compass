@@ -16,8 +16,11 @@ name: Récolte
 #
 # Aucune des deux moitiés ne peut faire le travail de l'autre, et rien ne les
 # réunira : l'une est bloquée réseau, l'autre coûterait une clé d'API sur le
-# runner. Ce workflow est donc la moitié réseau, et il publie sa récolte en
-# ARTEFACT que la Routine vient chercher.
+# runner. Ce workflow est donc la moitié réseau.
+#
+# La récolte voyage par la branche jetable `veille/recolte`, PAS par l'artefact :
+# la Routine ne joint que `api.github.com`, et télécharger un artefact redirige
+# vers un CDN Azure qu'elle ne joint pas. Détail à l'étape « Déposer la récolte ».
 #
 # ─────────────────────────────────────────────────────────────────────────────
 # L'artefact contient du TEXTE DE TIERS, et c'est pourquoi il n'est pas commité.
@@ -49,11 +52,11 @@ concurrency:
   group: recolte
   cancel-in-progress: false
 
-# Lecture seule : ce workflow ne commite rien et n'ouvre aucune PR. Il lit des
-# pages web écrites par des tiers — lui donner le droit d'écrire sur le dépôt
-# n'apporterait rien et ouvrirait une surface pour rien.
+# `contents: write` sert UNIQUEMENT à pousser la branche de transport
+# `veille/recolte` (voir l'étape correspondante). Ce workflow n'ouvre aucune PR
+# et ne touche jamais à `main`.
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   recolte:
@@ -96,6 +99,11 @@ jobs:
           node tools/content-cli/fetch-source.mjs weekly --write 2>&1 | tee -a "$RUNNER_TEMP/recolte.log"
           cp content/inbox/*-gtav-weekly.facts.json "$RUNNER_TEMP/recolte/" 2>/dev/null || true
 
+      # L'artefact reste, pour l'humain qui débogue un run. Il n'est PLUS le
+      # chemin par lequel la Routine récupère la récolte : son téléchargement
+      # redirige vers un CDN Azure (`*.blob.core.windows.net`) que la passerelle
+      # de sortie des sessions d'agent refuse au CONNECT — constaté le
+      # 2026-08-03, run 30812422696. Voir l'étape suivante.
       - name: Publier la récolte en artefact
         uses: actions/upload-artifact@v4
         with:
@@ -104,6 +112,38 @@ jobs:
           # Structurel, pas une économie de stockage : voir l'en-tête. Le texte
           # de tiers transite, il ne séjourne pas.
           retention-days: 1
+
+      # Le transport RÉEL vers la Routine.
+      #
+      # Elle ne joint que `api.github.com`. L'API `contents` y rend le fichier
+      # dans sa réponse, sans redirection — c'est donc le seul chemin praticable,
+      # et il suppose que la récolte soit dans le dépôt.
+      #
+      # Trois précautions, parce que ce sont des pages écrites par des tiers :
+      #
+      #   1. `git init` dans le répertoire de récolte, pas un commit sur le
+      #      dépôt cloné. La branche est ORPHELINE — aucune histoire commune avec
+      #      `main`, donc une fusion accidentelle est impossible, pas seulement
+      #      improbable.
+      #   2. `--force`, une seule fois par jour : la récolte de la veille est
+      #      écrasée, elle ne s'accumule pas.
+      #   3. La Routine supprime la branche après lecture. Si elle échoue avant,
+      #      le run du lendemain l'écrase de toute façon.
+      - name: Déposer la récolte sur la branche de transport
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/recolte"
+          git init -q
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "recolte: transport du $(date -u +%Y-%m-%d) — BRANCHE JETABLE, NE PAS FUSIONNER"
+          git push -q --force \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:refs/heads/veille/recolte
+          echo "récolte déposée sur veille/recolte ($(du -sh recolte.json | cut -f1) de bundle)"
 
       - name: Compte-rendu
         if: always()
