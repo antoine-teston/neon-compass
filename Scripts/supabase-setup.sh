@@ -31,14 +31,48 @@ fail() { echo "❌ $1" >&2; exit 1; }
 skip() { echo "⏭  $1"; }
 done_() { echo "✅ $1"; }
 
-[[ -n "${SUPABASE_ACCESS_TOKEN:-}" ]] || fail "SUPABASE_ACCESS_TOKEN manquant (Account → Access Tokens)"
-[[ -n "${SUPABASE_ANON_KEY:-}" ]] || fail "SUPABASE_ANON_KEY manquant (Settings → API)"
+# Une valeur d'exemple recopiée telle quelle est le mode d'échec le plus probable
+# de ce script : les points de suspension d'une documentation sont un VRAI
+# caractère, que le shell ne remplace par rien. Sans cette garde, l'erreur
+# n'apparaît qu'au premier appel réseau, sous une forme qui ne la nomme pas.
+require() {
+  local name="$1" value="$2" where="$3"
+  [[ -n "$value" ]] || fail "$name manquant ($where)"
+  case "$value" in
+    *…*|*'...'*|REMPLACER|'<'*'>')
+      fail "$name vaut « $value » — c'est la valeur d'exemple, pas la vraie ($where)" ;;
+  esac
+}
+
+require SUPABASE_ACCESS_TOKEN "${SUPABASE_ACCESS_TOKEN:-}" "Account → Access Tokens"
+require SUPABASE_ANON_KEY "${SUPABASE_ANON_KEY:-}" "Settings → API"
+[[ "$SUPABASE_ACCESS_TOKEN" == sbp_* ]] || fail "SUPABASE_ACCESS_TOKEN doit commencer par sbp_ (Account → Access Tokens)"
+[[ -n "${SUPABASE_SERVICE_ROLE_KEY:-}" ]] && require SUPABASE_SERVICE_ROLE_KEY "$SUPABASE_SERVICE_ROLE_KEY" "Settings → API"
 
 # ---------------------------------------------------------------------------
 # 1. Lien du CLI
 # ---------------------------------------------------------------------------
+# `link` demande le mot de passe de la base de façon INTERACTIVE quand il ne le
+# trouve pas. Lancé depuis un script ou une CI, il attendrait alors indéfiniment
+# une saisie qui ne viendra jamais — un blocage sans message. On le lui donne, ou
+# on lui dit explicitement qu'il n'y en a pas.
 echo "→ lien du CLI sur $PROJECT_REF"
-supabase link --project-ref "$PROJECT_REF" >/dev/null
+if [[ -n "${SUPABASE_DB_PASSWORD:-}" ]]; then
+  supabase link --project-ref "$PROJECT_REF" --password "$SUPABASE_DB_PASSWORD" >/dev/null
+elif [[ -n "${SUPABASE_DB_URL:-}" ]]; then
+  # Le mot de passe est déjà dans l'URL de connexion : l'en extraire évite de le
+  # demander deux fois sous deux noms différents.
+  extracted="$(printf '%s' "$SUPABASE_DB_URL" | sed -n 's|^postgresql://[^:]*:\([^@]*\)@.*|\1|p')"
+  if [[ -n "$extracted" ]]; then
+    supabase link --project-ref "$PROJECT_REF" --password "$extracted" >/dev/null
+  else
+    supabase link --project-ref "$PROJECT_REF" --password "" >/dev/null
+  fi
+else
+  # Chaîne vide et pas d'omission : `--password ""` dit « pas de mot de passe »,
+  # l'omettre dit « demande-le-moi ».
+  supabase link --project-ref "$PROJECT_REF" --password "" >/dev/null
+fi
 done_ "CLI lié"
 
 # ---------------------------------------------------------------------------
