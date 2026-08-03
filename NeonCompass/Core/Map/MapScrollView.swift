@@ -63,26 +63,24 @@ private enum MapArtLoader {
 /// de le constater.
 struct MapRenderState: Equatable {
     var pinScale: CGFloat
-    /// Côté de la zone de frappe des épingles, dans LEUR espace de coordonnées,
-    /// pour que la cible mesure 44 pt à l'écran — le minimum du HIG.
+    /// Côté MAXIMAL d'une zone de frappe, dans l'espace de coordonnées des
+    /// épingles : ce que valent ici les 44 pt d'écran du HIG.
     ///
-    /// L'épingle dessinée fait 24 pt de contenu, et le contenu est mis à l'échelle
-    /// par la vue de défilement : au repos (≈0,43 sur iPhone, ≈0,67 sur iPad) elle
-    /// ne mesurait donc que ~10 pt à l'écran, moins d'un quart de la surface
-    /// exigée. Grossir le DESSIN aurait rendu la carte illisible — c'est
-    /// précisément ce que le plafond de `pinScale` évite. On grossit donc la seule
-    /// zone de frappe.
+    /// L'épingle dessinée fait 24 pt de contenu, et le contenu est réduit par la
+    /// vue de défilement : au repos (≈0,43 sur iPhone, ≈0,67 sur iPad) elle ne
+    /// mesure que ~10 pt à l'écran, moins d'un quart de la surface exigée. Grossir
+    /// le DESSIN rendrait la carte illisible — c'est précisément ce que le plafond
+    /// de `pinScale` évite. On grossit donc la seule zone de frappe.
     ///
-    /// Le facteur est quantifié par `MapClusterer`, comme la forme des groupes :
-    /// non quantifié il suivrait le zoom en continu et cette valeur changerait à
-    /// chaque frame de pincement, ce qui ferait réévaluer tout le contenu — c'est
-    /// exactement ce que ce type existe pour empêcher.
+    /// C'est un PLAFOND et non la valeur finale : chaque pastille est ensuite
+    /// bornée par la distance à sa plus proche voisine, sans quoi les zones se
+    /// recouvrent et le tap part sur la voisine (voir `MapPinMetrics.hitSides`).
     ///
-    /// L'agrégation garantit ~44 pt d'écart à l'écran entre deux pastilles
-    /// (`MapClusterer.defaultSpacing`), donc à ce palier les zones se touchent
-    /// sans se recouvrir. Au-delà du seuil de désagrégation elles peuvent se
-    /// chevaucher, comme les dessins eux-mêmes le font déjà.
-    var pinHitSide: CGFloat
+    /// Le facteur est quantifié en demi-octaves, comme la forme des groupes : non
+    /// quantifié il suivrait le zoom en continu et cette valeur changerait à chaque
+    /// frame de pincement, ce qui ferait réévaluer tout le contenu — exactement ce
+    /// que ce type existe pour empêcher.
+    var pinHitCap: CGFloat
     var clusterShape: MapClusterer.Shape
     /// Seule composante qui dépende aussi du PANORAMIQUE. C'est un compromis
     /// assumé : le panoramique, jusqu'ici gratuit en réévaluations, en paie
@@ -101,7 +99,7 @@ struct MapRenderState: Equatable {
         // 24 × min(1, zoomScale) : au-dessus du zoom neutre la contre-échelle
         // annule l'agrandissement, en dessous le plafond laisse le dézoom rétrécir
         // le dessin. On divise donc 44 par ce même facteur.
-        pinHitSide = MapPinMetrics.hitSide(
+        pinHitCap = MapPinMetrics.hitSide(
             forEffectiveScale: MapPinMetrics.quantizedEffectiveScale(zoomScale: zoomScale)
         )
         self.window = window
@@ -151,7 +149,11 @@ private struct MapContentSwiftUIView: View {
     private var pinScale: CGFloat { zoom.pinScale }
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        // Calculé UNE fois par évaluation, jamais par pastille : le voisinage est
+        // une propriété de l'ensemble, et le redemander à chaque épingle le ferait
+        // payer deux cents fois.
+        let hitSides = editorialHitSides
+        return ZStack(alignment: .topLeading) {
             if let mapImage = MapArtLoader.image(game: game, style: style) {
                 Image(uiImage: mapImage)
                     .resizable()
@@ -165,9 +167,9 @@ private struct MapContentSwiftUIView: View {
             }
             ForEach(clusters) { cluster in
                 if let poi = cluster.single, let position = poi.position {
-                    poiPin(poi, at: position)
+                    poiPin(poi, at: position, hitSide: hitSides[cluster.id] ?? zoom.pinHitCap)
                 } else {
-                    clusterBubble(cluster)
+                    clusterBubble(cluster, hitSide: hitSides[cluster.id] ?? zoom.pinHitCap)
                 }
             }
             ForEach(visiblePersonalPins) { pin in
@@ -203,7 +205,7 @@ private struct MapContentSwiftUIView: View {
                 family: .community
             )
             .equatable()
-            .pinHitArea(side: zoom.pinHitSide)
+            .pinHitArea(side: zoom.pinHitCap)
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
@@ -264,6 +266,26 @@ private struct MapContentSwiftUIView: View {
         ).filter { zoom.window.contains($0.position) }
     }
 
+    /// Côté de la zone de frappe de chaque pastille éditoriale, indexé par
+    /// identifiant de groupe.
+    ///
+    /// Calculé sur la famille éditoriale seule, qui est de loin la plus dense et la
+    /// seule où l'on attrape la voisine. Les pastilles communautaires sont rares —
+    /// il n'y en a aucune sur la carte de référence — et gardent donc le plafond ;
+    /// les épingles personnelles et les brouillons, eux, ne se tapent pas du tout.
+    ///
+    /// Recalculé à chaque évaluation du corps, mais le balayage s'arrête au-delà du
+    /// plafond en abscisse : chaque pastille ne compare qu'avec ses quelques
+    /// voisines immédiates, pas avec les deux cents autres.
+    private var editorialHitSides: [String: CGFloat] {
+        let visible = clusters
+        let sides = MapPinMetrics.hitSides(
+            for: visible.map { MapGeometry.contentPoint(for: $0.position, manifest: manifest) },
+            cap: zoom.pinHitCap
+        )
+        return Dictionary(uniqueKeysWithValues: zip(visible.map(\.id), sides))
+    }
+
     /// Agrégés séparément des POI éditoriaux, et pas mêlés à eux : les deux
     /// familles ne se rendent pas pareil (état « trouvé » d'un côté, votes et
     /// signalement de l'autre) et n'ont pas la même autorité. Une pastille qui
@@ -295,7 +317,7 @@ private struct MapContentSwiftUIView: View {
     /// pure valeur (cf. l'en-tête de `MapPinViews`). Seul le corps de l'épingle —
     /// le glyphe, l'anneau, le halo — est protégé par `.equatable()`, ce qui est
     /// exactement ce qui coûte.
-    private func poiPin(_ poi: POI, at position: NormalizedPoint) -> some View {
+    private func poiPin(_ poi: POI, at position: NormalizedPoint, hitSide: CGFloat) -> some View {
         Button {
             onTapPOI(poi)
         } label: {
@@ -306,14 +328,14 @@ private struct MapContentSwiftUIView: View {
                 accessibilityTitle: poi.title.resolved(for: Self.currentLanguageCode)
             )
             .equatable()
-            .pinHitArea(side: zoom.pinHitSide)
+            .pinHitArea(side: hitSide)
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
         .position(MapGeometry.contentPoint(for: position, manifest: manifest))
     }
 
-    private func clusterBubble(_ cluster: POICluster) -> some View {
+    private func clusterBubble(_ cluster: POICluster, hitSide: CGFloat) -> some View {
         Button {
             onTapCluster(cluster)
         } label: {
@@ -325,7 +347,7 @@ private struct MapContentSwiftUIView: View {
                 family: .editorial
             )
             .equatable()
-            .pinHitArea(side: zoom.pinHitSide)
+            .pinHitArea(side: hitSide)
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)

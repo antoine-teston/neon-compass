@@ -50,19 +50,67 @@ enum MapPinMetrics {
     /// par paliers de demi-octave — pour que `MapRenderState` reste une fonction
     /// EN ESCALIER du zoom et ne se réévalue pas à chaque frame de pincement.
     ///
-    /// Quantifié vers le BAS, et c'est le point délicat : arrondir au plus proche
-    /// donne parfois une échelle SUPÉRIEURE à la vraie (au repos sur iPhone, 0,5
-    /// pour un zoom de 0,43), et la cible retombait alors à 37,8 pt — sous le
-    /// minimum qu'elle existe pour garantir. Vers le bas, elle est au pire 41 %
-    /// trop grande, ce qui ne coûte rien puisque l'agrégation garantit déjà
-    /// l'écart entre deux pastilles.
+    /// Quantifié vers le HAUT, donc la cible ne DÉPASSE jamais les 44 pt : c'est le
+    /// sens de l'arrondi qui a été corrigé après essai à la main. Vers le bas, elle
+    /// montait jusqu'à 62 pt à l'écran, et on attrapait régulièrement la pastille
+    /// voisine. Le prix de ce sens-ci est une cible qui descend au pire à 44/√2 ≈
+    /// 31 pt, ce qui reste trois fois le dessin nu.
     ///
     /// Plafonné à 1 : au-delà du zoom neutre la contre-échelle des épingles annule
     /// l'agrandissement, donc leur taille écran ne dépend plus du zoom.
     static func quantizedEffectiveScale(zoomScale: CGFloat) -> CGFloat {
         guard zoomScale > 0, zoomScale.isFinite else { return 1 }
-        let level = (log2(Double(zoomScale)) * 2).rounded(.down)
+        let level = (log2(Double(zoomScale)) * 2).rounded(.up)
         return min(1, CGFloat(pow(2.0, level / 2)))
+    }
+
+    /// Côtés des zones de frappe d'un ensemble de pastilles, garantis SANS
+    /// CHEVAUCHEMENT.
+    ///
+    /// C'est ce qui remplace l'hypothèse fausse sur laquelle reposait la première
+    /// version : « l'agrégation garantit 44 pt d'écart à l'écran ». Elle ne le
+    /// garantit pas. La grille assure que deux points tombent dans des CELLULES
+    /// distinctes, pas qu'ils soient éloignés — deux centroïdes de part et d'autre
+    /// d'une frontière peuvent être collés — et au-delà du seuil de désagrégation
+    /// il n'y a plus de grille du tout. Résultat : des zones de 44 pt qui se
+    /// recouvraient, et un tap qui atterrissait sur la voisine.
+    ///
+    /// Chaque zone est donc bornée par la distance à sa plus proche voisine. Deux
+    /// zones de diamètres `d₁` et `d₂` séparées de `d ≥ max(d₁, d₂)` ne se
+    /// recouvrent pas, puisque `d₁/2 + d₂/2 ≤ d`. La forme de frappe doit être
+    /// RONDE pour que cet argument tienne : les coins d'un carré de côté `d`
+    /// dépassent, eux, jusqu'à `d/√2` du centre.
+    ///
+    /// - Parameters:
+    ///   - positions: positions en coordonnées de contenu.
+    ///   - cap: côté maximal, c'est-à-dire ce que valent 44 pt d'écran ici.
+    /// - Returns: un côté par position, dans le même ordre.
+    static func hitSides(for positions: [CGPoint], cap: CGFloat) -> [CGFloat] {
+        guard positions.count > 1 else { return Array(repeating: cap, count: positions.count) }
+        // Balayage par abscisse croissante : au-delà de `cap` en x, tout le reste
+        // est plus loin encore, donc on s'arrête. Chaque pastille ne compare donc
+        // qu'avec la poignée de voisines qui pourraient la gêner, et non avec les
+        // deux cents autres.
+        let order = positions.indices.sorted { positions[$0].x < positions[$1].x }
+        var nearest = [CGFloat](repeating: cap, count: positions.count)
+        for a in order.indices {
+            let i = order[a]
+            var b = a + 1
+            while b < order.count {
+                let j = order[b]
+                let dx = positions[j].x - positions[i].x
+                if dx >= cap { break }
+                let dy = positions[j].y - positions[i].y
+                let distance = (dx * dx + dy * dy).squareRoot()
+                if distance < nearest[i] { nearest[i] = distance }
+                if distance < nearest[j] { nearest[j] = distance }
+                b += 1
+            }
+        }
+        // Jamais sous le dessin : une zone qui rognerait la pastille visible serait
+        // un piège. Deux pastilles posées au même endroit se recouvrent donc encore
+        // — mais elles se recouvrent déjà à l'œil, et rien ne peut les départager.
+        return positions.indices.map { max(drawnSide, nearest[$0]) }
     }
 }
 
@@ -70,12 +118,20 @@ extension View {
     /// Élargit la zone de frappe d'une épingle sans toucher à son dessin.
     ///
     /// À poser DANS la contre-échelle du zoom et non autour : le côté reçu est déjà
-    /// exprimé dans l'espace de l'épingle (voir `MapRenderState.pinHitSide`).
-    /// `contentShape` est indispensable — sans elle, seul le dessin intercepte, et
-    /// le cadre élargi ne sert à rien.
+    /// exprimé dans l'espace de l'épingle (voir `MapPinMetrics.hitSides`).
+    ///
+    /// `minWidth`/`minHeight` et non `width`/`height` : une pastille de groupe à
+    /// trois chiffres est plus large que haute, et un cadre fixe lui aurait rendu
+    /// ses extrémités intouchables.
+    ///
+    /// La forme est une CAPSULE, jamais un rectangle : sur un cadre carré c'est un
+    /// disque, et c'est ce qui rend vraie la garantie de non-chevauchement de
+    /// `hitSides` — les coins d'un carré dépassent, eux, de 41 %. Sans
+    /// `contentShape`, enfin, seul le dessin intercepterait et le cadre élargi ne
+    /// servirait à rien.
     func pinHitArea(side: CGFloat) -> some View {
-        frame(width: side, height: side)
-            .contentShape(.rect)
+        frame(minWidth: side, minHeight: side)
+            .contentShape(.capsule)
     }
 }
 

@@ -55,44 +55,41 @@ struct MapPinHitAreaTests {
     /// Pro 13". Plus deux paliers de zoom au-delà du neutre.
     private let scales: [CGFloat] = [0.43, 0.5, 0.67, 0.9, 1, 1.5, 2.5]
 
-    /// L'invariant, et la seule raison d'être de tout ce calcul : à n'importe quel
-    /// zoom, la cible mesure au moins 44 pt À L'ÉCRAN.
+    /// Le plafond ne DÉPASSE jamais 44 pt à l'écran.
     ///
-    /// La taille écran vaut `côté × pinScale × zoomScale`, où `pinScale` est la
-    /// contre-échelle plafonnée à 1 du moteur de carte.
-    @Test func theTargetIsNeverSmallerThanFortyFourPointsOnScreen() {
-        for zoom in scales {
-            let side = MapPinMetrics.hitSide(
-                forEffectiveScale: MapPinMetrics.quantizedEffectiveScale(zoomScale: zoom)
-            )
-            let pinScale = min(1 / zoom, 1)
-            let onScreen = side * pinScale * zoom
-            #expect(
-                onScreen >= MapPinMetrics.minimumTouchSide - 0.001,
-                "au zoom \(zoom) la cible ne fait que \(onScreen) pt"
-            )
-        }
-    }
-
-    /// Le pendant : une cible démesurée volerait les taps de ses voisines.
-    /// L'agrégation garantissant ~44 pt d'écart à l'écran, on se borne au double.
-    @Test func theTargetStaysWithinTwiceTheMinimum() {
+    /// C'est la correction du premier jet, qui quantifiait dans l'autre sens et
+    /// laissait la cible monter à 62 pt : on attrapait régulièrement la pastille
+    /// voisine. La taille écran vaut `côté × pinScale × zoomScale`, où `pinScale`
+    /// est la contre-échelle plafonnée à 1 du moteur de carte.
+    @Test func theCapNeverExceedsFortyFourPointsOnScreen() {
         for zoom in scales {
             let side = MapPinMetrics.hitSide(
                 forEffectiveScale: MapPinMetrics.quantizedEffectiveScale(zoomScale: zoom)
             )
             let onScreen = side * min(1 / zoom, 1) * zoom
-            #expect(onScreen <= MapPinMetrics.minimumTouchSide * 2, "au zoom \(zoom) : \(onScreen) pt")
+            #expect(
+                onScreen <= MapPinMetrics.minimumTouchSide + 0.001,
+                "au zoom \(zoom) la cible monte à \(onScreen) pt"
+            )
         }
     }
 
-    /// C'est le piège que la quantification vers le bas évite. Arrondir au plus
-    /// proche donnait 0,5 pour un zoom de 0,43, donc une cible de 37,8 pt — sous le
-    /// minimum. Le test fige le sens de l'arrondi.
-    @Test func theQuantizedScaleNeverExceedsTheRealOne() {
+    /// Le pendant : la quantification ne doit pas la faire fondre non plus. Le pire
+    /// cas d'un pas de demi-octave est 44/√2 ≈ 31 pt, soit trois fois le dessin nu.
+    @Test func theCapStaysComfortablyAboveTheDrawnPin() {
+        for zoom in scales {
+            let side = MapPinMetrics.hitSide(
+                forEffectiveScale: MapPinMetrics.quantizedEffectiveScale(zoomScale: zoom)
+            )
+            let onScreen = side * min(1 / zoom, 1) * zoom
+            #expect(onScreen >= 30, "au zoom \(zoom) : \(onScreen) pt")
+        }
+    }
+
+    @Test func theQuantizedScaleNeverFallsBelowTheRealOne() {
         for zoom in scales {
             let quantized = MapPinMetrics.quantizedEffectiveScale(zoomScale: zoom)
-            #expect(quantized <= min(1, zoom) + 0.001, "au zoom \(zoom) : \(quantized)")
+            #expect(quantized >= min(1, zoom) - 0.001, "au zoom \(zoom) : \(quantized)")
         }
     }
 
@@ -111,5 +108,83 @@ struct MapPinHitAreaTests {
         #expect(MapPinMetrics.quantizedEffectiveScale(zoomScale: 0) == 1)
         #expect(MapPinMetrics.quantizedEffectiveScale(zoomScale: .infinity) == 1)
         #expect(MapPinMetrics.hitSide(forEffectiveScale: 1) == MapPinMetrics.minimumTouchSide)
+    }
+}
+
+/// Le non-chevauchement des zones de frappe.
+///
+/// C'est l'invariant qui remplace une hypothèse fausse : « l'agrégation garantit
+/// 44 pt d'écart à l'écran entre deux pastilles ». La grille garantit seulement
+/// que deux points tombent dans des CELLULES distinctes — deux centroïdes de part
+/// et d'autre d'une frontière peuvent être collés — et au-delà du seuil de
+/// désagrégation il n'y a plus de grille. Des zones fixes de 44 pt se recouvraient
+/// donc, et le tap partait sur la voisine.
+struct MapPinHitSpacingTests {
+    private let cap: CGFloat = 100
+
+    /// L'invariant central : deux zones ne se recouvrent jamais. Deux disques de
+    /// diamètres `d₁` et `d₂` centrés à distance `d` sont disjoints dès que
+    /// `d₁/2 + d₂/2 ≤ d`.
+    @Test func noTwoHitAreasEverOverlap() {
+        // Un semis volontairement méchant : des paires très proches, des points
+        // confondus en abscisse, et des isolés.
+        let positions: [CGPoint] = [
+            CGPoint(x: 0, y: 0), CGPoint(x: 8, y: 0),          // collées
+            CGPoint(x: 300, y: 300), CGPoint(x: 300, y: 340),  // même abscisse
+            CGPoint(x: 1000, y: 50),                            // isolée
+            CGPoint(x: 1000, y: 95), CGPoint(x: 1030, y: 120),
+            CGPoint(x: 40, y: 500), CGPoint(x: 41, y: 501),
+        ]
+        let sides = MapPinMetrics.hitSides(for: positions, cap: cap)
+        for i in positions.indices {
+            for j in positions.indices where j > i {
+                let dx = positions[i].x - positions[j].x
+                let dy = positions[i].y - positions[j].y
+                let distance = (dx * dx + dy * dy).squareRoot()
+                // Le plancher du dessin peut encore faire se toucher deux pastilles
+                // quasi confondues — elles se recouvrent déjà à l'œil, et rien ne
+                // pourrait les départager. On n'exige donc rien sous ce seuil.
+                guard distance >= MapPinMetrics.drawnSide else { continue }
+                #expect(
+                    sides[i] / 2 + sides[j] / 2 <= distance + 0.001,
+                    "les zones \(i) et \(j) se recouvrent : \(sides[i]) et \(sides[j]) pour \(distance) d'écart"
+                )
+            }
+        }
+    }
+
+    /// Une pastille isolée doit garder toute la cible : borner à la voisine ne doit
+    /// pas rétrécir ce qui n'avait pas besoin de l'être.
+    @Test func anIsolatedPinKeepsTheFullCap() {
+        let sides = MapPinMetrics.hitSides(
+            for: [CGPoint(x: 0, y: 0), CGPoint(x: 900, y: 900)], cap: cap
+        )
+        #expect(sides == [cap, cap])
+    }
+
+    /// Et une seule pastille n'a personne à ménager.
+    @Test func aLonePinKeepsTheFullCap() {
+        #expect(MapPinMetrics.hitSides(for: [CGPoint(x: 5, y: 5)], cap: cap) == [cap])
+        #expect(MapPinMetrics.hitSides(for: [], cap: cap).isEmpty)
+    }
+
+    /// Jamais sous le dessin : une zone plus petite que la pastille visible serait
+    /// un piège, pas une optimisation.
+    @Test func theHitAreaNeverShrinksBelowTheDrawnPin() {
+        let sides = MapPinMetrics.hitSides(
+            for: [CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 0), CGPoint(x: 4, y: 0)], cap: cap
+        )
+        #expect(sides.allSatisfy { $0 >= MapPinMetrics.drawnSide })
+    }
+
+    /// L'ordre du résultat suit celui des positions reçues — le moteur s'en sert
+    /// pour l'apparier aux identifiants de groupe.
+    @Test func theResultKeepsTheInputOrder() {
+        let positions = [CGPoint(x: 500, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 30, y: 0)]
+        let sides = MapPinMetrics.hitSides(for: positions, cap: cap)
+        // La première est isolée, les deux suivantes sont à 30 l'une de l'autre.
+        #expect(sides[0] == cap)
+        #expect(sides[1] == 30)
+        #expect(sides[2] == 30)
     }
 }
