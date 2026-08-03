@@ -31,19 +31,28 @@ name: Contenu
 # plus tard, build locale + TestFlight en v1 ». Ce workflow ne couvre que la
 # chaîne de contenu, qui est du Node pur.
 
+# `.github/workflows/**`, `.claude/agents/**` et `Scripts/**` sont dans la liste
+# depuis le 2026-08-03, et c'était un trou : modifier un workflow ou un fichier
+# d'agent ne déclenchait AUCUNE CI, et rien d'autre ne les vérifie. Trois
+# workflows ont été écrits ce jour-là en s'appuyant sur une validation à la main.
 on:
   pull_request:
     paths:
       - 'content/**'
       - 'tools/**'
+      - 'Scripts/**'
       - 'NeonCompass/Resources/POI/**'
-      - '.github/workflows/content.yml'
+      - '.github/workflows/**'
+      - '.claude/agents/**'
   push:
     branches: [main]
     paths:
       - 'content/**'
       - 'tools/**'
+      - 'Scripts/**'
       - 'NeonCompass/Resources/POI/**'
+      - '.github/workflows/**'
+      - '.claude/agents/**'
   workflow_dispatch:
     inputs:
       publish:
@@ -64,6 +73,13 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
+
+      # Avant tout le reste, et sans aucune installation : les workflows de ce
+      # dépôt sont-ils syntaxiquement valides ? Une indentation YAML fautive ou
+      # une accolade non fermée dans un bloc `run` ne se voit qu'à l'exécution —
+      # c'est-à-dire au prochain cron, quand personne ne regarde.
+      - name: Lint des workflows
+        run: python3 Scripts/lint-workflows.py
 
       # gtav-poi-ids.mjs n'a aucune dépendance : ses tests tournent sans install.
       # C'est délibéré — ils portent l'invariant le plus coûteux du dépôt (un id
