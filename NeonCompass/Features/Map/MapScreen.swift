@@ -8,6 +8,10 @@ struct MapScreen: View {
     @State private var viewport = MapViewport()
     @State private var focusRequest: MapFocusRequest?
     @State private var showPersonalPinList = false
+    /// Le calque du carnet. Un `Bool` à part et non un cas de plus dans
+    /// `activeCategories`, qui est un `Set<POICategory>` — y ranger une épingle
+    /// serait un mensonge de type.
+    @State private var showPersonalPins = true
     @State private var pendingPinLocation: NormalizedPoint?
     @State private var showLongPressMenu = false
     /// Le carnet gratuit est plein. Deux états et non un : le mur DIT ce qui
@@ -82,6 +86,7 @@ struct MapScreen: View {
                     mapCanvas(model: model)
                     MapFilterControls(
                         model: model,
+                        showPersonalPins: $showPersonalPins,
                         showPersonalPinList: $showPersonalPinList,
                         showRoutePlanner: $showRoutePlanner
                     )
@@ -95,6 +100,15 @@ struct MapScreen: View {
                 }
             }
             .animation(.snappy, value: model.selection)
+            // En compact le carnet reste une FEUILLE, et c'est ce que veut cette
+            // largeur : il n'y a pas de place pour une colonne à côté de la carte.
+            // La fiche, elle, est un panneau — c'est une décision mesurée, voir le
+            // commentaire du ZStack ci-dessus.
+            .sheet(isPresented: $showPersonalPinList) {
+                notebook(model: model)
+                    .presentationDetents([.medium, .large])
+                    .presentationBackground(NCColor.nightSky)
+            }
         } else {
             // Le panneau FLOTTE au-dessus de la carte au lieu de la pousser.
             //
@@ -115,19 +129,58 @@ struct MapScreen: View {
                     mapCanvas(model: model)
                     MapFilterControls(
                         model: model,
+                        showPersonalPins: $showPersonalPins,
                         showPersonalPinList: $showPersonalPinList,
                         showRoutePlanner: $showRoutePlanner
                     )
                     displayControls
                 }
-                if let selection = model.selection {
+                // Une seule colonne à droite, jamais deux : la carte est le sujet
+                // de l'écran. Le carnet et la fiche partagent donc la MÊME fente,
+                // et ouvrir l'un ferme l'autre.
+                if showPersonalPinList {
+                    notebook(model: model)
+                        .frame(width: 340)
+                        .containerRelativeFrame(.vertical, alignment: .center) { height, _ in
+                            height * 0.7
+                        }
+                        .transition(.move(edge: .trailing))
+                } else if let selection = model.selection {
                     detailPanel(selection, model: model, edge: .trailing, width: 340)
                 }
             }
             // `.transition` n'avait jamais joué : rien n'animait la mutation de
             // `selection`, le panneau surgissait et disparaissait d'un coup.
             .animation(.snappy, value: model.selection)
+            .animation(.snappy, value: showPersonalPinList)
+            // La règle « ouvrir l'un ferme l'autre » dans l'autre sens : sans ça,
+            // fermer le carnet ferait réapparaître une fiche que le joueur avait
+            // laissée derrière lui.
+            .onChange(of: showPersonalPinList) { _, isShown in
+                if isShown { model.selection = nil }
+            }
         }
+    }
+
+    /// Le carnet, écrit une fois pour les deux dispositions — il dit la même
+    /// chose qu'il soit posé en feuille ou en panneau. Ce qui diffère, c'est
+    /// seulement où l'appelant le pose.
+    ///
+    /// Taper une ligne fait trois choses dans cet ordre : refermer le carnet,
+    /// viser l'épingle, ouvrir sa fiche. La visée avant la sélection, pour que le
+    /// recentrage soit déjà lancé quand le panneau arrive par-dessus.
+    private func notebook(model: MapModel) -> some View {
+        PersonalPinBookView(
+            store: personalPinStore,
+            game: mapGame,
+            isProEntitled: proEntitlementModel.isProEntitled,
+            onSelect: { pin in
+                showPersonalPinList = false
+                focusRequest = MapFocusRequest(position: pin.position)
+                model.selection = .pin(pin)
+            },
+            onDismiss: { showPersonalPinList = false }
+        )
     }
 
     /// Ancré en bas à droite : à portée du pouce, et hors du bandeau haut déjà
@@ -160,6 +213,7 @@ struct MapScreen: View {
                 // épingles de la carte affichée, ce qui ferme la fuite d'une
                 // carte à l'autre.
                 personalPins: personalPinStore.pins(for: mapGame),
+                showPersonalPins: showPersonalPins,
                 communitySpots: communityModel?.visibleSpots ?? [],
                 draftPins: editorDraftPins,
                 poisGeneration: model.poisGeneration,
@@ -213,9 +267,6 @@ struct MapScreen: View {
             // change la source, pas seulement l'image de fond.
             model.updatePOIs(pois(for: newGame))
             model.selection = nil
-        }
-        .sheet(isPresented: $showPersonalPinList) {
-            PersonalPinListSheet(store: personalPinStore, game: mapGame)
         }
         .sheet(isPresented: $showRoutePlanner) {
             RoutePlannerSheet(

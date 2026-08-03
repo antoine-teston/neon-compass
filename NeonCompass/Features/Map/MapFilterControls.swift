@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MapFilterControls: View {
     @Bindable var model: MapModel
+    @Binding var showPersonalPins: Bool
     @Binding var showPersonalPinList: Bool
     @Binding var showRoutePlanner: Bool
     @State private var showFilters = false
@@ -11,7 +12,7 @@ struct MapFilterControls: View {
         VStack(alignment: .trailing, spacing: 12) {
             GlassEffectContainer(spacing: 12) {
                 HStack(spacing: 12) {
-                    favoritesButton
+                    notebookButton
                     if proEntitlementModel.isProEntitled {
                         routePlannerButton
                     }
@@ -23,6 +24,7 @@ struct MapFilterControls: View {
                 VStack(alignment: .trailing, spacing: 12) {
                     if showFilters {
                         categoryChips
+                        personalPinsChip
                     }
                     if proEntitlementModel.isProEntitled {
                         hideFoundButton
@@ -33,16 +35,20 @@ struct MapFilterControls: View {
         .padding(16)
     }
 
-    private var favoritesButton: some View {
+    /// Le glyphe était une étoile et le nom disait « favoris » : ce bouton n'a
+    /// jamais ouvert des favoris, il ouvre le carnet d'épingles. Une épingle le
+    /// dit, et fait écho aux gouttes posées sur la carte.
+    private var notebookButton: some View {
         Button {
             showPersonalPinList = true
         } label: {
-            Image(systemName: "star.circle")
+            Image(systemName: "mappin.and.ellipse")
                 .font(.system(size: 20))
                 .foregroundStyle(.white)
                 .frame(width: 44, height: 44)
         }
         .glassEffect(.regular.interactive(), in: .circle)
+        .accessibilityLabel(Text("map.personalPins.title"))
     }
 
     private var routePlannerButton: some View {
@@ -105,6 +111,23 @@ struct MapFilterControls: View {
             }
             .glassEffect(.regular.interactive(), in: .capsule)
         }
+    }
+
+    /// Les épingles échappaient à TOUS les filtres — les puces de catégorie ne
+    /// les concernaient pas, « masquer les trouvés » non plus. Elle est en
+    /// `sunsetOrange` et non en cyan comme les catégories : c'est la teinte du
+    /// calque qu'elle commande.
+    private var personalPinsChip: some View {
+        Button {
+            showPersonalPins.toggle()
+        } label: {
+            Text("map.filter.pins")
+                .font(.caption)
+                .foregroundStyle(showPersonalPins ? NCColor.sunsetOrange : .secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+        }
+        .glassEffect(.regular.interactive(), in: .capsule)
     }
 
     private func toggle(_ category: POICategory) {
