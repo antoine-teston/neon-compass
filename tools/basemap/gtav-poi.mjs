@@ -16,7 +16,7 @@
 // humain avant qu'on libère leur id.
 //
 // Les POI atterrissent dans content/poi-gtav/ et NON dans content/poi/ : ce
-// dernier porte le contenu éditorial GTA VI qui part vers Firestore, et
+// dernier porte le contenu éditorial GTA VI qui part vers le CDN, et
 // content-cli check-publishable / publish balaient tout ce répertoire. Mélanger
 // une fixture de dev de ~1 000 entrées avec les 7 POI éditoriaux exposerait la
 // fixture à une publication accidentelle.

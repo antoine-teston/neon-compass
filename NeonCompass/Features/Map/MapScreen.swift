@@ -28,7 +28,7 @@ struct MapScreen: View {
     /// suite plutôt qu'à l'armement — il ne coûte rien tant qu'il dort, et son
     /// état doit survivre aux bascules d'onglet comme le reste de l'écran.
     @State private var editorModel = EditorModel(store: EditorDraftRouter(
-        remote: FirestoreEditorDraftStore(),
+        remote: SupabaseEditorDraftStore(),
         local: FileEditorDraftStore(),
         isRemoteUsable: { EditorRemoteAvailability.isUsable }
     ))
@@ -402,11 +402,11 @@ struct MapScreen: View {
 
     private func loadModel() {
         guard model == nil else { return }
-        guard FirebaseAvailability.isConfigured else {
-            // Firebase not yet activated (Task 7 of Plan 3) — pas de contenu
-            // distant, mais la carte de référence reste explorable. Personal
-            // pins and "found" tracking are unaffected since those go through
-            // FoundEntry/PersonalPin, not this path.
+        guard SupabaseClientProvider.isConfigured else {
+            // Aucun projet configuré : pas de contenu distant, mais la carte de
+            // référence reste explorable. Les épingles personnelles et le
+            // marquage « trouvé » ne sont pas concernés — ils passent par
+            // FoundEntry/PersonalPin, pas par ce chemin.
             model = MapModel(pois: pois(for: mapGame), modelContext: modelContext)
             return
         }
@@ -426,7 +426,7 @@ struct MapScreen: View {
         // Cloud progression sync is Pro + signed-in only (spec: "nécessite
         // le compte") — never constructed for free or signed-out users.
         let userID = authModel.userID
-        let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
+        let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? SupabaseProgressionSync() : nil
         remotePOIs = contentStore.items
         referencePOIs = referenceStore.items
         model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, sync: sync)
@@ -453,7 +453,7 @@ struct MapScreen: View {
     /// re-runs). Cheap no-op whenever the Pro/auth gate is still false.
     private func reattachSyncIfNeeded() {
         guard let model, proEntitlementModel.isProEntitled, let userID = authModel.userID else { return }
-        let sync = FirestoreProgressionSync()
+        let sync = SupabaseProgressionSync()
         guard model.attachSyncIfNeeded(sync) else { return }
         Task {
             let remoteItems = await sync.fetchAll(uid: userID)

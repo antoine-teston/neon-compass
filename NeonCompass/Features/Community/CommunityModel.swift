@@ -66,13 +66,13 @@ final class CommunityModel {
     static func live(modelContext: ModelContext) -> CommunityModel {
         let collectionName = CommunityBundleVersionProvider.collectionName
         return CommunityModel(
-            repository: FirestoreContributionRepository(),
-            functions: FirebaseContributionFunctions(),
-            gateProvider: RemoteConfigCommunityGateProvider(),
+            repository: SupabaseContributionRepository(),
+            functions: SupabaseContributionFunctions(),
+            gateProvider: SupabaseCommunityGateProvider(),
             modelContext: modelContext,
             approvedStore: ContentStore<Contribution>(
                 collectionName: collectionName,
-                remote: ChunkedContentRepository<Contribution>(collectionName: collectionName),
+                remote: CommunityBundleRepository<Contribution>(),
                 versionProvider: CommunityBundleVersionProvider(),
                 modelContext: modelContext
             )

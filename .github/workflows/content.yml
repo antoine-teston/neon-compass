@@ -9,10 +9,23 @@ name: Contenu
 # édité sans régénération de seed-poi.json livre un binaire dont le socle est en
 # retard, et rien ne le signale.
 #
-# `publish` est en déclenchement MANUEL uniquement. Publier écrit dans le
-# Firestore de production et incrémente contentVersion, ce qui fait re-télécharger
-# le contenu à tous les clients : ça reste une décision humaine, jamais un effet
-# de bord d'un merge.
+# `publish` est en déclenchement MANUEL. Publier téléverse le contenu sur le CDN
+# de production ; toute collection dont l'empreinte a changé prend une nouvelle
+# version, et ses clients la retéléchargent.
+#
+# `publish-news` est l'exception, décidée le 2026-08-03 : l'ACTU et les
+# ÉVÉNEMENTS EN LIGNE se publient tout seuls au merge sur `main`.
+#
+# Ce fichier portait la règle inverse — « jamais un effet de bord d'un merge ».
+# Elle n'est pas abandonnée, elle est déplacée : la décision humaine existe
+# toujours, c'est la RELECTURE DE LA PR de veille. Un bouton qui ne montre rien
+# est un moins bon garde-fou qu'un diff qu'on relit. Et pour ces deux kinds, la
+# fraîcheur EST la fonctionnalité : un compte à rebours publié trois jours en
+# retard n'est pas du contenu en retard, c'est du contenu faux.
+#
+# Ce qui garde son bouton, et pourquoi : POI, cheats, guides et collections sont
+# embarqués dans les socles de l'app. Une erreur y coûte un binaire à reprendre,
+# pas un fragment à republier. Le job REFUSE de partir si le merge les touche.
 #
 # Le build iOS n'est délibérément pas ici : la spec §11 tranche « CI : Xcode Cloud
 # plus tard, build locale + TestFlight en v1 ». Ce workflow ne couvre que la
@@ -34,9 +47,14 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: "Publier réellement vers Firestore (sinon, contrôles seuls)"
+        description: "Publier réellement vers le CDN (sinon, contrôles seuls)"
         type: boolean
         default: false
+
+# Lecture seule par défaut. Les deux jobs de publication rehaussent eux-mêmes ce
+# dont ils ont besoin : reporter le verrou de versions demande un push.
+permissions:
+  contents: read
 
 jobs:
   check:
@@ -87,11 +105,133 @@ jobs:
       #
       # Sans cette étape, gtav-cheats.test.mjs et cdn-build.test.mjs — vingt
       # tests — ne tournaient sur AUCUNE pull request : la seule commande qui les
-      # atteignait vivait dans le workflow de veille, déclenché par cron du lundi.
+      # atteignait vivait dans le workflow de veille, déclenché par cron.
       # Une régression y aurait été vue après la fusion, pas avant.
       - name: Suite complète et contrôles de contenu
         working-directory: tools/content-cli
         run: npm test
+
+  # Publication automatique de l'actu et des événements en ligne au merge.
+  #
+  # Le `needs: check` est le même mur que pour la publication manuelle : schémas,
+  # règles éditoriales, marques déposées, socles à jour. Rien ne part sans lui.
+  publish-news:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    steps:
+      # `fetch-depth: 0` : on compare le merge à son parent pour savoir CE QUI a
+      # changé. Un clone superficiel n'a pas le parent.
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      # Le garde-fou de périmètre. `content/inbox/` est exclu à dessein : il
+      # n'est publié par aucun kind, c'est la matière première de la veille.
+      #
+      # Un merge qui touche AUSSI un POI ou un cheat ne publie rien du tout, et
+      # le dit. Publier « juste l'actu » dans ce cas serait un mensonge : le
+      # verrou de versions est global, et une collection dont l'empreinte a
+      # bougé repartirait avec elle.
+      - name: Le merge reste-t-il dans le périmètre de la veille
+        id: scope
+        run: |
+          set -euo pipefail
+          CHANGED="$(git diff --name-only '${{ github.event.before }}' '${{ github.sha }}' -- content/ || true)"
+          if [ -z "$CHANGED" ]; then
+            echo "hors-perimetre=aucun changement de contenu" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          HORS="$(echo "$CHANGED" | grep -vE '^content/(news|online-events|inbox)/|^content/cdn-versions\.json$' || true)"
+          if [ -n "$HORS" ]; then
+            {
+              echo 'hors-perimetre<<EOF'
+              echo "$HORS"
+              echo EOF
+            } >> "$GITHUB_OUTPUT"
+          fi
+          PUBLIABLE="$(echo "$CHANGED" | grep -E '^content/(news|online-events)/' || true)"
+          [ -n "$PUBLIABLE" ] && echo 'a-publier=oui' >> "$GITHUB_OUTPUT" || true
+
+      # Se dégrader proprement, comme le reste de la chaîne : sans identifiants,
+      # on ne tente pas et on le DIT. Un `main` rouge à chaque merge d'actu
+      # apprendrait surtout à ignorer le rouge.
+      #
+      # Ce n'est pas une hypothèse d'école : au 2026-08-03, ces secrets n'existent
+      # pas encore et le job `publish` n'a jamais tourné une seule fois.
+      - name: Vérifier les identifiants de publication
+        id: creds
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -n "$SUPABASE_URL" ] && [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo 'presents=oui' >> "$GITHUB_OUTPUT"
+          else
+            {
+              echo '### Publication automatique : impossible'
+              echo
+              echo 'SUPABASE_URL et/ou SUPABASE_SERVICE_ROLE_KEY manquent dans'
+              echo "l'environnement \`production\`. Le contenu est sur \`main\`, mais il"
+              echo "n'a PAS été publié sur le CDN."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning title=Publication non tentée::Identifiants Supabase absents de l'environnement production."
+          fi
+
+      - name: Expliquer pourquoi rien n'est publié
+        if: steps.scope.outputs.hors-perimetre != '' || steps.scope.outputs.a-publier != 'oui'
+        run: |
+          {
+            echo '### Publication automatique : non'
+            echo
+            if [ -n '${{ steps.scope.outputs.hors-perimetre }}' ]; then
+              echo 'Ce merge sort du périmètre de la veille (actu + événements en ligne) :'
+              echo '```'
+              echo '${{ steps.scope.outputs.hors-perimetre }}'
+              echo '```'
+              echo 'Ces kinds sont embarqués dans les socles de l’app — ils gardent leur'
+              echo 'publication manuelle. Lancer le workflow `Contenu` avec la case cochée.'
+            else
+              echo 'Aucune actu ni événement en ligne dans ce merge.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Installer les dépendances du CLI
+        if: steps.scope.outputs.hors-perimetre == '' && steps.scope.outputs.a-publier == 'oui' && steps.creds.outputs.presents == 'oui'
+        working-directory: tools/content-cli
+        run: npm ci
+
+      - name: Publier
+        if: steps.scope.outputs.hors-perimetre == '' && steps.scope.outputs.a-publier == 'oui' && steps.creds.outputs.presents == 'oui'
+        working-directory: tools/content-cli
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npm run release
+
+      # Même raison que pour la publication manuelle : un verrou qui diverge du
+      # dépôt ferait repartir TOUTES les collections au run suivant, donc un
+      # retéléchargement complet chez tous les clients, pour rien.
+      #
+      # `[skip ci]` : ce commit ne touche que le verrou, et se relancer dessus
+      # ferait boucler le workflow sur lui-même.
+      - name: Reporter le verrou de versions
+        if: steps.scope.outputs.hors-perimetre == '' && steps.scope.outputs.a-publier == 'oui' && steps.creds.outputs.presents == 'oui'
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet content/cdn-versions.json; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add content/cdn-versions.json
+            git commit -m "chore(content): versions de collections après publication [skip ci]"
+            git push origin HEAD:main
+          fi
 
   publish:
     # Uniquement sur déclenchement manuel avec la case cochée. Le `needs` garantit
@@ -100,6 +240,8 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     environment: production
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -110,27 +252,42 @@ jobs:
         working-directory: tools/content-cli
         run: npm ci
 
-      # Le secret FIREBASE_SERVICE_ACCOUNT (JSON du compte de service, au moindre
-      # privilège) doit être ajouté dans Settings > Secrets and variables >
-      # Actions. Il n'est jamais écrit dans le dépôt.
-      - name: Écrire les credentials hors du dépôt
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          if [ -z "$SERVICE_ACCOUNT" ]; then
-            echo "::error::secret FIREBASE_SERVICE_ACCOUNT absent — voir docs/ops/"
-            exit 1
-          fi
-          printf '%s' "$SERVICE_ACCOUNT" > "$RUNNER_TEMP/service-account.json"
-
-      - name: Publier et incrémenter contentVersion
+      # SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY vivent dans Settings > Secrets
+      # and variables > Actions. La clé `service_role` contourne RLS : elle ne
+      # doit exister QUE là — jamais dans le dépôt, jamais dans le binaire de
+      # l'app, qui n'emporte que la clé anonyme.
+      - name: Publier le contenu sur le CDN
         working-directory: tools/content-cli
         env:
-          FIREBASE_SERVICE_ACCOUNT_PATH: ${{ runner.temp }}/service-account.json
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: npm run release
 
-      - name: Déployer firestore.rules
-        working-directory: tools/content-cli
+      # Le verrou de versions change dès qu'une collection change. Le laisser
+      # diverger du dépôt ferait repartir TOUTES les collections à la version
+      # suivante au prochain run — donc un retéléchargement complet chez tous
+      # les clients, pour rien.
+      - name: Reporter le verrou de versions
+        run: |
+          if ! git diff --quiet content/cdn-versions.json; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add content/cdn-versions.json
+            git commit -m "chore(content): versions de collections après publication"
+            git push
+          fi
+
+      # Les politiques d'accès sont des migrations SQL relues en pull request,
+      # plus un fichier de règles poussé par une API.
+      - name: Appliquer les migrations
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: supabase db push
         env:
-          FIREBASE_SERVICE_ACCOUNT_PATH: ${{ runner.temp }}/service-account.json
-        run: node cli.js deploy-rules
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          supabase link --project-ref "${{ secrets.SUPABASE_PROJECT_REF }}"
+          supabase db push

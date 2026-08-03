@@ -13,9 +13,38 @@ final class FakeAuthProvider: AuthProviding {
         return uid
     }
 
-    func signOut() throws {
+    /// Erreur à lever à la déconnexion, pour exercer le cas où la révocation
+    /// côté serveur échoue mais où la session locale doit tomber quand même.
+    nonisolated(unsafe) var signOutError: (any Error)?
+
+    /// Issue à rendre à l'inscription par e-mail. Les deux comptent : selon
+    /// que la confirmation est active sur le projet, s'inscrire ouvre une
+    /// session ou n'ouvre rien.
+    nonisolated(unsafe) var signUpOutcome: EmailSignUpOutcome = .signedIn(uid: "fake-uid")
+    nonisolated(unsafe) var googleUID = "fake-google-uid"
+
+    struct Unreachable: Error {}
+
+    func signUp(email: String, password: String) async throws -> EmailSignUpOutcome {
+        if case .signedIn(let uid) = signUpOutcome { userIDToReturn = uid }
+        return signUpOutcome
+    }
+
+    func signIn(email: String, password: String) async throws -> String {
+        let uid = "fake-email-uid"
+        userIDToReturn = uid
+        return uid
+    }
+
+    func signInWithGoogle() async throws -> String {
+        userIDToReturn = googleUID
+        return googleUID
+    }
+
+    func signOut() async throws {
         signOutCallCount += 1
         userIDToReturn = nil
+        if let signOutError { throw signOutError }
     }
 }
 
@@ -53,10 +82,10 @@ final class FakeAccountDeleting: AccountDeleting {
 }
 
 struct ProfileFakesTests {
-    @Test func authProviderTracksSignOutCalls() throws {
+    @Test func authProviderTracksSignOutCalls() async throws {
         let fake = FakeAuthProvider()
         fake.userIDToReturn = "existing-uid"
-        try fake.signOut()
+        try await fake.signOut()
         #expect(fake.signOutCallCount == 1)
         #expect(fake.currentUserID == nil)
     }

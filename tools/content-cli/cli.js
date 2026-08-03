@@ -11,14 +11,13 @@
 //   release                LA commande à utiliser : arbre propre + validate +
 //                          check-publishable + check-seeds, puis publish + bump.
 //                          `release --dry-run` exécute les mêmes contrôles sans écrire.
-//   translate --dry-run    liste les champs ES/IT/DE manquants (l'appel IA arrive avec Firebase)
-//   publish --dry-run      montre le diff qui partirait vers Firestore
-//   publish                pousse réellement vers Firestore (firebase-admin) et incrémente
-//                          contentVersion dans Remote Config ; nécessite
-//                          FIREBASE_SERVICE_ACCOUNT_PATH.
+//   translate --dry-run    liste les champs ES/IT/DE manquants
+//   publish --dry-run      montre ce qui partirait vers le CDN
+//   publish                construit le site statique et le téléverse sur Storage ;
+//                          nécessite SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY.
 //   pull-drafts            matérialise les brouillons du mode éditeur (posés au doigt
 //                          dans le build debug) en fichiers content/poi/*.json ;
-//                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
+//                          nécessite SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY.
 //   pull-drafts --file X   même chose depuis un fichier exporté par l'app (repli sans
 //                          compte, cf. FileEditorDraftStore) ; aucun credential requis.
 //   pull-news              matérialise les faits `kind: "news"` de content/inbox en
@@ -32,16 +31,18 @@
 //   pull-online-events --dry-run  montre ce qui serait matérialisé sans rien écrire.
 //   build-cdn              construit le site statique de contenu dans dist/ (JSON
 //                          versionné, lisible sans SDK — voir cdn-build.mjs)
+//   deploy-cdn             téléverse dist/ dans le bucket public `cdn`
 //   content-source [url|off]  affiche ou change la source de contenu lue par l'app
-//                          (contentBaseURL dans Remote Config ; `off` = Firestore)
-//   rules-diff             compare firestore.rules au ruleset actif en ligne
-//   deploy-rules           affiche le diff PUIS déploie firestore.rules (racine du
-//                          repo) comme ruleset actif sur le projet Firestore live ;
-//                          nécessite FIREBASE_SERVICE_ACCOUNT_PATH.
+//                          (contentBaseURL dans app_config ; `off` = socle embarqué seul)
+//
+// Les règles d'accès n'ont plus de commande : ce sont des politiques RLS
+// versionnées dans supabase/migrations/, déployées par `supabase db push` et
+// relues en pull request — pas un fichier poussé par une API.
 
 import { execSync } from 'node:child_process';
 import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync, renameSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { deflateRawSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv/dist/2020.js';
 import {
@@ -57,9 +58,8 @@ const LANGS = ['fr', 'es', 'it', 'de'];
 // Champs affichés dans l'UI : jamais de marque déposée (CLAUDE.md, spec §1).
 const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
 const UI_FIELDS = ['title', 'note', 'effect', 'body'];
-// Doit rester aligné sur BUNDLE_CHUNK_SIZE dans firestore-client.js et
-// ContentBundle.chunkSize côté Swift — ici uniquement pour annoncer le nombre de
-// fragments en dry-run.
+// Doit rester aligné sur CHUNK_SIZE dans cdn-build.mjs et ContentBundle.chunkSize
+// côté Swift — ici uniquement pour annoncer le nombre de fragments en dry-run.
 const BUNDLE_CHUNK_SIZE = 500;
 
 const ajv = new Ajv({ allErrors: true });
@@ -71,8 +71,8 @@ const compiled = {
   'online-events': ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'online-event.schema.json')))),
 };
 
-// Un « kind » est un répertoire de content/. Il porte son schéma et la
-// collection Firestore visée.
+// Un « kind » est un répertoire de content/. Il porte son schéma et le nom de
+// collection publié sur le CDN.
 //
 // `poi-gtav` et `poi` partagent le schéma mais PAS la collection : les positions
 // de la fixture sont normalisées sur la carte de référence, les afficher sur
@@ -281,7 +281,7 @@ function cheatsSeedContent(entries) {
  *  Même rôle que seed-poi.json côté carte : content/ reste la source de vérité,
  *  le bundle en est une projection — jamais une copie éditée à la main.
  *  Le filtre draft/published ne s'applique pas ici : il gouverne la publication
- *  Firestore, pas ce que le binaire embarque. */
+ *  le CDN, pas ce que le binaire embarque. */
 function bundleCollections(entries) {
   const cheats = cheatsSeedContent(entries);
   writeFileSync(CHEATS_SEED, cheats);
@@ -351,7 +351,7 @@ function checkSeeds(entries) {
 }
 
 /** Refuse de publier depuis un arbre de travail sale : ce qui part vers
- *  Firestore doit correspondre à un commit, sinon on ne peut plus dire quelle
+ *  le CDN doit correspondre à un commit, sinon on ne peut plus dire quelle
  *  version du contenu est en ligne. */
 function requireCleanTree() {
   const dirty = execSync('git status --porcelain', { cwd: ROOT, encoding: 'utf8' }).trim();
@@ -365,73 +365,21 @@ function currentCommit() {
   return execSync('git rev-parse --short HEAD', { cwd: ROOT, encoding: 'utf8' }).trim();
 }
 
-/**
- * Compare firestore.rules au ruleset actuellement actif sur le projet live.
+
+/** Publication réelle : construction du site statique puis téléversement sur
+ *  Storage. Partagée par `publish` et `release` — une seule implémentation, deux
+ *  points d'entrée.
  *
- * `deploy-rules` remplace le ruleset d'un bloc : une règle ajoutée directement en
- * console Firebase disparaîtrait sans laisser de trace. Regarder la cible avant
- * de l'écraser n'est pas une précaution de confort.
- *
- * Comparaison ligne à ligne, volontairement grossière : sur un fichier de règles
- * de cette taille, savoir QUELLES lignes diffèrent suffit — pas besoin d'un
- * algorithme de diff et de la dépendance qui va avec.
- */
-async function rulesDiff() {
-  const { fetchFirestoreRules } = await import('./firestore-client.js');
-  const local = readFileSync(join(ROOT, 'firestore.rules'), 'utf8');
-  const live = await fetchFirestoreRules();
-
-  if (local.trim() === live.trim()) {
-    console.log('rules-diff: le ruleset actif est identique à firestore.rules');
-    return true;
-  }
-
-  const norm = (s) => s.split('\n').map((l) => l.trim()).filter(Boolean);
-  const liveLines = norm(live);
-  const localLines = norm(local);
-  const onlyLive = liveLines.filter((l) => !localLines.includes(l));
-  const onlyLocal = localLines.filter((l) => !liveLines.includes(l));
-
-  console.log('rules-diff: le ruleset actif DIFFÈRE de firestore.rules');
-  if (onlyLive.length) {
-    console.log(`\n  présent en ligne, absent du dépôt (${onlyLive.length} ligne(s)) —`);
-    console.log('  un déploiement les PERDRAIT :');
-    onlyLive.forEach((l) => console.log(`  - ${l}`));
-  }
-  if (onlyLocal.length) {
-    console.log(`\n  présent dans le dépôt, absent en ligne (${onlyLocal.length} ligne(s)) —`);
-    console.log('  un déploiement les ajouterait :');
-    onlyLocal.forEach((l) => console.log(`  + ${l}`));
-  }
-  return true;
-}
-
-/** Écriture réelle vers Firestore + bump de version. Partagée par `publish` et
- *  `release` : une seule implémentation, deux points d'entrée. */
-async function publishAll(entries) {
+ *  Il n'y a plus d'écriture en base : le CDN est la seule source de contenu, et
+ *  la version de chaque collection vit dans le manifeste. */
+async function publishAll() {
   try {
-    const publishable = entries.filter((e) => e.data.status === 'published');
-    const { pushDocuments, pushBundles, incrementContentVersion } = await import('./firestore-client.js');
-    const byKind = Object.fromEntries(Object.keys(KINDS).map((k) => [k, []]));
-    publishable.forEach((e) => byKind[e.kind].push(e.data));
-
-    for (const [kind, docs] of Object.entries(byKind)) {
-      const { collection } = KINDS[kind];
-      // Les documents unitaires restent : ils sont la surface d'écriture du mode
-      // éditeur et ce qu'on inspecte dans la console. Mais l'app ne les lit plus
-      // — à une lecture facturée par document, un bump de version coûtait autant
-      // de lectures qu'il y a d'entrées, fois le nombre de clients. Elle lit les
-      // agrégats.
-      if (docs.length) await pushDocuments(collection, docs);
-      const { chunks, pruned } = await pushBundles(collection, docs);
-      console.log(`  ${collection}: ${docs.length} doc(s), ${chunks} fragment(s)${pruned ? `, ${pruned} périmé(s) supprimé(s)` : ''}`);
-    }
-
-    // Le SHA part avec la version : sans lui, « quelle version du contenu est en
-    // ligne ? » n'a aucune réponse vérifiable.
-    const commit = currentCommit();
-    const newVersion = await incrementContentVersion(commit);
-    console.log(`publish: ${publishable.length} document(s), contentVersion → ${newVersion} (${commit})`);
+    const { execFileSync } = await import('node:child_process');
+    const here = dirname(fileURLToPath(import.meta.url));
+    execFileSync(process.execPath, [join(here, 'cli.js'), 'build-cdn'], { stdio: 'inherit' });
+    const { uploadSite } = await import('./supabase-client.js');
+    const count = await uploadSite(join(ROOT, 'tools', 'content-cli', 'dist'));
+    console.log(`publish: ${count} objet(s) téléversé(s) dans le bucket cdn`);
     return true;
   } catch (err) {
     console.error(err.message);
@@ -459,7 +407,7 @@ switch (cmd) {
     ok = checkSeeds(entries);
     break;
   case 'translate':
-    if (!dry) { console.error('translate: only --dry-run is implemented until Firebase is provisioned'); ok = false; break; }
+    if (!dry) { console.error('translate: seul --dry-run est implémenté (l\'appel IA reste à câbler)'); ok = false; break; }
     ok = translateDryRun(entries);
     break;
   case 'publish':
@@ -498,51 +446,26 @@ switch (cmd) {
     ok = await publishAll(entries);
     break;
   }
-  case 'rules-diff':
-    try {
-      ok = await rulesDiff();
-    } catch (err) {
-      console.error(err.message);
-      ok = false;
-    }
-    break;
-  case 'deploy-rules':
-    try {
-      // La cible s'affiche avant d'être écrasée, systématiquement : c'est le
-      // seul moment où une divergence introduite en console est encore visible.
-      await rulesDiff();
-      console.log('');
-      const rulesSource = readFileSync(join(ROOT, 'firestore.rules'), 'utf8');
-      const { deployFirestoreRules } = await import('./firestore-client.js');
-      await deployFirestoreRules(rulesSource);
-      console.log('deploy-rules: firestore.rules released as the active Firestore ruleset');
-      ok = true;
-    } catch (err) {
-      console.error(err.message);
-      ok = false;
-    }
-    break;
   case 'content-source':
     try {
-      const { getRemoteConfigParameter, setRemoteConfigParameter } = await import('./firestore-client.js');
+      const { getConfig, setConfig } = await import('./supabase-client.js');
       const [target] = flags;
       if (!target) {
-        const current = await getRemoteConfigParameter('contentBaseURL');
-        console.log(current ? `content-source: CDN — ${current}` : 'content-source: Firestore (contentBaseURL vide)');
+        const current = await getConfig('contentBaseURL');
+        console.log(current ? `content-source: ${current}` : 'content-source: aucune (socle embarqué seul)');
         ok = true;
         break;
       }
-      // `off` efface la valeur plutôt que de la supprimer : le paramètre reste
-      // visible en console, ce qui rend le repli explicite au lieu d'être une
-      // absence qu'on interprète.
+      // `off` efface la valeur plutôt que de supprimer la ligne : le paramètre
+      // reste visible dans l'éditeur de table, ce qui rend l'extinction
+      // explicite au lieu d'être une absence qu'on interprète.
+      //
+      // C'est la porte de sortie de la décision d'héberger le contenu sur
+      // Storage : changer d'hébergeur ne demande aucune mise à jour de l'app.
       const value = target === 'off' ? '' : target;
       if (value && !/^https:\/\/[^\s]+$/.test(value)) throw new Error(`URL refusée : ${target}`);
-      await setRemoteConfigParameter(
-        'contentBaseURL',
-        value,
-        "Base du contenu statique servi par CDN. Vide = l'app lit Firestore (repli sans mise à jour)."
-      );
-      console.log(value ? `content-source: les clients liront ${value}` : 'content-source: repli sur Firestore');
+      await setConfig('contentBaseURL', value);
+      console.log(value ? `content-source: les clients liront ${value}` : 'content-source: source éteinte');
       ok = true;
     } catch (err) {
       console.error(err.message);
@@ -551,25 +474,81 @@ switch (cmd) {
     break;
   case 'build-cdn': {
     // La version vient du nombre de commits : monotone, déterministe, et
-    // calculable hors ligne — contrairement à `contentVersion` de Remote Config,
-    // qui exige des credentials. La construction doit tourner en CI sans secret.
+    // calculable hors ligne. La construction doit tourner en CI sans secret.
     const version = Number(execSync('git rev-list --count HEAD', { cwd: ROOT, encoding: 'utf8' }).trim());
     const commit = execSync('git rev-parse --short HEAD', { cwd: ROOT, encoding: 'utf8' }).trim();
     const { buildSite } = await import('./cdn-build.mjs');
-    const files = buildSite(entries, KINDS, { version, commit });
+
+    // Le verrou porte la version ET l'empreinte de chaque collection à la
+    // dernière publication. C'est lui qui permet à une collection inchangée de
+    // garder son chemin, donc son cache. Versionné dans le dépôt plutôt que relu
+    // depuis le CDN : déterministe, hors ligne, et le diff se relit en PR.
+    const lockPath = join(CONTENT, 'cdn-versions.json');
+    const previous = existsSync(lockPath) ? JSON.parse(readFileSync(lockPath, 'utf8')) : {};
+
+    const { files, collections } = buildSite(entries, KINDS, { version, commit, previous });
 
     const dist = join(ROOT, 'tools', 'content-cli', 'dist');
     rmSync(dist, { recursive: true, force: true });
     for (const file of files) {
       const target = join(dist, file.path);
       mkdirSync(dirname(target), { recursive: true });
-      writeFileSync(target, `${JSON.stringify(file.json)}\n`);
+      const bytes = Buffer.from(`${JSON.stringify(file.json)}\n`);
+
+      // Les FRAGMENTS partent compressés, le manifeste en clair.
+      //
+      // Supabase Storage ne compresse pas à la volée et ne permet pas non plus
+      // de poser `Content-Encoding` au téléversement (supabase-js#1883, demande
+      // ouverte) : seuls `contentType` et `cacheControl` existent. La
+      // décompression transparente par le client HTTP est donc hors d'atteinte,
+      // et sans elle ce sont 423 Ko qui sortent au lieu de 70 — sur un quota
+      // d'egress partagé avec la base et l'authentification.
+      //
+      // D'où du DEFLATE BRUT (RFC 1951), décompressé par l'app. Brut et pas
+      // gzip parce que c'est exactement ce que `NSData.decompressed(using:
+      // .zlib)` attend côté iOS, sans en-tête à retirer à la main. Il reste lu
+      // par n'importe quel langage — zlib est partout, et un navigateur a
+      // `DecompressionStream('deflate-raw')`. Ce qu'on perd, c'est le
+      // `curl | jq` direct sur un fragment ; le manifeste, lui, reste lisible à
+      // l'œil, et c'est celui qu'on inspecte à la main.
+      if (file.immutable) {
+        writeFileSync(`${target}.z`, deflateRawSync(bytes, { level: 9 }));
+      } else {
+        writeFileSync(target, bytes);
+      }
     }
 
+    writeFileSync(lockPath, `${JSON.stringify(collections, null, 2)}\n`);
+
+    const changed = Object.entries(collections)
+      .filter(([name]) => previous[name]?.version !== collections[name].version)
+      .map(([name, info]) => `${name}→v${info.version}`);
     const published = entries.filter((e) => e.data.status === 'published').length;
-    console.log(`build-cdn: v${version} (${commit}) — ${published} entrée(s) publiée(s), ${files.length} fichier(s) dans dist/`);
-    console.log('  déploiement : firebase deploy --only hosting');
+    console.log(`build-cdn: publication ${commit} — ${published} entrée(s), ${files.length} fichier(s) dans dist/`);
+    console.log(changed.length ? `  collections modifiées : ${changed.join(', ')}` : '  aucune collection modifiée');
+    console.log('  déploiement : node cli.js deploy-cdn');
     ok = true;
+    break;
+  }
+  case 'deploy-cdn': {
+    // Téléverse dist/ vers le bucket public `content`. Les en-têtes de cache,
+    // qui vivaient dans la configuration de l'hébergeur, se posent ici objet par objet : c'est la
+    // seule différence de fond avec un hébergeur statique.
+    const dist = join(ROOT, 'tools', 'content-cli', 'dist');
+    if (!existsSync(dist)) {
+      console.error('deploy-cdn: dist/ absent — lancer `node cli.js build-cdn` d’abord');
+      ok = false;
+      break;
+    }
+    try {
+      const { uploadSite } = await import('./supabase-client.js');
+      const count = await uploadSite(dist);
+      console.log(`deploy-cdn: ${count} objet(s) téléversé(s) dans le bucket cdn`);
+      ok = true;
+    } catch (err) {
+      console.error(err.message);
+      ok = false;
+    }
     break;
   }
   case 'pull-drafts':
@@ -598,7 +577,7 @@ switch (cmd) {
           console.log(`  archivé ${archived}`);
         };
       } else {
-        const { listEditorDrafts, markEditorDraftsApplied } = await import('./firestore-client.js');
+        const { listEditorDrafts, markEditorDraftsApplied } = await import('./supabase-client.js');
         drafts = await listEditorDrafts();
         markApplied = (ids) => markEditorDraftsApplied(ids);
       }
@@ -844,7 +823,7 @@ switch (cmd) {
     break;
   case 'moderate:list':
     try {
-      const { listPendingContributions } = await import('./firestore-client.js');
+      const { listPendingContributions } = await import('./supabase-client.js');
       const pending = await listPendingContributions();
       if (!pending.length) {
         console.log('moderate:list: nothing pending');
@@ -864,7 +843,7 @@ switch (cmd) {
     try {
       const [id] = flags;
       if (!id) throw new Error('usage: cli.js moderate:approve <contributionId>');
-      const { approveContribution } = await import('./firestore-client.js');
+      const { approveContribution } = await import('./supabase-client.js');
       await approveContribution(id);
       console.log(`moderate:approve: ${id} approved`);
       ok = true;
@@ -877,7 +856,7 @@ switch (cmd) {
     try {
       const [id] = flags;
       if (!id) throw new Error('usage: cli.js moderate:reject <contributionId>');
-      const { rejectContribution } = await import('./firestore-client.js');
+      const { rejectContribution } = await import('./supabase-client.js');
       await rejectContribution(id);
       console.log(`moderate:reject: ${id} rejected`);
       ok = true;
@@ -890,7 +869,7 @@ switch (cmd) {
     try {
       const [uid] = flags;
       if (!uid) throw new Error('usage: cli.js shadow-ban <uid>');
-      const { shadowBanUser } = await import('./firestore-client.js');
+      const { shadowBanUser } = await import('./supabase-client.js');
       await shadowBanUser(uid);
       console.log(`shadow-ban: ${uid} shadow-banned, existing approved spots hidden`);
       ok = true;
@@ -903,7 +882,7 @@ switch (cmd) {
     try {
       const [uid] = flags;
       if (!uid) throw new Error('usage: cli.js lift-shadow-ban <uid>');
-      const { liftShadowBan } = await import('./firestore-client.js');
+      const { liftShadowBan } = await import('./supabase-client.js');
       await liftShadowBan(uid);
       console.log(`lift-shadow-ban: ${uid} restored, existing spots visible again`);
       ok = true;
@@ -915,7 +894,7 @@ switch (cmd) {
   case 'kill-switch':
     try {
       const [state] = flags.filter((f) => f !== '--dry-run');
-      const { getCommunityContributionsEnabled, setCommunityContributionsEnabled } = await import('./firestore-client.js');
+      const { getCommunityContributionsEnabled, setCommunityContributionsEnabled } = await import('./supabase-client.js');
       if (!state) {
         const enabled = await getCommunityContributionsEnabled();
         console.log(`kill-switch: community contributions currently ${enabled ? 'ENABLED' : 'DISABLED'}`);

@@ -20,12 +20,15 @@ struct SettingsScreen: View {
 
     @State private var settingsModel: SettingsModel
     @State private var followedCategoriesStore = FollowedCategoriesStore(
-        notifier: FirebaseFollowedCategoryNotifier()
+        notifier: APNsFollowedCategoryNotifier.shared
     )
     @State private var showDeleteConfirmation = false
     @State private var showPaywall = false
     @State private var currentNonce: String?
     @State private var signInError: String?
+    @State private var showEmailForm = false
+    @State private var email = ""
+    @State private var password = ""
 
     init(profileModel: ProfileModel, communityModel: CommunityModel?) {
         self.profileModel = profileModel
@@ -112,6 +115,8 @@ struct SettingsScreen: View {
                     .font(NCTypography.body)
                     .foregroundStyle(.white.opacity(0.85))
 
+                // Apple en premier, et en tête : la règle App Store 4.8 l'exige
+                // dès qu'un autre fournisseur tiers est proposé.
                 SignInWithAppleButton(.signIn) { request in
                     let nonce = AppleSignInCoordinator.makeRawNonce()
                     currentNonce = nonce
@@ -122,13 +127,28 @@ struct SettingsScreen: View {
                 }
                 .signInWithAppleButtonStyle(.white)
                 .frame(height: 44)
+
+                Button {
+                    Task {
+                        do { try await authModel.signInWithGoogle() } catch { reportSignIn(error) }
+                    }
+                } label: {
+                    Text("profile.signIn.google")
+                        .font(NCTypography.body)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .background(.white.opacity(0.12), in: .rect(cornerRadius: 8))
+                        .foregroundStyle(.white)
+                }
+                .buttonStyle(.plain)
+
+                emailSection
             } else {
                 if serverFeatures.isEnabled {
                     Button("profile.handle.regenerate") {
                         Task { try? await profileModel.regenerateHandle() }
                     }
                 }
-                Button("profile.signOut") { try? authModel.signOut() }
+                Button("profile.signOut") { Task { try? await authModel.signOut() } }
                 Button("profile.deleteAccount", role: .destructive) {
                     showDeleteConfirmation = true
                 }
@@ -136,10 +156,89 @@ struct SettingsScreen: View {
         }
     }
 
+    /// L'e-mail, replié par défaut.
+    ///
+    /// Le déplier demanderait deux champs de saisie à quelqu'un qui a un
+    /// bouton Apple juste au-dessus ; le laisser ouvert en permanence donnerait
+    /// à la saisie manuelle le poids visuel du chemin recommandé, ce qu'elle
+    /// n'est pas. C'est le troisième choix, présenté comme tel.
+    private var emailSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Button(showEmailForm ? "profile.signIn.email.hide" : "profile.signIn.email.show") {
+                withAnimation { showEmailForm.toggle() }
+            }
+            .font(NCTypography.body)
+
+            if showEmailForm {
+                TextField("profile.signIn.email.address", text: $email)
+                    .textContentType(.emailAddress)
+                    .keyboardType(.emailAddress)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .textFieldStyle(.roundedBorder)
+
+                SecureField("profile.signIn.email.password", text: $password)
+                    // `.password` et pas `.newPassword` : le même champ sert à
+                    // se connecter et à s'inscrire, et `.newPassword` ferait
+                    // proposer un mot de passe fort à quelqu'un qui veut
+                    // simplement ressaisir le sien.
+                    .textContentType(.password)
+                    .textFieldStyle(.roundedBorder)
+
+                if authModel.awaitingEmailConfirmation {
+                    Text("profile.signIn.email.confirmationSent")
+                        .font(NCTypography.cardMeta)
+                        .foregroundStyle(NCColor.neonCyan)
+                }
+
+                HStack(spacing: 12) {
+                    Button("profile.signIn.email.signIn") {
+                        Task {
+                            do { try await authModel.signIn(email: email, password: password) }
+                            catch { reportSignIn(error) }
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                    Button("profile.signIn.email.signUp") {
+                        Task {
+                            do { try await authModel.signUp(email: email, password: password) }
+                            catch { reportSignIn(error) }
+                        }
+                    }
+                }
+                .font(NCTypography.body)
+            }
+        }
+    }
+
+    /// Traduit une erreur de connexion non-Apple en message affichable.
+    ///
+    /// Les problèmes de saisie sont dits dans la langue de l'utilisateur ; tout
+    /// le reste vient du réseau ou de GoTrue, et son texte anglais est ce qui
+    /// permet de comprendre le blocage — le masquer par un message générique
+    /// rendrait le diagnostic impossible.
+    private func reportSignIn(_ error: any Error) {
+        let message: String
+        switch error as? EmailCredentialProblem {
+        case .emptyEmail: message = String(localized: "profile.signIn.email.errorEmpty")
+        case .malformedEmail: message = String(localized: "profile.signIn.email.errorMalformed")
+        case .passwordTooShort(let minimum):
+            message = String(format: String(localized: "profile.signIn.email.errorShort %lld"), minimum)
+        case nil:
+            // Une annulation est un geste volontaire, pas une panne : refermer
+            // la feuille du navigateur ne doit rien afficher.
+            if (error as NSError).code == ASWebAuthenticationSessionError.canceledLogin.rawValue { return }
+            message = error.localizedDescription
+        }
+        print("SettingsScreen: connexion refusée — \(message)")
+        signInError = message
+    }
+
     private func deleteAccount() async {
         guard let userID = authModel.userID else { return }
         if await settingsModel.deleteAccount(uid: userID, serverEnabled: serverFeatures.isEnabled) {
-            try? authModel.signOut()
+            try? await authModel.signOut()
         }
     }
 

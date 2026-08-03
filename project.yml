@@ -23,9 +23,9 @@ settings:
     INFOPLIST_KEY_UIUserInterfaceStyle: Dark
     INFOPLIST_KEY_NSUserTrackingUsageDescription: "This lets us show ads relevant to you instead of generic ones."
 packages:
-  Firebase:
-    url: https://github.com/firebase/firebase-ios-sdk
-    from: 11.0.0
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: 2.54.0
   GoogleMobileAds:
     url: https://github.com/googleads/swift-package-manager-google-mobile-ads
     from: 13.0.0
@@ -46,7 +46,7 @@ targets:
         INFOPLIST_FILE: NeonCompass/Support/Info-Ads.plist
       configs:
         # Expose le dossier Documents dans l'app Fichiers, pour récupérer les
-        # brouillons du mode éditeur sans compte ni Firestore. DEBUG seulement :
+        # brouillons du mode éditeur sans compte ni base distante. DEBUG seulement :
         # l'app publiée n'a aucune raison d'ouvrir son dossier au monde.
         Debug:
           INFOPLIST_KEY_UIFileSharingEnabled: YES
@@ -77,20 +77,12 @@ targets:
       # duplicating it on disk.
       - path: NeonCompassWidgets/WidgetSummary.swift
     dependencies:
-      - package: Firebase
-        product: FirebaseCore
-      - package: Firebase
-        product: FirebaseFirestore
-      - package: Firebase
-        product: FirebaseRemoteConfig
-      - package: Firebase
-        product: FirebaseAuth
-      - package: Firebase
-        product: FirebaseFunctions
-      - package: Firebase
-        product: FirebaseAppCheck
-      - package: Firebase
-        product: FirebaseMessaging
+      # Produit parapluie : Auth, PostgREST, Storage, Functions et Realtime.
+      # Realtime n'est utilisé par aucune feature — aucun écran ne s'abonne à
+      # des changements en direct — mais le parapluie évite d'énumérer quatre
+      # produits qui bougeront au fil des versions du paquet.
+      - package: Supabase
+        product: Supabase
       - package: GoogleMobileAds
         product: GoogleMobileAds
       - package: GoogleUserMessagingPlatform
@@ -110,7 +102,7 @@ targets:
     sources:
       - path: NeonCompassWidgets
       # Shared design-system views/colors/type used by the widget's UI. Verified
-      # Firebase/UIKit-free (pure SwiftUI + Foundation), so safe to compile into this
+      # dependency-free (pure SwiftUI + Foundation), so safe to compile into this
       # target too rather than duplicating a widget-local copy.
       - path: NeonCompass/Core/DesignSystem/ProgressRing.swift
       - path: NeonCompass/Core/DesignSystem/NCColor.swift

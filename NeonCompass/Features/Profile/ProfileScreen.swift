@@ -5,9 +5,9 @@ struct ProfileScreen: View {
     @Environment(AuthModel.self) private var authModel
     @Environment(\.modelContext) private var modelContext
     @State private var profileModel = ProfileModel(
-        repository: FirestoreProfileRepository(),
-        functions: FirebaseAccountFunctions(),
-        localDeletion: FirebaseClientAccountDeletion()
+        repository: SupabaseProfileRepository(),
+        functions: SupabaseAccountFunctions(),
+        localDeletion: SupabaseAccountDeletion()
     )
     @State private var communityModel: CommunityModel?
     @Environment(ServerFeaturesModel.self) private var serverFeatures

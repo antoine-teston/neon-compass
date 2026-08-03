@@ -2,9 +2,9 @@ import Foundation
 
 /// The ONLY data a widget process ever sees — written by the main app to
 /// a shared App Group UserDefaults suite, read by the widget extension's
-/// TimelineProvider. Never a live SwiftData/Firestore query from the
+/// TimelineProvider. Never a live SwiftData/network query from the
 /// widget process (Global Constraints: widgets never read SwiftData or
-/// Firestore directly — a widget extension has no access to either).
+/// the backend directly — a widget extension has no access to either).
 ///
 /// This file is compiled into BOTH the NeonCompass app target and the
 /// NeonCompassWidgets extension target (see `sources:` in project.yml) —

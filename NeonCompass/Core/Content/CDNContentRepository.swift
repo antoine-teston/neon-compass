@@ -1,72 +1,105 @@
 import Foundation
 
-/// Lit une collection depuis le CDN si une URL de base est configurée, et
-/// retombe sur Firestore sinon.
+/// Lit une collection depuis le CDN.
 ///
-/// Le repli n'est pas une précaution timide : c'est ce qui rend la bascule
-/// **réversible sans mise à jour de l'app**. Vider `contentBaseURL` dans Remote
-/// Config remet tout le monde sur Firestore en une minute, ce qui est la seule
-/// façon honnête d'introduire une nouvelle source de vérité en production.
+/// Il n'y a plus de repli réseau, et ce n'est pas un affaiblissement : le filet
+/// est le socle embarqué dans le binaire fusionné au cache SwiftData de la
+/// dernière synchronisation (`ContentStore`). Une panne du CDN dégrade vers
+/// « le contenu d'hier », là où un second dépôt réseau n'aurait fait que
+/// déplacer le point de panne. La vraie porte de sortie est ailleurs, et elle
+/// est meilleure : `contentBaseURL` se change à distance, donc on repointe vers
+/// un autre hébergeur sans mise à jour de l'app.
 final class CDNContentRepository<Item: ContentItem>: ContentRemoteRepository {
     private let collectionName: String
-    private let firestoreFallback: any ContentRemoteRepository<Item>
     private let cdn: ContentCDN
 
-    init(
-        collectionName: String,
-        firestoreFallback: any ContentRemoteRepository<Item>,
-        cdn: ContentCDN = .shared
-    ) {
+    init(collectionName: String, cdn: ContentCDN = .shared) {
         self.collectionName = collectionName
-        self.firestoreFallback = firestoreFallback
         self.cdn = cdn
     }
 
     func fetchAll() async throws -> [Item] {
         // La source doit être décidée AVANT qu'on demande si elle l'est : sinon
-        // l'écran qui gagne la course au lancement conclut « pas de CDN » et
-        // part sur Firestore, en lectures facturées.
+        // l'écran qui gagne la course au lancement conclut « pas de CDN ».
         await ContentSourceConfigurator.ready()
-        guard await cdn.isConfigured() else {
-            return try await firestoreFallback.fetchAll()
-        }
+        guard await cdn.isConfigured() else { throw ContentCDNError.notConfigured }
         let bundles: [ContentBundle<Item>] = try await cdn.bundles(for: collectionName)
         return bundles.flatMap(\.items)
     }
 }
 
-/// Version du contenu, lue dans le manifeste du CDN quand il est configuré, et
-/// dans Remote Config sinon.
+/// Version d'une collection, lue dans le manifeste du CDN.
 ///
-/// Les deux sources sont volontairement le MÊME entier vu par le client : un
-/// `ContentStore` ne sait pas laquelle l'alimente, et bascule de l'une à l'autre
-/// sans invalider son cache — tant que la nouvelle version est supérieure.
+/// Par collection, et c'est le point : la version était globale, donc une
+/// publication d'actu faisait retélécharger les POI à tout le monde. Ici, une
+/// collection inchangée garde sa version, `ContentStore.sync` voit « à jour »,
+/// et rien ne part sur le réseau.
 ///
-/// Attention à ce dernier point : la version du CDN vient du nombre de commits
-/// du dépôt, celle de Remote Config d'un compteur incrémenté à chaque
-/// publication. La première est structurellement plus grande, donc passer de
-/// Firestore au CDN déclenche une resynchronisation (voulu), tandis que revenir
-/// en arrière laisserait le cache en place jusqu'au prochain dépassement — un
-/// repli sert à éteindre un incendie, pas à revenir au contenu d'avant.
+/// Zéro tant que le CDN n'est pas configuré : `ContentStore` ne déclenche alors
+/// aucun téléchargement et vit sur son cache, plutôt que de l'écraser avec du
+/// vide.
 struct CDNContentVersionProvider: ContentVersionProviding {
-    private let firestoreFallback: ContentVersionProviding
+    private let collectionName: String
     private let cdn: ContentCDN
 
-    init(firestoreFallback: ContentVersionProviding, cdn: ContentCDN = .shared) {
-        self.firestoreFallback = firestoreFallback
+    init(collectionName: String, cdn: ContentCDN = .shared) {
+        self.collectionName = collectionName
         self.cdn = cdn
     }
 
     func invalidate() async {
         await cdn.invalidateManifest()
-        await firestoreFallback.invalidate()
     }
 
     func currentVersion() async throws -> Int {
         await ContentSourceConfigurator.ready()
-        guard await cdn.isConfigured() else {
-            return try await firestoreFallback.currentVersion()
-        }
-        return try await cdn.manifest().version
+        guard await cdn.isConfigured() else { return 0 }
+        return try await cdn.version(for: collectionName)
+    }
+}
+
+/// Fragments de spots communautaires, servis par le CDN comme le reste.
+///
+/// **Manifeste séparé, et c'est délibéré.** Ils sont reconstruits au fil des
+/// approbations — une tâche planifiée aux cinq minutes — pendant que le contenu
+/// éditorial est publié à la main. Deux producteurs sur un même fichier de
+/// manifeste, c'est une course à la clé perdue d'avance ; deux fichiers
+/// indépendants n'en ont aucune. C'est le même raisonnement qui avait donné un
+/// document de version distinct côté Firestore.
+final class CommunityBundleRepository<Item: ContentItem>: ContentRemoteRepository {
+    private let cdn: ContentCDN
+
+    init(cdn: ContentCDN = .shared) {
+        self.cdn = cdn
+    }
+
+    func fetchAll() async throws -> [Item] {
+        await ContentSourceConfigurator.ready()
+        guard await cdn.isConfigured() else { throw ContentCDNError.notConfigured }
+        let bundles: [ContentBundle<Item>] = try await cdn.communityBundles()
+        return bundles.flatMap(\.items)
+    }
+}
+
+struct CommunityBundleVersionProvider: ContentVersionProviding {
+    /// Valeur du champ `collection` des fragments, et clé du cache SwiftData.
+    /// Doit rester identique à `BUNDLE_COLLECTION` côté serveur — la valeur est
+    /// dupliquée des deux côtés d'une frontière réseau, un test la fige.
+    static let collectionName = "community_spots"
+
+    private let cdn: ContentCDN
+
+    init(cdn: ContentCDN = .shared) {
+        self.cdn = cdn
+    }
+
+    func invalidate() async {
+        await cdn.invalidateCommunityManifest()
+    }
+
+    func currentVersion() async throws -> Int {
+        await ContentSourceConfigurator.ready()
+        guard await cdn.isConfigured() else { return 0 }
+        return try await cdn.communityVersion()
     }
 }

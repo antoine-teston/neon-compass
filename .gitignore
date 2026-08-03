@@ -4,4 +4,5 @@ DerivedData/
 *.xcodeproj
 .build/
 tools/content-cli/dist/
-.firebase/
+# Cache Deno des Edge Functions
+supabase/functions/**/deno.lock

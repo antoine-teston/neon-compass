@@ -47,7 +47,7 @@ struct ProgressionSection: View {
     /// re-runs). Cheap no-op whenever the Pro/auth gate is still false.
     private func reattachSyncIfNeeded() {
         guard let model, proEntitlementModel.isProEntitled, let userID = authModel.userID else { return }
-        let sync = FirestoreProgressionSync()
+        let sync = SupabaseProgressionSync()
         guard model.attachSyncIfNeeded(sync) else { return }
         Task {
             let remoteItems = await sync.fetchAll(uid: userID)
@@ -75,7 +75,7 @@ struct ProgressionSection: View {
         // le compte") — never constructed for free or signed-out users.
         let userID = authModel.userID
         let sync: ProgressionSyncing? =
-            (proEntitlementModel.isProEntitled && userID != nil) ? FirestoreProgressionSync() : nil
+            (proEntitlementModel.isProEntitled && userID != nil) ? SupabaseProgressionSync() : nil
         model = ProgressionModel(
             pois: poiStore.items + referenceStore.items,
             collections: collectionStore.items,

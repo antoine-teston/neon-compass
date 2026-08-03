@@ -22,8 +22,11 @@ Style of this file: Karpathy-minimal. High signal only. If a rule doesn't change
 
 - SwiftUI + Observation framework (`@Observable`), not Combine, not TCA.
 - SwiftData for persistence.
-- Third-party dependencies: Firebase (Firestore, Anonymous Auth, Remote Config, Analytics) and Google Mobile Ads are approved — the ad-funded model requires them. Anything else needs a concrete justification. Swift Package Manager only — no CocoaPods.
-- Firebase stays behind protocols in `Core/` — features never import it directly.
+- Backend : **Supabase** (Postgres + RLS, Auth, Edge Functions, Storage). Migration depuis Firebase actée le 2026-08-02, spec `docs/superpowers/specs/2026-08-02-migration-supabase-design.md`.
+- Third-party dependencies: Supabase and Google Mobile Ads are approved — the ad-funded model requires the latter. Anything else needs a concrete justification. Swift Package Manager only — no CocoaPods.
+- Supabase stays behind protocols in `Core/` — features never import it directly.
+- **Deux verrous sur chaque table, pas un.** `pg_default_acl` accorde tous les privilèges à `anon` et `authenticated` sur toute table nouvellement créée : RLS seule protégerait, mais un `disable row level security` de trop exposerait tout. `supabase/migrations/20260802140000_privileges.sql` reprend puis rend, et fait autorité — c'est le dernier fichier de migration pour cette raison.
+- Le contenu est servi par **Storage**, pas par la base : fragments en DEFLATE brut sous `.json.z` (Storage ne sait pas poser `Content-Encoding`), version **par collection** pour qu'une publication d'actu ne fasse pas retélécharger les POI. `contentBaseURL` dans `app_config` reste la porte de sortie vers un autre hébergeur, sans mise à jour de l'app.
 - Tests: Swift Testing (`import Testing`), not XCTest, for new tests.
 
 ## Commands
@@ -60,4 +63,5 @@ Feature-first folders (`App/`, `Features/`, `Core/`), pas layer-first.
 
 - Small diffs. One feature or fix per session; don't refactor opportunistically.
 - Before claiming done: build + tests must pass locally. Paste the failing output if they don't.
+- **`xcodebuild test` peut réécrire `Localizable.xcstrings`.** L'extraction automatique de chaînes y ajoute des variantes à suffixe `%@` sans traduction, ce qui fait tomber `LocalizationCoverageTests`. Le fichier apparaît alors modifié sans qu'on y ait touché : vérifier `git status` avant de commiter, et restaurer (`git checkout -- NeonCompass/Resources/Localizable.xcstrings`) plutôt que d'emporter l'artefact.
 - When a decision here conflicts with reality (API deprecated, better tool exists), raise it in the conversation — don't silently deviate.
