@@ -42,6 +42,7 @@ struct MapScreen: View {
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(ServerFeaturesModel.self) private var serverFeatures
+    @Environment(FoundStore.self) private var foundStore
 
     private let manifest = MapManifest.load() ?? MapManifest(size: 2048)
 
@@ -407,7 +408,7 @@ struct MapScreen: View {
             // référence reste explorable. Les épingles personnelles et le
             // marquage « trouvé » ne sont pas concernés — ils passent par
             // FoundEntry/PersonalPin, pas par ce chemin.
-            model = MapModel(pois: pois(for: mapGame), modelContext: modelContext)
+            model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, found: foundStore)
             return
         }
         let contentStore = ContentStore<POI>.live(
@@ -429,7 +430,7 @@ struct MapScreen: View {
         let sync: ProgressionSyncing? = (proEntitlementModel.isProEntitled && userID != nil) ? SupabaseProgressionSync() : nil
         remotePOIs = contentStore.items
         referencePOIs = referenceStore.items
-        model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, sync: sync)
+        model = MapModel(pois: pois(for: mapGame), modelContext: modelContext, found: foundStore, sync: sync)
         communityModel = CommunityModel.live(modelContext: modelContext)
         Task {
             try? await contentStore.syncIfNeeded()

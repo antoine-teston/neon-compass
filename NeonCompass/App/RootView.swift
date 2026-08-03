@@ -18,6 +18,9 @@ struct RootView: View {
     @State private var serverFeatures = ServerFeaturesModel(gate: SupabaseServerFeatureGate())
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.modelContext) private var modelContext
+    /// Fourni par `NeonCompassApp`, qui le construit avant le premier rendu — cet
+    /// écran ne fait que le retransmettre au chemin d'amorçage du widget.
+    @Environment(FoundStore.self) private var foundStore
 
     init() {
         let proEntitlementModel = ProEntitlementModel(provider: StoreKitProProvider())
@@ -182,6 +185,7 @@ struct RootView: View {
             collections: collectionStore.items,
             trophies: [],
             modelContext: modelContext,
+            found: foundStore,
             widgetSummaryCoordinator: widgetSummaryCoordinator
         )
 

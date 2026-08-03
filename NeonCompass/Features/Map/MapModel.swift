@@ -13,7 +13,11 @@ final class MapModel {
         didSet { refreshFilteredPOIs() }
     }
     var selectedPOI: POI?
-    private(set) var foundPOIIDs: Set<String>
+    /// Passe-plat vers le magasin partagé, et non plus un cache propre : deux
+    /// caches d'une seule vérité divergeaient (voir `FoundStore`). L'observation
+    /// traverse la chaîne — une vue qui lit `model.foundPOIIDs` s'abonne en fait
+    /// à `FoundStore.foundIDs`, donc une écriture faite ailleurs la réveille.
+    var foundPOIIDs: Set<String> { found.foundIDs }
     var hideFoundPOIs = false {
         didSet { refreshFilteredPOIs() }
     }
@@ -49,14 +53,23 @@ final class MapModel {
     private(set) var personalPinsGeneration = 0
 
     private let modelContext: ModelContext
+    private let found: FoundStore
     private var sync: ProgressionSyncing?
 
-    init(pois: [POI], modelContext: ModelContext, sync: ProgressionSyncing? = nil) {
+    /// `found` est facultatif POUR LES TESTS, qui veulent chacun un magasin isolé
+    /// sur leur contexte en mémoire. En production il est toujours fourni — c'est
+    /// celui de l'app, et le fournir est justement ce qui referme la divergence.
+    init(
+        pois: [POI],
+        modelContext: ModelContext,
+        found: FoundStore? = nil,
+        sync: ProgressionSyncing? = nil
+    ) {
         self.pois = pois
         self.activeCategories = Set(POICategory.allCases)
         self.modelContext = modelContext
+        self.found = found ?? FoundStore(modelContext: modelContext)
         self.sync = sync
-        self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
         // Les `didSet` ne se déclenchent pas pendant l'initialisation.
         refreshFilteredPOIs()
         refreshPersonalPins()
@@ -97,24 +110,16 @@ final class MapModel {
     }
 
     func isFound(_ poi: POI) -> Bool {
-        foundPOIIDs.contains(poi.id)
+        found.isFound(poi.id)
     }
 
     func toggleFound(_ poi: POI) {
         let poiID = poi.id
-        let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
         let now = Date.now
-        if let existing = try? modelContext.fetch(descriptor).first {
-            modelContext.delete(existing)
-            foundPOIIDs.remove(poiID)
-            try? modelContext.save()
-            Task { await sync?.upload(itemID: poiID, kind: .poi, found: false, updatedAt: now) }
-        } else {
-            modelContext.insert(FoundEntry(poiID: poi.id, updatedAt: now))
-            foundPOIIDs.insert(poiID)
-            try? modelContext.save()
-            Task { await sync?.upload(itemID: poiID, kind: .poi, found: true, updatedAt: now) }
-        }
+        // L'écriture appartient au magasin ; le téléversement reste ici, parce que
+        // c'est ce modèle qui sait si l'utilisateur y a droit.
+        let isNowFound = found.toggle(poiID, at: now)
+        Task { await sync?.upload(itemID: poiID, kind: .poi, found: isNowFound, updatedAt: now) }
         // Le filtrage ne dépend de l'état « trouvé » QUE sous « masquer les
         // trouvés » — et rien d'autre ne s'y rejoue.
         //
@@ -165,33 +170,16 @@ final class MapModel {
         return true
     }
 
-    /// Last-write-wins-per-item reconciliation of remote progression into the
-    /// local FoundEntry store. Pure/testable independent of Firestore — the
-    /// caller (MapScreen) is responsible for fetching remoteItems and gating
-    /// this on Pro + signed-in.
+    /// Réconciliation de la progression distante. La règle
+    /// dernière-écriture-gagne vit dans `FoundStore` — un seul magasin décide.
+    /// L'appelant (`MapScreen`) reste responsable d'aller chercher `remoteItems`
+    /// et de vérifier le droit (Pro + compte).
+    ///
+    /// Le refiltrage est inconditionnel ici, à la différence de `toggleFound` : la
+    /// réconciliation peut ajouter comme retirer beaucoup d'entrées d'un coup, et
+    /// elle arrive une fois par ouverture d'écran, pas à chaque tap.
     func reconcile(with remoteItems: [ProgressionSyncItem]) {
-        for item in remoteItems where item.kind == .poi {
-            let poiID = item.itemID
-            let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
-            let existing = try? modelContext.fetch(descriptor).first
-
-            if let existing, existing.updatedAt >= item.updatedAt {
-                continue // local is at least as recent, local wins
-            }
-
-            if item.found {
-                if let existing {
-                    existing.updatedAt = item.updatedAt
-                } else {
-                    modelContext.insert(FoundEntry(poiID: poiID, foundAt: item.updatedAt, updatedAt: item.updatedAt))
-                }
-                foundPOIIDs.insert(poiID)
-            } else if let existing {
-                modelContext.delete(existing)
-                foundPOIIDs.remove(poiID)
-            }
-        }
-        try? modelContext.save()
+        found.reconcile(with: remoteItems)
         refreshFilteredPOIs()
     }
 }

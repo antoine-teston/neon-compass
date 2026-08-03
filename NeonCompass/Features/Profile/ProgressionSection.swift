@@ -16,6 +16,7 @@ struct ProgressionSection: View {
     @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    @Environment(FoundStore.self) private var foundStore
     @State private var model: ProgressionModel?
 
     var body: some View {
@@ -37,6 +38,23 @@ struct ProgressionSection: View {
         .onAppear {
             model?.refreshFoundState()
             reattachSyncIfNeeded()
+        }
+        // Le déclencheur qui manquait, et le cœur du correctif.
+        //
+        // `.onAppear` ci-dessus ne se rejoue JAMAIS sur iPhone : `compactLayout`
+        // garde les onglets visités montés dans un `ZStack` et ne joue que sur
+        // l'opacité (délibéré — c'est ce qui préserve le zoom et la recherche de
+        // la carte), et changer d'opacité n'est pas réapparaître. Cocher trente
+        // lieux sur la carte laissait donc l'anneau, les compteurs de défis et le
+        // résumé du widget figés sur la première visite du Profil, jusqu'au
+        // prochain lancement.
+        //
+        // Cette vue reste ÉVALUÉE quand elle est masquée — c'est ce qui rend
+        // `onChange` fiable ici là où `onAppear` ne l'est pas. Les défis sont un
+        // état dérivé STOCKÉ (mesuré : le calculer à la lecture rebalayait tout le
+        // tableau de POI à chaque accès), donc il faut bien dire quand recalculer.
+        .onChange(of: foundStore.foundIDs) { _, _ in
+            model?.refreshFoundState()
         }
     }
 
@@ -81,6 +99,7 @@ struct ProgressionSection: View {
             collections: collectionStore.items,
             trophies: trophyStore.items,
             modelContext: modelContext,
+            found: foundStore,
             sync: sync,
             widgetSummaryCoordinator: widgetSummaryCoordinator
         )
