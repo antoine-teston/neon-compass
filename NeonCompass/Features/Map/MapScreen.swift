@@ -262,6 +262,7 @@ struct MapScreen: View {
         .onAppear {
             communityModel?.refreshBlockedAuthors()
             reattachSyncIfNeeded()
+            attachPinSyncIfNeeded()
         }
         .onChange(of: mapGame) { _, newGame in
 #if DEBUG
@@ -558,6 +559,24 @@ struct MapScreen: View {
         Task {
             let remoteItems = await sync.fetchAll(uid: userID)
             model.reconcile(with: remoteItems)
+        }
+    }
+
+    /// Même rattrapage, pour le carnet.
+    ///
+    /// `PersonalPinStore` est construit dans `NeonCompassApp`, donc bien avant
+    /// que `ProEntitlementModel.refresh()` n'ait répondu : sans cet appel depuis
+    /// `.onAppear`, un abonné verrait son carnet rester local jusqu'au prochain
+    /// lancement. Sans effet et sans coût tant que le droit Pro ou le compte
+    /// manquent, et idempotent ensuite — c'est `attachSyncIfNeeded` qui le
+    /// garantit, pas l'appelant.
+    private func attachPinSyncIfNeeded() {
+        guard proEntitlementModel.isProEntitled, let userID = authModel.userID else { return }
+        let sync = SupabasePersonalPinSync()
+        guard personalPinStore.attachSyncIfNeeded(sync) else { return }
+        Task {
+            let remoteItems = await sync.fetchAll(uid: userID)
+            personalPinStore.reconcile(with: remoteItems)
         }
     }
 }
