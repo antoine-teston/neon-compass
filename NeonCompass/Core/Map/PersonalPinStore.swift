@@ -181,6 +181,21 @@ final class PersonalPinStore {
         return true
     }
 
+    /// Relit le carnet distant et le réconcilie. Sans effet si la synchro n'est
+    /// pas attachée — donc pour tout joueur gratuit ou déconnecté.
+    ///
+    /// Appelé au retour au premier plan, en plus de l'attache initiale. Sans ce
+    /// second moment, la lecture n'aurait lieu qu'UNE fois par lancement : poser
+    /// une épingle sur l'iPad puis reprendre l'iPhone resté ouvert ne montrerait
+    /// rien, et « synchronisé entre vos appareils » serait une promesse tenue à
+    /// retardement. Le retour au premier plan est exactement l'instant où le
+    /// joueur change d'appareil.
+    func pullRemote(uid: String) async {
+        guard let sync else { return }
+        let remoteItems = await sync.fetchAll(uid: uid)
+        reconcile(with: remoteItems)
+    }
+
     /// Réconciliation dernière-écriture-gagne, ÉPINGLE PAR ÉPINGLE.
     ///
     /// Par épingle et non en bloc : un appareil resté hors ligne longtemps

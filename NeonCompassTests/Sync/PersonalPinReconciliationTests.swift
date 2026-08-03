@@ -163,6 +163,29 @@ struct PersonalPinReconciliationTests {
         #expect(!store.attachSyncIfNeeded(FakePersonalPinSync()))
     }
 
+    /// La relecture du distant ramène ce qui a été posé ailleurs. C'est ce qui
+    /// tient la promesse au retour au premier plan : sans elle, le carnet
+    /// distant ne serait lu qu'une fois par lancement.
+    @Test func pullingBringsBackWhatWasWrittenElsewhere() async {
+        let store = PersonalPinStore(modelContext: makeContext())
+        let posée = item(title: "Posée sur l'iPad", updatedAt: .now)
+        store.attachSyncIfNeeded(FakePersonalPinSync(remote: [posée]))
+        await store.pullRemote(uid: "peu-importe")
+        #expect(store.pins.count == 1)
+        #expect(store.pins[0].title == "Posée sur l'iPad")
+    }
+
+    /// Et elle est INERTE sans synchro attachée — le joueur gratuit ou
+    /// déconnecté ne doit toucher aucun réseau.
+    @Test func pullingWithoutASyncDoesNothing() async {
+        let store = PersonalPinStore(modelContext: makeContext())
+        store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: false)
+        let before = store.generation
+        await store.pullRemote(uid: "peu-importe")
+        #expect(store.pins.count == 1, "le carnet local ne doit pas bouger")
+        #expect(store.generation == before, "rien n'a été relu, rien ne doit être périmé")
+    }
+
     /// Sans synchro attachée — le cas du joueur gratuit — rien ne part, et rien
     /// ne casse. Le magasin ne connaît ni le droit Pro ni le compte.
     @Test func nothingIsUploadedWithoutASync() {

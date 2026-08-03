@@ -4,6 +4,7 @@ import SwiftData
 struct MapScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.scenePhase) private var scenePhase
     @State private var model: MapModel?
     @State private var viewport = MapViewport()
     @State private var focusRequest: MapFocusRequest?
@@ -263,6 +264,16 @@ struct MapScreen: View {
             communityModel?.refreshBlockedAuthors()
             reattachSyncIfNeeded()
             attachPinSyncIfNeeded()
+        }
+        // Le retour au premier plan est l'instant où le joueur change
+        // d'appareil. Sans cette relecture, le carnet distant ne serait lu
+        // qu'une fois par lancement : poser une épingle sur l'iPad puis
+        // reprendre l'iPhone resté ouvert ne montrerait rien.
+        .onChange(of: scenePhase) { previous, phase in
+            guard phase == .active, previous != .active else { return }
+            attachPinSyncIfNeeded()
+            guard let userID = authModel.userID else { return }
+            Task { await personalPinStore.pullRemote(uid: userID) }
         }
         .onChange(of: mapGame) { _, newGame in
 #if DEBUG
