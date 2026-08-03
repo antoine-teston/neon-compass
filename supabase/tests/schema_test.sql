@@ -23,18 +23,26 @@ insert into auth.users (id) values
   ('22222222-2222-2222-2222-222222222222'),
   ('33333333-3333-3333-3333-333333333333');
 
+-- Compté sur NOS trois comptes seulement, jamais sur toute la table : une suite
+-- qui suppose une base vide passe en développement et tombe le jour où elle
+-- tourne contre un projet qui a des utilisateurs.
 do $$
 declare
   n integer;
   h text;
+  ours constant uuid[] := array[
+    '11111111-1111-1111-1111-111111111111',
+    '22222222-2222-2222-2222-222222222222',
+    '33333333-3333-3333-3333-333333333333'
+  ]::uuid[];
 begin
-  select count(*) into n from public.profiles;
+  select count(*) into n from public.profiles where uid = any(ours);
   assert n = 3, format('le trigger d''inscription doit créer 3 profils, il en a créé %s', n);
 
-  select handle into h from public.profiles where uid = '11111111-1111-1111-1111-111111111111';
+  select handle into h from public.profiles where uid = ours[1];
   assert h ~ '^[A-Z]+-[A-Z]+-[0-9]{2}$', format('pseudonyme mal formé : %s', h);
 
-  select count(distinct handle) into n from public.profiles;
+  select count(distinct handle) into n from public.profiles where uid = any(ours);
   assert n = 3, 'les pseudonymes doivent être uniques';
 end $$;
 
@@ -272,6 +280,42 @@ begin
      and table_schema = 'public'
      and table_name not in ('app_config', 'contributions');
   assert leaked is null, format('anon a accès à des tables non publiques : %s', leaked);
+end $$;
+
+-- Omettre `uid` n'est pas une erreur : le défaut vaut `auth.uid()`.
+--
+-- Côté Firestore, l'identité était portée par le CHEMIN du document, donc
+-- l'oublier était impossible. Ici c'est une colonne, et sans défaut un INSERT
+-- qui l'omet laisse NULL, fait échouer `with check (auth.uid() = uid)`, et rend
+-- un 403 dont le message ne nomme pas la cause.
+do $$
+declare
+  owner uuid;
+  n integer;
+begin
+  set local role authenticated;
+  perform set_config('request.jwt.claim.sub', '33333333-3333-3333-3333-333333333333', true);
+
+  insert into public.progression (kind, item_id, found, updated_at)
+       values ('poi', 'sans-uid-explicite', true, now());
+
+  select uid into owner from public.progression where item_id = 'sans-uid-explicite';
+  assert owner = '33333333-3333-3333-3333-333333333333',
+    format('le défaut doit poser l''appelant comme propriétaire, obtenu %s', owner);
+
+  -- Et le défaut n'affaiblit rien : écrire délibérément l'uid d'un autre reste
+  -- refusé par la politique.
+  begin
+    insert into public.progression (uid, kind, item_id, found, updated_at)
+         values ('11111111-1111-1111-1111-111111111111', 'poi', 'usurpation', true, now());
+    assert false, 'écrire la progression d''un autre doit rester refusé';
+  exception when insufficient_privilege then
+    null; -- attendu
+  end;
+
+  select count(*) into n from public.progression where item_id = 'usurpation';
+  assert n = 0, 'aucune ligne usurpée ne doit subsister';
+  reset role;
 end $$;
 
 -- Et le second verrou mord vraiment : une écriture directe est refusée par le
