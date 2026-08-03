@@ -168,6 +168,22 @@ struct PersonalPinStoreTests {
         #expect(model.selection == nil)
     }
 
+    /// Le commit de fin d'édition ne doit RIEN ressusciter.
+    ///
+    /// Le chemin réel : supprimer depuis la fiche retire celle-ci de l'arbre,
+    /// `onDisappear` tire `commit`, et `commit` écrivait sur une instance
+    /// invalidée. La fiche s'en garde par son drapeau `isDeleting` ; ce test
+    /// vérifie l'autre moitié du contrat — que le magasin, lui, ne fait pas
+    /// réapparaître ce qu'il vient d'effacer.
+    @Test func writingAfterADeleteDoesNotResurrectThePin() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        store.delete(pin)
+        #expect(store.pins.isEmpty)
+        store.refresh()
+        #expect(store.pins.isEmpty, "l'épingle est revenue après relecture du disque")
+    }
+
     /// La somme interdit l'état impossible : deux natures ne peuvent pas être
     /// sélectionnées en même temps, ce que deux `Optional` côte à côte auraient
     /// laissé exprimer.

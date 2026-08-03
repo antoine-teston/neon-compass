@@ -109,6 +109,13 @@ struct MapScreen: View {
                     .presentationDetents([.medium, .large])
                     .presentationBackground(NCColor.nightSky)
             }
+            // Même règle qu'en régulier, et pas seulement pour l'allure : ici la
+            // feuille se pose AU-DESSUS de la fiche au lieu de la remplacer.
+            // Supprimer par balayage, dans le carnet, l'épingle dont la fiche
+            // est ouverte derrière laisserait celle-ci sur une référence morte.
+            .onChange(of: showPersonalPinList) { _, isShown in
+                if isShown { model.selection = nil }
+            }
         } else {
             // Le panneau FLOTTE au-dessus de la carte au lieu de la pousser.
             //

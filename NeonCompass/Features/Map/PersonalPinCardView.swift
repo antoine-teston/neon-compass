@@ -29,6 +29,14 @@ struct PersonalPinCardView: View {
     @State private var draftNote: String
     @FocusState private var focusedField: Field?
     @State private var showDeleteConfirmation = false
+    /// Armé juste avant de supprimer, et lu par `commit`.
+    ///
+    /// Sans lui, supprimer depuis la fiche écrit sur un objet SwiftData déjà
+    /// effacé : la suppression retire la fiche de l'arbre, `onDisappear` tire
+    /// `commit`, et `commit` lit puis écrit `pin.title` sur une instance
+    /// invalidée. Le garde est ici plutôt que dans le magasin parce que c'est la
+    /// fiche qui sait qu'elle est en train de se saborder.
+    @State private var isDeleting = false
 
     private enum Field: Hashable { case title, note }
 
@@ -103,7 +111,10 @@ struct PersonalPinCardView: View {
                 isPresented: $showDeleteConfirmation,
                 titleVisibility: .visible
             ) {
-                Button("map.pins.card.delete", role: .destructive) { onDelete() }
+                Button("map.pins.card.delete", role: .destructive) {
+                    isDeleting = true
+                    onDelete()
+                }
                 Button("map.pins.card.cancel", role: .cancel) {}
             }
         }
@@ -150,6 +161,7 @@ struct PersonalPinCardView: View {
     }
 
     private func commit() {
+        guard !isDeleting else { return }
         store.update(pin, title: draftTitle.trimmingCharacters(in: .whitespacesAndNewlines), note: draftNote)
     }
 }
