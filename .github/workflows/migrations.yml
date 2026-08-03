@@ -29,6 +29,20 @@ on:
         description: "Lister ce qui serait appliqué, sans rien appliquer"
         type: boolean
         default: true
+      # `supabase db push` REFUSE d'insérer une migration antérieure à la
+      # dernière appliquée à distance, et demande `--include-all` pour le faire.
+      # C'est un bon garde-fou : une migration qui s'insère avant une autre déjà
+      # appliquée n'a pas été jouée dans l'ordre où elle a été relue, et ses
+      # effets peuvent différer de ce qu'on croit.
+      #
+      # Il est donc exposé plutôt que neutralisé. Il a servi dès le premier
+      # usage, le 2026-08-03 : `20260802170000_contribution_xp.sql` manquait en
+      # production alors que la migration SUIVANTE avait été appliquée — un saut
+      # que personne n'avait remarqué, et que `migration list` a rendu visible.
+      include-all:
+        description: "Appliquer aussi les migrations antérieures à la dernière appliquée (hors ordre)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -71,7 +85,7 @@ jobs:
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
         run: |
           set -o pipefail
-          supabase db push 2>&1 | tee -a "$RUNNER_TEMP/migrations.log"
+          supabase db push ${{ inputs.include-all && '--include-all' || '' }} 2>&1 | tee -a "$RUNNER_TEMP/migrations.log"
 
       # Le filet de sécurité du projet sur les privilèges : `pg_default_acl`
       # accorde tout à `anon` et `authenticated` sur chaque table créée, donc
