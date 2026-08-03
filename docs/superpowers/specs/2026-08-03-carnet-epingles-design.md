@@ -300,6 +300,26 @@ portée par la migration elle-même, entrée dans `privileges_test.sql`, protoco
 `updatedAt`, propagation des suppressions par `deletedAt` et bascule de la
 suppression physique en pierre tombale.
 
+**Les deux chantiers sont livrés** (2026-08-03). Trois décisions prises en cours
+de route et qui n'étaient pas dans cette spec :
+
+- **Les bornes de longueur.** `personal_pins` est la première table où le client
+  écrit de la prose — `progression` ne portait qu'un identifiant, un booléen et
+  une date. Sans borne, un compte y stockerait des mégaoctets, RLS l'y
+  autorisant puisque ce sont ses lignes. D'où `title ≤ 200`, `note ≤ 2000`,
+  `icon ≤ 32`, et `x`/`y` dans `[0, 1]`.
+- **`game` porte un CHECK, `icon` non.** Ajouter une carte est un évènement
+  délibéré qui s'accompagne d'une migration ; ajouter une septième icône n'est
+  qu'une mise à jour d'app, et un CHECK ferait alors du serveur le goulot.
+- **On ne purge jamais les pierres tombales.** Purger rouvre le danger
+  classique : un appareil resté hors ligne au-delà de la fenêtre n'a pas vu la
+  tombe et ressuscite l'épingle. Le coût de tout garder est d'environ deux cents
+  octets par suppression.
+
+Le carnet distant est relu à l'attache **et au retour au premier plan** : sans ce
+second moment, il n'aurait été lu qu'une fois par lancement, et poser une épingle
+sur l'iPad puis reprendre l'iPhone resté ouvert n'aurait rien montré.
+
 ## Hors périmètre
 
 - Recherche et tri dans le carnet — utiles au-delà de trente épingles, du chrome
