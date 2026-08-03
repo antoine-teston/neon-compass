@@ -15,7 +15,10 @@ enum PersonalPinIcon: String, CaseIterable, Codable, Sendable {
 
     var symbol: String {
         switch self {
-        case .marker: "mappin"
+        // Une étoile et non `mappin` : le glyphe est dessiné DANS une goutte,
+        // et une épingle dans une épingle se redit elle-même. L'étoile lit
+        // « repère générique » sans rien répéter de la forme qui la porte.
+        case .marker: "star.fill"
         case .vehicle: "car.fill"
         case .photo: "camera.fill"
         case .stash: "shippingbox.fill"

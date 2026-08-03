@@ -52,10 +52,15 @@ struct PersonalPinCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                TextField("map.pins.card.titlePlaceholder", text: $draftTitle)
+                // `axis: .vertical` pour que le titre ENROULE au lieu d'être
+                // coupé. Sur une ligne, « Coupé abandonné sous le pont » se
+                // réduisait à « Coupé abandonné… » : le libellé principal de la
+                // fiche est le dernier endroit où tronquer.
+                TextField("map.pins.card.titlePlaceholder", text: $draftTitle, axis: .vertical)
                     .textFieldStyle(.plain)
                     .font(NCTypography.displayTitle)
                     .foregroundStyle(.white)
+                    .lineLimit(1...3)
                     .focused($focusedField, equals: .title)
                     .submitLabel(.done)
                     .onSubmit(commit)
