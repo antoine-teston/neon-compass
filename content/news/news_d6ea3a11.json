@@ -1,0 +1,21 @@
+{
+  "id": "news_d6ea3a11",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Assez de consoles pour novembre, mais pas de promesse sur le prix",
+    "en": "Enough consoles for November, but no promise on the price"
+  },
+  "body": {
+    "fr": "Le constructeur indique dans ses résultats trimestriels avoir sécurisé la mémoire nécessaire à ses volumes de production jusqu'à la fin de son exercice, ce qui couvre le lancement du 19 novembre et les fêtes qui suivent. L'engagement porte sur les quantités seulement : l'entreprise dit chercher à limiter l'effet du renchérissement des composants, sans écarter une hausse. Trouver une machine ne devrait donc pas poser de problème ; son tarif, lui, n'est pas garanti.",
+    "en": "In its quarterly results the manufacturer says it has secured the memory needed for its planned production through the end of its fiscal year, which covers the November 19 launch and the holidays that follow. The commitment covers volume only: the company says it will work to limit the effect of rising component costs, without ruling out an increase. Finding a machine should not be the problem; what it costs might be."
+  },
+  "publishedAt": "2026-08-03",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/sony-confirms-it-has-enough-ps5-stock-for-gta-6-again-61ea"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:84a1a4e5d405",
+  "sourceClaim": "Dans son rapport de résultats du 3 août 2026, Sony Interactive Entertainment indique avoir sécurisé les volumes de mémoire nécessaires à ses ventes de consoles prévues sur l'exercice en cours, période qui couvre la sortie du 19 novembre 2026 et les fêtes qui suivent ; sa directrice financière Lin Tao précise que les plans matériels restent inchangés. L'engagement ne porte que sur les quantités : l'entreprise dit vouloir limiter l'effet du renchérissement de la mémoire sur ses coûts, formule qui n'exclut pas une nouvelle hausse du prix de la console."
+}

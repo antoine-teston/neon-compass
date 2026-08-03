@@ -1,0 +1,21 @@
+{
+  "id": "news_4d2376a8",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un remake concurrent pourrait sortir quelques jours avant, sans rien de confirmé",
+    "en": "A rival remake might land days earlier, with nothing confirmed"
+  },
+  "body": {
+    "fr": "La spéculation tient à un seul indice : un éditeur concurrent a daté deux figurines aux alentours des 11 et 12 novembre, et il cale souvent ces sorties sur celle d'un de ses grands titres. Comme aucun jeu maison n'est annoncé pour ce mois, des joueurs en déduisent qu'un remake attendu occuperait la date. Rien n'a été annoncé, ni la date ni la confrontation.",
+    "en": "The speculation rests on a single clue: a rival publisher has dated two collectible figures around November 11 and 12, and it often ties those to one of its major titles. With no first-party game announced for that month, players infer that a long-awaited remake would take the slot. Nothing has been announced — not the date, and not the clash."
+  },
+  "publishedAt": "2026-07-31",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/could-a-zelda-remake-really-launch-days-before-gta-6-ea6e"
+  ],
+  "confidence": "rumor",
+  "processedFrom": "inbox:news:1efdff1f044d",
+  "sourceClaim": "Une rumeur annonce la sortie d'un remake de The Legend of Zelda: Ocarina of Time à la mi-novembre 2026, quelques jours avant le 19 novembre. Elle ne repose sur aucune annonce : son unique fondement est la mise en vente de deux figurines amiibo datées autour des 11 et 12 novembre, Nintendo calant fréquemment ces figurines sur la sortie d'un jeu maison et n'ayant aucun titre daté pour ce mois. Le remake a bien été annoncé en juin 2026, mais sans date."
+}

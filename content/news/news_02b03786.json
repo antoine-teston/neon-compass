@@ -1,0 +1,21 @@
+{
+  "id": "news_02b03786",
+  "category": "event",
+  "game": "leonida",
+  "title": {
+    "fr": "Le 7 août, dernier point financier de l'éditeur avant la sortie",
+    "en": "August 7 is the publisher's last earnings call before launch"
+  },
+  "body": {
+    "fr": "La conférence trimestrielle se tient à 8 h, heure de New York, avant l'ouverture des marchés américains. C'est le dernier rendez-vous de ce type avant le 19 novembre : le suivant aura lieu une fois le jeu en vente. Les précommandes étant ouvertes depuis fin juin, c'est la première occasion pour l'éditeur d'en commenter l'accueil.",
+    "en": "The quarterly call is set for 8 a.m. New York time, ahead of the US market open. It is the last of its kind before November 19 — the next one lands after the game is on sale. With pre-orders open since late June, it is the publisher's first chance to say how they have gone."
+  },
+  "publishedAt": "2026-08-02",
+  "status": "published",
+  "sources": [
+    "https://leonidaverse.com/en/news/gta-6-take-two-august-7-trailer-3"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:81513e86e0b8",
+  "sourceClaim": "La conférence de résultats de Take-Two Interactive du 7 août 2026, fixée à 8 h 00 heure de l'Est soit quelques heures avant l'ouverture des marchés américains, sera la dernière publication financière trimestrielle de l'éditeur avant la sortie du jeu au 19 novembre 2026 : la suivante interviendra une fois le jeu commercialisé."
+}

@@ -1,0 +1,121 @@
+name: Récolte
+
+# La moitié DÉTERMINISTE de la veille : rapporter des octets. Aucun modèle,
+# aucune clé d'API, aucune décision éditoriale.
+#
+# Pourquoi ce workflow existe séparément de `Veille quotidienne` :
+#
+# La veille a besoin de deux choses qui ne vivent pas au même endroit.
+#
+#   - Le RÉSEAU. Les quatre sources du registre ne sont joignables que depuis un
+#     runner CI. La passerelle de sortie des sessions d'agent refuse le CONNECT
+#     sur ces domaines (403 sur les quatre à la fois, runs des 21/07, 27/07 et
+#     03/08 — voir PR #55, qui le confirme via `$HTTPS_PROXY/__agentproxy/status`).
+#   - Le JUGEMENT. Décider qu'un titre mérite un fait, et le reformuler, demande
+#     un modèle. La Routine cloud en a un, gratuitement, sans clé d'API.
+#
+# Aucune des deux moitiés ne peut faire le travail de l'autre, et rien ne les
+# réunira : l'une est bloquée réseau, l'autre coûterait une clé d'API sur le
+# runner. Ce workflow est donc la moitié réseau, et il publie sa récolte en
+# ARTEFACT que la Routine vient chercher.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# L'artefact contient du TEXTE DE TIERS, et c'est pourquoi il n'est pas commité.
+#
+# Le dépôt ne doit contenir que nos reformulations — c'est la contrainte IP du
+# projet, pas une préférence. `retention-days: 1` est donc structurel : le texte
+# des articles transite, il ne séjourne pas.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Fenêtre en jours'
+        type: string
+        default: '2'
+      max:
+        description: 'Plafond global de pages rapportées'
+        type: string
+        default: '15'
+  # Le cron n'est PAS l'ordonnanceur de la veille — la Routine l'est, et elle
+  # déclenche ce workflow elle-même. Celui-ci sert de filet : si la Routine ne
+  # part pas, la récolte du jour existe quand même en artefact, et le préflight
+  # aura signalé une source fermée. Décalé de quelques minutes avant la Routine.
+  schedule:
+    - cron: '47 1 * * *'
+
+concurrency:
+  group: recolte
+  cancel-in-progress: false
+
+# Lecture seule : ce workflow ne commite rien et n'ouvre aucune PR. Il lit des
+# pages web écrites par des tiers — lui donner le droit d'écrire sur le dépôt
+# n'apporterait rien et ouvrirait une surface pour rien.
+permissions:
+  contents: read
+
+jobs:
+  recolte:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      # Avant tout : les sources répondent-elles ? Ici l'echec est franc et
+      # gratuit. `fetch-source.mjs` distingue lui-même un refus des sources d'un
+      # blocage de notre propre sortie réseau, et le dit dans son message.
+      - name: Préflight
+        run: node tools/content-cli/fetch-source.mjs preflight
+
+      # Aucune dépendance npm : `fetch-source.mjs` n'utilise que des modules
+      # natifs de Node et `source-policy.mjs`. C'est délibéré — la moitié réseau
+      # de la veille ne doit pas pouvoir tomber sur une installation.
+      - name: Récolter flux et pages
+        run: |
+          node tools/content-cli/fetch-source.mjs harvest \
+            --out "$RUNNER_TEMP/recolte" \
+            --since '${{ inputs.since || 2 }}' \
+            --max '${{ inputs.max || 15 }}' \
+            2>&1 | tee "$RUNNER_TEMP/recolte.log"
+
+      # La semaine du mode en ligne est déjà STRUCTURÉE par la source : elle n'a
+      # pas besoin d'un modèle, seulement du réseau. Elle voyage donc dans le
+      # même artefact, en fait d'inbox prêt à copier — la Routine n'aura qu'à le
+      # déposer dans content/inbox/.
+      #
+      # `continue-on-error` : une dérive du hub ne doit pas emporter la récolte
+      # d'actu avec elle. L'échec se lit dans le résumé de run.
+      - name: Semaine du mode en ligne
+        id: weekly
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          node tools/content-cli/fetch-source.mjs weekly --write 2>&1 | tee -a "$RUNNER_TEMP/recolte.log"
+          cp content/inbox/*-gtav-weekly.facts.json "$RUNNER_TEMP/recolte/" 2>/dev/null || true
+
+      - name: Publier la récolte en artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: recolte
+          path: ${{ runner.temp }}/recolte
+          # Structurel, pas une économie de stockage : voir l'en-tête. Le texte
+          # de tiers transite, il ne séjourne pas.
+          retention-days: 1
+
+      - name: Compte-rendu
+        if: always()
+        run: |
+          {
+            echo '### Récolte'
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/recolte.log" 2>/dev/null || echo '(aucune sortie)'
+            echo '```'
+            if [ '${{ steps.weekly.outcome }}' != 'success' ]; then
+              echo
+              echo '> Mode en ligne en échec — structure du hub probablement changée.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

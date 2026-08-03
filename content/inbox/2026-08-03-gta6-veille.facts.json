@@ -1,0 +1,57 @@
+{
+  "run": {
+    "date": "2026-08-03",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://www.gtaboom.com/sony-confirms-it-has-enough-ps5-stock-for-gta-6-again-61ea",
+      "https://www.gtaboom.com/could-a-zelda-remake-really-launch-days-before-gta-6-ea6e",
+      "https://www.gtaboom.com/viral-gta-6-pre-order-loophole-debunked-f0f1",
+      "https://www.gtaboom.com/an-ex-rockstar-dev-thinks-gta-6-is-almost-finished-8644",
+      "https://www.gtaboom.com/kavinsky-whose-song-defined-gta-iv-drives-dies-at-50-af6e",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://leonidaverse.com/en/news/gta-6-take-two-august-7-trailer-3"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Dans son rapport de résultats du 3 août 2026, Sony Interactive Entertainment indique avoir sécurisé les volumes de mémoire nécessaires à ses ventes de consoles prévues sur l'exercice en cours, période qui couvre la sortie du 19 novembre 2026 et les fêtes qui suivent ; sa directrice financière Lin Tao précise que les plans matériels restent inchangés. L'engagement ne porte que sur les quantités : l'entreprise dit vouloir limiter l'effet du renchérissement de la mémoire sur ses coûts, formule qui n'exclut pas une nouvelle hausse du prix de la console.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/sony-confirms-it-has-enough-ps5-stock-for-gta-6-again-61ea",
+      "source_date": "2026-08-03",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "La conférence de résultats de Take-Two Interactive du 7 août 2026, fixée à 8 h 00 heure de l'Est soit quelques heures avant l'ouverture des marchés américains, sera la dernière publication financière trimestrielle de l'éditeur avant la sortie du jeu au 19 novembre 2026 : la suivante interviendra une fois le jeu commercialisé.",
+      "kind": "news",
+      "source_url": "https://leonidaverse.com/en/news/gta-6-take-two-august-7-trailer-3",
+      "source_date": "2026-08-02",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Une rumeur annonce la sortie d'un remake de The Legend of Zelda: Ocarina of Time à la mi-novembre 2026, quelques jours avant le 19 novembre. Elle ne repose sur aucune annonce : son unique fondement est la mise en vente de deux figurines amiibo datées autour des 11 et 12 novembre, Nintendo calant fréquemment ces figurines sur la sortie d'un jeu maison et n'ayant aucun titre daté pour ce mois. Le remake a bien été annoncé en juin 2026, mais sans date.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/could-a-zelda-remake-really-launch-days-before-gta-6-ea6e",
+      "source_date": "2026-07-31",
+      "confidence": "rumor",
+      "processed": true
+    },
+    {
+      "claim": "L'idée virale selon laquelle annuler puis repasser une précommande numérique permettrait de cumuler plusieurs mois offerts du service d'abonnement payant au mode en ligne est fausse : les conditions de l'offre réservent ce mois gratuit à une seule utilisation par compte, quel que soit le nombre d'achats. Le calcul qui circulait tablait sur quatre mois cumulés d'ici au lancement, soit une trentaine d'euros.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/viral-gta-6-pre-order-loophole-debunked-f0f1",
+      "source_date": "2026-07-30",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un ancien animateur du studio, en poste de 2012 à 2017 et crédité sur trois de ses productions, estime en entretien que le jeu serait achevé à 80-90 % et vraisemblablement arrivé au stade où plus aucun contenu n'est ajouté, l'équipe étant passée aux tests et à la finition. Il précise lui-même n'avoir aucune implication dans le projet et raisonner d'après son expérience passée, non d'après une information interne.",
+      "kind": "news",
+      "source_url": "https://www.gtaboom.com/an-ex-rockstar-dev-thinks-gta-6-is-almost-finished-8644",
+      "source_date": "2026-07-30",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
