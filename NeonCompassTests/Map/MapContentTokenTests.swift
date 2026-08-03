@@ -63,12 +63,40 @@ struct MapContentTokenTests {
 
     /// L'état « trouvé » se rend DANS la pastille (une coche remplace le
     /// glyphe). Il doit donc atteindre le jeton, sans quoi cocher un lieu
-    /// depuis sa fiche ne changerait rien à l'écran.
-    @Test func togglingFoundAdvancesThePOIGeneration() {
+    /// depuis sa fiche ne changerait rien à l'écran — mais il l'atteint
+    /// désormais par `foundPOIIDs`, que le jeton compare directement.
+    @Test func togglingFoundChangesTheFoundSet() {
+        let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
+        let before = model.foundPOIIDs
+        model.toggleFound(samplePOIs()[0])
+        #expect(model.foundPOIIDs != before)
+    }
+
+    /// Le pendant, et c'est la vraie raison de ce changement : cocher un lieu ne
+    /// doit PAS faire avancer la génération des POI.
+    ///
+    /// Cette génération est la clé d'invalidation de `MapClusterCache` : la faire
+    /// avancer réagrège les cinq cent trente-sept points et rebâtit toutes les
+    /// pastilles, alors que la liste dessinée est exactement la même — un lieu
+    /// coché reste un lieu affiché. C'était la lenteur du marquage.
+    @Test func togglingFoundDoesNotAdvanceThePOIGeneration() {
         let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
         let before = model.poisGeneration
         model.toggleFound(samplePOIs()[0])
+        #expect(model.poisGeneration == before)
+    }
+
+    /// Sauf sous « masquer les trouvés » : là, cocher RETIRE le point de la liste
+    /// dessinée, donc la composition change et la génération doit bouger. C'est
+    /// la seule exception, et l'oublier ferait rester à l'écran un point que le
+    /// mode est censé faire disparaître.
+    @Test func togglingFoundAdvancesTheGenerationWhenFoundAreHidden() {
+        let model = MapModel(pois: samplePOIs(), modelContext: makeContext())
+        model.hideFoundPOIs = true
+        let before = model.poisGeneration
+        model.toggleFound(samplePOIs()[0])
         #expect(model.poisGeneration != before)
+        #expect(model.filteredPOIs.count == 1)
     }
 
     /// Filtrer change la liste dessinée.

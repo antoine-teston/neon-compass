@@ -100,7 +100,14 @@ private struct MapContentSwiftUIView: View {
     /// propriétaires des deux collections. Voir `MapClusterCache`.
     let poisGeneration: Int
     let spotsGeneration: Int
-    let isFound: (POI) -> Bool
+    /// L'ensemble lui-même, et non plus un prédicat `(POI) -> Bool`.
+    ///
+    /// Une fermeture n'est pas comparable : tant que l'état « trouvé » entrait
+    /// par là, le moteur ne pouvait pas savoir qu'il avait changé autrement qu'en
+    /// faisant avancer la génération des POI — ce qui périmait le cache de
+    /// groupes et rebâtissait les cinq cent trente-sept points pour un seul
+    /// marquage. Un `Set` est `Equatable`, donc l'invalidation devient exacte.
+    let foundPOIIDs: Set<String>
     var zoom: MapRenderState
     let onTapPOI: (POI) -> Void
     let onTapCluster: (POICluster) -> Void
@@ -157,40 +164,27 @@ private struct MapContentSwiftUIView: View {
         .frame(width: fullSize, height: fullSize)
     }
 
-    /// Pastille communautaire, volontairement différente de celle des POI : un
-    /// glyphe d'épingle et la teinte communautaire, pour qu'on ne confonde pas
-    /// « douze lieux du guide » et « douze propositions de joueurs ». Un tap
-    /// zoome dessus, comme pour les POI — c'est ce qui délie le groupe.
     private func communityBubble(_ cluster: ContributionCluster) -> some View {
         Button {
             onTapCommunityCluster(cluster.position)
         } label: {
-            HStack(spacing: 3) {
-                Image(systemName: "mappin")
-                    .font(.system(size: 10, weight: .bold))
-                Text(cluster.count, format: .number)
-                    .font(.system(size: 13, weight: .bold, design: .rounded))
-                    .monospacedDigit()
-            }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 8)
-            .frame(minHeight: 30)
-            .background(
-                Capsule()
-                    .fill(NCColor.sunsetMagenta)
-                    .overlay(Capsule().stroke(.white.opacity(0.7), lineWidth: 1.5))
+            MapClusterBubbleView(
+                count: cluster.count,
+                category: cluster.dominantCategory,
+                style: style,
+                family: .community
             )
-            .shadow(color: NCColor.sunsetMagenta.opacity(0.5), radius: POIPinPalette.glowRadius(for: style))
+            .equatable()
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
         .position(MapGeometry.contentPoint(for: cluster.position, manifest: manifest))
-        .accessibilityLabel(Text("map.cluster.accessibility \(cluster.count)"))
     }
 
     private func contributionAnnotation(_ spot: Contribution) -> some View {
         var view = ContributionAnnotationView(
             spot: spot,
+            style: style,
             onVote: { direction in onVote(spot, direction) },
             onReport: { onReport(spot) },
             onBlockAuthor: { onBlockAuthor(spot) }
@@ -205,16 +199,21 @@ private struct MapContentSwiftUIView: View {
 
     /// Contour pointillé : un brouillon se distingue d'un POI publié au premier
     /// coup d'œil, ce qui est tout l'intérêt de l'afficher pendant la capture.
+    /// Même cœur neutre que les épingles publiées — seul le trait change, sinon
+    /// le brouillon serait la seule gommette pleine restante de la carte.
     private func draftPin(_ pin: DraftPin) -> some View {
         Image(systemName: POIPinPalette.symbol(for: pin.category))
             .font(.system(size: 12, weight: .bold))
-            .foregroundStyle(.white)
+            .foregroundStyle(POIPinPalette.color(for: pin.category, style: style))
             .frame(width: 24, height: 24)
             .background(
                 Circle()
-                    .fill(POIPinPalette.color(for: pin.category, style: style).opacity(0.4))
+                    .fill(POIPinPalette.core(for: style).opacity(0.82))
                     .overlay(
-                        Circle().strokeBorder(.white, style: StrokeStyle(lineWidth: 1.5, dash: [3, 2]))
+                        Circle().strokeBorder(
+                            POIPinPalette.color(for: pin.category, style: style),
+                            style: StrokeStyle(lineWidth: 2, dash: [3, 2])
+                        )
                     )
             )
             .scaleEffect(pinScale)
@@ -263,66 +262,54 @@ private struct MapContentSwiftUIView: View {
         draftPins.filter { zoom.window.contains($0.position) }
     }
 
+    /// Le `Button` est ICI et non dans `POIPinView` : la vue comparée doit rester
+    /// pure valeur (cf. l'en-tête de `MapPinViews`). Seul le corps de l'épingle —
+    /// le glyphe, l'anneau, le halo — est protégé par `.equatable()`, ce qui est
+    /// exactement ce qui coûte.
     private func poiPin(_ poi: POI, at position: NormalizedPoint) -> some View {
-        let found = isFound(poi)
-        let tint = POIPinPalette.color(for: poi.category, style: style)
-        // La couleur de catégorie est le REMPLISSAGE, le glyphe est en négatif
-        // dessus : à 26 pt, une pastille pleine se lit d'un coup d'œil, alors
-        // qu'un symbole teinté sur fond sombre se réduit à un point flou.
-        return Button {
+        Button {
             onTapPOI(poi)
         } label: {
-            Image(systemName: found ? "checkmark" : POIPinPalette.symbol(for: poi.category))
-                .font(.system(size: 12, weight: .bold))
-                .foregroundStyle(POIPinPalette.outline(for: style))
-                .frame(width: 24, height: 24)
-                .background(
-                    Circle()
-                        .fill(tint.opacity(found ? 0.35 : 1))
-                        .overlay(Circle().stroke(POIPinPalette.outline(for: style).opacity(0.55), lineWidth: 1))
-                )
-                .shadow(color: tint.opacity(found ? 0.15 : 0.5),
-                        radius: POIPinPalette.glowRadius(for: style))
+            POIPinView(
+                category: poi.category,
+                style: style,
+                isFound: foundPOIIDs.contains(poi.id),
+                accessibilityTitle: poi.title.resolved(for: Self.currentLanguageCode)
+            )
+            .equatable()
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
         .position(MapGeometry.contentPoint(for: position, manifest: manifest))
-        .accessibilityLabel(Text(poi.title.resolved(for: Self.currentLanguageCode)))
     }
 
-    /// Pastille d'agrégation. Un tap zoome dessus plutôt que d'ouvrir une
-    /// fiche : c'est le geste attendu, et c'est ce qui délie le groupe.
     private func clusterBubble(_ cluster: POICluster) -> some View {
-        let tint = POIPinPalette.color(for: cluster.dominantCategory, style: style)
-        return Button {
+        Button {
             onTapCluster(cluster)
         } label: {
-            Text(cluster.count, format: .number)
-                .font(.system(size: 13, weight: .bold, design: .rounded))
-                .monospacedDigit()
-                .foregroundStyle(POIPinPalette.outline(for: style))
-                .padding(.horizontal, 7)
-                .frame(minWidth: 30, minHeight: 30)
-                .background(
-                    Capsule()
-                        .fill(tint)
-                        .overlay(Capsule().stroke(POIPinPalette.outline(for: style).opacity(0.7), lineWidth: 1.5))
-                )
-                .shadow(color: tint.opacity(0.5), radius: POIPinPalette.glowRadius(for: style))
+            MapClusterBubbleView(
+                count: cluster.count,
+                category: cluster.dominantCategory,
+                style: style,
+                family: .editorial
+            )
+            .equatable()
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
         .position(MapGeometry.contentPoint(for: cluster.position, manifest: manifest))
-        .accessibilityLabel(Text("map.cluster.accessibility \(cluster.count)"))
     }
 
     private func personalPin(_ pin: PersonalPin) -> some View {
-        Image(systemName: "star.circle.fill")
-            .font(.system(size: 20))
-            .foregroundStyle(NCColor.sunsetOrange)
-            .scaleEffect(pinScale)
-            .position(MapGeometry.contentPoint(for: NormalizedPoint(x: pin.x, y: pin.y), manifest: manifest))
-            .accessibilityLabel(Text(pin.title))
+        DroppedPinView(
+            symbol: "star.fill",
+            tint: NCColor.sunsetOrange,
+            style: style,
+            accessibilityTitle: pin.title
+        )
+        .equatable()
+        .scaleEffect(pinScale)
+        .position(MapGeometry.contentPoint(for: NormalizedPoint(x: pin.x, y: pin.y), manifest: manifest))
     }
 
     private static var currentLanguageCode: String {
@@ -398,7 +385,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let poisGeneration: Int
     let spotsGeneration: Int
     let personalPinsGeneration: Int
-    let isFound: (POI) -> Bool
+    let foundPOIIDs: Set<String>
     @Binding var viewport: MapViewport
     let onLongPress: (CGPoint) -> Void
     let onTapPOI: (POI) -> Void
@@ -468,6 +455,16 @@ struct TiledMapRepresentable: UIViewRepresentable {
         let spotsGeneration: Int
         let personalPinsGeneration: Int
         let draftPins: [DraftPin]
+        /// Comparé en entier, et c'est le point : marquer un lieu « trouvé » ne
+        /// change NI la composition des groupes ni la liste filtrée (sauf sous
+        /// « masquer les trouvés »), donc plus rien ne fait avancer la génération
+        /// des POI dans ce cas. Sans cet ensemble ici, cocher un lieu ne
+        /// repousserait aucun contenu et la coche n'apparaîtrait jamais.
+        ///
+        /// La comparaison est en O(n) sur des dizaines d'entrées, contre un
+        /// recalcul des cinq cent trente-sept points qu'un compteur de génération
+        /// aurait imposé.
+        let foundPOIIDs: Set<String>
         /// L'éditeur armé change les gestes disponibles sans forcément changer
         /// les brouillons — sans ça, l'armer ne prendrait effet qu'au prochain
         /// changement de données.
@@ -482,6 +479,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             spotsGeneration: spotsGeneration,
             personalPinsGeneration: personalPinsGeneration,
             draftPins: draftPins,
+            foundPOIIDs: foundPOIIDs,
             canAdopt: onAdopt != nil
         )
     }
@@ -524,7 +522,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             draftPins: draftPins,
             poisGeneration: poisGeneration,
             spotsGeneration: spotsGeneration,
-            isFound: isFound,
+            foundPOIIDs: foundPOIIDs,
             zoom: zoom,
             onTapPOI: onTapPOI,
             onTapCluster: { [weak coordinator] cluster in

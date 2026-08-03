@@ -115,8 +115,18 @@ final class MapModel {
             try? modelContext.save()
             Task { await sync?.upload(itemID: poiID, kind: .poi, found: true, updatedAt: now) }
         }
-        // « Masquer les trouvés » fait dépendre la liste filtrée de cet état.
-        refreshFilteredPOIs()
+        // Le filtrage ne dépend de l'état « trouvé » QUE sous « masquer les
+        // trouvés » — et rien d'autre ne s'y rejoue.
+        //
+        // Le refiltrage était inconditionnel, et c'était la lenteur du marquage :
+        // il fait avancer `poisGeneration`, ce qui périme le cache de groupes
+        // (`MapClusterCache`) et réagrège les cinq cent trente-sept points, pour
+        // un changement qui n'ôte ni n'ajoute un seul point à la liste dessinée.
+        // Hors de ce mode, l'état voyage désormais par `foundPOIIDs`, que le
+        // jeton de contenu du moteur compare directement.
+        if hideFoundPOIs {
+            refreshFilteredPOIs()
+        }
     }
 
     private func refreshPersonalPins() {

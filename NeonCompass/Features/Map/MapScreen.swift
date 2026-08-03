@@ -156,7 +156,7 @@ struct MapScreen: View {
                 poisGeneration: model.poisGeneration,
                 spotsGeneration: communityModel?.spotsGeneration ?? 0,
                 personalPinsGeneration: model.personalPinsGeneration,
-                isFound: model.isFound,
+                foundPOIIDs: model.foundPOIIDs,
                 viewport: $viewport,
                 onLongPress: { canvasPoint in
                     let normalized = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)

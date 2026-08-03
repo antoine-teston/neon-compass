@@ -2,6 +2,10 @@ import SwiftUI
 
 struct ContributionAnnotationView: View {
     let spot: Contribution
+    /// Reçu et non supposé : le cœur de la goutte s'écarte du fond, et les deux
+    /// habillages n'ont pas le même fond. En dur, l'épingle serait noire sur la
+    /// carte d'origine, qui est claire.
+    let style: MapStyle
     let onVote: (VoteDirection) -> Void
     let onReport: () -> Void
     let onBlockAuthor: () -> Void
@@ -15,14 +19,25 @@ struct ContributionAnnotationView: View {
     @State private var showDetail = false
     @State private var showBlockConfirmation = false
 
+    /// Même goutte que les épingles personnelles, en teinte communautaire.
+    ///
+    /// Elle était un `mappin.circle.fill` cyan — soit la couleur de la catégorie
+    /// « activité », et une troisième silhouette pour une carte qui n'en avait
+    /// pas besoin. Le magenta est celui que portent déjà sa pastille de groupe et
+    /// son badge de fiche ; la goutte dit « posée par quelqu'un », par opposition
+    /// aux disques du contenu éditorial.
     var body: some View {
         Button {
             showDetail = true
         } label: {
-            Image(systemName: "mappin.circle.fill")
-                .font(.system(size: 20))
-                .foregroundStyle(NCColor.neonCyan)
+            DroppedPinView(
+                symbol: "mappin",
+                tint: NCColor.sunsetMagenta,
+                style: style,
+                accessibilityTitle: spot.title
+            )
         }
+        .buttonStyle(.plain)
         .popover(isPresented: $showDetail) {
             detail
                 .padding(16)
