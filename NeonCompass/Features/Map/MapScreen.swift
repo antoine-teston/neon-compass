@@ -6,6 +6,7 @@ struct MapScreen: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
     @State private var model: MapModel?
     @State private var viewport = MapViewport()
+    @State private var focusRequest: MapFocusRequest?
     @State private var showPersonalPinList = false
     @State private var pendingPinLocation: NormalizedPoint?
     @State private var pendingPinTitle = ""
@@ -163,6 +164,7 @@ struct MapScreen: View {
                 personalPinsGeneration: personalPinStore.generation,
                 foundPOIIDs: model.foundPOIIDs,
                 viewport: $viewport,
+                focusRequest: $focusRequest,
                 onLongPress: { canvasPoint in
                     let normalized = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
 #if DEBUG

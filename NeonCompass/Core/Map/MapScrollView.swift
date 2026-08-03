@@ -473,6 +473,22 @@ private final class FitToBoundsScrollView: UIScrollView {
     }
 }
 
+/// Demande de recentrage sur un point, émise par le carnet et consommée une
+/// seule fois par le moteur.
+///
+/// L'identifiant est ce qui la rend CONSOMMABLE : viser deux fois la même
+/// épingle doit recentrer deux fois, or deux requêtes de même position seraient
+/// égales et la seconde passerait pour déjà traitée.
+struct MapFocusRequest: Equatable {
+    let id: UUID
+    let position: NormalizedPoint
+
+    init(position: NormalizedPoint) {
+        self.id = UUID()
+        self.position = position
+    }
+}
+
 struct TiledMapRepresentable: UIViewRepresentable {
     let manifest: MapManifest
     let game: MapGame
@@ -487,6 +503,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let personalPinsGeneration: Int
     let foundPOIIDs: Set<String>
     @Binding var viewport: MapViewport
+    @Binding var focusRequest: MapFocusRequest?
     let onLongPress: (CGPoint) -> Void
     let onTapPOI: (POI) -> Void
     let onTapPersonalPin: (PersonalPin) -> Void
@@ -587,6 +604,14 @@ struct TiledMapRepresentable: UIViewRepresentable {
     }
 
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
+        // Lu AVANT le garde-fou du jeton, et c'est tout le sujet : ce garde-fou
+        // retourne dès que rien de la carte n'a changé — ce qui est précisément le
+        // cas quand on ne fait que viser une épingle déjà dessinée. Placé après,
+        // il l'avalerait, et taper une ligne du carnet ne ferait rien.
+        if let focusRequest, context.coordinator.consumedFocus != focusRequest.id {
+            context.coordinator.consumedFocus = focusRequest.id
+            context.coordinator.focus(on: focusRequest.position, manifest: manifest)
+        }
         // Rafraîchit les données (pois/personalPins/communitySpots) sans
         // écraser le zoomScale que `Coordinator.sync` maintient déjà en
         // direct sur chaque frame de scroll/zoom — on relit le zoomScale
@@ -652,6 +677,9 @@ struct TiledMapRepresentable: UIViewRepresentable {
         fileprivate var displayedGame: MapGame?
         /// Dernier jeton poussé — voir `TiledMapRepresentable.ContentToken`.
         fileprivate var displayedContent: TiledMapRepresentable.ContentToken?
+        /// Dernière requête de recentrage honorée. Sans elle, chaque
+        /// `updateUIView` — et il y en a beaucoup — rejouerait la même visée.
+        fileprivate var consumedFocus: UUID?
         /// Côté du contenu en coordonnées pleine résolution. Retenu ici parce
         /// que `sync` en a besoin pour reconstruire l'état de zoom et n'a pas
         /// accès au manifeste.
@@ -675,6 +703,27 @@ struct TiledMapRepresentable: UIViewRepresentable {
             let target = min(scrollView.zoomScale * 2, scrollView.maximumZoomScale)
             guard target > scrollView.zoomScale else { return }
             let center = MapGeometry.contentPoint(for: clusterPosition, manifest: manifest)
+            let size = CGSize(width: scrollView.bounds.width / target, height: scrollView.bounds.height / target)
+            scrollView.zoom(
+                to: CGRect(x: center.x - size.width / 2, y: center.y - size.height / 2,
+                           width: size.width, height: size.height),
+                animated: true
+            )
+        }
+
+        /// Recentre sur un point, à une échelle qui ne DÉZOOME jamais.
+        ///
+        /// Distinct de `zoom(to:)`, qui double le zoom pour délier un groupe : ici
+        /// la position est connue et c'est le cadrage qui compte. L'échelle visée
+        /// est la plus grande entre le zoom courant et deux fois le minimum. Les
+        /// deux bornes comptent, pour des raisons opposées : sans le plancher,
+        /// viser depuis le carnet laisserait l'épingle en point de deux pixels au
+        /// dézoom de repos ; sans le maximum, taper une ligne ferait RECULER un
+        /// joueur qui venait de zoomer sur son quartier.
+        func focus(on position: NormalizedPoint, manifest: MapManifest) {
+            guard let scrollView, scrollView.bounds.width > 0, scrollView.bounds.height > 0 else { return }
+            let target = min(max(scrollView.zoomScale, scrollView.minimumZoomScale * 2), scrollView.maximumZoomScale)
+            let center = MapGeometry.contentPoint(for: position, manifest: manifest)
             let size = CGSize(width: scrollView.bounds.width / target, height: scrollView.bounds.height / target)
             scrollView.zoom(
                 to: CGRect(x: center.x - size.width / 2, y: center.y - size.height / 2,
