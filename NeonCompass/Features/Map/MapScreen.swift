@@ -9,9 +9,12 @@ struct MapScreen: View {
     @State private var focusRequest: MapFocusRequest?
     @State private var showPersonalPinList = false
     @State private var pendingPinLocation: NormalizedPoint?
-    @State private var pendingPinTitle = ""
     @State private var showLongPressMenu = false
-    @State private var showPersonalPinAlert = false
+    /// Le carnet gratuit est plein. Deux états et non un : le mur DIT ce qui
+    /// bloque avant de proposer l'achat — une feuille d'achat qui surgirait sans
+    /// explication passerait pour une panne.
+    @State private var showNotebookFull = false
+    @State private var showPaywall = false
     @State private var pendingContributionLocation: NormalizedPoint?
     @State private var communityModel: CommunityModel?
     @State private var showRoutePlanner = false
@@ -226,32 +229,26 @@ struct MapScreen: View {
                 languageCode: Self.currentLanguageCode()
             )
         }
-        .alert(
-            "map.personalPins.addPrompt",
-            isPresented: $showPersonalPinAlert
-        ) {
-            TextField("map.personalPins.addPrompt", text: $pendingPinTitle)
-            Button("map.personalPins.save") {
-                if let location = pendingPinLocation, !pendingPinTitle.isEmpty {
-                    if let pin = personalPinStore.create(at: location, game: mapGame, isProEntitled: proEntitlementModel.isProEntitled) {
-                        personalPinStore.update(pin, title: pendingPinTitle, note: "")
-                    }
-                }
-                pendingPinTitle = ""
-                pendingPinLocation = nil
-                showPersonalPinAlert = false
-            }
-            Button("map.personalPins.cancel", role: .cancel) {
-                pendingPinLocation = nil
-                pendingPinTitle = ""
-                showPersonalPinAlert = false
-            }
-        }
         .confirmationDialog("map.longPress.menuTitle", isPresented: $showLongPressMenu, titleVisibility: .visible) {
             Button("map.longPress.addPersonalPin") {
-                // Arms the alert now that the user explicitly chose this option —
-                // pendingPinLocation was already set on long-press.
-                showPersonalPinAlert = true
+                guard let location = pendingPinLocation else { return }
+                pendingPinLocation = nil
+                // L'épingle existe TOUT DE SUITE, et sa fiche s'ouvre dessus,
+                // champ de titre prêt à recevoir la frappe. On peut en poser cinq
+                // en dix secondes manette en main, ou nommer soigneusement — au
+                // choix, et sans traverser une deuxième surface.
+                //
+                // Ce qui disparaît avec l'alerte : un « Enregistrer » qui ne
+                // faisait rien, en silence, quand le champ était vide.
+                if let pin = personalPinStore.create(
+                    at: location,
+                    game: mapGame,
+                    isProEntitled: proEntitlementModel.isProEntitled
+                ) {
+                    model.selection = .pin(pin)
+                } else {
+                    showNotebookFull = true
+                }
             }
             // Le coupe-circuit communautaire échoue OUVERT (c'est un
             // interrupteur d'urgence sur une capacité qui existe). Le drapeau
@@ -368,10 +365,19 @@ struct MapScreen: View {
         switch selection {
         case .poi(let poi):
             poiDetail(poi, model: model)
-        case .pin:
-            // La fiche d'épingle arrive au prochain pas. Jusque-là, rien ne
-            // sélectionne d'épingle : elles ne sont pas encore tapables.
-            EmptyView()
+        case .pin(let pin):
+            PersonalPinCardView(
+                pin: pin,
+                store: personalPinStore,
+                onDismiss: { model.selection = nil },
+                onDelete: {
+                    // Vider la sélection AVANT la suppression : le panneau tient
+                    // une référence, et un objet SwiftData effacé sous elle est un
+                    // plantage en attente.
+                    model.clearSelectionIfPin(pin)
+                    personalPinStore.delete(pin)
+                }
+            )
         }
     }
 
