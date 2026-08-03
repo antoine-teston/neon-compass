@@ -34,6 +34,33 @@ struct MapPinShapeTests {
         #expect(!path.contains(CGPoint(x: frame.maxX - 1, y: frame.maxY - 1)))
     }
 
+    /// Les zones de frappe des épingles personnelles doivent entrer dans le MÊME
+    /// balayage que les groupes éditoriaux.
+    ///
+    /// Le commentaire d'origine de `editorialHitSides` justifiait de les exclure
+    /// par le fait qu'elles « ne se tapent pas du tout ». Ce n'est plus vrai : une
+    /// épingle posée à côté d'un lieu lui volerait ses taps avec ses 44 pt.
+    /// L'argument de non-recouvrement est géométrique, il ne connaît pas les
+    /// familles — ce test verrouille le contrat sur lequel repose le balayage
+    /// unique.
+    @Test func aPersonalPinDoesNotStealItsNeighboursTaps() {
+        // Deux points distants de 30 pt de contenu, avec un plafond de 44 :
+        // aucun des deux ne doit garder le plafond.
+        let positions = [CGPoint(x: 100, y: 100), CGPoint(x: 130, y: 100)]
+        let sides = MapPinMetrics.hitSides(for: positions, cap: 44)
+        #expect(sides.count == 2)
+        for side in sides {
+            #expect(side <= 30.5, "zone de \(side) pt pour des voisins à 30 pt : elles se recouvrent")
+        }
+    }
+
+    /// Et la réciproque : isolées, elles gardent leur pleine cible.
+    @Test func anIsolatedPinKeepsTheFullTarget() {
+        let positions = [CGPoint(x: 100, y: 100), CGPoint(x: 600, y: 600)]
+        let sides = MapPinMetrics.hitSides(for: positions, cap: 44)
+        #expect(sides.allSatisfy { abs($0 - 44) < 0.001 })
+    }
+
     /// Cadre trop court pour une pointe : on veut le disque de repli, et non une
     /// forme dégénérée ou un chemin vide.
     @Test func aFrameTooShortForATipFallsBackToADisc() {

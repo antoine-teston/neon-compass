@@ -117,6 +117,9 @@ private struct MapContentSwiftUIView: View {
     let style: MapStyle
     let pois: [POI]
     let personalPins: [PersonalPin]
+    /// Le calque du carnet, masquable par la puce « Mes épingles » du panneau de
+    /// filtres — les épingles échappaient jusqu'ici à tout filtre.
+    let showPersonalPins: Bool
     let communitySpots: [Contribution]
     /// Toujours vide en Release : le mode éditeur n'existe pas dans le binaire
     /// soumis. C'est ce qui évite un `#if DEBUG` dans le moteur de carte.
@@ -133,6 +136,7 @@ private struct MapContentSwiftUIView: View {
     let foundPOIIDs: Set<String>
     var zoom: MapRenderState
     let onTapPOI: (POI) -> Void
+    let onTapPersonalPin: (PersonalPin) -> Void
     let onTapCluster: (POICluster) -> Void
     /// Reçoit la position plutôt que le groupe : zoomer n'a besoin que d'un
     /// point, et les deux familles de pastilles portent des types différents.
@@ -152,7 +156,7 @@ private struct MapContentSwiftUIView: View {
         // Calculé UNE fois par évaluation, jamais par pastille : le voisinage est
         // une propriété de l'ensemble, et le redemander à chaque épingle le ferait
         // payer deux cents fois.
-        let hitSides = editorialHitSides
+        let hitSides = tappableHitSides
         return ZStack(alignment: .topLeading) {
             if let mapImage = MapArtLoader.image(game: game, style: style) {
                 Image(uiImage: mapImage)
@@ -172,8 +176,10 @@ private struct MapContentSwiftUIView: View {
                     clusterBubble(cluster, hitSide: hitSides[cluster.id] ?? zoom.pinHitCap)
                 }
             }
-            ForEach(visiblePersonalPins) { pin in
-                personalPin(pin)
+            if showPersonalPins {
+                ForEach(visiblePersonalPins) { pin in
+                    personalPin(pin, hitSide: hitSides[Self.hitKey(for: pin)] ?? zoom.pinHitCap)
+                }
             }
             ForEach(communityClusters) { cluster in
                 if let spot = cluster.single {
@@ -266,25 +272,36 @@ private struct MapContentSwiftUIView: View {
         ).filter { zoom.window.contains($0.position) }
     }
 
-    /// Côté de la zone de frappe de chaque pastille éditoriale, indexé par
-    /// identifiant de groupe.
+    /// Côté de la zone de frappe, indexé par identifiant, pour TOUT ce qui se tape
+    /// et ouvre une fiche : groupes éditoriaux ET épingles personnelles.
     ///
-    /// Calculé sur la famille éditoriale seule, qui est de loin la plus dense et la
-    /// seule où l'on attrape la voisine. Les pastilles communautaires sont rares —
-    /// il n'y en a aucune sur la carte de référence — et gardent donc le plafond ;
-    /// les épingles personnelles et les brouillons, eux, ne se tapent pas du tout.
+    /// Les deux familles passent dans le MÊME balayage depuis que l'épingle est
+    /// tapable. Le commentaire précédent justifiait de l'exclure par le fait
+    /// qu'elle « ne se tape pas du tout » — une épingle posée à côté d'un lieu lui
+    /// volerait désormais ses taps avec ses 44 pt. L'argument de non-recouvrement
+    /// est géométrique, il ne connaît pas les familles.
+    ///
+    /// Les pastilles communautaires restent dehors, comme avant : elles sont rares
+    /// — il n'y en a aucune sur la carte de référence — et portent leur propre
+    /// surface interactive. Les brouillons non plus ne se tapent pas.
     ///
     /// Recalculé à chaque évaluation du corps, mais le balayage s'arrête au-delà du
     /// plafond en abscisse : chaque pastille ne compare qu'avec ses quelques
     /// voisines immédiates, pas avec les deux cents autres.
-    private var editorialHitSides: [String: CGFloat] {
-        let visible = clusters
-        let sides = MapPinMetrics.hitSides(
-            for: visible.map { MapGeometry.contentPoint(for: $0.position, manifest: manifest) },
-            cap: zoom.pinHitCap
-        )
-        return Dictionary(uniqueKeysWithValues: zip(visible.map(\.id), sides))
+    private var tappableHitSides: [String: CGFloat] {
+        let visibleClusters = clusters
+        let visiblePins = visiblePersonalPins
+        let points = visibleClusters.map { MapGeometry.contentPoint(for: $0.position, manifest: manifest) }
+            + visiblePins.map { MapGeometry.contentPoint(for: $0.position, manifest: manifest) }
+        let sides = MapPinMetrics.hitSides(for: points, cap: zoom.pinHitCap)
+        // Préfixe distinct : un groupe et une épingle peuvent porter le même
+        // identifiant de cellule, et sans lui l'une écraserait l'autre dans le
+        // dictionnaire.
+        let ids = visibleClusters.map(\.id) + visiblePins.map { Self.hitKey(for: $0) }
+        return Dictionary(uniqueKeysWithValues: zip(ids, sides))
     }
+
+    private static func hitKey(for pin: PersonalPin) -> String { "p\(pin.id.uuidString)" }
 
     /// Agrégés séparément des POI éditoriaux, et pas mêlés à eux : les deux
     /// familles ne se rendent pas pareil (état « trouvé » d'un côté, votes et
@@ -305,8 +322,11 @@ private struct MapContentSwiftUIView: View {
     /// Épingles personnelles et brouillons passent par la même fenêtre : ils
     /// sont peu nombreux aujourd'hui, mais rien ne garantit qu'ils le restent,
     /// et une exception silencieuse serait une régression en attente.
+    ///
+    /// Le filtrage par CARTE, lui, se fait en amont (`PersonalPinStore.pins(for:)`) :
+    /// le moteur ne reçoit que les épingles de la carte affichée.
     private var visiblePersonalPins: [PersonalPin] {
-        personalPins.filter { zoom.window.contains(NormalizedPoint(x: $0.x, y: $0.y)) }
+        personalPins.filter { zoom.window.contains($0.position) }
     }
 
     private var visibleDraftPins: [DraftPin] {
@@ -363,16 +383,32 @@ private struct MapContentSwiftUIView: View {
         return cluster.members.count { foundPOIIDs.contains($0.id) }
     }
 
-    private func personalPin(_ pin: PersonalPin) -> some View {
-        DroppedPinView(
-            symbol: "star.fill",
-            tint: NCColor.sunsetOrange,
-            style: style,
-            accessibilityTitle: pin.title
-        )
-        .equatable()
+    /// Le `Button` est ICI et non dans `DroppedPinView` : la vue comparée doit
+    /// rester pure valeur (cf. l'en-tête de `MapPinViews`) — une fermeture n'est ni
+    /// comparable ni `Sendable`, et sa seule présence ferait échouer la conformité
+    /// à `Equatable` sous concurrence stricte.
+    ///
+    /// Toute la famille partage la teinte `sunsetOrange` : c'est le GLYPHE qui
+    /// distingue une épingle d'une autre, parce que la palette néon appartient aux
+    /// catégories éditoriales et que la lecture « telle couleur = telle
+    /// catégorie » est ce qui rend la carte lisible.
+    private func personalPin(_ pin: PersonalPin, hitSide: CGFloat) -> some View {
+        Button {
+            onTapPersonalPin(pin)
+        } label: {
+            DroppedPinView(
+                symbol: pin.iconValue.symbol,
+                tint: NCColor.sunsetOrange,
+                style: style,
+                isDone: pin.isDone,
+                accessibilityTitle: pin.title.isEmpty ? String(localized: "map.pins.untitled") : pin.title
+            )
+            .equatable()
+            .pinHitArea(side: hitSide)
+        }
+        .buttonStyle(.plain)
         .scaleEffect(pinScale)
-        .position(MapGeometry.contentPoint(for: NormalizedPoint(x: pin.x, y: pin.y), manifest: manifest))
+        .position(MapGeometry.contentPoint(for: pin.position, manifest: manifest))
     }
 
     private static var currentLanguageCode: String {
@@ -443,6 +479,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let style: MapStyle
     let pois: [POI]
     let personalPins: [PersonalPin]
+    var showPersonalPins: Bool = true
     let communitySpots: [Contribution]
     var draftPins: [DraftPin] = []
     let poisGeneration: Int
@@ -452,6 +489,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
     @Binding var viewport: MapViewport
     let onLongPress: (CGPoint) -> Void
     let onTapPOI: (POI) -> Void
+    let onTapPersonalPin: (PersonalPin) -> Void
     let onVote: (Contribution, VoteDirection) -> Void
     let onReport: (Contribution) -> Void
     let onBlockAuthor: (Contribution) -> Void
@@ -517,6 +555,10 @@ struct TiledMapRepresentable: UIViewRepresentable {
         let poisGeneration: Int
         let spotsGeneration: Int
         let personalPinsGeneration: Int
+        /// Éteindre le calque du carnet ne change AUCUNE génération : sans ce
+        /// drapeau ici, la puce de filtre ne prendrait effet qu'au prochain
+        /// changement de données. Même raison que `canAdopt` plus bas.
+        let showPersonalPins: Bool
         let draftPins: [DraftPin]
         /// Comparé en entier, et c'est le point : marquer un lieu « trouvé » ne
         /// change NI la composition des groupes ni la liste filtrée (sauf sous
@@ -537,6 +579,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             poisGeneration: poisGeneration,
             spotsGeneration: spotsGeneration,
             personalPinsGeneration: personalPinsGeneration,
+            showPersonalPins: showPersonalPins,
             draftPins: draftPins,
             foundPOIIDs: foundPOIIDs,
             canAdopt: onAdopt != nil
@@ -577,6 +620,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             style: style,
             pois: pois,
             personalPins: personalPins,
+            showPersonalPins: showPersonalPins,
             communitySpots: communitySpots,
             draftPins: draftPins,
             poisGeneration: poisGeneration,
@@ -584,6 +628,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             foundPOIIDs: foundPOIIDs,
             zoom: zoom,
             onTapPOI: onTapPOI,
+            onTapPersonalPin: onTapPersonalPin,
             onTapCluster: { [weak coordinator] cluster in
                 coordinator?.zoom(to: cluster.position, manifest: manifest)
             },

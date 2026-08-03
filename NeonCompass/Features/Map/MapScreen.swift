@@ -174,6 +174,7 @@ struct MapScreen: View {
                     showLongPressMenu = true
                 },
                 onTapPOI: { poi in model.selection = .poi(poi) },
+                onTapPersonalPin: { pin in model.selection = .pin(pin) },
                 onVote: { spot, direction in
                     Task { await communityModel?.vote(on: spot, direction: direction) }
                 },

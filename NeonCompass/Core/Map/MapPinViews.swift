@@ -313,6 +313,16 @@ struct DroppedPinView: View, Equatable {
     let symbol: String
     let tint: Color
     let style: MapStyle
+    /// Une épingle faite s'éteint EXACTEMENT comme un lieu trouvé et comme un
+    /// groupe complété — mêmes fonctions de palette, donc même sémantique. Le
+    /// joueur n'a pas un second langage visuel à apprendre, et le halo qui
+    /// s'éteint tient la consigne du CLAUDE.md (« glow on at most three accents
+    /// per screen ») à mesure que le carnet se remplit.
+    ///
+    /// Valeur par défaut : les propositions communautaires n'ont pas d'état
+    /// « fait » — elles ne sont pas dans la progression — et gardent donc la
+    /// goutte pleine sans rien changer à leur site d'appel.
+    var isDone: Bool = false
     let accessibilityTitle: String
 
     /// Largeur de la tête. La hauteur totale en découle — proportion fixe, pour
@@ -323,19 +333,20 @@ struct DroppedPinView: View, Equatable {
     var body: some View {
         Image(systemName: symbol)
             .font(.system(size: 10, weight: .bold))
-            .foregroundStyle(tint)
+            .foregroundStyle(tint.opacity(isDone ? 0.6 : 1))
             .frame(width: Self.headWidth, height: Self.headWidth)
             // Le glyphe vit dans la TÊTE, pas au centre de la goutte : centré sur
             // la forme entière il chevaucherait la pointe.
             .frame(width: Self.headWidth, height: Self.height, alignment: .top)
-            .background(MapPinTeardrop().fill(POIPinPalette.core(for: style).opacity(0.86)))
-            .overlay(MapPinTeardrop().stroke(tint, lineWidth: 2))
-            .shadow(color: tint.opacity(0.5), radius: POIPinPalette.glowRadius(for: style))
+            .background(MapPinTeardrop().fill(POIPinPalette.core(for: style).opacity(POIPinPalette.coreOpacity(found: isDone))))
+            .overlay(MapPinTeardrop().stroke(tint.opacity(isDone ? 0.6 : 1), lineWidth: POIPinPalette.ringWidth(found: isDone)))
+            .shadow(color: tint.opacity(0.5), radius: POIPinPalette.glowRadius(for: style, found: isDone))
             // La POINTE désigne le lieu, pas le centre de la forme. `position`
             // pose les centres : sans ce décalage, chaque épingle indiquerait un
             // point situé une demi-hauteur trop bas. Il est posé DEDANS pour
             // être mis à l'échelle avec le reste par la contre-échelle du zoom.
             .offset(y: -Self.height / 2)
             .accessibilityLabel(Text(accessibilityTitle))
+            .accessibilityValue(isDone ? Text("map.pins.card.done") : Text(verbatim: ""))
     }
 }
