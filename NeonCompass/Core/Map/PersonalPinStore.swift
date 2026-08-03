@@ -38,6 +38,12 @@ final class PersonalPinStore {
 
     private let modelContext: ModelContext
 
+    /// Nil tant que le droit Pro et le compte ne sont pas tous deux acquis. Le
+    /// magasin ne les vérifie pas lui-même — il ne connaît ni
+    /// `ProEntitlementModel` ni `AuthModel`, c'est ce qui le laisse testable
+    /// sans StoreKit ni réseau. C'est `MapScreen` qui décide de l'attacher.
+    private var sync: PersonalPinSyncing?
+
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
         refresh()
@@ -84,6 +90,7 @@ final class PersonalPinStore {
         modelContext.insert(pin)
         save()
         refresh()
+        upload(pin)
         return pin
     }
 
@@ -107,6 +114,7 @@ final class PersonalPinStore {
         pin.note = note
         pin.updatedAt = .now
         save()
+        upload(pin)
     }
 
     func setIcon(_ icon: PersonalPinIcon, on pin: PersonalPin) {
@@ -115,6 +123,7 @@ final class PersonalPinStore {
         pin.updatedAt = .now
         save()
         bumpGeneration()
+        upload(pin)
     }
 
     func toggleDone(_ pin: PersonalPin) {
@@ -122,6 +131,7 @@ final class PersonalPinStore {
         pin.updatedAt = .now
         save()
         bumpGeneration()
+        upload(pin)
     }
 
     /// Suppression LOGIQUE — la ligne reste, datée.
@@ -141,6 +151,7 @@ final class PersonalPinStore {
         pin.updatedAt = now
         save()
         refresh()
+        upload(pin)
     }
 
     private func bumpGeneration() {
@@ -149,5 +160,98 @@ final class PersonalPinStore {
 
     private func save() {
         try? modelContext.save()
+    }
+
+    // MARK: - Synchronisation (Pro + connecté)
+
+    /// Attache la synchro après coup si elle ne l'était pas déjà.
+    ///
+    /// Après coup, et pas à la construction : le magasin est bâti dans
+    /// `NeonCompassApp`, avant que `ProEntitlementModel.refresh()` n'ait
+    /// répondu. Sans ce rattrapage, un abonné verrait son carnet rester local
+    /// jusqu'au prochain lancement — c'est exactement la course que
+    /// `MapModel.attachSyncIfNeeded` referme pour la progression.
+    ///
+    /// Renvoie si l'appel a effectivement attaché, pour que l'appelant sache
+    /// qu'il lui reste à déclencher la première lecture.
+    @discardableResult
+    func attachSyncIfNeeded(_ sync: PersonalPinSyncing) -> Bool {
+        guard self.sync == nil else { return false }
+        self.sync = sync
+        return true
+    }
+
+    /// Réconciliation dernière-écriture-gagne, ÉPINGLE PAR ÉPINGLE.
+    ///
+    /// Par épingle et non en bloc : un appareil resté hors ligne longtemps
+    /// écraserait sinon tout le carnet de l'autre en se resynchronisant. Même
+    /// raisonnement que `FoundStore.reconcile`, et même règle.
+    ///
+    /// Les tombes distantes s'appliquent comme le reste — c'est tout leur
+    /// intérêt — mais une tombe qu'on n'a JAMAIS connue ne crée rien : adopter
+    /// la ligne remplirait le disque de fantômes, un par épingle jamais vue.
+    func reconcile(with remoteItems: [PersonalPinSyncItem]) {
+        // Lit TOUT, tombes comprises, à la différence de `pins` : sans les
+        // tombes locales, une épingle qu'on vient d'enterrer serait vue comme
+        // inconnue et recréée par la branche d'adoption ci-dessous.
+        let all = (try? modelContext.fetch(FetchDescriptor<PersonalPin>())) ?? []
+        var byID = Dictionary(all.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+
+        for item in remoteItems {
+            if let local = byID[item.id] {
+                guard item.updatedAt > local.updatedAt else { continue }
+                local.game = item.game
+                local.x = item.x
+                local.y = item.y
+                local.title = item.title
+                local.note = item.note
+                local.icon = item.icon
+                local.isDone = item.isDone
+                local.updatedAt = item.updatedAt
+                local.deletedAt = item.deletedAt
+            } else {
+                guard item.deletedAt == nil else { continue }
+                let pin = PersonalPin(
+                    id: item.id, x: item.x, y: item.y,
+                    game: Game(rawValue: item.game) ?? .reference,
+                    title: item.title, note: item.note,
+                    icon: PersonalPinIcon.from(rawValue: item.icon),
+                    isDone: item.isDone,
+                    createdAt: item.createdAt, updatedAt: item.updatedAt
+                )
+                modelContext.insert(pin)
+                byID[item.id] = pin
+            }
+        }
+        save()
+        refresh()
+
+        // Ce que le distant ignore n'a jamais été téléversé — une épingle posée
+        // hors ligne, ou créée avant que l'abonnement n'existe. Rien d'autre ne
+        // la pousserait, faute d'un drapeau « à envoyer » sur le modèle.
+        //
+        // Parcourt `all`, l'instantané d'AVANT réconciliation : les épingles
+        // adoptées à l'instant sont par construction dans `known`, donc les
+        // renvoyer serait un aller-retour pour rien. Les tombes locales en font
+        // partie — une suppression faite hors ligne doit monter, sinon elle ne
+        // se propagerait jamais.
+        let known = Set(remoteItems.map(\.id))
+        for pin in all where !known.contains(pin.id) { upload(pin) }
+    }
+
+    /// Téléverse une épingle, si et seulement si la synchro est attachée.
+    ///
+    /// Détaché sur une tâche : aucun appelant n'attend le réseau, et le magasin
+    /// est `@MainActor`. L'instantané est pris ICI, sur le fil principal, parce
+    /// que `PersonalPin` est une classe SwiftData — la passer à la tâche
+    /// laisserait lire ses champs depuis un autre fil.
+    private func upload(_ pin: PersonalPin) {
+        guard let sync else { return }
+        let item = PersonalPinSyncItem(
+            id: pin.id, game: pin.game, x: pin.x, y: pin.y,
+            title: pin.title, note: pin.note, icon: pin.icon, isDone: pin.isDone,
+            createdAt: pin.createdAt, updatedAt: pin.updatedAt, deletedAt: pin.deletedAt
+        )
+        Task { await sync.upload(item) }
     }
 }
