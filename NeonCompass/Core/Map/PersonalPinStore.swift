@@ -43,12 +43,22 @@ final class PersonalPinStore {
         refresh()
     }
 
-    /// Relit le disque, comme `FoundStore.refresh` et pour la même raison : tout
-    /// ne passe pas par ce magasin. Les tests insèrent directement dans le
-    /// contexte, et sans relecture ces écritures « par derrière » resteraient
-    /// invisibles.
+    /// Relit le disque, **tombes exclues**.
+    ///
+    /// Relit, comme `FoundStore.refresh` et pour la même raison : tout ne passe
+    /// pas par ce magasin. Les tests insèrent directement dans le contexte, et
+    /// sans relecture ces écritures « par derrière » resteraient invisibles.
+    ///
+    /// Le filtre des tombes est ICI, en un seul endroit, et non à chaque site de
+    /// lecture : c'est ce qui garantit qu'aucun chemin ne peut oublier de
+    /// l'appliquer et faire réapparaître une épingle effacée. `pins` ne contient
+    /// donc que des vivantes, et tout ce qui en dérive — `pins(for:)`, le
+    /// décompte du plafond — en hérite sans y penser.
     func refresh() {
-        let descriptor = FetchDescriptor<PersonalPin>(sortBy: [SortDescriptor(\.createdAt)])
+        let descriptor = FetchDescriptor<PersonalPin>(
+            predicate: #Predicate { $0.deletedAt == nil },
+            sortBy: [SortDescriptor(\.createdAt)]
+        )
         pins = (try? modelContext.fetch(descriptor)) ?? []
         generation &+= 1
     }
@@ -114,11 +124,21 @@ final class PersonalPinStore {
         bumpGeneration()
     }
 
-    /// Suppression PHYSIQUE. Le chantier 2 la bascule en pierre tombale
-    /// (`deletedAt`) parce qu'un `delete` local ne se propage pas : sans elle,
-    /// une épingle effacée sur l'iPhone reviendrait depuis l'iPad.
+    /// Suppression LOGIQUE — la ligne reste, datée.
+    ///
+    /// Un `delete` local ne se propage pas : sans la tombe, une épingle effacée
+    /// sur l'iPhone reviendrait depuis l'iPad à la resynchronisation suivante,
+    /// puisque l'iPad la possède encore et que rien ne lui dirait qu'elle a été
+    /// retirée.
+    ///
+    /// On ne purge JAMAIS ces lignes, et c'est délibéré : purger rouvre le
+    /// danger classique — un appareil resté hors ligne au-delà de la fenêtre n'a
+    /// pas vu la tombe et RESSUSCITE l'épingle. Le coût de tout garder est
+    /// dérisoire, une ligne d'environ deux cents octets.
     func delete(_ pin: PersonalPin) {
-        modelContext.delete(pin)
+        let now = Date.now
+        pin.deletedAt = now
+        pin.updatedAt = now
         save()
         refresh()
     }

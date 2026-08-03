@@ -153,6 +153,58 @@ struct PersonalPinStoreTests {
         #expect(store.pins.count == 1)
     }
 
+    // MARK: - Pierre tombale
+
+    /// La bascule du chantier 2 : supprimer n'efface plus, ça DATE. Sans la
+    /// tombe, effacer sur l'iPhone ne se propagerait jamais — l'iPad possède
+    /// encore l'épingle et rien ne lui dirait qu'elle a été retirée.
+    @Test func deletingLeavesATombstoneBehind() {
+        let context = makeContext()
+        let store = PersonalPinStore(modelContext: context)
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        store.delete(pin)
+        #expect(store.pins.isEmpty, "une épingle supprimée ne doit plus être visible")
+        let all = (try? context.fetch(FetchDescriptor<PersonalPin>())) ?? []
+        #expect(all.count == 1, "la ligne doit subsister")
+        #expect(all[0].deletedAt != nil, "elle doit porter sa date de suppression")
+    }
+
+    /// Une tombe ne se compte pas dans le plafond : sinon supprimer une épingle
+    /// ne libèrerait jamais la place qu'elle occupait, et le carnet gratuit se
+    /// remplirait une fois pour toutes.
+    @Test func tombstonesDoNotCountTowardTheCap() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        for _ in 0..<PersonalPinStore.freeCap {
+            store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: false)
+        }
+        #expect(store.isAtCap(isProEntitled: false))
+        store.delete(store.pins[0])
+        #expect(!store.isAtCap(isProEntitled: false), "supprimer doit libérer une place")
+        #expect(store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: false) != nil)
+    }
+
+    /// Et une tombe ne réapparaît pas non plus sur la carte.
+    @Test func tombstonesAreInvisibleToTheMap() {
+        let store = PersonalPinStore(modelContext: makeContext())
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        store.delete(pin)
+        #expect(store.pins(for: .reference).isEmpty)
+    }
+
+    /// Ni après relecture du disque : le filtre vit dans `refresh`, en un seul
+    /// endroit, et c'est ce qui garantit qu'aucun chemin ne peut l'oublier.
+    @Test func tombstonesStayHiddenAcrossARefresh() {
+        let context = makeContext()
+        let store = PersonalPinStore(modelContext: context)
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        store.delete(pin)
+        store.refresh()
+        #expect(store.pins.isEmpty)
+        // Et le magasin reconstruit sur le même contexte ne les voit pas non plus.
+        let reopened = PersonalPinStore(modelContext: context)
+        #expect(reopened.pins.isEmpty)
+    }
+
     // MARK: - Sélection
 
     /// Le panneau tient une référence à l'épingle sélectionnée. La supprimer sans
