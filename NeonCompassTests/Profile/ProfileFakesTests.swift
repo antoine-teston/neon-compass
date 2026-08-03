@@ -17,7 +17,29 @@ final class FakeAuthProvider: AuthProviding {
     /// côté serveur échoue mais où la session locale doit tomber quand même.
     nonisolated(unsafe) var signOutError: (any Error)?
 
+    /// Issue à rendre à l'inscription par e-mail. Les deux comptent : selon
+    /// que la confirmation est active sur le projet, s'inscrire ouvre une
+    /// session ou n'ouvre rien.
+    nonisolated(unsafe) var signUpOutcome: EmailSignUpOutcome = .signedIn(uid: "fake-uid")
+    nonisolated(unsafe) var googleUID = "fake-google-uid"
+
     struct Unreachable: Error {}
+
+    func signUp(email: String, password: String) async throws -> EmailSignUpOutcome {
+        if case .signedIn(let uid) = signUpOutcome { userIDToReturn = uid }
+        return signUpOutcome
+    }
+
+    func signIn(email: String, password: String) async throws -> String {
+        let uid = "fake-email-uid"
+        userIDToReturn = uid
+        return uid
+    }
+
+    func signInWithGoogle() async throws -> String {
+        userIDToReturn = googleUID
+        return googleUID
+    }
 
     func signOut() async throws {
         signOutCallCount += 1

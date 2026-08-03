@@ -6,5 +6,21 @@
 	<!-- ca-app-pub-3940256099942544~1458002511 is Google's publicly documented test AdMob App ID. -->
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3940256099942544~1458002511</string>
+
+	<!-- Schéma de retour du flux OAuth Google. Doit rester identique à
+	     `SupabaseAuthProvider.oauthRedirectURL` ET figurer dans les URL de
+	     redirection autorisées du projet Supabase : si l'une des trois manque,
+	     le navigateur reste ouvert sur une page blanche, sans erreur. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>co.antoineteston.neoncompass.auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>co.antoineteston.neoncompass</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
