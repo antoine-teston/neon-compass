@@ -37,7 +37,7 @@ do $$
 declare
   leaked text;
 begin
-  -- Aucune écriture directe, nulle part, sauf les trois tables où le client
+  -- Aucune écriture directe, nulle part, sauf les quatre tables où le client
   -- n'écrit que ses propres lignes.
   select string_agg(table_name || ':' || privilege_type, ', ')
     into leaked
@@ -45,7 +45,7 @@ begin
    where grantee in ('anon', 'authenticated')
      and table_schema = 'public'
      and privilege_type in ('INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER')
-     and table_name not in ('progression', 'push_tokens', 'editor_drafts');
+     and table_name not in ('progression', 'push_tokens', 'editor_drafts', 'personal_pins');
   assert leaked is null, format('écriture accordée là où elle ne devrait pas : %s', leaked);
 
   -- Les tables entièrement fermées le sont aussi au niveau du privilège.
@@ -79,7 +79,8 @@ begin
    where grantee = 'authenticated'
      and table_schema = 'public'
      and table_name not in ('app_config', 'contributions', 'leaderboard', 'profiles',
-                            'votes', 'progression', 'push_tokens', 'editor_drafts');
+                            'votes', 'progression', 'push_tokens', 'editor_drafts',
+                            'personal_pins');
   assert leaked is null, format('authenticated lit des tables non prévues : %s', leaked);
 end $$;
 

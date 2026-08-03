@@ -290,6 +290,91 @@ begin
   reset role;
 end $$;
 
+-- ---------------------------------------------------------------------------
+-- Carnet d'épingles — cloisonnement, défaut d'uid, pierre tombale
+-- ---------------------------------------------------------------------------
+
+insert into public.personal_pins (uid, id, game, x, y, title, created_at, updated_at) values
+  ('11111111-1111-1111-1111-111111111111', 'bbbbbbbb-0000-0000-0000-000000000001',
+   'gtav', 0.5, 0.5, 'À moi', now(), now()),
+  ('22222222-2222-2222-2222-222222222222', 'bbbbbbbb-0000-0000-0000-000000000002',
+   'gtav', 0.6, 0.6, 'À l''autre', now(), now());
+
+do $$
+declare
+  n integer;
+  owner uuid;
+begin
+  set local role authenticated;
+  perform set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', true);
+
+  -- Un carnet est strictement personnel : aucune face publique, contrairement
+  -- aux contributions.
+  select count(*) into n from public.personal_pins;
+  assert n = 1, format('un utilisateur ne doit voir QUE son carnet, il en voit %s', n);
+
+  -- Le défaut d'uid, comme sur `progression`.
+  insert into public.personal_pins (id, game, x, y, created_at, updated_at)
+       values ('bbbbbbbb-0000-0000-0000-000000000003', 'gtav', 0.1, 0.1, now(), now());
+  select uid into owner from public.personal_pins
+   where id = 'bbbbbbbb-0000-0000-0000-000000000003';
+  assert owner = '11111111-1111-1111-1111-111111111111',
+    format('le défaut doit poser l''appelant comme propriétaire, obtenu %s', owner);
+
+  -- Écrire dans le carnet d'un autre reste refusé.
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, created_at, updated_at)
+         values ('22222222-2222-2222-2222-222222222222',
+                 'bbbbbbbb-0000-0000-0000-000000000004', 'gtav', 0.2, 0.2, now(), now());
+    assert false, 'écrire le carnet d''un autre doit rester refusé';
+  exception when insufficient_privilege then
+    null; -- attendu
+  end;
+
+  -- La pierre tombale est une MISE À JOUR, pas une suppression : la ligne reste,
+  -- et c'est ce qui permet à l'autre appareil d'apprendre l'effacement.
+  update public.personal_pins set deleted_at = now(), updated_at = now()
+   where id = 'bbbbbbbb-0000-0000-0000-000000000001';
+  select count(*) into n from public.personal_pins
+   where id = 'bbbbbbbb-0000-0000-0000-000000000001' and deleted_at is not null;
+  assert n = 1, 'la tombe doit subsister comme ligne, sinon elle ne se propage pas';
+
+  reset role;
+end $$;
+
+-- Les bornes de longueur et de domaine, qui n'existaient sur aucune table avant
+-- celle-ci : c'est la première où le client écrit de la prose.
+do $$
+begin
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, note, created_at, updated_at)
+         values ('11111111-1111-1111-1111-111111111111',
+                 'bbbbbbbb-0000-0000-0000-000000000005', 'gtav', 0.3, 0.3,
+                 repeat('x', 2001), now(), now());
+    assert false, 'une note de plus de 2000 caractères doit être refusée';
+  exception when check_violation then
+    null; -- attendu
+  end;
+
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, created_at, updated_at)
+         values ('11111111-1111-1111-1111-111111111111',
+                 'bbbbbbbb-0000-0000-0000-000000000006', 'gtav', 1.5, 0.3, now(), now());
+    assert false, 'une coordonnée hors du carré unitaire doit être refusée';
+  exception when check_violation then
+    null; -- attendu
+  end;
+
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, created_at, updated_at)
+         values ('11111111-1111-1111-1111-111111111111',
+                 'bbbbbbbb-0000-0000-0000-000000000007', 'inconnu', 0.3, 0.3, now(), now());
+    assert false, 'une carte inconnue doit être refusée';
+  exception when check_violation then
+    null; -- attendu
+  end;
+end $$;
+
 -- Et le second verrou mord vraiment : une écriture directe est refusée par le
 -- PRIVILÈGE, avant même que RLS n'ait son mot à dire.
 do $$
