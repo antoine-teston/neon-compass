@@ -1,0 +1,46 @@
+{
+  "identifier" : "6E1B3A47-0C2F-4E9A-9B31-7D5F2A8C4E10",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "5.99",
+      "familyShareable" : false,
+      "internalID" : "1000000001",
+      "localizations" : [
+        {
+          "description" : "No ads, route planner, remaining-only filter, unlimited pins synced across your devices, widgets and themes.",
+          "displayName" : "Neon Compass Pro",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Sans publicité, planificateur d'itinéraire, masquage des trouvés, épingles illimitées et synchronisées entre vos appareils, widgets et thèmes.",
+          "displayName" : "Neon Compass Pro",
+          "locale" : "fr_FR"
+        }
+      ],
+      "productID" : "co.antoineteston.neoncompass.pro",
+      "referenceName" : "Neon Compass Pro",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1000000000",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 0,
+    "_locale" : "fr_FR",
+    "_storefront" : "FRA",
+    "_storeKitErrors" : [
+
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
