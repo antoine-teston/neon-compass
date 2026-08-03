@@ -27,6 +27,58 @@ import SwiftUI
 ///   glisser ici ferait varier la valeur de la vue à chaque frame de pincement et
 ///   annulerait tout le bénéfice.
 
+// MARK: - Mesures
+
+/// Ce que les épingles mesurent, dessin et zone de frappe séparés.
+enum MapPinMetrics {
+    /// Côté du dessin d'une pastille de POI, en coordonnées de contenu.
+    static let drawnSide: CGFloat = 24
+
+    /// Minimum du HIG pour une cible tactile.
+    static let minimumTouchSide: CGFloat = 44
+
+    /// Côté de la zone de frappe, pour que la cible fasse `minimumTouchSide` à
+    /// l'écran quand le contenu est affiché à `effectiveScale`.
+    ///
+    /// Jamais plus petite que le dessin : une zone de frappe qui rognerait la
+    /// pastille visible serait un piège, pas une optimisation.
+    static func hitSide(forEffectiveScale effectiveScale: CGFloat) -> CGFloat {
+        max(drawnSide, minimumTouchSide / max(effectiveScale, 0.01))
+    }
+
+    /// Facteur par lequel le contenu est réellement réduit à l'écran, quantifié
+    /// par paliers de demi-octave — pour que `MapRenderState` reste une fonction
+    /// EN ESCALIER du zoom et ne se réévalue pas à chaque frame de pincement.
+    ///
+    /// Quantifié vers le BAS, et c'est le point délicat : arrondir au plus proche
+    /// donne parfois une échelle SUPÉRIEURE à la vraie (au repos sur iPhone, 0,5
+    /// pour un zoom de 0,43), et la cible retombait alors à 37,8 pt — sous le
+    /// minimum qu'elle existe pour garantir. Vers le bas, elle est au pire 41 %
+    /// trop grande, ce qui ne coûte rien puisque l'agrégation garantit déjà
+    /// l'écart entre deux pastilles.
+    ///
+    /// Plafonné à 1 : au-delà du zoom neutre la contre-échelle des épingles annule
+    /// l'agrandissement, donc leur taille écran ne dépend plus du zoom.
+    static func quantizedEffectiveScale(zoomScale: CGFloat) -> CGFloat {
+        guard zoomScale > 0, zoomScale.isFinite else { return 1 }
+        let level = (log2(Double(zoomScale)) * 2).rounded(.down)
+        return min(1, CGFloat(pow(2.0, level / 2)))
+    }
+}
+
+extension View {
+    /// Élargit la zone de frappe d'une épingle sans toucher à son dessin.
+    ///
+    /// À poser DANS la contre-échelle du zoom et non autour : le côté reçu est déjà
+    /// exprimé dans l'espace de l'épingle (voir `MapRenderState.pinHitSide`).
+    /// `contentShape` est indispensable — sans elle, seul le dessin intercepte, et
+    /// le cadre élargi ne sert à rien.
+    func pinHitArea(side: CGFloat) -> some View {
+        frame(width: side, height: side)
+            .contentShape(.rect)
+    }
+}
+
 // MARK: - Silhouettes
 
 /// Goutte — la silhouette universelle du « j'ai posé ça ici ».
@@ -85,14 +137,13 @@ struct POIPinView: View, Equatable {
     private var tint: Color { POIPinPalette.color(for: category, style: style) }
 
     var body: some View {
-        Image(systemName: isFound ? "checkmark" : POIPinPalette.symbol(for: category))
+        // AUCUNE animation ici, et c'est une décision mesurée — voir l'en-tête du
+        // fichier. Le changement est instantané, ce qui est l'inverse d'une
+        // lenteur : le retour animé vit dans la fiche, où il ne coûte rien.
+        return Image(systemName: isFound ? "checkmark" : POIPinPalette.symbol(for: category))
             .font(.system(size: 12, weight: .bold))
             .foregroundStyle(tint)
-            // Le glyphe MORPHE vers la coche au lieu d'être remplacé d'un coup :
-            // c'est le seul retour visuel du marquage sur la carte, et sans lui
-            // l'épingle changeait d'état sans que rien ne bouge à l'écran.
-            .contentTransition(.symbolEffect(.replace))
-            .frame(width: 24, height: 24)
+            .frame(width: MapPinMetrics.drawnSide, height: MapPinMetrics.drawnSide)
             .background(Circle().fill(POIPinPalette.core(for: style).opacity(POIPinPalette.coreOpacity(found: isFound))))
             .overlay(
                 Circle().strokeBorder(
@@ -104,10 +155,6 @@ struct POIPinView: View, Equatable {
                 color: tint.opacity(0.55),
                 radius: POIPinPalette.glowRadius(for: style, found: isFound)
             )
-            // Portée par l'épingle et non par l'écran : la carte n'anime rien
-            // globalement (elle se repousse d'un bloc), donc c'est ici qu'il faut
-            // demander la transition, sur la seule valeur qui la justifie.
-            .animation(.snappy(duration: 0.28), value: isFound)
             .accessibilityLabel(Text(accessibilityTitle))
             .accessibilityValue(isFound ? Text("poi.detail.found") : Text(verbatim: ""))
     }
@@ -129,6 +176,10 @@ struct MapClusterBubbleView: View, Equatable {
     }
 
     let count: Int
+    /// Membres déjà trouvés. Nourrit l'arc de progression — sans lui, au dézoom,
+    /// cocher un lieu ne produisait AUCUN retour visible : un groupe de douze
+    /// entièrement trouvé se présentait comme un groupe où rien ne l'était.
+    let foundCount: Int
     let category: POICategory
     let style: MapStyle
     let family: Family
@@ -155,8 +206,22 @@ struct MapClusterBubbleView: View, Equatable {
         }
     }
 
+    /// Part de membres qui RESTENT à trouver. C'est elle qu'on dessine en pleine
+    /// lumière, pas l'inverse : un groupe intact garde donc exactement l'anneau
+    /// qu'il avait, et il s'éteint à mesure qu'on le complète — même sémantique
+    /// que les épingles, où le trouvé est plus léger que le reste à faire.
+    private var remainingFraction: CGFloat {
+        guard count > 0 else { return 1 }
+        return CGFloat(max(0, count - foundCount)) / CGFloat(count)
+    }
+
     var body: some View {
         let weight = weight
+        let remaining = remainingFraction
+        // La capsule est INCRUSTÉE d'un demi-trait pour que les deux passages se
+        // superposent exactement : `strokeBorder` rentre de lui-même, `stroke` non,
+        // et les mêler décalait l'arc de la moitié de son épaisseur.
+        let ring = Capsule().inset(by: weight.ring / 2)
         return HStack(spacing: 3) {
             if family == .community {
                 Image(systemName: "mappin")
@@ -166,13 +231,21 @@ struct MapClusterBubbleView: View, Equatable {
                 .font(.system(size: weight.numeral, weight: .bold, design: .rounded))
                 .monospacedDigit()
         }
-        .foregroundStyle(tint)
+        .foregroundStyle(tint.opacity(remaining == 0 ? 0.6 : 1))
         .padding(.horizontal, 8)
         .frame(minWidth: weight.diameter, minHeight: weight.diameter)
-        .background(Capsule().fill(POIPinPalette.core(for: style).opacity(0.82)))
-        .overlay(Capsule().strokeBorder(tint, lineWidth: weight.ring))
-        .shadow(color: tint.opacity(0.45), radius: POIPinPalette.glowRadius(for: style))
+        .background(Capsule().fill(POIPinPalette.core(for: style).opacity(POIPinPalette.coreOpacity(found: remaining == 0))))
+        // Le fait, en sourdine, sur tout le tour.
+        .overlay(ring.stroke(tint.opacity(0.3), lineWidth: weight.ring))
+        // Ce qui reste, par-dessus. Un groupe intact est donc plein et lumineux
+        // comme avant ; il n'y a d'arc que là où il y a du progrès.
+        .overlay(ring.trim(from: 0, to: remaining).stroke(tint, lineWidth: weight.ring))
+        // Le halo s'éteint avec le reste à faire — c'est ce qui tient la consigne
+        // du CLAUDE.md (« glow on at most three accents per screen ») à mesure que
+        // la carte se complète.
+        .shadow(color: tint.opacity(0.45 * remaining), radius: POIPinPalette.glowRadius(for: style))
         .accessibilityLabel(Text("map.cluster.accessibility \(count)"))
+        .accessibilityValue(foundCount > 0 ? Text("map.cluster.foundAccessibility \(foundCount)") : Text(verbatim: ""))
     }
 }
 

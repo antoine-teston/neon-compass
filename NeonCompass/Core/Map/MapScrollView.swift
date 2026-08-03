@@ -63,6 +63,26 @@ private enum MapArtLoader {
 /// de le constater.
 struct MapRenderState: Equatable {
     var pinScale: CGFloat
+    /// Côté de la zone de frappe des épingles, dans LEUR espace de coordonnées,
+    /// pour que la cible mesure 44 pt à l'écran — le minimum du HIG.
+    ///
+    /// L'épingle dessinée fait 24 pt de contenu, et le contenu est mis à l'échelle
+    /// par la vue de défilement : au repos (≈0,43 sur iPhone, ≈0,67 sur iPad) elle
+    /// ne mesurait donc que ~10 pt à l'écran, moins d'un quart de la surface
+    /// exigée. Grossir le DESSIN aurait rendu la carte illisible — c'est
+    /// précisément ce que le plafond de `pinScale` évite. On grossit donc la seule
+    /// zone de frappe.
+    ///
+    /// Le facteur est quantifié par `MapClusterer`, comme la forme des groupes :
+    /// non quantifié il suivrait le zoom en continu et cette valeur changerait à
+    /// chaque frame de pincement, ce qui ferait réévaluer tout le contenu — c'est
+    /// exactement ce que ce type existe pour empêcher.
+    ///
+    /// L'agrégation garantit ~44 pt d'écart à l'écran entre deux pastilles
+    /// (`MapClusterer.defaultSpacing`), donc à ce palier les zones se touchent
+    /// sans se recouvrir. Au-delà du seuil de désagrégation elles peuvent se
+    /// chevaucher, comme les dessins eux-mêmes le font déjà.
+    var pinHitSide: CGFloat
     var clusterShape: MapClusterer.Shape
     /// Seule composante qui dépende aussi du PANORAMIQUE. C'est un compromis
     /// assumé : le panoramique, jusqu'ici gratuit en réévaluations, en paie
@@ -77,6 +97,13 @@ struct MapRenderState: Equatable {
         // entièrement la carte sous les pastilles.
         pinScale = min(1 / max(zoomScale, 0.01), 1)
         clusterShape = MapClusterer.shape(zoomScale: zoomScale, contentSize: contentSize)
+        // Ce que l'épingle mesure à l'écran vaut 24 × pinScale × zoomScale, soit
+        // 24 × min(1, zoomScale) : au-dessus du zoom neutre la contre-échelle
+        // annule l'agrandissement, en dessous le plafond laisse le dézoom rétrécir
+        // le dessin. On divise donc 44 par ce même facteur.
+        pinHitSide = MapPinMetrics.hitSide(
+            forEffectiveScale: MapPinMetrics.quantizedEffectiveScale(zoomScale: zoomScale)
+        )
         self.window = window
     }
 }
@@ -100,12 +127,10 @@ private struct MapContentSwiftUIView: View {
     /// propriétaires des deux collections. Voir `MapClusterCache`.
     let poisGeneration: Int
     let spotsGeneration: Int
-    /// L'ensemble lui-même, et non plus un prédicat `(POI) -> Bool`.
-    ///
-    /// Une fermeture n'est pas comparable : tant que l'état « trouvé » entrait
-    /// par là, le moteur ne pouvait pas savoir qu'il avait changé autrement qu'en
-    /// faisant avancer la génération des POI — ce qui périmait le cache de
-    /// groupes et rebâtissait les cinq cent trente-sept points pour un seul
+    /// L'ensemble lui-même, et non un prédicat `(POI) -> Bool` : une fermeture
+    /// n'est pas comparable, donc le moteur ne pouvait pas savoir que l'état avait
+    /// changé autrement qu'en faisant avancer la génération des POI — ce qui
+    /// périmait le cache de groupes et réagrégeait les 537 points pour un seul
     /// marquage. Un `Set` est `Equatable`, donc l'invalidation devient exacte.
     let foundPOIIDs: Set<String>
     var zoom: MapRenderState
@@ -169,12 +194,16 @@ private struct MapContentSwiftUIView: View {
             onTapCommunityCluster(cluster.position)
         } label: {
             MapClusterBubbleView(
+                // Une proposition de joueur n'a pas d'état « trouvé » : elle n'est
+                // pas dans la progression, donc son anneau reste plein.
                 count: cluster.count,
+                foundCount: 0,
                 category: cluster.dominantCategory,
                 style: style,
                 family: .community
             )
             .equatable()
+            .pinHitArea(side: zoom.pinHitSide)
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
@@ -277,6 +306,7 @@ private struct MapContentSwiftUIView: View {
                 accessibilityTitle: poi.title.resolved(for: Self.currentLanguageCode)
             )
             .equatable()
+            .pinHitArea(side: zoom.pinHitSide)
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
@@ -289,15 +319,26 @@ private struct MapContentSwiftUIView: View {
         } label: {
             MapClusterBubbleView(
                 count: cluster.count,
+                foundCount: foundCount(in: cluster),
                 category: cluster.dominantCategory,
                 style: style,
                 family: .editorial
             )
             .equatable()
+            .pinHitArea(side: zoom.pinHitSide)
         }
         .buttonStyle(.plain)
         .scaleEffect(pinScale)
         .position(MapGeometry.contentPoint(for: cluster.position, manifest: manifest))
+    }
+
+    /// Combien de membres du groupe sont déjà trouvés. Balaye les membres du seul
+    /// groupe concerné, soit au total un passage sur les POI dessinés — négligeable
+    /// devant ce que coûte une pastille bâtie, et c'est ce qui permet à
+    /// `.equatable()` de ne rebâtir QUE le groupe dont le décompte a changé.
+    private func foundCount(in cluster: POICluster) -> Int {
+        guard !foundPOIIDs.isEmpty else { return 0 }
+        return cluster.members.count { foundPOIIDs.contains($0.id) }
     }
 
     private func personalPin(_ pin: PersonalPin) -> some View {
@@ -460,10 +501,6 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// « masquer les trouvés »), donc plus rien ne fait avancer la génération
         /// des POI dans ce cas. Sans cet ensemble ici, cocher un lieu ne
         /// repousserait aucun contenu et la coche n'apparaîtrait jamais.
-        ///
-        /// La comparaison est en O(n) sur des dizaines d'entrées, contre un
-        /// recalcul des cinq cent trente-sept points qu'un compteur de génération
-        /// aurait imposé.
         let foundPOIIDs: Set<String>
         /// L'éditeur armé change les gestes disponibles sans forcément changer
         /// les brouillons — sans ça, l'armer ne prendrait effet qu'au prochain
