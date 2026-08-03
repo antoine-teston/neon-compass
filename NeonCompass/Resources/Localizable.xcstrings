@@ -1986,36 +1986,36 @@
       }
     },
     "map.cluster.foundAccessibility %lld": {
-      "extractionState" : "manual",
-      "localizations" : {
+      "extractionState": "manual",
+      "localizations": {
         "de": {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld gefunden"
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld gefunden"
           }
         },
         "en": {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld found"
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld found"
           }
         },
         "es": {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld encontrados"
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld encontrados"
           }
         },
         "fr": {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld trouvés"
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld trouvés"
           }
         },
         "it": {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld trovati"
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld trovati"
           }
         }
       }
@@ -2190,6 +2190,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cosa c'è qui? (max 280 caratteri)"
+          }
+        }
+      }
+    },
+    "map.filter.pins": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meine Markierungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My pins"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mis pines"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mes épingles"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I miei segnaposti"
           }
         }
       }
@@ -2438,43 +2472,41 @@
         }
       }
     },
-    "map.personalPins.addPrompt": {
-      "extractionState": "stale",
+    "map.personalPins.title": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Markierung benennen"
+            "value": "Meine Markierungen"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Name this pin"
+            "value": "My pins"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nombra este pin"
+            "value": "Mis pines"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nommez cette épingle"
+            "value": "Mes épingles"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Assegna un nome a questo segnaposto"
+            "value": "I miei segnaposti"
           }
         }
       }
     },
-    "map.personalPins.cancel": {
-      "extractionState": "stale",
+    "map.pins.card.cancel": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -2508,71 +2540,750 @@
         }
       }
     },
-    "map.personalPins.save": {
-      "extractionState": "stale",
+    "map.pins.card.delete": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Speichern"
+            "value": "Markierung löschen"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Save"
+            "value": "Delete pin"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guardar"
+            "value": "Eliminar pin"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrer"
+            "value": "Supprimer l'épingle"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salva"
+            "value": "Elimina segnaposto"
           }
         }
       }
     },
-    "map.personalPins.title": {
+    "map.pins.card.deleteConfirm": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Meine Markierungen"
+            "value": "Diese Markierung löschen?"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "My pins"
+            "value": "Delete this pin?"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mis pines"
+            "value": "¿Eliminar este pin?"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mes épingles"
+            "value": "Supprimer cette épingle ?"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "I miei segnaposti"
+            "value": "Eliminare questo segnaposto?"
+          }
+        }
+      }
+    },
+    "map.pins.card.done": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erledigt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hecho"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fait"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fatto"
+          }
+        }
+      }
+    },
+    "map.pins.card.markDone": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als erledigt markieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark as done"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcar como hecho"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marquer comme fait"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segna come fatto"
+          }
+        }
+      }
+    },
+    "map.pins.card.notePlaceholder": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Notiz für später"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A note for later"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Una nota para después"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une note pour plus tard"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Una nota per dopo"
+          }
+        }
+      }
+    },
+    "map.pins.card.titlePlaceholder": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markierung benennen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name this pin"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombra este pin"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nommez cette épingle"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dai un nome a questo segnaposto"
+          }
+        }
+      }
+    },
+    "map.pins.countAccessibility %lld %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld von %2$lld Markierungen belegt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld pins used"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld de %2$lld pines usados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld épingles sur %2$lld utilisées"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld segnaposti su %2$lld usati"
+          }
+        }
+      }
+    },
+    "map.pins.empty.message": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halte die Karte gedrückt, um eine Markierung zu setzen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press and hold anywhere on the map to drop a pin."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantén pulsado el mapa para colocar un pin."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appuyez longuement sur la carte pour poser une épingle."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tieni premuto sulla mappa per posare un segnaposto."
+          }
+        }
+      }
+    },
+    "map.pins.empty.title": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Markierungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pins yet"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay pines"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune épingle"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun segnaposto"
+          }
+        }
+      }
+    },
+    "map.pins.full.cancel": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Später"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not now"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ahora no"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus tard"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non ora"
+          }
+        }
+      }
+    },
+    "map.pins.full.message": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das kostenlose Notizbuch fasst 20 Markierungen. Pro hebt das Limit auf und hält dein Notizbuch geräteübergreifend synchron."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Free notebooks hold 20 pins. Pro lifts the limit and keeps your notebook in sync across your devices."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El cuaderno gratuito admite 20 pines. Pro elimina el límite y sincroniza tu cuaderno entre tus dispositivos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le carnet gratuit tient vingt épingles. Pro lève la limite et garde votre carnet synchronisé entre vos appareils."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il taccuino gratuito contiene 20 segnaposti. Pro toglie il limite e sincronizza il taccuino tra i tuoi dispositivi."
+          }
+        }
+      }
+    },
+    "map.pins.full.title": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notizbuch voll"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notebook full"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuaderno lleno"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carnet plein"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taccuino pieno"
+          }
+        }
+      }
+    },
+    "map.pins.full.upgrade": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro ansehen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See Pro"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver Pro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir Pro"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scopri Pro"
+          }
+        }
+      }
+    },
+    "map.pins.icon.danger": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gefahr"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danger"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peligro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danger"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pericolo"
+          }
+        }
+      }
+    },
+    "map.pins.icon.explore": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu erkunden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To explore"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Por explorar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À explorer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Da esplorare"
+          }
+        }
+      }
+    },
+    "map.pins.icon.marker": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markierung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marker"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcador"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repère"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segnaposto"
+          }
+        }
+      }
+    },
+    "map.pins.icon.photo": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotostelle"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photo spot"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punto fotográfico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spot photo"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punto foto"
+          }
+        }
+      }
+    },
+    "map.pins.icon.stash": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versteck"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stash"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escondite"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cache"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nascondiglio"
+          }
+        }
+      }
+    },
+    "map.pins.icon.vehicle": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fahrzeug"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vehicle"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vehículo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Véhicule"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veicolo"
+          }
+        }
+      }
+    },
+    "map.pins.section.done": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erledigt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hechos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fait"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fatti"
+          }
+        }
+      }
+    },
+    "map.pins.section.todo": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To do"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pendientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À faire"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Da fare"
+          }
+        }
+      }
+    },
+    "map.pins.untitled": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne Namen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin nombre"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans nom"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senza nome"
           }
         }
       }

@@ -268,6 +268,16 @@ struct MapScreen: View {
             model.updatePOIs(pois(for: newGame))
             model.selection = nil
         }
+        // Le mur du plafond. Il DIT ce qui bloque avant de proposer l'achat : une
+        // feuille d'achat qui surgirait sans explication passerait pour une panne,
+        // et le joueur ne saurait pas pourquoi son épingle n'est pas apparue.
+        .alert("map.pins.full.title", isPresented: $showNotebookFull) {
+            Button("map.pins.full.upgrade") { showPaywall = true }
+            Button("map.pins.full.cancel", role: .cancel) {}
+        } message: {
+            Text("map.pins.full.message")
+        }
+        .sheet(isPresented: $showPaywall) { PaywallView() }
         .sheet(isPresented: $showRoutePlanner) {
             RoutePlannerSheet(
                 route: RoutePlanner.greedyRoute(
