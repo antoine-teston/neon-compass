@@ -52,6 +52,16 @@ Il exige des identifiants OAuth créés côté Google, que rien dans ce dépôt 
 **Rappel de conformité** : proposer Google oblige à proposer aussi Sign in with Apple (règle App
 Store 4.8). C'est le cas, et le bouton Apple reste en tête de l'écran.
 
+**Pourquoi Google est conservé, décidé le 2026-08-03.** Sur une app iOS seule, il n'apportait presque
+rien : Apple couvre nativement tout le parc. Ce qui le justifie est le **portage Android envisagé** —
+Google y est l'identité native, Sign in with Apple n'y existe que par un flux web bancal. Le client
+OAuth ci-dessus est de type *Web application*, donc il sert les deux plateformes sans travail
+supplémentaire : c'est Supabase qui reçoit la redirection, pas l'app.
+
+Conséquence à ne pas remettre à plus tard : le plafond de **100 utilisateurs** de l'écran de
+consentement en mode *Testing* devient bloquant avant le premier lancement, pas après. Le publier est
+gratuit ; s'en apercevoir le jour de la sortie de GTA VI ne le serait pas.
+
 ## 2. Secrets des Edge Functions
 
 ```sh
@@ -111,3 +121,35 @@ Le seuil qui doit déclencher une décision est le passage au plan Pro : s'il de
 cause de l'egress statique* et non de la charge applicative, la bonne réponse est de sortir le
 contenu vers un hébergeur à egress illimité. `contentBaseURL` dans `app_config` le permet sans mise
 à jour de l'app — c'est la porte de sortie prévue par la spec, section D2.
+
+## 7. Deux dettes ouvertes sur l'e-mail
+
+Constatées le 2026-08-03 en relevant la configuration réelle du projet. Aucune n'est bloquante
+aujourd'hui, les deux le deviendront.
+
+### Les e-mails sont en anglais, l'app est en cinq langues
+
+Tous les `mailer_templates_*_custom_contents` valent `false` : ce sont les modèles par défaut de
+GoTrue, en anglais. Or l'app est livrée en FR, EN, ES, IT et DE, et le CLAUDE.md pose que toute
+chaîne visible passe par le catalogue.
+
+GoTrue n'a pas de gestion de la langue par utilisateur : un modèle, une langue. Trois issues
+possibles, à trancher le jour où ça compte — assumer l'anglais dans les e-mails, écrire un modèle
+multilingue qui empile les cinq versions, ou passer par un webhook d'envoi qui compose le message
+lui-même.
+
+### Le lien magique attend un SMTP, pas une décision
+
+`mailer_templates_magic_link_content` existe et le flux est disponible. Il supprimerait d'un coup le
+mot de passe oublié, la longueur minimale et le champ mot de passe de l'écran.
+
+**Écarté le 2026-08-03, pour une raison de dépendance et non de préférence** : le service d'envoi
+intégré est plafonné à 2 messages/heure, donc un lien magique serait la SEULE façon de se connecter
+par e-mail et elle serait inutilisable. Le poser avant le SMTP, ce serait construire sur une
+dépendance absente.
+
+Le mot de passe, lui, ne demande un envoi que pour une réinitialisation — un chemin secondaire, dont
+l'indisponibilité gêne sans enfermer dehors ceux qui connaissent leur mot de passe.
+
+À reprendre quand un SMTP dédié sera câblé (Authentication → Emails → SMTP Settings). Ordres de
+grandeur : Resend 3 000 messages/mois gratuits, Brevo 300/jour, Amazon SES 0,10 $ les 1 000.
