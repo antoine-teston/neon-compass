@@ -89,21 +89,26 @@ jobs:
 
       # Le filet de sécurité du projet sur les privilèges : `pg_default_acl`
       # accorde tout à `anon` et `authenticated` sur chaque table créée, donc
-      # toute migration porte sa propre révocation. `schema_test.sql` compare les
-      # privilèges effectifs à une liste explicite et nomme l'objet fautif.
+      # toute migration porte sa propre révocation. Vérifié APRÈS application,
+      # jamais en dry-run : c'est l'état RÉSULTANT qui compte.
       #
-      # Il tourne APRÈS l'application, jamais avant : c'est l'état résultant
-      # qu'on veut vérifier. Et il ne tourne pas en dry-run, où rien n'a changé.
+      # `privileges_test.sql` et NON `schema_test.sql`. La première version de
+      # cette étape lançait le second, et c'était une faute : il est inséparable
+      # de ses fixtures — il insère dans `auth.users`, `contributions`, `votes`,
+      # `progression`, `editor_drafts` et modifie l'XP des profils. Le lancer
+      # ici aurait injecté des données de test dans la base qui sert les
+      # clients. `privileges_test.sql` porte les mêmes assertions en LECTURE
+      # PURE, donc sûres contre la production.
       - name: Vérifier les deux verrous
         if: inputs.dry-run != true
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           if [ -z "${SUPABASE_DB_URL:-}" ]; then
-            echo "::warning title=Verrous non vérifiés::SUPABASE_DB_URL absent — schema_test.sql n'a pas tourné. Les privilèges des tables créées par ces migrations ne sont PAS contrôlés."
+            echo "::warning title=Verrous non vérifiés::SUPABASE_DB_URL absent — les privilèges des objets créés par ces migrations ne sont PAS contrôlés. Voir supabase/tests/privileges_test.sql."
             exit 0
           fi
-          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f supabase/tests/schema_test.sql 2>&1 | tee -a "$RUNNER_TEMP/migrations.log"
+          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f supabase/tests/privileges_test.sql 2>&1 | tee -a "$RUNNER_TEMP/migrations.log"
 
       - name: Compte-rendu
         if: always()
