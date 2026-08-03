@@ -1,12 +1,32 @@
 -- Privilèges — le fichier qui fait autorité, et le dernier à s'exécuter.
 --
--- ## Pourquoi il est séparé, et pourquoi il est en dernier
+-- ## Pourquoi il est séparé
 --
 -- `revoke … on all tables in schema public` ne porte que sur les tables qui
--- existent DÉJÀ. Écrit au milieu des migrations, il laisserait intactes celles
--- créées par les migrations suivantes — qui arriveraient donc avec les
--- privilèges par défaut, c'est-à-dire tous. Un seul fichier, en dernier, et le
--- privilège effectif de chaque objet se lit à un seul endroit.
+-- existent DÉJÀ. Écrit au milieu des migrations, il laisse intactes celles
+-- créées par les migrations suivantes — qui arrivent donc avec les privilèges
+-- par défaut, c'est-à-dire tous. Un seul fichier, et le privilège effectif de
+-- chaque objet se lit à un seul endroit.
+--
+-- ## Ce fichier N'EST PLUS le dernier — et ce n'est plus lui qui garantit
+--
+-- Il l'était quand il a été écrit. Quatre migrations l'ont suivi depuis
+-- (`scheduling`, `app_account_token`, `contribution_xp`, `owner_defaults`), et
+-- rien n'empêche la prochaine d'arriver. Le rang d'un fichier dans un dossier
+-- ne se défend pas tout seul.
+--
+-- Ce qui garantit désormais, c'est `supabase/tests/schema_test.sql` §« Les DEUX
+-- verrous » : il énumère les privilèges effectifs de `anon`, `authenticated` et
+-- `public` sur les tables ET les fonctions de `public`, et les compare à une
+-- liste explicite. Une table ou une fonction ajoutée après ce fichier sans sa
+-- révocation fait tomber la suite en la NOMMANT. `supabase/tests/_stubs.sql`
+-- reproduit `pg_default_acl` pour que ce soit vrai aussi sans Docker — sans
+-- quoi le test passait à côté du seul cas qu'il devait attraper.
+--
+-- Donc : **une migration postérieure qui crée une table ou une fonction doit
+-- porter sa propre révocation**, comme `contribution_xp` le fait déjà pour
+-- `award_contribution_xp`. La liste ci-dessous reste la référence de ce qui est
+-- ouvert ; le test est ce qui empêche d'en sortir sans le vouloir.
 --
 -- ## Le fait qui rend ce fichier nécessaire
 --

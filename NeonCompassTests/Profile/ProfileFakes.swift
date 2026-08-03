@@ -1,4 +1,6 @@
-import Testing
+// Doublures partagées par `AuthModelTests`, `ProfileModelTests` et
+// `SettingsModelTests`. Aucun test ici : ce fichier ne porte que les fakes.
+
 @testable import NeonCompass
 
 final class FakeAuthProvider: AuthProviding {
@@ -78,15 +80,5 @@ final class FakeAccountDeleting: AccountDeleting {
 
     func deleteAccount(uid: String) async throws {
         deleteAccountCallCount += 1
-    }
-}
-
-struct ProfileFakesTests {
-    @Test func authProviderTracksSignOutCalls() async throws {
-        let fake = FakeAuthProvider()
-        fake.userIDToReturn = "existing-uid"
-        try await fake.signOut()
-        #expect(fake.signOutCallCount == 1)
-        #expect(fake.currentUserID == nil)
     }
 }

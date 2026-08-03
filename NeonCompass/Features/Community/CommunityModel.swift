@@ -121,10 +121,6 @@ final class CommunityModel {
         try? await functions.reportContribution(spotId: spot.id, reason: reason)
     }
 
-    func isBlocked(authorUid: String) -> Bool {
-        blockedAuthorUIDs.contains(authorUid)
-    }
-
     func block(authorUid: String) {
         guard !blockedAuthorUIDs.contains(authorUid) else { return }
         modelContext.insert(BlockedContributor(authorUid: authorUid))

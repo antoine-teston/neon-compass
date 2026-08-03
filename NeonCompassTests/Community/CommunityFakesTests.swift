@@ -123,15 +123,26 @@ struct CommunityFakesTests {
         #expect(functions.lastVote?.direction == .up)
     }
 
-    @Test func blockThenUnblockRestoresVisibility() throws {
+    /// Passe par `visibleSpots` et `blockedAuthorUIDs` — les deux seules
+    /// surfaces que la production lit (la carte pour le rendu, l'écran Réglages
+    /// pour la liste des auteurs masqués). Le test s'appuyait auparavant sur un
+    /// accesseur `isBlocked` que rien n'appelait ailleurs, et ne vérifiait donc
+    /// pas la restitution que son nom annonce.
+    @Test func blockThenUnblockRestoresVisibility() async throws {
         let context = ModelContext(try makeContainer())
-        let model = makeModel(context: context)
+        let model = makeModel(
+            context: context,
+            spots: [makeSpot(id: "1", authorUid: "author-a"), makeSpot(id: "2", authorUid: "author-b")]
+        )
+        await model.loadApprovedSpots()
 
         model.block(authorUid: "author-a")
-        #expect(model.isBlocked(authorUid: "author-a"))
+        #expect(model.blockedAuthorUIDs == ["author-a"])
+        #expect(model.visibleSpots.map(\.id) == ["2"])
 
         model.unblock(authorUid: "author-a")
-        #expect(!model.isBlocked(authorUid: "author-a"))
+        #expect(model.blockedAuthorUIDs.isEmpty)
+        #expect(model.visibleSpots.map(\.id).sorted() == ["1", "2"])
     }
 
     /// Le fragment est écrit par une Cloud Function et lu ici : les clés

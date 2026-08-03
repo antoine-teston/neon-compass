@@ -1,4 +1,6 @@
-import Testing
+// Doublures partagées par les suites de `Content/`. Aucun test ici : ce fichier
+// ne porte que les fakes.
+
 @testable import NeonCompass
 
 final class FakeContentVersionProvider: ContentVersionProviding {
@@ -15,13 +17,5 @@ final class FakeContentRepository<Item: Sendable>: ContentRemoteRepository {
     func fetchAll() async throws -> [Item] {
         fetchCallCount += 1
         return itemsToReturn
-    }
-}
-
-struct FakesTests {
-    @Test func versionProviderReturnsSetValue() async throws {
-        let fake = FakeContentVersionProvider()
-        fake.version = 5
-        #expect(try await fake.currentVersion() == 5)
     }
 }

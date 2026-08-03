@@ -10,12 +10,17 @@ enum InterstitialCapPolicy {
     ///     this app session (0 at launch).
     ///   - isDuringContribution: true while a contribution submission sheet
     ///     is presented — never interrupt that flow (spec point, Plan 5b).
-    ///   - remoteConfigFrequency: the Remote Config-controlled frequency —
-    ///     0 disables interstitials entirely (kill-switch style), 1 means
-    ///     "eligible" subject to the session cap below, values above 1 are
-    ///     reserved for a future "every Nth eligible moment" scheme and
-    ///     currently treated identically to 1 (no such scheme exists yet —
-    ///     see Self-Review).
+    ///   - remoteConfigFrequency: the server-controlled frequency — 0 disables
+    ///     interstitials entirely (kill-switch style), 1 means "eligible"
+    ///     subject to the session cap below, values above 1 are reserved for a
+    ///     future "every Nth eligible moment" scheme and currently treated
+    ///     identically to 1 (no such scheme exists yet — see Self-Review).
+    ///
+    ///     Le nom dit encore « Remote Config », qui est parti avec Firebase :
+    ///     la valeur viendrait aujourd'hui d'`app_config`. Renommer le
+    ///     paramètre attendra le branchement de l'interstitiel, qui n'a pas
+    ///     encore de point de déclenchement — le plan 6a l'a explicitement
+    ///     laissé hors de son périmètre, et rien n'appelle donc `shouldShow`.
     static func shouldShow(
         sessionShownCount: Int,
         isDuringContribution: Bool,

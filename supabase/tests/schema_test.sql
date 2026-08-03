@@ -239,48 +239,20 @@ begin
 end $$;
 
 -- ---------------------------------------------------------------------------
--- Les DEUX verrous — privilèges, pas seulement politiques
+-- Les verrous de privilèges — définis UNE fois, dans privileges_test.sql
 -- ---------------------------------------------------------------------------
+--
+-- Ces assertions vivaient ici, en double depuis que `privileges_test.sql`
+-- existe (2026-08-03). Elles y sont désormais seules, et incluses ici : c'est le
+-- même contrôle, sur une base jetable au lieu de la production.
+--
+-- Ce que l'inclusion apporte en plus de la déduplication : `privileges_test.sql`
+-- porte un TROISIÈME verrou que la version d'ici n'avait pas — les vues
+-- matérialisées, que `information_schema` ne référence pas du tout. `leaderboard`
+-- est dans ce cas, et les assertions sur les tables passaient sans jamais la
+-- regarder.
+\ir privileges_test.sql
 
--- Ce bloc a été écrit APRÈS avoir découvert, sur le vrai projet, que
--- `pg_default_acl` accorde SELECT/INSERT/UPDATE/DELETE à `anon` et
--- `authenticated` sur toute table nouvellement créée. RLS suffisait à protéger
--- les données, mais le second verrou n'était pas là où on le croyait, et rien
--- ne l'aurait signalé : une suite qui ne teste que « combien de lignes je vois »
--- passe aussi bien avec un seul verrou qu'avec deux.
-do $$
-declare
-  leaked text;
-begin
-  -- Aucune écriture directe, nulle part, sauf les trois tables où le client
-  -- n'écrit que ses propres lignes.
-  select string_agg(table_name || ':' || privilege_type, ', ')
-    into leaked
-    from information_schema.role_table_grants
-   where grantee in ('anon', 'authenticated')
-     and table_schema = 'public'
-     and privilege_type in ('INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER')
-     and table_name not in ('progression', 'push_tokens', 'editor_drafts');
-  assert leaked is null, format('écriture accordée là où elle ne devrait pas : %s', leaked);
-
-  -- Les tables entièrement fermées le sont aussi au niveau du privilège.
-  select string_agg(distinct table_name, ', ')
-    into leaked
-    from information_schema.role_table_grants
-   where grantee in ('anon', 'authenticated')
-     and table_schema = 'public'
-     and table_name in ('reports', 'editors', 'community_bundle_state', 'push_outbox');
-  assert leaked is null, format('tables censées être fermées mais accordées : %s', leaked);
-
-  -- `anon` ne lit que ce qui est public. Notamment pas les profils.
-  select string_agg(distinct table_name, ', ')
-    into leaked
-    from information_schema.role_table_grants
-   where grantee = 'anon'
-     and table_schema = 'public'
-     and table_name not in ('app_config', 'contributions');
-  assert leaked is null, format('anon a accès à des tables non publiques : %s', leaked);
-end $$;
 
 -- Omettre `uid` n'est pas une erreur : le défaut vaut `auth.uid()`.
 --

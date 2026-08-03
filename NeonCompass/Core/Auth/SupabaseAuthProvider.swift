@@ -3,10 +3,12 @@ import Supabase
 
 /// Implémentation réelle de `AuthProviding`, adossée à Supabase Auth.
 ///
-/// Sign in with Apple est le seul fournisseur proposé (spec §3). Le flux natif
-/// prend l'`idToken` et le `nonce` que `AppleSignInCoordinator` produit déjà —
-/// ce coordinateur ne change pas d'une ligne dans cette migration, c'est
-/// exactement la même paire que Firebase consommait.
+/// Trois portes d'entrée : Apple, e-mail/mot de passe, et Google. Apple par le
+/// flux natif, qui prend l'`idToken` et le `nonce` que `AppleSignInCoordinator`
+/// produit déjà — ce coordinateur ne change pas d'une ligne dans cette
+/// migration, c'est exactement la même paire que Firebase consommait. Google
+/// passe par OAuth dans le navigateur système, sans SDK (voir
+/// `signInWithGoogle()`), et l'e-mail par Supabase Auth directement.
 ///
 /// `currentUserID` est synchrone parce que le protocole l'exige, et Supabase
 /// expose la session courante sans `await` une fois chargée. Avant ce
