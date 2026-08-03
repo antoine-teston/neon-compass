@@ -63,4 +63,5 @@ Feature-first folders (`App/`, `Features/`, `Core/`), pas layer-first.
 
 - Small diffs. One feature or fix per session; don't refactor opportunistically.
 - Before claiming done: build + tests must pass locally. Paste the failing output if they don't.
+- **`xcodebuild test` peut réécrire `Localizable.xcstrings`.** L'extraction automatique de chaînes y ajoute des variantes à suffixe `%@` sans traduction, ce qui fait tomber `LocalizationCoverageTests`. Le fichier apparaît alors modifié sans qu'on y ait touché : vérifier `git status` avant de commiter, et restaurer (`git checkout -- NeonCompass/Resources/Localizable.xcstrings`) plutôt que d'emporter l'artefact.
 - When a decision here conflicts with reality (API deprecated, better tool exists), raise it in the conversation — don't silently deviate.
