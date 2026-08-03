@@ -277,17 +277,8 @@ jobs:
             git push
           fi
 
-      # Les politiques d'accès sont des migrations SQL relues en pull request,
-      # plus un fichier de règles poussé par une API.
-      - name: Appliquer les migrations
-        uses: supabase/setup-cli@v1
-        with:
-          version: latest
-
-      - name: supabase db push
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-        run: |
-          supabase link --project-ref "${{ secrets.SUPABASE_PROJECT_REF }}"
-          supabase db push
+      # Les migrations SQL ne sont PAS ici. Elles ont leur propre workflow,
+      # `Migrations` — voir son en-tête pour le pourquoi. Résumé : ce sont deux
+      # opérations sans rapport, aux identifiants distincts, et les mêler a
+      # coûté deux runs rouges le 2026-08-03 alors que la publication du contenu
+      # avait parfaitement réussi les deux fois.

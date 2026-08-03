@@ -1,0 +1,107 @@
+name: Migrations
+
+# Applique les migrations SQL de `supabase/migrations/` au projet de production.
+#
+# Pourquoi ce workflow existe séparément de `Contenu`, décidé le 2026-08-03 :
+#
+# `supabase db push` y vivait, dans le job `publish`, juste après le téléversement
+# du contenu. Deux opérations y étaient mêlées qui n'ont RIEN en commun :
+#
+#   - publier du contenu écrit des fragments dans Storage. Identifiants :
+#     SUPABASE_URL + la clé de service. Réversible en republiant.
+#   - appliquer des migrations change le SCHÉMA de la base. Identifiants : un
+#     jeton de compte personnel + le mot de passe Postgres. Difficilement
+#     réversible.
+#
+# Le prix de cette confusion s'est payé le jour même : un SUPABASE_ACCESS_TOKEN
+# mal formé a fait échouer le job DEUX fois de suite alors que la publication du
+# contenu avait réussi les deux fois. Un rouge qui ne dit pas ce qui a échoué
+# n'apprend qu'une chose : à ignorer le rouge.
+#
+# MANUEL uniquement, et sans repli : contrairement à la publication de contenu,
+# il n'y a pas de version de dégradation acceptable pour une migration. Ou elle
+# s'applique, ou le run est rouge.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Lister ce qui serait appliqué, sans rien appliquer"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: migrations
+  cancel-in-progress: false
+
+jobs:
+  migrations:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v5
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # `dry-run` est le DÉFAUT, et coché à dessein : voir la liste avant de
+      # l'appliquer doit être le geste normal, l'appliquer le geste délibéré.
+      # `migration list` compare l'état local à l'état distant et n'écrit rien.
+      - name: Lier le projet
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: supabase link --project-ref "${{ secrets.SUPABASE_PROJECT_REF }}"
+
+      - name: État des migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          set -o pipefail
+          supabase migration list --linked 2>&1 | tee "$RUNNER_TEMP/migrations.log"
+
+      - name: Appliquer
+        if: inputs.dry-run != true
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          set -o pipefail
+          supabase db push 2>&1 | tee -a "$RUNNER_TEMP/migrations.log"
+
+      # Le filet de sécurité du projet sur les privilèges : `pg_default_acl`
+      # accorde tout à `anon` et `authenticated` sur chaque table créée, donc
+      # toute migration porte sa propre révocation. `schema_test.sql` compare les
+      # privilèges effectifs à une liste explicite et nomme l'objet fautif.
+      #
+      # Il tourne APRÈS l'application, jamais avant : c'est l'état résultant
+      # qu'on veut vérifier. Et il ne tourne pas en dry-run, où rien n'a changé.
+      - name: Vérifier les deux verrous
+        if: inputs.dry-run != true
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "${SUPABASE_DB_URL:-}" ]; then
+            echo "::warning title=Verrous non vérifiés::SUPABASE_DB_URL absent — schema_test.sql n'a pas tourné. Les privilèges des tables créées par ces migrations ne sont PAS contrôlés."
+            exit 0
+          fi
+          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f supabase/tests/schema_test.sql 2>&1 | tee -a "$RUNNER_TEMP/migrations.log"
+
+      - name: Compte-rendu
+        if: always()
+        run: |
+          {
+            echo "### Migrations"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/migrations.log" 2>/dev/null || echo '(aucune sortie)'
+            echo '```'
+            if [ '${{ inputs.dry-run }}' = 'true' ]; then
+              echo
+              echo '> Dry-run : **rien n’a été appliqué.** Relancer avec la case décochée.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
