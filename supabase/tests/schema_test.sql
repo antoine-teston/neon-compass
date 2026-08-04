@@ -447,6 +447,48 @@ begin
   assert remaining = 0, 'les votes partent en cascade';
 end $$;
 
+-- ---------------------------------------------------------------------------
+-- `approved_at` et son trigger
+-- ---------------------------------------------------------------------------
+--
+-- La section « À découvrir » du volet Social trie dessus. Vérifier la présence
+-- de la colonne ne suffirait pas : sans le trigger, elle resterait nulle pour
+-- toute approbation future, et la section se remplirait dans un ordre
+-- arbitraire. On exerce donc le COMPORTEMENT, pas la déclaration.
+do $$
+declare
+  stamped timestamptz;
+  before_reapproval timestamptz;
+begin
+  -- `author_uid` nul est permis (contrat d'anonymisation), ce qui évite de
+  -- dépendre d'un compte que les blocs précédents ont pu supprimer.
+  insert into public.contributions (id, author_uid, author_handle, category, title, language_code, position_x, position_y, status)
+  values ('aaaaaaaa-0000-0000-0000-0000000000a1', null, 'NEON-FALCON-88', 'landmark', 'Un lieu en attente', 'fr', 0.5, 0.5, 'pending');
+
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  assert stamped is null, 'une contribution en attente ne porte pas de date d''approbation';
+
+  update public.contributions set status = 'approved' where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  assert stamped is not null, 'passer à approved doit horodater approved_at';
+
+  -- Idempotence : c'est ce qui rend le trigger légitime là où l'XP l'a refusé.
+  -- Une reprise de migration qui repasserait la ligne à `approved` ne doit pas
+  -- réécrire la date d'apparition.
+  before_reapproval := stamped;
+  update public.contributions set status = 'approved' where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  assert stamped = before_reapproval, 'une réapprobation ne doit pas réécrire approved_at';
+
+  -- Une insertion directement approuvée est horodatée aussi : la modération
+  -- peut approuver en une seule écriture.
+  insert into public.contributions (id, author_uid, author_handle, category, title, language_code, position_x, position_y, status)
+  values ('aaaaaaaa-0000-0000-0000-0000000000a2', null, 'NEON-FALCON-88', 'landmark', 'Un lieu approuvé d''emblée', 'fr', 0.4, 0.4, 'approved');
+
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a2';
+  assert stamped is not null, 'une insertion déjà approuvée doit être horodatée';
+end $$;
+
 rollback;
 
 \echo 'schema_test.sql : tous les tests passent'
