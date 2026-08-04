@@ -48,6 +48,9 @@ struct RootView: View {
             }
         }
         .environment(authModel)
+        // Pour que le Profil puisse basculer sur la Carte depuis l'invitation
+        // à contribuer : une contribution se pose sur la carte, pas ailleurs.
+        .environment(model)
         .environment(proEntitlementModel)
         .environment(widgetSummaryCoordinator)
         .environment(themeStore)
