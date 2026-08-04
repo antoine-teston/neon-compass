@@ -46,10 +46,17 @@ struct SettingsAccountSection: View {
                 }
             }
 
+            // Le pseudo suit `profile != nil`, comme l'entête : le lire est un
+            // simple `select` sur sa propre ligne, qui marche même quand les
+            // Edge Functions ne sont pas déployées. Le garder derrière
+            // `serverFeatures` affichait le pseudo en haut du Profil et le
+            // cachait ici, sur le même appareil et à la même seconde.
+            if let handle = profileModel.profile?.handle {
+                LabeledContent("settings.account.handle") { Text(handle) }
+            }
+            // En CHANGER, en revanche, appelle `regenerate-handle` : sans les
+            // Edge Functions, le bouton ne mènerait nulle part.
             if serverFeatures.isEnabled {
-                if let handle = profileModel.profile?.handle {
-                    LabeledContent("settings.account.handle") { Text(handle) }
-                }
                 Button("profile.handle.regenerate") { showHandleConfirmation = true }
             }
         }
