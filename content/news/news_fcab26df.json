@@ -1,0 +1,21 @@
+{
+  "id": "news_fcab26df",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Microsoft relève les prix des consoles Xbox avant la sortie",
+    "en": "Microsoft raises Xbox console prices ahead of launch"
+  },
+  "body": {
+    "fr": "À compter du 1er août, la console phare coûte jusqu'à 200 € de plus en Europe et jusqu'à 170 £ de plus au Royaume-Uni. Le fabricant invoque le renchérissement mondial des composants mémoire, à quelques mois de la sortie du jeu le 19 novembre.",
+    "en": "As of August 1, the flagship console costs up to €200 more in Europe and up to £170 more in the UK. The maker points to a global rise in memory component prices, just months before the game's November 19 launch."
+  },
+  "publishedAt": "2026-08-03",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/xbox-just-raised-console-prices-right-before-gta-6-and-europe-got-hit-hardest-3d3d"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:48765546945a",
+  "sourceClaim": "Microsoft a confirmé une hausse des prix des consoles Xbox Series X et Series S en Europe et au Royaume-Uni à compter du 1er août 2026, jusqu'à 200 € de plus selon les modèles en Europe et jusqu'à 170 £ au Royaume-Uni ; la marque explique cette hausse par le renchérissement mondial des composants mémoire, quelques mois avant la sortie du jeu prévue le 19 novembre 2026."
+}

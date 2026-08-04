@@ -1,0 +1,21 @@
+{
+  "id": "news_a5ee219b",
+  "category": "community",
+  "game": "leonida",
+  "title": {
+    "fr": "Un réalisateur de jeux narratifs interroge la profondeur du jeu",
+    "en": "A narrative game director questions the game's depth"
+  },
+  "body": {
+    "fr": "Un réalisateur reconnu pour ses productions narratives chez un studio concurrent estime en ligne que la richesse des systèmes de jeu compte davantage que la seule qualité visuelle d'un monde ouvert. Il précise ne pas viser le studio en particulier, mais souhaiter que l'ensemble des grosses productions en monde ouvert élève ses standards de gameplay.",
+    "en": "A director known for narrative-driven games at a rival studio said online that how deep a game's systems are matters more than how good an open world looks. He was clear he wasn't singling out this particular studio, but wants big-budget open-world games in general to raise their gameplay standards."
+  },
+  "publishedAt": "2026-08-03",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/the-last-of-us-co-director-asked-why-you-even-care-about-gta-6-b81a"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:16248c90e020",
+  "sourceClaim": "Bruce Straley, co-réalisateur de The Last of Us et d'Uncharted 4, a publiquement questionné l'intérêt du jeu à venir en jugeant que la profondeur des systèmes de jeu compte davantage que la seule qualité visuelle d'un monde ouvert ; il précise ne pas critiquer le studio en particulier mais souhaiter que l'ensemble des grosses productions en monde ouvert élève ses standards de jeu."
+}
