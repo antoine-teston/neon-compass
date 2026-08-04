@@ -10,4 +10,16 @@ import Foundation
 /// prochaine reconstruction des fragments.
 protocol ContributionRepository: Sendable {
     func fetchMine(uid: String) async throws -> [Contribution]
+
+    /// Mes votes, indexés par identifiant de contribution.
+    ///
+    /// Requête directe et non un fragment, pour la même raison que `fetchMine` :
+    /// elle est personnelle et doit être fraîche. La politique
+    /// `votes_select_own` l'autorise (`20260802120100_rls_policies.sql:95-97`)
+    /// et l'index `votes_uid_idx` la sert.
+    ///
+    /// Elle porte deux usages d'un coup : découper le volet Propositions en deux
+    /// sections, et donner au vote un état visible — jusqu'ici rien ne
+    /// distinguait « je n'ai pas voté » de « j'ai voté pour ».
+    func fetchMyVotes(uid: String) async throws -> [String: VoteDirection]
 }

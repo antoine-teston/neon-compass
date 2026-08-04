@@ -7,6 +7,10 @@ final class FakeContributionRepository: ContributionRepository {
     nonisolated(unsafe) var mineToReturn: [Contribution] = []
 
     func fetchMine(uid: String) async throws -> [Contribution] { mineToReturn }
+
+    nonisolated(unsafe) var votesToReturn: [String: VoteDirection] = [:]
+
+    func fetchMyVotes(uid: String) async throws -> [String: VoteDirection] { votesToReturn }
 }
 
 final class FakeContributionFunctions: ContributionFunctionsCalling {
@@ -174,4 +178,50 @@ struct CommunityFakesTests {
         let spot = try JSONDecoder().decode(Contribution.self, from: Data(json.utf8))
         #expect(spot.authorUid == nil)
     }
+
+    // MARK: - Mes votes
+
+    /// Voter met `myVotes` à jour TOUT DE SUITE. Sans ça, la ligne resterait
+    /// dans « À découvrir » et ses boutons sans état jusqu'au prochain
+    /// chargement — donc on pourrait revoter en boucle sans le voir.
+    @Test func votingRecordsMyVoteLocally() async throws {
+        let context = ModelContext(try makeContainer())
+        let functions = FakeContributionFunctions()
+        functions.voteResultToReturn = (upvotes: 13, downvotes: 1)
+        let model = makeModel(context: context, functions: functions)
+
+        await model.vote(on: makeSpot(id: "c1", authorUid: "u1"), direction: .up)
+
+        #expect(model.myVotes["c1"] == .up)
+    }
+
+    @Test func loadMyVotesFillsTheMap() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.votesToReturn = ["c1": .up, "c2": .down]
+        let model = makeModel(context: context, repository: repository)
+
+        await model.loadMyVotes(uid: "u1")
+
+        #expect(model.myVotes == ["c1": .up, "c2": .down])
+    }
+
+    /// Hors ligne, la lecture échoue : les deux sections retombent sur « tout à
+    /// découvrir », ce qui est dégradé mais juste.
+    @Test func aFailedVoteReadLeavesTheMapEmpty() async throws {
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context, repository: FailingContributionRepository())
+
+        await model.loadMyVotes(uid: "u1")
+
+        #expect(model.myVotes.isEmpty)
+    }
+}
+
+/// Le dépôt qui tombe, pour exercer le chemin hors ligne.
+private final class FailingContributionRepository: ContributionRepository {
+    struct Offline: Error {}
+
+    func fetchMine(uid: String) async throws -> [Contribution] { throw Offline() }
+    func fetchMyVotes(uid: String) async throws -> [String: VoteDirection] { throw Offline() }
 }

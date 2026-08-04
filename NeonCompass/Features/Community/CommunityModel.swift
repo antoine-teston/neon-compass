@@ -9,6 +9,10 @@ final class CommunityModel {
         didSet { refreshVisibleSpots() }
     }
     private(set) var myContributions: [Contribution] = []
+
+    /// Mes votes, par identifiant de contribution. Vide hors connexion — et
+    /// c'est le bon défaut : tout se retrouve alors dans « À découvrir ».
+    private(set) var myVotes: [String: VoteDirection] = [:]
     private(set) var blockedAuthorUIDs: Set<String> {
         didSet { refreshVisibleSpots() }
     }
@@ -110,8 +114,20 @@ final class CommunityModel {
         try await functions.submitContribution(category: category, title: title, position: position, languageCode: languageCode)
     }
 
+    /// Échoue en silence, délibérément : sans mes votes, les deux sections du
+    /// volet retombent sur « tout à découvrir », ce qui est dégradé mais juste.
+    /// Une alerte pour ça interromprait la lecture sans rien offrir à faire.
+    func loadMyVotes(uid: String) async {
+        myVotes = (try? await repository.fetchMyVotes(uid: uid)) ?? [:]
+    }
+
     func vote(on spot: Contribution, direction: VoteDirection) async {
         guard let counts = try? await functions.castVote(spotId: spot.id, direction: direction) else { return }
+        // Enregistré AVANT la mise à jour des compteurs : le spot peut ne plus
+        // être dans `approvedSpots` (fragment reconstruit entre-temps), et mon
+        // vote a bien eu lieu quoi qu'il arrive. L'ordre inverse le perdrait sur
+        // le `guard` suivant.
+        myVotes[spot.id] = direction
         guard let index = approvedSpots.firstIndex(where: { $0.id == spot.id }) else { return }
         approvedSpots[index].upvotes = counts.upvotes
         approvedSpots[index].downvotes = counts.downvotes
