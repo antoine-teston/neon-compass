@@ -121,11 +121,23 @@ final class CommunityModel {
         try? await functions.reportContribution(spotId: spot.id, reason: reason)
     }
 
-    func block(authorUid: String) {
+    func block(authorUid: String, handle: String? = nil) {
         guard !blockedAuthorUIDs.contains(authorUid) else { return }
-        modelContext.insert(BlockedContributor(authorUid: authorUid))
+        modelContext.insert(BlockedContributor(authorUid: authorUid, handle: handle))
         blockedAuthorUIDs.insert(authorUid)
         try? modelContext.save()
+    }
+
+    /// Les contributeurs masqués avec le pseudo qu'ils portaient au blocage.
+    /// Les réglages affichaient jusqu'ici l'UUID brut, donc illisible.
+    ///
+    /// Une structure et pas un tuple : Swift n'a pas de `KeyPath` vers un
+    /// élément de tuple, donc `ForEach(…, id: \.uid)` ne compilerait pas.
+    var blockedContributors: [BlockedContributorSummary] {
+        let rows = (try? modelContext.fetch(FetchDescriptor<BlockedContributor>())) ?? []
+        return rows
+            .sorted { $0.blockedAt > $1.blockedAt }
+            .map { BlockedContributorSummary(uid: $0.authorUid, handle: $0.authorHandle) }
     }
 
     func unblock(authorUid: String) {
@@ -135,4 +147,11 @@ final class CommunityModel {
         blockedAuthorUIDs.remove(authorUid)
         try? modelContext.save()
     }
+}
+
+/// Une ligne de la liste des contributeurs masqués, prête à afficher.
+struct BlockedContributorSummary: Identifiable, Equatable, Sendable {
+    var id: String { uid }
+    let uid: String
+    let handle: String?
 }

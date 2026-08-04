@@ -249,7 +249,12 @@ struct MapScreen: View {
                     Task { await communityModel?.report(spot, reason: nil) }
                 },
                 onBlockAuthor: { spot in
-                    if let authorUid = spot.authorUid { communityModel?.block(authorUid: authorUid) }
+                    if let authorUid = spot.authorUid {
+                        // Le pseudo est là MAINTENANT : la RLS de `profiles` ne
+                        // laisse lire que sa propre ligne, donc si on ne le
+                        // garde pas ici, les réglages n'auront qu'un UUID.
+                        communityModel?.block(authorUid: authorUid, handle: spot.authorHandle)
+                    }
                 },
                 onAdopt: adoptHandler
             )
