@@ -32,6 +32,17 @@ struct SocialScreen: View {
             }
         }
     }
+
+    /// Les volets réellement atteignables.
+    ///
+    /// Voter passe par une Edge Function : sans `serverFeatures`, le volet
+    /// Propositions ne peut rien offrir. Il est donc RETIRÉ du sélecteur, pas
+    /// affiché vide — c'est la règle que `OnlineEventsModel.showsGamePicker`
+    /// applique déjà, et le premier jet l'avait manquée : vu au simulateur, le
+    /// segment existait et son contenu était une page blanche.
+    private var availablePanels: [Panel] {
+        serverFeatures.isEnabled ? Panel.allCases : [.events]
+    }
     private let leaderboardRepository: any LeaderboardRepository = SupabaseLeaderboardRepository()
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
     /// la valeur qu'il avait à l'ouverture de l'onglet.
@@ -71,23 +82,30 @@ struct SocialScreen: View {
     private func content(_ model: OnlineEventsModel) -> some View {
         ScrollView {
             VStack(spacing: 20) {
-                Picker(selection: $panel) {
-                    ForEach(Panel.allCases) { candidate in
-                        Text(candidate.titleKey).tag(candidate)
+                let panels = availablePanels
+                if panels.count > 1 {
+                    Picker(selection: $panel) {
+                        ForEach(panels) { candidate in
+                            Text(candidate.titleKey).tag(candidate)
+                        }
+                    } label: {
+                        Text("social.panel.events")
                     }
-                } label: {
-                    Text("social.panel.events")
+                    .pickerStyle(.segmented)
                 }
-                .pickerStyle(.segmented)
 
-                switch panel {
+                // `panels.contains` et pas seulement `panel` : `serverFeatures`
+                // démarre à faux et bascule après son rafraîchissement. Sans ce
+                // repli, une bascule dans l'autre sens laisserait l'écran sur un
+                // volet qui vient de disparaître du sélecteur.
+                switch panels.contains(panel) ? panel : .events {
                 case .events:
                     eventsPanel(model)
                 case .proposals:
-                    // Voter passe par une Edge Function : sans elle, le volet
-                    // promettrait un service qui n'arrive jamais.
-                    if serverFeatures.isEnabled, let communityModel {
+                    if let communityModel {
                         ContributionsPanel(communityModel: communityModel)
+                    } else {
+                        ProgressView()
                     }
                 }
             }
@@ -132,30 +150,29 @@ struct SocialScreen: View {
         }
 
         let shown = model.currentEvent(at: now) ?? model.latestEvent()
-                if let shown {
-                    OnlineEventCard(event: shown, now: now)
-                } else {
-                    emptyState
-                }
-                if serverFeatures.isEnabled {
-                    LeaderboardSection(rows: leaderboardRows)
-                }
-                // Écran de liste : la bannière s'y applique (spec §5), jamais
-                // sur la carte en interaction. Posée DANS le défilement, en
-                // queue de colonne — même motif que `GuidesListView`.
-                //
-                // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
-                // suppression des pubs. En afficher une à quelqu'un qui a payé
-                // pour ne plus en voir est le pire retour possible.
-                // ET une carte à montrer : vu au simulateur, l'écran du jour J
-                // — aucun événement publié — affichait « rien pour l'instant »
-                // suivi d'une publicité dans un écran par ailleurs vide. Ça se
-                // lit « on n'a rien pour toi, voilà une pub ». La spec §5 pose
-                // la bannière sur les écrans de LISTE ; un état vide n'en est
-                // pas un.
-                if shown != nil, !proEntitlementModel.isProEntitled {
-                    BannerAdView()
-                }
+        if let shown {
+            OnlineEventCard(event: shown, now: now)
+        } else {
+            emptyState
+        }
+        if serverFeatures.isEnabled {
+            LeaderboardSection(rows: leaderboardRows)
+        }
+        // Écran de liste : la bannière s'y applique (spec §5), jamais sur la
+        // carte en interaction. Posée DANS le défilement, en queue de colonne —
+        // même motif que `GuidesListView`.
+        //
+        // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
+        // suppression des pubs. En afficher une à quelqu'un qui a payé pour ne
+        // plus en voir est le pire retour possible. ET une carte à montrer : vu
+        // au simulateur, l'écran du jour J — aucun événement publié — affichait
+        // « rien pour l'instant » suivi d'une publicité dans un écran par
+        // ailleurs vide. Ça se lit « on n'a rien pour toi, voilà une pub ». La
+        // spec §5 pose la bannière sur les écrans de LISTE ; un état vide n'en
+        // est pas un.
+        if shown != nil, !proEntitlementModel.isProEntitled {
+            BannerAdView()
+        }
     }
 
     /// Rien de publié : on le dit, on n'invente pas une semaine.
