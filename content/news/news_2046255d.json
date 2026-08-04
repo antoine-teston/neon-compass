@@ -1,0 +1,21 @@
+{
+  "id": "news_2046255d",
+  "category": "patch",
+  "game": "gtav",
+  "title": {
+    "fr": "Treize bugs du dernier braquage corrigés en ligne",
+    "en": "Thirteen bugs fixed on the latest heist"
+  },
+  "body": {
+    "fr": "Le correctif du 30 juillet règle des gardes qui s'alertaient sans cause apparente, des déguisements repérés par les caméras du quai de chargement et une caméra de sécurité restée invisible, entre autres. C'est la troisième vague de correctifs sur ce braquage depuis son lancement.",
+    "en": "The July 30 patch fixes guards getting alerted for no clear reason, disguises spotted by loading-bay cameras, and a security camera that stayed invisible, among other issues. It is the third round of fixes for this heist since launch."
+  },
+  "publishedAt": "2026-08-03",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-fixes-13-kortz-center-heist-bugs-9671"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:35507788ec49",
+  "sourceClaim": "Un correctif du mode en ligne daté du 30 juillet 2026 corrige treize bugs distincts du braquage du Kortz Center : des gardes qui s'alertaient sans cause apparente, des déguisements repérés par les caméras du quai de chargement, une caméra de sécurité mobile invisible, des gardes de la salle de sécurité trop réactifs, ainsi que des soucis de cinématique d'entrée, d'armure et de réapparition après une mort. C'est la troisième vague de correctifs sur ce braquage depuis son lancement."
+}

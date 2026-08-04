@@ -1,0 +1,21 @@
+{
+  "id": "news_f891b687",
+  "category": "community",
+  "game": "leonida",
+  "title": {
+    "fr": "Un champion du monde fait le buzz avec une légende Instagram",
+    "en": "A World Cup winner's Instagram caption goes viral"
+  },
+  "body": {
+    "fr": "Après la victoire de l'Espagne en finale de la Coupe du monde 2026, l'attaquant vedette a légendé une publication en ne citant que le nom du jeu à venir, vue des millions de fois en quelques heures. Le compte officiel du studio, habituellement silencieux sur les réseaux, a mis un « j'aime » sur la publication — de quoi relancer la conversation sans qu'aucune information nouvelle ne soit dévoilée.",
+    "en": "After Spain's win in the 2026 World Cup final, the star forward captioned a post with nothing but the upcoming game's name, racking up millions of views within hours. The studio's official account, usually silent on social media, liked the post — enough to spark a fresh wave of chatter without revealing anything new about the game."
+  },
+  "publishedAt": "2026-08-03",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/lamine-yamal-hyped-gta-6-and-rockstar-noticed-e64d"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:a0230db383cc",
+  "sourceClaim": "Après la victoire de l'Espagne en finale de la Coupe du monde 2026, l'attaquant Lamine Yamal a légendé une publication Instagram du seul intitulé « GTA VI », qui a été vue des millions de fois ; le compte officiel du studio a ensuite mis un « j'aime » sur cette publication, une réaction rare pour un compte habituellement silencieux sur les réseaux sociaux."
+}

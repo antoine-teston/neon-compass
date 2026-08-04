@@ -1,0 +1,21 @@
+{
+  "id": "news_0a64d895",
+  "category": "community",
+  "game": "leonida",
+  "title": {
+    "fr": "Un fan recrée la carte estimée du jeu dans Cities: Skylines II",
+    "en": "A fan rebuilt the game's estimated map in Cities: Skylines II"
+  },
+  "body": {
+    "fr": "Après environ 145 heures de travail, un joueur affirme avoir recréé à l'échelle 1:1 la carte estimée du jeu dans le city-builder Cities: Skylines II, avec trafic et habitants simulés. La carte, partageable via un identifiant public, reste fondée sur des estimations communautaires et non sur des données confirmées par le studio.",
+    "en": "After roughly 145 hours of work, a player says they recreated the game's estimated map at a 1:1 scale inside the city-builder Cities: Skylines II, complete with simulated traffic and citizens. The map, shareable via a public ID, is still based on community estimates rather than anything the studio has confirmed."
+  },
+  "publishedAt": "2026-08-03",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/a-fan-rebuilt-the-entire-gta-6-map-in-another-game-185f"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:875ec849e2ee",
+  "sourceClaim": "Un joueur dit avoir recréé, après environ 145 heures de travail, une carte estimée du jeu à venir à l'échelle 1:1 dans le jeu de gestion urbaine Cities: Skylines II, incluant une simulation de trafic et d'habitants ; la carte, partageable via un identifiant public, reste fondée sur des estimations communautaires et non sur des données confirmées par le studio."
+}

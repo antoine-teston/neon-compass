@@ -1,0 +1,62 @@
+{
+  "run": {
+    "date": "2026-08-04",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://www.gtaboom.com/how-to-complete-the-kortz-center-heist-solo-on-hard-mode-using-the-sewer-approach-2061",
+      "https://www.gtaboom.com/rockstar-fixes-13-kortz-center-heist-bugs-9671",
+      "https://www.gtaboom.com/lamine-yamal-hyped-gta-6-and-rockstar-noticed-e64d",
+      "https://www.gtaboom.com/a-fan-rebuilt-the-entire-gta-6-map-in-another-game-185f",
+      "https://www.gtaboom.com/xbox-just-raised-console-prices-right-before-gta-6-and-europe-got-hit-hardest-3d3d",
+      "https://www.gtaboom.com/the-last-of-us-co-director-asked-why-you-even-care-about-gta-6-b81a",
+      "https://leonidaverse.com/news-sitemap.xml"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Un correctif du mode en ligne daté du 30 juillet 2026 corrige treize bugs distincts du braquage du Kortz Center : des gardes qui s'alertaient sans cause apparente, des déguisements repérés par les caméras du quai de chargement, une caméra de sécurité mobile invisible, des gardes de la salle de sécurité trop réactifs, ainsi que des soucis de cinématique d'entrée, d'armure et de réapparition après une mort. C'est la troisième vague de correctifs sur ce braquage depuis son lancement.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/rockstar-fixes-13-kortz-center-heist-bugs-9671",
+      "source_date": "2026-08-03",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Après la victoire de l'Espagne en finale de la Coupe du monde 2026, l'attaquant Lamine Yamal a légendé une publication Instagram du seul intitulé « GTA VI », qui a été vue des millions de fois ; le compte officiel du studio a ensuite mis un « j'aime » sur cette publication, une réaction rare pour un compte habituellement silencieux sur les réseaux sociaux.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/lamine-yamal-hyped-gta-6-and-rockstar-noticed-e64d",
+      "source_date": "2026-08-03",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un joueur dit avoir recréé, après environ 145 heures de travail, une carte estimée du jeu à venir à l'échelle 1:1 dans le jeu de gestion urbaine Cities: Skylines II, incluant une simulation de trafic et d'habitants ; la carte, partageable via un identifiant public, reste fondée sur des estimations communautaires et non sur des données confirmées par le studio.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/a-fan-rebuilt-the-entire-gta-6-map-in-another-game-185f",
+      "source_date": "2026-08-03",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Microsoft a confirmé une hausse des prix des consoles Xbox Series X et Series S en Europe et au Royaume-Uni à compter du 1er août 2026, jusqu'à 200 € de plus selon les modèles en Europe et jusqu'à 170 £ au Royaume-Uni ; la marque explique cette hausse par le renchérissement mondial des composants mémoire, quelques mois avant la sortie du jeu prévue le 19 novembre 2026.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/xbox-just-raised-console-prices-right-before-gta-6-and-europe-got-hit-hardest-3d3d",
+      "source_date": "2026-08-03",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Bruce Straley, co-réalisateur de The Last of Us et d'Uncharted 4, a publiquement questionné l'intérêt du jeu à venir en jugeant que la profondeur des systèmes de jeu compte davantage que la seule qualité visuelle d'un monde ouvert ; il précise ne pas critiquer le studio en particulier mais souhaiter que l'ensemble des grosses productions en monde ouvert élève ses standards de jeu.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-last-of-us-co-director-asked-why-you-even-care-about-gta-6-b81a",
+      "source_date": "2026-08-03",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
