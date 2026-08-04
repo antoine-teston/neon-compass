@@ -65,22 +65,32 @@ struct ProfileHeaderView: View {
     private var titleText: some View {
         switch state.title {
         case .handle(let handle):
-            Text(handle)
-                .font(NCTypography.displayTitle)
-                .foregroundStyle(NCColor.neonCyan)
+            styledTitle(Text(handle))
         case .placeholder:
             // Le pseudo arrive : un gabarit plutôt qu'un titre anonyme qui
             // clignoterait le temps de l'aller-retour réseau.
-            Text(verbatim: "NEON-XXXXXX-00")
-                .font(NCTypography.displayTitle)
-                .foregroundStyle(NCColor.neonCyan)
+            styledTitle(Text(verbatim: "NEON-XXXXXX-00"))
                 .redacted(reason: .placeholder)
                 .accessibilityHidden(true)
         case .neutral:
-            Text("profile.header.anonymous")
-                .font(NCTypography.displayTitle)
-                .foregroundStyle(NCColor.neonCyan)
+            styledTitle(Text("profile.header.anonymous"))
         }
+    }
+
+    /// Une seule ligne, quoi qu'il arrive.
+    ///
+    /// `generate_handle()` produit `MOT-MOT-NN` : au pire `ELECTRIC-DRIFTER-29`,
+    /// soit 19 caractères — et 24 sur le chemin de repli après dix collisions,
+    /// qui ajoute quatre caractères d'UID (`initial_schema.sql:246`). À 28 pt
+    /// ça déborde et le titre passait sur deux lignes, ce qui écrasait la jauge
+    /// en dessous. 0,6 couvre le pire cas et laisse les pseudos courts en
+    /// pleine taille — la réduction n'a lieu que quand elle est nécessaire.
+    private func styledTitle(_ text: Text) -> some View {
+        text
+            .font(NCTypography.displayTitle)
+            .foregroundStyle(NCColor.neonCyan)
+            .lineLimit(1)
+            .minimumScaleFactor(0.6)
     }
 
     // MARK: - Jauge d'exploration
