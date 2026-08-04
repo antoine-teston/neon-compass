@@ -275,6 +275,18 @@ struct MapScreen: View {
             guard let userID = authModel.userID else { return }
             Task { await personalPinStore.pullRemote(uid: userID) }
         }
+        // Les deux conditions de la synchro peuvent devenir vraies pendant que
+        // cet écran est déjà monté — c'est même le cas NORMAL : on se connecte
+        // et on achète Pro depuis les Réglages, puis on revient à la carte.
+        //
+        // `.onAppear` ne suffit pas à le voir. `RootView.compactLayout` garde
+        // les onglets visités montés dans un ZStack et ne joue que sur
+        // l'opacité (c'est délibéré : c'est ce qui préserve le zoom et la
+        // position), et changer d'opacité ne redéclenche pas `.onAppear`. Sans
+        // ces deux observations, un abonné tout neuf attendrait le prochain
+        // lancement pour voir son carnet arriver.
+        .onChange(of: authModel.userID) { _, _ in attachPinSyncIfNeeded() }
+        .onChange(of: proEntitlementModel.isProEntitled) { _, _ in attachPinSyncIfNeeded() }
         .onChange(of: mapGame) { _, newGame in
 #if DEBUG
             // Désarme si la carte d'arrivée n'accepte pas d'ajouts, avant tout
