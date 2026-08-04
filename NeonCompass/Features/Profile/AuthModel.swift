@@ -6,6 +6,12 @@ import Observation
 final class AuthModel {
     private(set) var userID: String?
 
+    /// Relu à chaque accès plutôt que stocké : le fournisseur et l'adresse ne
+    /// changent jamais sans que `userID` ne change aussi. Les vues qui
+    /// l'affichent lisent `userID` dans la même passe, donc l'observation de
+    /// `userID` suffit à les faire rejouer à la connexion.
+    var currentAccount: SignedInAccount? { authProvider.currentAccount }
+
     /// Vrai quand une inscription par e-mail attend une confirmation. Ce n'est
     /// ni un succès ni un échec : l'écran doit dire d'aller relever ses
     /// messages, et surtout ne pas prétendre que la connexion a réussi.

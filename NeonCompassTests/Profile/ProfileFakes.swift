@@ -9,6 +9,9 @@ final class FakeAuthProvider: AuthProviding {
 
     var currentUserID: String? { userIDToReturn }
 
+    nonisolated(unsafe) var accountToReturn: SignedInAccount?
+    var currentAccount: SignedInAccount? { accountToReturn }
+
     func signIn(idTokenString: String, nonce: String) async throws -> String {
         let uid = "fake-uid"
         userIDToReturn = uid

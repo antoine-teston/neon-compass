@@ -25,6 +25,18 @@ final class SupabaseAuthProvider: AuthProviding {
         client?.auth.currentUser?.id.uuidString
     }
 
+    /// `identities` d'abord : c'est la liste faisant foi côté GoTrue.
+    /// `app_metadata.provider` est le repli, présent sur les sessions plus
+    /// anciennes.
+    var currentAccount: SignedInAccount? {
+        guard let user = client?.auth.currentUser else { return nil }
+        var raw = user.identities?.first?.provider
+        if raw == nil, case .string(let value) = user.appMetadata["provider"] {
+            raw = value
+        }
+        return SignedInAccount(provider: .from(raw), email: user.email)
+    }
+
     func signIn(idTokenString: String, nonce: String) async throws -> String {
         guard let client else { throw SupabaseAuthError.notConfigured }
         #if DEBUG
