@@ -13,6 +13,25 @@ struct SocialScreen: View {
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @State private var model: OnlineEventsModel?
     @State private var leaderboardRows: [LeaderboardRow] = []
+    @Environment(AuthModel.self) private var authModel
+
+    /// Le volet affiché. Non persisté : Social s'ouvre sur les événements, qui
+    /// sont son sujet principal jusqu'à la sortie.
+    @State private var panel: Panel = .events
+    @State private var communityModel: CommunityModel?
+
+    private enum Panel: String, CaseIterable, Identifiable {
+        case events, proposals
+
+        var id: String { rawValue }
+
+        var titleKey: LocalizedStringKey {
+            switch self {
+            case .events: "social.panel.events"
+            case .proposals: "social.panel.proposals"
+            }
+        }
+    }
     private let leaderboardRepository: any LeaderboardRepository = SupabaseLeaderboardRepository()
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
     /// la valeur qu'il avait à l'ouverture de l'onglet.
@@ -39,27 +58,80 @@ struct SocialScreen: View {
         // ProgressView elle s'annulerait elle-même dès que `model` est assigné.
         // Cf. FeedScreen, où ce défaut avait gardé le fil vide.
         .task { await loadModel() }
+        // Chargé à l'ouverture du volet et non au montage : `CommunityModel.live`
+        // monte un `ContentStore`, et le volet Propositions n'est pas celui qui
+        // s'ouvre.
+        .task(id: panel) {
+            guard panel == .proposals else { return }
+            await loadCommunity()
+        }
         .onReceive(tick) { now = $0 }
     }
 
     private func content(_ model: OnlineEventsModel) -> some View {
         ScrollView {
             VStack(spacing: 20) {
-                if model.showsGamePicker {
-                    Picker(selection: Binding(
-                        get: { model.selectedGame },
-                        set: { model.selectedGame = $0 }
-                    )) {
-                        ForEach(model.availableGames) { game in
-                            Text(game.shortLabel).tag(game)
-                        }
-                    } label: {
-                        Text("social.game.picker")
+                Picker(selection: $panel) {
+                    ForEach(Panel.allCases) { candidate in
+                        Text(candidate.titleKey).tag(candidate)
                     }
-                    .pickerStyle(.segmented)
+                } label: {
+                    Text("social.panel.events")
                 }
+                .pickerStyle(.segmented)
 
-                let shown = model.currentEvent(at: now) ?? model.latestEvent()
+                switch panel {
+                case .events:
+                    eventsPanel(model)
+                case .proposals:
+                    // Voter passe par une Edge Function : sans elle, le volet
+                    // promettrait un service qui n'arrive jamais.
+                    if serverFeatures.isEnabled, let communityModel {
+                        ContributionsPanel(communityModel: communityModel)
+                    }
+                }
+            }
+            // Plafonnée pour l'iPad : vu au simulateur, la carte s'étirait sur
+            // les 13 pouces, deux lignes centrées perdues dans la largeur. Une
+            // colonne de lecture vaut mieux qu'une bande.
+            .frame(maxWidth: 640)
+            .frame(maxWidth: .infinity)
+            .padding(20)
+        }
+        .refreshable {
+            await model.refresh()
+            // Sans ça, une date de fin corrigée côté contenu ne bougeait le
+            // rappel qu'au prochain lancement à froid — cf. `loadModel()`,
+            // seul autre appelant, gardé par `guard model == nil`.
+            await scheduleReminders(for: model.events)
+            await loadLeaderboard()
+            await loadCommunity()
+        }
+    }
+
+    /// L'écran d'avant, déplacé sans changement de comportement.
+    ///
+    /// Le sélecteur de jeu vit ICI et non en tête d'écran : deux barres de
+    /// segments empilées seraient illisibles, et il ne concerne que les
+    /// événements — le classement est global, les propositions sont VI par
+    /// construction.
+    @ViewBuilder
+    private func eventsPanel(_ model: OnlineEventsModel) -> some View {
+        if model.showsGamePicker {
+            Picker(selection: Binding(
+                get: { model.selectedGame },
+                set: { model.selectedGame = $0 }
+            )) {
+                ForEach(model.availableGames) { game in
+                    Text(game.shortLabel).tag(game)
+                }
+            } label: {
+                Text("social.game.picker")
+            }
+            .pickerStyle(.segmented)
+        }
+
+        let shown = model.currentEvent(at: now) ?? model.latestEvent()
                 if let shown {
                     OnlineEventCard(event: shown, now: now)
                 } else {
@@ -84,22 +156,6 @@ struct SocialScreen: View {
                 if shown != nil, !proEntitlementModel.isProEntitled {
                     BannerAdView()
                 }
-            }
-            // Plafonnée pour l'iPad : vu au simulateur, la carte s'étirait sur
-            // les 13 pouces, deux lignes centrées perdues dans la largeur. Une
-            // colonne de lecture vaut mieux qu'une bande.
-            .frame(maxWidth: 640)
-            .frame(maxWidth: .infinity)
-            .padding(20)
-        }
-        .refreshable {
-            await model.refresh()
-            // Sans ça, une date de fin corrigée côté contenu ne bougeait le
-            // rappel qu'au prochain lancement à froid — cf. `loadModel()`,
-            // seul autre appelant, gardé par `guard model == nil`.
-            await scheduleReminders(for: model.events)
-            await loadLeaderboard()
-        }
     }
 
     /// Rien de publié : on le dit, on n'invente pas une semaine.
@@ -116,6 +172,18 @@ struct SocialScreen: View {
         .padding(20)
         .frame(maxWidth: .infinity)
         .glassEffect(.regular, in: .rect(cornerRadius: 20))
+    }
+
+    /// Construit à la demande et non au montage : le volet Propositions n'est
+    /// pas celui qui s'ouvre, et `CommunityModel.live` monte un `ContentStore`.
+    private func loadCommunity() async {
+        if communityModel == nil {
+            communityModel = CommunityModel.live(modelContext: modelContext)
+        }
+        await communityModel?.loadApprovedSpots()
+        if let uid = authModel.userID {
+            await communityModel?.loadMyVotes(uid: uid)
+        }
     }
 
     private func loadModel() async {
