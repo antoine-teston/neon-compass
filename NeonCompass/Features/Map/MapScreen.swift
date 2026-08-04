@@ -246,9 +246,6 @@ struct MapScreen: View {
                 },
                 onTapPOI: { poi in model.selection = .poi(poi) },
                 onTapPersonalPin: { pin in model.selection = .pin(pin) },
-                onVote: { spot, direction in
-                    Task { await communityModel?.vote(on: spot, direction: direction) }
-                },
                 onReport: { spot in
                     Task { await communityModel?.report(spot, reason: nil) }
                 },

@@ -6,7 +6,6 @@ struct ContributionAnnotationView: View {
     /// habillages n'ont pas le même fond. En dur, l'épingle serait noire sur la
     /// carte d'origine, qui est claire.
     let style: MapStyle
-    let onVote: (VoteDirection) -> Void
     let onReport: () -> Void
     let onBlockAuthor: () -> Void
 #if DEBUG
@@ -55,33 +54,41 @@ struct ContributionAnnotationView: View {
                     .font(.caption)
                     .foregroundStyle(NCColor.sunsetMagenta)
             }
-            Text(spot.authorHandle)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            // La catégorie n'était affichée NULLE PART, alors qu'on la choisit à
+            // la soumission.
+            HStack(spacing: 6) {
+                Text(spot.category.localizedNameKey)
+                    .font(.caption)
+                    .foregroundStyle(NCColor.neonCyan)
+                Text(verbatim: "·")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(spot.authorHandle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
 
+            // Les compteurs, en LECTURE. On vote dans le volet Social, où l'on
+            // voit son propre état de vote et où la file se parcourt ; ce
+            // popover dit ce qu'il y a là, il ne demande plus d'arbitrer.
+            //
+            // `verbatim` : un décompte nu n'a rien à traduire, et sans ça
+            // SwiftUI en fait la clé de localisation « %lld », qui finit en
+            // souche vide dans le catalogue.
             HStack(spacing: 16) {
-                // `verbatim` : un décompte nu n'a rien à traduire, et sans ça
-                // SwiftUI en fait la clé de localisation « %lld », qui finit en
-                // souche vide dans le catalogue.
-                Button {
-                    onVote(.up)
-                } label: {
-                    Label {
-                        Text(verbatim: "\(spot.upvotes)")
-                    } icon: {
-                        Image(systemName: "arrow.up")
-                    }
+                Label {
+                    Text(verbatim: "\(spot.upvotes)")
+                } icon: {
+                    Image(systemName: "arrow.up")
                 }
-                Button {
-                    onVote(.down)
-                } label: {
-                    Label {
-                        Text(verbatim: "\(spot.downvotes)")
-                    } icon: {
-                        Image(systemName: "arrow.down")
-                    }
+                Label {
+                    Text(verbatim: "\(spot.downvotes)")
+                } icon: {
+                    Image(systemName: "arrow.down")
                 }
                 Spacer()
+                // Signaler et masquer RESTENT : la directive Apple 1.2 les exige
+                // partout où de l'UGC s'affiche, donc ici comme dans la liste.
                 Button("map.spot.report", action: onReport)
                 if let authorUid = spot.authorUid {
                     Button("map.spot.blockAuthor") {

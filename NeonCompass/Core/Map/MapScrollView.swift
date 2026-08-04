@@ -141,7 +141,6 @@ private struct MapContentSwiftUIView: View {
     /// Reçoit la position plutôt que le groupe : zoomer n'a besoin que d'un
     /// point, et les deux familles de pastilles portent des types différents.
     let onTapCommunityCluster: (NormalizedPoint) -> Void
-    let onVote: (Contribution, VoteDirection) -> Void
     let onReport: (Contribution) -> Void
     let onBlockAuthor: (Contribution) -> Void
     /// Nil hors mode éditeur — donc toujours nil en Release, où l'éditeur
@@ -222,7 +221,6 @@ private struct MapContentSwiftUIView: View {
         var view = ContributionAnnotationView(
             spot: spot,
             style: style,
-            onVote: { direction in onVote(spot, direction) },
             onReport: { onReport(spot) },
             onBlockAuthor: { onBlockAuthor(spot) }
         )
@@ -507,7 +505,6 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let onLongPress: (CGPoint) -> Void
     let onTapPOI: (POI) -> Void
     let onTapPersonalPin: (PersonalPin) -> Void
-    let onVote: (Contribution, VoteDirection) -> Void
     let onReport: (Contribution) -> Void
     let onBlockAuthor: (Contribution) -> Void
     var onAdopt: ((Contribution) -> Void)?
@@ -660,7 +657,6 @@ struct TiledMapRepresentable: UIViewRepresentable {
             onTapCommunityCluster: { [weak coordinator] position in
                 coordinator?.zoom(to: position, manifest: manifest)
             },
-            onVote: onVote,
             onReport: onReport,
             onBlockAuthor: onBlockAuthor,
             onAdopt: onAdopt
