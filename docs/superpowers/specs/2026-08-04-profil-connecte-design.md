@@ -120,7 +120,14 @@ client ne fait que nommer un entier qu'il reçoit.
 | 4 | 900 | Lighthouse | Phare | Faro | Faro | Leuchtturm |
 | 5 | 2000 | Grid Keeper | Gardien du réseau | Guardián de la red | Custode della rete | Netzwächter |
 
-Le niveau 0 **n'a pas de nom** : c'est l'état d'invitation, décrit plus bas.
+Le niveau 0 **n'a pas de nom**.
+
+**L'invitation se déclenche sur `xp == 0`, pas sur `level == 0`.** Les deux ne se
+recouvrent pas : le premier palier étant à 50 XP, on peut avoir 20 XP — une
+contribution approuvée — et rester au niveau 0. Cette personne a contribué ; lui
+resservir « Propose un lieu pour ouvrir ton rang » nierait ce qu'elle vient de
+faire. Elle voit donc sa ligne contributeur, avec son XP et son rang, simplement
+sans nom de grade tant que 50 n'est pas atteint.
 
 Conformité IP : aucun de ces mots n'est une marque, aucun ne reprend un rang de
 la série. C'est du vocabulaire de cartographie et de signalisation — le sujet
@@ -137,7 +144,7 @@ texte suffit, et elle ne peut pas dériver de la base.
 
 | État | Ce qu'affiche l'entête |
 |---|---|
-| Connecté, profil chargé, XP > 0 | Pseudo · jauge explorateur · ligne contributeur complète |
+| Connecté, profil chargé, XP > 0 | Pseudo · jauge explorateur · ligne contributeur (le nom de grade n'apparaît qu'à partir de 50 XP) |
 | Connecté, profil chargé, XP = 0 | Pseudo · jauge explorateur · **invitation à contribuer** |
 | Connecté, chargement du profil en cours | Titre en gabarit `.redacted` · jauge explorateur · pas de ligne contributeur |
 | Connecté, `serverFeatures` faux **ou** profil illisible | « Ton profil » · jauge explorateur seule. **La ligne contributeur disparaît entièrement** |
