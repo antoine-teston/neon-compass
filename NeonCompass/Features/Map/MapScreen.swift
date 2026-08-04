@@ -21,6 +21,7 @@ struct MapScreen: View {
     @State private var showNotebookFull = false
     @State private var showPaywall = false
     @State private var pendingContributionLocation: NormalizedPoint?
+    @State private var showSignInToContribute = false
     @State private var communityModel: CommunityModel?
     @State private var showRoutePlanner = false
     // Volontairement NON persisté : l'app doit rouvrir sur l'habillage Neon
@@ -222,7 +223,10 @@ struct MapScreen: View {
                 // carte à l'autre.
                 personalPins: personalPinStore.pins(for: mapGame),
                 showPersonalPins: showPersonalPins,
-                communitySpots: communityModel?.visibleSpots ?? [],
+                // Les contributions ne concernent que VI : les afficher sur la
+                // carte de référence les montrerait à des coordonnées
+                // normalisées qui n'y veulent rien dire.
+                communitySpots: mapGame == .leonida ? (communityModel?.visibleSpots ?? []) : [],
                 draftPins: editorDraftPins,
                 poisGeneration: model.poisGeneration,
                 spotsGeneration: communityModel?.spotsGeneration ?? 0,
@@ -351,10 +355,23 @@ struct MapScreen: View {
             // interrupteur d'urgence sur une capacité qui existe). Le drapeau
             // serveur, lui, échoue fermé : sans submitContribution déployée,
             // ce bouton mènerait à une erreur à chaque fois.
-            if serverFeatures.isEnabled, communityModel?.contributionsEnabled != false {
+            //
+            // VI SEULEMENT. La carte de référence est intégralement documentée
+            // depuis dix ans : il n'y a rien à y découvrir, et toute la raison
+            // d'être des contributions est la carte que personne n'a encore
+            // parcourue. C'est aussi ce qui dispense `contributions` d'une
+            // colonne de jeu — il est connu par construction.
+            if mapGame == .leonida, serverFeatures.isEnabled, communityModel?.contributionsEnabled != false {
                 Button("map.longPress.proposeSpot") {
                     if authModel.userID != nil {
                         pendingContributionLocation = pendingPinLocation
+                    } else {
+                        // L'`else` qui manquait. Le bouton reste VISIBLE hors
+                        // connexion — le masquer priverait un visiteur de la
+                        // seule occasion d'apprendre que la contribution existe
+                        // — mais il dit maintenant ce qui bloque, au lieu de
+                        // refermer le menu sans rien faire.
+                        showSignInToContribute = true
                     }
                     pendingPinLocation = nil
                 }
@@ -379,6 +396,7 @@ struct MapScreen: View {
                 .presentationDetents([.medium])
             }
         }
+        .signInToContributeAlert(isPresented: $showSignInToContribute)
         // `#if` postfix (SE-0308) : l'éditeur ne laisse aucune trace dans la
         // chaîne de modificateurs en Release, sans AnyView ni indirection.
         #if DEBUG

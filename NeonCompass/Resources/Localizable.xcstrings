@@ -903,6 +903,108 @@
         }
       }
     },
+    "community.signInToContribute.message": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orte vorschlagen und abstimmen brauchen ein Konto: es macht einen Beitrag zu deinem und bringt dir XP."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proposing places and voting need an account: it is what makes a contribution yours, and what earns you XP."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proponer lugares y votar requieren una cuenta: es lo que hace tuya una contribución y lo que te da XP."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proposer un lieu et voter demandent un compte : c'est ce qui rend une contribution tienne, et ce qui te rapporte de l'XP."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proporre luoghi e votare richiedono un account: è ciò che rende tua una contribuzione e ciò che ti fa guadagnare XP."
+          }
+        }
+      }
+    },
+    "community.signInToContribute.openProfile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open profile"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir perfil"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le profil"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apri il profilo"
+          }
+        }
+      }
+    },
+    "community.signInToContribute.title": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Mitmachen anmelden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to contribute"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicia sesión para contribuir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se connecter pour contribuer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accedi per contribuire"
+          }
+        }
+      }
+    },
     "disclaimer.accept": {
       "extractionState": "stale",
       "localizations": {
