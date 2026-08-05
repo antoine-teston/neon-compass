@@ -520,6 +520,10 @@ struct MapScreen: View {
     private var placementPanel: some View {
         if placement != nil, let communityModel {
             ContributionPlacementPanel(
+                // Le repli du `get` est INATTEIGNABLE : le `if` ci-dessus a déjà
+                // écarté le nil. C'est le prix d'un `@State` optionnel qu'un
+                // sous-vue veut en liaison non optionnelle, et le seul endroit
+                // où l'écrire sans indirection.
                 placement: Binding(
                     get: { placement ?? ContributionPlacement(position: NormalizedPoint(x: 0.5, y: 0.5)) },
                     set: { placement = $0 }
@@ -527,6 +531,10 @@ struct MapScreen: View {
                 style: mapStyle,
                 onSubmit: { submitPlacement(communityModel) },
                 onCancel: { placement = nil },
+                // Deux intentions, une seule destination — et c'est exact, pas
+                // une paresse : « Mes propositions » et la connexion vivent
+                // toutes deux dans le Profil. Elles restent deux fentes pour
+                // que la première puisse un jour viser la section.
                 onSeeMine: {
                     placement = nil
                     appModel.selectedTab = .profile
@@ -542,9 +550,8 @@ struct MapScreen: View {
 
     /// Relit MES propositions, celles que la carte dessine en attente.
     ///
-    /// Échoue en silence — même parti que `loadMyVotes` : sans elles, la carte
-    /// est celle de tout le monde, ce qui est dégradé mais juste. Une alerte
-    /// interromprait sans rien offrir à faire.
+    /// Sans alerte : une lecture ratée n'offre rien à faire, et surtout elle ne
+    /// retire rien — `loadMyContributions` conserve la liste précédente.
     private func loadMyContributionsIfNeeded() {
         guard let communityModel else { return }
         guard let userID = authModel.userID else {
