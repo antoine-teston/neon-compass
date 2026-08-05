@@ -1,0 +1,21 @@
+{
+  "id": "news_635a6222",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Une vieille citation sur le jeu redevient virale",
+    "en": "An old quote about the game goes viral again"
+  },
+  "body": {
+    "fr": "Un pilote de F1 promettant d'annuler tout son travail à la sortie du jeu refait le tour des réseaux — mais le clip date en réalité de l'été 2025, avant le dernier report. Il revient faute d'actualité fraîche sur le jeu. L'article note au passage que plusieurs entreprises ont déjà prévu de fermer ou de tourner en effectif réduit le jour de la sortie, le 19 novembre.",
+    "en": "A clip of an F1 driver vowing to cancel all his work when the game launches is making the rounds again — except it dates back to summer 2025, before the latest delay. It's resurfacing simply because fresh news about the game is scarce. The article also notes a few businesses have already confirmed they'll close or run with a skeleton crew on launch day, November 19."
+  },
+  "publishedAt": "2026-08-04",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/lewis-hamilton-says-he-will-cancel-work-for-gta-6-dabd"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:9fed6e0eb827",
+  "sourceClaim": "Un clip devenu viral montrant le pilote de F1 Lewis Hamilton promettre d'annuler tout son travail à la sortie du jeu date en réalité de juillet 2025, avant le troisième report du jeu, et refait simplement surface faute d'actualité récente ; l'article relève au passage que des entreprises comme Burger Motorsports et G-Fuel ont confirmé fermer ou réduire leurs effectifs le jour de la sortie, le 19 novembre 2026."
+}
