@@ -121,6 +121,10 @@ private struct MapContentSwiftUIView: View {
     /// filtres — les épingles échappaient jusqu'ici à tout filtre.
     let showPersonalPins: Bool
     let communitySpots: [Contribution]
+    /// MES propositions pas encore publiques. Jamais groupées, contrairement aux
+    /// spots communautaires : elles sont les miennes, elles se comptent sur les
+    /// doigts.
+    let myUnpublishedSpots: [Contribution]
     /// Toujours vide en Release : le mode éditeur n'existe pas dans le binaire
     /// soumis. C'est ce qui évite un `#if DEBUG` dans le moteur de carte.
     let draftPins: [DraftPin]
@@ -213,6 +217,15 @@ private struct MapContentSwiftUIView: View {
                 } else {
                     communityBubble(cluster)
                 }
+            }
+            // Dessinées APRÈS les spots communautaires, donc au-dessus : si
+            // l'une des miennes vient d'être publiée et qu'un fragment en
+            // retard la montre encore des deux côtés, c'est la mienne qu'on
+            // voit — celle qui sait dire où elle en est.
+            ForEach(visibleUnpublishedSpots) { spot in
+                PendingContributionAnnotationView(spot: spot, style: style)
+                    .scaleEffect(pinScale)
+                    .position(MapGeometry.contentPoint(for: spot.position, manifest: manifest))
             }
             ForEach(visibleDraftPins) { pin in
                 draftPin(pin)
@@ -393,6 +406,13 @@ private struct MapContentSwiftUIView: View {
         draftPins.filter { zoom.window.contains($0.position) }
     }
 
+    /// Même fenêtre que les deux précédentes, pour la même raison : elles sont
+    /// peu nombreuses aujourd'hui, et une exception silencieuse serait une
+    /// régression en attente.
+    private var visibleUnpublishedSpots: [Contribution] {
+        myUnpublishedSpots.filter { zoom.window.contains($0.position) }
+    }
+
     /// Le `Button` est ICI et non dans `POIPinView` : la vue comparée doit rester
     /// pure valeur (cf. l'en-tête de `MapPinViews`). Seul le corps de l'épingle —
     /// le glyphe, l'anneau, le halo — est protégé par `.equatable()`, ce qui est
@@ -566,9 +586,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let personalPins: [PersonalPin]
     var showPersonalPins: Bool = true
     let communitySpots: [Contribution]
+    var myUnpublishedSpots: [Contribution] = []
     var draftPins: [DraftPin] = []
     let poisGeneration: Int
     let spotsGeneration: Int
+    let myUnpublishedGeneration: Int
     let personalPinsGeneration: Int
     let foundPOIIDs: Set<String>
     @Binding var viewport: MapViewport
@@ -676,6 +698,10 @@ struct TiledMapRepresentable: UIViewRepresentable {
         let style: MapStyle
         let poisGeneration: Int
         let spotsGeneration: Int
+        /// Sans elle, une proposition tout juste envoyée n'apparaîtrait qu'au
+        /// prochain changement de la carte — c'est-à-dire jamais, sur une carte
+        /// encore vide.
+        let myUnpublishedGeneration: Int
         let personalPinsGeneration: Int
         /// Éteindre le calque du carnet ne change AUCUNE génération : sans ce
         /// drapeau ici, la puce de filtre ne prendrait effet qu'au prochain
@@ -705,6 +731,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             style: style,
             poisGeneration: poisGeneration,
             spotsGeneration: spotsGeneration,
+            myUnpublishedGeneration: myUnpublishedGeneration,
             personalPinsGeneration: personalPinsGeneration,
             showPersonalPins: showPersonalPins,
             draftPins: draftPins,
@@ -769,6 +796,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             personalPins: personalPins,
             showPersonalPins: showPersonalPins,
             communitySpots: communitySpots,
+            myUnpublishedSpots: myUnpublishedSpots,
             draftPins: draftPins,
             placementPin: placement,
             poisGeneration: poisGeneration,

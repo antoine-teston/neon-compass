@@ -250,9 +250,13 @@ struct MapScreen: View {
                 // carte de référence les montrerait à des coordonnées
                 // normalisées qui n'y veulent rien dire.
                 communitySpots: mapGame == .leonida ? (communityModel?.visibleSpots ?? []) : [],
+                // Même garde de carte que les spots publiés : une proposition
+                // n'existe que pour la carte du jeu à venir.
+                myUnpublishedSpots: mapGame == .leonida ? (communityModel?.myUnpublishedSpots ?? []) : [],
                 draftPins: editorDraftPins,
                 poisGeneration: model.poisGeneration,
                 spotsGeneration: communityModel?.spotsGeneration ?? 0,
+                myUnpublishedGeneration: communityModel?.myUnpublishedGeneration ?? 0,
                 personalPinsGeneration: personalPinStore.generation,
                 foundPOIIDs: model.foundPOIIDs,
                 viewport: $viewport,
@@ -297,7 +301,14 @@ struct MapScreen: View {
             communityModel?.refreshBlockedAuthors()
             reattachSyncIfNeeded()
             attachPinSyncIfNeeded()
+            loadMyContributionsIfNeeded()
         }
+        // Se connecter ne se fait pas depuis la carte : sans cette observation,
+        // les propositions d'un compte tout juste rejoint n'apparaîtraient qu'au
+        // prochain lancement. Même raison que les deux observations voisines —
+        // `RootView` garde les onglets visités montés, donc `.onAppear` ne
+        // rejoue pas au retour sur la carte.
+        .onChange(of: authModel.userID) { _, _ in loadMyContributionsIfNeeded() }
         // Le retour au premier plan est l'instant où le joueur change
         // d'appareil. Sans cette relecture, le carnet distant ne serait lu
         // qu'une fois par lancement : poser une épingle sur l'iPad puis
@@ -307,6 +318,10 @@ struct MapScreen: View {
             attachPinSyncIfNeeded()
             guard let userID = authModel.userID else { return }
             Task { await personalPinStore.pullRemote(uid: userID) }
+            // La modération tranche pendant qu'on est ailleurs : c'est au
+            // retour au premier plan qu'une proposition passe d'« en attente »
+            // à « approuvée », ou disparaît.
+            loadMyContributionsIfNeeded()
         }
         // Les deux conditions de la synchro peuvent devenir vraies pendant que
         // cet écran est déjà monté — c'est même le cas NORMAL : on se connecte
@@ -517,6 +532,16 @@ struct MapScreen: View {
             )
             .accessibilityAddTraits(.isModal)
         }
+    }
+
+    /// Relit MES propositions, celles que la carte dessine en attente.
+    ///
+    /// Échoue en silence — même parti que `loadMyVotes` : sans elles, la carte
+    /// est celle de tout le monde, ce qui est dégradé mais juste. Une alerte
+    /// interromprait sans rien offrir à faire.
+    private func loadMyContributionsIfNeeded() {
+        guard let communityModel, let userID = authModel.userID else { return }
+        Task { await communityModel.loadMyContributions(uid: userID) }
     }
 
     private func submitPlacement(_ communityModel: CommunityModel) {

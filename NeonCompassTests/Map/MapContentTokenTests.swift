@@ -169,12 +169,17 @@ struct MapContentTokenTests {
     /// qu'on veut : ajouter un champ le casse, donc oblige à se demander s'il
     /// doit invalider.
     @Test func movingThePlacementPinChangesTheToken() {
-        func token(at x: Double, category: POICategory = .landmark) -> TiledMapRepresentable.ContentToken {
+        func token(
+            at x: Double,
+            category: POICategory = .landmark,
+            unpublished: Int = 0
+        ) -> TiledMapRepresentable.ContentToken {
             TiledMapRepresentable.ContentToken(
                 game: .leonida,
                 style: .neon,
                 poisGeneration: 0,
                 spotsGeneration: 0,
+                myUnpublishedGeneration: unpublished,
                 personalPinsGeneration: 0,
                 showPersonalPins: true,
                 draftPins: [],
@@ -188,6 +193,12 @@ struct MapContentTokenTests {
         #expect(
             token(at: 0.4) != token(at: 0.4, category: .safehouse),
             "changer de catégorie change la couleur de l'épingle, donc son dessin"
+        )
+        // Une proposition envoyée n'atteint le moteur que par là : sur une carte
+        // encore vide, rien d'autre ne bouge jamais.
+        #expect(
+            token(at: 0.4) != token(at: 0.4, unpublished: 1),
+            "une proposition de plus en attente doit repousser le contenu"
         )
         #expect(token(at: 0.4) == token(at: 0.4), "rien n'a bougé : ne pas tout reconstruire")
     }

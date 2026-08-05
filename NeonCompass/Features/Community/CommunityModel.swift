@@ -8,7 +8,40 @@ final class CommunityModel {
     private(set) var approvedSpots: [Contribution] = [] {
         didSet { refreshVisibleSpots() }
     }
-    private(set) var myContributions: [Contribution] = []
+    private(set) var myContributions: [Contribution] = [] {
+        didSet { refreshMyUnpublishedSpots() }
+    }
+
+    /// Mes propositions PAS ENCORE PUBLIQUES, à dessiner sur la carte pour moi
+    /// seul.
+    ///
+    /// Elle répond à « où est passée ma proposition ? » à l'endroit où l'on se
+    /// pose la question — et avant l'ouverture du jeu, c'est la seule chose qui
+    /// rende la carte à venir non vide pour celui qui vient de la remplir.
+    ///
+    /// Deux exclusions, et la seconde est celle qu'on oublierait :
+    ///
+    /// - les **rejetées** sortent, une cicatrice permanente n'apprenant rien ;
+    ///   le Profil porte déjà ce statut ;
+    /// - les **approuvées déjà dans le fragment** sortent aussi, parce qu'elles
+    ///   sont dessinées par `visibleSpots` — les garder ferait deux épingles au
+    ///   même endroit.
+    ///
+    /// Ce qui RESTE, en revanche, c'est l'approuvée que le fragment n'a pas
+    /// encore. Le trou n'est pas théorique : la reconstruction est une tâche
+    /// `*/5 * * * *` qui n'agit que sur drapeau `dirty`, et l'app ne
+    /// retélécharge que si la version du manifeste a bougé. Sans cette clause,
+    /// l'épingle disparaîtrait à l'approbation puis reviendrait plus tard, sans
+    /// raison visible.
+    ///
+    /// Rien à faire pour le *shadow ban* : `Contribution` ne modélise pas
+    /// `shadow_hidden`, donc un auteur masqué voit sa proposition comme les
+    /// autres. C'est le principe du procédé.
+    private(set) var myUnpublishedSpots: [Contribution] = []
+
+    /// Clé d'invalidation du moteur de carte pour cette famille — même règle que
+    /// `spotsGeneration` : une liste de valeurs ne se compare pas, elle se compte.
+    private(set) var myUnpublishedGeneration = 0
 
     /// Mes votes, par identifiant de contribution. Vide hors connexion — et
     /// c'est le bon défaut : tout se retrouve alors dans « À découvrir ».
@@ -97,6 +130,16 @@ final class CommunityModel {
             return !blockedAuthorUIDs.contains(authorUid)
         }
         spotsGeneration &+= 1
+        // Le recouvrement des deux familles dépend de `visibleSpots` : un
+        // fragment qui arrive doit RETIRER de mes épingles en attente celles
+        // qu'il vient de publier, sinon elles s'affichent en double.
+        refreshMyUnpublishedSpots()
+    }
+
+    private func refreshMyUnpublishedSpots() {
+        let published = Set(visibleSpots.map(\.id))
+        myUnpublishedSpots = myContributions.filter { $0.status != .rejected && !published.contains($0.id) }
+        myUnpublishedGeneration &+= 1
     }
 
     /// Ne télécharge que si la version du manifeste a bougé — sinon la seule

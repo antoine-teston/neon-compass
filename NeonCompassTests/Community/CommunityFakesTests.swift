@@ -18,8 +18,12 @@ final class FakeContributionFunctions: ContributionFunctionsCalling {
     nonisolated(unsafe) private(set) var lastVote: (spotId: String, direction: VoteDirection)?
     nonisolated(unsafe) private(set) var lastReport: (spotId: String, reason: String?)?
 
+    /// Le refus à opposer, pour vérifier que `submit` PROPAGE. Nil = succès.
+    nonisolated(unsafe) var errorToThrow: (any Error)?
+
     func submitContribution(category: POICategory, title: String, position: NormalizedPoint, languageCode: String) async throws {
         submitCallCount += 1
+        if let errorToThrow { throw errorToThrow }
     }
 
     nonisolated(unsafe) var voteResultToReturn: (upvotes: Int, downvotes: Int) = (0, 0)
@@ -40,7 +44,7 @@ final class FakeCommunityGateProvider: CommunityGateProviding {
     func isEnabled() async throws -> Bool { enabledToReturn }
 }
 
-private func makeSpot(id: String, authorUid: String?) -> Contribution {
+private func makeSpot(id: String, authorUid: String?, status: Contribution.Status = .approved) -> Contribution {
     Contribution(
         id: id,
         authorUid: authorUid,
@@ -49,7 +53,7 @@ private func makeSpot(id: String, authorUid: String?) -> Contribution {
         title: "A great spot",
         languageCode: "en",
         position: NormalizedPoint(x: 0.5, y: 0.5),
-        status: .approved,
+        status: status,
         upvotes: 0,
         downvotes: 0
     )
@@ -215,6 +219,96 @@ struct CommunityFakesTests {
         await model.loadMyVotes(uid: "u1")
 
         #expect(model.myVotes.isEmpty)
+    }
+
+    // MARK: - Mes propositions pas encore publiques
+
+    @Test func submitPropagatesInsteadOfSwallowing() async throws {
+        // Le défaut que tout ce chantier ferme : `try?` rendait un refus
+        // identique à un succès.
+        let functions = FakeContributionFunctions()
+        functions.errorToThrow = ContributionSubmissionError.duplicateNearby
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context, functions: functions)
+
+        await #expect(throws: ContributionSubmissionError.duplicateNearby) {
+            try await model.submit(
+                category: .safehouse, title: "Toit du parking",
+                position: NormalizedPoint(x: 0.5, y: 0.5), languageCode: "fr"
+            )
+        }
+        #expect(model.lastSubmissionAt == nil, "un envoi refusé n'arme pas le cooldown local")
+    }
+
+    @Test func aSuccessfulSubmitArmsTheLocalCooldown() async throws {
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context)
+
+        try await model.submit(
+            category: .safehouse, title: "Toit du parking",
+            position: NormalizedPoint(x: 0.5, y: 0.5), languageCode: "fr"
+        )
+
+        #expect(model.lastSubmissionAt != nil)
+    }
+
+    @Test func myUnpublishedSpotsExcludesRejected() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [
+            makeSpot(id: "pending", authorUid: "me", status: .pending),
+            makeSpot(id: "rejected", authorUid: "me", status: .rejected),
+        ]
+        let model = makeModel(context: context, repository: repository)
+
+        await model.loadMyContributions(uid: "me")
+
+        // Une cicatrice permanente sur la carte n'apprend rien ; le Profil porte
+        // déjà ce statut.
+        #expect(model.myUnpublishedSpots.map(\.id) == ["pending"])
+    }
+
+    /// Le cas qu'on oublierait, et qui ferait clignoter l'épingle : approuvée
+    /// mais pas encore dans le fragment (tâche `*/5 * * * *`, drapeau `dirty`,
+    /// garde de version côté app). Sans cette clause elle disparaîtrait à
+    /// l'approbation pour revenir des minutes plus tard.
+    @Test func myUnpublishedSpotsKeepsAnApprovedSpotTheBundleDoesNotHaveYet() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "fresh", authorUid: "me", status: .approved)]
+        let model = makeModel(context: context, repository: repository)
+
+        await model.loadMyContributions(uid: "me")
+
+        #expect(model.myUnpublishedSpots.map(\.id) == ["fresh"])
+    }
+
+    @Test func aPublishedSpotLeavesMyUnpublishedSpots() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .approved)]
+        let model = makeModel(context: context, repository: repository, spots: [makeSpot(id: "1", authorUid: "me")])
+
+        await model.loadMyContributions(uid: "me")
+        #expect(model.myUnpublishedSpots.map(\.id) == ["1"])
+
+        // Le fragment arrive : deux épingles au même endroit seraient un défaut.
+        await model.loadApprovedSpots()
+        #expect(model.myUnpublishedSpots.isEmpty)
+    }
+
+    @Test func myUnpublishedGenerationAdvancesOnEachRead() async throws {
+        // Sans elle, une proposition tout juste envoyée n'atteindrait jamais le
+        // moteur de carte : rien d'autre ne bouge sur une carte encore vide.
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .pending)]
+        let model = makeModel(context: context, repository: repository)
+        let before = model.myUnpublishedGeneration
+
+        await model.loadMyContributions(uid: "me")
+
+        #expect(model.myUnpublishedGeneration != before)
     }
 }
 
