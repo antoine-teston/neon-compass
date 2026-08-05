@@ -2897,31 +2897,31 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Karte des kommenden Spiels · vor Veröffentlichung geprüft"
+            "value": "Karte VI · vor Veröffentlichung geprüft"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Upcoming game map · reviewed before it goes live"
+            "value": "VI map · reviewed before it goes live"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mapa del próximo juego · revisado antes de publicarse"
+            "value": "Mapa VI · revisado antes de publicarse"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Carte du jeu à venir · relu avant d'être publié"
+            "value": "Carte VI · relu avant d'être publié"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mappa del gioco in arrivo · rivista prima della pubblicazione"
+            "value": "Mappa VI · rivista prima della pubblicazione"
           }
         }
       }
