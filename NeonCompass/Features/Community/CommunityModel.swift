@@ -149,8 +149,23 @@ final class CommunityModel {
         approvedSpots = approvedStore.items
     }
 
+    /// Une lecture qui échoue **garde la liste précédente**, elle ne la vide pas.
+    ///
+    /// L'écart avec `loadMyVotes`, qui retombe bien sur le vide, est délibéré :
+    /// des votes absents dégradent un tri, alors que des propositions absentes
+    /// font DISPARAÎTRE des épingles de la carte. Passer sous un tunnel effacerait
+    /// ce qu'on vient de poser, et le Profil annoncerait « aucune contribution »
+    /// à quelqu'un qui en a.
     func loadMyContributions(uid: String) async {
-        myContributions = (try? await repository.fetchMine(uid: uid)) ?? []
+        guard let mine = try? await repository.fetchMine(uid: uid) else { return }
+        myContributions = mine
+    }
+
+    /// Vidée à la déconnexion, et il faut un appel explicite : `loadMyContributions`
+    /// ne peut plus le faire depuis qu'elle conserve en cas d'échec, et sans ça
+    /// les propositions du compte précédent resteraient sur la carte du suivant.
+    func clearMyContributions() {
+        myContributions = []
     }
 
     /// L'heure du dernier envoi réussi, pour armer le cooldown AVANT le réseau :

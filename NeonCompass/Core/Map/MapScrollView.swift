@@ -250,9 +250,14 @@ private struct MapContentSwiftUIView: View {
     private func ghostPin(_ pin: MapPlacementPin) -> some View {
         let tint = POIPinPalette.color(for: pin.category, style: style)
         return Image(systemName: POIPinPalette.symbol(for: pin.category))
-            .font(.system(size: 15, weight: .bold))
+            .font(.system(size: 20, weight: .bold))
             .foregroundStyle(tint)
-            .frame(width: 32, height: 32)
+            // 44 pt et non 24 comme les épingles publiées : la contre-échelle
+            // est PLAFONNÉE à 1, donc au zoom de repos tout rétrécit avec la
+            // carte. Une épingle de la taille des autres y serait un point de
+            // dix points, impossible à saisir — et celle-ci est le sujet de
+            // l'écran tant qu'on la pose.
+            .frame(width: 44, height: 44)
             .background(
                 Circle()
                     .fill(POIPinPalette.core(for: style).opacity(0.9))
@@ -569,12 +574,28 @@ struct MapPlacementPin: Equatable, Sendable {
 }
 
 struct MapFocusRequest: Equatable {
+    /// Ce pour quoi on vise — et donc comment on cadre.
+    enum Intent: Equatable {
+        /// Montrer un point déjà posé : centré, au zoom courant s'il suffit.
+        case reveal
+        /// En poser un : plus près, et dans le HAUT de l'écran.
+        ///
+        /// Les deux écarts sont mesurés à l'écran, pas décoratifs. Au zoom de
+        /// repos (≈0,43) l'épingle mesure une dizaine de points et la trame
+        /// viaire est illisible — on ne vise pas un toit là-dedans. Et le
+        /// panneau de soumission occupe le bas : centrée, l'épingle se
+        /// retrouve juste sous son bord, et l'ajustement se ferait à l'aveugle.
+        case place
+    }
+
     let id: UUID
     let position: NormalizedPoint
+    var intent: Intent = .reveal
 
-    init(position: NormalizedPoint) {
+    init(position: NormalizedPoint, intent: Intent = .reveal) {
         self.id = UUID()
         self.position = position
+        self.intent = intent
     }
 }
 
@@ -759,7 +780,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
         // il l'avalerait, et taper une ligne du carnet ne ferait rien.
         if let focusRequest, context.coordinator.consumedFocus != focusRequest.id {
             context.coordinator.consumedFocus = focusRequest.id
-            context.coordinator.focus(on: focusRequest.position, manifest: manifest)
+            context.coordinator.focus(on: focusRequest.position, manifest: manifest, intent: focusRequest.intent)
         }
         // Rafraîchit les données (pois/personalPins/communitySpots) sans
         // écraser le zoomScale que `Coordinator.sync` maintient déjà en
@@ -870,13 +891,22 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// viser depuis le carnet laisserait l'épingle en point de deux pixels au
         /// dézoom de repos ; sans le maximum, taper une ligne ferait RECULER un
         /// joueur qui venait de zoomer sur son quartier.
-        func focus(on position: NormalizedPoint, manifest: MapManifest) {
+        func focus(on position: NormalizedPoint, manifest: MapManifest, intent: MapFocusRequest.Intent = .reveal) {
             guard let scrollView, scrollView.bounds.width > 0, scrollView.bounds.height > 0 else { return }
-            let target = min(max(scrollView.zoomScale, scrollView.minimumZoomScale * 2), scrollView.maximumZoomScale)
+            let floor: CGFloat = switch intent {
+            case .reveal: scrollView.minimumZoomScale * 2
+            case .place: max(scrollView.minimumZoomScale * 3, 1)
+            }
+            let target = min(max(scrollView.zoomScale, floor), scrollView.maximumZoomScale)
             let center = MapGeometry.contentPoint(for: position, manifest: manifest)
             let size = CGSize(width: scrollView.bounds.width / target, height: scrollView.bounds.height / target)
+            // Le rectangle visé descend SOUS le point, ce qui remonte le point
+            // dans l'écran : c'est le rectangle qu'on montre, donc pousser son
+            // centre vers le bas laisse le point à 28 % du haut. Juste au-dessus
+            // du panneau, qui en occupe un peu moins de la moitié.
+            let verticalOffset = intent == .place ? size.height * 0.22 : 0
             scrollView.zoom(
-                to: CGRect(x: center.x - size.width / 2, y: center.y - size.height / 2,
+                to: CGRect(x: center.x - size.width / 2, y: center.y - size.height / 2 + verticalOffset,
                            width: size.width, height: size.height),
                 animated: true
             )

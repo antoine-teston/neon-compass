@@ -4,9 +4,17 @@ import Testing
 @testable import NeonCompass
 
 final class FakeContributionRepository: ContributionRepository {
-    nonisolated(unsafe) var mineToReturn: [Contribution] = []
+    struct Offline: Error {}
 
-    func fetchMine(uid: String) async throws -> [Contribution] { mineToReturn }
+    nonisolated(unsafe) var mineToReturn: [Contribution] = []
+    /// Bascule en cours de test : il faut pouvoir réussir une lecture PUIS en
+    /// rater une, ce qu'un dépôt toujours défaillant ne permet pas.
+    nonisolated(unsafe) var shouldFail = false
+
+    func fetchMine(uid: String) async throws -> [Contribution] {
+        if shouldFail { throw Offline() }
+        return mineToReturn
+    }
 
     nonisolated(unsafe) var votesToReturn: [String: VoteDirection] = [:]
 
@@ -294,6 +302,43 @@ struct CommunityFakesTests {
 
         // Le fragment arrive : deux épingles au même endroit seraient un défaut.
         await model.loadApprovedSpots()
+        #expect(model.myUnpublishedSpots.isEmpty)
+    }
+
+    /// Défaut vu à l'écran, pas en test : un échec de lecture vidait la liste,
+    /// donc passer sous un tunnel effaçait de la carte les épingles qu'on venait
+    /// d'y poser. `loadMyVotes` a bien le droit de retomber sur le vide — des
+    /// votes absents dégradent un tri ; des propositions absentes font
+    /// DISPARAÎTRE quelque chose de visible.
+    @Test func aFailedReadKeepsThePreviousContributions() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .pending)]
+        let model = makeModel(context: context, repository: repository)
+        await model.loadMyContributions(uid: "me")
+        #expect(model.myUnpublishedSpots.count == 1)
+
+        let offline = makeModel(context: context, repository: FailingContributionRepository())
+        await offline.loadMyContributions(uid: "me")
+        #expect(offline.myUnpublishedSpots.isEmpty, "rien à conserver : la première lecture échoue")
+
+        // Et sur le modèle qui avait déjà lu, une lecture ratée ne retire rien.
+        repository.shouldFail = true
+        await model.loadMyContributions(uid: "me")
+        #expect(model.myUnpublishedSpots.map(\.id) == ["1"])
+    }
+
+    @Test func signingOutClearsThem() async throws {
+        // Le pendant obligé du test précédent : ce que la conservation ne peut
+        // plus faire, la déconnexion doit le faire explicitement.
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .pending)]
+        let model = makeModel(context: context, repository: repository)
+        await model.loadMyContributions(uid: "me")
+
+        model.clearMyContributions()
+
         #expect(model.myUnpublishedSpots.isEmpty)
     }
 

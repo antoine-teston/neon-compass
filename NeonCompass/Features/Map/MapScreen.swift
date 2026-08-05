@@ -261,7 +261,13 @@ struct MapScreen: View {
                 foundPOIIDs: model.foundPOIIDs,
                 viewport: $viewport,
                 focusRequest: $focusRequest,
-                placement: placement.map { MapPlacementPin(position: $0.position, category: $0.category) },
+                // Retirée dès la confirmation : la proposition n'est plus en
+                // cours de pose, et `myUnpublishedSpots` la reprend en épingle
+                // en attente. Sans ce filtre, les deux se superposeraient au
+                // même point.
+                placement: placement.flatMap {
+                    $0.phase == .confirmed ? nil : MapPlacementPin(position: $0.position, category: $0.category)
+                },
                 onPlacementMoved: { canvasPoint in
                     placement?.position = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
                 },
@@ -413,7 +419,7 @@ struct MapScreen: View {
                         // Sort l'épingle de sous le panneau. Un appui long dans
                         // le tiers bas la poserait pile là où le panneau va
                         // venir, et on ajusterait à l'aveugle.
-                        focusRequest = MapFocusRequest(position: location)
+                        focusRequest = MapFocusRequest(position: location, intent: .place)
                     } else {
                         // L'`else` qui manquait. Le bouton reste VISIBLE hors
                         // connexion — le masquer priverait un visiteur de la
@@ -540,7 +546,14 @@ struct MapScreen: View {
     /// est celle de tout le monde, ce qui est dégradé mais juste. Une alerte
     /// interromprait sans rien offrir à faire.
     private func loadMyContributionsIfNeeded() {
-        guard let communityModel, let userID = authModel.userID else { return }
+        guard let communityModel else { return }
+        guard let userID = authModel.userID else {
+            // Déconnexion : la liste ne se périme pas toute seule depuis qu'un
+            // échec de lecture la conserve, et les propositions d'un compte ne
+            // doivent pas survivre sur la carte du suivant.
+            communityModel.clearMyContributions()
+            return
+        }
         Task { await communityModel.loadMyContributions(uid: userID) }
     }
 
@@ -568,10 +581,13 @@ struct MapScreen: View {
                 // Le panneau reste ouvert avec sa saisie. Toute erreur non
                 // typée devient `.failed` plutôt que d'être avalée — c'est
                 // exactement le `try?` qu'on retire ici.
-                placement?.failed(
-                    with: (error as? ContributionSubmissionError) ?? .failed,
-                    now: Date()
-                )
+                let failure = (error as? ContributionSubmissionError) ?? .failed
+                placement?.failed(with: failure, now: Date())
+                // Le bandeau du doublon fait grandir le panneau, qui peut alors
+                // recouvrir l'épingle — celle-là même qu'il demande de déplacer.
+                if failure == .duplicateNearby, let position = placement?.position {
+                    focusRequest = MapFocusRequest(position: position, intent: .place)
+                }
             }
         }
     }

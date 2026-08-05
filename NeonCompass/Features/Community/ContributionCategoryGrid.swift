@@ -41,14 +41,16 @@ struct ContributionCategoryGrid: View {
                 .font(.system(size: 17, weight: .bold))
             Text(category.localizedNameKey)
                 .font(NCTypography.cardMeta)
-                // Six libellés traduits en cinq langues : « Collectible » et
-                // « Sammelobjekt » n'ont pas la même longueur, et une grille
-                // adaptative ne tolère pas qu'une case pousse les autres.
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
+                .multilineTextAlignment(.center)
+                // Deux lignes, pas une. Les libellés sont ceux des filtres de
+                // carte, donc au pluriel et parfois longs — « Objets à
+                // collectionner » sur une seule ligne se réduisait à la limite
+                // du lisible, et « Sammelobjekte » n'a pas la même longueur.
+                .lineLimit(2)
+                .minimumScaleFactor(0.8)
         }
         .foregroundStyle(isSelected ? tint : .white.opacity(0.75))
-        .frame(maxWidth: .infinity, minHeight: 58)
+        .frame(maxWidth: .infinity, minHeight: 66)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(tint.opacity(isSelected ? 0.22 : 0.08))
