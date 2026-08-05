@@ -154,4 +154,41 @@ struct MapContentTokenTests {
         #expect(model.poisGeneration == pois)
         #expect(store.generation == pins)
     }
+
+    // MARK: - L'épingle en cours de pose
+
+    /// Exception assumée à la règle de cette suite — « on teste les compteurs,
+    /// pas l'égalité synthétisée ».
+    ///
+    /// L'épingle de placement n'a pas de compteur : elle EST dans le jeton, en
+    /// valeur. Ce qu'on garde ici n'est donc pas l'égalité de Swift mais le fait
+    /// que le champ y figure. L'oublier ne produirait aucune erreur de
+    /// compilation et une épingle clouée à son point de départ — le tap la
+    /// déplacerait dans l'état, sans que rien ne soit repoussé vers la vue
+    /// hébergée. Construire le jeton à la main fait de ce test la sentinelle
+    /// qu'on veut : ajouter un champ le casse, donc oblige à se demander s'il
+    /// doit invalider.
+    @Test func movingThePlacementPinChangesTheToken() {
+        func token(at x: Double, category: POICategory = .landmark) -> TiledMapRepresentable.ContentToken {
+            TiledMapRepresentable.ContentToken(
+                game: .leonida,
+                style: .neon,
+                poisGeneration: 0,
+                spotsGeneration: 0,
+                personalPinsGeneration: 0,
+                showPersonalPins: true,
+                draftPins: [],
+                placement: MapPlacementPin(position: NormalizedPoint(x: x, y: 0.5), category: category),
+                foundPOIIDs: [],
+                canAdopt: false
+            )
+        }
+
+        #expect(token(at: 0.4) != token(at: 0.7), "déplacer l'épingle doit repousser le contenu")
+        #expect(
+            token(at: 0.4) != token(at: 0.4, category: .safehouse),
+            "changer de catégorie change la couleur de l'épingle, donc son dessin"
+        )
+        #expect(token(at: 0.4) == token(at: 0.4), "rien n'a bougé : ne pas tout reconstruire")
+    }
 }

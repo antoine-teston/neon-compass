@@ -124,6 +124,9 @@ private struct MapContentSwiftUIView: View {
     /// Toujours vide en Release : le mode éditeur n'existe pas dans le binaire
     /// soumis. C'est ce qui évite un `#if DEBUG` dans le moteur de carte.
     let draftPins: [DraftPin]
+    /// Non nil pendant qu'on pose une proposition. Sa seule présence éteint la
+    /// frappe de tout le reste du contenu.
+    let placementPin: MapPlacementPin?
     /// Clés d'invalidation de `MapClusterCache`, portées par les modèles
     /// propriétaires des deux collections. Voir `MapClusterCache`.
     let poisGeneration: Int
@@ -157,6 +160,28 @@ private struct MapContentSwiftUIView: View {
         // payer deux cents fois.
         let hitSides = tappableHitSides
         return ZStack(alignment: .topLeading) {
+            Group {
+                mapBody(hitSides: hitSides)
+            }
+            // Tant qu'on pose une épingle, plus RIEN du contenu n'est tapable.
+            //
+            // Ce n'est pas de la prudence : le tap appartient alors au
+            // reconnaisseur de placement, qui le lit comme « pose-la ici ». Sans
+            // ça, viser un toit sur lequel se trouve un POI ouvrirait sa fiche —
+            // un bouton SwiftUI répond au relâchement, et `cancelsTouchesInView`
+            // arrive parfois trop tard pour l'en empêcher.
+            .allowsHitTesting(placementPin == nil)
+
+            if let placementPin {
+                ghostPin(placementPin)
+            }
+        }
+        .frame(width: fullSize, height: fullSize)
+    }
+
+    @ViewBuilder
+    private func mapBody(hitSides: [String: CGFloat]) -> some View {
+        ZStack(alignment: .topLeading) {
             if let mapImage = MapArtLoader.image(game: game, style: style) {
                 Image(uiImage: mapImage)
                     .resizable()
@@ -193,7 +218,44 @@ private struct MapContentSwiftUIView: View {
                 draftPin(pin)
             }
         }
-        .frame(width: fullSize, height: fullSize)
+    }
+
+    /// L'épingle en cours de pose.
+    ///
+    /// Elle vit DANS le contenu hébergé et non en calque au-dessus de la vue de
+    /// défilement — l'en-tête de ce fichier dit pourquoi : un calque repositionné
+    /// depuis `scrollViewDidScroll` rattrape la carte avec une frame de retard.
+    /// C'est le design que ce moteur a mesuré puis abandonné.
+    ///
+    /// Même vocabulaire que `draftPin` : ce qui n'est pas encore publié porte un
+    /// anneau pointillé. Ce qui la distingue est sa taille et son halo — elle est
+    /// le sujet de l'écran tant qu'on la pose.
+    ///
+    /// Insensible aux gestes : ce sont les deux reconnaisseurs UIKit du
+    /// coordinateur qui la déplacent, parce qu'un geste SwiftUI posé ici
+    /// perdrait l'arbitrage contre le panoramique de la vue de défilement.
+    private func ghostPin(_ pin: MapPlacementPin) -> some View {
+        let tint = POIPinPalette.color(for: pin.category, style: style)
+        return Image(systemName: POIPinPalette.symbol(for: pin.category))
+            .font(.system(size: 15, weight: .bold))
+            .foregroundStyle(tint)
+            .frame(width: 32, height: 32)
+            .background(
+                Circle()
+                    .fill(POIPinPalette.core(for: style).opacity(0.9))
+                    .overlay(
+                        Circle().strokeBorder(tint, style: StrokeStyle(lineWidth: 2.5, dash: [4, 3]))
+                    )
+                    .shadow(color: tint.opacity(0.7), radius: 6)
+            )
+            .scaleEffect(pinScale)
+            .position(MapGeometry.contentPoint(for: pin.position, manifest: manifest))
+            // Le saut d'un tap devient un déplacement qu'on suit des yeux. Sans
+            // ça, l'épingle se téléporte et on doute d'avoir touché la bonne
+            // chose.
+            .animation(.snappy(duration: 0.18), value: pin.position)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
     }
 
     private func communityBubble(_ cluster: ContributionCluster) -> some View {
@@ -477,6 +539,15 @@ private final class FitToBoundsScrollView: UIScrollView {
 /// L'identifiant est ce qui la rend CONSOMMABLE : viser deux fois la même
 /// épingle doit recentrer deux fois, or deux requêtes de même position seraient
 /// égales et la seconde passerait pour déjà traitée.
+/// L'épingle qu'on est en train de poser — position et catégorie, rien d'autre.
+///
+/// La catégorie en fait partie parce que la pastille change de couleur en
+/// direct : c'est la seule confirmation qu'on a choisi la bonne dans le panneau.
+struct MapPlacementPin: Equatable, Sendable {
+    var position: NormalizedPoint
+    var category: POICategory
+}
+
 struct MapFocusRequest: Equatable {
     let id: UUID
     let position: NormalizedPoint
@@ -502,6 +573,12 @@ struct TiledMapRepresentable: UIViewRepresentable {
     let foundPOIIDs: Set<String>
     @Binding var viewport: MapViewport
     @Binding var focusRequest: MapFocusRequest?
+    /// Non nil pendant qu'on pose une proposition — arme les deux
+    /// reconnaisseurs de placement et éteint la frappe du reste du contenu.
+    var placement: MapPlacementPin?
+    /// Reçoit un point de CONTENU, comme `onLongPress` : la normalisation
+    /// appartient à l'appelant, qui a déjà le manifeste sous la main.
+    var onPlacementMoved: ((CGPoint) -> Void)?
     let onLongPress: (CGPoint) -> Void
     let onTapPOI: (POI) -> Void
     let onTapPersonalPin: (PersonalPin) -> Void
@@ -552,6 +629,37 @@ struct TiledMapRepresentable: UIViewRepresentable {
         )
         scrollView.addGestureRecognizer(longPress)
 
+        // Les deux gestes du placement. Ils ne servent que pendant qu'on pose
+        // une proposition, et `updateUIView` les éteint le reste du temps.
+        //
+        // Un TAP déplace l'épingle là où le doigt tombe : c'est lui qui donne la
+        // précision, puisqu'on peut zoomer à fond puis viser sans que le pouce
+        // couvre la cible. Il ne concurrence rien — un tap et un panoramique ne
+        // se disputent jamais un même toucher.
+        let placementTap = UITapGestureRecognizer(
+            target: context.coordinator,
+            action: #selector(Coordinator.handlePlacementTap(_:))
+        )
+        placementTap.delegate = context.coordinator
+        placementTap.isEnabled = false
+        scrollView.addGestureRecognizer(placementTap)
+        context.coordinator.placementTap = placementTap
+
+        // Le GLISSER n'affine que si le toucher démarre sur l'épingle. C'est
+        // `gestureRecognizerShouldBegin` qui le décide, et c'est ce qui rend le
+        // `require(toFail:)` ci-dessous acceptable sur le geste le plus sensible
+        // de l'app : hors de la zone de l'épingle, le reconnaisseur échoue
+        // immédiatement, donc le panoramique de la carte ne l'attend pas.
+        let placementDrag = UIPanGestureRecognizer(
+            target: context.coordinator,
+            action: #selector(Coordinator.handlePlacementDrag(_:))
+        )
+        placementDrag.delegate = context.coordinator
+        placementDrag.isEnabled = false
+        scrollView.addGestureRecognizer(placementDrag)
+        scrollView.panGestureRecognizer.require(toFail: placementDrag)
+        context.coordinator.placementDrag = placementDrag
+
         return scrollView
     }
 
@@ -574,6 +682,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// changement de données. Même raison que `canAdopt` plus bas.
         let showPersonalPins: Bool
         let draftPins: [DraftPin]
+        /// L'épingle en cours de pose. Dans le jeton parce qu'elle se DESSINE :
+        /// sans elle ici, la déplacer d'un tap ne repousserait aucun contenu et
+        /// elle resterait clouée à son point de départ. Même raison que
+        /// `draftPins`, qui est là pour ça.
+        let placement: MapPlacementPin?
         /// Comparé en entier, et c'est le point : marquer un lieu « trouvé » ne
         /// change NI la composition des groupes ni la liste filtrée (sauf sous
         /// « masquer les trouvés »), donc plus rien ne fait avancer la génération
@@ -595,12 +708,24 @@ struct TiledMapRepresentable: UIViewRepresentable {
             personalPinsGeneration: personalPinsGeneration,
             showPersonalPins: showPersonalPins,
             draftPins: draftPins,
+            placement: placement,
             foundPOIIDs: foundPOIIDs,
             canAdopt: onAdopt != nil
         )
     }
 
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
+        // Poussé AVANT le garde-fou du jeton, pour la même raison que le
+        // recentrage juste en dessous : ce sont les reconnaisseurs qui lisent
+        // cette position à chaque toucher, et ils doivent la connaître même
+        // quand rien du contenu dessiné n'a bougé.
+        context.coordinator.placementContentPoint = placement.map {
+            MapGeometry.contentPoint(for: $0.position, manifest: manifest)
+        }
+        context.coordinator.onPlacementMoved = onPlacementMoved
+        context.coordinator.placementTap?.isEnabled = placement != nil
+        context.coordinator.placementDrag?.isEnabled = placement != nil
+
         // Lu AVANT le garde-fou du jeton, et c'est tout le sujet : ce garde-fou
         // retourne dès que rien de la carte n'a changé — ce qui est précisément le
         // cas quand on ne fait que viser une épingle déjà dessinée. Placé après,
@@ -645,6 +770,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             showPersonalPins: showPersonalPins,
             communitySpots: communitySpots,
             draftPins: draftPins,
+            placementPin: placement,
             poisGeneration: poisGeneration,
             spotsGeneration: spotsGeneration,
             foundPOIIDs: foundPOIIDs,
@@ -663,7 +789,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
         )
     }
 
-    final class Coordinator: NSObject, UIScrollViewDelegate {
+    final class Coordinator: NSObject, UIScrollViewDelegate, UIGestureRecognizerDelegate {
         weak var contentView: UIView?
         weak var scrollView: UIScrollView?
         fileprivate var hostingController: UIHostingController<MapContentSwiftUIView>?
@@ -757,6 +883,67 @@ struct TiledMapRepresentable: UIViewRepresentable {
         @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
             guard gesture.state == .began, let contentView else { return }
             onLongPress(gesture.location(in: contentView))
+        }
+
+        // MARK: - Placement
+
+        /// Position de l'épingle en pose, en coordonnées de CONTENU. Nil hors
+        /// placement, et c'est ce qui désarme les deux reconnaisseurs.
+        fileprivate var placementContentPoint: CGPoint?
+        fileprivate var onPlacementMoved: ((CGPoint) -> Void)?
+        fileprivate weak var placementTap: UITapGestureRecognizer?
+        fileprivate weak var placementDrag: UIPanGestureRecognizer?
+        /// Point de départ du glisser en cours. Retenu parce que
+        /// `translation(in:)` est cumulée depuis le début du geste, pas depuis
+        /// la dernière frame.
+        private var dragOrigin: CGPoint?
+
+        /// Rayon de préhension de l'épingle, en coordonnées de contenu.
+        ///
+        /// Le contenu est réduit par la vue de défilement : viser 44 pt d'ÉCRAN
+        /// (le minimum du HIG) demande donc un rayon de contenu qui grandit
+        /// quand on dézoome. Même raisonnement que `MapRenderState.pinHitCap`.
+        private var placementHitRadius: CGFloat {
+            22 / max(scrollView?.zoomScale ?? 1, 0.01)
+        }
+
+        @objc func handlePlacementTap(_ gesture: UITapGestureRecognizer) {
+            guard let contentView else { return }
+            onPlacementMoved?(gesture.location(in: contentView))
+        }
+
+        @objc func handlePlacementDrag(_ gesture: UIPanGestureRecognizer) {
+            guard let contentView else { return }
+            switch gesture.state {
+            case .began:
+                dragOrigin = placementContentPoint
+            case .changed, .ended:
+                guard let origin = dragOrigin else { return }
+                // `translation(in: contentView)` est déjà exprimée dans l'espace
+                // du contenu, donc déjà divisée par le zoom : l'épingle suit le
+                // doigt à toutes les échelles sans conversion de notre part.
+                let translation = gesture.translation(in: contentView)
+                onPlacementMoved?(CGPoint(x: origin.x + translation.x, y: origin.y + translation.y))
+                if gesture.state == .ended { dragOrigin = nil }
+            case .cancelled, .failed:
+                dragOrigin = nil
+            default:
+                break
+            }
+        }
+
+        /// Le tap déplace où qu'il tombe ; le glisser ne démarre que sur
+        /// l'épingle.
+        ///
+        /// Le `false` du glisser n'est pas qu'un refus : c'est lui qui fait
+        /// échouer le reconnaisseur SANS DÉLAI, donc qui empêche le
+        /// `require(toFail:)` de retarder le panoramique de la carte.
+        func gestureRecognizerShouldBegin(_ gesture: UIGestureRecognizer) -> Bool {
+            guard let point = placementContentPoint else { return false }
+            guard gesture === placementDrag else { return true }
+            guard let contentView else { return false }
+            let location = gesture.location(in: contentView)
+            return hypot(location.x - point.x, location.y - point.y) <= placementHitRadius
         }
     }
 }

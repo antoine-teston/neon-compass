@@ -103,6 +103,15 @@ struct ContributionPlacement: Equatable, Sendable {
 
     mutating func succeeded() { phase = .confirmed }
 
+    /// Retire le refus affiché sans rien changer d'autre — ce que fait
+    /// 「Déplacer」, qui ne déplace justement rien lui-même : la carte est déjà
+    /// manipulable sous le panneau, et le bouton ne sert qu'à dégager le bandeau
+    /// pour y accéder.
+    mutating func dismissError() {
+        guard case .editing(.some) = phase else { return }
+        phase = .editing(nil)
+    }
+
     // MARK: - Ce qu'un geste lève
 
     /// Ce qu'une modification est capable de rendre caduc.

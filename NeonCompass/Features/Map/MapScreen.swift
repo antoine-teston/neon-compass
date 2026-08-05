@@ -5,6 +5,10 @@ struct MapScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.scenePhase) private var scenePhase
+    /// Pour renvoyer au Profil — vers « Mes propositions » après un envoi, et
+    /// vers la connexion quand le jeton a expiré en route. Même passerelle que
+    /// `SignInToContributeAlert`.
+    @Environment(AppModel.self) private var appModel
     @State private var model: MapModel?
     @State private var viewport = MapViewport()
     @State private var focusRequest: MapFocusRequest?
@@ -20,7 +24,10 @@ struct MapScreen: View {
     /// explication passerait pour une panne.
     @State private var showNotebookFull = false
     @State private var showPaywall = false
-    @State private var pendingContributionLocation: NormalizedPoint?
+    /// La proposition en cours de pose. Un seul état pour tout le chemin —
+    /// placement, envoi, verdict — parce qu'un refus ne referme rien : il faut
+    /// retrouver le titre tapé et la catégorie choisie pour pouvoir renvoyer.
+    @State private var placement: ContributionPlacement?
     @State private var showSignInToContribute = false
     @State private var communityModel: CommunityModel?
     @State private var showRoutePlanner = false
@@ -94,7 +101,10 @@ struct MapScreen: View {
                     )
                     displayControls
                 }
-                if let selection = model.selection {
+                if placement != nil {
+                    placementPanel
+                        .padding(.bottom, 76)
+                } else if let selection = model.selection {
                     detailPanel(selection, model: model, edge: .bottom)
                         // Dégage la tab bar flottante, comme les contrôles
                         // d'affichage juste au-dessus.
@@ -102,6 +112,7 @@ struct MapScreen: View {
                 }
             }
             .animation(.snappy, value: model.selection)
+            .animation(.snappy, value: placement == nil)
             // En compact le carnet reste une FEUILLE, et c'est ce que veut cette
             // largeur : il n'y a pas de place pour une colonne à côté de la carte.
             // La fiche, elle, est un panneau — c'est une décision mesurée, voir le
@@ -147,7 +158,18 @@ struct MapScreen: View {
                 // Une seule colonne à droite, jamais deux : la carte est le sujet
                 // de l'écran. Le carnet et la fiche partagent donc la MÊME fente,
                 // et ouvrir l'un ferme l'autre.
-                if showPersonalPinList {
+                // Prend la fente avant les deux autres : c'est la surface qui
+                // porte un geste en cours, et la seule dont la fermeture perdrait
+                // une saisie.
+                //
+                // Pas de `containerRelativeFrame` ici, contrairement au carnet et
+                // à la fiche : le panneau tient en une hauteur courte et connue,
+                // il n'a rien à faire défiler et rien à borner.
+                if placement != nil {
+                    placementPanel
+                        .frame(width: 340)
+                        .transition(.move(edge: .trailing))
+                } else if showPersonalPinList {
                     notebook(model: model)
                         .frame(width: 340)
                         .containerRelativeFrame(.vertical, alignment: .center) { height, _ in
@@ -158,6 +180,7 @@ struct MapScreen: View {
                     detailPanel(selection, model: model, edge: .trailing, width: 340)
                 }
             }
+            .animation(.snappy, value: placement == nil)
             // `.transition` n'avait jamais joué : rien n'animait la mutation de
             // `selection`, le panneau surgissait et disparaissait d'un coup.
             .animation(.snappy, value: model.selection)
@@ -234,6 +257,10 @@ struct MapScreen: View {
                 foundPOIIDs: model.foundPOIIDs,
                 viewport: $viewport,
                 focusRequest: $focusRequest,
+                placement: placement.map { MapPlacementPin(position: $0.position, category: $0.category) },
+                onPlacementMoved: { canvasPoint in
+                    placement?.position = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
+                },
                 onLongPress: { canvasPoint in
                     let normalized = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
 #if DEBUG
@@ -360,8 +387,18 @@ struct MapScreen: View {
             // colonne de jeu — il est connu par construction.
             if mapGame == .leonida, serverFeatures.isEnabled, communityModel?.contributionsEnabled != false {
                 Button("map.longPress.proposeSpot") {
-                    if authModel.userID != nil {
-                        pendingContributionLocation = pendingPinLocation
+                    if authModel.userID != nil, let location = pendingPinLocation {
+                        placement = ContributionPlacement(
+                            position: location,
+                            // Arme le cooldown AVANT le réseau : deux
+                            // propositions d'affilée sur le même téléphone ne
+                            // partent pas pour rien.
+                            lastSubmissionAt: communityModel?.lastSubmissionAt
+                        )
+                        // Sort l'épingle de sous le panneau. Un appui long dans
+                        // le tiers bas la poserait pile là où le panneau va
+                        // venir, et on ajusterait à l'aveugle.
+                        focusRequest = MapFocusRequest(position: location)
                     } else {
                         // L'`else` qui manquait. Le bouton reste VISIBLE hors
                         // connexion — le masquer priverait un visiteur de la
@@ -375,22 +412,6 @@ struct MapScreen: View {
             }
             Button("map.longPress.cancel", role: .cancel) {
                 pendingPinLocation = nil
-            }
-        }
-        .sheet(item: Binding(
-            get: { pendingContributionLocation.map { ContributionLocationBox(location: $0) } },
-            set: { pendingContributionLocation = $0?.location }
-        )) { box in
-            if let communityModel {
-                ContributionSubmissionSheet(
-                    position: box.location,
-                    onSubmit: { category, title in
-                        try? await communityModel.submit(category: category, title: title, position: box.location, languageCode: Self.currentLanguageCode())
-                        pendingContributionLocation = nil
-                    },
-                    onDismiss: { pendingContributionLocation = nil }
-                )
-                .presentationDetents([.medium])
             }
         }
         .signInToContributeAlert(isPresented: $showSignInToContribute)
@@ -466,6 +487,68 @@ struct MapScreen: View {
                 height * 0.55
             }
             .transition(.move(edge: edge))
+    }
+
+    /// Le panneau de soumission, écrit une fois pour les deux dispositions.
+    ///
+    /// Il ne passe PAS par `detailPanel` : celui-ci congédie au balayage et
+    /// s'échappe à l'`escape`, ce qui est juste pour une fiche en lecture et faux
+    /// ici — un balayage de trop jetterait un titre en cours de frappe. La
+    /// sortie de ce panneau est explicite, par 「Annuler」.
+    @ViewBuilder
+    private var placementPanel: some View {
+        if placement != nil, let communityModel {
+            ContributionPlacementPanel(
+                placement: Binding(
+                    get: { placement ?? ContributionPlacement(position: NormalizedPoint(x: 0.5, y: 0.5)) },
+                    set: { placement = $0 }
+                ),
+                style: mapStyle,
+                onSubmit: { submitPlacement(communityModel) },
+                onCancel: { placement = nil },
+                onSeeMine: {
+                    placement = nil
+                    appModel.selectedTab = .profile
+                },
+                onSignIn: {
+                    placement = nil
+                    appModel.selectedTab = .profile
+                }
+            )
+            .accessibilityAddTraits(.isModal)
+        }
+    }
+
+    private func submitPlacement(_ communityModel: CommunityModel) {
+        guard var current = placement else { return }
+        current.beganSending()
+        placement = current
+        let sent = current
+        Task {
+            do {
+                try await communityModel.submit(
+                    category: sent.category,
+                    title: sent.trimmedTitle,
+                    position: sent.position,
+                    languageCode: Self.currentLanguageCode()
+                )
+                placement?.succeeded()
+                // Relit MES propositions : c'est ce qui fait apparaître
+                // l'épingle en attente sur la carte, sans attendre la
+                // reconstruction des fragments.
+                if let uid = authModel.userID {
+                    await communityModel.loadMyContributions(uid: uid)
+                }
+            } catch {
+                // Le panneau reste ouvert avec sa saisie. Toute erreur non
+                // typée devient `.failed` plutôt que d'être avalée — c'est
+                // exactement le `try?` qu'on retire ici.
+                placement?.failed(
+                    with: (error as? ContributionSubmissionError) ?? .failed,
+                    now: Date()
+                )
+            }
+        }
     }
 
     /// Ce que le panneau montre — deux natures, une seule fente. Les
@@ -622,11 +705,6 @@ struct MapScreen: View {
             personalPinStore.reconcile(with: remoteItems)
         }
     }
-}
-
-private struct ContributionLocationBox: Identifiable {
-    let location: NormalizedPoint
-    var id: String { "\(location.x)-\(location.y)" }
 }
 
 extension MapScreen {
