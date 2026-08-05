@@ -110,8 +110,20 @@ final class CommunityModel {
         myContributions = (try? await repository.fetchMine(uid: uid)) ?? []
     }
 
+    /// L'heure du dernier envoi réussi, pour armer le cooldown AVANT le réseau :
+    /// deux propositions d'affilée sur le même téléphone — le cas courant — ne
+    /// partent jamais pour rien.
+    ///
+    /// En mémoire seulement. La fenêtre est de soixante secondes, et le serveur
+    /// reste l'autorité — notamment pour le cas multi-appareil, que cette valeur
+    /// ne peut pas connaître.
+    private(set) var lastSubmissionAt: Date?
+
+    /// **Propage.** Le `try?` qui enveloppait cet appel côté carte rendait les
+    /// cinq refus de l'Edge Function indiscernables du succès.
     func submit(category: POICategory, title: String, position: NormalizedPoint, languageCode: String) async throws {
         try await functions.submitContribution(category: category, title: title, position: position, languageCode: languageCode)
+        lastSubmissionAt = Date()
     }
 
     /// Échoue en silence, délibérément : sans mes votes, les deux sections du

@@ -14,10 +14,26 @@
 
 import { createClient, type SupabaseClient } from 'jsr:@supabase/supabase-js@2';
 
+/// Le `code` est ce que le client LIT ; le `message` est ce qu'un humain lit
+/// dans un journal.
+///
+/// La distinction n'est pas décorative. Les messages d'ici sont de l'anglais en
+/// dur : les afficher tels quels donnerait de l'anglais à un francophone. Le
+/// client traduit donc un code machine, et le statut HTTP ne lui sert que de
+/// repli — ce qui est indispensable pour les DEUX 400 de `submit-contribution`
+/// (forme invalide et vocabulaire banni), que rien d'autre ne distingue.
+///
+/// `retryAfter` porte les secondes du cooldown, plutôt que de les laisser
+/// enfouies dans une phrase anglaise où il faudrait aller les repêcher.
+///
+/// Les deux champs sont OPTIONNELS et n'apparaissent dans la réponse que s'ils
+/// sont posés : les autres fonctions ne changent pas de contrat.
 export class HttpError extends Error {
   constructor(
     readonly status: number,
     message: string,
+    readonly code?: string,
+    readonly retryAfter?: number,
   ) {
     super(message);
   }
@@ -51,6 +67,22 @@ export async function requireUser(request: Request): Promise<string> {
   return data.user.id;
 }
 
+/** Le corps JSON d'un refus.
+ *
+ *  Exporté pour être testable : `serveJSON` appelle `Deno.serve`, donc il ne se
+ *  vérifie pas sans lever un serveur — alors que c'est ce corps, et lui seul,
+ *  que le client sait lire.
+ *
+ *  Les clés absentes ne sont pas sérialisées à `undefined` mais bien omises :
+ *  un `retryAfter: null` obligerait le client à distinguer « pas de cooldown »
+ *  de « cooldown inconnu ». */
+export function errorBody(error: HttpError): Record<string, unknown> {
+  const body: Record<string, unknown> = { error: error.message };
+  if (error.code !== undefined) body.code = error.code;
+  if (error.retryAfter !== undefined) body.retryAfter = error.retryAfter;
+  return body;
+}
+
 /** Enveloppe commune : JSON en sortie, erreurs typées en statut HTTP.
  *
  *  Sans elle, chaque fonction rendrait ses erreurs à sa façon et le client
@@ -66,7 +98,7 @@ export function serveJSON(handler: (request: Request) => Promise<unknown>): void
       });
     } catch (error) {
       if (error instanceof HttpError) {
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify(errorBody(error)), {
           status: error.status,
           headers: { 'Content-Type': 'application/json' },
         });

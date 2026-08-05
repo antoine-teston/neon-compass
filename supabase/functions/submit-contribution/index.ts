@@ -28,14 +28,18 @@ serveJSON(async (request) => {
     .eq('key', 'communityContributionsEnabled')
     .maybeSingle();
   if (gate?.value === false) {
-    throw new HttpError(503, 'Community contributions are temporarily disabled.');
+    throw new HttpError(503, 'Community contributions are temporarily disabled.', 'disabled');
   }
 
   let input;
   try {
     input = validateSubmission(await request.json());
   } catch (error) {
-    throw new HttpError(400, error instanceof Error ? error.message : 'Invalid submission.');
+    // `invalid` et non `vocabulary` : ce refus porte sur la FORME (catégorie,
+    // langue, position, longueur), toutes bornées côté client. Le client le
+    // traite donc comme une panne à réessayer, pas comme « reformulez » — ce
+    // qui serait un mauvais conseil sur un titre qui n'a rien de fautif.
+    throw new HttpError(400, error instanceof Error ? error.message : 'Invalid submission.', 'invalid');
   }
 
   // Le profil existe forcément : il est créé par un trigger, dans la même
@@ -55,12 +59,13 @@ serveJSON(async (request) => {
   if (profile.last_submission_at) {
     const elapsed = (Date.now() - new Date(profile.last_submission_at).getTime()) / 1000;
     if (elapsed < COOLDOWN_SECONDS) {
-      throw new HttpError(429, `Please wait before submitting again (${Math.ceil(COOLDOWN_SECONDS - elapsed)}s).`);
+      const remaining = Math.ceil(COOLDOWN_SECONDS - elapsed);
+      throw new HttpError(429, `Please wait before submitting again (${remaining}s).`, 'cooldown', remaining);
     }
   }
 
   if (containsBannedVocabulary(input.title)) {
-    throw new HttpError(400, 'Submission contains disallowed content.');
+    throw new HttpError(400, 'Submission contains disallowed content.', 'vocabulary');
   }
 
   // Déduplication géographique. La requête est bornée à la catégorie ET aux
@@ -76,7 +81,7 @@ serveJSON(async (request) => {
 
   const existing = (nearby ?? []).map((row) => ({ x: row.position_x, y: row.position_y }));
   if (isTooCloseToExistingSpot({ x: input.positionX, y: input.positionY }, existing)) {
-    throw new HttpError(409, 'A spot of this category already exists nearby.');
+    throw new HttpError(409, 'A spot of this category already exists nearby.', 'duplicate');
   }
 
   const { data: inserted, error: insertError } = await admin
