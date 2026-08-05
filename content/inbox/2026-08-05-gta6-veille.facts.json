@@ -10,6 +10,14 @@
   },
   "facts": [
     {
+      "claim": "Un joueur a bouclé le braquage du Kortz Center en solo en mode Difficile via l'entrée par les égouts en moins de 15 minutes, remplissant les quatre conditions du défi Élite (temps, butin conservé, précision de tir et absence de détection) sur ce parcours passant par le labyrinthe, les tunnels et le sous-sol.",
+      "kind": "game-fact",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/how-to-complete-the-kortz-center-heist-solo-on-hard-mode-using-the-sewer-approach-2061",
+      "source_date": "2026-08-03",
+      "confidence": "single-source"
+    },
+    {
       "claim": "Un clip devenu viral montrant le pilote de F1 Lewis Hamilton promettre d'annuler tout son travail à la sortie du jeu date en réalité de juillet 2025, avant le troisième report du jeu, et refait simplement surface faute d'actualité récente ; l'article relève au passage que des entreprises comme Burger Motorsports et G-Fuel ont confirmé fermer ou réduire leurs effectifs le jour de la sortie, le 19 novembre 2026.",
       "kind": "news",
       "game": "leonida",
