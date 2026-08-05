@@ -1,0 +1,21 @@
+{
+  "run": {
+    "date": "2026-08-05",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://www.gtaboom.com/lewis-hamilton-says-he-will-cancel-work-for-gta-6-dabd",
+      "https://www.gtaboom.com/how-to-complete-the-kortz-center-heist-solo-on-hard-mode-using-the-sewer-approach-2061",
+      "https://leonidaverse.com/news-sitemap.xml"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Un joueur a bouclé le braquage du Kortz Center en solo en mode Difficile via l'entrée par les égouts en moins de 15 minutes, remplissant les quatre conditions du défi Élite (temps, butin conservé, précision de tir et absence de détection) sur ce parcours passant par le labyrinthe, les tunnels et le sous-sol.",
+      "kind": "game-fact",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/how-to-complete-the-kortz-center-heist-solo-on-hard-mode-using-the-sewer-approach-2061",
+      "source_date": "2026-08-03",
+      "confidence": "single-source"
+    }
+  ]
+}
