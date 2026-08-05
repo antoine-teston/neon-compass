@@ -958,11 +958,17 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
         /// Rayon de préhension de l'épingle, en coordonnées de contenu.
         ///
-        /// Le contenu est réduit par la vue de défilement : viser 44 pt d'ÉCRAN
-        /// (le minimum du HIG) demande donc un rayon de contenu qui grandit
-        /// quand on dézoome. Même raisonnement que `MapRenderState.pinHitCap`.
+        /// Le contenu est réduit par la vue de défilement : viser une cible
+        /// d'ÉCRAN constante demande donc un rayon de contenu qui grandit quand
+        /// on dézoome. Même raisonnement que `MapRenderState.pinHitCap`.
+        ///
+        /// 32 pt d'écran et non les 22 du HIG : rien d'autre n'est saisissable
+        /// pendant le placement — tout le contenu passe
+        /// `.allowsHitTesting(false)` — donc une cible généreuse ne peut voler
+        /// le geste de personne, et elle pardonne le doigt qui vise à côté de
+        /// l'épingle qu'il regarde.
         private var placementHitRadius: CGFloat {
-            22 / max(scrollView?.zoomScale ?? 1, 0.01)
+            32 / max(scrollView?.zoomScale ?? 1, 0.01)
         }
 
         @objc func handlePlacementTap(_ gesture: UITapGestureRecognizer) {
@@ -990,18 +996,36 @@ struct TiledMapRepresentable: UIViewRepresentable {
             }
         }
 
-        /// Le tap déplace où qu'il tombe ; le glisser ne démarre que sur
-        /// l'épingle.
+        /// **« Le toucher a-t-il COMMENCÉ sur l'épingle ? »** — et cette question
+        /// ne se pose qu'ici.
         ///
-        /// Le `false` du glisser n'est pas qu'un refus : c'est lui qui fait
-        /// échouer le reconnaisseur SANS DÉLAI, donc qui empêche le
-        /// `require(toFail:)` de retarder le panoramique de la carte.
-        func gestureRecognizerShouldBegin(_ gesture: UIGestureRecognizer) -> Bool {
-            guard let point = placementContentPoint else { return false }
+        /// La première version la posait dans `gestureRecognizerShouldBegin`, et
+        /// c'était faux d'une façon qui ne se voit qu'à l'écran : un
+        /// `UIPanGestureRecognizer` ne « commence » qu'après avoir franchi son
+        /// seuil de déclenchement, une dizaine de points. À cet instant
+        /// `location(in:)` rend la position COURANTE, déjà éloignée du point de
+        /// contact — sur un rayon de cet ordre, la fenêtre de préhension était
+        /// mangée par le seuil, et tout geste un peu vif partait en panoramique
+        /// avec l'épingle collée à la carte. Vérifié au simulateur : le point de
+        /// la carte et l'épingle se déplaçaient du même vecteur.
+        ///
+        /// `shouldReceive` est appelé au POSER du doigt, avant tout mouvement.
+        /// C'est le seul hook qui réponde à la question posée.
+        func gestureRecognizer(_ gesture: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
             guard gesture === placementDrag else { return true }
-            guard let contentView else { return false }
-            let location = gesture.location(in: contentView)
+            guard let point = placementContentPoint, let contentView else { return false }
+            let location = touch.location(in: contentView)
             return hypot(location.x - point.x, location.y - point.y) <= placementHitRadius
+        }
+
+        /// Le tap déplace où qu'il tombe. Le glisser, lui, a déjà été filtré au
+        /// poser : s'il arrive jusqu'ici, c'est qu'il est parti de l'épingle.
+        ///
+        /// Refuser un reconnaisseur par `shouldReceive` l'exclut de la séquence
+        /// de touchers, donc il ne participe pas à l'arbitrage — c'est ce qui
+        /// empêche le `require(toFail:)` de retarder le panoramique de la carte.
+        func gestureRecognizerShouldBegin(_ gesture: UIGestureRecognizer) -> Bool {
+            placementContentPoint != nil
         }
     }
 }
