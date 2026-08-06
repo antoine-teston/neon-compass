@@ -8,15 +8,35 @@
 // `content-editor`, c'est deux passages de modèle sur des nombres. La source
 // publie déjà la structure : on la prend telle quelle.
 //
-// Ce que la source donne (payload RSC de la page, mesuré le 2026-08-02) :
+// Ce que la source donnait (payload RSC de la page, mesuré le 2026-08-02) :
 //
 //   { "currentPhaseEndsAt": "2026-08-05T23:59:59+00:00",
 //     "bonuses":   [ { "activityName", "multiplierLabel", "details" } ],
 //     "discounts": [ { "itemName", "discountLabel", "details" } ] }
 //
-// Ce qu'elle ne donne pas : le DÉBUT de la fenêtre. Il vient de la date de
+// Ce qu'elle ne donnait pas : le DÉBUT de la fenêtre. Il venait de la date de
 // publication de l'article lié, lue dans le flux — donc sans parcourir le site,
 // ce que le registre interdit (source-policy.mjs).
+//
+// ─────────────────────────────────────────────────────────────────────────────
+// REFONTE DE LA SOURCE, mesurée le 2026-08-06 à 19:00 UTC.
+//
+// La donnée n'a pas quitté le payload RSC : elle a changé de NATURE. Elle n'y est
+// plus comme objet de données, elle y est comme arbre React rendu —
+//
+//   ["$","section","bonus-A Superyacht Life missions-2026-08-12T23:59:59+00:00",{…}]
+//
+// Tous les ancrages ci-dessus ont disparu : `hub`, `currentPhaseEndsAt`,
+// `activityName`, `multiplierLabel`, `itemName`, `discountLabel`, la section
+// `id="weekly-rewards"`, et le libellé `Read the news story`.
+//
+// Ce fichier est au TEMPS 1 de la reprise (spec 2026-08-06-hub-hebdo-verdicts) :
+// la façade d'extraction rend un verdict honnête, et rien de plus. Elle ne sait
+// PAS lire une semaine vivante sous le nouveau design — le balisage d'une semaine
+// vivante n'était pas observable le jour où elle a été écrite, la source n'en
+// ayant publié aucune. Les transformations en aval (`hubToFact` et les analyses
+// d'étiquettes) sont intactes : c'est le temps 2 qui les réalimentera.
+// ─────────────────────────────────────────────────────────────────────────────
 //
 import { notANominativeName } from './nominative-fields.mjs';
 
@@ -30,9 +50,58 @@ import { notANominativeName } from './nominative-fields.mjs';
  *  qu'on ne peut de toute façon pas recopier. */
 export const HUB_URL = 'https://www.gtaboom.com/gta-online-weekly-updates';
 
-/** Le libellé du bouton qui pointe l'article de la semaine. C'est notre seule
- *  accroche vers la date de DÉBUT ; s'il disparaît, le run doit échouer bruyamment
- *  plutôt que dater la fenêtre au hasard. */
+/** Les deux ancres qui identifient la page. Un `id` et un `aria-label` : ce qui a
+ *  le plus de chances de survivre à un coup de peinture, et jamais une classe
+ *  Tailwind. Les DEUX sont exigées — reconnaître à moitié, c'est ne pas
+ *  reconnaître. */
+const PAGE_ANCHORS = ['id="weekly-updates-heading"', 'aria-label="Weekly event sections"'];
+
+/** L'ancre du bandeau où la page déclare son propre état. */
+const HEADING_ANCHOR = 'id="weekly-updates-heading"';
+
+/** Fenêtre de lecture après le titre, pour attraper le paragraphe de statut qui
+ *  le suit. Bornée : au-delà on lirait la prose de la section suivante. */
+const STATUS_WINDOW = 4_000;
+
+/**
+ * Les déclarations qui signifient « aucune semaine publiée en ce moment ».
+ *
+ * ÉNUMÉRATION FERMÉE, et c'est tout l'intérêt. Une formulation hors liste ne
+ * devient pas « pas de semaine » par défaut : elle LÈVE. Sans quoi, le jour où la
+ * source publierait une semaine vivante sous un balisage qu'on ne sait pas lire,
+ * on la classerait « rien à récolter » et personne ne le saurait jamais.
+ *
+ * Absence de donnée et absence de compréhension sont deux verdicts distincts, et
+ * un seul des deux est silencieux.
+ *
+ * Comparé en minuscules sur le titre ET le paragraphe qui le suit.
+ */
+const PHASE_ENDED_DECLARATIONS = ['the current weekly bonus phase has ended'];
+
+/** Erreur porteuse d'un verdict. Le code de sortie ne distingue pas trois issues
+ *  différentes ; l'appelant a besoin du verdict pour l'écrire dans sa capture. */
+export class HubVerdictError extends Error {
+  constructor(verdict, message) {
+    super(message);
+    this.name = 'HubVerdictError';
+    this.verdict = verdict;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HORS DU CHEMIN COURANT depuis la refonte du 2026-08-06, et conservés exprès.
+//
+// `ARTICLE_CTA` visait un libellé qui n'existe plus : la source dit désormais
+// « Read the event story », et le lien pointe un article d'ÉVÉNEMENT
+// (`/gta-online-summer-heist-event-july-2026`), plus l'article de la semaine.
+// Le réancrer à l'aveugle sur ce seul constat serait deviner — le temps 2 le fera
+// sur du balisage réel. La TECHNIQUE, elle, reste bonne et directement
+// réutilisable : trouver le libellé, remonter au `href` qui le précède.
+//
+// `objectAfterKey` découpe un objet JSON noyé dans du non-JSON. Le nouveau payload
+// n'en contient plus, mais l'équilibrage d'accolades sur un flux RSC est le genre
+// de code qu'on n'a pas envie de réécrire de mémoire.
+// ─────────────────────────────────────────────────────────────────────────────
 const ARTICLE_CTA = 'Read the news story';
 /** Fenêtre de recherche du `href` autour du libellé. Large parce que le payload
  *  RSC intercale les props du composant entre les deux ; bornée parce qu'au-delà
@@ -104,44 +173,79 @@ function articlePathFrom(flight) {
 }
 
 /**
- * Lit une page de hub hebdomadaire.
+ * Le bandeau où la page déclare son propre état : son titre, et le paragraphe qui
+ * le suit. On lit ce que la source DIT d'elle-même plutôt que d'inférer son état
+ * de ce qu'elle ne contient pas.
  *
- * @returns {{ hub: {currentPhaseEndsAt: string, bonuses: object[], discounts: object[]}, articlePath: string }}
- * @throws  si la structure n'est plus celle qu'on connaît — chaque message dit
- *          LEQUEL des trois ancrages a lâché, sans quoi le diagnostic se ferait
- *          à la main dans 600 ko de HTML.
+ * @returns {{heading: string, statement: string} | null}
+ */
+function statusDeclaration(html) {
+  if (typeof html !== 'string') return null;
+  const at = html.indexOf(HEADING_ANCHOR);
+  if (at < 0) return null;
+  const open = html.lastIndexOf('<h1', at);
+  const close = html.indexOf('</h1>', at);
+  if (open < 0 || close < 0) return null;
+
+  const heading = tagText(html.slice(open, close));
+  const after = html.slice(close, close + STATUS_WINDOW);
+  const paragraph = after.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i);
+  return { heading, statement: paragraph ? tagText(paragraph[1]) : '' };
+}
+
+/** La page déclare-t-elle que la phase hebdomadaire est close ? */
+function declaresPhaseEnded({ heading, statement }) {
+  const said = `${heading} ${statement}`.toLowerCase();
+  return PHASE_ENDED_DECLARATIONS.some((declaration) => said.includes(declaration));
+}
+
+/**
+ * Lit une page de hub hebdomadaire et rend un VERDICT.
+ *
+ * Quatre issues, dans cet ordre — chacune suppose la précédente écartée, et chaque
+ * message nomme l'ancrage qui a lâché, sans quoi le diagnostic se referait à la
+ * main dans 430 ko de HTML :
+ *
+ *   `payload-absent`        aucun morceau RSC                         → lève
+ *   `page-meconnaissable`   payload présent, ancres de page absentes  → lève
+ *   `declaration-inconnue`  page reconnue, déclaration hors liste     → lève
+ *   `sans-semaine`          page reconnue, phase déclarée close       → rend
+ *
+ * Il n'y a PAS de branche « semaine vivante » au temps 1 : une semaine vivante
+ * tombe aujourd'hui en `declaration-inconnue`, donc en échec bruyant. C'est le
+ * comportement correct tant qu'on ne sait pas la lire — mieux vaut un run rouge
+ * qu'une semaine avalée en silence.
+ *
+ * @returns {{ verdict: 'sans-semaine', declaration: string, statement: string }}
+ * @throws  {HubVerdictError}
  */
 export function parseWeeklyHub(html) {
-  const flight = rscFlight(html);
-  if (!flight) {
-    throw new Error('payload RSC introuvable — la page n’est plus rendue par Next.js, ou son HTML n’a pas été récupéré en entier');
-  }
-
-  const hub = objectAfterKey(flight, 'hub');
-  if (!hub) {
-    throw new Error('clé « hub » absente du payload RSC — structure de page changée côté source');
-  }
-  if (typeof hub.currentPhaseEndsAt !== 'string') {
-    throw new Error('hub.currentPhaseEndsAt absent — c’est la fin de fenêtre, sans elle il n’y a pas de compte à rebours');
-  }
-  if (!Array.isArray(hub.bonuses) || !Array.isArray(hub.discounts)) {
-    throw new Error('hub.bonuses / hub.discounts ne sont plus des tableaux — structure de payload changée');
-  }
-
-  const articlePath = articlePathFrom(flight);
-  if (!articlePath) {
-    throw new Error(
-      `lien vers l’article de la semaine introuvable (libellé « ${ARTICLE_CTA} ») — ` +
-        'c’est la seule source du DÉBUT de fenêtre ; la deviner produirait un compte à rebours faux',
+  if (!rscFlight(html)) {
+    throw new HubVerdictError(
+      'payload-absent',
+      'payload RSC introuvable — la page n’est plus rendue par Next.js, ou son HTML n’a pas été récupéré en entier',
     );
   }
 
-  // Les récompenses viennent du marquage, pas du payload — elles sont donc
-  // lues ici, où le HTML est encore disponible. Best-effort : `parseRewards` ne
-  // lève jamais, et une section absente rend un tableau vide.
-  const { rewards, skipped: rewardsSkipped } = parseRewards(html);
+  const missing = PAGE_ANCHORS.filter((anchor) => !html.includes(anchor));
+  const status = statusDeclaration(html);
+  if (missing.length || !status) {
+    throw new HubVerdictError(
+      'page-meconnaissable',
+      `page de hub non reconnue — ancres manquantes : ${(missing.length ? missing : ['bandeau de statut illisible']).join(', ')}`,
+    );
+  }
 
-  return { hub, articlePath, rewards, rewardsSkipped };
+  if (!declaresPhaseEnded(status)) {
+    throw new HubVerdictError(
+      'declaration-inconnue',
+      `la page se déclare « ${status.heading} », formulation hors de l’énumération connue — ` +
+        'c’est le cas d’une semaine VIVANTE, que cette version ne sait pas encore lire. ' +
+        'Ne pas la classer « pas de semaine » : ce serait avaler une semaine en silence',
+    );
+  }
+
+  return { verdict: 'sans-semaine', declaration: status.heading, statement: status.statement };
 }
 
 /**
@@ -188,6 +292,14 @@ function sectionSlice(html, name) {
 }
 
 /**
+ * HORS DU CHEMIN COURANT depuis la refonte du 2026-08-06 : la section
+ * `id="weekly-rewards"` qu'elle vise n'existe plus. La page l'a remplacée par
+ * `#qualified-rewards`, référencée par sa navigation mais ABSENTE du DOM tant
+ * qu'aucune semaine n'est publiée — donc non observable le jour de l'écriture.
+ * Réancrage au temps 2, sur du balisage réel. La stratégie d'ancrage, elle, s'est
+ * vérifiée : `id` de section, balise sémantique et `data-variant` ont survécu à la
+ * refonte, là où les classes Tailwind ont toutes changé.
+ *
  * @returns {{ rewards: Array<{kind: string, item: {en: string}}>, skipped: Array<{name: string, label: string|null, reason: string}> }}
  */
 export function parseRewards(html) {

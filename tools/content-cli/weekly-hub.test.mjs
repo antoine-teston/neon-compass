@@ -50,34 +50,71 @@ test('un morceau illisible ne condamne pas les autres', () => {
   assert.match(rscFlight(html), /currentPhaseEndsAt/);
 });
 
-// --- Lecture de la page ---------------------------------------------------
+// --- Verdicts de lecture de la page ---------------------------------------
+//
+// La page RÉELLE du 2026-08-06 à 19:00 UTC : nouveau design, et aucune semaine
+// publiée — la source déclare elle-même la fin de phase. C'est l'état dans lequel
+// la refonte a été découverte.
+const SANS_SEMAINE = readFileSync(new URL('./fixtures/weekly-hub-sans-semaine.html', import.meta.url), 'utf8');
 
-test('la page rend le hub et le chemin de son article', () => {
-  const { hub, articlePath } = parseWeeklyHub(minimalPage());
-  assert.equal(hub.currentPhaseEndsAt, '2026-08-05T23:59:59+00:00');
-  assert.equal(articlePath, '/gta-online-week-of-july-30');
+/** Chaque verdict s'assert sur DEUX choses : le code, et une sous-chaîne du
+ *  message. Le seul code ne distingue pas « a reconnu la situation » de « a
+ *  planté en chemin » — les deux lèvent. */
+function verdictOf(html) {
+  try {
+    return { verdict: parseWeeklyHub(html).verdict, message: null };
+  } catch (error) {
+    return { verdict: error.verdict, message: error.message };
+  }
+}
+
+test('la page qui déclare sa phase close rend « sans-semaine », pas une erreur', () => {
+  const read = parseWeeklyHub(SANS_SEMAINE);
+  assert.equal(read.verdict, 'sans-semaine');
+  assert.match(read.declaration, /event offers still active/i);
+  assert.match(read.statement, /weekly bonus phase has ended/i);
 });
 
-test('une page sans payload RSC lève, en le disant', () => {
-  assert.throws(() => parseWeeklyHub('<html><body>rien</body></html>'), /payload RSC introuvable/);
+test('une page sans payload RSC lève en « payload-absent »', () => {
+  const { verdict, message } = verdictOf('<html><body>rien</body></html>');
+  assert.equal(verdict, 'payload-absent');
+  assert.match(message, /payload RSC introuvable/);
 });
 
-test('un payload sans clé hub lève, en le disant', () => {
-  assert.throws(() => parseWeeklyHub(push('["$",{"autre":{"a":1}}]')), /clé « hub » absente/);
+test('un payload sans les ancres de la page lève en « page-meconnaissable »', () => {
+  const { verdict, message } = verdictOf(push('["$",{"autre":{"a":1}}]'));
+  assert.equal(verdict, 'page-meconnaissable');
+  assert.match(message, /ancres manquantes/);
 });
 
-test('un hub sans fin de fenêtre lève — c’est le compte à rebours qui disparaîtrait', () => {
-  const html = minimalPage({ bonuses: [], discounts: [] });
-  assert.throws(() => parseWeeklyHub(html), /currentPhaseEndsAt absent/);
+// LE contrôle négatif qui porte le principe. Une page reconnue dont la
+// déclaration est inconnue — c'est-à-dire, aujourd'hui, une semaine VIVANTE —
+// doit LEVER. La classer « pas de semaine » avalerait une semaine en silence, et
+// personne ne le saurait : c'est le seul mode de panne muet de toute la chaîne.
+test('une déclaration hors énumération lève, au lieu de passer pour « pas de semaine »', () => {
+  const vivante = SANS_SEMAINE
+    .replaceAll('GTA Online event offers still active', 'GTA Online weekly update: bonuses and discounts')
+    .replaceAll('The current weekly bonus phase has ended', 'This week’s bonuses are live now');
+  const { verdict, message } = verdictOf(vivante);
+  assert.equal(verdict, 'declaration-inconnue');
+  assert.match(message, /semaine VIVANTE/);
+  assert.notEqual(verdict, 'sans-semaine');
 });
 
-test('des bonus qui ne sont plus un tableau lèvent', () => {
-  const html = minimalPage({ ...MINIMAL_HUB, bonuses: {} });
-  assert.throws(() => parseWeeklyHub(html), /ne sont plus des tableaux/);
+// L'ancienne page — payload `hub`, ancien balisage — ne doit PAS produire un faux
+// « sans-semaine » du seul fait qu'elle ne déclare rien. C'est la même garantie
+// prise par l'autre bout : ni la nouvelle forme ni l'ancienne ne peuvent glisser
+// dans le verdict silencieux par défaut.
+test('l’ancienne page lève en « page-meconnaissable », jamais en « sans-semaine »', () => {
+  const { verdict } = verdictOf(minimalPage());
+  assert.equal(verdict, 'page-meconnaissable');
 });
 
-test('un article introuvable lève plutôt que de deviner le début de fenêtre', () => {
-  assert.throws(() => parseWeeklyHub(minimalPage(MINIMAL_HUB, { cta: false })), /DÉBUT de fenêtre/);
+test('une page qui n’a qu’une des deux ancres n’est pas reconnue à moitié', () => {
+  const uneSeule = SANS_SEMAINE.replaceAll('aria-label="Weekly event sections"', 'aria-label="Autre chose"');
+  const { verdict, message } = verdictOf(uneSeule);
+  assert.equal(verdict, 'page-meconnaissable');
+  assert.match(message, /Weekly event sections/);
 });
 
 // --- Horodatage et date d'article ----------------------------------------
