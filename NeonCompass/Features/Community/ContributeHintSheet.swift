@@ -2,10 +2,15 @@ import SwiftUI
 
 /// Dit le geste avant d'envoyer sur la carte.
 ///
-/// Une contribution SE POSE sur la carte : `ContributionSubmissionSheet` exige
-/// une `position`, et le seul chemin est l'appui long (`MapScreen`). Basculer
+/// Une contribution SE POSE sur la carte : `ContributionPlacement` exige une
+/// `position`, et le seul chemin est l'appui long (`MapScreen`). Basculer
 /// directement sur l'onglet Carte laisserait l'utilisateur devant un écran sans
 /// indice sur ce qu'on attend de lui.
+///
+/// **Deux appelants, d'où sa place ici et non dans `Features/Profile`** : la
+/// ligne d'invitation du profil, et le CTA du volet Propositions. Même
+/// précédent que `SignInToContributeAlert`, partagée entre la carte et Social —
+/// ce qui sert deux features vit dans `Community`.
 struct ContributeHintSheet: View {
     @Environment(\.dismiss) private var dismiss
     let onOpenMap: () -> Void

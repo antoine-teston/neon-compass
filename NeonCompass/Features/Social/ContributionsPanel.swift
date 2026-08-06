@@ -12,9 +12,11 @@ import SwiftUI
 /// quand il n'y a rien à choisir. Le périmètre est dit en sous-titre.
 struct ContributionsPanel: View {
     @Environment(AuthModel.self) private var authModel
+    @Environment(AppModel.self) private var appModel
     let communityModel: CommunityModel
 
     @State private var showSignInToContribute = false
+    @State private var showContributeHint = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -37,8 +39,15 @@ struct ContributionsPanel: View {
                     section("social.proposals.section.top", spots: sections.top)
                 }
             }
+
+            if communityModel.contributionsEnabled {
+                contributeButton
+            }
         }
         .signInToContributeAlert(isPresented: $showSignInToContribute)
+        .sheet(isPresented: $showContributeHint) {
+            ContributeHintSheet(onOpenMap: { appModel.selectedTab = .map })
+        }
     }
 
     private func section(_ titleKey: LocalizedStringKey, spots: [Contribution]) -> some View {
@@ -68,6 +77,55 @@ struct ContributionsPanel: View {
                 )
             }
         }
+    }
+
+    /// La seule porte vers la soumission en dehors de la carte.
+    ///
+    /// `ContributionPlacement` n'est construit qu'à un endroit — le menu d'appui
+    /// long de `MapScreen` — et rien n'annonçait ce geste ici. Or c'est ici que
+    /// l'envie naît : on lit les propositions des autres, on vote, et on se dit
+    /// qu'on en a une. Le profil avait déjà sa ligne d'invitation ; ce volet,
+    /// lui, laissait l'élan sans issue.
+    ///
+    /// **En bas, pas en haut.** Le volet sert d'abord à voter ; une action
+    /// secondaire posée avant la liste lui volerait l'accent. En bas elle arrive
+    /// au moment où l'envie s'est formée, et l'état vide la met de toute façon
+    /// sous les yeux.
+    ///
+    /// Déconnecté, on ouvre l'alerte plutôt que la feuille : envoyer quelqu'un
+    /// sur la carte pour l'y refuser ferait deux écrans au lieu d'un. C'est la
+    /// même condition que le vote juste au-dessus, donc la même alerte.
+    private var contributeButton: some View {
+        Button {
+            guard authModel.userID != nil else {
+                showSignInToContribute = true
+                return
+            }
+            showContributeHint = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "plus.circle")
+                    .foregroundStyle(NCColor.neonCyan)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("social.proposals.contribute.title")
+                        .font(NCTypography.body)
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.leading)
+                    Text("social.proposals.contribute.detail")
+                        .font(NCTypography.cardMeta)
+                        .foregroundStyle(.white.opacity(0.5))
+                        .multilineTextAlignment(.leading)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.4))
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity)
+            .glassEffect(.regular, in: .rect(cornerRadius: 16))
+        }
+        .buttonStyle(.plain)
     }
 
     /// Pas de bannière publicitaire ici : la spec §5 la réserve aux écrans de

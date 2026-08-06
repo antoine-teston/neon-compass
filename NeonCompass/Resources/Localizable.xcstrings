@@ -9027,6 +9027,74 @@
         }
       }
     },
+    "social.proposals.contribute.detail": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setze ihn auf der Karte. +20 XP nach der Freigabe."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place it on the map. +20 XP once approved."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Márcalo en el mapa. +20 XP al aprobarse."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pose-le sur la carte. +20 XP à l'approbation."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posizionalo sulla mappa. +20 XP all'approvazione."
+          }
+        }
+      }
+    },
+    "social.proposals.contribute.title": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlage einen Ort vor"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Propose a spot"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Propón un lugar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Propose un lieu"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proponi un luogo"
+          }
+        }
+      }
+    },
     "social.proposals.empty.message": {
       "localizations": {
         "de": {
