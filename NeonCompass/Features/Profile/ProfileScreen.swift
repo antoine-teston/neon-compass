@@ -54,7 +54,7 @@ struct ProfileScreen: View {
             SettingsScreen(profileModel: profileModel, communityModel: communityModel)
         }
         .sheet(isPresented: $showContributeHint) {
-            ContributeHintSheet(onOpenMap: { appModel.selectedTab = .map })
+            ContributeHintSheet(onOpenMap: { appModel.openMapToContribute() })
         }
         .task(id: authModel.userID) {
             if let userID = authModel.userID {

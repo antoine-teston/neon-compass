@@ -341,6 +341,15 @@ struct MapScreen: View {
         // lancement pour voir son carnet arriver.
         .onChange(of: authModel.userID) { _, _ in attachPinSyncIfNeeded() }
         .onChange(of: proEntitlementModel.isProEntitled) { _, _ in attachPinSyncIfNeeded() }
+        // `initial: true` n'est pas un confort : la demande est posée par l'autre
+        // onglet AVANT que cet écran ne devienne visible, donc en régulier — où
+        // la `TabView` construit ses onglets à la demande — il n'y aurait aucun
+        // changement à observer une fois installé.
+        .onChange(of: appModel.requestedMapGame, initial: true) { _, _ in
+            if let requested = appModel.consumeRequestedMapGame() {
+                mapGame = requested
+            }
+        }
         .onChange(of: mapGame) { _, newGame in
 #if DEBUG
             // Désarme si la carte d'arrivée n'accepte pas d'ajouts, avant tout

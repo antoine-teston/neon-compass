@@ -46,7 +46,7 @@ struct ContributionsPanel: View {
         }
         .signInToContributeAlert(isPresented: $showSignInToContribute)
         .sheet(isPresented: $showContributeHint) {
-            ContributeHintSheet(onOpenMap: { appModel.selectedTab = .map })
+            ContributeHintSheet(onOpenMap: { appModel.openMapToContribute() })
         }
     }
 
