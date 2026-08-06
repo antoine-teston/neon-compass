@@ -12,8 +12,17 @@ final class MapModel {
     var searchQuery: String = "" {
         didSet { refreshFilteredPOIs() }
     }
-    var selectedPOI: POI?
-    private(set) var foundPOIIDs: Set<String>
+    /// Ce que le panneau montre. Une SOMME, et non deux `Optional` côte à côte :
+    /// le panneau accueille désormais deux natures — un point d'intérêt éditorial
+    /// et une épingle du carnet — et ne peut en montrer qu'une. Deux facultatifs
+    /// laisseraient exprimer l'état impossible où les deux sont non nuls, qu'aucun
+    /// type n'interdirait.
+    var selection: MapSelection?
+    /// Passe-plat vers le magasin partagé, et non plus un cache propre : deux
+    /// caches d'une seule vérité divergeaient (voir `FoundStore`). L'observation
+    /// traverse la chaîne — une vue qui lit `model.foundPOIIDs` s'abonne en fait
+    /// à `FoundStore.foundIDs`, donc une écriture faite ailleurs la réveille.
+    var foundPOIIDs: Set<String> { found.foundIDs }
     var hideFoundPOIs = false {
         didSet { refreshFilteredPOIs() }
     }
@@ -38,28 +47,27 @@ final class MapModel {
     /// d'invalidation à `MapClusterCache` : comparer 537 points pour détecter un
     /// changement coûterait le prix d'un recalcul, ce compteur coûte zéro.
     private(set) var poisGeneration = 0
-    /// Une requête SwiftData n'a rien à faire dans une propriété lue par le
-    /// corps d'une vue : c'est de l'entrée/sortie sur le fil principal, à
-    /// chaque rendu.
-    private(set) var personalPins: [PersonalPin] = []
-    /// Même rôle que `poisGeneration`, pour les épingles personnelles : donner
-    /// au moteur de carte un moyen en O(1) de savoir si sa liste a changé.
-    /// `PersonalPin` est une classe SwiftData — comparer les tableaux ne dirait
-    /// rien d'un titre modifié, et compter les éléments encore moins.
-    private(set) var personalPinsGeneration = 0
 
     private let modelContext: ModelContext
+    private let found: FoundStore
     private var sync: ProgressionSyncing?
 
-    init(pois: [POI], modelContext: ModelContext, sync: ProgressionSyncing? = nil) {
+    /// `found` est facultatif POUR LES TESTS, qui veulent chacun un magasin isolé
+    /// sur leur contexte en mémoire. En production il est toujours fourni — c'est
+    /// celui de l'app, et le fournir est justement ce qui referme la divergence.
+    init(
+        pois: [POI],
+        modelContext: ModelContext,
+        found: FoundStore? = nil,
+        sync: ProgressionSyncing? = nil
+    ) {
         self.pois = pois
         self.activeCategories = Set(POICategory.allCases)
         self.modelContext = modelContext
+        self.found = found ?? FoundStore(modelContext: modelContext)
         self.sync = sync
-        self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
         // Les `didSet` ne se déclenchent pas pendant l'initialisation.
         refreshFilteredPOIs()
-        refreshPersonalPins()
     }
 
     /// Quels POI afficher pour la carte sélectionnée.
@@ -97,44 +105,35 @@ final class MapModel {
     }
 
     func isFound(_ poi: POI) -> Bool {
-        foundPOIIDs.contains(poi.id)
+        found.isFound(poi.id)
     }
 
     func toggleFound(_ poi: POI) {
         let poiID = poi.id
-        let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
         let now = Date.now
-        if let existing = try? modelContext.fetch(descriptor).first {
-            modelContext.delete(existing)
-            foundPOIIDs.remove(poiID)
-            try? modelContext.save()
-            Task { await sync?.upload(itemID: poiID, kind: .poi, found: false, updatedAt: now) }
-        } else {
-            modelContext.insert(FoundEntry(poiID: poi.id, updatedAt: now))
-            foundPOIIDs.insert(poiID)
-            try? modelContext.save()
-            Task { await sync?.upload(itemID: poiID, kind: .poi, found: true, updatedAt: now) }
+        // L'écriture appartient au magasin ; le téléversement reste ici, parce que
+        // c'est ce modèle qui sait si l'utilisateur y a droit.
+        let isNowFound = found.toggle(poiID, at: now)
+        Task { await sync?.upload(itemID: poiID, kind: .poi, found: isNowFound, updatedAt: now) }
+        // Le filtrage ne dépend de l'état « trouvé » QUE sous « masquer les
+        // trouvés » — et rien d'autre ne s'y rejoue.
+        //
+        // Le refiltrage était inconditionnel, et c'était la lenteur du marquage :
+        // il fait avancer `poisGeneration`, ce qui périme le cache de groupes
+        // (`MapClusterCache`) et réagrège les cinq cent trente-sept points, pour
+        // un changement qui n'ôte ni n'ajoute un seul point à la liste dessinée.
+        // Hors de ce mode, l'état voyage désormais par `foundPOIIDs`, que le
+        // jeton de contenu du moteur compare directement.
+        if hideFoundPOIs {
+            refreshFilteredPOIs()
         }
-        // « Masquer les trouvés » fait dépendre la liste filtrée de cet état.
-        refreshFilteredPOIs()
     }
 
-    private func refreshPersonalPins() {
-        let descriptor = FetchDescriptor<PersonalPin>(sortBy: [SortDescriptor(\.createdAt)])
-        personalPins = (try? modelContext.fetch(descriptor)) ?? []
-        personalPinsGeneration &+= 1
-    }
-
-    func addPersonalPin(at point: NormalizedPoint, title: String) {
-        modelContext.insert(PersonalPin(x: point.x, y: point.y, title: title))
-        try? modelContext.save()
-        refreshPersonalPins()
-    }
-
-    func deletePersonalPin(_ pin: PersonalPin) {
-        modelContext.delete(pin)
-        try? modelContext.save()
-        refreshPersonalPins()
+    /// Vide la sélection si elle porte cette épingle. À appeler AVANT la
+    /// suppression : le panneau tient une référence, et un objet SwiftData effacé
+    /// sous elle est un plantage en attente.
+    func clearSelectionIfPin(_ pin: PersonalPin) {
+        if selection?.pin === pin { selection = nil }
     }
 
     func updatePOIs(_ newPOIs: [POI]) {
@@ -155,33 +154,31 @@ final class MapModel {
         return true
     }
 
-    /// Last-write-wins-per-item reconciliation of remote progression into the
-    /// local FoundEntry store. Pure/testable independent of Firestore — the
-    /// caller (MapScreen) is responsible for fetching remoteItems and gating
-    /// this on Pro + signed-in.
+    /// Réconciliation de la progression distante. La règle
+    /// dernière-écriture-gagne vit dans `FoundStore` — un seul magasin décide.
+    /// L'appelant (`MapScreen`) reste responsable d'aller chercher `remoteItems`
+    /// et de vérifier le droit (Pro + compte).
+    ///
+    /// Le refiltrage est inconditionnel ici, à la différence de `toggleFound` : la
+    /// réconciliation peut ajouter comme retirer beaucoup d'entrées d'un coup, et
+    /// elle arrive une fois par ouverture d'écran, pas à chaque tap.
     func reconcile(with remoteItems: [ProgressionSyncItem]) {
-        for item in remoteItems where item.kind == .poi {
-            let poiID = item.itemID
-            let descriptor = FetchDescriptor<FoundEntry>(predicate: #Predicate { $0.poiID == poiID })
-            let existing = try? modelContext.fetch(descriptor).first
-
-            if let existing, existing.updatedAt >= item.updatedAt {
-                continue // local is at least as recent, local wins
-            }
-
-            if item.found {
-                if let existing {
-                    existing.updatedAt = item.updatedAt
-                } else {
-                    modelContext.insert(FoundEntry(poiID: poiID, foundAt: item.updatedAt, updatedAt: item.updatedAt))
-                }
-                foundPOIIDs.insert(poiID)
-            } else if let existing {
-                modelContext.delete(existing)
-                foundPOIIDs.remove(poiID)
-            }
-        }
-        try? modelContext.save()
+        found.reconcile(with: remoteItems)
         refreshFilteredPOIs()
     }
+}
+
+/// Ce qu'on peut sélectionner sur la carte, et que le panneau montre.
+///
+/// `POI` est une valeur, `PersonalPin` une classe SwiftData — `@Model` est déjà
+/// `Hashable`, donc l'égalité synthétisée compare le contenu pour le point et
+/// l'identité pour l'épingle. C'est exactement ce qu'il faut : renommer une
+/// épingle ouverte ne doit pas rejouer la transition du panneau sous les doigts
+/// de celui qui écrit dedans.
+enum MapSelection: Equatable {
+    case poi(POI)
+    case pin(PersonalPin)
+
+    var poi: POI? { if case .poi(let poi) = self { return poi } else { return nil } }
+    var pin: PersonalPin? { if case .pin(let pin) = self { return pin } else { return nil } }
 }

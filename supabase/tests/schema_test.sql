@@ -290,6 +290,91 @@ begin
   reset role;
 end $$;
 
+-- ---------------------------------------------------------------------------
+-- Carnet d'épingles — cloisonnement, défaut d'uid, pierre tombale
+-- ---------------------------------------------------------------------------
+
+insert into public.personal_pins (uid, id, game, x, y, title, created_at, updated_at) values
+  ('11111111-1111-1111-1111-111111111111', 'bbbbbbbb-0000-0000-0000-000000000001',
+   'gtav', 0.5, 0.5, 'À moi', now(), now()),
+  ('22222222-2222-2222-2222-222222222222', 'bbbbbbbb-0000-0000-0000-000000000002',
+   'gtav', 0.6, 0.6, 'À l''autre', now(), now());
+
+do $$
+declare
+  n integer;
+  owner uuid;
+begin
+  set local role authenticated;
+  perform set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', true);
+
+  -- Un carnet est strictement personnel : aucune face publique, contrairement
+  -- aux contributions.
+  select count(*) into n from public.personal_pins;
+  assert n = 1, format('un utilisateur ne doit voir QUE son carnet, il en voit %s', n);
+
+  -- Le défaut d'uid, comme sur `progression`.
+  insert into public.personal_pins (id, game, x, y, created_at, updated_at)
+       values ('bbbbbbbb-0000-0000-0000-000000000003', 'gtav', 0.1, 0.1, now(), now());
+  select uid into owner from public.personal_pins
+   where id = 'bbbbbbbb-0000-0000-0000-000000000003';
+  assert owner = '11111111-1111-1111-1111-111111111111',
+    format('le défaut doit poser l''appelant comme propriétaire, obtenu %s', owner);
+
+  -- Écrire dans le carnet d'un autre reste refusé.
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, created_at, updated_at)
+         values ('22222222-2222-2222-2222-222222222222',
+                 'bbbbbbbb-0000-0000-0000-000000000004', 'gtav', 0.2, 0.2, now(), now());
+    assert false, 'écrire le carnet d''un autre doit rester refusé';
+  exception when insufficient_privilege then
+    null; -- attendu
+  end;
+
+  -- La pierre tombale est une MISE À JOUR, pas une suppression : la ligne reste,
+  -- et c'est ce qui permet à l'autre appareil d'apprendre l'effacement.
+  update public.personal_pins set deleted_at = now(), updated_at = now()
+   where id = 'bbbbbbbb-0000-0000-0000-000000000001';
+  select count(*) into n from public.personal_pins
+   where id = 'bbbbbbbb-0000-0000-0000-000000000001' and deleted_at is not null;
+  assert n = 1, 'la tombe doit subsister comme ligne, sinon elle ne se propage pas';
+
+  reset role;
+end $$;
+
+-- Les bornes de longueur et de domaine, qui n'existaient sur aucune table avant
+-- celle-ci : c'est la première où le client écrit de la prose.
+do $$
+begin
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, note, created_at, updated_at)
+         values ('11111111-1111-1111-1111-111111111111',
+                 'bbbbbbbb-0000-0000-0000-000000000005', 'gtav', 0.3, 0.3,
+                 repeat('x', 2001), now(), now());
+    assert false, 'une note de plus de 2000 caractères doit être refusée';
+  exception when check_violation then
+    null; -- attendu
+  end;
+
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, created_at, updated_at)
+         values ('11111111-1111-1111-1111-111111111111',
+                 'bbbbbbbb-0000-0000-0000-000000000006', 'gtav', 1.5, 0.3, now(), now());
+    assert false, 'une coordonnée hors du carré unitaire doit être refusée';
+  exception when check_violation then
+    null; -- attendu
+  end;
+
+  begin
+    insert into public.personal_pins (uid, id, game, x, y, created_at, updated_at)
+         values ('11111111-1111-1111-1111-111111111111',
+                 'bbbbbbbb-0000-0000-0000-000000000007', 'inconnu', 0.3, 0.3, now(), now());
+    assert false, 'une carte inconnue doit être refusée';
+  exception when check_violation then
+    null; -- attendu
+  end;
+end $$;
+
 -- Et le second verrou mord vraiment : une écriture directe est refusée par le
 -- PRIVILÈGE, avant même que RLS n'ait son mot à dire.
 do $$
@@ -360,6 +445,48 @@ begin
 
   select count(*) into remaining from public.votes where uid = '22222222-2222-2222-2222-222222222222';
   assert remaining = 0, 'les votes partent en cascade';
+end $$;
+
+-- ---------------------------------------------------------------------------
+-- `approved_at` et son trigger
+-- ---------------------------------------------------------------------------
+--
+-- La section « À découvrir » du volet Social trie dessus. Vérifier la présence
+-- de la colonne ne suffirait pas : sans le trigger, elle resterait nulle pour
+-- toute approbation future, et la section se remplirait dans un ordre
+-- arbitraire. On exerce donc le COMPORTEMENT, pas la déclaration.
+do $$
+declare
+  stamped timestamptz;
+  before_reapproval timestamptz;
+begin
+  -- `author_uid` nul est permis (contrat d'anonymisation), ce qui évite de
+  -- dépendre d'un compte que les blocs précédents ont pu supprimer.
+  insert into public.contributions (id, author_uid, author_handle, category, title, language_code, position_x, position_y, status)
+  values ('aaaaaaaa-0000-0000-0000-0000000000a1', null, 'NEON-FALCON-88', 'landmark', 'Un lieu en attente', 'fr', 0.5, 0.5, 'pending');
+
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  assert stamped is null, 'une contribution en attente ne porte pas de date d''approbation';
+
+  update public.contributions set status = 'approved' where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  assert stamped is not null, 'passer à approved doit horodater approved_at';
+
+  -- Idempotence : c'est ce qui rend le trigger légitime là où l'XP l'a refusé.
+  -- Une reprise de migration qui repasserait la ligne à `approved` ne doit pas
+  -- réécrire la date d'apparition.
+  before_reapproval := stamped;
+  update public.contributions set status = 'approved' where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a1';
+  assert stamped = before_reapproval, 'une réapprobation ne doit pas réécrire approved_at';
+
+  -- Une insertion directement approuvée est horodatée aussi : la modération
+  -- peut approuver en une seule écriture.
+  insert into public.contributions (id, author_uid, author_handle, category, title, language_code, position_x, position_y, status)
+  values ('aaaaaaaa-0000-0000-0000-0000000000a2', null, 'NEON-FALCON-88', 'landmark', 'Un lieu approuvé d''emblée', 'fr', 0.4, 0.4, 'approved');
+
+  select approved_at into stamped from public.contributions where id = 'aaaaaaaa-0000-0000-0000-0000000000a2';
+  assert stamped is not null, 'une insertion déjà approuvée doit être horodatée';
 end $$;
 
 rollback;

@@ -64,13 +64,49 @@ enum POIPinPalette {
         }
     }
 
-    /// Contour du pin, qui le détache du fond quelle que soit la teinte
-    /// dessous. Sombre sur la carte restylée, blanc sur la carte d'origine.
-    static func outline(for style: MapStyle) -> Color {
+    /// Cœur de l'épingle — délibérément NEUTRE, et non plus la couleur de
+    /// catégorie.
+    ///
+    /// C'est le renversement dont découle tout le reste. Un disque rempli en
+    /// couleur de catégorie est une gommette opaque, et il y en a plus de cent à
+    /// l'écran au zoom de repos : le fond de carte, qui est le meilleur atout de
+    /// l'app, disparaissait entièrement dessous. Or le néon est un tube fin — la
+    /// lumière est sur le CONTOUR, jamais dans la masse. Le cœur laisse donc
+    /// passer la trame viaire, et c'est l'anneau qui porte la couleur.
+    ///
+    /// L'objection que cette palette portait jusqu'ici — « un symbole teinté sur
+    /// fond sombre se réduit à un point flou » — visait un pin SANS anneau. Elle
+    /// ne tient plus : l'anneau donne un bord franc et lumineux, donc une
+    /// silhouette, ce qu'un simple glyphe teinté n'avait pas.
+    static func core(for style: MapStyle) -> Color {
         switch style {
-        case .neon: Color(NCColor.RGBA(hex: "#050410")!)
+        // Plus sombre que les terres (violettes) comme que l'eau (presque
+        // noire) : le cœur creuse, quel que soit l'endroit de la carte.
+        case .neon: Color(NCColor.RGBA(hex: "#07061A")!)
+        // Le fond d'origine est clair (vert, sable, blanc) : c'est vers le blanc
+        // qu'il faut s'écarter pour que l'anneau sombre et saturé ressorte.
         case .classic: .white
         }
+    }
+
+    /// Opacité du cœur. Le trouvé est plus TRANSPARENT, pas plus terne : c'est
+    /// ce qui le rend plus léger que le non-trouvé sans le rendre boueux.
+    static func coreOpacity(found: Bool) -> Double {
+        found ? 0.45 : 0.82
+    }
+
+    /// Épaisseur de l'anneau. Le trouvé s'amincit — même geste que l'opacité, et
+    /// pour la même raison : ce qui reste à faire doit accrocher l'œil, pas
+    /// l'inverse.
+    static func ringWidth(found: Bool) -> CGFloat {
+        found ? 1.5 : 2
+    }
+
+    /// Le halo ne survit pas au marquage : un lieu trouvé cesse d'émettre. C'est
+    /// aussi ce qui tient la consigne du CLAUDE.md (« glow on at most three
+    /// accents per screen ») à mesure que la carte se complète.
+    static func glowRadius(for style: MapStyle, found: Bool) -> CGFloat {
+        found ? 0 : glowRadius(for: style)
     }
 
     /// Un halo néon n'a de sens que sur fond sombre — sur la carte d'origine

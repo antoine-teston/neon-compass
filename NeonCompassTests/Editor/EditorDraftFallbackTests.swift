@@ -13,13 +13,20 @@ private final class RecordingStore: EditorDraftStore, @unchecked Sendable {
     private(set) var saved: [String] = []
     private(set) var deliveryWaits = 0
     var errorToThrow: Error?
+    /// Distinct de `errorToThrow`, et c'est tout le sujet : le magasin distant
+    /// réel ACCEPTE toujours puis échoue à la livraison. Un unique interrupteur
+    /// d'erreur ne saurait pas jouer ce cas — celui qui a perdu les captures.
+    var deliveryError: Error?
 
     func save(_ draft: EditorDraft) throws {
         if let errorToThrow { throw errorToThrow }
         saved.append(draft.id)
     }
 
-    func waitForDelivery() async throws { deliveryWaits += 1 }
+    func waitForDelivery() async throws {
+        deliveryWaits += 1
+        if let deliveryError { throw deliveryError }
+    }
 }
 
 private struct Refused: Error {}
@@ -79,19 +86,45 @@ struct FileEditorDraftStoreTests {
 }
 
 struct EditorDraftRouterTests {
-    @Test func usesFirestoreWhenAnAccountIsAvailable() throws {
+    /// **Le fichier est écrit TOUJOURS**, compte ou pas.
+    ///
+    /// Le contrat d'avant en faisait une alternative — distant OU fichier — et
+    /// c'est ce qui a perdu cinq captures le 2026-08-05 : le magasin distant
+    /// réel est un acteur dont `save` empile en mémoire et rend la main sans
+    /// jamais lever. Le `catch` du routeur ne pouvait donc pas se déclencher, et
+    /// la file, refusée par la RLS, mourait à la fermeture de l'app.
+    ///
+    /// Écrire des deux côtés est sans danger et le routeur le disait déjà :
+    /// `pull-drafts` se réapparie par `processedFrom`, donc un brouillon passé
+    /// par les deux chemins ne produit pas deux entrées.
+    @Test func theFileIsAlwaysWrittenEvenWithAnAccount() throws {
         let remote = RecordingStore(), local = RecordingStore()
         let router = EditorDraftRouter(remote: remote, local: local, isRemoteUsable: { true })
 
         try router.save(draft("u1"))
 
+        #expect(local.saved == ["u1"], "la durabilité tient au fichier, jamais à la file distante")
         #expect(remote.saved == ["u1"])
-        #expect(local.saved.isEmpty)
     }
 
-    /// Le cas qui compte aujourd'hui : sans compte — donc sans adhésion au
-    /// programme développeur Apple — la capture doit quand même atterrir.
-    @Test func fallsBackToTheFileWithoutAnAccount() throws {
+    /// Le cas de la régression, isolé : un magasin distant qui ACCEPTE sans
+    /// jamais livrer — la forme exacte de `SupabaseEditorDraftStore`, dont le
+    /// `save` est `nonisolated` et se contente d'empiler.
+    @Test func aRemoteThatAcceptsButNeverDeliversDoesNotSwallowTheCapture() async throws {
+        let remote = RecordingStore(), local = RecordingStore()
+        remote.deliveryError = Refused()
+        let router = EditorDraftRouter(remote: remote, local: local, isRemoteUsable: { true })
+
+        try router.save(draft("u1"))
+        // La livraison échoue, comme sous une RLS qui refuse.
+        await #expect(throws: Refused.self) { try await router.waitForDelivery() }
+
+        #expect(local.saved == ["u1"], "la capture doit survivre à l'échec de livraison")
+    }
+
+    /// Sans compte — donc sans adhésion au programme développeur Apple — rien ne
+    /// part au distant, et la capture atterrit quand même.
+    @Test func nothingGoesRemoteWithoutAnAccount() throws {
         let remote = RecordingStore(), local = RecordingStore()
         let router = EditorDraftRouter(remote: remote, local: local, isRemoteUsable: { false })
 
@@ -103,7 +136,7 @@ struct EditorDraftRouterTests {
 
     /// Un refus distant ne doit jamais perdre une capture : quelqu'un qui a les
     /// mains sur une manette ne peut pas la ressaisir.
-    @Test func aRemoteRefusalStillLandsInTheFile() throws {
+    @Test func aRemoteRefusalDoesNotFailTheCapture() throws {
         let remote = RecordingStore(), local = RecordingStore()
         remote.errorToThrow = Refused()
         let router = EditorDraftRouter(remote: remote, local: local, isRemoteUsable: { true })
@@ -113,9 +146,20 @@ struct EditorDraftRouterTests {
         #expect(local.saved == ["u1"])
     }
 
+    /// Le fichier, lui, n'a pas de repli : s'il tombe, la capture est vraiment
+    /// perdue et l'éditeur doit le savoir plutôt que de l'annoncer enregistrée.
+    @Test func aFileFailureIsFatalToTheCapture() throws {
+        let remote = RecordingStore(), local = RecordingStore()
+        local.errorToThrow = Refused()
+        let router = EditorDraftRouter(remote: remote, local: local, isRemoteUsable: { true })
+
+        #expect(throws: Refused.self) { try router.save(draft("u1")) }
+    }
+
     /// La décision se prend à chaque écriture : une connexion en cours de
-    /// session doit être prise en compte sans reconstruire l'éditeur.
-    @Test func theChoiceIsMadePerSaveNotAtConstruction() throws {
+    /// session doit être prise en compte sans reconstruire l'éditeur. Elle ne
+    /// porte plus que sur le DISTANT — le fichier reçoit les deux.
+    @Test func theRemoteChoiceIsMadePerSaveNotAtConstruction() throws {
         let remote = RecordingStore(), local = RecordingStore()
         let signedIn = MutableFlag(false)
         let router = EditorDraftRouter(remote: remote, local: local, isRemoteUsable: { signedIn.value })
@@ -124,7 +168,7 @@ struct EditorDraftRouterTests {
         signedIn.value = true
         try router.save(draft("u2"))
 
-        #expect(local.saved == ["u1"])
+        #expect(local.saved == ["u1", "u2"])
         #expect(remote.saved == ["u2"])
     }
 

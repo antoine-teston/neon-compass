@@ -100,7 +100,13 @@ jobs:
       # d'interroger un domaine dont le robots.txt nous exclut. Une règle de
       # conformité qui ne serait vérifiée nulle part ne vaudrait pas mieux que
       # le paragraphe de prompt qu'elle remplace.
-      - name: Tests de la console web, des matérialisations et de la politique de sources
+      # La détection de dérive des Edge Functions les rejoint pour la même
+      # raison : c'est elle qui empêche une fonction de tourner en production
+      # dans une version antérieure à sa source sans que rien ne le signale.
+      # Sa règle la plus fragile — une fonction hérite de la date de `_shared`
+      # dès qu'elle l'importe — est précisément celle qui, absente, laisserait
+      # repasser le cas du 05/08.
+      - name: Tests de la console web, des matérialisations, de la politique de sources et des dérives
         run: >
           node --test
           tools/content-cli/ui/actions.test.mjs
@@ -108,6 +114,7 @@ jobs:
           tools/content-cli/facts-to-news.test.mjs
           tools/content-cli/facts-to-online-event.test.mjs
           tools/content-cli/source-policy.test.mjs
+          tools/edge-functions/drift.test.mjs
 
       - name: Installer les dépendances du CLI
         working-directory: tools/content-cli

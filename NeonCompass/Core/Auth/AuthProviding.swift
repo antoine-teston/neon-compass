@@ -23,6 +23,10 @@ enum EmailSignUpOutcome: Sendable, Equatable {
 protocol AuthProviding: Sendable {
     var currentUserID: String? { get }
 
+    /// Le compte de la session courante, pour que les réglages puissent dire
+    /// AVEC QUOI on est connecté. Nul quand personne ne l'est.
+    var currentAccount: SignedInAccount? { get }
+
     /// Sign in with Apple : le jeton signé par Apple et le nonce brut de CETTE
     /// tentative. L'aller-retour prouve que le jeton a été émis pour elle.
     func signIn(idTokenString: String, nonce: String) async throws -> String

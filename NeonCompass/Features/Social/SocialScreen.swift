@@ -13,6 +13,36 @@ struct SocialScreen: View {
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @State private var model: OnlineEventsModel?
     @State private var leaderboardRows: [LeaderboardRow] = []
+    @Environment(AuthModel.self) private var authModel
+
+    /// Le volet affiché. Non persisté : Social s'ouvre sur les événements, qui
+    /// sont son sujet principal jusqu'à la sortie.
+    @State private var panel: Panel = .events
+    @State private var communityModel: CommunityModel?
+
+    private enum Panel: String, CaseIterable, Identifiable {
+        case events, proposals
+
+        var id: String { rawValue }
+
+        var titleKey: LocalizedStringKey {
+            switch self {
+            case .events: "social.panel.events"
+            case .proposals: "social.panel.proposals"
+            }
+        }
+    }
+
+    /// Les volets réellement atteignables.
+    ///
+    /// Voter passe par une Edge Function : sans `serverFeatures`, le volet
+    /// Propositions ne peut rien offrir. Il est donc RETIRÉ du sélecteur, pas
+    /// affiché vide — c'est la règle que `OnlineEventsModel.showsGamePicker`
+    /// applique déjà, et le premier jet l'avait manquée : vu au simulateur, le
+    /// segment existait et son contenu était une page blanche.
+    private var availablePanels: [Panel] {
+        serverFeatures.isEnabled ? Panel.allCases : [.events]
+    }
     private let leaderboardRepository: any LeaderboardRepository = SupabaseLeaderboardRepository()
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
     /// la valeur qu'il avait à l'ouverture de l'onglet.
@@ -39,50 +69,44 @@ struct SocialScreen: View {
         // ProgressView elle s'annulerait elle-même dès que `model` est assigné.
         // Cf. FeedScreen, où ce défaut avait gardé le fil vide.
         .task { await loadModel() }
+        // Chargé à l'ouverture du volet et non au montage : `CommunityModel.live`
+        // monte un `ContentStore`, et le volet Propositions n'est pas celui qui
+        // s'ouvre.
+        .task(id: panel) {
+            guard panel == .proposals else { return }
+            await loadCommunity()
+        }
         .onReceive(tick) { now = $0 }
     }
 
     private func content(_ model: OnlineEventsModel) -> some View {
         ScrollView {
             VStack(spacing: 20) {
-                if model.showsGamePicker {
-                    Picker(selection: Binding(
-                        get: { model.selectedGame },
-                        set: { model.selectedGame = $0 }
-                    )) {
-                        ForEach(model.availableGames) { game in
-                            Text(game.shortLabel).tag(game)
+                let panels = availablePanels
+                if panels.count > 1 {
+                    Picker(selection: $panel) {
+                        ForEach(panels) { candidate in
+                            Text(candidate.titleKey).tag(candidate)
                         }
                     } label: {
-                        Text("social.game.picker")
+                        Text("social.panel.events")
                     }
                     .pickerStyle(.segmented)
                 }
 
-                let shown = model.currentEvent(at: now) ?? model.latestEvent()
-                if let shown {
-                    OnlineEventCard(event: shown, now: now)
-                } else {
-                    emptyState
-                }
-                if serverFeatures.isEnabled {
-                    LeaderboardSection(rows: leaderboardRows)
-                }
-                // Écran de liste : la bannière s'y applique (spec §5), jamais
-                // sur la carte en interaction. Posée DANS le défilement, en
-                // queue de colonne — même motif que `GuidesListView`.
-                //
-                // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
-                // suppression des pubs. En afficher une à quelqu'un qui a payé
-                // pour ne plus en voir est le pire retour possible.
-                // ET une carte à montrer : vu au simulateur, l'écran du jour J
-                // — aucun événement publié — affichait « rien pour l'instant »
-                // suivi d'une publicité dans un écran par ailleurs vide. Ça se
-                // lit « on n'a rien pour toi, voilà une pub ». La spec §5 pose
-                // la bannière sur les écrans de LISTE ; un état vide n'en est
-                // pas un.
-                if shown != nil, !proEntitlementModel.isProEntitled {
-                    BannerAdView()
+                // `panels.contains` et pas seulement `panel` : `serverFeatures`
+                // démarre à faux et bascule après son rafraîchissement. Sans ce
+                // repli, une bascule dans l'autre sens laisserait l'écran sur un
+                // volet qui vient de disparaître du sélecteur.
+                switch panels.contains(panel) ? panel : .events {
+                case .events:
+                    eventsPanel(model)
+                case .proposals:
+                    if let communityModel {
+                        ContributionsPanel(communityModel: communityModel)
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
             // Plafonnée pour l'iPad : vu au simulateur, la carte s'étirait sur
@@ -99,6 +123,55 @@ struct SocialScreen: View {
             // seul autre appelant, gardé par `guard model == nil`.
             await scheduleReminders(for: model.events)
             await loadLeaderboard()
+            await loadCommunity()
+        }
+    }
+
+    /// L'écran d'avant, déplacé sans changement de comportement.
+    ///
+    /// Le sélecteur de jeu vit ICI et non en tête d'écran : deux barres de
+    /// segments empilées seraient illisibles, et il ne concerne que les
+    /// événements — le classement est global, les propositions sont VI par
+    /// construction.
+    @ViewBuilder
+    private func eventsPanel(_ model: OnlineEventsModel) -> some View {
+        if model.showsGamePicker {
+            Picker(selection: Binding(
+                get: { model.selectedGame },
+                set: { model.selectedGame = $0 }
+            )) {
+                ForEach(model.availableGames) { game in
+                    Text(game.shortLabel).tag(game)
+                }
+            } label: {
+                Text("social.game.picker")
+            }
+            .pickerStyle(.segmented)
+        }
+
+        let shown = model.currentEvent(at: now) ?? model.latestEvent()
+        if let shown {
+            OnlineEventCard(event: shown, now: now)
+        } else {
+            emptyState
+        }
+        if serverFeatures.isEnabled {
+            LeaderboardSection(rows: leaderboardRows)
+        }
+        // Écran de liste : la bannière s'y applique (spec §5), jamais sur la
+        // carte en interaction. Posée DANS le défilement, en queue de colonne —
+        // même motif que `GuidesListView`.
+        //
+        // Conditionnée à l'abonnement : le Pro se vend d'abord sur la
+        // suppression des pubs. En afficher une à quelqu'un qui a payé pour ne
+        // plus en voir est le pire retour possible. ET une carte à montrer : vu
+        // au simulateur, l'écran du jour J — aucun événement publié — affichait
+        // « rien pour l'instant » suivi d'une publicité dans un écran par
+        // ailleurs vide. Ça se lit « on n'a rien pour toi, voilà une pub ». La
+        // spec §5 pose la bannière sur les écrans de LISTE ; un état vide n'en
+        // est pas un.
+        if shown != nil, !proEntitlementModel.isProEntitled {
+            BannerAdView()
         }
     }
 
@@ -116,6 +189,18 @@ struct SocialScreen: View {
         .padding(20)
         .frame(maxWidth: .infinity)
         .glassEffect(.regular, in: .rect(cornerRadius: 20))
+    }
+
+    /// Construit à la demande et non au montage : le volet Propositions n'est
+    /// pas celui qui s'ouvre, et `CommunityModel.live` monte un `ContentStore`.
+    private func loadCommunity() async {
+        if communityModel == nil {
+            communityModel = CommunityModel.live(modelContext: modelContext)
+        }
+        await communityModel?.loadApprovedSpots()
+        if let uid = authModel.userID {
+            await communityModel?.loadMyVotes(uid: uid)
+        }
     }
 
     private func loadModel() async {

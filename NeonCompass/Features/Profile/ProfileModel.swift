@@ -6,6 +6,11 @@ import Observation
 final class ProfileModel {
     private(set) var profile: Profile?
 
+    /// Distingue « pas encore connu » de « pas disponible ». Sans lui,
+    /// l'entête d'un utilisateur connecté afficherait le titre anonyme le
+    /// temps de l'aller-retour réseau, puis basculerait sur son pseudo.
+    private(set) var isLoadingProfile = false
+
     private let repository: ProfileRepository
     private let functions: AccountFunctionsCalling
     private let localDeletion: AccountDeleting
@@ -21,6 +26,8 @@ final class ProfileModel {
     }
 
     func loadProfile(uid: String) async {
+        isLoadingProfile = true
+        defer { isLoadingProfile = false }
         profile = try? await repository.fetchProfile(uid: uid)
     }
 

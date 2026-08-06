@@ -1,0 +1,126 @@
+name: Binaire Release
+
+# Prouve qu'aucune trace du mode éditeur interne n'atteint le binaire soumis.
+#
+# ## Pourquoi ce workflow existe, décidé le 2026-08-06
+#
+# `Scripts/check-release-binary.sh` existait depuis le 2026-07-27 et son en-tête
+# annonçait : « `#if DEBUG` protège ; ce script le prouve. Une garantie qu'on ne
+# vérifie pas n'en est pas une. » Deux choses manquaient pour que ce soit vrai.
+#
+# La première : **aucun workflow ne le lançait**, et aucun ne buildait l'app —
+# `content`, `functions`, `migrations`, `recolte` tournent tous sur
+# `ubuntu-latest`. Le contrôle ne s'exécutait que si quelqu'un y pensait.
+#
+# La seconde, découverte en le mettant à l'épreuve ce jour-là : **il ne pouvait
+# pas échouer.** `grep -q` sous `pipefail` sortait au premier succès, fermait le
+# tuyau, et le SIGPIPE reçu par `strings` devenait le statut de la pipeline. Un
+# marqueur TROUVÉ rendait 141, un marqueur absent rendait 1 : jamais 0. Soumis à
+# un vrai binaire Release où le marqueur avait été délibérément mis à fuir, il
+# répondait « ✓ ». Brancher tel quel un contrôle qui ne sait qu'approuver
+# n'aurait fait qu'en institutionnaliser le mensonge.
+#
+# D'où l'ordre des étapes ci-dessous : **le test du contrôle passe AVANT le
+# build.** Il coûte une seconde, ne demande pas Xcode, et éprouve les deux sens —
+# bundle propre accepté, marqueur refusé. S'il tombe, on l'apprend tout de suite
+# plutôt qu'après dix minutes de compilation sur un runner facturé au décuple.
+#
+# ## Ce que ce contrôle ne dit pas
+#
+# Il cherche UNE chaîne, celle du bandeau de l'éditeur. Si quelqu'un hissait
+# `EditorModel` hors de `#if DEBUG` en laissant le bandeau derrière, le contrôle
+# passerait et l'éditeur serait livré. Le vrai rempart reste le compilateur : les
+# dix fichiers de l'éditeur étant gardés, tout site d'appel non gardé casse la
+# build Release. Ce workflow est la ceinture, pas les bretelles.
+
+on:
+  workflow_dispatch:
+  # Les deux listes sont identiques et le resteront : pas d'ancre YAML, le
+  # parseur de GitHub Actions ne les gère pas — il les rejette au lieu de les
+  # développer, et le workflow ne se déclencherait jamais.
+  push:
+    branches: [main]
+    paths:
+      - "NeonCompass/**"
+      - "NeonCompassWidgets/**"
+      - "project.yml"
+      - "Scripts/check-release-binary.sh"
+      - "Scripts/check-release-binary-test.sh"
+      - ".github/workflows/release-check.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "NeonCompass/**"
+      - "NeonCompassWidgets/**"
+      - "project.yml"
+      - "Scripts/check-release-binary.sh"
+      - "Scripts/check-release-binary-test.sh"
+      - ".github/workflows/release-check.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-binary:
+    # Épinglé, pas `macos-latest` : l'étiquette flottante changera d'image au
+    # prochain macOS et le SDK avec. L'assertion sur le SDK ci-dessous dit
+    # clairement quoi faire le jour où cette image sera retirée.
+    runs-on: macos-26
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+
+      # D'abord, et sans Xcode : un contrôle qui ne peut pas échouer ne vaut
+      # rien, et on veut le savoir en une seconde.
+      - name: Éprouver le contrôle lui-même
+        run: Scripts/check-release-binary-test.sh
+
+      # iOS 26 est le minimum de déploiement du projet et il n'y a aucun chemin
+      # de repli : un SDK plus ancien ne compilera pas `.glassEffect`. Autant le
+      # dire ici, plutôt que de le laisser deviner dans 400 lignes d'erreurs.
+      - name: Exiger un SDK iOS 26 ou plus
+        run: |
+          sdk=$(xcodebuild -showsdks | sed -n 's/.*-sdk iphonesimulator\([0-9][0-9.]*\).*/\1/p' | sort -V | tail -1)
+          echo "Xcode      : $(xcodebuild -version | head -1)"
+          echo "SDK le plus récent : ${sdk:-aucun}"
+          major=${sdk%%.*}
+          if [ -z "${sdk}" ] || [ "${major}" -lt 26 ]; then
+            echo "::error::SDK iOS 26 absent de l'image macos-26 — épingler une image ou un Xcode qui en a un."
+            exit 1
+          fi
+
+      - name: Installer XcodeGen
+        # `*.xcodeproj` est gitignoré : le projet n'existe pas dans le dépôt, il
+        # se régénère. XcodeGen n'est pas préinstallé sur l'image.
+        run: brew install xcodegen
+
+      # Les artefacts binaires de Google Mobile Ads pèsent lourd et ne bougent
+      # qu'avec `project.yml`. `Package.resolved` ne peut pas servir de clé : il
+      # vit DANS le `.xcodeproj`, donc il est gitignoré — ce qui veut aussi dire
+      # qu'aucune version n'est épinglée côté CI, les bornes de `project.yml`
+      # faisant seules foi.
+      - name: Cache des paquets Swift
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/org.swift.swiftpm
+          key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Générer le projet
+        run: xcodegen generate
+
+      # `generic/platform=iOS Simulator` évite toute signature : on ne cherche
+      # pas un binaire soumissible, on cherche ce que le compilateur laisse dans
+      # le binaire quand `DEBUG` n'est pas défini.
+      - name: Builder en Release
+        run: |
+          xcodebuild -project NeonCompass.xcodeproj -scheme NeonCompass \
+            -configuration Release -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/dd CODE_SIGNING_ALLOWED=NO build
+
+      - name: Contrôler le binaire
+        run: Scripts/check-release-binary.sh build/dd/Build/Products/Release-iphonesimulator/NeonCompass.app

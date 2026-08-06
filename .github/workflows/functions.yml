@@ -1,0 +1,164 @@
+name: Functions
+
+# Déploie les Edge Functions de `supabase/functions/` au projet de production.
+#
+# Pourquoi ce workflow existe, décidé le 2026-08-05 : il n'y en avait AUCUN.
+# `content.yml` publie les fragments, `migrations.yml` applique le SQL depuis le
+# 03/08, et `supabase/functions/` n'avait jamais eu de chemin. Les fonctions se
+# déployaient donc à la main, ou pas du tout.
+#
+# Le prix s'est payé le jour même, et il était invisible : deux fonctions
+# tournaient en production dans une version antérieure de plusieurs jours à leur
+# source. `rebuild-community-bundles` publiait des fragments sans `approvedAt`
+# — la colonne livrée la veille pour ordonner « À découvrir » — et
+# `submit-contribution` rendait ses refus sans le code machine que le client
+# venait d'apprendre à lire. Ni l'une ni l'autre n'a jamais échoué : une fonction
+# non déployée ne casse rien, elle rend l'ANCIENNE réponse. Le client s'en sort
+# par son repli, et personne ne voit rien.
+#
+# D'où le parti pris : **ce workflow détecte avant de déployer.** Un bouton de
+# déploiement seul n'aurait rien empêché ce jour-là ; ce qui manquait, c'était de
+# savoir que le déploiement était dû. `tools/edge-functions/drift.mjs` compare la
+# date de commit de chaque fonction à celle de son déploiement, `_shared` compris
+# pour qui l'importe — sans quoi le cas réel du 05/08 passerait encore à travers,
+# six fonctions ayant été périmées par un seul fichier partagé.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Lister les dérives, sans rien déployer"
+        type: boolean
+        default: true
+      functions:
+        description: "Fonctions à déployer, séparées par des espaces. Vide = celles qui ont dérivé. « all » = toutes."
+        type: string
+        default: ""
+      # Le piège rencontré le 05/08, à ne pas réapprendre. La reconstruction ne
+      # repart que sur drapeau `dirty` — posé par un trigger quand une
+      # CONTRIBUTION change — ou après une heure. Déployer une fonction qui
+      # change la FORME du fragment ne touche aucune contribution : les fragments
+      # restent donc ceux d'avant, indéfiniment, et le déploiement paraît sans
+      # effet.
+      republish-bundles:
+        description: "Reposer le drapeau et reconstruire les fragments (après un déploiement qui change leur FORME)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: functions
+  cancel-in-progress: false
+
+jobs:
+  functions:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      # `fetch-depth: 0` est OBLIGATOIRE, pas un confort : la détection lit
+      # `git log` par dossier, et un clone superficiel ne porte aucun historique.
+      # Le script lève plutôt que de conclure « tout est à jour » sur un dépôt
+      # dont il ne sait rien — mais autant ne pas provoquer cet échec.
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Dérives
+        id: drift
+        env:
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        # `set -e` compte ici : la seconde lecture alimente la liste à déployer,
+        # et une API muette y produirait une liste VIDE — donc un run vert qui
+        # n'aurait rien déployé, exactement le silence que ce workflow existe
+        # pour rompre.
+        run: |
+          set -euo pipefail
+          node tools/edge-functions/drift.mjs 2>&1 | tee "$RUNNER_TEMP/functions.log"
+          slugs=$(node tools/edge-functions/drift.mjs --slugs)
+          echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
+
+      # Trois sources possibles pour la liste, dans cet ordre : ce que
+      # l'utilisateur a écrit, « all », ou les dérives. Le défaut est le plus
+      # étroit — on ne redéploie pas ce qui est déjà en ligne.
+      - name: Choisir les fonctions
+        id: choose
+        run: |
+          set -euo pipefail
+          requested='${{ inputs.functions }}'
+          if [ "$requested" = 'all' ]; then
+            chosen=$(ls -d supabase/functions/*/ | xargs -n1 basename | grep -v '^_shared$' | tr '\n' ' ')
+          elif [ -n "$requested" ]; then
+            chosen="$requested"
+          else
+            chosen='${{ steps.drift.outputs.slugs }}'
+          fi
+          echo "chosen=$chosen" >> "$GITHUB_OUTPUT"
+          echo "Retenues : ${chosen:-(aucune)}" | tee -a "$RUNNER_TEMP/functions.log"
+
+      - name: Déployer
+        if: inputs.dry-run != true && steps.choose.outputs.chosen != ''
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -o pipefail
+          supabase functions deploy ${{ steps.choose.outputs.chosen }} \
+            --project-ref "${{ secrets.SUPABASE_PROJECT_REF }}" 2>&1 | tee -a "$RUNNER_TEMP/functions.log"
+
+      # Reconstruire APRÈS le déploiement, jamais avant : c'est la nouvelle
+      # fonction qu'on veut voir produire le fragment. Se dégrade en
+      # avertissement plutôt qu'en échec si la clé manque — même parti que la
+      # vérification des privilèges de `migrations.yml`.
+      - name: Republier les fragments
+        if: inputs.dry-run != true && inputs.republish-bundles
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          set -o pipefail
+          if [ -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ] || [ -z "${SUPABASE_URL:-}" ]; then
+            echo "::warning title=Fragments non republiés::SUPABASE_URL et/ou SUPABASE_SERVICE_ROLE_KEY absents — les fragments gardent la forme produite par l'ANCIENNE fonction."
+            exit 0
+          fi
+          curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/community_bundle_state?id=eq.true" \
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H 'Content-Type: application/json' -d '{"dirty":true}' > /dev/null
+          curl -fsS -X POST "$SUPABASE_URL/functions/v1/rebuild-community-bundles" \
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            2>&1 | tee -a "$RUNNER_TEMP/functions.log"
+
+      # Relue APRÈS coup, et c'est ce qui fait la valeur du compte-rendu : il ne
+      # dit pas « déployé », il dit ce qui reste dérivé. Un déploiement partiel
+      # se voit, là où une sortie de `deploy` seule paraîtrait verte.
+      - name: Dérives restantes
+        if: inputs.dry-run != true
+        env:
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -o pipefail
+          echo '--- après déploiement ---' | tee -a "$RUNNER_TEMP/functions.log"
+          node tools/edge-functions/drift.mjs 2>&1 | tee -a "$RUNNER_TEMP/functions.log"
+
+      - name: Compte-rendu
+        if: always()
+        run: |
+          {
+            echo "### Edge Functions"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/functions.log" 2>/dev/null || echo '(aucune sortie)'
+            echo '```'
+            if [ '${{ inputs.dry-run }}' = 'true' ]; then
+              echo
+              echo '> Dry-run : **rien n’a été déployé.** Relancer avec la case décochée.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

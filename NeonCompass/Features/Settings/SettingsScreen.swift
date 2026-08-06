@@ -1,6 +1,5 @@
 import SwiftUI
 import AuthenticationServices
-import UIKit
 
 /// Feuille de réglages, ouverte depuis l'entête du Profil.
 ///
@@ -8,11 +7,17 @@ import UIKit
 /// `NavigationStack` — `RootView` les empile dans un `ZStack` sous une barre
 /// maison — donc un `ToolbarItem` ne s'afficherait nulle part, sans erreur ni
 /// avertissement. Même motif que `PaywallView`.
+///
+/// En `Form` et plus en `VStack` : sur iOS 26 il apporte Liquid Glass, Dynamic
+/// Type, les tailles de frappe et les affordances VoiceOver sans une ligne de
+/// code, ce que la pile à plat redéfinissait mal — tout y avait le même poids
+/// visuel, badge Pro compris, et « Supprimer mon compte » y voisinait la
+/// bascule d'icône. Le corps de cet écran ne porte plus que la structure, les
+/// feuilles et les alertes ; chaque section vit dans son fichier.
 struct SettingsScreen: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AuthModel.self) private var authModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
-    @Environment(ThemeStore.self) private var themeStore
     @Environment(ServerFeaturesModel.self) private var serverFeatures
 
     let profileModel: ProfileModel
@@ -23,12 +28,10 @@ struct SettingsScreen: View {
         notifier: APNsFollowedCategoryNotifier.shared
     )
     @State private var showDeleteConfirmation = false
+    @State private var showHandleConfirmation = false
     @State private var showPaywall = false
     @State private var currentNonce: String?
     @State private var signInError: String?
-    @State private var showEmailForm = false
-    @State private var email = ""
-    @State private var password = ""
 
     init(profileModel: ProfileModel, communityModel: CommunityModel?) {
         self.profileModel = profileModel
@@ -38,31 +41,33 @@ struct SettingsScreen: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    if proEntitlementModel.isProEntitled {
-                        Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
-                            .foregroundStyle(NCColor.neonCyan)
-                        // Les notifications suivies sont envoyées par une Cloud
-                        // Function : sans elle, l'écran promettrait un service
-                        // qui n'arrive jamais.
-                        if serverFeatures.isEnabled {
-                            followedCategoriesSection
-                        }
-                        themeSection
-                        iconSection
-                    } else {
-                        Button("profile.pro.upgradeButton") { showPaywall = true }
-                    }
+            Form {
+                SettingsAccountSection(
+                    profileModel: profileModel,
+                    showDeleteConfirmation: $showDeleteConfirmation,
+                    showHandleConfirmation: $showHandleConfirmation,
+                    onSignInFailure: reportSignIn,
+                    onAppleResult: handleSignInResult,
+                    onPrepareAppleRequest: prepareAppleRequest
+                )
 
-                    if serverFeatures.isEnabled, let communityModel {
-                        blockedContributorsSection(communityModel)
-                    }
+                proSection
 
-                    accountSection
+                if proEntitlementModel.isProEntitled {
+                    SettingsAppearanceSection()
+                    // Les notifications suivies sont envoyées par une Edge
+                    // Function : sans elle, l'écran promettrait un service qui
+                    // n'arrive jamais.
+                    if serverFeatures.isEnabled {
+                        SettingsNotificationsSection(store: followedCategoriesStore)
+                    }
                 }
-                .padding(24)
+
+                if serverFeatures.isEnabled, let communityModel {
+                    SettingsCommunitySection(communityModel: communityModel)
+                }
             }
+            .scrollContentBackground(.hidden)
             .background(NCColor.nightSky.ignoresSafeArea())
             .navigationTitle("settings.title")
             .navigationBarTitleDisplayMode(.inline)
@@ -74,6 +79,21 @@ struct SettingsScreen: View {
         }
         .sheet(isPresented: $showPaywall) { PaywallView() }
         .onAppear { communityModel?.refreshBlockedAuthors() }
+        .alert(
+            "profile.handle.regenerate.confirmTitle",
+            isPresented: $showHandleConfirmation
+        ) {
+            Button("profile.deleteAccount.cancelButton", role: .cancel) {}
+            Button("profile.handle.regenerate.confirmButton") {
+                Task { try? await profileModel.regenerateHandle() }
+            }
+        } message: {
+            // Dit ce que l'Edge Function ne fait PAS : `regenerate-handle` ne
+            // met à jour que `profiles.handle`, et `contributions.author_handle`
+            // est dénormalisé à la soumission. Sans ce message, la surprise
+            // arrive plus tard et sans explication possible.
+            Text("profile.handle.regenerate.confirmMessage")
+        }
         .alert(
             "profile.deleteAccount.confirmTitle",
             isPresented: $showDeleteConfirmation
@@ -103,113 +123,31 @@ struct SettingsScreen: View {
             Button("profile.deleteAccount.cancelButton", role: .cancel) { signInError = nil }
         } message: {
             // Le détail technique n'est pas traduit : il vient du système ou de
-            // Firebase, et c'est lui qui permet de comprendre le blocage.
+            // GoTrue, et c'est lui qui permet de comprendre le blocage.
             Text(signInError ?? "")
         }
     }
 
-    private var accountSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            if authModel.userID == nil {
-                Text(serverFeatures.isEnabled ? "profile.signIn.prompt" : "profile.signIn.syncOnlyPrompt")
-                    .font(NCTypography.body)
-                    .foregroundStyle(.white.opacity(0.85))
-
-                // Apple en premier, et en tête : la règle App Store 4.8 l'exige
-                // dès qu'un autre fournisseur tiers est proposé.
-                SignInWithAppleButton(.signIn) { request in
-                    let nonce = AppleSignInCoordinator.makeRawNonce()
-                    currentNonce = nonce
-                    request.requestedScopes = []
-                    request.nonce = AppleSignInCoordinator.sha256(nonce)
-                } onCompletion: { result in
-                    handleSignInResult(result)
-                }
-                .signInWithAppleButtonStyle(.white)
-                .frame(height: 44)
-
-                Button {
-                    Task {
-                        do { try await authModel.signInWithGoogle() } catch { reportSignIn(error) }
-                    }
-                } label: {
-                    Text("profile.signIn.google")
-                        .font(NCTypography.body)
-                        .frame(maxWidth: .infinity, minHeight: 44)
-                        .background(.white.opacity(0.12), in: .rect(cornerRadius: 8))
-                        .foregroundStyle(.white)
-                }
-                .buttonStyle(.plain)
-
-                emailSection
+    /// Ne réénumère pas les avantages : `PaywallView` les liste déjà, et deux
+    /// listes finiraient par diverger. Cette section dit l'état, et renvoie.
+    @ViewBuilder
+    private var proSection: some View {
+        Section("settings.section.pro") {
+            if proEntitlementModel.isProEntitled {
+                Label("settings.pro.active", systemImage: "checkmark.seal.fill")
+                    .foregroundStyle(NCColor.neonCyan)
+                Button("settings.pro.seeBenefits") { showPaywall = true }
             } else {
-                if serverFeatures.isEnabled {
-                    Button("profile.handle.regenerate") {
-                        Task { try? await profileModel.regenerateHandle() }
-                    }
-                }
-                Button("profile.signOut") { Task { try? await authModel.signOut() } }
-                Button("profile.deleteAccount", role: .destructive) {
-                    showDeleteConfirmation = true
-                }
+                Button("profile.pro.upgradeButton") { showPaywall = true }
             }
         }
     }
 
-    /// L'e-mail, replié par défaut.
-    ///
-    /// Le déplier demanderait deux champs de saisie à quelqu'un qui a un
-    /// bouton Apple juste au-dessus ; le laisser ouvert en permanence donnerait
-    /// à la saisie manuelle le poids visuel du chemin recommandé, ce qu'elle
-    /// n'est pas. C'est le troisième choix, présenté comme tel.
-    private var emailSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Button(showEmailForm ? "profile.signIn.email.hide" : "profile.signIn.email.show") {
-                withAnimation { showEmailForm.toggle() }
-            }
-            .font(NCTypography.body)
-
-            if showEmailForm {
-                TextField("profile.signIn.email.address", text: $email)
-                    .textContentType(.emailAddress)
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .textFieldStyle(.roundedBorder)
-
-                SecureField("profile.signIn.email.password", text: $password)
-                    // `.password` et pas `.newPassword` : le même champ sert à
-                    // se connecter et à s'inscrire, et `.newPassword` ferait
-                    // proposer un mot de passe fort à quelqu'un qui veut
-                    // simplement ressaisir le sien.
-                    .textContentType(.password)
-                    .textFieldStyle(.roundedBorder)
-
-                if authModel.awaitingEmailConfirmation {
-                    Text("profile.signIn.email.confirmationSent")
-                        .font(NCTypography.cardMeta)
-                        .foregroundStyle(NCColor.neonCyan)
-                }
-
-                HStack(spacing: 12) {
-                    Button("profile.signIn.email.signIn") {
-                        Task {
-                            do { try await authModel.signIn(email: email, password: password) }
-                            catch { reportSignIn(error) }
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-
-                    Button("profile.signIn.email.signUp") {
-                        Task {
-                            do { try await authModel.signUp(email: email, password: password) }
-                            catch { reportSignIn(error) }
-                        }
-                    }
-                }
-                .font(NCTypography.body)
-            }
-        }
+    private func prepareAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
+        let nonce = AppleSignInCoordinator.makeRawNonce()
+        currentNonce = nonce
+        request.requestedScopes = []
+        request.nonce = AppleSignInCoordinator.sha256(nonce)
     }
 
     /// Traduit une erreur de connexion non-Apple en message affichable.
@@ -242,95 +180,9 @@ struct SettingsScreen: View {
         }
     }
 
-    private var themeSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("profile.theme.title")
-                .font(NCTypography.body)
-                .foregroundStyle(.white)
-            Picker(
-                selection: Binding(
-                    get: { themeStore.selectedTheme },
-                    set: { themeStore.selectTheme($0) }
-                )
-            ) {
-                ForEach(NCTheme.allCases) { theme in
-                    Text(theme.nameKey)
-                        .tag(theme)
-                        .foregroundStyle(theme.accent)
-                }
-            } label: {
-                Text("profile.theme.title")
-            }
-            .pickerStyle(.segmented)
-        }
-    }
-
-    private var iconSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Toggle(
-                "profile.icon.title",
-                isOn: Binding(
-                    get: { UIApplication.shared.alternateIconName != nil },
-                    set: { themeStore.setAlternateIcon(named: $0 ? Self.neonIconName : nil) }
-                )
-            )
-            .foregroundStyle(.white)
-        }
-    }
-
-    // Assumes the "AppIcon-Neon" asset-catalog icon set will exist once a
-    // designer creates it (see docs/ops/2026-07-23-alternate-app-icons.md);
-    // this string is not yet declared anywhere in project.yml/Info.plist, so
-    // toggling this on a current build silently no-ops via UIKit's
-    // completion handler until that follow-up ships.
-    private static let neonIconName = "AppIcon-Neon"
-
-    private func blockedContributorsSection(_ communityModel: CommunityModel) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("profile.blockedContributors.title")
-                .font(NCTypography.body)
-                .foregroundStyle(.white)
-            if communityModel.blockedAuthorUIDs.isEmpty {
-                Text("profile.blockedContributors.empty")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            } else {
-                ForEach(Array(communityModel.blockedAuthorUIDs), id: \.self) { authorUid in
-                    HStack {
-                        Text(authorUid)
-                        Spacer()
-                        Button("profile.blockedContributors.unblock") {
-                            communityModel.unblock(authorUid: authorUid)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private var followedCategoriesSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("profile.followedCategories.title")
-                .font(NCTypography.body)
-                .foregroundStyle(.white)
-            ForEach(POICategory.allCases, id: \.self) { category in
-                Toggle(
-                    isOn: Binding(
-                        get: { followedCategoriesStore.followedCategories.contains(category) },
-                        set: { _ in
-                            Task { await followedCategoriesStore.toggle(category) }
-                        }
-                    )
-                ) {
-                    Text(category.localizedNameKey)
-                }
-            }
-        }
-    }
-
-    /// Chaque échec est désormais dit. La version précédente les avalait tous —
-    /// `guard … else { return }` puis `try?` — donc un utilisateur bloqué n'avait
-    /// aucun moyen de savoir pourquoi, et nous non plus. C'est la seule
+    /// Chaque échec est dit. Une version antérieure les avalait tous —
+    /// `guard … else { return }` puis `try?` — donc un utilisateur bloqué
+    /// n'avait aucun moyen de savoir pourquoi, et nous non plus. C'est la seule
     /// connexion de l'app : elle ne peut pas échouer en silence.
     private func handleSignInResult(_ result: Result<ASAuthorization, Error>) {
         switch result {
@@ -364,7 +216,7 @@ struct SettingsScreen: View {
         }
         // Imprimé en plus de l'alerte : c'est ce qui rend le diagnostic
         // possible depuis les journaux du simulateur.
-        print("ProfileScreen: connexion refusée — \(message)")
+        print("SettingsScreen: connexion refusée — \(message)")
         signInError = message
     }
 }

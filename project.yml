@@ -114,3 +114,37 @@ targets:
     sources: [NeonCompassTests]
     dependencies:
       - target: NeonCompass
+schemes:
+  # Schéma explicite pour UNE raison : attacher la configuration StoreKit locale
+  # à l'action Run. Sans elle, `Product.products(for:)` ne rend rien au
+  # simulateur — il n'y a pas d'App Store derrière — donc Pro est INACHETABLE et
+  # tout ce qui en dépend (itinéraire, masquage des trouvés, épingles illimitées
+  # et leur synchro) est invérifiable à la main.
+  #
+  # Elle ne vaut QUE pour l'exécution depuis Xcode et depuis ce schéma : le
+  # binaire soumis à l'App Store ne la voit jamais, et `xcodebuild test` ne
+  # l'utilise pas non plus. Ce n'est pas un contournement du paiement, c'est le
+  # bac à sable que StoreKit prévoit pour ça.
+  #
+  # Le reste du schéma reproduit ce que XcodeGen générait tout seul — le déclarer
+  # explicitement le remplace, il faut donc que la construction et les tests y
+  # figurent, sans quoi `xcodebuild -scheme NeonCompass test` ne trouverait plus
+  # de cible à exécuter et rapporterait « 0 tests » au lieu d'un échec.
+  NeonCompass:
+    build:
+      targets:
+        NeonCompass: all
+        NeonCompassWidgets: all
+    run:
+      config: Debug
+      storeKitConfiguration: NeonCompass/Support/NeonCompassPro.storekit
+    test:
+      config: Debug
+      targets:
+        - NeonCompassTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

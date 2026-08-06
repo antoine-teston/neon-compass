@@ -73,8 +73,10 @@ grant select on public.leaderboard to anon, authenticated;
 grant select on public.profiles to authenticated;
 grant select on public.votes to authenticated;
 
--- Écriture connectée, bornée par RLS à ses propres lignes. Ce sont les trois
--- seuls endroits où un client écrit directement.
+-- Écriture connectée, bornée par RLS à ses propres lignes. C'étaient les trois
+-- seuls endroits où un client écrit directement ; `personal_pins` s'y ajoute
+-- depuis le 2026-08-03, et porte sa propre révocation dans sa propre migration —
+-- ce fichier n'est plus le dernier.
 grant select, insert, update, delete on public.progression to authenticated;
 grant select, insert, update, delete on public.push_tokens to authenticated;
 grant select, insert, update, delete on public.editor_drafts to authenticated;

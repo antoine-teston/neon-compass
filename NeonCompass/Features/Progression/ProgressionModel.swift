@@ -15,16 +15,22 @@ final class ProgressionModel {
     /// calculée rebalayait tout le tableau de POI à chaque accès.
     private(set) var challenges: [ChallengeProgress] = []
 
-    private(set) var foundPOIIDs: Set<String>
+    /// Passe-plat vers le magasin partagé — voir `FoundStore` pour la divergence
+    /// que ce partage referme.
+    var foundPOIIDs: Set<String> { found.foundIDs }
     private let modelContext: ModelContext
+    private let found: FoundStore
     private let widgetSummaryCoordinator: WidgetSummaryCoordinator?
     private var sync: ProgressionSyncing?
 
+    /// `found` facultatif pour les mêmes raisons que dans `MapModel` : les tests
+    /// veulent un magasin isolé, la production fournit celui de l'app.
     init(
         pois: [POI],
         collections: [POICollection] = POICollectionLoader.bundled,
         trophies: [Trophy],
         modelContext: ModelContext,
+        found: FoundStore? = nil,
         sync: ProgressionSyncing? = nil,
         widgetSummaryCoordinator: WidgetSummaryCoordinator? = nil
     ) {
@@ -32,15 +38,21 @@ final class ProgressionModel {
         self.collections = collections
         self.trophies = trophies
         self.modelContext = modelContext
+        self.found = found ?? FoundStore(modelContext: modelContext)
         self.sync = sync
         self.widgetSummaryCoordinator = widgetSummaryCoordinator
-        self.foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
         self.checkedTrophyIDs = Set((try? modelContext.fetch(FetchDescriptor<TrophyProgress>()))?.map(\.trophyID) ?? [])
         recomputeChallenges()
     }
 
+    /// Recalcule les défis depuis l'état « trouvé ».
+    ///
+    /// Relit le disque au passage, ce qui reste utile même avec un magasin
+    /// partagé : le chemin d'amorçage du widget écrit avec son propre
+    /// `ProgressionModel` jetable, et les tests insèrent des `FoundEntry`
+    /// directement. Voir `FoundStore.refresh()`.
     func refreshFoundState() {
-        foundPOIIDs = Set((try? modelContext.fetch(FetchDescriptor<FoundEntry>()))?.map(\.poiID) ?? [])
+        found.refresh()
         recomputeChallenges()
     }
 

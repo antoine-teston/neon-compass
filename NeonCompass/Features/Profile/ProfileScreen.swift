@@ -12,7 +12,12 @@ struct ProfileScreen: View {
     @State private var communityModel: CommunityModel?
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    /// La jauge d'exploration est LOCALE : elle se lit ici, pas dans le
+    /// profil serveur. `ProgressionSection` a déjà cette dépendance.
+    @Environment(FoundStore.self) private var foundStore
+    @Environment(AppModel.self) private var appModel
     @State private var showSettings = false
+    @State private var showContributeHint = false
 
     var body: some View {
         ZStack {
@@ -20,15 +25,16 @@ struct ProfileScreen: View {
             ScrollView {
                 VStack(spacing: 24) {
                     ProfileHeaderView(
-                        profile: profileModel.profile,
-                        // Sans Cloud Functions, `loadProfile` ne trouve aucun document
-                        // et le pseudo resterait un « … » perpétuel : c'est la garde que
-                        // portait l'ancien `if serverFeatures.isEnabled`.
-                        isSignedIn: authModel.userID != nil && serverFeatures.isEnabled,
-                        isProEntitled: proEntitlementModel.isProEntitled,
-                        pendingContributionCount: communityModel?.myContributions
-                            .filter { $0.status == .pending }.count ?? 0,
-                        onOpenSettings: { showSettings = true }
+                        state: ProfileHeaderState(
+                            profile: profileModel.profile,
+                            isLoadingProfile: profileModel.isLoadingProfile,
+                            isProEntitled: proEntitlementModel.isProEntitled,
+                            foundCount: foundStore.foundIDs.count,
+                            pendingContributionCount: communityModel?.myContributions
+                                .filter { $0.status == .pending }.count ?? 0
+                        ),
+                        onOpenSettings: { showSettings = true },
+                        onContribute: { showContributeHint = true }
                     )
 
                     ProgressionSection()
@@ -46,6 +52,9 @@ struct ProfileScreen: View {
         }
         .sheet(isPresented: $showSettings) {
             SettingsScreen(profileModel: profileModel, communityModel: communityModel)
+        }
+        .sheet(isPresented: $showContributeHint) {
+            ContributeHintSheet(onOpenMap: { appModel.openMapToContribute() })
         }
         .task(id: authModel.userID) {
             if let userID = authModel.userID {

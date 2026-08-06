@@ -62,25 +62,39 @@ final class SupabaseContributionFunctions: ContributionFunctionsCalling {
         self.client = client
     }
 
+    /// Lève un `ContributionSubmissionError` et jamais l'erreur brute du SDK :
+    /// c'est le panneau qui affiche le résultat, et il doit pouvoir choisir une
+    /// phrase traduite. Les messages de l'Edge Function sont de l'anglais en dur.
     func submitContribution(
         category: POICategory,
         title: String,
         position: NormalizedPoint,
         languageCode: String
     ) async throws {
-        guard let client else { throw SupabaseAuthError.notConfigured }
-        try await client.functions.invoke(
-            "submit-contribution",
-            options: FunctionInvokeOptions(
-                body: SubmitPayload(
-                    category: category.rawValue,
-                    title: title,
-                    positionX: position.x,
-                    positionY: position.y,
-                    languageCode: languageCode
+        guard let client else { throw ContributionSubmissionError.signedOut }
+        do {
+            try await client.functions.invoke(
+                "submit-contribution",
+                options: FunctionInvokeOptions(
+                    body: SubmitPayload(
+                        category: category.rawValue,
+                        title: title,
+                        positionX: position.x,
+                        positionY: position.y,
+                        languageCode: languageCode
+                    )
                 )
             )
-        )
+        } catch let error as FunctionsError {
+            // `relayError` n'a ni statut ni corps : la fonction n'a pas été
+            // jointe, ce qui est une panne et non un refus.
+            guard case .httpError(let code, let data) = error else {
+                throw ContributionSubmissionError.failed
+            }
+            throw ContributionSubmissionError(status: code, body: data)
+        } catch {
+            throw ContributionSubmissionError.failed
+        }
     }
 
     func castVote(spotId: String, direction: VoteDirection) async throws -> (upvotes: Int, downvotes: Int) {

@@ -4,9 +4,21 @@ import Testing
 @testable import NeonCompass
 
 final class FakeContributionRepository: ContributionRepository {
-    nonisolated(unsafe) var mineToReturn: [Contribution] = []
+    struct Offline: Error {}
 
-    func fetchMine(uid: String) async throws -> [Contribution] { mineToReturn }
+    nonisolated(unsafe) var mineToReturn: [Contribution] = []
+    /// Bascule en cours de test : il faut pouvoir réussir une lecture PUIS en
+    /// rater une, ce qu'un dépôt toujours défaillant ne permet pas.
+    nonisolated(unsafe) var shouldFail = false
+
+    func fetchMine(uid: String) async throws -> [Contribution] {
+        if shouldFail { throw Offline() }
+        return mineToReturn
+    }
+
+    nonisolated(unsafe) var votesToReturn: [String: VoteDirection] = [:]
+
+    func fetchMyVotes(uid: String) async throws -> [String: VoteDirection] { votesToReturn }
 }
 
 final class FakeContributionFunctions: ContributionFunctionsCalling {
@@ -14,8 +26,12 @@ final class FakeContributionFunctions: ContributionFunctionsCalling {
     nonisolated(unsafe) private(set) var lastVote: (spotId: String, direction: VoteDirection)?
     nonisolated(unsafe) private(set) var lastReport: (spotId: String, reason: String?)?
 
+    /// Le refus à opposer, pour vérifier que `submit` PROPAGE. Nil = succès.
+    nonisolated(unsafe) var errorToThrow: (any Error)?
+
     func submitContribution(category: POICategory, title: String, position: NormalizedPoint, languageCode: String) async throws {
         submitCallCount += 1
+        if let errorToThrow { throw errorToThrow }
     }
 
     nonisolated(unsafe) var voteResultToReturn: (upvotes: Int, downvotes: Int) = (0, 0)
@@ -36,7 +52,7 @@ final class FakeCommunityGateProvider: CommunityGateProviding {
     func isEnabled() async throws -> Bool { enabledToReturn }
 }
 
-private func makeSpot(id: String, authorUid: String?) -> Contribution {
+private func makeSpot(id: String, authorUid: String?, status: Contribution.Status = .approved) -> Contribution {
     Contribution(
         id: id,
         authorUid: authorUid,
@@ -45,7 +61,7 @@ private func makeSpot(id: String, authorUid: String?) -> Contribution {
         title: "A great spot",
         languageCode: "en",
         position: NormalizedPoint(x: 0.5, y: 0.5),
-        status: .approved,
+        status: status,
         upvotes: 0,
         downvotes: 0
     )
@@ -174,4 +190,177 @@ struct CommunityFakesTests {
         let spot = try JSONDecoder().decode(Contribution.self, from: Data(json.utf8))
         #expect(spot.authorUid == nil)
     }
+
+    // MARK: - Mes votes
+
+    /// Voter met `myVotes` à jour TOUT DE SUITE. Sans ça, la ligne resterait
+    /// dans « À découvrir » et ses boutons sans état jusqu'au prochain
+    /// chargement — donc on pourrait revoter en boucle sans le voir.
+    @Test func votingRecordsMyVoteLocally() async throws {
+        let context = ModelContext(try makeContainer())
+        let functions = FakeContributionFunctions()
+        functions.voteResultToReturn = (upvotes: 13, downvotes: 1)
+        let model = makeModel(context: context, functions: functions)
+
+        await model.vote(on: makeSpot(id: "c1", authorUid: "u1"), direction: .up)
+
+        #expect(model.myVotes["c1"] == .up)
+    }
+
+    @Test func loadMyVotesFillsTheMap() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.votesToReturn = ["c1": .up, "c2": .down]
+        let model = makeModel(context: context, repository: repository)
+
+        await model.loadMyVotes(uid: "u1")
+
+        #expect(model.myVotes == ["c1": .up, "c2": .down])
+    }
+
+    /// Hors ligne, la lecture échoue : les deux sections retombent sur « tout à
+    /// découvrir », ce qui est dégradé mais juste.
+    @Test func aFailedVoteReadLeavesTheMapEmpty() async throws {
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context, repository: FailingContributionRepository())
+
+        await model.loadMyVotes(uid: "u1")
+
+        #expect(model.myVotes.isEmpty)
+    }
+
+    // MARK: - Mes propositions pas encore publiques
+
+    @Test func submitPropagatesInsteadOfSwallowing() async throws {
+        // Le défaut que tout ce chantier ferme : `try?` rendait un refus
+        // identique à un succès.
+        let functions = FakeContributionFunctions()
+        functions.errorToThrow = ContributionSubmissionError.duplicateNearby
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context, functions: functions)
+
+        await #expect(throws: ContributionSubmissionError.duplicateNearby) {
+            try await model.submit(
+                category: .safehouse, title: "Toit du parking",
+                position: NormalizedPoint(x: 0.5, y: 0.5), languageCode: "fr"
+            )
+        }
+        #expect(model.lastSubmissionAt == nil, "un envoi refusé n'arme pas le cooldown local")
+    }
+
+    @Test func aSuccessfulSubmitArmsTheLocalCooldown() async throws {
+        let context = ModelContext(try makeContainer())
+        let model = makeModel(context: context)
+
+        try await model.submit(
+            category: .safehouse, title: "Toit du parking",
+            position: NormalizedPoint(x: 0.5, y: 0.5), languageCode: "fr"
+        )
+
+        #expect(model.lastSubmissionAt != nil)
+    }
+
+    @Test func myUnpublishedSpotsExcludesRejected() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [
+            makeSpot(id: "pending", authorUid: "me", status: .pending),
+            makeSpot(id: "rejected", authorUid: "me", status: .rejected),
+        ]
+        let model = makeModel(context: context, repository: repository)
+
+        await model.loadMyContributions(uid: "me")
+
+        // Une cicatrice permanente sur la carte n'apprend rien ; le Profil porte
+        // déjà ce statut.
+        #expect(model.myUnpublishedSpots.map(\.id) == ["pending"])
+    }
+
+    /// Le cas qu'on oublierait, et qui ferait clignoter l'épingle : approuvée
+    /// mais pas encore dans le fragment (tâche `*/5 * * * *`, drapeau `dirty`,
+    /// garde de version côté app). Sans cette clause elle disparaîtrait à
+    /// l'approbation pour revenir des minutes plus tard.
+    @Test func myUnpublishedSpotsKeepsAnApprovedSpotTheBundleDoesNotHaveYet() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "fresh", authorUid: "me", status: .approved)]
+        let model = makeModel(context: context, repository: repository)
+
+        await model.loadMyContributions(uid: "me")
+
+        #expect(model.myUnpublishedSpots.map(\.id) == ["fresh"])
+    }
+
+    @Test func aPublishedSpotLeavesMyUnpublishedSpots() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .approved)]
+        let model = makeModel(context: context, repository: repository, spots: [makeSpot(id: "1", authorUid: "me")])
+
+        await model.loadMyContributions(uid: "me")
+        #expect(model.myUnpublishedSpots.map(\.id) == ["1"])
+
+        // Le fragment arrive : deux épingles au même endroit seraient un défaut.
+        await model.loadApprovedSpots()
+        #expect(model.myUnpublishedSpots.isEmpty)
+    }
+
+    /// Défaut vu à l'écran, pas en test : un échec de lecture vidait la liste,
+    /// donc passer sous un tunnel effaçait de la carte les épingles qu'on venait
+    /// d'y poser. `loadMyVotes` a bien le droit de retomber sur le vide — des
+    /// votes absents dégradent un tri ; des propositions absentes font
+    /// DISPARAÎTRE quelque chose de visible.
+    @Test func aFailedReadKeepsThePreviousContributions() async throws {
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .pending)]
+        let model = makeModel(context: context, repository: repository)
+        await model.loadMyContributions(uid: "me")
+        #expect(model.myUnpublishedSpots.count == 1)
+
+        let offline = makeModel(context: context, repository: FailingContributionRepository())
+        await offline.loadMyContributions(uid: "me")
+        #expect(offline.myUnpublishedSpots.isEmpty, "rien à conserver : la première lecture échoue")
+
+        // Et sur le modèle qui avait déjà lu, une lecture ratée ne retire rien.
+        repository.shouldFail = true
+        await model.loadMyContributions(uid: "me")
+        #expect(model.myUnpublishedSpots.map(\.id) == ["1"])
+    }
+
+    @Test func signingOutClearsThem() async throws {
+        // Le pendant obligé du test précédent : ce que la conservation ne peut
+        // plus faire, la déconnexion doit le faire explicitement.
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .pending)]
+        let model = makeModel(context: context, repository: repository)
+        await model.loadMyContributions(uid: "me")
+
+        model.clearMyContributions()
+
+        #expect(model.myUnpublishedSpots.isEmpty)
+    }
+
+    @Test func myUnpublishedGenerationAdvancesOnEachRead() async throws {
+        // Sans elle, une proposition tout juste envoyée n'atteindrait jamais le
+        // moteur de carte : rien d'autre ne bouge sur une carte encore vide.
+        let context = ModelContext(try makeContainer())
+        let repository = FakeContributionRepository()
+        repository.mineToReturn = [makeSpot(id: "1", authorUid: "me", status: .pending)]
+        let model = makeModel(context: context, repository: repository)
+        let before = model.myUnpublishedGeneration
+
+        await model.loadMyContributions(uid: "me")
+
+        #expect(model.myUnpublishedGeneration != before)
+    }
+}
+
+/// Le dépôt qui tombe, pour exercer le chemin hors ligne.
+private final class FailingContributionRepository: ContributionRepository {
+    struct Offline: Error {}
+
+    func fetchMine(uid: String) async throws -> [Contribution] { throw Offline() }
+    func fetchMyVotes(uid: String) async throws -> [String: VoteDirection] { throw Offline() }
 }

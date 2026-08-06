@@ -91,13 +91,19 @@ struct MapModelTests {
             title: LocalizedText(en: "T", fr: nil, es: nil, it: nil, de: nil), note: nil)
     }
 
-    @Test func addAndDeletePersonalPin() {
-        let model = MapModel(pois: [], modelContext: makeContext())
-        #expect(model.personalPins.isEmpty)
-        model.addPersonalPin(at: NormalizedPoint(x: 0.5, y: 0.5), title: "My spot")
-        #expect(model.personalPins.count == 1)
-        #expect(model.personalPins[0].title == "My spot")
-        model.deletePersonalPin(model.personalPins[0])
-        #expect(model.personalPins.isEmpty)
+    /// Les épingles ont quitté `MapModel` pour `PersonalPinStore` : leur
+    /// cycle de vie est couvert par `PersonalPinStoreTests`. Ce qui reste ici est
+    /// ce qui appartient encore au modèle de carte — la sélection, et le fait
+    /// qu'elle ne survive pas à la suppression de ce qu'elle désigne.
+    @Test func theSelectionDoesNotOutliveTheDeletedPin() {
+        let context = makeContext()
+        let model = MapModel(pois: [], modelContext: context)
+        let store = PersonalPinStore(modelContext: context)
+        let pin = store.create(at: NormalizedPoint(x: 0.5, y: 0.5), game: .reference, isProEntitled: true)!
+        model.selection = .pin(pin)
+        model.clearSelectionIfPin(pin)
+        store.delete(pin)
+        #expect(model.selection == nil)
+        #expect(store.pins.isEmpty)
     }
 }

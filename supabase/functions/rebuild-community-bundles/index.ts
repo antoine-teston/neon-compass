@@ -69,7 +69,7 @@ serveJSON(async () => {
   // devrait rejoindre cette liste plutôt que la contredire en silence.
   const { data: spots, error: spotsError } = await admin
     .from('contributions')
-    .select('id,author_uid,author_handle,category,title,language_code,position_x,position_y,status,upvotes,downvotes')
+    .select('id,author_uid,author_handle,category,title,language_code,position_x,position_y,status,upvotes,downvotes,approved_at')
     .eq('status', 'approved')
     .eq('shadow_hidden', false)
     .order('id', { ascending: true });
@@ -90,6 +90,16 @@ serveJSON(async () => {
     status: row.status,
     upvotes: row.upvotes ?? 0,
     downvotes: row.downvotes ?? 0,
+    // La date d'APPARITION sur la carte, sur laquelle le volet Social trie sa
+    // section « À découvrir ». Publiée en chaîne ISO 8601 telle que Postgres la
+    // sérialise ; `Contribution` la parse à la main côté client, parce que tout
+    // le décodage de contenu passe par un `JSONDecoder()` nu, dont la stratégie
+    // par défaut refuse une chaîne ISO 8601.
+    //
+    // Nulle sur les lignes approuvées avant l'ajout de la colonne dont le
+    // rétro-remplissage n'aurait pas abouti : le client les range en fin de
+    // section plutôt que d'échouer.
+    approvedAt: row.approved_at ?? null,
   }));
 
   const version = state.version + 1;

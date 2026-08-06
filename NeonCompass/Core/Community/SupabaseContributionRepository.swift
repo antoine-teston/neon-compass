@@ -74,4 +74,32 @@ final class SupabaseContributionRepository: ContributionRepository {
             )
         }
     }
+
+    private struct VoteRow: Decodable {
+        let contributionId: String
+        let direction: String
+
+        enum CodingKeys: String, CodingKey {
+            case contributionId = "contribution_id"
+            case direction
+        }
+    }
+
+    func fetchMyVotes(uid: String) async throws -> [String: VoteDirection] {
+        guard let client else { return [:] }
+        let rows: [VoteRow] = try await client
+            .from("votes")
+            .select("contribution_id,direction")
+            .eq("uid", value: uid)
+            .execute()
+            .value
+        // Une direction inconnue est ignorée plutôt que fatale : la contrainte
+        // `check` de la table l'interdit, mais le jour où elle gagnerait une
+        // troisième valeur, perdre une ligne vaut mieux que perdre la liste.
+        return rows.reduce(into: [:]) { result, row in
+            if let direction = VoteDirection(rawValue: row.direction) {
+                result[row.contributionId] = direction
+            }
+        }
+    }
 }

@@ -24,6 +24,26 @@ struct EditorBanner: View {
                  : "Éditeur armé — \(draftCount) brouillon\(draftCount == 1 ? "" : "s")")
                 .font(.caption.weight(.semibold))
 
+            // Ce que l'armement CONFISQUE, et pas seulement ce qu'il offre.
+            //
+            // `MapScreen` rend la main dès que `handleLongPress` ne dit pas
+            // `.ignored`, ce qui est le cas de tout appui long sur un éditeur
+            // armé : le menu à trois choix ne s'ouvre alors jamais. La règle est
+            // voulue — appui long sur le vide = créer — mais rien ne la disait,
+            // et elle se lit de l'extérieur comme « proposer un lieu ne marche
+            // pas ». Vécu le 2026-08-05 : trois brouillons créés en croyant
+            // soumettre, et le « en attente d'envoi » ci-dessous lu comme un
+            // envoi bloqué.
+            //
+            // Court à dessein : le bandeau se dimensionne sur son contenu
+            // (`overlay(alignment: .top)`, sans cadre), donc une phrase longue
+            // l'étale sur toute la largeur, juste sous la barre de recherche.
+            if !pendingMove {
+                Text(verbatim: "Appui long = brouillon, pas « Proposer un lieu »")
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.7))
+            }
+
             if undeliveredCount > 0 {
                 Text(verbatim: "\(undeliveredCount) en attente d'envoi")
                     .font(.caption2)
