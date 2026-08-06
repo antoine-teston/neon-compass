@@ -1,0 +1,21 @@
+{
+  "id": "news_c11a73c4",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le rachat d'EA redessine le paysage des éditeurs cotés en bourse",
+    "en": "EA's buyout reshapes the landscape of publicly listed publishers"
+  },
+  "body": {
+    "fr": "Electronic Arts est passé le 4 août 2026 sous le contrôle d'un consortium mené par le fonds souverain saoudien PIF, dans un rachat d'environ 55 milliards de dollars qui le retire de la bourse. Par contrecoup, l'éditeur du studio devient le plus grand groupe encore coté à ne publier que des jeux vidéo — un retournement de situation dix-huit ans après une offre de rachat avortée entre les deux entreprises, rejetée juste avant la sortie d'un jeu précédent du studio.",
+    "en": "Electronic Arts went private on August 4, 2026, acquired by a consortium led by Saudi Arabia's sovereign wealth fund PIF in a roughly $55 billion buyout. As a result, the studio's publisher becomes the largest still-listed company that publishes only video games — a reversal eighteen years after a failed takeover bid between the two companies, rejected just before an earlier game from the studio shipped."
+  },
+  "publishedAt": "2026-08-05",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:e1e6444bd3d4",
+  "sourceClaim": "Electronic Arts est passé le 4 août 2026 sous le contrôle d'un consortium mené par le fonds souverain saoudien PIF, dans un rachat d'environ 55 milliards de dollars qui la retire de la bourse ; par contrecoup, Take-Two Interactive, maison mère de Rockstar, devient le plus grand éditeur de jeux vidéo encore cotée en bourse à ne faire que des jeux, un retournement de situation dix-huit ans après l'offre de rachat avortée d'EA sur Take-Two, rejetée juste avant la sortie de GTA IV."
+}

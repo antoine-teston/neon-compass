@@ -1,0 +1,21 @@
+{
+  "id": "news_a55c3e37",
+  "category": "announcement",
+  "game": "gtav",
+  "title": {
+    "fr": "Le scénariste historique du studio revient sur un DLC solo jamais sorti",
+    "en": "The studio's longtime writer revisits a scrapped solo DLC"
+  },
+  "body": {
+    "fr": "Le cofondateur et ancien scénariste principal du studio a expliqué fin 2025, sur un podcast, qu'un contenu solo mettant en scène Trevor en agent secret était achevé à environ moitié avant d'être annulé. Les ressources libérées ont servi à un autre jeu du studio, et non au mode en ligne comme le prétend une rumeur qui refait régulièrement surface.",
+    "en": "The studio's co-founder and former lead writer explained late in 2025, on a podcast, that a solo storyline putting Trevor undercover as a secret agent was roughly half-finished when it was cancelled. The freed-up resources went to another of the studio's games, not to the online mode as a recurring rumor claims."
+  },
+  "publishedAt": "2026-08-04",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:74896bbf604b",
+  "sourceClaim": "Dan Houser, cofondateur et ancien scénariste principal du studio, a expliqué sur le podcast de Lex Fridman fin 2025 que le contenu solo abandonné de GTA V mettant en scène Trevor comme agent secret était achevé à environ moitié lorsqu'il a été annulé, la capacité ainsi libérée ayant servi à produire Red Dead Redemption 2 plutôt que d'avoir été sacrifiée au profit du mode en ligne comme le prétend une rumeur qui refait régulièrement surface."
+}

@@ -1,0 +1,70 @@
+{
+  "run": {
+    "date": "2026-08-06",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf",
+      "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
+      "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
+      "https://www.gtaboom.com/someone-remade-the-gta-6-trailer-2-with-one-very-silly-twist-e54d",
+      "https://www.gtaboom.com/the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee",
+      "https://www.gtaboom.com/sony-is-now-formally-denounced-in-mexico-over-killing-physical-games-4219"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Sony a réinscrit le jeu à venir sur la page éditoriale officielle de PlayStation listant les sorties PS5 les plus attendues de l'année, dont il avait disparu en janvier 2026 ; il ne s'agit ni d'une annonce ni d'une confirmation de date, seulement d'une mise à jour d'une page marketing que Sony modifie librement selon l'avancement perçu des sorties.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "L'ancien animateur du studio Mike York, qui avait jugé le jeu achevé à 80-90 % dans un entretien fin juillet 2026, précise dans ce même entretien qu'il ne serait « pas du tout choqué » par un nouveau report si la mission finale n'est pas prête d'ici novembre, ce qui laisserait Rockstar repousser la sortie d'environ six mois supplémentaires.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le film Spider-Man: Brand New Day a réalisé un week-end d'ouverture mondial d'environ 927 millions de dollars début août 2026, sans battre le record établi par GTA V en 2013 : un milliard de dollars de ventes en trois jours, toujours homologué comme le lancement de produit culturel le plus rapide de l'histoire par Take-Two Interactive et le Guinness World Records treize ans plus tard.",
+      "kind": "game-fact",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
+      "source_date": "2026-08-05",
+      "confidence": "confirmed-official"
+    },
+    {
+      "claim": "Dan Houser, cofondateur et ancien scénariste principal du studio, a expliqué sur le podcast de Lex Fridman fin 2025 que le contenu solo abandonné de GTA V mettant en scène Trevor comme agent secret était achevé à environ moitié lorsqu'il a été annulé, la capacité ainsi libérée ayant servi à produire Red Dead Redemption 2 plutôt que d'avoir été sacrifiée au profit du mode en ligne comme le prétend une rumeur qui refait régulièrement surface.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee",
+      "source_date": "2026-08-04",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Robert Bogue, qui prêtait sa voix à Steve Haines dans GTA V, affirme avoir auditionné pour plus de soixante rôles du jeu à venir sans en obtenir aucun ni recevoir la moindre réponse, malgré avoir déjà été repris par le studio à plusieurs reprises dans le passé (Red Dead Revolver, puis l'extension The Ballad of Gay Tony de GTA IV).",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Electronic Arts est passé le 4 août 2026 sous le contrôle d'un consortium mené par le fonds souverain saoudien PIF, dans un rachat d'environ 55 milliards de dollars qui la retire de la bourse ; par contrecoup, Take-Two Interactive, maison mère de Rockstar, devient le plus grand éditeur de jeux vidéo encore cotée en bourse à ne faire que des jeux, un retournement de situation dix-huit ans après l'offre de rachat avortée d'EA sur Take-Two, rejetée juste avant la sortie de GTA IV.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
