@@ -9,7 +9,9 @@
       "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
       "https://www.gtaboom.com/someone-remade-the-gta-6-trailer-2-with-one-very-silly-twist-e54d",
       "https://www.gtaboom.com/the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee",
-      "https://www.gtaboom.com/sony-is-now-formally-denounced-in-mexico-over-killing-physical-games-4219"
+      "https://www.gtaboom.com/sony-is-now-formally-denounced-in-mexico-over-killing-physical-games-4219",
+      "https://www.gtaboom.com/lewis-hamilton-says-he-will-cancel-work-for-gta-6-dabd",
+      "https://leonidaverse.com/news-sitemap.xml"
     ]
   },
   "facts": [
@@ -21,6 +23,16 @@
       "source_date": "2026-08-05",
       "confidence": "single-source",
       "processed": true
+    },
+    {
+      "claim": "Début août 2026, la page éditoriale de Sony consacrée aux jeux les plus attendus de l'année sur sa console a de nouveau inclus le jeu à venir, alors qu'elle l'en avait exclu en janvier ; la presse spécialisée y lit un signe de confiance sur le maintien de la date de sortie de novembre, face aux rumeurs répétées d'un nouveau report — dont celle d'un ancien animateur du studio qui ne serait « pas surpris » d'un glissement supplémentaire.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true,
+      "note": "extraction concurrente de la même page (double déclenchement du run — voir le compte-rendu) ; recoupe le fait précédent, conservée pour son angle distinct (lecture presse de confiance sur la date de novembre)"
     },
     {
       "claim": "L'ancien animateur du studio Mike York, qui avait jugé le jeu achevé à 80-90 % dans un entretien fin juillet 2026, précise dans ce même entretien qu'il ne serait « pas du tout choqué » par un nouveau report si la mission finale n'est pas prête d'ici novembre, ce qui laisserait Rockstar repousser la sortie d'environ six mois supplémentaires.",
@@ -38,6 +50,16 @@
       "source_url": "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
       "source_date": "2026-08-05",
       "confidence": "confirmed-official"
+    },
+    {
+      "claim": "Le film Spider-Man: Brand New Day a réalisé environ 927 millions de dollars de recettes mondiales lors de son week-end de sortie début août 2026, approchant sans le dépasser le record établi par le précédent opus de la série sorti en 2013, qui avait dépassé le milliard de dollars de ventes en trois jours ; la presse spécialisée y voit un signe supplémentaire que le jeu à venir pourrait battre ce record lors de son lancement de novembre.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true,
+      "note": "extraction concurrente de la même page (double déclenchement du run — voir le compte-rendu) ; désaccord éditorial avec le fait précédent sur kind (game-fact/gtav ici vs news/leonida) et confidence (confirmed-official ici vs single-source) ; les deux sont conservés, à trancher par un humain"
     },
     {
       "claim": "Dan Houser, cofondateur et ancien scénariste principal du studio, a expliqué sur le podcast de Lex Fridman fin 2025 que le contenu solo abandonné de GTA V mettant en scène Trevor comme agent secret était achevé à environ moitié lorsqu'il a été annulé, la capacité ainsi libérée ayant servi à produire Red Dead Redemption 2 plutôt que d'avoir été sacrifiée au profit du mode en ligne comme le prétend une rumeur qui refait régulièrement surface.",
@@ -58,6 +80,16 @@
       "processed": true
     },
     {
+      "claim": "L'acteur Robert Bogue, qui interprétait l'agent fédéral corrompu Steve Haines dans l'opus sorti en 2013, affirme avoir auditionné pour plus de soixante rôles du jeu à venir sans jamais recevoir le moindre retour, alors que le studio l'avait déjà fait rejouer à plusieurs reprises par le passé dans d'autres épisodes de la série.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true,
+      "note": "extraction concurrente de la même page (double déclenchement du run — voir le compte-rendu) ; même jugement (news/leonida/single-source) que le fait précédent, formulation indépendante conservée telle quelle"
+    },
+    {
       "claim": "Electronic Arts est passé le 4 août 2026 sous le contrôle d'un consortium mené par le fonds souverain saoudien PIF, dans un rachat d'environ 55 milliards de dollars qui la retire de la bourse ; par contrecoup, Take-Two Interactive, maison mère de Rockstar, devient le plus grand éditeur de jeux vidéo encore cotée en bourse à ne faire que des jeux, un retournement de situation dix-huit ans après l'offre de rachat avortée d'EA sur Take-Two, rejetée juste avant la sortie de GTA IV.",
       "kind": "news",
       "game": "leonida",
@@ -65,6 +97,16 @@
       "source_date": "2026-08-05",
       "confidence": "single-source",
       "processed": true
+    },
+    {
+      "claim": "Le 4 août 2026, un consortium mené par le fonds souverain saoudien PIF a finalisé le rachat d'Electronic Arts pour environ 55 milliards de dollars, la plus importante opération de rachat par effet de levier de l'histoire ; EA quitte la bourse, et Take-Two Interactive, l'éditeur du studio à l'origine du jeu à venir, devient de fait le plus grand éditeur de jeux vidéo encore coté en bourse à ne faire que cela.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
+      "source_date": "2026-08-05",
+      "confidence": "confirmed-official",
+      "processed": true,
+      "note": "extraction concurrente de la même page (double déclenchement du run — voir le compte-rendu) ; désaccord éditorial avec le fait précédent sur confidence (confirmed-official ici vs single-source). Conséquence concrète : le squelette matérialisé depuis CE fait est parti status: published, celui matérialisé depuis l'autre reste draft. À trancher par un humain avant fusion de la PR."
     }
   ]
 }
