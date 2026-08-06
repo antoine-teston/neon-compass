@@ -1,0 +1,21 @@
+{
+  "id": "news_627e0479",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le jeu réapparaît sur la liste des titres les plus attendus de Sony",
+    "en": "The game reappears on Sony's most-anticipated list"
+  },
+  "body": {
+    "fr": "La page éditoriale de Sony consacrée aux jeux les plus attendus de l'année a de nouveau inclus le jeu à venir début août 2026, après l'en avoir exclu en janvier. La presse spécialisée y lit un signe de confiance sur le maintien de la date de sortie de novembre, alors que des rumeurs de report ressurgissent régulièrement.",
+    "en": "Sony's editorial page for the year's most-anticipated games included the upcoming title again in early August 2026, after leaving it off back in January. Specialist outlets read it as a confidence signal that the November release date will hold, even as delay rumors keep resurfacing."
+  },
+  "publishedAt": "2026-08-05",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:7dfda8022ce5",
+  "sourceClaim": "Début août 2026, la page éditoriale de Sony consacrée aux jeux les plus attendus de l'année sur sa console a de nouveau inclus le jeu à venir, alors qu'elle l'en avait exclu en janvier ; la presse spécialisée y lit un signe de confiance sur le maintien de la date de sortie de novembre, face aux rumeurs répétées d'un nouveau report — dont celle d'un ancien animateur du studio qui ne serait « pas surpris » d'un glissement supplémentaire."
+}

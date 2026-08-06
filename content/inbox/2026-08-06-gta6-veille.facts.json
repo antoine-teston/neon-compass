@@ -1,0 +1,55 @@
+{
+  "run": {
+    "date": "2026-08-06",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://www.gtaboom.com/sony-is-now-formally-denounced-in-mexico-over-killing-physical-games-4219",
+      "https://www.gtaboom.com/the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee",
+      "https://www.gtaboom.com/someone-remade-the-gta-6-trailer-2-with-one-very-silly-twist-e54d",
+      "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
+      "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
+      "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf",
+      "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "https://www.gtaboom.com/lewis-hamilton-says-he-will-cancel-work-for-gta-6-dabd",
+      "https://leonidaverse.com/news-sitemap.xml"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le 4 août 2026, un consortium mené par le fonds souverain saoudien PIF a finalisé le rachat d'Electronic Arts pour environ 55 milliards de dollars, la plus importante opération de rachat par effet de levier de l'histoire ; EA quitte la bourse, et Take-Two Interactive, l'éditeur du studio à l'origine du jeu à venir, devient de fait le plus grand éditeur de jeux vidéo encore coté en bourse à ne faire que cela.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
+      "source_date": "2026-08-05",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Le film Spider-Man: Brand New Day a réalisé environ 927 millions de dollars de recettes mondiales lors de son week-end de sortie début août 2026, approchant sans le dépasser le record établi par le précédent opus de la série sorti en 2013, qui avait dépassé le milliard de dollars de ventes en trois jours ; la presse spécialisée y voit un signe supplémentaire que le jeu à venir pourrait battre ce record lors de son lancement de novembre.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "L'acteur Robert Bogue, qui interprétait l'agent fédéral corrompu Steve Haines dans l'opus sorti en 2013, affirme avoir auditionné pour plus de soixante rôles du jeu à venir sans jamais recevoir le moindre retour, alors que le studio l'avait déjà fait rejouer à plusieurs reprises par le passé dans d'autres épisodes de la série.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Début août 2026, la page éditoriale de Sony consacrée aux jeux les plus attendus de l'année sur sa console a de nouveau inclus le jeu à venir, alors qu'elle l'en avait exclu en janvier ; la presse spécialisée y lit un signe de confiance sur le maintien de la date de sortie de novembre, face aux rumeurs répétées d'un nouveau report — dont celle d'un ancien animateur du studio qui ne serait « pas surpris » d'un glissement supplémentaire.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "source_date": "2026-08-05",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
