@@ -105,14 +105,20 @@ longtemps qu'il faut sans jamais risquer la production.
 
 ## 4. Avant toute soumission App Store
 
+Depuis le 2026-08-06, **le workflow `Binaire Release` le fait pour toi** à chaque poussée et à
+chaque PR vers `main` qui touche les sources. À la main, si besoin :
+
 ```sh
+Scripts/check-release-binary-test.sh          # le contrôle sait-il encore échouer ?
 xcodebuild -project NeonCompass.xcodeproj -scheme NeonCompass -configuration Release \
   -destination "$(Scripts/simulator-destination.sh)" build
 Scripts/check-release-binary.sh
 ```
 
-Le script cherche le marqueur `NCEditorArmedMarker` dans tous les Mach-O du bundle et échoue si
-l'éditeur a fui hors de `#if DEBUG`.
+Le script cherche le marqueur `NCEditorArmedMarker` dans le binaire principal et dans les
+exécutables des extensions sous `PlugIns/`, et échoue si l'éditeur a fui hors de `#if DEBUG`. Pas
+dans `Frameworks/` : nos marqueurs ne peuvent pas s'y trouver, et un tiers qui contiendrait cette
+chaîne ne produirait qu'un faux positif.
 
 **Piège rencontré en l'écrivant, et pourquoi le script refuse une build Debug** : en Debug, Xcode 26
 place le code de l'app dans `NeonCompass.debug.dylib` et laisse un binaire principal de 58 Ko
@@ -120,5 +126,19 @@ quasiment vide. Chercher le marqueur dans le seul binaire principal d'une build 
 rien — un succès parfaitement trompeur. Le script détecte ce cas et sort en erreur plutôt que de
 rassurer à tort.
 
-État vérifié le 2026-07-27 : marqueur **absent** du binaire Release, **présent** dans le
-`.debug.dylib` de la build Debug. Le contrôle prouve donc quelque chose.
+**Ce paragraphe affirmait une garantie qui n'existait pas, du 2026-07-27 au 2026-08-06.** Il disait :
+« marqueur absent du binaire Release, présent dans le `.debug.dylib` de la build Debug — le contrôle
+prouve donc quelque chose. » Le premier fait était vrai, la conclusion ne l'était pas : le contrôle
+**ne pouvait pas échouer**. `grep -q` sous `pipefail` sortait au premier succès et fermait le tuyau,
+le SIGPIPE reçu par `strings` devenait le statut de la pipeline, et un marqueur trouvé rendait 141 —
+jamais 0. Soumis à un vrai binaire Release où le marqueur avait été délibérément mis à fuir, il
+répondait « ✓ ».
+
+Ce qui l'a rendu invisible dix jours : **le cas nominal passait**, et un contrôle qui ne sait
+qu'approuver est indiscernable d'un contrôle qui approuve à raison. Le seul moyen de le voir était de
+le faire échouer exprès.
+
+État vérifié le 2026-08-06, dans les deux sens : un build Release sain est **accepté** (2 Mach-O
+balayés — le binaire et l'extension widget), et un build Release où le marqueur a été mis à fuir est
+**refusé**. `Scripts/check-release-binary-test.sh` retient les six cas et tourne en une seconde,
+avant le build, dans le workflow.
