@@ -90,13 +90,29 @@ jobs:
       # déposer dans content/inbox/.
       #
       # `continue-on-error` : une dérive du hub ne doit pas emporter la récolte
-      # d'actu avec elle. L'échec se lit dans le résumé de run.
+      # d'actu avec elle. Décision maintenue le 2026-08-06 — mais avec sa
+      # contrepartie, qui manquait : **l'API `actions/runs/<id>/jobs` rapporte
+      # `conclusion: success` pour une étape tolérante sortie en code 1.** Quatre
+      # runs se sont annoncés verts alors que deux avaient échoué. Le statut de
+      # l'étape ne dit donc RIEN ; c'est `weekly.json` qui fait autorité.
+      #
+      # `--capture` dépose ce verdict, et le HTML du hub avec lui, dans le
+      # répertoire dont la branche de transport est faite. Deux raisons :
+      #
+      #   1. La Routine sait POURQUOI il n'y a pas de semaine. Sans ça, un fichier
+      #      de faits absent parce que cassé est indiscernable pour elle d'un
+      #      fichier absent parce qu'il n'y avait rien de neuf — c'est ce qui a
+      #      laissé la panne du 06/08 courir une journée.
+      #   2. Un échec qui détruit sa preuve force le diagnostic à la main. Le HTML
+      #      capturé est aussi la fixture attendue pour réancrer l'extracteur sur
+      #      une semaine vivante.
       - name: Semaine du mode en ligne
         id: weekly
         continue-on-error: true
         run: |
           set -o pipefail
-          node tools/content-cli/fetch-source.mjs weekly --write 2>&1 | tee -a "$RUNNER_TEMP/recolte.log"
+          node tools/content-cli/fetch-source.mjs weekly --write \
+            --capture "$RUNNER_TEMP/recolte" 2>&1 | tee -a "$RUNNER_TEMP/recolte.log"
           cp content/inbox/*-gtav-weekly.facts.json "$RUNNER_TEMP/recolte/" 2>/dev/null || true
 
       # L'artefact reste, pour l'humain qui débogue un run. Il n'est PLUS le
@@ -154,8 +170,31 @@ jobs:
             echo '```'
             cat "$RUNNER_TEMP/recolte.log" 2>/dev/null || echo '(aucune sortie)'
             echo '```'
-            if [ '${{ steps.weekly.outcome }}' != 'success' ]; then
-              echo
-              echo '> Mode en ligne en échec — structure du hub probablement changée.'
+            echo
+            echo '### Mode en ligne'
+            echo
+            WEEKLY="$RUNNER_TEMP/recolte/weekly.json"
+            if [ ! -f "$WEEKLY" ]; then
+              echo '> Aucun verdict écrit — l’étape n’est pas allée jusqu’au bout.'
+              echo '> Ni « pas de semaine » ni « structure changée » : quelque chose a coupé avant.'
+            else
+              VERDICT="$(jq -r '.verdict' "$WEEKLY")"
+              MESSAGE="$(jq -r '.message // ""' "$WEEKLY")"
+              case "$VERDICT" in
+                sans-semaine)
+                  echo "**Aucune semaine publiée par la source.** Ce n’est pas une panne :"
+                  echo "il n’y avait rien à récolter."
+                  echo
+                  echo "> La page se déclare « $MESSAGE »."
+                  ;;
+                *)
+                  echo "⚠️ **Verdict \`$VERDICT\`** — la semaine du mode en ligne n’a pas été récoltée."
+                  echo
+                  echo '```'
+                  echo "$MESSAGE"
+                  echo '```'
+                  echo "Le HTML du hub est dans l’artefact et sur \`veille/recolte\` (\`hub.html\`)."
+                  ;;
+              esac
             fi
           } >> "$GITHUB_STEP_SUMMARY"

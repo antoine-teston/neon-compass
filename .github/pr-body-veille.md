@@ -29,12 +29,35 @@ La chaîne est coupée en deux, pour une raison qui n'est pas un choix de style 
 - extrait les faits des dernières 48 h vers `content/inbox/`, en relisant les
   faits déjà présents pour ne rien re-signaler ;
 - récupéré la semaine du mode en ligne, en tableau et sans modèle
-  (`weekly-hub.mjs`) ;
+  (`weekly-hub.mjs`) — **ou dit pourquoi il n'y en a pas**, voir ci-dessous ;
 - matérialisé les faits `kind: "news"` et `kind: "online-event"` — de façon
   idempotente, un fait déjà traité ne recrée pas de doublon ;
 - rédigé les items neufs en FR et EN, sans marque déposée ;
 - passé les garde-fous : schémas, règles éditoriales, socles embarqués à jour,
   et les tests des transformations.
+
+## Semaine du mode en ligne
+
+<!-- La Routine remplit cette section depuis `weekly.json`, déposé par le
+     workflow sur la branche de transport à côté des faits. Elle la remplit
+     TOUJOURS, y compris — surtout — quand il n'y a pas de semaine. -->
+
+**Verdict :** `<verdict>` — `<message>`
+
+Quatre issues possibles, et une seule n'est pas une anomalie :
+
+| verdict | ce que ça veut dire |
+|---|---|
+| `sans-semaine` | La source déclare sa phase hebdomadaire close. **Rien à récolter, et ce n'est pas une panne** — le cas normal entre deux semaines. |
+| `declaration-inconnue` | La page est reconnue mais se déclare autrement. C'est le cas d'une **semaine vivante** que l'extracteur ne sait pas encore lire. À traiter. |
+| `page-meconnaissable` | Les ancres de la page ont bougé : refonte côté source. À traiter. |
+| `payload-absent` / `hub-injoignable` | La page n'est plus rendue par Next.js, ou n'a pas répondu. |
+
+Pourquoi cette section existe : jusqu'au 2026-08-06, un échec de cette étape ne
+produisait **aucun fichier**, et « absent parce que cassé » était indiscernable
+d'« absent parce que rien de neuf ». La panne a couru une journée avant d'être vue
+depuis l'app. Le HTML du hub est joint sur `veille/recolte` (`hub.html`) quand rien
+n'a été récolté.
 
 ## À relire avant de fusionner
 

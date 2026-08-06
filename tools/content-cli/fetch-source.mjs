@@ -402,10 +402,72 @@ async function commandWiki(title) {
  * n'a pas de modèle en aval. Un fait déjà structuré n'a rien à faire relire par
  * `data-scout` pour être recopié — c'est justement ce détour qu'on supprime.
  */
-async function commandWeekly({ write }) {
+/**
+ * Écrit la capture de diagnostic : le VERDICT, toujours, et le HTML du hub dès
+ * qu'aucun fait n'a été produit.
+ *
+ * Un échec qui détruit sa propre preuve force le diagnostic à la main — c'est
+ * exactement ce qui a coûté la soirée du 2026-08-06, où il a fallu aller
+ * rechercher la page pour comprendre. Le HTML capturé est aussi la FIXTURE du
+ * temps 2 : au premier run qui suivra la publication d'une semaine, on aura le
+ * balisage réel d'une semaine vivante sans rien faire de plus.
+ *
+ * Rien de tout ça n'atterrit dans le dépôt : `recolte.yml` passe un répertoire de
+ * `$RUNNER_TEMP`, d'où la branche orpheline jetable `veille/recolte` est
+ * construite. La contrainte IP porte sur `main`, et `main` n'est pas touché.
+ */
+async function writeWeeklyCapture(dir, outcome, html) {
+  if (!dir) return;
+  const { mkdirSync, writeFileSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  mkdirSync(dir, { recursive: true });
+  const payload = { ...outcome };
+  if (typeof html === 'string') {
+    writeFileSync(join(dir, 'hub.html'), html);
+    payload.capture = 'hub.html';
+  }
+  writeFileSync(join(dir, 'weekly.json'), `${JSON.stringify(payload, null, 2)}\n`);
+}
+
+async function commandWeekly({ write, capture }) {
   const { HUB_URL, parseWeeklyHub, resolveArticleDate, hubToFact } = await import('./weekly-hub.mjs');
 
-  const { hub, articlePath, rewards, rewardsSkipped } = parseWeeklyHub(await fetchWithRetry(HUB_URL));
+  // Le réseau d'abord, et à part : une source injoignable n'est pas un verdict
+  // sur sa structure. Les confondre relancerait la fausse piste du 06/08.
+  let html;
+  try {
+    html = await fetchWithRetry(HUB_URL);
+  } catch (error) {
+    await writeWeeklyCapture(capture, { verdict: 'hub-injoignable', message: error.message }, null);
+    throw error;
+  }
+
+  let read;
+  try {
+    read = parseWeeklyHub(html);
+  } catch (error) {
+    // `verdict` manquant = ce n'est pas la façade qui a parlé, c'est nous qui
+    // avons cassé. Le dire plutôt que de le ranger sous un verdict de source.
+    await writeWeeklyCapture(capture, { verdict: error.verdict ?? 'erreur-interne', message: error.message }, html);
+    throw error;
+  }
+
+  // TEMPS 1 : la façade ne rend que `sans-semaine`. Ce n'est PAS une erreur — la
+  // source n'a rien publié, il n'y a rien à récolter, et le run sort en 0. Le
+  // verdict voyage jusqu'à la Routine, qui le porte dans la PR : c'est ce qui
+  // remplace un échec silencieux par une absence qui se voit.
+  if (read.verdict === 'sans-semaine') {
+    console.error(`pas de semaine publiée — la source déclare « ${read.declaration} »`);
+    if (read.statement) console.error(`  ${read.statement}`);
+    await writeWeeklyCapture(capture, { verdict: read.verdict, message: read.declaration, statement: read.statement }, html);
+    return;
+  }
+
+  // Chemin du TEMPS 2, conservé intact : lire une semaine vivante et la
+  // normaliser. Inatteignable tant que `parseWeeklyHub` ne rend pas
+  // `semaine-vivante` — ce qui demande le balisage d'une semaine vivante, non
+  // observable le jour où ce temps 1 a été écrit.
+  const { hub, articlePath, rewards, rewardsSkipped } = read;
   const articleURL = new URL(articlePath, HUB_URL).toString();
   const feedURL = feedURLFor(HUB_URL);
   if (!feedURL) throw new Error(`${new URL(HUB_URL).hostname} n’a plus de flux au registre — le début de fenêtre en dépend`);
@@ -472,9 +534,14 @@ async function main() {
         if (!target) throw new Error('usage: fetch-source.mjs wiki <titre de page>');
         await commandWiki(target);
         break;
-      case 'weekly':
-        await commandWeekly({ write });
+      case 'weekly': {
+        // `--capture <dir>` : où déposer verdict et HTML du hub. Le workflow y
+        // passe le répertoire dont la branche de transport est faite ; sans le
+        // drapeau, la commande se comporte comme avant, en local.
+        const at = process.argv.indexOf('--capture');
+        await commandWeekly({ write, capture: at === -1 ? null : process.argv[at + 1] });
         break;
+      }
       case 'preflight':
         await commandPreflight();
         break;
