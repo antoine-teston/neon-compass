@@ -1,0 +1,21 @@
+{
+  "id": "news_0b8762cf",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un ancien animateur du studio n'exclut pas un nouveau report",
+    "en": "A former studio animator doesn't rule out another delay"
+  },
+  "body": {
+    "fr": "Mike York, qui a travaillé comme animateur pour le studio et estimait fin juillet 2026 le jeu achevé à 80-90 %, précise dans le même entretien qu'il ne serait « pas du tout choqué » par un report supplémentaire d'environ six mois si la mission finale n'est pas prête pour novembre. C'est l'avis d'un ancien salarié, pas une déclaration du studio.",
+    "en": "Mike York, who worked as an animator for the studio and estimated in late July 2026 that the game was 80-90% finished, adds in the same interview that he wouldn't be \"at all shocked\" by another roughly six-month delay if the final mission isn't ready by November. That's a former employee's opinion, not a statement from the studio."
+  },
+  "publishedAt": "2026-08-05",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:916879bb55ea",
+  "sourceClaim": "L'ancien animateur du studio Mike York, qui avait jugé le jeu achevé à 80-90 % dans un entretien fin juillet 2026, précise dans ce même entretien qu'il ne serait « pas du tout choqué » par un nouveau report si la mission finale n'est pas prête d'ici novembre, ce qui laisserait Rockstar repousser la sortie d'environ six mois supplémentaires."
+}

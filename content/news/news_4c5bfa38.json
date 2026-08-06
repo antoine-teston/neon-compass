@@ -1,0 +1,21 @@
+{
+  "id": "news_4c5bfa38",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un acteur du précédent épisode dit avoir auditionné plus de 60 fois sans succès",
+    "en": "A previous game's actor says he auditioned 60+ times with no callback"
+  },
+  "body": {
+    "fr": "L'acteur qui incarnait un agent fédéral corrompu dans le précédent épisode affirme avoir passé plus de soixante auditions pour des rôles du jeu à venir sans jamais recevoir de réponse, alors que le studio l'avait déjà fait rejouer à plusieurs reprises dans d'autres épisodes de la série. Rien n'indique une politique délibérée d'écarter les acteurs habitués : l'information reste à confirmer par le studio.",
+    "en": "The actor who played a corrupt federal agent in the previous game says he tried out for more than sixty roles in the upcoming title without ever hearing back, despite the studio having cast him again in other entries before. Nothing suggests a deliberate policy against reusing familiar actors — the studio has not confirmed the account."
+  },
+  "publishedAt": "2026-08-05",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:cb7f4ef18726",
+  "sourceClaim": "L'acteur Robert Bogue, qui interprétait l'agent fédéral corrompu Steve Haines dans l'opus sorti en 2013, affirme avoir auditionné pour plus de soixante rôles du jeu à venir sans jamais recevoir le moindre retour, alors que le studio l'avait déjà fait rejouer à plusieurs reprises par le passé dans d'autres épisodes de la série."
+}

@@ -1,0 +1,21 @@
+{
+  "id": "news_73b86766",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le jeu réapparaît sur une liste PlayStation des sorties attendues",
+    "en": "The game resurfaces on a PlayStation most-anticipated list"
+  },
+  "body": {
+    "fr": "Sony l'avait retiré, en janvier 2026, d'une page éditoriale listant les sorties PS5 les plus attendues de l'année ; le jeu y figure de nouveau. Cette page marketing est mise à jour librement par Sony selon sa propre lecture du calendrier de sortie, donc ce retour n'est ni une annonce ni une confirmation de date — un signal à prendre avec prudence.",
+    "en": "Sony had pulled it from an editorial page listing the year's most-anticipated PS5 releases back in January 2026; the game is back on that list. Sony updates the marketing page at its own discretion based on its read of the release calendar, so this comeback isn't an announcement or a date confirmation — just a signal worth treating cautiously."
+  },
+  "publishedAt": "2026-08-05",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:6520a9906338",
+  "sourceClaim": "Sony a réinscrit le jeu à venir sur la page éditoriale officielle de PlayStation listant les sorties PS5 les plus attendues de l'année, dont il avait disparu en janvier 2026 ; il ne s'agit ni d'une annonce ni d'une confirmation de date, seulement d'une mise à jour d'une page marketing que Sony modifie librement selon l'avancement perçu des sorties."
+}

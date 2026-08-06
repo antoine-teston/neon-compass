@@ -1,0 +1,21 @@
+{
+  "id": "news_691b7aa6",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un acteur du précédent jeu dit avoir auditionné plus de soixante fois",
+    "en": "An actor from the previous game says he auditioned over sixty times"
+  },
+  "body": {
+    "fr": "Robert Bogue, qui prêtait sa voix à un personnage du jeu précédent, affirme avoir passé plus de soixante auditions pour le jeu à venir sans en obtenir aucune ni recevoir de réponse — malgré avoir déjà été repris par le studio à plusieurs reprises dans le passé. Rien n'indique s'il figure ou non au casting final.",
+    "en": "Robert Bogue, who voiced a character in the previous game, says he has gone through more than sixty auditions for the upcoming one without landing a single role or even hearing back — despite having worked with the studio repeatedly in the past. Whether he ends up in the final cast remains unknown."
+  },
+  "publishedAt": "2026-08-05",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:18c9fe1bbdca",
+  "sourceClaim": "Robert Bogue, qui prêtait sa voix à Steve Haines dans GTA V, affirme avoir auditionné pour plus de soixante rôles du jeu à venir sans en obtenir aucun ni recevoir la moindre réponse, malgré avoir déjà été repris par le studio à plusieurs reprises dans le passé (Red Dead Revolver, puis l'extension The Ballad of Gay Tony de GTA IV)."
+}

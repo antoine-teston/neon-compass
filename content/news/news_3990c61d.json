@@ -1,0 +1,21 @@
+{
+  "id": "news_3990c61d",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Après le rachat d'EA, l'éditeur du jeu devient le premier groupe coté 100 % jeu vidéo",
+    "en": "After EA's buyout, the game's publisher becomes the top pure-play public games company"
+  },
+  "body": {
+    "fr": "Un consortium mené par le fonds saoudien PIF a finalisé le 4 août 2026 le rachat d'Electronic Arts pour environ 55 milliards de dollars, la plus grosse opération de ce type jamais réalisée dans le secteur. EA quitte la bourse, et l'éditeur à l'origine du jeu devient de fait le plus grand groupe coté à ne vivre que du jeu vidéo.",
+    "en": "A consortium led by Saudi Arabia's PIF closed a roughly $55 billion buyout of Electronic Arts on August 4, 2026, the largest deal of its kind in the industry. EA leaves the stock market, and the game's publisher becomes the largest remaining public company whose business is entirely video games."
+  },
+  "publishedAt": "2026-08-05",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:561bfee6e5c7",
+  "sourceClaim": "Le 4 août 2026, un consortium mené par le fonds souverain saoudien PIF a finalisé le rachat d'Electronic Arts pour environ 55 milliards de dollars, la plus importante opération de rachat par effet de levier de l'histoire ; EA quitte la bourse, et Take-Two Interactive, l'éditeur du studio à l'origine du jeu à venir, devient de fait le plus grand éditeur de jeux vidéo encore coté en bourse à ne faire que cela."
+}
