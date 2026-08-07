@@ -4,6 +4,7 @@ import SwiftData
 struct CheatsScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
+    @Environment(InterstitialCoordinator.self) private var interstitialCoordinator
     @State private var model: CheatsModel?
     @State private var readerCheat: Cheat?
 
@@ -47,7 +48,14 @@ struct CheatsScreen: View {
                 }
             }
         }
-        .fullScreenCover(item: $readerCheat) { cheat in
+        // Le lecteur refermé, l'utilisateur a obtenu le code qu'il venait
+        // chercher : c'est la pause naturelle. La carte, elle, ne reçoit RIEN —
+        // c'est là que le geste s'enchaîne, et une pleine page au milieu d'une
+        // exploration est l'interruption la plus coûteuse que l'app puisse
+        // produire.
+        .fullScreenCover(item: $readerCheat, onDismiss: {
+            Task { await interstitialCoordinator.contentConsumed() }
+        }) { cheat in
             let readable = model.sections.flatMap(\.cheats)
             if let index = readable.firstIndex(where: { $0.id == cheat.id }) {
                 CheatReaderView(

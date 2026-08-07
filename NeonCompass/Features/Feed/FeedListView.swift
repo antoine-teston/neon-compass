@@ -3,6 +3,7 @@ import SwiftUI
 struct FeedListView: View {
     @Bindable var model: FeedModel
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    @Environment(InterstitialCoordinator.self) private var interstitialCoordinator
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     /// L'entrée ouverte, s'il y en a une.
@@ -40,7 +41,13 @@ struct FeedListView: View {
         // Même présentation que le détail d'un POI et que le paywall : une
         // feuille à hauteur moyenne, redimensionnable. Le fil n'a pas de raison
         // de se présenter autrement que le reste de l'app.
-        .sheet(item: $openedItem) { item in
+        // `onDismiss` plutôt que la fermeture du bouton : il attrape aussi le
+        // glissement vers le bas, qui est la façon dont la plupart des gens
+        // referment une feuille. Le coordinateur décide seul s'il montre
+        // quelque chose — cet écran ne connaît ni le plafond ni l'abonnement.
+        .sheet(item: $openedItem, onDismiss: {
+            Task { await interstitialCoordinator.contentConsumed() }
+        }) { item in
             NewsDetailView(item: item) { openedItem = nil }
                 .presentationDetents([.medium, .large])
         }
