@@ -42,9 +42,6 @@ struct RootView: View {
         Group {
             if onboarding.needsDisclaimer {
                 DisclaimerView { onboarding.acceptDisclaimer() }
-            } else if onboarding.needsATTPrompt {
-                ProgressView()
-                    .task { await onboarding.requestTrackingAuthorization() }
             } else if onboarding.needsConsentPrompt {
                 ProgressView()
                     .task { await onboarding.requestConsent() }
@@ -71,17 +68,25 @@ struct RootView: View {
         // stay as-is). `ThemeStore` is `@Observable`, so this recomputes
         // whenever `selectTheme(_:)` mutates `selectedTheme`.
         .tint(themeStore.selectedTheme.accent)
-        // Starts Mobile Ads only once every onboarding gate (disclaimer,
-        // ATT, UMP consent) has cleared — never before consent is resolved
-        // (spec §RGPD: consent gate is mandatory, not bypassable). Keyed on
-        // needsConsentPrompt (the last gate to flip false) so this fires
-        // exactly once, right after that transition, rather than re-running
-        // on every unrelated state change.
+        // Le SDK démarre dès que le consentement UMP est résolu, SANS attendre
+        // l'ATT. Sans autorisation il n'utilise simplement pas l'IDFA et sert du
+        // contextuel : servir des publicités avant l'ATT est son fonctionnement
+        // normal, pas un contournement. Attendre l'ATT — qui n'arrive plus qu'à
+        // la deuxième session — repousserait toute la publicité avec lui, soit
+        // l'inverse du but recherché.
+        //
+        // La porte du consentement reste obligatoire et non contournable
+        // (spec §RGPD). Clé sur `needsConsentPrompt`, la dernière porte à
+        // basculer, pour ne se déclencher qu'une fois.
         .task(id: onboarding.needsConsentPrompt) {
-            guard !onboarding.needsDisclaimer, !onboarding.needsATTPrompt, !onboarding.needsConsentPrompt else { return }
+            guard !onboarding.needsDisclaimer, !onboarding.needsConsentPrompt else { return }
             await MobileAds.shared.start()
         }
         .task {
+            // Compte cette session. Idempotent par processus : c'est ce compteur
+            // qui décide que l'explication ATT n'arrive qu'au deuxième
+            // lancement.
+            onboarding.registerLaunch()
             // Seeds the widget with real data at launch, BEFORE the user ever
             // visits Progression/Cheats (those screens only construct their
             // models lazily on first appearance — see `WidgetSummaryCoordinator`'s
@@ -117,7 +122,38 @@ struct RootView: View {
             default: break
             }
         }
+        // Une feuille et non une porte : l'app reste utilisable derrière, et
+        // `requestTrackingAuthorization` a besoin que l'app soit ACTIVE — ce
+        // qu'un écran de démarrage ne garantit pas, et son échec est silencieux.
+        .onChange(of: onboarding.needsTrackingExplainer, initial: true) { _, needs in
+            showsTrackingExplainer = needs
+        }
+        .sheet(isPresented: $showsTrackingExplainer) {
+            TrackingExplainerView(
+                onContinue: {
+                    showsTrackingExplainer = false
+                    Task { await onboarding.requestTrackingAuthorization() }
+                },
+                onLater: {
+                    showsTrackingExplainer = false
+                    onboarding.deferTrackingExplainer()
+                }
+            )
+            // Le `.tint` de cette vue est posé PLUS HAUT dans la chaîne que ce
+            // `.sheet` : le contenu de la feuille sort donc de sa portée et
+            // repartait en bleu système, au milieu d'une app synthwave.
+            // Constaté au simulateur, pas déduit.
+            .tint(themeStore.selectedTheme.accent)
+            // On ne referme pas d'un glissement : le choix se fait par l'un des
+            // deux boutons, dont « Plus tard », qui n'engage à rien.
+            .interactiveDismissDisabled()
+        }
     }
+
+    /// Piloté par `onboarding.needsTrackingExplainer`, mais distinct de lui :
+    /// une feuille a besoin d'un binding qu'elle puisse remettre à faux
+    /// elle-même, ce qu'une propriété calculée ne permet pas.
+    @State private var showsTrackingExplainer = false
 
     /// Onglets déjà visités, donc construits. Sert à reproduire en compact la
     /// sémantique que `TabView` offre gratuitement en régulier : un onglet est
