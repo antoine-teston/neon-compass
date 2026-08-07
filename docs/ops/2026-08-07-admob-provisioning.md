@@ -12,7 +12,7 @@
                                     │                                        │
                                     └────────────────────────────────────────┴─→ ⏸ app-ads.txt vérifiable ICI seulement
 
-4. Clé app_config (indépendante, faisable tout de suite)
+4. Clé app_config (indépendante) ── ✅ appliquée le 2026-08-07
 ```
 
 **`app-ads.txt` ne peut pas être vérifié avant la publication de l'app.** Google crawle le site développeur *déclaré dans la fiche du store* — sans fiche publiée, il n'y a rien à crawler. Le fichier se prépare maintenant et se valide au lancement. Ce n'est pas une raison de le repousser : il vaut 10 à 30 % d'eCPM, et il doit être en place le jour où la fiche paraît.
@@ -168,13 +168,13 @@ xcodebuild -scheme NeonCompass -configuration Release \
 
 ---
 
-## 4 · La clé `interstitialFrequency`
+## 4 · La clé `interstitialFrequency` — ✅ FAIT le 2026-08-07
 
-Indépendante des trois autres, faisable immédiatement. La migration est écrite : `supabase/migrations/20260807140000_interstitial_frequency.sql`.
+Indépendante des trois autres, elle a été appliquée sans attendre les autres étapes : `supabase/migrations/20260807140000_interstitial_frequency.sql`, [run 31179681164](https://github.com/antoine-teston/neon-compass/actions/runs/31179681164). La ligne est en base, valeur `1`, et les trois verrous de privilèges ont été revérifiés après application.
 
-**Appliquer** : GitHub → Actions → workflow **Migrations** → *Run workflow*.
-- Laisser `dry-run` **coché** au premier passage pour lire ce qui serait appliqué.
-- Relancer avec la case décochée.
+**Il a fallu épingler la CLI Supabase pour y arriver.** La v2.112.0, publiée le matin même, fait échouer `supabase link` sur tout projet : son schéma généré n'accepte un `inserted_at` qu'avec un suffixe `Z`, quand l'API le rend avec un décalage `+00:00` sur les clés `publishable` et `secret`. Le workflow est donc figé sur **2.111.0**, dernière stable saine — à repasser à `latest` quand [supabase/cli#6115](https://github.com/supabase/cli/issues/6115) sera close.
+
+Pour mémoire, la marche à suivre si la clé doit être resemée sur un autre projet : GitHub → Actions → workflow **Migrations** → *Run workflow*, `dry-run` coché au premier passage pour lire ce qui serait appliqué, puis décoché.
 
 La valeur semée est **1**, c'est-à-dire allumé. Semer 0 « par prudence » créerait un format muet dont personne ne saurait pourquoi il ne s'affiche pas.
 
