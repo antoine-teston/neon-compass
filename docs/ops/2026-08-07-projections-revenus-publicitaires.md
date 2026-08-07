@@ -143,6 +143,98 @@ que 30 % des sessions produisent une seconde ouverture-fermeture, vaudrait
 +19 %, soit environ 5 800 € au médian. Les deux assouplissements se cumulent
 mal — ils puisent dans la même patience.
 
+## La courbe dans le temps
+
+Les tableaux précédents lissent le DAU sur 90 jours. La réalité est une bosse,
+et la forme de cette bosse change les conclusions.
+
+### La forme retenue
+
+`DAU(semaine) = plancher + (pic − plancher) × e^(−(s−1)/6)` — une décroissance
+exponentielle de constante 6 semaines vers un plancher durable, calée pour que
+la moyenne sur 13 semaines retombe sur les DAU moyens de la spec fondatrice.
+
+| Scénario | Pic (semaine 1) | Plancher | Moyenne 13 semaines | Rappel spec |
+|---|---|---|---|---|
+| Pessimiste | 8 000 | 1 000 | 4 106 | 4 000 |
+| Médian | 40 000 | 5 000 | 20 528 | 20 000 |
+| Optimiste | 160 000 | 20 000 | 82 113 | 80 000 |
+
+### La saisonnalité, qui joue en notre faveur
+
+Les eCPM mobiles suivent le budget des annonceurs : ils culminent en novembre et
+décembre, s'effondrent en janvier. **La sortie de GTA VI, le 19 novembre 2026,
+place notre pic d'audience exactement sur le pic annuel des prix.** Les deux
+courbes se multiplient au lieu de se compenser.
+
+Coefficients appliqués : ×1,15 en novembre, ×1,30 à 1,35 en décembre, ×0,80 en
+janvier, ×0,85 en février. Ce sont des normes de marché, pas des mesures.
+
+L'effet est loin d'être marginal : sur 13 semaines au scénario médian, il porte
+le total de 37 900 € (lissé, sans saisonnalité) à **44 100 €**, soit +16 %
+gagnés uniquement sur la date de sortie.
+
+### Semaine par semaine, scénario médian, ARPDAU à 0,02107 €
+
+| Semaine | Dates | DAU | Saison | Revenu | Cumul |
+|---|---|---|---|---|---|
+| 1 | 19-25 nov | 40 000 | ×1,15 | 6 785 € | 6 785 € |
+| 2 | 26 nov-2 déc | 34 627 | ×1,20 | 6 129 € | 12 913 € |
+| 3 | 3-9 déc | 30 079 | ×1,30 | 5 767 € | 18 680 € |
+| 4 | 10-16 déc | 26 229 | ×1,30 | 5 029 € | **23 709 €** |
+| 5 | 17-23 déc | 22 970 | ×1,35 | 4 574 € | 28 283 € |
+| 6 | 24-30 déc | 20 211 | ×1,35 | 4 024 € | **32 307 €** |
+| 7 | 31 déc-6 janv | 17 876 | ×1,05 | 2 768 € | 35 075 € |
+| 8 | 7-13 janv | 15 899 | ×0,80 | 1 876 € | 36 951 € |
+| 9 | 14-20 janv | 14 226 | ×0,80 | 1 679 € | 38 630 € |
+| 10 | 21-27 janv | 12 810 | ×0,80 | 1 511 € | 40 141 € |
+| 11 | 28 janv-3 fév | 11 611 | ×0,85 | 1 456 € | 41 597 € |
+| 12 | 4-10 fév | 10 596 | ×0,85 | 1 328 € | 42 925 € |
+| 13 | 11-17 fév | 9 737 | ×0,85 | 1 221 € | **44 146 €** |
+
+Les deux autres scénarios se déduisent par simple proportion : diviser par 5
+pour le pessimiste, multiplier par 4 pour l'optimiste.
+
+| | 13 semaines | Mois 4-6 | **6 mois** |
+|---|---|---|---|
+| Pessimiste | 8 800 € | 2 300 € | **11 200 €** |
+| Médian | 44 100 € | 11 700 € | **55 800 €** |
+| Optimiste | 176 600 € | 46 800 € | **223 400 €** |
+
+### Le chiffre à retenir
+
+**Les quatre premières semaines font 54 % du trimestre. Les six premières en
+font 73 %.** Et ce n'est pas un artefact du modèle : l'audience décroît pendant
+que les eCPM décrochent aussi, en janvier. Les deux effets se composent.
+
+### Ce que coûte le retard
+
+Chaque semaine où la chaîne publicitaire n'est pas complète est une semaine
+prise sur la partie la plus chère de la courbe. Scénario médian, sur 13
+semaines :
+
+| Retard à la sortie | Encaissé | Perdu |
+|---|---|---|
+| Aucun | 44 100 € | — |
+| 1 semaine | 37 400 € | 6 800 € (**15 %**) |
+| 2 semaines | 31 200 € | 12 900 € (29 %) |
+| 4 semaines | 20 400 € | 23 700 € (**54 %**) |
+| 6 semaines | 11 800 € | 32 300 € (73 %) |
+
+Appliqué au seul interstitiel, qui pèse 36 % de l'ARPDAU et représente 16 000 €
+sur le trimestre médian :
+
+| Disponible à partir de | Ce qu'il rapporte | Part du possible |
+|---|---|---|
+| Semaine 1 (19 nov) | 16 000 € | 100 % |
+| Semaine 5 (17 déc) | 7 400 € | 46 % |
+| Semaine 9 (14 janv) | 2 600 € | **16 %** |
+
+Livrer l'interstitiel en janvier plutôt qu'au jour J, c'est faire le même
+travail pour un sixième du résultat. C'est l'argument le plus fort de tout ce
+document : **la demi-journée de branchement doit être faite avant le 19
+novembre, pas après.**
+
 ## Ce qui peut faire mentir tout ça
 
 Les eCPM sont le paramètre le plus incertain, et le plus multiplicatif.
@@ -166,9 +258,16 @@ Les autres fragilités, par ordre d'impact décroissant :
    50 %, les impressions de bannière tombent de 12 à 7,2 par jour et l'ARPDAU
    perd 25 %. La carte est le cœur de l'app et n'a pas de bannière : c'est
    cohérent, mais ça coûte.
-4. **La durée du pic.** La spec fondatrice le donne pour 6 à 10 semaines. Ces
-   projections lissent le DAU sur 90 jours ; la réalité sera une bosse, puis une
-   décroissance.
+4. **Le plancher de la longue traîne.** C'est le paramètre le moins étayé du
+   modèle temporel. Il suppose 5 000 utilisateurs quotidiens durables au
+   scénario médian, ce qui dépend entièrement du mode online de GTA VI et de
+   notre rythme de mises à jour. À 2 000 au lieu de 5 000, les mois 4 à 6
+   tombent de 11 700 € à 6 800 € — la traîne est divisée par deux sans que le
+   trimestre de lancement bouge d'un euro.
+5. **La constante de décroissance.** Six semaines est une hypothèse de forme.
+   Plus courte, tout se concentre encore davantage sur le premier mois et
+   l'argument du retard devient plus dur encore ; plus longue, la traîne pèse
+   plus lourd. Le classement des chantiers ne change dans aucun des deux cas.
 
 ## À mesurer dès la première semaine en production
 
