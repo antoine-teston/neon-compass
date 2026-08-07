@@ -1,0 +1,80 @@
+{
+  "run": {
+    "date": "2026-08-07",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/rockstar-games-to-debut-extended-look-at-gta-6-on-netflix-on-august-27-d6ca",
+      "https://www.gtaboom.com/why-rockstar-games-netflix-deal-for-gta-6-is-a-big-deal-e795",
+      "https://www.gtaboom.com/netflix-just-cleared-creators-to-cover-the-gta-6-extended-look-d613",
+      "https://www.gtaboom.com/gta-online-kortz-center-heist-secondary-loot-payouts-bag-capacity-and-the-best-items-to-steal-6ee7",
+      "https://www.gtaboom.com/why-the-ps-plus-boycott-hurts-you-more-than-sony-71b2",
+      "https://www.gtaboom.com/sony-is-now-formally-denounced-in-mexico-over-killing-physical-games-4219",
+      "https://www.gtaboom.com/someone-remade-the-gta-6-trailer-2-with-one-very-silly-twist-e54d",
+      "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf",
+      "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
+      "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
+      "https://www.gtaboom.com/the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le studio a annoncé via son compte X qu'un aperçu étendu du jeu à venir sera diffusé en avant-première sur Netflix le 27 août à 12h heure du Pacifique (15h côté Est américain), la même vidéo arrivant ensuite sur les canaux propres du studio — chaîne vidéo et site officiel — six heures plus tard.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-games-to-debut-extended-look-at-gta-6-on-netflix-on-august-27-d6ca",
+      "source_date": "2026-08-06",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Rockstar Games a annoncé via son compte X officiel que la prochaine vidéo « An Extended Look » sur le jeu à venir sera diffusée en avant-première sur Netflix le 27 août 2026 à 12h heure du Pacifique, la même vidéo n'arrivant sur les canaux officiels du studio (site, YouTube) que six heures plus tard.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-games-to-debut-extended-look-at-gta-6-on-netflix-on-august-27-d6ca",
+      "source_date": "2026-08-06",
+      "confidence": "confirmed-official",
+      "processed": true,
+      "note": "extraction concurrente de la même page (deux sessions de la Routine ont tourné en parallèle ce jour — voir le compte-rendu) ; même jugement (news/leonida/confirmed-official) que le fait précédent, formulation indépendante conservée telle quelle"
+    },
+    {
+      "claim": "Un porte-parole de Netflix a indiqué à un journaliste que les créateurs de contenu seront libres de réagir, découper et commenter l'aperçu étendu dès sa diffusion, sans risquer de retrait pour infraction au droit d'auteur — une clarification bienvenue vu la réputation de la plateforme de streaming en matière de gestion stricte des droits sur son contenu.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/netflix-just-cleared-creators-to-cover-the-gta-6-extended-look-d613",
+      "source_date": "2026-08-06",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un représentant de Netflix a confirmé au journaliste Steve Vegvari que les créateurs de contenu pourront librement réagir, découper en extraits et commenter la vidéo « Extended Look » du jeu à venir dès sa diffusion en avant-première sur la plateforme, sans crainte de retrait pour infraction au droit d'auteur — une inquiétude qui circulait depuis l'annonce du partenariat, Netflix étant réputé strict sur l'usage de son contenu.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/netflix-just-cleared-creators-to-cover-the-gta-6-extended-look-d613",
+      "source_date": "2026-08-06",
+      "confidence": "confirmed-official",
+      "processed": true,
+      "note": "extraction concurrente de la même page (deux sessions de la Routine ont tourné en parallèle ce jour — voir le compte-rendu) ; désaccord éditorial avec le fait précédent sur confidence (single-source ici vs confirmed-official dans l'autre extraction). Conséquence concrète : le squelette matérialisé depuis l'autre fait est parti status: draft, celui matérialisé depuis CE fait est parti status: published. À trancher par un humain avant fusion de la PR."
+    },
+    {
+      "claim": "En comparant les gains obtenus avec la même configuration avant et après la réinitialisation hebdomadaire du mode en ligne, la presse spécialisée a constaté que les butins secondaires du braquage du Kortz Center varient selon la difficulté (normal/difficile) mais restent inchangés d'une semaine à l'autre — seule la cible principale bénéficie du bonus hebdomadaire, ayant par exemple été observée passant de 317 000 $ à 1 268 000 $ en jeu après la réinitialisation, pendant que le total des cibles secondaires testées restait strictement identique.",
+      "kind": "game-fact",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/gta-online-kortz-center-heist-secondary-loot-payouts-bag-capacity-and-the-best-items-to-steal-6ee7",
+      "source_date": "2026-08-06",
+      "confidence": "single-source",
+      "note": "retenu par une seule des deux sessions concurrentes de ce jour ; l'autre l'a écarté en le classant comme guide relevant de content-editor plutôt que fait d'actualité — voir le compte-rendu. Conservé ici : un constat chiffré et vérifiable (comparaison avant/après réinitialisation) est distinct d'un guide pas-à-pas complet."
+    },
+    {
+      "claim": "Sur PlayStation, l'abonnement PlayStation Plus reste obligatoire pour jouer au mode en ligne du jeu actuel, indépendamment du contentieux en cours entre une partie des joueurs et Sony sur l'arrêt annoncé des jeux PlayStation en version disque : résilier son abonnement pour protester revient donc, sur cette plateforme, à se couper soi-même l'accès au jeu en ligne plutôt qu'à peser sur les revenus de Sony, l'accès restant lui gratuit sur PC.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/why-the-ps-plus-boycott-hurts-you-more-than-sony-71b2",
+      "source_date": "2026-08-06",
+      "confidence": "single-source",
+      "note": "retenu par une seule des deux sessions concurrentes de ce jour ; l'autre l'a écarté en jugeant que le sujet reste la politique d'abonnement de Sony et non une actualité du jeu — voir le compte-rendu. Conservé ici pour le détail vérifiable et directement lié au jeu (obligation PS Plus pour son mode en ligne), distinct du reste de l'article consacré au boycott.",
+      "processed": true
+    }
+  ]
+}
