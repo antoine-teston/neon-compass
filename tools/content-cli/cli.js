@@ -44,68 +44,13 @@ import { readFileSync, readdirSync, writeFileSync, rmSync, mkdirSync, renameSync
 import { join, dirname } from 'node:path';
 import { deflateRawSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
-import Ajv from 'ajv/dist/2020.js';
-import {
-  notANominativeName,
-  nominativeFieldsFor,
-  nominativeListFieldsFor,
-  redactedListFieldsFor,
-} from './nominative-fields.mjs';
+import { CONTENT, KINDS, ROOT, loadAll, schemas } from './schemas.mjs';
+import { TRADEMARKS, UI_FIELDS, checkPublishable } from './publishable.mjs';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const CONTENT = join(ROOT, 'content');
 const LANGS = ['fr', 'es', 'it', 'de'];
-// Champs affichés dans l'UI : jamais de marque déposée (CLAUDE.md, spec §1).
-const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
-const UI_FIELDS = ['title', 'note', 'effect', 'body'];
 // Doit rester aligné sur CHUNK_SIZE dans cdn-build.mjs et ContentBundle.chunkSize
 // côté Swift — ici uniquement pour annoncer le nombre de fragments en dry-run.
 const BUNDLE_CHUNK_SIZE = 500;
-
-const ajv = new Ajv({ allErrors: true });
-const compiled = {
-  poi: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'poi.schema.json')))),
-  cheats: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'cheat.schema.json')))),
-  collections: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'collection.schema.json')))),
-  news: ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'news.schema.json')))),
-  'online-events': ajv.compile(JSON.parse(readFileSync(join(CONTENT, 'schema', 'online-event.schema.json')))),
-};
-
-// Un « kind » est un répertoire de content/. Il porte son schéma et le nom de
-// collection publié sur le CDN.
-//
-// `poi-gtav` et `poi` partagent le schéma mais PAS la collection : les positions
-// de la fixture sont normalisées sur la carte de référence, les afficher sur
-// celle du jeu à venir poserait des centaines de pins à des endroits qui ne
-// veulent rien dire. La séparation est délibérée côté app aussi
-// (NeonCompass/Features/Map/MapModel.swift, `pois(for:)`).
-const KINDS = {
-  poi: { schema: 'poi', collection: 'poi' },
-  'poi-gtav': { schema: 'poi', collection: 'poi_gtav' },
-  cheats: { schema: 'cheats', collection: 'cheats' },
-  collections: { schema: 'collections', collection: 'collections' },
-  news: { schema: 'news', collection: 'news' },
-  'online-events': { schema: 'online-events', collection: 'online_events' },
-};
-const schemas = Object.fromEntries(
-  Object.entries(KINDS).map(([kind, { schema }]) => [kind, compiled[schema]]),
-);
-
-function loadAll() {
-  const entries = [];
-  for (const kind of Object.keys(KINDS)) {
-    const dir = join(CONTENT, kind);
-    // Un kind dont le répertoire n'existe pas encore n'est pas une erreur : il
-    // est simplement vide. Sans ce garde-fou, déclarer un kind avant sa première
-    // matérialisation ferait échouer TOUTES les commandes, `pull-news` comprise
-    // — c'est-à-dire précisément celle qui crée le répertoire.
-    if (!existsSync(dir)) continue;
-    for (const f of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
-      entries.push({ kind, file: `${kind}/${f}`, data: JSON.parse(readFileSync(join(dir, f))) });
-    }
-  }
-  return entries;
-}
 
 function validate(entries) {
   let failures = 0;
@@ -117,83 +62,6 @@ function validate(entries) {
     }
   }
   console.log(`validate: ${entries.length - failures}/${entries.length} OK`);
-  return failures === 0;
-}
-
-function checkPublishable(entries) {
-  let failures = 0;
-  for (const { kind, file, data } of entries) {
-    const problems = [];
-    if (kind === 'cheats' && data.status === 'published' && (data.verifiedBy?.length ?? 0) < 2) {
-      problems.push('published cheat requires verifiedBy >= 2 sources');
-    }
-    // Un squelette de `pull-news` porte encore son texte d'attente. Publier
-    // « À rédiger » dans le fil est un accident que seule une machine peut
-    // attraper de façon fiable — c'est exactement ce qui arriverait à un run
-    // hebdomadaire dont l'étape de rédaction a échoué en silence.
-    if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.needsRewrite) {
-      problems.push('published news item is still an unwritten skeleton (needsRewrite)');
-    }
-    // Une rumeur ne part pas dans le fil. L'app est un compagnon non officiel :
-    // sa crédibilité tient à ne jamais présenter une spéculation de presse comme
-    // une actualité. Une rumeur peut vivre en `draft` (elle garde sa trace et
-    // son id), elle ne franchit pas la publication. Assouplir cette règle est
-    // une décision éditoriale, pas un détail de pipeline.
-    if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.confidence === 'rumor') {
-      problems.push('published entry cannot rest on a rumor (confidence: rumor)');
-    }
-    for (const field of UI_FIELDS) {
-      for (const [lang, text] of Object.entries(data[field] ?? {})) {
-        const m = text.match(TRADEMARKS);
-        if (m) problems.push(`trademark "${m[0]}" in ${field}.${lang}`);
-      }
-    }
-    // Une carte affiche aussi des textes que `UI_FIELDS` ne voit pas — ceux que
-    // portent les listes. Ils ne rejoignent pas `UI_FIELDS` pour autant : celui-ci
-    // sert aussi à `translate`, qui réclamerait alors une traduction pour des
-    // noms propres.
-    //
-    // Deux régimes, et la frontière est celle de l'usage référentiel :
-    //
-    //  - un texte RÉDIGÉ par nous (`bonuses[].label`) n'a aucune raison de porter
-    //    une marque. Il est scanné comme `title`.
-    //  - un champ NOMINATIF ne fait que nommer le produit d'un tiers pour en
-    //    parler. C'est l'usage que la presse spécialisée fait tous les jours, et
-    //    la contrainte IP du projet (CLAUDE.md) porte sur l'IDENTITÉ de l'app —
-    //    nom, icône, sous-titre App Store, bundle ID — pas sur le contenu.
-    //    L'exception n'est PAS gratuite : ces champs doivent prouver qu'ils sont
-    //    bien des noms, et c'est vérifié ICI même. Déléguer cette vérification à
-    //    `check-originality` aurait laissé les deux contrôles se renvoyer la
-    //    responsabilité d'une permission qu'aucun des deux n'aurait justifiée.
-    for (const [listField, textField] of redactedListFieldsFor(kind)) {
-      (data[listField] ?? []).forEach((item, index) => {
-        for (const [lang, text] of Object.entries(item?.[textField] ?? {})) {
-          const m = text.match(TRADEMARKS);
-          if (m) problems.push(`trademark "${m[0]}" in ${listField}[${index}].${textField}.${lang}`);
-        }
-      });
-    }
-    for (const field of nominativeFieldsFor(kind)) {
-      for (const [lang, text] of Object.entries(data[field] ?? {})) {
-        const problem = notANominativeName(text);
-        if (problem) problems.push(`${field}.${lang} n'est pas un nom — ${problem}`);
-      }
-    }
-    for (const [listField, textField] of nominativeListFieldsFor(kind)) {
-      (data[listField] ?? []).forEach((item, index) => {
-        for (const [lang, text] of Object.entries(item?.[textField] ?? {})) {
-          const problem = notANominativeName(text);
-          if (problem) problems.push(`${listField}[${index}].${textField}.${lang} n'est pas un nom — ${problem}`);
-        }
-      });
-    }
-    if (problems.length) {
-      failures++;
-      console.error(`FAIL ${file}`);
-      problems.forEach((p) => console.error(`     ${p}`));
-    }
-  }
-  console.log(`check-publishable: ${entries.length - failures}/${entries.length} OK`);
   return failures === 0;
 }
 

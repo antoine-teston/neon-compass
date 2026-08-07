@@ -161,10 +161,17 @@ Quatre verdicts, et le quatrième n'est pas un succès :
 - `échec` — le run a échoué franchement ;
 - `indéterminé` — journal illisible ou vide. **Jamais « ok ».**
 
-*Note* : la mémoire projet indique que l'autorité serait `weekly.json`, déposé par `--capture`
-depuis la branche `veille/hub-verdicts`. Vérifié le 2026-08-07 : **ce code n'existe nulle part dans
-le dépôt**, et la branche n'a rien d'avance sur `main`. Le travail n'a pas atterri. La lecture du
-journal reste donc l'autorité ; `weekly.json` deviendra la source bon marché s'il arrive.
+*Note, corrigée le 2026-08-07 en cours d'implémentation* : cette spec affirmait d'abord que le
+`--capture` / `weekly.json` de la branche `veille/hub-verdicts` n'existait nulle part. **C'était
+faux** — il est sur `origin/main` et il tourne (visible dans le run 31146819752). L'arbre de travail
+était en retard de seize commits, et une branche rebasée depuis a rétabli le fait.
+
+Cela ne change pas la conception : `weekly.json` vit dans l'artefact et sur la branche de transport,
+pas dans une API que la console interrogerait. Le journal reste la source, et il porte déjà la
+sortie de l'étape (« pas de semaine publiée — la source déclare … »), qui suffit au marqueur.
+
+La leçon, elle, mérite d'être gardée : **une affirmation d'absence tirée d'un arbre local n'est
+qu'une affirmation sur l'arbre local.** `git fetch` avant de conclure qu'un travail n'a pas atterri.
 
 **Après la Récolte.** Elle se dépose sur `veille/recolte` ; c'est la Routine cloud qui en fait des
 faits. La console ne refait pas ce travail mais doit dire où on en est — « récolte du 07/08 déposée,
@@ -239,6 +246,14 @@ les lit à 23 h.
 | Appliquer les migrations | écrit en base | `privileges_test.sql`, lecture pure, sûre en prod | **une migration inverse à écrire** |
 | Basculer `contentBaseURL` | sortie de secours vers un autre hébergeur, sans mise à jour de l'app | lire `app_config` | `content-source off` |
 
+**Une bascule d'`app_config` n'est PAS instantanée**, et c'est le pire endroit où se tromper.
+Vérifié le 2026-08-07 dans `NeonCompass/Core/Config/SupabaseAppConfig.swift` : les valeurs sont
+mémorisées dans `cached`, **sans durée de vie**, et le seul `invalidate()` du fichier **n'a aucun
+appelant dans l'app**. Une valeur ne rejoint donc un utilisateur qu'à son **prochain lancement à
+froid**. Le coupe-circuit communauté et le basculement de `contentBaseURL` portent cette latence
+dans leur fiche ; la présenter comme un coupe-circuit immédiat serait un mensonge utile jusqu'au
+jour où il compte.
+
 Deux règles tiennent le carnet :
 
 **Un geste dont on ne sait pas énoncer le retour arrière n'entre pas au carnet** — il reste une
@@ -253,10 +268,16 @@ passage au réel est un second clic avec confirmation, comme les actions `destru
 
 Une défaillance dit **quoi faire**, pas seulement ce qui a raté :
 
+**Bug trouvé et corrigé en route.** `credentialsPresent()` testait
+`FIREBASE_SERVICE_ACCOUNT_PATH`, resté de l'avant-migration : depuis la bascule vers Supabase du
+2026-08-02, la CLI lit `SUPABASE_URL` et `SUPABASE_SERVICE_ROLE_KEY`. La console bloquait donc
+**toutes** ses actions de production sur une variable que plus rien ne pose, en renvoyant vers une
+documentation Firebase. C'était la seule occurrence restante de ce nom dans `tools/`.
+
 | Défaillance | Message |
 |---|---|
 | `gh` absent ou non authentifié | le dit, et donne `gh auth login` |
-| credentials Supabase absents | réutilise `credentialsPresent()`, étendu aux nouvelles cartes |
+| credentials Supabase absents | `credentialsPresent()`, corrigé, étendu aux nouvelles cartes |
 | `PUT` refusé par le schéma | l'erreur ajv brute |
 | fichier bougé sur le disque | « changé depuis l'ouverture », avec un bouton recharger |
 | workflow qui ne part pas | le message de `gh`, tel quel |

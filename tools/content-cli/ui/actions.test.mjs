@@ -7,6 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ACTIONS, ID_PATTERN, resolveAction } from './actions.mjs';
+import { CARNET, FICHES } from './hotfix.mjs';
 
 test('aucun argv ne contient de métacaractère de shell', () => {
   // `spawn` est appelé sans `shell: true`, donc ceci ne serait pas exploitable —
@@ -65,15 +66,135 @@ test('toute action de production est marquée destructive ou needsCredentials', 
   // credentials ; ce test garantit qu'une action du groupe `prod` ne peut pas
   // échapper aux deux.
   for (const [name, action] of Object.entries(ACTIONS)) {
-    if (action.group !== 'prod' && action.group !== 'moderation') continue;
+    if (!['prod', 'moderation'].includes(action.group)) continue;
     assert.ok(action.destructive || action.needsCredentials, `${name} n'exige rien`);
   }
 });
 
 test('les groupes déclarés sont ceux que la page sait afficher', () => {
-  const known = new Set(['checks', 'local', 'prod', 'moderation']);
+  const known = new Set(['checks', 'local', 'prod', 'moderation', 'github', 'hotfix']);
   for (const [name, action] of Object.entries(ACTIONS)) {
     assert.ok(known.has(action.group), `${name} : groupe « ${action.group} » sans conteneur dans index.html`);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Champs typés — la généralisation de `needsID`
+// ---------------------------------------------------------------------------
+
+test('un paramètre déclaré part dans son propre élément d’argv', () => {
+  const { argv, bin } = resolveAction('recolte', { since: '7', max: '30' });
+  assert.equal(bin, 'gh');
+  assert.deepEqual(argv, ['workflow', 'run', 'recolte.yml', '--ref', 'main', '-f', 'since=7', '-f', 'max=30']);
+});
+
+test('les défauts déclarés s’appliquent quand le champ est absent', () => {
+  const { argv } = resolveAction('recolte');
+  assert.ok(argv.includes('since=2') && argv.includes('max=15'), argv.join(' '));
+});
+
+test('un paramètre hors motif est refusé', () => {
+  // Le cas qui compte : `spawn` est appelé sans shell, donc ceci ne serait pas
+  // exploitable — mais un paramètre qui échappe à son motif signifie que le
+  // motif ne sert plus à rien, et c'est le début du problème.
+  const hostiles = ['2; rm -rf /', '$(id)', '`whoami`', '2 --ref evil', '9999', 'deux', '2\n--ref=evil'];
+  for (const since of hostiles) {
+    assert.throws(
+      () => resolveAction('recolte', { since }),
+      /refusé/,
+      `accepté : ${JSON.stringify(since)}`,
+    );
+  }
+});
+
+test('un champ vidé retombe sur son défaut, qui est une constante', () => {
+  // Comportement délibéré, pas un trou : l'utilisateur qui efface la case veut
+  // le défaut, et ce défaut est écrit dans la déclaration — il ne vient pas de
+  // la requête. Un paramètre REQUIS, lui, lève (test suivant).
+  const { argv } = resolveAction('recolte', { since: '', max: '' });
+  assert.ok(argv.includes('since=2') && argv.includes('max=15'), argv.join(' '));
+  assert.throws(() => resolveAction('deploy-function', { name: '' }), /exige le paramètre/);
+});
+
+test('un paramètre NON DÉCLARÉ est refusé, jamais ignoré', () => {
+  // La différence est tout sauf cosmétique. Ignorer en silence laisserait
+  // croire qu'un champ a été pris en compte alors qu'il ne l'est pas — et la
+  // prochaine personne à lire le code chercherait où il agit.
+  assert.throws(() => resolveAction('recolte', { ref: 'evil' }), /n'accepte pas le paramètre/);
+  assert.throws(() => resolveAction('recolte', { '--ref': 'evil' }), /n'accepte pas le paramètre/);
+  assert.throws(() => resolveAction('migrations-apply', { since: '2' }), /n'accepte pas le paramètre/);
+});
+
+test('un paramètre requis manquant est une erreur', () => {
+  assert.throws(() => resolveAction('deploy-function'), /exige le paramètre/);
+  assert.throws(() => resolveAction('content-source'), /exige le paramètre/);
+});
+
+test('contentBaseURL refuse http, et n’accepte que https ou off', () => {
+  // Un `contentBaseURL` en clair ferait servir tout le contenu en HTTP à tous
+  // les clients, sans mise à jour de l'app pour le rattraper.
+  assert.throws(() => resolveAction('content-source', { url: 'http://exemple.test' }), /refusé/);
+  assert.throws(() => resolveAction('content-source', { url: 'javascript:alert(1)' }), /refusé/);
+  assert.doesNotThrow(() => resolveAction('content-source', { url: 'off' }));
+  assert.doesNotThrow(() => resolveAction('content-source', { url: 'https://cdn.exemple.test/v1' }));
+});
+
+test('un nom de fonction hors motif est refusé', () => {
+  for (const name of ['../../etc', 'a b', 'Majuscule', 'nom;rm', '']) {
+    assert.throws(() => resolveAction('deploy-function', { name }), /refusé|exige/, `accepté : ${name}`);
+  }
+  assert.doesNotThrow(() => resolveAction('deploy-function', { name: 'rebuild-community-bundles' }));
+});
+
+test('resolveAction ne partage pas l’argv des actions à paramètres', () => {
+  resolveAction('recolte', { since: '1' });
+  const { argv } = resolveAction('recolte', { since: '3' });
+  assert.equal(argv.filter((a) => a.startsWith('since=')).length, 1, argv.join(' '));
+  assert.equal(ACTIONS.recolte.argv.length, 5);
+});
+
+test('seules les actions déclarées portent un binaire, et il ne vient jamais de la requête', () => {
+  // `bin` est lu dans la DÉCLARATION. Si un jour il devenait lisible depuis le
+  // corps de la requête, ce test ne le verrait pas — mais `resolveAction` ne
+  // reçoit que des paramètres déclarés, et `bin` n'en est pas un.
+  assert.throws(() => resolveAction('validate', { bin: '/bin/sh' }), /n'accepte pas le paramètre/);
+  assert.equal(resolveAction('validate').bin, null);
+});
+
+// ---------------------------------------------------------------------------
+// Le carnet de hotfix
+// ---------------------------------------------------------------------------
+
+test('toute fiche du carnet désigne une action qui existe', () => {
+  for (const fiche of CARNET) {
+    assert.ok(ACTIONS[fiche.action], `fiche « ${fiche.action} » sans action correspondante`);
+  }
+});
+
+test('tout geste du groupe hotfix a sa fiche', () => {
+  // Un bouton correctif sans fiche est un bouton qu'on presse sans savoir ce
+  // qu'il coûte. La page ne l'afficherait pas ; ce test évite d'en écrire un.
+  for (const [name, action] of Object.entries(ACTIONS)) {
+    if (action.group !== 'hotfix') continue;
+    assert.ok(FICHES[name], `${name} est dans le carnet sans fiche`);
+  }
+});
+
+test('aucune fiche ne laisse le retour arrière vide', () => {
+  // La règle du carnet : « sans objet, l'opération est idempotente » est une
+  // réponse ; « je ne sais pas » n'en est pas une, et un champ vide non plus.
+  for (const fiche of CARNET) {
+    for (const champ of ['quoi', 'cout', 'verification', 'retour']) {
+      assert.ok(fiche[champ]?.trim().length > 3, `${fiche.action} : champ « ${champ} » vide`);
+    }
+  }
+});
+
+test('les gestes qui écrivent en production sont marqués destructive', () => {
+  const lecturesSeules = new Set(['migrations-dry']);
+  for (const fiche of CARNET) {
+    if (lecturesSeules.has(fiche.action)) continue;
+    assert.ok(ACTIONS[fiche.action].destructive, `${fiche.action} écrit sans être destructive`);
   }
 });
 
