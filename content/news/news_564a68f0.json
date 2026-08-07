@@ -1,0 +1,21 @@
+{
+  "id": "news_564a68f0",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Les créateurs pourront librement commenter la vidéo Netflix",
+    "en": "Creators cleared to freely cover the Netflix video"
+  },
+  "body": {
+    "fr": "Netflix a confirmé que les créateurs de contenu pourront réagir, découper en extraits et commenter librement la prochaine vidéo de présentation du jeu dès sa diffusion en avant-première sur la plateforme, sans risquer de retrait pour droit d'auteur. La question se posait depuis l'annonce du partenariat, la plateforme étant réputée stricte sur l'usage de ses contenus.",
+    "en": "Netflix has confirmed that creators will be free to react to, clip, and cover the game's next preview video the moment it premieres on the platform, without risking copyright takedowns. The question had been open since the partnership was announced, given the platform's usual strictness about reuse of its content."
+  },
+  "publishedAt": "2026-08-06",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/netflix-just-cleared-creators-to-cover-the-gta-6-extended-look-d613"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:7a48dbb13f53",
+  "sourceClaim": "Un représentant de Netflix a confirmé au journaliste Steve Vegvari que les créateurs de contenu pourront librement réagir, découper en extraits et commenter la vidéo « Extended Look » du jeu à venir dès sa diffusion en avant-première sur la plateforme, sans crainte de retrait pour infraction au droit d'auteur — une inquiétude qui circulait depuis l'annonce du partenariat, Netflix étant réputé strict sur l'usage de son contenu."
+}
