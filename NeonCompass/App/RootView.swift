@@ -11,12 +11,16 @@ struct RootView: View {
     // plain `@State private var x = ...` default (those can't reference
     // `self`/sibling properties) — built in `init()` instead.
     @State private var widgetSummaryCoordinator: WidgetSummaryCoordinator
+    /// Même raison que ci-dessus : il lit l'abonnement, donc il ne peut pas être
+    /// une valeur par défaut de `@State`.
+    @State private var interstitialCoordinator: InterstitialCoordinator
     @State private var themeStore = ThemeStore()
     /// Faux par défaut : tant que les Edge Functions ne sont pas déployées, les
     /// écrans de compte et de communauté ne mènent nulle part. Une ligne de
     /// `app_config` les rallume tous d'un coup, sans mise à jour de l'app.
     @State private var serverFeatures = ServerFeaturesModel(gate: SupabaseServerFeatureGate())
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.modelContext) private var modelContext
     /// Fourni par `NeonCompassApp`, qui le construit avant le premier rendu — cet
     /// écran ne fait que le retransmettre au chemin d'amorçage du widget.
@@ -28,6 +32,9 @@ struct RootView: View {
         _widgetSummaryCoordinator = State(initialValue: WidgetSummaryCoordinator(
             writer: AppGroupWidgetSummaryWriter(),
             proEntitlementModel: proEntitlementModel
+        ))
+        _interstitialCoordinator = State(initialValue: InterstitialCoordinator(
+            isProEntitled: { proEntitlementModel.isProEntitled }
         ))
     }
 
@@ -55,6 +62,7 @@ struct RootView: View {
         .environment(widgetSummaryCoordinator)
         .environment(themeStore)
         .environment(serverFeatures)
+        .environment(interstitialCoordinator)
         .preferredColorScheme(.dark)
         // Makes the Pro theme picker's selection a real, app-wide effect:
         // the selected accent becomes the default tint for any control that
@@ -88,6 +96,7 @@ struct RootView: View {
             hydrateWidgetSummaryFromCache()
             await proEntitlementModel.refresh()
             await serverFeatures.refresh()
+            await interstitialCoordinator.refreshFrequency()
         }
         // Nothing else subscribes to entitlement changes on their own —
         // `WidgetSummaryCoordinator` otherwise only rewrites the widget
@@ -97,6 +106,16 @@ struct RootView: View {
         // to fire.
         .onChange(of: proEntitlementModel.isProEntitled) { _, _ in
             widgetSummaryCoordinator.refresh()
+        }
+        // Le plafond « un interstitiel par session » ne veut rien dire sans une
+        // définition de session, et le processus ne meurt jamais sur l'iPad posé
+        // à côté de la télé toute la soirée. Voir `InterstitialSession`.
+        .onChange(of: scenePhase) { _, phase in
+            switch phase {
+            case .background: interstitialCoordinator.didEnterBackground()
+            case .active: interstitialCoordinator.willEnterForeground()
+            default: break
+            }
         }
     }
 
