@@ -106,7 +106,12 @@ jobs:
       # Sa règle la plus fragile — une fonction hérite de la date de `_shared`
       # dès qu'elle l'importe — est précisément celle qui, absente, laisserait
       # repasser le cas du 05/08.
-      - name: Tests de la console web, des matérialisations, de la politique de sources et des dérives
+      # `set-admob-ids` les rejoint parce qu'il opère au régulier sur project.yml
+      # et AdUnits.swift : deux de ses tests patchent les fichiers RÉELS du dépôt,
+      # donc ils rougissent le jour où l'un des deux change de forme. Sans eux, le
+      # script casserait silencieusement et on ne le découvrirait qu'au moment de
+      # poser les vrais identifiants — c'est-à-dire au pire moment.
+      - name: Tests de la console web, des matérialisations, de la politique de sources, des dérives et du provisioning
         run: >
           node --test
           tools/content-cli/ui/actions.test.mjs
@@ -115,6 +120,7 @@ jobs:
           tools/content-cli/facts-to-online-event.test.mjs
           tools/content-cli/source-policy.test.mjs
           tools/edge-functions/drift.test.mjs
+          tools/ops/set-admob-ids.test.mjs
 
       - name: Installer les dépendances du CLI
         working-directory: tools/content-cli
