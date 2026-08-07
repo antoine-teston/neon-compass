@@ -57,9 +57,20 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v5
+      # ÉPINGLÉE, et non `latest`, depuis le 2026-08-07. La v2.112.0, publiée ce
+      # matin-là, fait échouer `supabase link` sur TOUT projet : le schéma généré
+      # que la CLI utilise pour décoder `GET /v1/projects/{ref}/api-keys` n'accepte
+      # un `inserted_at` qu'avec un suffixe `Z`, alors que l'API le rend avec un
+      # décalage (`+00:00`) sur les clés `publishable` et `secret`. La CLI est donc
+      # plus stricte que l'API qu'elle décode, et aucun drapeau ne permet de sauter
+      # la lecture des clés — que `link` met en cache sans que ce workflow s'en
+      # serve. Amont : https://github.com/supabase/cli/issues/6115
+      #
+      # Repasser à `latest` quand l'issue est close ; laisser `latest` en attendant
+      # rendrait ce workflow rouge à chaque tentative, pour une migration saine.
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          version: 2.111.0
 
       # `dry-run` est le DÉFAUT, et coché à dessein : voir la liste avant de
       # l'appliquer doit être le geste normal, l'appliquer le geste délibéré.
