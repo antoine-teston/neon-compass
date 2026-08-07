@@ -130,11 +130,24 @@ function publicCarnet() {
 
 const ROUTE_DRAFT = /^\/api\/draft\/([^/]+)\/([^/]+)$/;
 
+/** Les fichiers que la page a le droit de demander.
+ *
+ *  Une LISTE BLANCHE, comme les actions, et pour la même raison : aucun chemin
+ *  venu de la requête n'atteint le disque. `join(HERE, url.pathname)` aurait
+ *  suffi et aurait été faux — c'est la porte par laquelle on lit
+ *  `../../.env` un jour. */
+const FICHIERS = {
+  '/': ['index.html', 'text/html'],
+  '/console.js': ['console.js', 'text/javascript'],
+  '/layout.mjs': ['layout.mjs', 'text/javascript'],
+};
+
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
-  if (req.method === 'GET' && url.pathname === '/') {
-    return send(res, 200, readFileSync(join(HERE, 'index.html'), 'utf8'), 'text/html');
+  if (req.method === 'GET' && FICHIERS[url.pathname]) {
+    const [fichier, type] = FICHIERS[url.pathname];
+    return send(res, 200, readFileSync(join(HERE, fichier), 'utf8'), type);
   }
 
   // Les cartes INSTANTANÉES : disque seul, aucune attente.

@@ -300,6 +300,64 @@ Les tests 2, 4 et 5 ont le même objet : vérifier qu'un contrôle sait **refuse
 sait qu'approuver est indiscernable d'un contrôle absent — il doit donc être vu mordre avant qu'on
 lui fasse confiance.
 
+## La disposition réarrangeable
+
+*Ajouté le 2026-08-07, après la première livraison.*
+
+Neuf sections, une page de 3 600 px : l'ordre imposé ne convient à personne très longtemps.
+L'en-tête de chaque section est sa poignée — on la glisse dans sa colonne ou vers l'autre, on la
+clique pour la replier. Ordre, colonne et état replié vivent dans `localStorage`.
+
+### La réconciliation, et pourquoi elle existe
+
+`ui/layout.mjs` ne connaît pas le DOM : il reçoit la liste des sections réellement présentes et rend
+un rangement. **Le code fait autorité sur ce qui EXISTE, le rangement mémorisé seulement sur
+l'ORDRE.**
+
+Sans cette règle, ajouter une section un jour la rendrait invisible chez quiconque a rangé sa page
+une fois — et rien ne le signalerait. Trois garanties, chacune testée : toute section connue
+apparaît exactement une fois ; une section absente du mémorisé rejoint **sa colonne d'origine**
+plutôt que la fin ; un identifiant inconnu disparaît. Un rangement corrompu retombe sur le défaut
+sans chercher à deviner ce qu'il voulait dire.
+
+### Le glisser-déposer HTML5 a été essayé, puis écarté
+
+Trois raisons, dont une seule aurait suffi :
+
+1. **Il n'est pas pilotable.** Sous Chromium, un `dragstart` déclenché par des événements
+   synthétiques part puis rend la main à la boucle de glissement de l'OS, qui ne reçoit jamais les
+   mouvements : on observe `dragstart` puis `dragend`, sans le moindre `dragover`. `page.dragAndDrop`
+   n'amorce même pas le glissement. Un contrôle qu'on ne peut pas exercer est un contrôle auquel on
+   ne peut pas se fier.
+2. Il oblige à poser puis retirer `draggable` autour de chaque appui, sans quoi le texte des sections
+   devient insélectionnable.
+3. Il fait dépendre la distinction clic/glissement d'un détail — « aucun `click` n'est émis après un
+   `dragstart` » — au lieu d'un seuil qu'on choisit.
+
+Le geste est donc piloté aux **événements de pointeur**, avec un seuil de 5 px : en deçà c'est un
+clic, donc un repli ; au-delà c'est un rangement. La règle est explicite, et elle se teste.
+
+### La géométrie sort du navigateur
+
+`colonneSous(x, boites)` et `insertionAvant(y, boites)` prennent des rectangles et rendent des index.
+C'est la partie qui décide où une section tombe, donc la plus faillible — et **Playwright n'est pas
+une dépendance de ce projet**, ce qui aurait laissé cette logique sans filet. Les deux fonctions sont
+couvertes par des tests unitaires ; le câblage des écouteurs, lui, a été vérifié une fois au
+navigateur à la main.
+
+### Deux conséquences dans la page
+
+`index.html` ne porte plus que le balisage et le style : les 500 lignes de script sont dans
+`ui/console.js`, qui importe `layout.mjs` — pour que la règle de réconciliation n'existe qu'à un seul
+endroit. Le serveur les sert par une **liste blanche de fichiers**, jamais par un chemin venu de la
+requête : `join(HERE, url.pathname)` aurait suffi et aurait été la porte par laquelle on lit `.env`
+un jour.
+
+Et la **Sortie se déplie et vient sous les yeux** quand une commande part. C'était la vraie gêne :
+cliquer un bouton dans une colonne et voir le résultat s'écrire dans l'autre, hors écran. Ce dépli
+n'est pas mémorisé — montrer un résultat est un geste de la console, pas une préférence de
+l'utilisateur.
+
 ## Hors périmètre
 
 Nommé pour ne pas y revenir par accident :

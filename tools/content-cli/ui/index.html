@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Neon Compass — console de pilotage</title>
+<!-- Embarquée en data URI : sans elle le navigateur demande /favicon.ico, que la
+     liste blanche refuse, et une erreur 404 s'installe dans la console à chaque
+     chargement. Un bruit permanent finit par masquer les vraies erreurs. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230b0e17' stroke='%2335e6f0' stroke-width='2'/%3E%3Cpath d='M16 7l3.5 9.5L16 25l-3.5-8.5z' fill='%23ff4fa8'/%3E%3C/svg%3E">
 <style>
   :root {
     --bg: #0b0e17;
@@ -188,6 +192,43 @@
   .fiche dt { color: var(--muted); white-space: nowrap; }
   .fiche dd { margin: 0; }
 
+
+  /* ---- Disposition réarrangeable ------------------------------------------
+     L'en-tête d'une section est sa poignée : on la glisse pour ranger, on la
+     CLIQUE pour replier. Le navigateur distingue les deux nativement — aucun
+     `click` n'est émis après un `dragstart`. */
+  .colonne { display: grid; gap: 24px; min-width: 0; align-content: start; }
+  .colonne.survol { outline: 1px dashed color-mix(in srgb, var(--cyan) 40%, transparent); outline-offset: 8px; border-radius: 12px; }
+
+  section > h2 { cursor: grab; user-select: none; align-items: center; }
+  section > h2:hover { color: var(--ink); }
+  section.glisse { opacity: .35; }
+  section.repliee > :not(h2) { display: none; }
+  section.repliee > h2 { border-bottom: none; }
+
+  .chevron { transition: transform .12s ease; display: inline-block; margin-right: 8px; color: var(--muted); }
+  section.repliee .chevron { transform: rotate(-90deg); }
+  .titre { display: flex; align-items: center; min-width: 0; }
+
+  /* Le trait qui montre où la section tombera. Une bordure sur la cible
+     déplacerait le contenu d'un pixel à chaque survol ; un pseudo-élément non. */
+  .cible-avant { position: relative; }
+  .cible-avant::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -13px;
+    height: 2px; background: var(--cyan); border-radius: 2px;
+  }
+  .cible-fin { position: relative; }
+  .cible-fin::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -13px;
+    height: 2px; background: var(--cyan); border-radius: 2px;
+  }
+
+  .reinit {
+    font-size: 12px; padding: 4px 10px; border-radius: 999px;
+    background: transparent; color: var(--muted); border-color: var(--line);
+  }
+  .reinit[hidden] { display: none; }
+
   #console {
     margin: 0;
     padding: 14px 16px;
@@ -208,46 +249,47 @@
 <header>
   <h1>Neon Compass <span>— console de pilotage</span></h1>
   <div class="pills" id="pills"></div>
+  <button id="reinit" class="reinit" title="Remettre les sections dans leur ordre d’origine">Réinitialiser la disposition</button>
 </header>
 
 <main>
-  <div style="display:grid;gap:24px;min-width:0">
-    <section>
+  <div class="colonne" data-colonne="0">
+    <section data-panneau="atelier">
       <h2>Atelier des brouillons <em id="atelier-count" class="dim"></em></h2>
       <div class="body" id="atelier"></div>
     </section>
-    <section>
+    <section data-panneau="recolte">
       <h2>Récolte <em id="recolte-verdict" class="dim">—</em></h2>
       <div class="body" id="recolte"></div>
     </section>
-    <section>
+    <section data-panneau="checks">
       <h2>Contrôles — aucune écriture</h2>
       <div class="body" id="g-checks"></div>
     </section>
-    <section>
+    <section data-panneau="local">
       <h2>Écritures locales — le dépôt, pas la production</h2>
       <div class="body" id="g-local"></div>
     </section>
   </div>
 
-  <div style="display:grid;gap:24px;min-width:0">
-    <section>
+  <div class="colonne" data-colonne="1">
+    <section data-panneau="carnet">
       <h2>Carnet de hotfix</h2>
       <div class="body" id="carnet"></div>
     </section>
-    <section>
+    <section data-panneau="prod">
       <h2>Production — écrit en ligne</h2>
       <div class="body" id="g-prod"></div>
     </section>
-    <section>
+    <section data-panneau="moderation">
       <h2>Modération</h2>
       <div class="body" id="g-moderation"></div>
     </section>
-    <section>
+    <section data-panneau="sortie">
       <h2>Sortie</h2>
       <pre id="console"></pre>
     </section>
-    <section>
+    <section data-panneau="inventaire">
       <h2>Inventaire</h2>
       <div class="body"><div id="inventory"></div></div>
     </section>
@@ -261,509 +303,12 @@
   </div>
   <div class="editor-foot">
     <span class="msg" id="ed-msg"></span>
-    <button onclick="editor.close()">Fermer</button>
+    <button id="ed-close">Fermer</button>
     <button id="ed-save">Enregistrer</button>
     <button id="ed-publish" class="go">Publier</button>
   </div>
 </dialog>
 
-<script>
-const out = document.getElementById('console');
-const editor = document.getElementById('editor');
-let running = false;
-let state = null;
-let drafts = null;
-let ouvert = null; // le brouillon affiché dans la boîte d'édition
-
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-
-function log(text, cls) {
-  const node = cls ? Object.assign(document.createElement('span'), { className: cls, textContent: text }) : document.createTextNode(text);
-  out.appendChild(node);
-  out.scrollTop = out.scrollHeight;
-}
-
-function setRunning(value) {
-  running = value;
-  document.querySelectorAll('button[data-action]').forEach((b) => { b.disabled = value || b.dataset.blocked === '1'; });
-}
-
-async function run(name, params = {}) {
-  if (running) return;
-  const action = state.actions[name];
-
-  // La confirmation est côté client ET côté serveur : celle-ci évite un clic
-  // malheureux, celle du serveur est la vraie barrière.
-  if (action.destructive) {
-    const args = Object.values(params).filter(Boolean).join(' ');
-    const fiche = state.carnet.find((f) => f.action === name);
-    const cout = fiche ? `\n\nCe que ça coûte :\n${fiche.cout}\n\nRetour arrière :\n${fiche.retour}` : '';
-    if (!confirm(`Action de production.\n\n${action.label}${args ? ' — ' + args : ''}${cout}\n\nConfirmer ?`)) return;
-  }
-
-  setRunning(true);
-  out.textContent = '';
-  log(`$ ${name} ${Object.entries(params).map(([k, v]) => `${k}=${v}`).join(' ')}\n\n`, 'cmd');
-
-  try {
-    const res = await fetch('/api/run', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ action: name, ...params, confirm: action.destructive ? true : undefined }),
-    });
-
-    if (!res.ok) {
-      const { error } = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-      log(error + '\n', 'exit-bad');
-      return;
-    }
-
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let tail = '';
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      tail += decoder.decode(value, { stream: true });
-      // Le code retour arrive en dernière ligne, sous un marqueur : on l'extrait
-      // pour le colorer plutôt que de le laisser passer pour de la sortie.
-      const at = tail.indexOf('__EXIT__:');
-      if (at === -1) { log(tail); tail = ''; continue; }
-      log(tail.slice(0, at));
-      const code = Number(tail.slice(at + 9).trim());
-      log(code === 0 ? '\n✔ terminé\n' : `\n✘ code retour ${code}\n`, code === 0 ? 'exit-ok' : 'exit-bad');
-      tail = '';
-    }
-    if (tail) log(tail);
-  } catch (err) {
-    log(String(err) + '\n', 'exit-bad');
-  } finally {
-    setRunning(false);
-    refresh();
-  }
-}
-
-// ---------------------------------------------------------------------------
-// L'atelier
-// ---------------------------------------------------------------------------
-
-function itemNode(item, pile) {
-  const node = document.createElement('div');
-  node.className = `item ${pile}`;
-  node.innerHTML = `<div>${esc(item.titre ?? item.id)}</div>
-    <div class="meta">${esc(item.date ?? '')}</div>
-    <div class="meta">${esc(item.kind)} · ${esc(item.id)}</div><div></div>`;
-  if (item.raisons?.length) {
-    const why = document.createElement('div');
-    why.className = 'why';
-    why.textContent = item.raisons.join(' · ');
-    node.append(why);
-  }
-  node.onclick = () => ouvrir(item.kind, item.id);
-  return node;
-}
-
-function renderAtelier() {
-  const host = document.getElementById('atelier');
-  host.textContent = '';
-
-  if (!drafts) { host.innerHTML = '<p class="dim">chargement…</p>'; return; }
-
-  const piles = [
-    ['attend', 'attendent ta décision', 'Schéma valide, aucune règle ne s’y oppose.'],
-    ['retenu', 'retenus par une règle', 'La règle est nommée. La lever est une décision éditoriale, pas un clic.'],
-    ['casse', 'cassés', 'Ne valident pas leur schéma.'],
-  ];
-
-  for (const [cle, titre, aide] of piles) {
-    const items = Object.values(drafts.parKind).flatMap((t) => t[cle]);
-    if (!items.length && cle === 'casse') continue;
-    const bloc = document.createElement('div');
-    bloc.className = 'pile';
-    bloc.innerHTML = `<h3><b>${items.length}</b> ${titre}</h3><p class="dim" style="margin:-4px 0 8px;font-size:12.5px">${aide}</p>`;
-    if (!items.length) {
-      bloc.insertAdjacentHTML('beforeend', '<p class="dim" style="margin:0">aucun</p>');
-    } else {
-      for (const item of items) bloc.append(itemNode(item, cle));
-    }
-    host.append(bloc);
-  }
-
-  const t = drafts.totaux;
-  document.getElementById('atelier-count').textContent =
-    `${t.attend} en attente · ${t.retenu} retenus${t.casse ? ' · ' + t.casse + ' cassés' : ''}`;
-}
-
-function champNode(champ, data, onChange) {
-  const wrap = document.createElement('div');
-  wrap.className = 'champ';
-  wrap.innerHTML = `<label>${esc(champ.field)}</label>`;
-
-  if (champ.type === 'localized') {
-    // `en` d'abord : c'est la langue de base et le repli de toutes les autres.
-    const langs = ['en', 'fr', ...Object.keys(data[champ.field] ?? {}).filter((l) => l !== 'en' && l !== 'fr')];
-    for (const lang of langs) {
-      const ligne = document.createElement('div');
-      ligne.className = 'lang';
-      const area = document.createElement('textarea');
-      area.rows = champ.field === 'body' ? 6 : 2;
-      area.value = data[champ.field]?.[lang] ?? '';
-      area.oninput = () => {
-        const bloc = { ...(data[champ.field] ?? {}) };
-        if (area.value) bloc[lang] = area.value; else delete bloc[lang];
-        onChange(champ.field, bloc);
-      };
-      ligne.innerHTML = `<span>${lang}</span>`;
-      ligne.append(area);
-      wrap.append(ligne);
-    }
-  } else if (champ.values) {
-    const select = document.createElement('select');
-    for (const v of champ.values) {
-      const opt = document.createElement('option');
-      opt.value = v; opt.textContent = v;
-      if (data[champ.field] === v) opt.selected = true;
-      select.append(opt);
-    }
-    select.onchange = () => onChange(champ.field, select.value);
-    wrap.append(select);
-  } else {
-    const input = document.createElement('input');
-    input.value = data[champ.field] ?? '';
-    input.oninput = () => onChange(champ.field, input.value);
-    wrap.append(input);
-  }
-  return wrap;
-}
-
-async function ouvrir(kind, id) {
-  const res = await fetch(`/api/draft/${encodeURIComponent(kind)}/${encodeURIComponent(id)}`);
-  if (!res.ok) { alert((await res.json()).error); return; }
-  ouvert = await res.json();
-
-  document.getElementById('ed-title').textContent = `${ouvert.kind} · ${ouvert.id}`;
-
-  const faits = document.getElementById('ed-faits');
-  faits.innerHTML = '';
-  if (ouvert.faits.sourceClaim) {
-    faits.insertAdjacentHTML('beforeend', `<p>${esc(ouvert.faits.sourceClaim)}</p>`);
-  }
-  for (const url of ouvert.faits.sources ?? []) {
-    faits.insertAdjacentHTML('beforeend', `<p><a href="${esc(url)}" target="_blank" rel="noreferrer">${esc(url)}</a></p>`);
-  }
-  faits.insertAdjacentHTML('beforeend',
-    '<p class="dim" style="font-size:12px;margin-top:14px">Le fait cite ses sources mot pour mot, marques comprises. '
-    + 'Il ne se recopie jamais dans la prose — c’est pourquoi il n’est pas éditable ici.</p>');
-
-  const host = document.getElementById('ed-champs');
-  host.textContent = '';
-  const onChange = (field, value) => { ouvert.data[field] = value; };
-  for (const champ of ouvert.champs) host.append(champNode(champ, ouvert.data, onChange));
-
-  majBlocages();
-  editor.showModal();
-}
-
-function majBlocages() {
-  const msg = document.getElementById('ed-msg');
-  const publier = document.getElementById('ed-publish');
-  if (ouvert.data.status === 'published') {
-    msg.className = 'msg good';
-    msg.textContent = 'Déjà publié.';
-    publier.disabled = true;
-  } else if (ouvert.blocages.length) {
-    msg.className = 'msg warn';
-    msg.textContent = 'Retenu : ' + ouvert.blocages.join(' · ');
-    publier.disabled = true;
-  } else {
-    msg.className = 'msg good';
-    msg.textContent = 'Publiable.';
-    publier.disabled = false;
-  }
-}
-
-async function enregistrer(publier) {
-  const msg = document.getElementById('ed-msg');
-  const data = publier ? { ...ouvert.data, status: 'published' } : ouvert.data;
-  const res = await fetch(`/api/draft/${encodeURIComponent(ouvert.kind)}/${encodeURIComponent(ouvert.id)}`, {
-    method: 'PUT',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ data, fingerprint: ouvert.fingerprint }),
-  });
-  const body = await res.json();
-  if (!res.ok) {
-    // L'erreur du validateur s'affiche TELLE QUELLE : elle est plus précise que
-    // ce qu'on écrirait à sa place.
-    msg.className = 'msg bad';
-    msg.textContent = body.error;
-    return;
-  }
-  ouvert.data = data;
-  ouvert.fingerprint = body.fingerprint;
-  msg.className = 'msg good';
-  msg.textContent = publier ? 'Publié dans le dépôt — reste à commiter.' : 'Enregistré.';
-  await chargerDrafts();
-  if (publier) editor.close();
-}
-
-document.getElementById('ed-save').onclick = () => enregistrer(false);
-document.getElementById('ed-publish').onclick = () => enregistrer(true);
-
-// ---------------------------------------------------------------------------
-// La Récolte
-// ---------------------------------------------------------------------------
-
-function renderRecolte(reseau) {
-  const host = document.getElementById('recolte');
-  host.textContent = '';
-
-  const lancer = document.createElement('div');
-  lancer.className = 'row narrow';
-  lancer.innerHTML = '<label class="dim" style="align-self:center;font-size:12.5px">fenêtre (j)</label>';
-  const since = Object.assign(document.createElement('input'), { value: state.actions.recolte.params.since.default });
-  const max = Object.assign(document.createElement('input'), { value: state.actions.recolte.params.max.default });
-  const bouton = document.createElement('button');
-  bouton.textContent = 'Lancer la Récolte';
-  bouton.dataset.action = 'recolte';
-  bouton.onclick = () => run('recolte', { since: since.value.trim(), max: max.value.trim() });
-  lancer.append(since, Object.assign(document.createElement('label'), { className: 'dim', style: 'align-self:center;font-size:12.5px', textContent: 'plafond' }), max, bouton);
-  host.append(lancer);
-
-  const etat = document.createElement('div');
-  const r = reseau?.recolte;
-  const badge = document.getElementById('recolte-verdict');
-
-  if (!r) {
-    etat.innerHTML = '<p class="dim">état du dernier run : chargement…</p>';
-    badge.textContent = '—';
-  } else if (r.indisponible) {
-    // Une carte ne ment JAMAIS par omission : elle dit ce qui manque.
-    etat.innerHTML = `<p class="warn">${esc(r.indisponible)}</p>`;
-    badge.textContent = 'indisponible';
-    badge.className = 'warn';
-  } else {
-    const couleur = { 'complète': 'good', partielle: 'warn', 'échec': 'bad', 'indéterminé': 'warn', 'en cours': 'dim' }[r.verdict] ?? 'dim';
-    badge.textContent = r.verdict;
-    badge.className = couleur;
-    const etapes = (r.etapes ?? [])
-      .map((e) => `<tr><td>${e.vu ? '<span class="good">✔</span>' : '<span class="bad">✘</span>'}</td>
-        <td>${esc(e.etape)}</td><td class="dim">${esc(e.resume ?? 'muette')}</td></tr>`)
-      .join('');
-    etat.innerHTML = `
-      <p style="margin:0"><span class="${couleur}">${esc(r.verdict)}</span>
-        <span class="dim">· ${esc(r.run?.createdAt?.slice(0, 16).replace('T', ' ') ?? '')}
-        · <a href="${esc(r.run?.url ?? '#')}" target="_blank" rel="noreferrer" style="color:var(--cyan)">le run</a></span></p>
-      <table style="margin-top:8px">${etapes}</table>
-      <p class="dim" style="font-size:12px;margin:10px 0 0">
-        Le verdict vient du JOURNAL, pas du statut : une étape en continue-on-error
-        est rapportée « success » même sortie en code 1.</p>`;
-  }
-  host.append(etat);
-}
-
-// ---------------------------------------------------------------------------
-// Le carnet
-// ---------------------------------------------------------------------------
-
-function renderCarnet() {
-  const host = document.getElementById('carnet');
-  host.textContent = '';
-  for (const fiche of state.carnet) {
-    const action = state.actions[fiche.action];
-    const node = document.createElement('div');
-    node.className = 'fiche';
-    node.innerHTML = `<div class="head"><div class="name">${esc(fiche.label)}</div></div>
-      <p style="margin:6px 0 0;font-size:13px">${esc(fiche.quoi)}</p>
-      <dl>
-        <dt>coûte</dt><dd>${esc(fiche.cout)}</dd>
-        <dt>vérifier</dt><dd>${esc(fiche.verification)}</dd>
-        <dt>revenir</dt><dd>${esc(fiche.retour)}</dd>
-      </dl>`;
-
-    const head = node.querySelector('.head');
-    const params = Object.keys(action.params ?? {});
-    if (params.length) {
-      const ligne = document.createElement('div');
-      ligne.className = 'row';
-      const input = document.createElement('input');
-      input.placeholder = params[0];
-      input.style.width = '190px';
-      const bouton = document.createElement('button');
-      bouton.textContent = 'Appliquer';
-      bouton.className = 'danger';
-      bouton.dataset.action = fiche.action;
-      bouton.onclick = () => {
-        const v = input.value.trim();
-        if (!v) { input.focus(); return; }
-        run(fiche.action, { [params[0]]: v });
-      };
-      ligne.append(input, bouton);
-      head.append(ligne);
-    } else {
-      const bouton = document.createElement('button');
-      bouton.textContent = 'Appliquer';
-      if (action.destructive) bouton.className = 'danger';
-      bouton.dataset.action = fiche.action;
-      bouton.onclick = () => run(fiche.action);
-      head.append(bouton);
-    }
-    host.append(node);
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Le reste
-// ---------------------------------------------------------------------------
-
-function actionRow(name, action) {
-  const row = document.createElement('div');
-  row.className = 'action';
-
-  const tags = [
-    action.writesRepo ? '<span class="tag repo">dépôt</span>' : '',
-    action.destructive ? '<span class="tag prod">prod</span>' : '',
-    action.slow ? '<span class="tag slow">long</span>' : '',
-  ].join('');
-  row.innerHTML = `<div class="name">${esc(action.label)}${tags}</div>`;
-
-  const blocked = action.needsCredentials && !state.credentials;
-
-  if (action.needsID) {
-    const wrap = document.createElement('div');
-    wrap.className = 'row';
-    wrap.style.gridColumn = '1 / -1';
-    const input = document.createElement('input');
-    input.placeholder = 'identifiant';
-    input.spellcheck = false;
-    const button = document.createElement('button');
-    button.textContent = action.label;
-    button.className = 'danger';
-    button.dataset.action = name;
-    if (blocked) button.dataset.blocked = '1';
-    button.onclick = () => {
-      const id = input.value.trim();
-      if (!id) { input.focus(); return; }
-      run(name, { id });
-    };
-    wrap.append(input, button);
-    row.append(wrap);
-  } else {
-    const button = document.createElement('button');
-    button.textContent = 'Lancer';
-    button.dataset.action = name;
-    if (action.destructive) button.className = 'danger';
-    if (blocked) button.dataset.blocked = '1';
-    button.onclick = () => run(name);
-    row.append(button);
-  }
-
-  if (action.hint || blocked) {
-    const hint = document.createElement('div');
-    hint.className = 'hint';
-    hint.textContent = blocked ? state.credentialsMessage : action.hint;
-    row.append(hint);
-  }
-  return row;
-}
-
-function renderPills(reseau) {
-  const { credentials, socles, git, brouillons } = state;
-  const pills = [];
-
-  if (brouillons.indisponible) pills.push([esc(brouillons.indisponible), 'bad']);
-  else pills.push([`<b>${brouillons.totaux.attend}</b> attendent ta décision`, brouillons.totaux.attend ? 'warn' : 'ok']);
-
-  if (git.indisponible) pills.push([esc(git.indisponible), 'bad']);
-  else {
-    pills.push([`branche <b>${esc(git.branche)}</b> · ${esc(git.commit)}`, '']);
-    pills.push([git.modifies ? `<b>${git.modifies}</b> fichier(s) non committé(s)` : 'arbre propre', git.modifies ? 'warn' : 'ok']);
-  }
-
-  if (socles.indisponible) pills.push([esc(socles.indisponible), 'bad']);
-  else pills.push([socles.aJour ? 'socles à jour' : 'socles en retard sur content/', socles.aJour ? 'ok' : 'bad']);
-
-  pills.push([credentials ? 'credentials Supabase' : 'pas de credentials', credentials ? 'ok' : 'warn']);
-
-  const f = reseau?.fonctions;
-  if (f && !f.indisponible) pills.push([f.derivees.length ? `<b>${f.derivees.length}</b> fonction(s) dérivée(s)` : 'fonctions à jour', f.derivees.length ? 'bad' : 'ok']);
-
-  document.getElementById('pills').innerHTML = pills.map(([html, cls]) => `<span class="pill ${cls}">${html}</span>`).join('');
-}
-
-function renderInventory() {
-  const inv = state.inventaire;
-  const host = document.getElementById('inventory');
-  if (inv.indisponible) { host.innerHTML = `<p class="bad">${esc(inv.indisponible)}</p>`; return; }
-
-  const rows = Object.entries(inv.kinds)
-    .map(([kind, k]) => `<tr><td>content/${esc(kind)}</td><td class="num">${k.total}</td>
-      <td class="num">${k.published}</td><td class="num ${k.draft ? '' : 'dim'}">${k.draft}</td></tr>`)
-    .join('');
-
-  const challenges = inv.collections.filter((c) => c.isChallenge);
-  const withTotal = challenges.filter((c) => c.expectedCount != null);
-  const collectionRows = inv.collections
-    .map((c) => {
-      const kind = !c.isChallenge
-        ? '<span class="dim">calque</span>'
-        : c.expectedCount != null
-          ? `défi · ${c.expectedCount}`
-          : '<span class="warn">défi · total inconnu</span>';
-      return `<tr><td>${esc(c.id)}</td><td>${esc(c.title.fr ?? c.title.en)}</td><td>${kind}</td></tr>`;
-    })
-    .join('');
-
-  host.innerHTML = `
-    <table>
-      <thead><tr><th>Répertoire</th><th class="num">Total</th><th class="num">Publiés</th><th class="num">Brouillons</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    <p class="dim" style="margin:14px 0 6px;font-size:13px">
-      ${inv.collections.length} collections · ${challenges.length} défis, dont ${withTotal.length} à total connu
-    </p>
-    <table>
-      <thead><tr><th>Collection</th><th>Titre</th><th>Nature</th></tr></thead>
-      <tbody>${collectionRows}</tbody>
-    </table>`;
-}
-
-function renderActions() {
-  for (const group of ['checks', 'local', 'prod', 'moderation']) {
-    const host = document.getElementById('g-' + group);
-    host.textContent = '';
-    for (const [name, action] of Object.entries(state.actions)) {
-      if (action.group === group) host.append(actionRow(name, action));
-    }
-  }
-  setRunning(running);
-}
-
-async function chargerDrafts() {
-  drafts = await (await fetch('/api/drafts')).json();
-  renderAtelier();
-}
-
-async function refresh() {
-  // Les cartes instantanées d'abord : elles ne demandent que le disque, et
-  // c'est ce qu'on veut voir sans attendre un jeton ou un réseau.
-  state = await (await fetch('/api/state')).json();
-  renderPills(null);
-  renderInventory();
-  renderActions();
-  renderCarnet();
-  renderRecolte(null);
-  chargerDrafts();
-
-  // Puis le réseau, carte par carte. Une carte lente ne retarde plus rien.
-  fetch('/api/state/network').then((r) => r.json()).then((reseau) => {
-    renderPills(reseau);
-    renderRecolte(reseau);
-  }).catch((err) => {
-    document.getElementById('recolte-verdict').textContent = 'illisible';
-  });
-}
-
-refresh();
-</script>
+<script type="module" src="/console.js"></script>
 </body>
 </html>
