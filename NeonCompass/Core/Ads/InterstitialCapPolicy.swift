@@ -10,23 +10,23 @@ enum InterstitialCapPolicy {
     ///     this app session (0 at launch).
     ///   - isDuringContribution: true while a contribution submission sheet
     ///     is presented — never interrupt that flow (spec point, Plan 5b).
-    ///   - remoteConfigFrequency: the server-controlled frequency — 0 disables
-    ///     interstitials entirely (kill-switch style), 1 means "eligible"
-    ///     subject to the session cap below, values above 1 are reserved for a
-    ///     future "every Nth eligible moment" scheme and currently treated
-    ///     identically to 1 (no such scheme exists yet — see Self-Review).
+    ///   - serverFrequency: la fréquence pilotée par `app_config` — 0 éteint
+    ///     entièrement les interstitiels (coupe-circuit), 1 signifie
+    ///     « éligible » sous réserve du plafond de session ci-dessous, et les
+    ///     valeurs supérieures à 1 sont réservées à un futur schéma « un sur N
+    ///     moments éligibles » qui n'existe pas encore et sont donc traitées
+    ///     comme 1.
     ///
-    ///     Le nom dit encore « Remote Config », qui est parti avec Firebase :
-    ///     la valeur viendrait aujourd'hui d'`app_config`. Renommer le
-    ///     paramètre attendra le branchement de l'interstitiel, qui n'a pas
-    ///     encore de point de déclenchement — le plan 6a l'a explicitement
-    ///     laissé hors de son périmètre, et rien n'appelle donc `shouldShow`.
+    ///     Le paramètre s'appelait `remoteConfigFrequency`, du nom d'un outil
+    ///     parti avec Firebase, et son commentaire annonçait que le renommage
+    ///     attendrait le branchement de l'interstitiel. C'est ce branchement :
+    ///     voir `InterstitialCoordinator`, qui est désormais son seul appelant.
     static func shouldShow(
         sessionShownCount: Int,
         isDuringContribution: Bool,
-        remoteConfigFrequency: Int
+        serverFrequency: Int
     ) -> Bool {
-        guard remoteConfigFrequency > 0 else { return false }
+        guard serverFrequency > 0 else { return false }
         guard !isDuringContribution else { return false }
         return sessionShownCount < 1
     }
