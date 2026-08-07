@@ -1,0 +1,21 @@
+{
+  "id": "news_db607ad6",
+  "category": "event",
+  "game": "leonida",
+  "title": {
+    "fr": "Aperçu étendu diffusé sur Netflix le 27 août",
+    "en": "Extended preview to premiere on Netflix August 27"
+  },
+  "body": {
+    "fr": "Le studio a confirmé qu'un aperçu étendu du jeu sera diffusé en avant-première sur Netflix le 27 août à 15h (heure de l'Est américain). La même vidéo arrivera ensuite sur les canaux officiels du studio six heures plus tard, dans la soirée.",
+    "en": "The studio confirmed an extended preview of the game will premiere on Netflix on August 27 at 3pm Eastern Time. The same footage will then land on the studio's own channels six hours later that evening."
+  },
+  "publishedAt": "2026-08-06",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-games-to-debut-extended-look-at-gta-6-on-netflix-on-august-27-d6ca"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:d8d17c2020fd",
+  "sourceClaim": "Le studio a annoncé via son compte X qu'un aperçu étendu du jeu à venir sera diffusé en avant-première sur Netflix le 27 août à 12h heure du Pacifique (15h côté Est américain), la même vidéo arrivant ensuite sur les canaux propres du studio — chaîne vidéo et site officiel — six heures plus tard."
+}

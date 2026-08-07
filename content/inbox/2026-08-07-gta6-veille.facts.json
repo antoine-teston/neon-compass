@@ -1,0 +1,41 @@
+{
+  "run": {
+    "date": "2026-08-07",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/rockstar-games-to-debut-extended-look-at-gta-6-on-netflix-on-august-27-d6ca",
+      "https://www.gtaboom.com/why-rockstar-games-netflix-deal-for-gta-6-is-a-big-deal-e795",
+      "https://www.gtaboom.com/netflix-just-cleared-creators-to-cover-the-gta-6-extended-look-d613",
+      "https://www.gtaboom.com/gta-online-kortz-center-heist-secondary-loot-payouts-bag-capacity-and-the-best-items-to-steal-6ee7",
+      "https://www.gtaboom.com/why-the-ps-plus-boycott-hurts-you-more-than-sony-71b2",
+      "https://www.gtaboom.com/sony-is-now-formally-denounced-in-mexico-over-killing-physical-games-4219",
+      "https://www.gtaboom.com/someone-remade-the-gta-6-trailer-2-with-one-very-silly-twist-e54d",
+      "https://www.gtaboom.com/playstation-quietly-adds-gta-6-to-a-list-amidst-delay-rumors-a80c",
+      "https://www.gtaboom.com/this-gta-5-actor-auditioned-60-times-for-gta-6-3aaf",
+      "https://www.gtaboom.com/the-latest-spider-man-movie-just-came-for-this-gta-record-and-missed-329b",
+      "https://www.gtaboom.com/why-ea-going-private-is-a-big-deal-for-take-two-interactive-15de",
+      "https://www.gtaboom.com/the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le studio a annoncé via son compte X qu'un aperçu étendu du jeu à venir sera diffusé en avant-première sur Netflix le 27 août à 12h heure du Pacifique (15h côté Est américain), la même vidéo arrivant ensuite sur les canaux propres du studio — chaîne vidéo et site officiel — six heures plus tard.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-games-to-debut-extended-look-at-gta-6-on-netflix-on-august-27-d6ca",
+      "source_date": "2026-08-06",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un porte-parole de Netflix a indiqué à un journaliste que les créateurs de contenu seront libres de réagir, découper et commenter l'aperçu étendu dès sa diffusion, sans risquer de retrait pour infraction au droit d'auteur — une clarification bienvenue vu la réputation de la plateforme de streaming en matière de gestion stricte des droits sur son contenu.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/netflix-just-cleared-creators-to-cover-the-gta-6-extended-look-d613",
+      "source_date": "2026-08-06",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}

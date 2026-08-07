@@ -1,0 +1,21 @@
+{
+  "id": "news_13a8ae00",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Les créateurs autorisés à réagir à l'aperçu dès sa diffusion",
+    "en": "Creators cleared to react to the preview as soon as it airs"
+  },
+  "body": {
+    "fr": "Selon un porte-parole de la plateforme de streaming, les créateurs pourront réagir, découper et commenter l'aperçu étendu du jeu dès sa mise en ligne, sans risquer de retrait pour droit d'auteur. La précision lève une incertitude, la plateforme étant réputée stricte sur la gestion des droits de son contenu, mais elle ne provient pour l'instant que d'une déclaration rapportée par un journaliste, pas d'un communiqué public.",
+    "en": "According to a representative of the streaming platform, creators will be free to react to, clip, and discuss the game's extended preview as soon as it goes live, without risking a copyright takedown. The clarification eases a real concern given the platform's reputation for tightly managing rights to its content, but for now it comes from a statement relayed by a journalist rather than a public announcement."
+  },
+  "publishedAt": "2026-08-06",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/netflix-just-cleared-creators-to-cover-the-gta-6-extended-look-d613"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:6997ae0f691c",
+  "sourceClaim": "Un porte-parole de Netflix a indiqué à un journaliste que les créateurs de contenu seront libres de réagir, découper et commenter l'aperçu étendu dès sa diffusion, sans risquer de retrait pour infraction au droit d'auteur — une clarification bienvenue vu la réputation de la plateforme de streaming en matière de gestion stricte des droits sur son contenu."
+}
