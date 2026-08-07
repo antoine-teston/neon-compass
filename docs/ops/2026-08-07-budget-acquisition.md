@@ -40,6 +40,15 @@ Deux corrections à appliquer avant de s'en servir pour acheter :
   acheté. Toute réflexion sur l'acquisition payante est prématurée tant que la
   spec du 7 août n'est pas livrée.
 
+**Mise à jour du même jour — la fenêtre a été allongée.** Les chiffres ci-dessus
+portent sur six mois et sur le modèle de décroissance dit « hype pure ». Le
+modèle « service vivant », introduit dans la section « Correction » du document
+de projections, porte la LTV à douze mois à **0,53 €** au scénario médian. Le
+verdict ne bouge pas : le seuil de rentabilité passe de 0,20 € à 0,32 €, soit
+toujours quatre à dix fois sous le coût par installation du marché. Il faudrait
+un facteur dix, pas un facteur 1,6. Tous les tableaux qui suivent restent donc
+valables, avec une marge d'erreur qui joue en leur faveur.
+
 ## Ce que coûte un utilisateur
 
 Références 2026 : le coût par installation iOS mondial atteint 5,84 $ au premier
