@@ -61,7 +61,7 @@ import UIKit
 /// this: the `.background` now always has concrete content to size against,
 /// so the `GeometryReader` reliably measures width from the first render.
 struct BannerAdView: View {
-    var adUnitID: String = "ca-app-pub-3940256099942544/2934735716" // AdMob's public test adaptive-banner ID — replace once provisioned.
+    var adUnitID: String = AdUnits.banner
 
     /// Plafond demandé pour CETTE instance. Par défaut `maxAdHeight`, la valeur
     /// calibrée pour une bannière ancrée.

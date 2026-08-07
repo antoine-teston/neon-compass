@@ -50,7 +50,7 @@ import UIKit
 /// `OSAllocatedUnfairLock`) rather than assuming the current single-caller
 /// pattern still holds.
 final class AdMobInterstitialProvider: NSObject, InterstitialAdProviding {
-    private static let adUnitID = "ca-app-pub-3940256099942544/4411468910" // AdMob's public test interstitial ID — replace with the real unit ID once provisioned in the AdMob console (same TODO pattern as Task 1's GADApplicationIdentifier placeholder).
+    private static let adUnitID = AdUnits.interstitial
 
     nonisolated(unsafe) private var interstitial: InterstitialAd?
 

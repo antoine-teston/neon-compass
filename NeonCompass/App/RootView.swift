@@ -11,12 +11,16 @@ struct RootView: View {
     // plain `@State private var x = ...` default (those can't reference
     // `self`/sibling properties) — built in `init()` instead.
     @State private var widgetSummaryCoordinator: WidgetSummaryCoordinator
+    /// Même raison que ci-dessus : il lit l'abonnement, donc il ne peut pas être
+    /// une valeur par défaut de `@State`.
+    @State private var interstitialCoordinator: InterstitialCoordinator
     @State private var themeStore = ThemeStore()
     /// Faux par défaut : tant que les Edge Functions ne sont pas déployées, les
     /// écrans de compte et de communauté ne mènent nulle part. Une ligne de
     /// `app_config` les rallume tous d'un coup, sans mise à jour de l'app.
     @State private var serverFeatures = ServerFeaturesModel(gate: SupabaseServerFeatureGate())
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.modelContext) private var modelContext
     /// Fourni par `NeonCompassApp`, qui le construit avant le premier rendu — cet
     /// écran ne fait que le retransmettre au chemin d'amorçage du widget.
@@ -29,15 +33,15 @@ struct RootView: View {
             writer: AppGroupWidgetSummaryWriter(),
             proEntitlementModel: proEntitlementModel
         ))
+        _interstitialCoordinator = State(initialValue: InterstitialCoordinator(
+            isProEntitled: { proEntitlementModel.isProEntitled }
+        ))
     }
 
     var body: some View {
         Group {
             if onboarding.needsDisclaimer {
                 DisclaimerView { onboarding.acceptDisclaimer() }
-            } else if onboarding.needsATTPrompt {
-                ProgressView()
-                    .task { await onboarding.requestTrackingAuthorization() }
             } else if onboarding.needsConsentPrompt {
                 ProgressView()
                     .task { await onboarding.requestConsent() }
@@ -55,6 +59,7 @@ struct RootView: View {
         .environment(widgetSummaryCoordinator)
         .environment(themeStore)
         .environment(serverFeatures)
+        .environment(interstitialCoordinator)
         .preferredColorScheme(.dark)
         // Makes the Pro theme picker's selection a real, app-wide effect:
         // the selected accent becomes the default tint for any control that
@@ -63,17 +68,25 @@ struct RootView: View {
         // stay as-is). `ThemeStore` is `@Observable`, so this recomputes
         // whenever `selectTheme(_:)` mutates `selectedTheme`.
         .tint(themeStore.selectedTheme.accent)
-        // Starts Mobile Ads only once every onboarding gate (disclaimer,
-        // ATT, UMP consent) has cleared — never before consent is resolved
-        // (spec §RGPD: consent gate is mandatory, not bypassable). Keyed on
-        // needsConsentPrompt (the last gate to flip false) so this fires
-        // exactly once, right after that transition, rather than re-running
-        // on every unrelated state change.
+        // Le SDK démarre dès que le consentement UMP est résolu, SANS attendre
+        // l'ATT. Sans autorisation il n'utilise simplement pas l'IDFA et sert du
+        // contextuel : servir des publicités avant l'ATT est son fonctionnement
+        // normal, pas un contournement. Attendre l'ATT — qui n'arrive plus qu'à
+        // la deuxième session — repousserait toute la publicité avec lui, soit
+        // l'inverse du but recherché.
+        //
+        // La porte du consentement reste obligatoire et non contournable
+        // (spec §RGPD). Clé sur `needsConsentPrompt`, la dernière porte à
+        // basculer, pour ne se déclencher qu'une fois.
         .task(id: onboarding.needsConsentPrompt) {
-            guard !onboarding.needsDisclaimer, !onboarding.needsATTPrompt, !onboarding.needsConsentPrompt else { return }
+            guard !onboarding.needsDisclaimer, !onboarding.needsConsentPrompt else { return }
             await MobileAds.shared.start()
         }
         .task {
+            // Compte cette session. Idempotent par processus : c'est ce compteur
+            // qui décide que l'explication ATT n'arrive qu'au deuxième
+            // lancement.
+            onboarding.registerLaunch()
             // Seeds the widget with real data at launch, BEFORE the user ever
             // visits Progression/Cheats (those screens only construct their
             // models lazily on first appearance — see `WidgetSummaryCoordinator`'s
@@ -88,6 +101,7 @@ struct RootView: View {
             hydrateWidgetSummaryFromCache()
             await proEntitlementModel.refresh()
             await serverFeatures.refresh()
+            await interstitialCoordinator.refreshFrequency()
         }
         // Nothing else subscribes to entitlement changes on their own —
         // `WidgetSummaryCoordinator` otherwise only rewrites the widget
@@ -98,7 +112,48 @@ struct RootView: View {
         .onChange(of: proEntitlementModel.isProEntitled) { _, _ in
             widgetSummaryCoordinator.refresh()
         }
+        // Le plafond « un interstitiel par session » ne veut rien dire sans une
+        // définition de session, et le processus ne meurt jamais sur l'iPad posé
+        // à côté de la télé toute la soirée. Voir `InterstitialSession`.
+        .onChange(of: scenePhase) { _, phase in
+            switch phase {
+            case .background: interstitialCoordinator.didEnterBackground()
+            case .active: interstitialCoordinator.willEnterForeground()
+            default: break
+            }
+        }
+        // Une feuille et non une porte : l'app reste utilisable derrière, et
+        // `requestTrackingAuthorization` a besoin que l'app soit ACTIVE — ce
+        // qu'un écran de démarrage ne garantit pas, et son échec est silencieux.
+        .onChange(of: onboarding.needsTrackingExplainer, initial: true) { _, needs in
+            showsTrackingExplainer = needs
+        }
+        .sheet(isPresented: $showsTrackingExplainer) {
+            TrackingExplainerView(
+                onContinue: {
+                    showsTrackingExplainer = false
+                    Task { await onboarding.requestTrackingAuthorization() }
+                },
+                onLater: {
+                    showsTrackingExplainer = false
+                    onboarding.deferTrackingExplainer()
+                }
+            )
+            // Le `.tint` de cette vue est posé PLUS HAUT dans la chaîne que ce
+            // `.sheet` : le contenu de la feuille sort donc de sa portée et
+            // repartait en bleu système, au milieu d'une app synthwave.
+            // Constaté au simulateur, pas déduit.
+            .tint(themeStore.selectedTheme.accent)
+            // On ne referme pas d'un glissement : le choix se fait par l'un des
+            // deux boutons, dont « Plus tard », qui n'engage à rien.
+            .interactiveDismissDisabled()
+        }
     }
+
+    /// Piloté par `onboarding.needsTrackingExplainer`, mais distinct de lui :
+    /// une feuille a besoin d'un binding qu'elle puisse remettre à faux
+    /// elle-même, ce qu'une propriété calculée ne permet pas.
+    @State private var showsTrackingExplainer = false
 
     /// Onglets déjà visités, donc construits. Sert à reproduire en compact la
     /// sémantique que `TabView` offre gratuitement en régulier : un onglet est

@@ -127,4 +127,5 @@ enum AppConfigKey {
     static let contentBaseURL = "contentBaseURL"
     static let backendFeaturesEnabled = "backendFeaturesEnabled"
     static let communityContributionsEnabled = "communityContributionsEnabled"
+    static let interstitialFrequency = "interstitialFrequency"
 }

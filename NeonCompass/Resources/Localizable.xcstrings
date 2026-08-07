@@ -1,6 +1,146 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "att.explainer.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple fragt gleich, ob wir deine Gerätekennung verwenden dürfen. Mit deiner Erlaubnis können wir besser bezahlte Werbung zeigen und alles kostenlos halten. Eine Ablehnung ändert nichts an dem, was die App kann."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple will ask whether we may use your device identifier. Allowing it lets us show better-paid ads, so everything can stay free. Declining changes nothing to what the app does."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple te preguntará si podemos usar el identificador de tu dispositivo. Autorizarlo nos permite mostrar anuncios mejor pagados y mantenerlo todo gratis. Rechazarlo no cambia nada de lo que hace la app."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple va vous demander si nous pouvons utiliser l'identifiant de votre appareil. L'autoriser nous permet d'afficher des publicités mieux rémunérées, et donc de tout garder gratuit. Refuser ne change rien à ce que fait l'app."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple ti chiederà se possiamo usare l'identificatore del tuo dispositivo. Consentirlo ci permette di mostrare annunci meglio remunerati e di mantenere tutto gratuito. Rifiutare non cambia nulla di ciò che fa l'app."
+          }
+        }
+      }
+    },
+    "att.explainer.continue": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiter"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua"
+          }
+        }
+      }
+    },
+    "att.explainer.later": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jetzt nicht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not now"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ahora no"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus tard"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non ora"
+          }
+        }
+      }
+    },
+    "att.explainer.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werbung hält diese App kostenlos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ads keep this app free"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La publicidad mantiene esta app gratis"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La publicité garde cette app gratuite"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La pubblicità mantiene gratuita questa app"
+          }
+        }
+      }
+    },
     "cheats.category.misc": {
       "extractionState": "stale",
       "localizations": {
