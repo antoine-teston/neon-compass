@@ -7,6 +7,8 @@
 // requête.
 
 import {
+  NB_COLONNES,
+  ONGLETS,
   basculerRepli,
   colonneSous,
   deplacer,
@@ -15,6 +17,7 @@ import {
   lire,
   oublier,
   reconcilier,
+  toutDeplier,
 } from './layout.mjs';
 
 const out = document.getElementById('console');
@@ -489,9 +492,157 @@ function renderActions() {
   setRunning(running);
 }
 
+
+// ---------------------------------------------------------------------------
+// Les graphes de la file de revue
+//
+// La forme suit le TRAVAIL de la donnée, pas l'inverse :
+//
+//   - « combien attendent »  → un NOMBRE, pas un graphe à une barre ;
+//   - « comment ça se répartit » → part-à-tout, donc barre empilée ;
+//   - « depuis quand »       → tranches d'âge, ORDINALES : une seule teinte en
+//     rampe monotone, jamais des couleurs d'identité ;
+//   - « pourquoi retenus »   → catégories NOMINALES : toutes la même teinte.
+//     Les colorer par leur valeur dépenserait le canal d'identité pour re-dire
+//     ce que la longueur de la barre montre déjà.
+//
+// Les trois couleurs de statut (attend/retenu/cassé) sont à ΔE 6,6 en
+// deutéranopie — dans la bande plancher, autorisée UNIQUEMENT avec un encodage
+// secondaire. D'où des étiquettes directes toujours présentes, jamais au survol :
+// elles ne sont pas décoratives, elles sont la condition de légalité.
+// ---------------------------------------------------------------------------
+
+const RAMPE_AGE = ['--age-1', '--age-2', '--age-3', '--age-4', '--age-5'];
+const PILES = [
+  { cle: 'attend', label: 'attendent ta décision', couleur: 'var(--lime)' },
+  { cle: 'retenu', label: 'retenus par une règle', couleur: 'var(--amber)' },
+  { cle: 'casse', label: 'cassés', couleur: 'var(--red)' },
+];
+
+const bulle = document.getElementById('bulle');
+
+/** Une infobulle par marque : la valeur exacte, et le message complet du
+ *  validateur que l'étiquette courte de l'axe ne peut pas porter. */
+function armerBulle(noeud, titre, exact) {
+  noeud.addEventListener('pointerenter', () => {
+    bulle.innerHTML = `${esc(titre)}${exact ? `<span class="exact">${esc(exact)}</span>` : ''}`;
+    bulle.hidden = false;
+  });
+  noeud.addEventListener('pointermove', (e) => {
+    bulle.style.left = `${Math.min(e.clientX + 14, window.innerWidth - 340)}px`;
+    bulle.style.top = `${e.clientY + 16}px`;
+  });
+  noeud.addEventListener('pointerleave', () => { bulle.hidden = true; });
+}
+
+function renderGraphes() {
+  const host = document.getElementById('graphes');
+  const note = document.getElementById('graphes-note');
+  host.textContent = '';
+
+  if (!drafts?.stats) { host.innerHTML = '<p class="dim">chargement…</p>'; return; }
+  const s = drafts.stats;
+  const total = PILES.reduce((n, p) => n + (s.totaux[p.cle] ?? 0), 0);
+  note.textContent = `${total} brouillon${total > 1 ? 's' : ''}`;
+
+  if (total === 0) {
+    host.innerHTML = '<p class="dim">Aucun brouillon : la file est vide.</p>';
+    return;
+  }
+
+  // --- Le nombre que la vue met en avant. Un seul par écran. ---------------
+  const hero = document.createElement('div');
+  const a = s.totaux.attend ?? 0;
+  hero.innerHTML = `<div class="hero"><span class="n">${a}</span>
+      <span class="quoi">attendent ta décision</span></div>`;
+  const sous = document.createElement('p');
+  sous.className = 'hero-sous';
+  sous.textContent = s.plusAncien
+    ? `Le plus ancien depuis le ${s.plusAncien.date} — ${s.plusAncien.jours} jour${s.plusAncien.jours > 1 ? 's' : ''}.`
+    : 'Aucun n’est daté.';
+  hero.append(sous);
+  host.append(hero);
+
+  // --- Répartition : part-à-tout, donc barre empilée ------------------------
+  const rep = document.createElement('div');
+  rep.className = 'graphe';
+  rep.innerHTML = '<h4>Répartition</h4>';
+  const barre = document.createElement('div');
+  barre.className = 'empilee';
+  for (const p of PILES) {
+    const n = s.totaux[p.cle] ?? 0;
+    if (!n) continue;
+    const seg = document.createElement('span');
+    seg.style.cssText = `flex:${n};background:${p.couleur}`;
+    armerBulle(seg, `${n} ${p.label}`);
+    barre.append(seg);
+  }
+  rep.append(barre);
+
+  // La légende est TOUJOURS là dès deux séries : c'est le canal d'identité
+  // fiable. Le chiffre y est écrit — l'encodage secondaire qu'exige l'écart CVD.
+  const legende = document.createElement('div');
+  legende.className = 'legende';
+  legende.innerHTML = PILES
+    .map((p) => `<span><i style="background:${p.couleur}"></i><b>${s.totaux[p.cle] ?? 0}</b> ${p.label}</span>`)
+    .join('');
+  rep.append(legende);
+  host.append(rep);
+
+  // --- Âge : tranches ORDINALES, rampe à une seule teinte -------------------
+  if (a > 0) {
+    const age = document.createElement('div');
+    age.className = 'graphe';
+    age.innerHTML = '<h4>Depuis quand ils attendent</h4>'
+      + '<p class="sous">Brouillons prêts à publier, par ancienneté.</p>';
+    const max = Math.max(...s.tranches.map((t) => t.n), 1);
+    const cols = document.createElement('div');
+    cols.className = 'colonnes';
+    s.tranches.forEach((t, i) => {
+      const cel = document.createElement('div');
+      const val = document.createElement('span');
+      val.className = t.n ? 'val' : 'val zero';
+      val.textContent = String(t.n);
+      const fut = document.createElement('div');
+      fut.className = 'fut';
+      // La hauteur part de la ligne de base et se termine par un bout arrondi de
+      // 4 px ; une tranche vide garde 2 px pour que sa place reste lisible.
+      fut.style.height = t.n ? `${Math.max(6, (t.n / max) * 78)}px` : '2px';
+      fut.style.background = t.n ? `var(${RAMPE_AGE[i]})` : 'var(--line)';
+      armerBulle(cel, `${t.n} brouillon${t.n > 1 ? 's' : ''} — ${t.label}`);
+      cel.append(val, fut);
+      cols.append(cel);
+    });
+    const axe = document.createElement('div');
+    axe.className = 'axe-x';
+    axe.innerHTML = s.tranches.map((t) => `<span>${esc(t.label)}</span>`).join('');
+    age.append(cols, axe);
+    host.append(age);
+  }
+
+  // --- Motifs : catégories NOMINALES, toutes la même teinte ----------------
+  if (s.motifs.length) {
+    const mot = document.createElement('div');
+    mot.className = 'graphe';
+    mot.innerHTML = '<h4>Pourquoi les autres sont retenus</h4>'
+      + '<p class="sous">Un item peut l’être pour plusieurs motifs.</p>';
+    const max = Math.max(...s.motifs.map((m) => m.n), 1);
+    for (const m of s.motifs) {
+      const ligne = document.createElement('div');
+      ligne.className = 'motif';
+      ligne.innerHTML = `<span class="nom">${esc(m.motif)}</span><span class="val">${m.n}</span>
+        <span class="piste"><span style="width:${(m.n / max) * 100}%"></span></span>`;
+      armerBulle(ligne, `${m.n} item${m.n > 1 ? 's' : ''} — ${m.motif}`, m.exemples[0]);
+      mot.append(ligne);
+    }
+    host.append(mot);
+  }
+}
+
 async function chargerDrafts() {
   drafts = await (await fetch('/api/drafts')).json();
   renderAtelier();
+  renderGraphes();
 }
 
 async function refresh() {
@@ -515,34 +666,94 @@ async function refresh() {
 }
 
 // ---------------------------------------------------------------------------
-// La disposition : ranger les sections, les replier, s'en souvenir
+// La disposition : onglets, rangement, repli
 // ---------------------------------------------------------------------------
 
-const colonnes = [...document.querySelectorAll('.colonne')];
 const panneaux = new Map(
   [...document.querySelectorAll('section[data-panneau]')].map((s) => [s.dataset.panneau, s]),
 );
+// La Sortie est repliable mais pas déplaçable : elle vit hors des onglets.
+const rangeables = [...panneaux.entries()].filter(([, s]) => !s.hasAttribute('data-fixe'));
+const IDS_RANGEABLES = rangeables.map(([id]) => id);
 
 // Le CODE fait autorité sur ce qui EXISTE, le rangement mémorisé seulement sur
 // l'ORDRE. Sans ça, une section ajoutée un jour resterait invisible chez qui a
 // déjà rangé sa page — et rien ne le signalerait.
-let disposition = lire(localStorage, [...panneaux.keys()]);
+let disposition = lire(localStorage, IDS_RANGEABLES);
+let ongletActif = ONGLETS[0].id;
+
+/** Construit la barre d'onglets et les vues. Fait en JS depuis `ONGLETS` pour
+ *  qu'ajouter un onglet ne demande pas de toucher au balisage. */
+const barre = document.getElementById('onglets');
+const vues = document.getElementById('vues');
+const colonnesDe = new Map();
+
+for (const { id, label } of ONGLETS) {
+  const bouton = document.createElement('button');
+  bouton.className = 'onglet';
+  bouton.dataset.onglet = id;
+  bouton.innerHTML = `${label}<span class="compte" hidden></span>`;
+  bouton.onclick = () => activer(id);
+  barre.append(bouton);
+
+  const vue = document.createElement('div');
+  vue.className = 'vue';
+  vue.dataset.onglet = id;
+  const cols = [];
+  for (let c = 0; c < NB_COLONNES; c++) {
+    const colonne = document.createElement('div');
+    colonne.className = 'colonne';
+    colonne.dataset.colonne = String(c);
+    vue.append(colonne);
+    cols.push(colonne);
+  }
+  colonnesDe.set(id, cols);
+  vues.append(vue);
+}
+
+function activer(id) {
+  ongletActif = id;
+  for (const vue of vues.children) vue.hidden = vue.dataset.onglet !== id;
+  for (const b of barre.children) b.classList.toggle('actif', b.dataset.onglet === id);
+}
 
 function appliquerDisposition() {
-  disposition.colonnes.forEach((ids, index) => {
-    const colonne = colonnes[index];
-    // `append` DÉPLACE un nœud déjà présent : réordonner ne détruit donc rien,
-    // et les écouteurs comme l'état de défilement des sections survivent.
-    for (const id of ids) colonne.append(panneaux.get(id));
-  });
+  for (const { id: onglet } of ONGLETS) {
+    disposition.onglets[onglet].forEach((ids, index) => {
+      const colonne = colonnesDe.get(onglet)[index];
+      // `append` DÉPLACE un nœud déjà présent : réordonner ne détruit donc rien,
+      // et les écouteurs comme l'état de défilement des sections survivent.
+      for (const id of ids) colonne.append(panneaux.get(id));
+    });
+  }
   for (const [id, section] of panneaux) {
     section.classList.toggle('repliee', disposition.replies.includes(id));
   }
+
+  // Une section repliée est une OMISSION, et une omission doit toujours avoir
+  // une sortie visible. Sans ce compteur, neuf clics escamotaient les
+  // vingt-sept boutons de la console sans que rien ne le dise.
+  const deplier = document.getElementById('deplier');
+  const n = disposition.replies.length;
+  deplier.hidden = n === 0;
+  deplier.textContent = `${n} section${n > 1 ? 's' : ''} repliée${n > 1 ? 's' : ''} — tout déplier`;
+
+  // Et sur chaque onglet, le nombre de ses sections repliées : sans ça, une
+  // section masquée dans un onglet qu'on ne regarde pas resterait invisible.
+  for (const b of barre.children) {
+    const caches = disposition.onglets[b.dataset.onglet]
+      .flat()
+      .filter((id) => disposition.replies.includes(id)).length;
+    const pastille = b.querySelector('.compte');
+    pastille.hidden = caches === 0;
+    pastille.textContent = String(caches);
+  }
+
   document.getElementById('reinit').hidden = estLeDefaut();
 }
 
 function estLeDefaut() {
-  return JSON.stringify(disposition) === JSON.stringify(reconcilier(null, [...panneaux.keys()]));
+  return JSON.stringify(disposition) === JSON.stringify(reconcilier(null, IDS_RANGEABLES));
 }
 
 function enregistrerDisposition(suivante) {
@@ -551,10 +762,11 @@ function enregistrerDisposition(suivante) {
   appliquerDisposition();
 }
 
-/** Prépare chaque en-tête : chevron, poignée, repli. */
+/** Prépare chaque en-tête : chevron pour replier, reste de l'en-tête pour glisser. */
 function armerLesEntetes() {
   for (const [id, section] of panneaux) {
     const h2 = section.querySelector(':scope > h2');
+    const fixe = section.hasAttribute('data-fixe');
 
     // Le titre part dans un conteneur précédé du chevron — mais SANS le `<em>`
     // compteur, qui doit rester à droite : l'en-tête est un flex en
@@ -562,13 +774,25 @@ function armerLesEntetes() {
     const compteur = h2.querySelector(':scope > em');
     const titre = document.createElement('span');
     titre.className = 'titre';
-    titre.append(Object.assign(document.createElement('span'), { className: 'chevron', textContent: '▾' }));
+    const chevron = Object.assign(document.createElement('span'), {
+      className: 'chevron',
+      textContent: '▾',
+      title: 'Replier ou déplier cette section',
+    });
+    titre.append(chevron);
     for (const noeud of [...h2.childNodes]) {
       if (noeud !== compteur) titre.append(noeud);
     }
     h2.prepend(titre);
 
-    h2.addEventListener('pointerdown', (e) => saisir(e, id, section, h2));
+    // LE CHEVRON SEUL replie. L'en-tête entier le faisait jusqu'au 2026-08-07,
+    // et c'était une faute : on annonce l'en-tête comme la poignée, l'utilisateur
+    // clique dessus, et la section disparaît. Une cible large pour un geste qui
+    // masque est une mauvaise cible.
+    chevron.addEventListener('pointerdown', (e) => e.stopPropagation());
+    chevron.addEventListener('click', () => enregistrerDisposition(basculerRepli(disposition, id)));
+
+    if (!fixe) h2.addEventListener('pointerdown', (e) => saisir(e, id, section, h2));
   }
 }
 
@@ -589,8 +813,9 @@ function armerLesEntetes() {
 //      `click` n'est émis après un `dragstart` » — au lieu d'un seuil qu'on
 //      choisit.
 //
-// Ici : en dessous de SEUIL pixels, c'est un clic, donc un repli. Au-delà, c'est
-// un rangement. La règle est explicite, et elle se teste.
+// Ici : en dessous de SEUIL pixels, rien ne se passe. Au-delà, c'est un
+// rangement. Le repli, lui, ne dépend plus du tout du glissement — il a son
+// chevron.
 // ---------------------------------------------------------------------------
 
 const SEUIL = 5;
@@ -599,7 +824,7 @@ function effacerLesReperes() {
   for (const n of document.querySelectorAll('.cible-avant, .cible-fin')) {
     n.classList.remove('cible-avant', 'cible-fin');
   }
-  for (const c of colonnes) c.classList.remove('survol');
+  for (const c of document.querySelectorAll('.colonne, .onglet')) c.classList.remove('survol');
 }
 
 /** Devant quelle section le pointeur veut-il déposer ? `null` = à la fin.
@@ -613,10 +838,30 @@ function cibleDans(colonne, y) {
   return at === null ? null : visibles[at];
 }
 
+/** L'onglet survolé pendant un glissement, ou `null`. Déposer une section sur un
+ *  onglet la déménage : c'est le seul geste qui traverse les onglets, et il doit
+ *  se voir — d'où la classe `survol` sur le bouton. */
+function ongletSurvole(x, y) {
+  for (const b of barre.children) {
+    const r = b.getBoundingClientRect();
+    if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return b.dataset.onglet;
+  }
+  return null;
+}
+
 /** L'index de la colonne sous le pointeur. La géométrie vit dans `layout.mjs`,
  *  où elle se teste sans navigateur. */
 function colonneVisee(x) {
-  return colonneSous(x, colonnes.map((c) => c.getBoundingClientRect()));
+  return colonneSous(x, colonnesDe.get(ongletActif).map((c) => c.getBoundingClientRect()));
+}
+
+/** Où la section tomberait si on relâchait maintenant. */
+function destination(e) {
+  const surOnglet = ongletSurvole(e.clientX, e.clientY);
+  if (surOnglet) return { onglet: surOnglet, colonne: 0, avant: null, surOnglet: true };
+  const colonne = colonneVisee(e.clientX);
+  const avant = cibleDans(colonnesDe.get(ongletActif)[colonne], e.clientY);
+  return { onglet: ongletActif, colonne, avant: avant?.dataset.panneau ?? null, cible: avant };
 }
 
 function saisir(depart, id, section, h2) {
@@ -634,10 +879,14 @@ function saisir(depart, id, section, h2) {
       section.classList.add('glisse');
     }
     effacerLesReperes();
-    const colonne = colonnes[colonneVisee(e.clientX)];
+    const d = destination(e);
+    if (d.surOnglet) {
+      [...barre.children].find((b) => b.dataset.onglet === d.onglet)?.classList.add('survol');
+      return;
+    }
+    const colonne = colonnesDe.get(d.onglet)[d.colonne];
     colonne.classList.add('survol');
-    const avant = cibleDans(colonne, e.clientY);
-    if (avant) avant.classList.add('cible-avant');
+    if (d.cible) d.cible.classList.add('cible-avant');
     else colonne.querySelector(':scope > section:last-of-type')?.classList.add('cible-fin');
   };
 
@@ -647,16 +896,15 @@ function saisir(depart, id, section, h2) {
     h2.removeEventListener('pointercancel', lacher);
     h2.releasePointerCapture?.(depart.pointerId);
     section.classList.remove('glisse');
+    // Un simple clic sur l'en-tête ne fait plus RIEN : replier a son chevron.
+    if (!glisse) { effacerLesReperes(); return; }
 
-    if (!glisse) {
-      effacerLesReperes();
-      enregistrerDisposition(basculerRepli(disposition, id));
-      return;
-    }
-    const index = colonneVisee(e.clientX);
-    const avant = cibleDans(colonnes[index], e.clientY);
+    const d = destination(e);
     effacerLesReperes();
-    enregistrerDisposition(deplacer(disposition, id, index, avant?.dataset.panneau ?? null));
+    enregistrerDisposition(deplacer(disposition, id, d.onglet, d.colonne, d.avant));
+    // Suivre la section qu'on vient de déménager : la voir partir sans savoir où
+    // elle atterrit serait un rangement à l'aveugle.
+    if (d.onglet !== ongletActif) activer(d.onglet);
   };
 
   h2.addEventListener('pointermove', bouger);
@@ -668,16 +916,16 @@ function saisir(depart, id, section, h2) {
 
 document.getElementById('reinit').onclick = () => {
   oublier(localStorage);
-  disposition = lire(localStorage, [...panneaux.keys()]);
+  disposition = lire(localStorage, IDS_RANGEABLES);
   appliquerDisposition();
 };
+document.getElementById('deplier').onclick = () => enregistrerDisposition(toutDeplier(disposition));
 
 /**
  * La Sortie se déplie et vient sous les yeux quand une commande part.
  *
- * Sans ça, on clique un bouton dans une colonne et le résultat s'écrit dans
- * l'autre, parfois hors écran — la page fait 3 600 px de haut. Un résultat qu'on
- * ne voit pas est un résultat qu'on n'a pas.
+ * Sans ça, on clique un bouton et le résultat s'écrit ailleurs, parfois hors
+ * écran. Un résultat qu'on ne voit pas est un résultat qu'on n'a pas.
  *
  * Le repli n'est PAS mémorisé au passage : déplier pour montrer un résultat est
  * un geste de la console, pas une préférence de l'utilisateur. L'écraser dans
@@ -691,6 +939,7 @@ function montrerLaSortie() {
 }
 
 armerLesEntetes();
+activer(ongletActif);
 appliquerDisposition();
 
 refresh();

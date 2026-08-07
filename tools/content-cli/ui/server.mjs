@@ -40,7 +40,14 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ACTIONS, resolveAction } from './actions.mjs';
 import { CARNET, FICHES } from './hotfix.mjs';
-import { EDITABLE_KINDS, RefusedError, readDraft, triageAll, writeDraft } from './drafts.mjs';
+import {
+  EDITABLE_KINDS,
+  RefusedError,
+  readDraft,
+  statistiques,
+  triageAll,
+  writeDraft,
+} from './drafts.mjs';
 import {
   CREDENTIALS_MANQUANTS,
   cartesInstantanees,
@@ -168,7 +175,13 @@ const server = createServer(async (req, res) => {
   }
 
   if (req.method === 'GET' && url.pathname === '/api/drafts') {
-    return send(res, 200, triageAll());
+    const triage = triageAll();
+    // Les statistiques voyagent avec le triage : elles en sont dérivées, et les
+    // recalculer dans la page rendrait les graphes invérifiables autrement qu'à
+    // l'œil. Le jour est passé en paramètre plutôt que lu par le calcul, pour que
+    // celui-ci se teste sans dépendre de la date d'exécution.
+    const stats = statistiques(triage, new Date().toISOString().slice(0, 10));
+    return send(res, 200, { ...triage, stats });
   }
 
   // ---- Porte « édition » : aucun processus lancé ici -----------------------

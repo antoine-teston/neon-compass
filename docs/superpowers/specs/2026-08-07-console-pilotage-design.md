@@ -358,6 +358,86 @@ cliquer un bouton dans une colonne et voir le résultat s'écrire dans l'autre, 
 n'est pas mémorisé — montrer un résultat est un geste de la console, pas une préférence de
 l'utilisateur.
 
+## Onglets, livraison, graphes
+
+*Ajouté le 2026-08-07, après retour d'usage.*
+
+### La régression du repli, et sa cause
+
+Le repli au clic sur l'en-tête était une faute. Neuf clics suffisaient à escamoter les vingt-sept
+boutons de la console — la page tombait à 430 px, sans la moindre erreur. Deux fautes cumulées :
+l'en-tête entier déclenchait un geste qui MASQUE, et rien ne signalait que des sections étaient
+cachées. C'est la règle appliquée partout ailleurs ici — *une carte ne ment jamais par omission* —
+que le repli violait.
+
+Réparé en trois points : **le chevron seul** replie (l'en-tête reste la poignée de glissement, et un
+clic sec n'y fait plus rien) ; un bandeau **« N sections repliées — tout déplier »** apparaît dès
+qu'il y en a une ; et chaque onglet porte une pastille comptant ses sections masquées, sans quoi une
+section cachée dans un onglet qu'on ne regarde pas resterait invisible.
+
+### Quatre onglets, et la Sortie qui n'en fait pas partie
+
+Le découpage suit ce qu'on **fait**, pas ce que les sections sont : **Revue** (atelier + graphes),
+**Veille** (récolte + écritures locales), **Contrôles**, **Pilotage** (carnet + production +
+modération). Glisser une section sur un onglet l'y déménage.
+
+La **Sortie vit hors des onglets**, tout en bas : elle porte le résultat de ce qu'on vient de lancer,
+et la faire disparaître en changeant d'onglet reprendrait d'une main ce qu'on venait de corriger.
+
+Le modèle de disposition passe donc en `v2` — clé de stockage comprise, sinon un rangement v1 serait
+relu comme un v2. `formeValide` rejette la forme v1 même si elle se présentait quand même : deux
+garde-fous plutôt qu'un, parce que le premier est une convention et le second une vérification.
+
+### Livrer en un clic
+
+`deliver.mjs` : branche, commit, push, PR ouverte. Ce qui rend la chose compatible avec l'invariant
+de la porte « geste » : **la console appelle la commande sans le moindre paramètre.** Titre, message
+et corps de PR sont **composés depuis le diff réel** — pas saisis. Un titre libre serait du texte
+arbitraire dans un `argv`, sans motif capable de le valider.
+
+Et c'est un meilleur message : il nomme ce qui a réellement changé, y compris ce qu'on avait oublié
+avoir touché. Le corps **avertit** quand le merge publiera tout seul (`news`, `online-events`), et
+prévient qu'un lot mixte fait refuser `publish-news` en entier — le garde-fou de périmètre est
+global, un POI dans le lot et l'actu ne part pas non plus.
+
+La PR **n'est pas fusionnée**. Pour l'actu, le merge publie ; le diff relu reste donc le dernier
+garde-fou avant les utilisateurs, et rien ici ne le contourne.
+
+*Panne trouvée en écrivant* : `git()` faisait `.trim()` sur la sortie de `git status --porcelain`, ce
+qui **mangeait l'espace de tête** de la colonne d'état (` M chemin`). Les colonnes glissaient d'un
+cran et la livraison annonçait « rien à livrer » avec des fichiers modifiés sous les yeux. Corrigé à
+la cause, et le parseur ancre désormais sur le chemin plutôt que sur des positions.
+
+### Les graphes de la file de revue
+
+Quatre éléments, et la forme suit le **travail** de la donnée :
+
+| Question | Forme | Couleur |
+|---|---|---|
+| Combien attendent ? | **nombre**, ≥ 48 px, un seul par vue — pas un graphe à une barre | — |
+| Comment ça se répartit ? | barre empilée (part-à-tout) | **statut** : attend / retenu / cassé |
+| Depuis quand ? | colonnes sur tranches d'âge | **ordinale** : une seule teinte, rampe monotone |
+| Pourquoi retenus ? | barres horizontales (noms longs) | **nominale** : toutes la même teinte |
+
+Deux décisions qui se **calculent** plutôt qu'elles ne s'apprécient :
+
+- Les tranches d'âge sont **ordinales**, pas nominales : leur ordre porte du sens. Elles prennent
+  donc une rampe à une seule teinte, validée par `validate_palette.js --ordinal` contre le fond
+  `#141a28`. Le premier jet échouait à 1,91:1 sur le pas le plus sombre ; la rampe retenue
+  (`#256976 → #3aeaf4`) passe à 2,78:1, monotone, écarts ΔL ≥ 0,06.
+- Les motifs de retenue sont **nominaux** : tous la même teinte. Les colorer par leur valeur
+  dépenserait le canal d'identité pour redire ce que la longueur de la barre montre déjà.
+
+Et une contrainte d'accessibilité qui n'est pas négociable : les trois couleurs de statut déjà en
+place dans la console sont à **ΔE 6,6 en deutéranopie** (amber ↔ lime), soit dans la bande plancher
+6–8 — autorisée *uniquement* avec encodage secondaire. **Les étiquettes chiffrées de la légende sont
+donc obligatoires, pas décoratives** : sans elles, la répartition serait illisible pour un lecteur
+deutéranope.
+
+L'étiquette d'axe est courte ; le message exact du validateur part dans l'infobulle. L'axe a besoin
+d'être lisible, le diagnostic d'être précis — les deux, pas l'un ou l'autre. Aucune valeur n'est
+lisible *seulement* au survol.
+
 ## Hors périmètre
 
 Nommé pour ne pas y revenir par accident :

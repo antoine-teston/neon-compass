@@ -158,6 +158,92 @@ export function triageAll() {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Statistiques de la file de revue
+//
+// Calculées ici, pures, testables — le rendu n'a plus qu'à dessiner. Un graphe
+// dont les chiffres sont calculés dans la page est un graphe qu'on ne peut pas
+// vérifier autrement qu'à l'œil.
+// ---------------------------------------------------------------------------
+
+/** Les tranches d'âge. ORDINALES, pas nominales : leur ordre porte du sens, donc
+ *  elles prennent une rampe à une seule teinte et jamais des couleurs d'identité.
+ *  Cinq bornes, cinq pas de rampe. */
+export const TRANCHES = [
+  { label: "aujourd'hui", max: 0 },
+  { label: '1 à 3 j', max: 3 },
+  { label: '4 à 7 j', max: 7 },
+  { label: '8 à 14 j', max: 14 },
+  { label: 'plus de 14 j', max: Infinity },
+];
+
+/**
+ * Un motif court pour l'axe. Le message complet reste disponible — il est plus
+ * précis que ce qu'on écrirait, et c'est lui qui part dans l'infobulle.
+ *
+ * L'axe a besoin d'une étiquette lisible ; le diagnostic a besoin du texte exact.
+ * Les deux, pas l'un OU l'autre.
+ */
+export function motifCourt(raison) {
+  const r = String(raison ?? '');
+  if (/rumor/i.test(r)) return 'rumeur';
+  if (/needsRewrite|unwritten skeleton/i.test(r)) return 'rédaction non faite';
+  if (/trademark/i.test(r)) return 'marque déposée';
+  if (/verifiedBy/i.test(r)) return 'cheat non corroboré';
+  if (/n’est pas un nom|n'est pas un nom/i.test(r)) return 'champ nominatif douteux';
+  // Rien d'inventé : un motif inconnu garde son texte, tronqué pour l'axe.
+  return r.length > 34 ? `${r.slice(0, 33)}…` : r || 'motif inconnu';
+}
+
+/** Le nombre de jours entre deux dates ISO (aaaa-mm-jj). Négatif ramené à 0 :
+ *  un item daté de demain n'a pas un âge négatif, il est simplement neuf. */
+export function ageEnJours(date, aujourdHui) {
+  if (!date) return null;
+  const jours = Math.floor((Date.parse(aujourdHui) - Date.parse(date)) / 86400000);
+  return Number.isNaN(jours) ? null : Math.max(0, jours);
+}
+
+/**
+ * Ce que le panneau de graphes affiche.
+ *
+ * @param {{parKind: object, totaux: object}} triage sortie de `triageAll`
+ * @param {string} aujourdHui date ISO — paramètre plutôt qu'horloge interne,
+ *   pour que le calcul se teste sans dépendre du jour où on le lance.
+ */
+export function statistiques(triage, aujourdHui) {
+  const attend = Object.values(triage.parKind).flatMap((t) => t.attend);
+  const retenu = Object.values(triage.parKind).flatMap((t) => t.retenu);
+
+  const tranches = TRANCHES.map((t) => ({ label: t.label, n: 0 }));
+  let plusAncien = null;
+  for (const item of attend) {
+    const age = ageEnJours(item.date, aujourdHui);
+    if (age === null) continue;
+    tranches[TRANCHES.findIndex((t) => age <= t.max)].n += 1;
+    if (!plusAncien || age > plusAncien.jours) plusAncien = { jours: age, date: item.date, id: item.id };
+  }
+
+  // Un item peut être retenu pour PLUSIEURS motifs : on les compte tous, sinon le
+  // total des motifs ne dirait pas ce qu'il y a à corriger.
+  const parMotif = new Map();
+  for (const item of retenu) {
+    for (const raison of item.raisons ?? []) {
+      const court = motifCourt(raison);
+      const entree = parMotif.get(court) ?? { motif: court, n: 0, exemples: [] };
+      entree.n += 1;
+      if (entree.exemples.length < 3) entree.exemples.push(raison);
+      parMotif.set(court, entree);
+    }
+  }
+
+  return {
+    totaux: triage.totaux,
+    plusAncien,
+    tranches,
+    motifs: [...parMotif.values()].sort((a, b) => b.n - a.n || a.motif.localeCompare(b.motif)),
+  };
+}
+
 /** Ce que l'écran d'un item a besoin de savoir. */
 export function readDraft(kind, id) {
   const path = resolvePath(kind, id);

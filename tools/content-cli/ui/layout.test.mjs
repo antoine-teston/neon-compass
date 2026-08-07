@@ -13,18 +13,22 @@ import {
   CLE,
   DEFAUT,
   NB_COLONNES,
+  ONGLETS,
   basculerRepli,
   colonneSous,
   deplacer,
   ecrire,
   insertionAvant,
   lire,
+  ongletDe,
   oublier,
   reconcilier,
+  toutDeplier,
+  toutes,
 } from './layout.mjs';
 
-const TOUS = DEFAUT.colonnes.flat();
-const aplati = (d) => d.colonnes.flat();
+const IDS = ONGLETS.map((o) => o.id);
+const TOUS = IDS.flatMap((o) => DEFAUT.onglets[o].flat());
 
 /** Un `localStorage` de laboratoire. */
 function stockage(initial = {}) {
@@ -42,121 +46,116 @@ function stockage(initial = {}) {
 // ---------------------------------------------------------------------------
 
 test('sans rien de mémorisé, on obtient le rangement par défaut', () => {
-  assert.deepEqual(reconcilier(null, TOUS), { colonnes: DEFAUT.colonnes, replies: [] });
+  assert.deepEqual(reconcilier(null, TOUS), { onglets: DEFAUT.onglets, replies: [] });
 });
 
-test('une section NEUVE apparaît, dans sa colonne d’origine', () => {
-  // LE test de ce fichier. Le rangement mémorisé date d'avant l'ajout de
-  // « sortie » ; sans réconciliation, la section n'existerait plus pour cet
+test('une section NEUVE apparaît, dans son onglet et sa colonne d’origine', () => {
+  // LE test de ce fichier. Le rangement mémorisé date d'avant l'ajout des
+  // graphes ; sans réconciliation, la section n'existerait plus pour cet
   // utilisateur, sans le moindre message.
-  const vieux = {
-    colonnes: [['atelier', 'recolte', 'checks', 'local'], ['carnet', 'prod', 'moderation', 'inventaire']],
-    replies: [],
-  };
+  const vieux = JSON.parse(JSON.stringify(DEFAUT));
+  vieux.onglets.revue[1] = [];                       // « graphes » n'existait pas encore
   const d = reconcilier(vieux, TOUS);
-  assert.ok(aplati(d).includes('sortie'), 'la section neuve a disparu');
-  assert.ok(d.colonnes[1].includes('sortie'), 'elle devrait rejoindre sa colonne d’origine');
+  assert.ok(toutes(d).includes('graphes'), 'la section neuve a disparu');
+  assert.equal(ongletDe(d, 'graphes'), 'revue', 'elle devrait rejoindre son onglet d’origine');
+  assert.ok(d.onglets.revue[1].includes('graphes'), 'et sa colonne d’origine');
 });
 
-test('une section neuve INCONNUE du défaut rejoint la colonne la plus courte', () => {
-  const memorise = { colonnes: [['atelier'], ['carnet', 'prod', 'moderation']], replies: [] };
-  const d = reconcilier(memorise, ['atelier', 'carnet', 'prod', 'moderation', 'inedit']);
-  assert.ok(d.colonnes[0].includes('inedit'), JSON.stringify(d.colonnes));
+test('une section neuve INCONNUE du défaut est placée quand même, et VUE', () => {
+  const d = reconcilier(DEFAUT, [...TOUS, 'inedit']);
+  assert.ok(toutes(d).includes('inedit'), 'une section sans origine connue a été perdue');
+  assert.equal(ongletDe(d, 'inedit'), IDS[0], 'elle doit atterrir dans le premier onglet');
 });
 
 test('un identifiant qui n’existe plus est retiré', () => {
-  const memorise = {
-    colonnes: [['atelier', 'sectionSupprimee'], ['carnet']],
-    replies: ['sectionSupprimee'],
-  };
-  const d = reconcilier(memorise, ['atelier', 'carnet']);
-  assert.equal(aplati(d).includes('sectionSupprimee'), false);
+  const memorise = JSON.parse(JSON.stringify(DEFAUT));
+  memorise.onglets.revue[0].push('sectionSupprimee');
+  memorise.replies = ['sectionSupprimee'];
+  const d = reconcilier(memorise, TOUS);
+  assert.equal(toutes(d).includes('sectionSupprimee'), false);
   assert.equal(d.replies.includes('sectionSupprimee'), false);
 });
 
-test('toute section connue apparaît exactement une fois', () => {
-  const bricole = {
-    colonnes: [['atelier', 'carnet', 'atelier'], ['carnet', 'recolte']],
-    replies: [],
-  };
-  const d = reconcilier(bricole, TOUS);
-  const ids = aplati(d);
+test('toute section connue apparaît exactement une fois, tous onglets confondus', () => {
+  const bricole = JSON.parse(JSON.stringify(DEFAUT));
+  bricole.onglets.veille[0].push('atelier');          // déjà dans « revue »
+  bricole.onglets.pilotage[1].push('atelier');        // et une troisième fois
+  const ids = toutes(reconcilier(bricole, TOUS));
   assert.equal(new Set(ids).size, ids.length, 'un doublon a survécu');
   assert.deepEqual([...ids].sort(), [...TOUS].sort(), 'une section manque ou est en trop');
 });
 
 test('l’ordre mémorisé est respecté', () => {
-  const inverse = {
-    colonnes: [['local', 'checks', 'recolte', 'atelier'], ['inventaire', 'moderation', 'prod', 'sortie', 'carnet']],
-    replies: [],
-  };
-  assert.deepEqual(reconcilier(inverse, TOUS).colonnes, inverse.colonnes);
+  const range = JSON.parse(JSON.stringify(DEFAUT));
+  range.onglets.pilotage[1] = ['moderation', 'prod'];  // inversé
+  assert.deepEqual(reconcilier(range, TOUS).onglets.pilotage[1], ['moderation', 'prod']);
 });
 
 test('un rangement corrompu retombe sur le défaut, sans deviner', () => {
   const corrompus = [
-    undefined,
-    42,
-    'texte',
-    {},
-    { colonnes: 'pas un tableau' },
-    { colonnes: [] },
-    { colonnes: [['a']] },                       // mauvais nombre de colonnes
-    { colonnes: [['a'], ['b'], ['c']] },         // idem
-    { colonnes: [[1, 2], ['b']] },               // pas des chaînes
-    { colonnes: [null, null] },
+    undefined, 42, 'texte', {},
+    { onglets: 'pas un objet' },
+    { onglets: {} },
+    { onglets: { revue: [['atelier']] } },                       // onglets manquants
+    { onglets: Object.fromEntries(IDS.map((o) => [o, [['a']]])) }, // une seule colonne
+    { onglets: Object.fromEntries(IDS.map((o) => [o, [[1], ['b']]])) }, // pas des chaînes
+    { colonnes: [['atelier'], ['carnet']] },                     // la forme v1
   ];
   for (const c of corrompus) {
-    assert.deepEqual(
-      reconcilier(c, TOUS).colonnes,
-      DEFAUT.colonnes,
-      `mal rattrapé : ${JSON.stringify(c)}`,
-    );
+    assert.deepEqual(reconcilier(c, TOUS).onglets, DEFAUT.onglets, `mal rattrapé : ${JSON.stringify(c)}`);
   }
 });
 
-test('le nombre de colonnes ne change jamais', () => {
-  for (const entree of [null, { colonnes: [['atelier']], replies: [] }]) {
-    assert.equal(reconcilier(entree, TOUS).colonnes.length, NB_COLONNES);
+test('chaque onglet garde exactement deux colonnes', () => {
+  for (const entree of [null, { onglets: { revue: [['atelier']] } }]) {
+    const d = reconcilier(entree, TOUS);
+    for (const o of IDS) assert.equal(d.onglets[o].length, NB_COLONNES, o);
   }
 });
 
+test('la Sortie ne fait pas partie des onglets', () => {
+  // Elle porte le résultat de ce qu'on vient de lancer : la faire disparaître en
+  // changeant d'onglet reprendrait d'une main ce qu'on venait de corriger.
+  assert.equal(TOUS.includes('sortie'), false);
+});
+
 // ---------------------------------------------------------------------------
-// Déplacement et repli
+// Déplacement, onglets, repli
 // ---------------------------------------------------------------------------
 
-test('déplacer une section d’une colonne à l’autre ne la duplique pas', () => {
-  const d = deplacer(reconcilier(null, TOUS), 'atelier', 1);
-  assert.equal(d.colonnes[0].includes('atelier'), false);
-  assert.equal(d.colonnes[1].filter((x) => x === 'atelier').length, 1);
-  assert.deepEqual([...aplati(d)].sort(), [...TOUS].sort());
+test('déplacer une section vers un autre onglet ne la duplique pas', () => {
+  const d = deplacer(reconcilier(null, TOUS), 'atelier', 'pilotage', 0);
+  assert.equal(ongletDe(d, 'atelier'), 'pilotage');
+  assert.equal(toutes(d).filter((x) => x === 'atelier').length, 1);
+  assert.deepEqual([...toutes(d)].sort(), [...TOUS].sort());
 });
 
 test('déplacer devant une section précise l’insère au bon rang', () => {
-  const d = deplacer(reconcilier(null, TOUS), 'inventaire', 0, 'recolte');
-  assert.deepEqual(d.colonnes[0], ['atelier', 'inventaire', 'recolte', 'checks', 'local']);
+  const d = deplacer(reconcilier(null, TOUS), 'atelier', 'pilotage', 1, 'moderation');
+  assert.deepEqual(d.onglets.pilotage[1], ['prod', 'atelier', 'moderation']);
 });
 
 test('déplacer sans repère met en fin de colonne', () => {
-  const d = deplacer(reconcilier(null, TOUS), 'atelier', 0);
-  assert.equal(d.colonnes[0].at(-1), 'atelier');
+  const d = deplacer(reconcilier(null, TOUS), 'atelier', 'pilotage', 1);
+  assert.equal(d.onglets.pilotage[1].at(-1), 'atelier');
 });
 
-test('déplacer devant une section absente met en fin, plutôt que d’échouer', () => {
-  const d = deplacer(reconcilier(null, TOUS), 'atelier', 1, 'nexistepas');
-  assert.equal(d.colonnes[1].at(-1), 'atelier');
-});
-
-test('une colonne inexistante laisse la disposition intacte', () => {
+test('un onglet ou une colonne inexistants laissent la disposition intacte', () => {
   const avant = reconcilier(null, TOUS);
-  assert.deepEqual(deplacer(avant, 'atelier', 7), avant);
+  assert.deepEqual(deplacer(avant, 'atelier', 'inconnu', 0), avant);
+  assert.deepEqual(deplacer(avant, 'atelier', 'revue', 7), avant);
+  assert.deepEqual(deplacer(avant, 'atelier', 'revue', -1), avant);
 });
 
 test('déplacer ne mute pas la disposition d’entrée', () => {
   const avant = reconcilier(null, TOUS);
   const copie = JSON.parse(JSON.stringify(avant));
-  deplacer(avant, 'atelier', 1);
+  deplacer(avant, 'atelier', 'pilotage', 0);
   assert.deepEqual(avant, copie, 'la disposition d’origine a été modifiée sur place');
+});
+
+test('ongletDe rend null pour une section absente', () => {
+  assert.equal(ongletDe(reconcilier(null, TOUS), 'sortie'), null);
 });
 
 test('le repli est une bascule, et ne mute pas non plus', () => {
@@ -167,43 +166,21 @@ test('le repli est une bascule, et ne mute pas non plus', () => {
   assert.deepEqual(a.replies, [], 'la disposition d’origine a été modifiée sur place');
 });
 
-// ---------------------------------------------------------------------------
-// Persistance
-// ---------------------------------------------------------------------------
+test('tout déplier vide les replis, et laisse le rangement intact', () => {
+  // Une section repliée est une OMISSION, et une omission doit toujours avoir une
+  // sortie visible. Le 2026-08-07, neuf clics escamotaient les 27 boutons de la
+  // console sans qu'aucun compteur ne le dise.
+  let d = reconcilier(null, TOUS);
+  for (const id of TOUS) d = basculerRepli(d, id);
+  assert.equal(d.replies.length, TOUS.length);
 
-test('un aller-retour par le stockage conserve le rangement', () => {
-  const s = stockage();
-  const range = deplacer(basculerRepli(reconcilier(null, TOUS), 'inventaire'), 'sortie', 0, 'checks');
-  ecrire(s, range);
-  assert.deepEqual(lire(s, TOUS), range);
-});
-
-test('un stockage contenant du JSON invalide ne fait pas tomber la console', () => {
-  assert.deepEqual(lire(stockage({ [CLE]: '{{{ pas du json' }), TOUS).colonnes, DEFAUT.colonnes);
-});
-
-test('un stockage qui refuse d’écrire ne lève pas', () => {
-  // Navigation privée, quota plein, stockage désactivé : perdre le rangement est
-  // ennuyeux ; faire tomber la console pour ça serait absurde.
-  const refus = { getItem: () => null, setItem: () => { throw new Error('quota'); }, removeItem: () => { throw new Error('non'); } };
-  assert.equal(ecrire(refus, DEFAUT), false);
-  assert.doesNotThrow(() => oublier(refus));
-  assert.doesNotThrow(() => lire(refus, TOUS));
-});
-
-test('oublier ramène au défaut', () => {
-  const s = stockage();
-  ecrire(s, deplacer(reconcilier(null, TOUS), 'atelier', 1));
-  oublier(s);
-  assert.deepEqual(lire(s, TOUS).colonnes, DEFAUT.colonnes);
+  const deplie = toutDeplier(d);
+  assert.deepEqual(deplie.replies, []);
+  assert.deepEqual(deplie.onglets, d.onglets, 'déplier ne doit pas déranger le rangement');
 });
 
 // ---------------------------------------------------------------------------
 // Géométrie du glissement
-//
-// C'est la partie qui décide où une section tombe, donc celle qu'on a le plus de
-// chances de rater. Elle prend des rectangles et rend des index : pas besoin de
-// navigateur, et Playwright n'est pas une dépendance de ce projet.
 // ---------------------------------------------------------------------------
 
 const COLONNES = [{ left: 0, right: 700 }, { left: 730, right: 1430 }];
@@ -221,8 +198,6 @@ test('le pointeur entre deux colonnes prend la plus proche', () => {
 });
 
 test('le pointeur hors de tout prend la colonne la plus proche, jamais rien', () => {
-  // Glisser un peu au-delà du bord ne doit pas annuler le geste en silence :
-  // l'utilisateur a visé une colonne, on lui donne celle qu'il visait.
   assert.equal(colonneSous(-500, COLONNES), 0);
   assert.equal(colonneSous(9999, COLONNES), 1);
 });
@@ -254,17 +229,50 @@ test('une colonne vide insère à la fin', () => {
 });
 
 test('le repère bascule au MILIEU, pas au bord', () => {
-  // Comparer au bord haut ferait sauter le repère d'un cran dès qu'on effleure
-  // une section — le geste deviendrait nerveux et imprévisible.
   const [s] = SECTIONS;
   const milieu = s.top + s.height / 2;
   assert.equal(insertionAvant(milieu - 1, SECTIONS), 0);
   assert.equal(insertionAvant(milieu + 1, SECTIONS), 1);
 });
 
-test('la clé est versionnée', () => {
-  // Changer la FORME de l'objet sans changer la clé ferait relire un ancien
-  // rangement comme un nouveau. `formeValide` rattraperait la plupart des cas,
-  // mais pas celui d'une forme restée superficiellement compatible.
-  assert.match(CLE, /-v\d+$/);
+// ---------------------------------------------------------------------------
+// Persistance
+// ---------------------------------------------------------------------------
+
+test('un aller-retour par le stockage conserve le rangement', () => {
+  const s = stockage();
+  const range = deplacer(basculerRepli(reconcilier(null, TOUS), 'inventaire'), 'checks', 'revue', 0, 'atelier');
+  ecrire(s, range);
+  assert.deepEqual(lire(s, TOUS), range);
+});
+
+test('un stockage contenant du JSON invalide ne fait pas tomber la console', () => {
+  assert.deepEqual(lire(stockage({ [CLE]: '{{{ pas du json' }), TOUS).onglets, DEFAUT.onglets);
+});
+
+test('un stockage qui refuse d’écrire ne lève pas', () => {
+  const refus = {
+    getItem: () => null,
+    setItem: () => { throw new Error('quota'); },
+    removeItem: () => { throw new Error('non'); },
+  };
+  assert.equal(ecrire(refus, DEFAUT), false);
+  assert.doesNotThrow(() => oublier(refus));
+  assert.doesNotThrow(() => lire(refus, TOUS));
+});
+
+test('oublier ramène au défaut', () => {
+  const s = stockage();
+  ecrire(s, deplacer(reconcilier(null, TOUS), 'atelier', 'pilotage', 0));
+  oublier(s);
+  assert.deepEqual(lire(s, TOUS).onglets, DEFAUT.onglets);
+});
+
+test('la clé est versionnée, et la v1 ne se relit pas comme une v2', () => {
+  // Changer la FORME sans changer la clé ferait relire un ancien rangement comme
+  // un nouveau. Ici les deux garde-fous jouent : la clé a changé, ET `formeValide`
+  // rejette la forme v1 si elle se présentait quand même.
+  assert.match(CLE, /-v2$/);
+  const v1 = { colonnes: [['atelier', 'recolte'], ['carnet']], replies: [] };
+  assert.deepEqual(reconcilier(v1, TOUS).onglets, DEFAUT.onglets);
 });

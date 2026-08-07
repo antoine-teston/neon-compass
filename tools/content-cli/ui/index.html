@@ -54,8 +54,10 @@
   .pill.warn { border-color: color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber); }
   .pill.bad { border-color: color-mix(in srgb, var(--red) 45%, transparent); color: var(--red); }
 
-  main { padding: 24px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
-  @media (max-width: 1020px) { main { grid-template-columns: minmax(0, 1fr); } }
+  main { padding: 24px; }
+  .vue { display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
+  .vue[hidden] { display: none; }
+  @media (max-width: 1020px) { .vue { grid-template-columns: minmax(0, 1fr); } }
 
   section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
   section > h2 {
@@ -193,25 +195,58 @@
   .fiche dd { margin: 0; }
 
 
-  /* ---- Disposition réarrangeable ------------------------------------------
-     L'en-tête d'une section est sa poignée : on la glisse pour ranger, on la
-     CLIQUE pour replier. Le navigateur distingue les deux nativement — aucun
-     `click` n'est émis après un `dragstart`. */
+  /* ---- Onglets -------------------------------------------------------------
+     Neuf sections sur une page de 3 600 px : l'ordre imposé finit par lasser, et
+     le repli tout seul escamotait sans le dire. Les onglets suivent ce qu'on
+     FAIT — relire, récolter, contrôler, éteindre un incendie — rarement les
+     quatre à la fois. */
+  .onglets { display: flex; gap: 4px; padding: 0 24px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .onglet {
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    color: var(--muted);
+    padding: 9px 16px;
+    font-size: 13px;
+    margin-bottom: -1px;
+  }
+  .onglet:hover:not(.actif) { color: var(--ink); }
+  .onglet.actif { background: var(--panel); border-color: var(--line); color: var(--ink); border-bottom: 1px solid var(--panel); }
+  /* Un onglet devient zone de dépôt pendant un glissement : c'est ainsi qu'on
+     déplace une section d'un onglet à l'autre. */
+  .onglet.survol { border-color: var(--cyan); color: var(--cyan); }
+  .onglet .compte {
+    margin-left: 7px; font-size: 11px; padding: 1px 6px; border-radius: 999px;
+    background: color-mix(in srgb, var(--amber) 20%, transparent); color: var(--amber);
+  }
+
+  /* ---- La Sortie, hors des onglets ---------------------------------------- */
+  .sortie-fixe { padding: 0 24px 24px; }
+
+  /* ---- Repli et glissement -------------------------------------------------
+     Le CHEVRON seul replie. L'en-tête entier le faisait, et neuf clics
+     suffisaient à escamoter les vingt-sept boutons de la console sans qu'aucun
+     compteur ne le dise — c'est la règle « une carte ne ment jamais par
+     omission » qui était violée. */
   .colonne { display: grid; gap: 24px; min-width: 0; align-content: start; }
   .colonne.survol { outline: 1px dashed color-mix(in srgb, var(--cyan) 40%, transparent); outline-offset: 8px; border-radius: 12px; }
 
-  section > h2 { cursor: grab; user-select: none; align-items: center; }
-  section > h2:hover { color: var(--ink); }
+  section > h2 { user-select: none; align-items: center; }
+  section:not([data-fixe]) > h2 { cursor: grab; }
   section.glisse { opacity: .35; }
   section.repliee > :not(h2) { display: none; }
   section.repliee > h2 { border-bottom: none; }
 
-  .chevron { transition: transform .12s ease; display: inline-block; margin-right: 8px; color: var(--muted); }
+  .chevron {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; margin-right: 6px; border-radius: 6px;
+    color: var(--muted); cursor: pointer; transition: transform .12s ease; flex: 0 0 auto;
+  }
+  .chevron:hover { background: var(--line); color: var(--ink); }
   section.repliee .chevron { transform: rotate(-90deg); }
   .titre { display: flex; align-items: center; min-width: 0; }
 
-  /* Le trait qui montre où la section tombera. Une bordure sur la cible
-     déplacerait le contenu d'un pixel à chaque survol ; un pseudo-élément non. */
   .cible-avant { position: relative; }
   .cible-avant::before {
     content: ""; position: absolute; left: 0; right: 0; top: -13px;
@@ -223,11 +258,82 @@
     height: 2px; background: var(--cyan); border-radius: 2px;
   }
 
-  .reinit {
+  .reinit, .deplier {
     font-size: 12px; padding: 4px 10px; border-radius: 999px;
     background: transparent; color: var(--muted); border-color: var(--line);
   }
-  .reinit[hidden] { display: none; }
+  .deplier { border-color: color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber); }
+  .reinit[hidden], .deplier[hidden] { display: none; }
+
+  /* ---- Graphes -------------------------------------------------------------
+     La rampe des tranches d'âge est ORDINALE : une seule teinte, cinq pas de
+     clarté monotone. Validée par scripts/validate_palette.js --ordinal contre le
+     fond #141a28 — monotonie, écart ΔL ≥ 0,06, pas le plus sombre à 2,78:1.
+     Aucune de ces valeurs n'a été choisie à l'œil. */
+  :root {
+    --age-1: #256976;
+    --age-2: #2a8fa3;
+    --age-3: #2eafc4;
+    --age-4: #33cee1;
+    --age-5: #3aeaf4;
+  }
+
+  /* Le nombre que la vue met en avant. Un seul par écran. Chiffres
+     PROPORTIONNELS : `tabular-nums` donnerait à chaque chiffre la largeur d'un
+     zéro, ce qui fait flotter un « 15 » à cette taille. */
+  .hero { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+  .hero .n { font-size: 52px; font-weight: 600; line-height: 1; color: var(--ink); }
+  .hero .quoi { font-size: 13.5px; color: var(--muted); }
+  .hero-sous { font-size: 12.5px; color: var(--muted); margin: 0 0 18px; }
+
+  .graphe { margin-top: 18px; }
+  .graphe > h4 {
+    margin: 0 0 2px; font-size: 12px; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--muted); font-weight: 500;
+  }
+  .graphe > .sous { margin: 0 0 10px; font-size: 12px; color: var(--muted); }
+
+  /* Barre empilée des piles. Les trois couleurs de statut sont séparées par un
+     ÉCART DE 2 px en couleur de fond — jamais par un contour, qui ajouterait de
+     l'encre qui n'est pas de la donnée. */
+  .empilee { display: flex; gap: 2px; height: 14px; border-radius: 4px; overflow: hidden; }
+  .empilee > span { display: block; }
+  .legende { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; font-size: 12.5px; }
+  .legende > span { display: flex; align-items: center; gap: 7px; color: var(--muted); }
+  .legende i { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+  .legende b { color: var(--ink); font-weight: 600; }
+
+  /* Colonnes des tranches d'âge : ≤ 24 px, bout arrondi 4 px, carré à la ligne
+     de base, valeur sur la tête. Pas d'axe Y — les étiquettes directes le
+     remplacent, et elles passent avant la grille. */
+  .colonnes { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; align-items: end; height: 108px; }
+  .colonnes > div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; height: 100%; }
+  .colonnes .fut { width: 100%; max-width: 24px; border-radius: 4px 4px 0 0; min-height: 2px; }
+  .colonnes .val { font-size: 12.5px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .colonnes .zero { color: var(--muted); }
+  .axe-x { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; margin-top: 7px; }
+  .axe-x > span { font-size: 11px; color: var(--muted); text-align: center; }
+
+  /* Motifs de retenue : barres horizontales, noms longs, valeur au bout.
+     NOMINAUX — tous la même teinte. Les colorer par leur valeur dépenserait le
+     canal d'identité pour re-dire ce que la longueur montre déjà. */
+  .motif { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; }
+  .motif + .motif { margin-top: 9px; }
+  .motif .nom { font-size: 12.5px; color: var(--ink); }
+  .motif .val { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .motif .piste { grid-column: 1 / -1; height: 8px; background: var(--panel-2); border-radius: 4px; }
+  .motif .piste > span { display: block; height: 100%; border-radius: 4px; background: var(--amber); min-width: 3px; }
+
+  /* Infobulle : la valeur exacte et le message complet du validateur, que
+     l'étiquette courte de l'axe ne peut pas porter. */
+  .bulle {
+    position: fixed; z-index: 40; pointer-events: none;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: 7px 10px; font-size: 12px; max-width: 320px; color: var(--ink);
+    box-shadow: 0 6px 20px rgba(0,0,0,.45);
+  }
+  .bulle[hidden] { display: none; }
+  .bulle .exact { color: var(--muted); display: block; margin-top: 4px; font-family: ui-monospace, Menlo, monospace; font-size: 11px; }
 
   #console {
     margin: 0;
@@ -249,14 +355,25 @@
 <header>
   <h1>Neon Compass <span>— console de pilotage</span></h1>
   <div class="pills" id="pills"></div>
-  <button id="reinit" class="reinit" title="Remettre les sections dans leur ordre d’origine">Réinitialiser la disposition</button>
+  <button id="deplier" class="deplier" hidden></button>
+  <button id="reinit" class="reinit" title="Remettre les sections dans leur onglet et leur ordre d’origine">Réinitialiser la disposition</button>
 </header>
 
-<main>
-  <div class="colonne" data-colonne="0">
+<nav class="onglets" id="onglets"></nav>
+
+<!-- Les vues (onglet x 2 colonnes) sont construites par console.js depuis
+     `ONGLETS`, pour qu'ajouter un onglet ne demande pas de toucher au balisage.
+     Les sections attendent ici, hors écran, le temps d'être distribuées. -->
+<main id="vues"></main>
+
+<div id="reserve" hidden>
     <section data-panneau="atelier">
       <h2>Atelier des brouillons <em id="atelier-count" class="dim"></em></h2>
       <div class="body" id="atelier"></div>
+    </section>
+    <section data-panneau="graphes">
+      <h2>File de revue <em id="graphes-note" class="dim"></em></h2>
+      <div class="body" id="graphes"></div>
     </section>
     <section data-panneau="recolte">
       <h2>Récolte <em id="recolte-verdict" class="dim">—</em></h2>
@@ -270,9 +387,6 @@
       <h2>Écritures locales — le dépôt, pas la production</h2>
       <div class="body" id="g-local"></div>
     </section>
-  </div>
-
-  <div class="colonne" data-colonne="1">
     <section data-panneau="carnet">
       <h2>Carnet de hotfix</h2>
       <div class="body" id="carnet"></div>
@@ -285,16 +399,23 @@
       <h2>Modération</h2>
       <div class="body" id="g-moderation"></div>
     </section>
-    <section data-panneau="sortie">
-      <h2>Sortie</h2>
-      <pre id="console"></pre>
-    </section>
     <section data-panneau="inventaire">
       <h2>Inventaire</h2>
       <div class="body"><div id="inventory"></div></div>
     </section>
-  </div>
-</main>
+</div>
+
+<!-- La Sortie vit HORS des onglets : elle porte le résultat de ce qu'on vient de
+     lancer, et la faire disparaître en changeant d'onglet reprendrait d'une main
+     ce qu'on venait de corriger. `data-fixe` : repliable, mais pas déplaçable. -->
+<div class="sortie-fixe">
+  <section data-panneau="sortie" data-fixe>
+    <h2>Sortie</h2>
+    <pre id="console"></pre>
+  </section>
+</div>
+
+<div class="bulle" id="bulle" hidden></div>
 
 <dialog id="editor">
   <div class="editor">
