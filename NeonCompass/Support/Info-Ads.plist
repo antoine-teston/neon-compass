@@ -2,10 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- TODO: replace with the real AdMob App ID once the AdMob account/app is created. -->
-	<!-- ca-app-pub-3940256099942544~1458002511 is Google's publicly documented test AdMob App ID. -->
+	<!-- Valeur fournie par configuration (project.yml → settings.configs), parce
+	     qu'un fichier de propriétés ne peut pas porter de `#if DEBUG`. Voir
+	     Core/Ads/AdUnits.swift pour la même séparation côté unités : l'App ID et
+	     les unités doivent rester cohérents dans une même configuration — un App
+	     ID de test avec une unité réelle ne sert rien et n'échoue pas bruyamment. -->
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>$(GAD_APP_ID)</string>
 
 	<!-- Schéma de retour du flux OAuth Google. Doit rester identique à
 	     `SupabaseAuthProvider.oauthRedirectURL` ET figurer dans les URL de
