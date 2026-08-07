@@ -235,6 +235,97 @@ travail pour un sixième du résultat. C'est l'argument le plus fort de tout ce
 document : **la demi-journée de branchement doit être faite avant le 19
 novembre, pas après.**
 
+## Correction — le « pic de 10 semaines » décrivait la hype, pas l'app
+
+La formule ci-dessus vient de la spec fondatrice §13 : « le pic de revenus dure
+6-10 semaines puis décroît fortement ». Reprise telle quelle, elle a été
+transformée en une exponentielle unique décroissant vers un plancher. C'était une
+erreur de lecture : **ces dix semaines décrivent la durée du battage médiatique
+autour de la sortie, pas la durée de vie de l'app.**
+
+Or l'app n'est pas adossée à la hype. Elle est adossée à trois usages qui vivent
+aussi longtemps que le jeu : les **codes**, qui sont une référence qu'on
+reconsulte à chaque session ; la **carte**, dont la complétion prend des mois et
+que le mode en ligne prolonge indéfiniment ; et l'**Actu**, qui donne une raison
+de rouvrir entre deux sessions de jeu. GTA V est sorti en 2013 et son mode en
+ligne est encore joué en 2026 — ce n'est pas la hype qui dure, c'est le jeu.
+
+Deux formes sont donc à comparer, et la vérité dépend de ce qu'on livre.
+
+| | Modèle A — hype pure | Modèle B — service vivant |
+|---|---|---|
+| Constante de décroissance | 6 semaines | 8 semaines |
+| Plancher durable (médian) | 5 000 DAU (2,0 % des installs) | 8 000 DAU (3,2 %) |
+| Relances de contenu | aucune | trimestrielles |
+| **6 mois** | 56 200 € | **74 200 €** |
+| **12 mois** | 75 100 € | **108 100 €** |
+
+**Le modèle B rapporte 44 % de plus sur douze mois.** Et il redistribue : dans le
+modèle B, les 13 premières semaines font 52 900 € et les 39 suivantes 55 200 €.
+**La traîne vaut légèrement plus que le trimestre de lancement.**
+
+### La surprise : les relances de contenu ne valent presque rien
+
+C'est le résultat le plus utile du remodèle, et il contredit l'intuition.
+
+| Rythme de relance (plancher 8 000) | 12 mois |
+|---|---|
+| Aucune relance | 103 300 € |
+| Deux par an | 105 900 € |
+| Trimestrielle | 108 100 € |
+| Mensuelle | 110 800 € |
+
+**7 % d'écart entre rien et une relance par mois.** À côté :
+
+| Plancher durable | 12 mois |
+|---|---|
+| 3 000 DAU (1,2 % des installs) | 75 400 € |
+| 5 000 DAU (2,0 %) | 88 400 € |
+| 8 000 DAU (3,2 %) | 108 100 € |
+| 12 000 DAU (4,8 %) | 134 200 € |
+| 16 000 DAU (6,4 %) | 160 400 € |
+
+**Un facteur 2,1 sur le plancher, contre 1,07 sur les relances.** L'arithmétique
+est évidente une fois écrite : une bosse de +50 % pendant deux semaines, quatre
+fois par an, ne pèse rien face à cinquante-deux semaines de plancher.
+
+Conséquence de conception, et elle est contre-intuitive : **l'Actu ne gagne pas
+son existence par ses pics, mais par le plancher qu'elle soutient.** Un fil qui
+fait revenir massivement le jour d'une annonce puis laisse repartir tout le monde
+ne vaut presque rien. Un fil qui donne une raison d'ouvrir chaque semaine, même
+sans événement, vaut le double du reste du modèle.
+
+Réserve sur cette conclusion : les relances sont modélisées comme transitoires —
+les revenants repartent. Si une annonce majeure convertit durablement des
+utilisateurs perdus, elle agit alors sur le plancher, et non sur un pic. C'est
+précisément la métrique à surveiller : **une relance de contenu doit être jugée
+sur le plancher qu'elle laisse derrière elle, pas sur le pic qu'elle produit.**
+
+### Ce qui doit être vrai pour que le modèle B l'emporte
+
+Le plancher n'est pas une hypothèse de marché, c'est une conséquence de ce qu'on
+livre. Trois conditions, dont deux sont des engagements et non des fonctions :
+
+1. **Les codes doivent être complets et exacts au jour J.** C'est de la donnée de
+   référence : quelqu'un qui cherche un code, ne le trouve pas et file sur un
+   wiki ne revient pas. Un catalogue à 80 % ne retient pas 80 % des gens.
+2. **La couverture de la carte doit dépasser celle des wikis.** Difficulté connue
+   et déjà inscrite au registre des risques : la vraie carte n'est pas connue
+   avant la sortie.
+3. **L'Actu doit être réellement alimentée**, chaque semaine, dans cinq langues,
+   indéfiniment. C'est une opération de contenu, pas une fonctionnalité — et un
+   fil vide est pire que pas de fil, parce qu'il enseigne qu'il est inutile
+   d'ouvrir l'app.
+
+Tant que ces trois-là ne sont pas tenues, c'est le modèle A qui s'applique.
+
+### Ce qui ne change pas
+
+L'argument de la date de sortie tient dans les deux modèles : les quatre
+premières semaines restent 54 % du trimestre, et le trimestre reste la moitié de
+la première année. **Livrer en retard coûte exactement autant qu'annoncé.** Le
+désaccord porte sur ce qui vient après, pas sur l'urgence.
+
 ## Ce qui peut faire mentir tout ça
 
 Les eCPM sont le paramètre le plus incertain, et le plus multiplicatif.
@@ -258,14 +349,13 @@ Les autres fragilités, par ordre d'impact décroissant :
    50 %, les impressions de bannière tombent de 12 à 7,2 par jour et l'ARPDAU
    perd 25 %. La carte est le cœur de l'app et n'a pas de bannière : c'est
    cohérent, mais ça coûte.
-4. **Le plancher de la longue traîne.** C'est le paramètre le moins étayé du
-   modèle temporel. Il suppose 5 000 utilisateurs quotidiens durables au
-   scénario médian, ce qui dépend entièrement du mode online de GTA VI et de
-   notre rythme de mises à jour. À 2 000 au lieu de 5 000, les mois 4 à 6
-   tombent de 11 700 € à 6 800 € — la traîne est divisée par deux sans que le
-   trimestre de lancement bouge d'un euro.
-5. **La constante de décroissance.** Six semaines est une hypothèse de forme.
-   Plus courte, tout se concentre encore davantage sur le premier mois et
+4. **Le plancher durable.** C'est le paramètre décisif de toute la première
+   année, et le moins étayé — voir la section « Correction » ci-dessus, qui lui
+   est entièrement consacrée. Il fait varier le total à douze mois d'un facteur
+   2,1 sur sa plage plausible, là où le rythme des relances de contenu ne le
+   fait varier que de 1,07.
+5. **La constante de décroissance.** Six à huit semaines est une hypothèse de
+   forme. Plus courte, tout se concentre davantage sur le premier mois et
    l'argument du retard devient plus dur encore ; plus longue, la traîne pèse
    plus lourd. Le classement des chantiers ne change dans aucun des deux cas.
 
