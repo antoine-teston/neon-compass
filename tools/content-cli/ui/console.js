@@ -19,15 +19,18 @@ import {
   reconcilier,
   toutDeplier,
 } from './layout.mjs';
+// Les graphes des métriques Supabase et l'infobulle viennent de `tools/monitor/`,
+// PARTAGÉS tels quels avec le moniteur du Raspberry Pi. Servis par la liste
+// blanche sous `/graphes.mjs`.
+import { armerBulle, esc, installerBulle, renderFile, renderSante } from './graphes.mjs';
 
 const out = document.getElementById('console');
 const editor = document.getElementById('editor');
 let running = false;
 let state = null;
 let drafts = null;
+let metriques = null; // l'instantané Supabase, ou la phrase qui dit pourquoi non
 let ouvert = null; // le brouillon affiché dans la boîte d'édition
-
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 function log(text, cls) {
   const node = cls ? Object.assign(document.createElement('span'), { className: cls, textContent: text }) : document.createTextNode(text);
@@ -519,21 +522,10 @@ const PILES = [
   { cle: 'casse', label: 'cassés', couleur: 'var(--red)' },
 ];
 
-const bulle = document.getElementById('bulle');
-
-/** Une infobulle par marque : la valeur exacte, et le message complet du
- *  validateur que l'étiquette courte de l'axe ne peut pas porter. */
-function armerBulle(noeud, titre, exact) {
-  noeud.addEventListener('pointerenter', () => {
-    bulle.innerHTML = `${esc(titre)}${exact ? `<span class="exact">${esc(exact)}</span>` : ''}`;
-    bulle.hidden = false;
-  });
-  noeud.addEventListener('pointermove', (e) => {
-    bulle.style.left = `${Math.min(e.clientX + 14, window.innerWidth - 340)}px`;
-    bulle.style.top = `${e.clientY + 16}px`;
-  });
-  noeud.addEventListener('pointerleave', () => { bulle.hidden = true; });
-}
+// L'infobulle est partagée par les deux familles de graphes — celle des
+// brouillons, ci-dessous, et celle des métriques, dans `graphes.mjs`. Une seule
+// implémentation, celle du module partagé.
+installerBulle(document.getElementById('bulle'));
 
 function renderGraphes() {
   const host = document.getElementById('graphes');
@@ -645,6 +637,38 @@ async function chargerDrafts() {
   renderGraphes();
 }
 
+// ---------------------------------------------------------------------------
+// Les métriques de production
+// ---------------------------------------------------------------------------
+
+function renderMetriquesConsole() {
+  renderFile(document.getElementById('communaute'), metriques);
+  renderSante(document.getElementById('sante'), metriques);
+
+  // L'en-tête de section porte le chiffre, pour qu'il se lise sans déplier ni
+  // changer d'onglet. Une section repliée doit dire ce qu'elle cache.
+  const note = document.getElementById('communaute-note');
+  if (!metriques) note.textContent = '—';
+  else if (metriques.indisponible) note.textContent = 'indisponible';
+  else {
+    const m = metriques.instantane.moderation;
+    note.textContent = m.enAttente
+      ? `${m.enAttente} en attente${m.signales ? ` · ${m.signales} signalée${m.signales > 1 ? 's' : ''}` : ''}`
+      : 'file vide';
+  }
+}
+
+async function chargerMetriques() {
+  try {
+    metriques = await (await fetch('/api/state/supabase')).json();
+  } catch (err) {
+    // Le serveur local injoignable, pas Supabase : la distinction compte, et
+    // rendre un instantané vide ici afficherait des graphes à zéro.
+    metriques = { indisponible: `la console ne répond pas — ${err.message}` };
+  }
+  renderMetriquesConsole();
+}
+
 async function refresh() {
   // Les cartes instantanées d'abord : elles ne demandent que le disque, et
   // c'est ce qu'on veut voir sans attendre un jeton ou un réseau.
@@ -654,9 +678,11 @@ async function refresh() {
   renderActions();
   renderCarnet();
   renderRecolte(null);
+  renderMetriquesConsole();
   chargerDrafts();
 
   // Puis le réseau, carte par carte. Une carte lente ne retarde plus rien.
+  chargerMetriques();
   fetch('/api/state/network').then((r) => r.json()).then((reseau) => {
     renderPills(reseau);
     renderRecolte(reseau);

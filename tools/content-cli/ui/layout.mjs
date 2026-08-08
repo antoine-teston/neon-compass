@@ -48,9 +48,9 @@ export const ONGLETS = [
  *  de corriger. */
 export const DEFAUT = {
   onglets: {
-    revue: [['atelier'], ['graphes']],
+    revue: [['atelier'], ['graphes', 'communaute']],
     veille: [['recolte'], ['local']],
-    controles: [['checks'], ['inventaire']],
+    controles: [['checks', 'sante'], ['inventaire']],
     pilotage: [['carnet'], ['prod', 'moderation']],
   },
   replies: [],

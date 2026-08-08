@@ -1,0 +1,136 @@
+/* Les graphes — feuille PARTAGÉE par la console (Mac) et le moniteur (Pi).
+ *
+ * Une seule copie, servie aux deux pages sous /graphes.css. Deux copies auraient
+ * divergé le jour où l'une gagne une règle : les couleurs d'ici sont calculées,
+ * pas choisies, et une valeur recopiée à la main perdrait sa preuve.
+ *
+ * Les jetons de base y sont AUSSI, pour la même raison — le moniteur n'a pas
+ * d'autre endroit où les lire. */
+
+:root {
+  --bg: #0b0e17;
+  --panel: #141a28;
+  --panel-2: #1b2233;
+  --line: #263149;
+  --ink: #e8ecf5;
+  --muted: #8e9ab5;
+  --cyan: #35e6f0;
+  --magenta: #ff4fa8;
+  --lime: #b6f542;
+  --amber: #ffb63d;
+  --red: #ff5c5c;
+}
+
+/* ---- Graphes -------------------------------------------------------------
+   La rampe des tranches d'âge est ORDINALE : une seule teinte, cinq pas de
+   clarté monotone. Validée par scripts/validate_palette.js --ordinal contre le
+   fond #141a28 — monotonie, écart ΔL ≥ 0,06, pas le plus sombre à 2,78:1.
+   Aucune de ces valeurs n'a été choisie à l'œil. */
+:root {
+  --age-1: #256976;
+  --age-2: #2a8fa3;
+  --age-3: #2eafc4;
+  --age-4: #33cee1;
+  --age-5: #3aeaf4;
+}
+
+/* Le nombre que la vue met en avant. Un seul par écran. Chiffres
+   PROPORTIONNELS : `tabular-nums` donnerait à chaque chiffre la largeur d'un
+   zéro, ce qui fait flotter un « 15 » à cette taille. */
+.hero { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+.hero .n { font-size: 52px; font-weight: 600; line-height: 1; color: var(--ink); }
+.hero .quoi { font-size: 13.5px; color: var(--muted); }
+.hero-sous { font-size: 12.5px; color: var(--muted); margin: 0 0 18px; }
+
+.graphe { margin-top: 18px; }
+.graphe > h4 {
+  margin: 0 0 2px; font-size: 12px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--muted); font-weight: 500;
+}
+.graphe > .sous { margin: 0 0 10px; font-size: 12px; color: var(--muted); }
+
+/* Barre empilée des piles. Les trois couleurs de statut sont séparées par un
+   ÉCART DE 2 px en couleur de fond — jamais par un contour, qui ajouterait de
+   l'encre qui n'est pas de la donnée. */
+.empilee { display: flex; gap: 2px; height: 14px; border-radius: 4px; overflow: hidden; }
+.empilee > span { display: block; }
+.legende { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; font-size: 12.5px; }
+.legende > span { display: flex; align-items: center; gap: 7px; color: var(--muted); }
+.legende i { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+.legende b { color: var(--ink); font-weight: 600; }
+
+/* Colonnes des tranches d'âge : ≤ 24 px, bout arrondi 4 px, carré à la ligne
+   de base, valeur sur la tête. Pas d'axe Y — les étiquettes directes le
+   remplacent, et elles passent avant la grille. */
+.colonnes { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; align-items: end; height: 108px; }
+.colonnes > div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; height: 100%; }
+.colonnes .fut { width: 100%; max-width: 24px; border-radius: 4px 4px 0 0; min-height: 2px; }
+.colonnes .val { font-size: 12.5px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.colonnes .zero { color: var(--muted); }
+.axe-x { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; margin-top: 7px; }
+.axe-x > span { font-size: 11px; color: var(--muted); text-align: center; }
+
+/* Motifs de retenue : barres horizontales, noms longs, valeur au bout.
+   NOMINAUX — tous la même teinte. Les colorer par leur valeur dépenserait le
+   canal d'identité pour re-dire ce que la longueur montre déjà. */
+.motif { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; }
+.motif + .motif { margin-top: 9px; }
+.motif .nom { font-size: 12.5px; color: var(--ink); }
+.motif .val { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.motif .piste { grid-column: 1 / -1; height: 8px; background: var(--panel-2); border-radius: 4px; }
+.motif .piste > span { display: block; height: 100%; border-radius: 4px; background: var(--amber); min-width: 3px; }
+
+/* Infobulle : la valeur exacte et le message complet du validateur, que
+   l'étiquette courte de l'axe ne peut pas porter. */
+.bulle {
+  position: fixed; z-index: 40; pointer-events: none;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+  padding: 7px 10px; font-size: 12px; max-width: 320px; color: var(--ink);
+  box-shadow: 0 6px 20px rgba(0,0,0,.45);
+}
+.bulle[hidden] { display: none; }
+.bulle .exact { color: var(--muted); display: block; margin-top: 4px; font-family: ui-monospace, Menlo, monospace; font-size: 11px; }
+
+/* ---- Graphes des métriques Supabase ---------------------------------------
+   Les deux séries du flux sortent de scripts/validate_palette.js contre le fond
+   #141a28 en mode sombre : bande de clarté, plancher de chroma, ΔE deutan 13,6,
+   ΔE vision normale 29,8, contraste ≥ 3:1. Les teintes d'origine de la console
+   (#35e6f0, #ff4fa8) ÉCHOUAIENT toutes deux à la bande — voir graphes.mjs. */
+
+.cadre-flux { margin-top: 4px; touch-action: none; }
+.flux { width: 100%; height: 150px; display: block; overflow: visible; }
+/* Grille RÉCESSIVE : elle situe, elle ne se regarde pas. */
+.flux .grille { stroke: var(--line); stroke-width: 1; opacity: .55; }
+.flux .axe-y { fill: var(--muted); font-size: 10px; text-anchor: end; }
+.flux .axe-x-svg { fill: var(--muted); font-size: 10px; }
+.flux .viseur { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+
+/* États : une icône ET un mot, jamais une couleur seule. Les trois teintes de
+   statut de cette console sont à ΔE 6,6 en deutéranopie — ambre et citron y
+   sont quasi indiscernables, donc la couleur ne peut pas porter le sens. */
+.etat { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; }
+.etat + .etat { border-top: 1px solid var(--line); }
+.etat .pastille { font-size: 11px; line-height: 1.5; flex: 0 0 auto; width: 14px; text-align: center; }
+.etat .quoi { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.etat .quoi b { font-size: 13px; font-weight: 600; color: var(--ink); }
+.etat .quoi span { font-size: 12.5px; color: var(--muted); }
+.etat-bon .pastille { color: var(--lime); }
+.etat-attention .pastille { color: var(--amber); }
+.etat-grave .pastille { color: var(--red); }
+.etat-grave .quoi b { color: var(--red); }
+
+/* Tuiles : cinq grandeurs sans rapport entre elles. Des barres inviteraient à
+   comparer des votes à des profils, ce qui ne veut rien dire. */
+.tuiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 10px; margin-top: 4px; }
+.tuile { background: var(--panel-2); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.tuile .n { font-size: 22px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.tuile .nom { font-size: 11.5px; color: var(--muted); }
+
+/* L'indisponibilité est un RÉSULTAT, pas un vide : elle occupe la place du
+   graphe et dit quoi faire, au lieu de laisser croire à un zéro. */
+.indispo {
+  margin: 0; padding: 12px 14px; border-radius: 8px; font-size: 12.5px;
+  color: var(--amber); background: color-mix(in srgb, var(--amber) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--amber) 28%, transparent);
+}
+.pris-le { margin: 18px 0 0; font-size: 11.5px; color: var(--muted); }

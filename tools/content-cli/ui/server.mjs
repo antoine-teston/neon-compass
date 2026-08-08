@@ -54,6 +54,7 @@ import {
   cartesReseau,
   credentialsPresent,
 } from './state.mjs';
+import { instantane } from '../../monitor/metrics.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CLI_DIR = join(HERE, '..');
@@ -143,18 +144,25 @@ const ROUTE_DRAFT = /^\/api\/draft\/([^/]+)\/([^/]+)$/;
  *  venu de la requête n'atteint le disque. `join(HERE, url.pathname)` aurait
  *  suffi et aurait été faux — c'est la porte par laquelle on lit
  *  `../../.env` un jour. */
+const MONITOR = join(CLI_DIR, '..', 'monitor');
+
 const FICHIERS = {
-  '/': ['index.html', 'text/html'],
-  '/console.js': ['console.js', 'text/javascript'],
-  '/layout.mjs': ['layout.mjs', 'text/javascript'],
+  '/': [join(HERE, 'index.html'), 'text/html'],
+  '/console.js': [join(HERE, 'console.js'), 'text/javascript'],
+  '/layout.mjs': [join(HERE, 'layout.mjs'), 'text/javascript'],
+  // Partagés avec le moniteur du Raspberry Pi. Servis depuis `tools/monitor/`
+  // plutôt que recopiés : deux copies auraient divergé, et les couleurs de ces
+  // fichiers sont calculées — une valeur recopiée à la main perd sa preuve.
+  '/graphes.css': [join(MONITOR, 'graphes.css'), 'text/css'],
+  '/graphes.mjs': [join(MONITOR, 'graphes.mjs'), 'text/javascript'],
 };
 
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
   if (req.method === 'GET' && FICHIERS[url.pathname]) {
-    const [fichier, type] = FICHIERS[url.pathname];
-    return send(res, 200, readFileSync(join(HERE, fichier), 'utf8'), type);
+    const [chemin, type] = FICHIERS[url.pathname];
+    return send(res, 200, readFileSync(chemin, 'utf8'), type);
   }
 
   // Les cartes INSTANTANÉES : disque seul, aucune attente.
@@ -172,6 +180,17 @@ const server = createServer(async (req, res) => {
   // reste. Un jeton absent ou un réseau lent ne doit pas retarder les brouillons.
   if (req.method === 'GET' && url.pathname === '/api/state/network') {
     return send(res, 200, await cartesReseau());
+  }
+
+  // Les métriques de production, par le MÊME chemin que le moniteur du
+  // Raspberry Pi : la fonction `metrics`, un jeton, et rien que des nombres.
+  //
+  // Passer par là plutôt que d'interroger Postgres avec la clé `service_role`
+  // qu'on a pourtant sous la main est délibéré — c'est ce qui fait que le
+  // chemin du Pi est exercé tous les jours depuis le Mac, au lieu d'être
+  // découvert cassé sur une étagère à l'autre bout de la maison.
+  if (req.method === 'GET' && url.pathname === '/api/state/supabase') {
+    return send(res, 200, await instantane(process.env));
   }
 
   if (req.method === 'GET' && url.pathname === '/api/drafts') {

@@ -1,0 +1,48 @@
+# Le moniteur sur le Pi.
+#
+#   docker compose -f tools/monitor/compose.yml up -d
+#
+# Les secrets viennent d'un `.env` posé À CÔTÉ de ce fichier, jamais du dépôt —
+# `tools/monitor/.env` est ignoré par git (voir .gitignore). Il contient :
+#
+#   SUPABASE_URL=https://<ref>.supabase.co
+#   SUPABASE_ANON_KEY=<la clé publiable, celle qui est déjà dans l'app>
+#   MONITOR_TOKEN=<le même que `supabase secrets set MONITOR_TOKEN=…`>
+
+services:
+  moniteur:
+    build: .
+    image: neon-moniteur
+    container_name: neon-moniteur
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      # Lié à toutes les interfaces à dessein : un moniteur qu'on ne peut
+      # regarder que depuis le Pi lui-même ne sert à rien. C'est ce qui rend la
+      # règle « il n'y a rien à appeler » non négociable.
+      - "4322:4322"
+
+    # ---- Le durcissement, et pourquoi il n'est pas décoratif ----------------
+    # Ce conteneur écoute sur le LAN sans authentification. Chacune de ces
+    # lignes retire une capacité dont il n'a aucun usage, donc chacune est
+    # gratuite pour nous et coûteuse pour qui trouverait une faille dans Node.
+    read_only: true
+    tmpfs:
+      - /tmp:size=8m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+    # Un Pi n'a pas de mémoire à gaspiller, et une fuite qui grignote tout
+    # emporterait ce qui tourne à côté.
+    mem_limit: 192m
+    pids_limit: 64
+
+    logging:
+      driver: json-file
+      options:
+        # Sans plafond, les journaux remplissent la carte SD en quelques mois et
+        # c'est le système entier qui tombe, pas seulement ce service.
+        max-size: "2m"
+        max-file: "3"

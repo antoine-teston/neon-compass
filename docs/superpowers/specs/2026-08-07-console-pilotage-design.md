@@ -438,6 +438,99 @@ L'étiquette d'axe est courte ; le message exact du validateur part dans l'infob
 d'être lisible, le diagnostic d'être précis — les deux, pas l'un ou l'autre. Aucune valeur n'est
 lisible *seulement* au survol.
 
+## Les métriques Supabase, et le moniteur du Raspberry Pi
+
+*Ajouté le 2026-08-08.* Deux demandes qui n'en font qu'une : voir la production en graphes, et
+pouvoir regarder ces graphes ailleurs que devant le Mac.
+
+### Le conflit qu'il fallait résoudre d'abord
+
+Le cadrage du 2026-08-07 disait « Mac uniquement », et toute la sécurité de la console en découle :
+elle n'a **aucune authentification** parce qu'elle écoute sur `127.0.0.1`. La porte « geste » lance
+`gh workflow run`, `git push` et des migrations ; sur un Pi, elle devient joignable par tout ce qui
+traîne sur le LAN.
+
+Décision : **couper en deux, pas assouplir.** Le moniteur est un service séparé, en lecture pure ;
+la console d'écriture ne bouge pas. Un *mode* de la console aurait laissé le code d'écriture présent
+dans l'image, à un `if` de distance.
+
+La phrase qui remplace « personne ne peut appeler » est donc **« il n'y a rien à appeler »**, et
+c'est un test : `tools/monitor/imports.test.mjs` échoue si une source du dossier importe
+`child_process`, `@supabase/supabase-js`, ou `../content-cli` ; si elle appelle une écriture
+disque ; ou si le serveur mentionne autre chose qu'un GET. Les quatre mutations ont été jouées.
+
+### La porte des nombres
+
+Trois façons de donner des chiffres au Pi, et la troisième est la seule qui tienne :
+
+1. `service_role` sur la carte SD — contourne RLS, donc perdre le Pi c'est perdre la base ;
+2. un rôle Postgres en SELECT — mieux, mais il lit des **lignes** : titres, pseudonymes, uid ;
+3. une Edge Function `metrics` qui agrège côté serveur et ne rend que des **décomptes**.
+
+Le Pi ne détient donc qu'un jeton dont tout le pouvoir est de demander « combien ». La promesse est
+tenue par un test, pas par une intention : `fuitesDe` parcourt un instantané complet et échoue si
+une chaîne apparaît là où on attendait un nombre. Mutation jouée — le type refuse d'abord le champ
+en trop, et le test l'attrape même quand on le force par un `as unknown`.
+
+Deux serrures sur la fonction : `verify_jwt` **reste activé** (le trafic anonyme n'atteint jamais
+notre code) et `X-Monitor-Token`, comparé en temps constant. La clé publiable étant dans le binaire
+de l'app, la première ne prouve rien seule. Secret absent ⇒ **503**, jamais un 200 permissif.
+
+### La console passe par le même chemin
+
+Elle a pourtant `service_role` sous la main. Elle appelle quand même la fonction, pour que **le
+chemin du Pi soit exercé tous les jours depuis le Mac** au lieu d'être découvert cassé sur une
+étagère. Le coût est une dépendance de déploiement ; le bénéfice est qu'une régression a un endroit
+où se voir.
+
+### Les graphes retenus
+
+Le critère est celui du tableau de bord : *qu'est-ce qui attend quelque chose de moi ?*
+
+- **la file de modération** — décompte en tête, ancienneté par tranches (rampe ordinale, réutilisée
+  telle quelle de l'atelier), répartition par catégorie. Les **signalées** sont comptées à part :
+  le suivi de vélocité les marque sans bloquer personne, donc elles restent visibles des joueurs
+  pendant qu'elles attendent — les noyer dans le total reviendrait à ne pas les avoir marquées ;
+- **arrivées et approbations sur trente jours** — la seule vraie série temporelle disponible, parce
+  que `created_at` et `approved_at` existent. Deux courbes, **un seul axe** ;
+- **ce qui est bloqué** — fragments communautaires périmés, file de notifications coincée. Des
+  pannes qui ne cassent rien : elles servent l'ancienne réponse ;
+- **les totaux** — cinq tuiles, pas des barres : comparer des votes à des profils ne veut rien dire.
+
+Un compteur qui n'a pas répondu s'affiche `—`, jamais `0`.
+
+### Ce que la courbe ne dit pas, et qui est écrit à côté
+
+Un refus ne laisse **aucune date** en base : `contributions` porte `approved_at`, il n'y a pas de
+`rejected_at`. La courbe compte donc les approbations, pas les décisions, et sous-estime le travail
+fait. Le sous-titre du graphe le dit ; le décompte en attente, lui, est exact et fait foi. Un
+`rejected_at` réglerait la question — non fait, et volontairement pas glissé dans ce chantier.
+
+Toujours pas d'évolution du backlog **éditorial** : rien ne journalise les transitions des
+brouillons, et une courbe serait inventée.
+
+### Les couleurs, encore une fois calculées
+
+Le couple de départ — le cyan et le magenta de la console — **échouait** à la bande de clarté du
+mode sombre (L 0,845 et 0,697 pour une bande 0,48–0,67). Un premier candidat corrigé, `#b8006d`,
+donnait le meilleur écart CVD (15,1) mais tombait à **2,7:1** de contraste : un avertissement qui ne
+se congédie pas. Retenu : `#00a9b4` / `#ac3b73`, six contrôles au vert, ΔE 13,6 en deutéranopie.
+
+### Le durcissement du conteneur n'est pas décoratif
+
+Ce service écoute sur le LAN sans authentification. `read_only`, `cap_drop: ALL`,
+`no-new-privileges`, uid 1000, plafonds mémoire et pids, journaux plafonnés — chaque ligne retire
+une capacité dont il n'a aucun usage. Cinq fichiers copiés **un par un** : un `COPY . .` embarquerait
+tout ce que quelqu'un déposerait un jour dans le dossier, `.env` compris. Aucune dépendance npm,
+donc rien à auditer côté chaîne d'approvisionnement. Vérifié en exécution : écriture refusée, `git`
+absent, sonde `healthy`.
+
+La sonde interroge le **processus**, pas Supabase : un conteneur qui redémarrerait en boucle parce
+que le réseau est tombé remplacerait un tableau de bord qui dit « injoignable » par un écran noir.
+
+Et l'âge du dernier relevé **réussi** est affiché en permanence, parce qu'un tableau de bord figé et
+un tableau de bord calme ont exactement la même tête.
+
 ## Hors périmètre
 
 Nommé pour ne pas y revenir par accident :
@@ -446,4 +539,9 @@ Nommé pour ne pas y revenir par accident :
 - **atelier POI** — second schéma à rendre en formulaire, avec des coordonnées, donc probablement
   une carte pour les vérifier. Élargit sérieusement le chantier ;
 - **Grafana** — geste de pré-lancement, monté tel quel, jamais modifié ;
-- **tout chemin de commit ou de fusion automatique** — le diff relu est le garde-fou de l'actu.
+- **tout chemin de commit ou de fusion automatique** — le diff relu est le garde-fou de l'actu ;
+- **la console d'écriture sur le Pi** — écarté le 2026-08-08 : il faudrait construire une
+  authentification qui n'existe pas, et la carte SD deviendrait l'endroit le plus sensible de
+  l'installation (`service_role`, jeton GitHub, clone avec droit de push) ;
+- **`rejected_at`** — réglerait la sous-estimation de la courbe d'approbations. Une migration, donc
+  un chantier à part.
