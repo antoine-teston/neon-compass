@@ -48,14 +48,19 @@ struct NCCompassRose: Shape {
 struct NCWordmark: View {
     var body: some View {
         HStack(spacing: 8) {
+            // Le dégradé de marque et non le cyan : c'est ce qui sépare les deux
+            // familles de la palette. Le cyan sert à l'app qui FONCTIONNE —
+            // onglet actif, état, progression — et la famille chaude à ce qui
+            // nous appartient : le mot-marque et Pro.
             NCCompassRose()
-                .fill(NCColor.neonCyan)
+                .fill(NCColor.sunset)
                 .frame(width: 16, height: 16)
                 // Une seule ombre, et courte. La barre est présente sur quatre
                 // écrans sur cinq : elle ne peut pas dépenser un des trois
                 // accents lumineux que `CLAUDE.md` autorise par écran, sans quoi
-                // il n'en resterait que deux partout.
-                .shadow(color: NCColor.neonCyan.opacity(0.55), radius: 5)
+                // il n'en resterait que deux partout. Le violet est le milieu de
+                // la rampe — une ombre ne prend pas de dégradé.
+                .shadow(color: NCColor.sunsetViolet.opacity(0.55), radius: 5)
 
             Text(verbatim: "NEON COMPASS")
                 .font(.system(size: 13, weight: .black, design: .rounded))

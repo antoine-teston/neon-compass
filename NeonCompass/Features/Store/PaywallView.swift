@@ -42,9 +42,12 @@ struct PaywallView: View {
             ZStack {
                 NCColor.nightSky.ignoresSafeArea()
                 VStack(spacing: 24) {
+                    // Le dégradé de marque : cet écran vend Pro, et Pro est
+                    // désormais de la famille chaude — cf. le badge de l'entête
+                    // du Profil. Le bouton d'achat était déjà en magenta.
                     Text("paywall.title")
                         .font(NCTypography.displayTitle)
-                        .foregroundStyle(NCColor.neonCyan)
+                        .foregroundStyle(NCColor.sunset)
                         .frame(maxWidth: .infinity, alignment: .center)
                     Text("paywall.subtitle")
                         .font(NCTypography.body)
@@ -64,7 +67,7 @@ struct PaywallView: View {
                     if proEntitlementModel.isProEntitled {
                         Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
                             .labelStyle(FixedIconLabelStyle())
-                            .foregroundStyle(NCColor.neonCyan)
+                            .foregroundStyle(NCColor.sunsetOrange)
                     } else {
                         Button("paywall.buy") {
                             Task { await proEntitlementModel.purchase() }

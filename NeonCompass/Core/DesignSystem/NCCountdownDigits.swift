@@ -4,7 +4,7 @@ import SwiftUI
 ///
 /// Extraits d'`OnlineEventCountdown` le jour où la carte de sortie du fil actu a
 /// eu besoin des mêmes. Le découpage, les chiffres à largeur fixe et la bascule
-/// au magenta n'existaient qu'en un exemplaire ; deux copies auraient divergé.
+/// d'urgence n'existaient qu'en un exemplaire ; deux copies auraient divergé.
 ///
 /// **Quatre colonnes séparées et non une ligne suivie.** « 102j 2h 35min 47s »
 /// se lit comme une durée — quelque chose qu'on parcourt de gauche à droite pour
@@ -23,33 +23,42 @@ struct NCCountdownDigits: View {
         // mais s'il l'affiche il ne doit jamais voir de chiffres négatifs.
         let total = max(0, Int(remaining))
         let days = total / 86_400
-        let hours = (total % 86_400) / 3600
-        let minutes = (total % 3600) / 60
-        let seconds = total % 60
 
-        // Le dernier jour, l'enseigne passe au magenta : l'urgence se lit sans
-        // avoir à déchiffrer les chiffres.
-        let tint = days == 0 ? NCColor.sunsetMagenta : NCColor.neonCyan
+        // Le dernier jour, la rampe cède la place à un magenta PLEIN. Un
+        // changement de nature — dégradé contre aplat — se remarque mieux qu'un
+        // simple changement de teinte, et il tombe au moment où la colonne des
+        // jours disparaît : les deux signaux disent la même chose.
+        let isLastDay = days == 0
 
-        HStack(spacing: 0) {
-            // La colonne des jours disparaît le dernier jour plutôt que
-            // d'afficher un zéro : trois colonnes plus larges valent mieux
-            // qu'une quatrième qui ne dit rien. C'est le comportement qu'avait
-            // déjà la ligne suivie, à travers ses deux formats.
-            if days > 0 {
-                unit(days, "countdown.unit.days", tint: tint)
-                separator
+        // La colonne des jours s'efface plutôt que d'afficher un zéro : trois
+        // colonnes plus larges valent mieux qu'une quatrième qui ne dit rien.
+        var columns: [(value: Int, label: LocalizedStringKey)] = []
+        if !isLastDay { columns.append((days, "countdown.unit.days")) }
+        columns.append(((total % 86_400) / 3600, "countdown.unit.hours"))
+        columns.append(((total % 3600) / 60, "countdown.unit.minutes"))
+        columns.append((total % 60, "countdown.unit.seconds"))
+
+        return HStack(spacing: 0) {
+            ForEach(Array(columns.enumerated()), id: \.offset) { index, column in
+                if index > 0 { separator }
+                unit(
+                    column.value,
+                    column.label,
+                    tint: isLastDay
+                        ? NCColor.sunsetMagenta
+                        // La rampe est échantillonnée par colonne plutôt que
+                        // posée en `LinearGradient` sur chacune : un dégradé par
+                        // colonne repartirait de zéro à l'intérieur de chaque
+                        // nombre, ce qui donne quatre petits dégradés au lieu
+                        // d'un seul qui traverse la ligne.
+                        : NCColor.sunsetRamp(Double(index) / Double(columns.count - 1))
+                )
             }
-            unit(hours, "countdown.unit.hours", tint: tint)
-            separator
-            unit(minutes, "countdown.unit.minutes", tint: tint)
-            separator
-            unit(seconds, "countdown.unit.seconds", tint: tint)
         }
         // Pas d'animation implicite sur le battement : SwiftUI ferait fondre
         // chaque seconde dans la suivante, ce qui se lit comme un défaut de
         // rendu.
-        .animation(nil, value: seconds)
+        .animation(nil, value: total)
     }
 
     private func unit(_ value: Int, _ labelKey: LocalizedStringKey, tint: Color) -> some View {

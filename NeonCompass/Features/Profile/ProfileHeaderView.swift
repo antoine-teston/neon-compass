@@ -45,7 +45,10 @@ struct ProfileHeaderView: View {
                     .foregroundStyle(NCColor.nightSky)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
-                    .background(NCColor.neonCyan, in: .capsule)
+                    // La famille chaude dit « ce qui se paie » : le badge, le
+                    // paywall et le mot-marque la partagent, et le cyan n'a plus
+                    // à signifier deux choses à la fois.
+                    .background(NCColor.sunset, in: .capsule)
             }
             // La molette a quitté cet entête pour la barre haute, où elle est
             // atteignable depuis quatre onglets au lieu d'un. Le `Spacer` reste :
