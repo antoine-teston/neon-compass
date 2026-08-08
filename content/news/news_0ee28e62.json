@@ -1,0 +1,21 @@
+{
+  "id": "news_0ee28e62",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un site fan évoque du gameplay dans l'aperçu du 27 août, la presse reste prudente",
+    "en": "Fan site says the August 27 preview includes gameplay, press stays cautious"
+  },
+  "body": {
+    "fr": "Le site communautaire Leonidaverse décrit le format de l'aperçu étendu du 27 août comme allant au-delà d'une simple bande-annonce et incluant des séquences de gameplay, en citant des sources qu'il attribue à l'éditeur du jeu et à Netflix. Cette présentation est plus affirmative que celle de la presse spécialisée anglophone, qui considère encore la présence de gameplay comme non confirmée.",
+    "en": "Fan site Leonidaverse describes the format of the August 27 extended preview as going beyond a standard trailer to include gameplay footage, citing sources it attributes to the game's publisher and to Netflix. That framing is more assertive than English-language specialist outlets, which still treat the presence of gameplay as unconfirmed."
+  },
+  "publishedAt": "2026-08-06",
+  "status": "draft",
+  "sources": [
+    "https://leonidaverse.com/en/news/gta-6-extended-look-netflix-premiere"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:b301b26b03cb",
+  "sourceClaim": "Le site fan Leonidaverse décrit le format annoncé de l'Extended Look du 27 août comme allant au-delà d'une bande-annonce classique et incluant des séquences de gameplay, en s'appuyant sur des sources qu'il attribue à Rockstar Games et à Netflix Tudum — une caractérisation plus affirmative que celle de la presse anglophone, qui présente encore la présence de gameplay comme non confirmée."
+}

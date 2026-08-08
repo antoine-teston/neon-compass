@@ -1,0 +1,21 @@
+{
+  "id": "news_3848bbfc",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Les bandes-annonces frôlent le demi-milliard de vues cumulées",
+    "en": "Trailers near half a billion combined views"
+  },
+  "body": {
+    "fr": "Selon des chiffres cités par le magazine Variety, les deux premières bandes-annonces du jeu ont cumulé environ 288 millions de vues sur YouTube pour la première et environ 176 millions pour la seconde. Des analystes projettent désormais entre 3,3 et 5,2 milliards de dollars de ventes mondiales pour sa seule première semaine de commercialisation.",
+    "en": "According to figures cited by Variety, the game's first two trailers have racked up roughly 288 million YouTube views for the first and about 176 million for the second. Analysts are now projecting between $3.3 and $5.2 billion in worldwide sales for its opening week alone."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:ea24bec5110a",
+  "sourceClaim": "Selon des chiffres cités par Variety, les deux premières bandes-annonces du jeu à venir ont cumulé environ 288 millions de vues YouTube pour la première et environ 176 millions pour la seconde, des analystes projetant désormais entre 3,3 et 5,2 milliards de dollars de ventes mondiales pour sa seule première semaine de commercialisation."
+}
