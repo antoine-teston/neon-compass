@@ -15,6 +15,23 @@ struct RootView: View {
     /// une valeur par défaut de `@State`.
     @State private var interstitialCoordinator: InterstitialCoordinator
     @State private var themeStore = ThemeStore()
+    /// Le profil et la communauté vivaient dans `ProfileScreen`. Ils remontent
+    /// ici parce que la feuille de réglages, elle, a quitté cet écran : ouverte
+    /// depuis la molette de la barre haute, elle est joignable depuis l'Actu,
+    /// les Codes et le Social, qui ne construisent pas le Profil.
+    ///
+    /// Conséquence assumée : pour un compte connecté, le profil est désormais
+    /// chargé au lancement et non à la première visite du Profil. Ça corrige au
+    /// passage une bizarrerie — « Mes propositions » ne se chargeait que si l'on
+    /// passait par cet onglet.
+    @State private var profileModel = ProfileModel(
+        repository: SupabaseProfileRepository(),
+        functions: SupabaseAccountFunctions(),
+        localDeletion: SupabaseAccountDeletion()
+    )
+    /// Bâti à la connexion et pas au lancement : `CommunityModel.live` monte un
+    /// `ContentStore`, et un compte déconnecté n'a rien à en faire.
+    @State private var communityModel: CommunityModel?
     /// Faux par défaut : tant que les Edge Functions ne sont pas déployées, les
     /// écrans de compte et de communauté ne mènent nulle part. Une ligne de
     /// `app_config` les rallume tous d'un coup, sans mise à jour de l'app.
@@ -51,6 +68,25 @@ struct RootView: View {
                 regularLayout
             }
         }
+        // ATTACHÉE AVANT LES `.environment` CI-DESSOUS, ET C'EST OBLIGATOIRE.
+        //
+        // Une feuille ne voit que l'environnement posé PLUS BAS qu'elle dans la
+        // chaîne de modificateurs. Placée après, celle-ci plantait à chaque
+        // ouverture : « Fatal error: No Observable object of type AuthModel
+        // found », `SettingsScreen` lisant `AuthModel`, `ProEntitlementModel` et
+        // `ServerFeaturesModel` dans l'environnement. Vu au simulateur — la
+        // compilation ne dit rien, et la feuille de l'explication ATT, elle, y
+        // survit parce qu'elle ne demande rien à l'environnement.
+        //
+        // La feuille vivait auparavant dans `ProfileScreen`, donc au cœur du
+        // sous-arbre, et n'avait jamais eu ce problème.
+        .sheet(isPresented: $model.showsSettings) {
+            SettingsScreen(profileModel: profileModel, communityModel: communityModel)
+                // Même motif que la feuille d'explication plus bas : le `.tint`
+                // de cette vue est posé PLUS HAUT que ce `.sheet`, donc le
+                // contenu de la feuille en sort et repart en bleu système.
+                .tint(themeStore.selectedTheme.accent)
+        }
         .environment(authModel)
         // Pour que le Profil puisse basculer sur la Carte depuis l'invitation
         // à contribuer : une contribution se pose sur la carte, pas ailleurs.
@@ -60,6 +96,8 @@ struct RootView: View {
         .environment(themeStore)
         .environment(serverFeatures)
         .environment(interstitialCoordinator)
+        .environment(profileModel)
+        .environment(communityModel)
         .preferredColorScheme(.dark)
         // Makes the Pro theme picker's selection a real, app-wide effect:
         // the selected accent becomes the default tint for any control that
@@ -127,6 +165,16 @@ struct RootView: View {
         // qu'un écran de démarrage ne garantit pas, et son échec est silencieux.
         .onChange(of: onboarding.needsTrackingExplainer, initial: true) { _, needs in
             showsTrackingExplainer = needs
+        }
+        // Le profil suit le compte, pas l'onglet : voir la déclaration de
+        // `profileModel`.
+        .task(id: authModel.userID) {
+            guard let userID = authModel.userID else { return }
+            await profileModel.loadProfile(uid: userID)
+            if communityModel == nil {
+                communityModel = CommunityModel.live(modelContext: modelContext)
+            }
+            await communityModel?.loadMyContributions(uid: userID)
         }
         .sheet(isPresented: $showsTrackingExplainer) {
             TrackingExplainerView(
@@ -279,7 +327,7 @@ struct RootView: View {
             ZStack(alignment: .top) {
                 screen(for: tab)
                     .safeAreaPadding(.top, NCLayout.headerBarClearance)
-                AppHeaderBar()
+                AppHeaderBar(onOpenSettings: { model.showsSettings = true })
             }
         } else {
             screen(for: tab)

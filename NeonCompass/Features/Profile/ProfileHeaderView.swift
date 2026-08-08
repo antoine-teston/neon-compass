@@ -18,7 +18,6 @@ import SwiftUI
 /// et chiffrée dans le même bloc.
 struct ProfileHeaderView: View {
     let state: ProfileHeaderState
-    let onOpenSettings: () -> Void
     let onContribute: () -> Void
 
     var body: some View {
@@ -48,16 +47,10 @@ struct ProfileHeaderView: View {
                     .padding(.vertical, 3)
                     .background(NCColor.neonCyan, in: .capsule)
             }
+            // La molette a quitté cet entête pour la barre haute, où elle est
+            // atteignable depuis quatre onglets au lieu d'un. Le `Spacer` reste :
+            // c'est lui qui garde le titre calé à gauche.
             Spacer()
-            Button(action: onOpenSettings) {
-                Image(systemName: "gearshape")
-                    .font(.system(size: 20))
-                    .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
-                    .contentShape(.circle)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(Text("settings.title"))
         }
     }
 
