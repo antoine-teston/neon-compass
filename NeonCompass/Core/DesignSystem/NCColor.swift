@@ -4,13 +4,23 @@ enum NCColor {
     static let nightSky = Color(RGBA(hex: "#0A081A")!)
 
     /// Les trois arrêts de la rampe, dans l'ordre. Source unique : les trois
-    /// couleurs nommées, le dégradé et `sunsetRamp(_:)` en sortent tous, donc
+    /// couleurs nommées, le dégradé et `ramp(_:through:)` en sortent tous, donc
     /// une retouche de charte se fait ici et nulle part ailleurs.
     static let sunsetStops = [
         RGBA(hex: "#FF3388")!,
         RGBA(hex: "#8C33F2")!,
         RGBA(hex: "#FF8C40")!,
     ]
+
+    /// La même famille, PRIVÉE DE SON VIOLET.
+    ///
+    /// Sert le dernier jour du compte à rebours. Le violet est la seule note
+    /// froide de la rampe : la retirer fait passer toute la ligne au chaud —
+    /// magenta, saumon, orange — sans quitter la charte ni renoncer au dégradé.
+    ///
+    /// C'est un signal plus discret qu'un aplat, et c'est assumé : le signal
+    /// FORT du dernier jour reste la disparition de la colonne des jours.
+    static let urgentStops = [sunsetStops[0], sunsetStops[2]]
 
     static let sunsetMagenta = Color(sunsetStops[0])
     static let sunsetViolet = Color(sunsetStops[1])
@@ -42,28 +52,31 @@ enum NCColor {
         endPoint: .bottomTrailing
     )
 
-    /// Un point de la rampe `sunset`, de 0 (magenta) à 1 (orange), violet au
-    /// milieu. Hors bornes, on se rabat sur l'extrémité la plus proche.
+    /// Un point d'une rampe, de 0 (premier arrêt) à 1 (dernier). Hors bornes, on
+    /// se rabat sur l'extrémité la plus proche.
     ///
-    /// Sert à teinter une SUITE d'éléments distincts — les quatre colonnes du
-    /// compte à rebours — comme si un seul dégradé les traversait. Un
-    /// `LinearGradient` posé sur chacun repartirait de zéro à l'intérieur de
-    /// chaque élément : quatre petits dégradés au lieu d'un grand.
-    static func sunsetRamp(_ position: Double) -> Color {
-        Color(sunsetRampRGBA(position))
+    /// Sert à teinter une SUITE d'éléments distincts — les colonnes du compte à
+    /// rebours — comme si un seul dégradé les traversait. Un `LinearGradient`
+    /// posé sur chacun repartirait de zéro à l'intérieur de chaque élément :
+    /// autant de petits dégradés au lieu d'un grand.
+    ///
+    /// `stops` doit en compter au moins deux. Les deux seuls appelants passent
+    /// des constantes de ce fichier, donc ça ne se vérifie pas à l'exécution.
+    static func ramp(_ position: Double, through stops: [RGBA]) -> Color {
+        Color(rampRGBA(position, through: stops))
     }
 
     /// Le calcul, séparé de son emballage `Color` pour être testable — une
     /// `Color` SwiftUI ne rend pas ses composantes.
-    static func sunsetRampRGBA(_ position: Double) -> RGBA {
+    static func rampRGBA(_ position: Double, through stops: [RGBA]) -> RGBA {
         let clamped = min(max(position, 0), 1)
-        let scaled = clamped * Double(sunsetStops.count - 1)
+        let scaled = clamped * Double(stops.count - 1)
         // Le `min` retient le DERNIER segment quand `position` vaut 1 : sans
         // lui, l'index déborderait d'une case au sommet de la rampe.
-        let segment = min(Int(scaled), sunsetStops.count - 2)
+        let segment = min(Int(scaled), stops.count - 2)
         let ratio = scaled - Double(segment)
-        let from = sunsetStops[segment]
-        let to = sunsetStops[segment + 1]
+        let from = stops[segment]
+        let to = stops[segment + 1]
         return RGBA(
             red: from.red + (to.red - from.red) * ratio,
             green: from.green + (to.green - from.green) * ratio,

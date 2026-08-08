@@ -24,10 +24,11 @@ struct NCCountdownDigits: View {
         let total = max(0, Int(remaining))
         let days = total / 86_400
 
-        // Le dernier jour, la rampe cède la place à un magenta PLEIN. Un
-        // changement de nature — dégradé contre aplat — se remarque mieux qu'un
-        // simple changement de teinte, et il tombe au moment où la colonne des
-        // jours disparaît : les deux signaux disent la même chose.
+        // Le dernier jour, la rampe perd son violet : sa seule note froide s'en
+        // va et toute la ligne passe au chaud. Un dégradé plutôt qu'un aplat,
+        // donc — le signal est plus discret, et c'est assumé, parce que le
+        // signal FORT du dernier jour est ailleurs : la colonne des jours
+        // disparaît au même moment.
         let isLastDay = days == 0
 
         // La colonne des jours s'efface plutôt que d'afficher un zéro : trois
@@ -41,17 +42,18 @@ struct NCCountdownDigits: View {
         return HStack(spacing: 0) {
             ForEach(Array(columns.enumerated()), id: \.offset) { index, column in
                 if index > 0 { separator }
+                // La rampe est échantillonnée par colonne plutôt que posée en
+                // `LinearGradient` sur chacune : un dégradé par colonne
+                // repartirait de zéro à l'intérieur de chaque nombre, ce qui
+                // donne quatre petits dégradés au lieu d'un seul qui traverse
+                // la ligne.
                 unit(
                     column.value,
                     column.label,
-                    tint: isLastDay
-                        ? NCColor.sunsetMagenta
-                        // La rampe est échantillonnée par colonne plutôt que
-                        // posée en `LinearGradient` sur chacune : un dégradé par
-                        // colonne repartirait de zéro à l'intérieur de chaque
-                        // nombre, ce qui donne quatre petits dégradés au lieu
-                        // d'un seul qui traverse la ligne.
-                        : NCColor.sunsetRamp(Double(index) / Double(columns.count - 1))
+                    tint: NCColor.ramp(
+                        Double(index) / Double(columns.count - 1),
+                        through: isLastDay ? NCColor.urgentStops : NCColor.sunsetStops
+                    )
                 )
             }
         }
