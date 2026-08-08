@@ -25,7 +25,7 @@
 // garde-fou avant les utilisateurs, et rien ici ne doit le contourner.
 
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ROOT } from './schemas.mjs';
@@ -116,10 +116,18 @@ function cheminDe(ligne) {
 }
 
 /** Ce que le changement fait au statut de l'item : c'est LA information qui
- *  intéresse un relecteur, et elle ne se lit pas dans la liste des fichiers. */
+ *  intéresse un relecteur, et elle ne se lit pas dans la liste des fichiers.
+ *
+ *  `apres === undefined` veut dire que le fichier n'existe plus ; `apres === null`
+ *  qu'il existe mais ne se lit pas. Deux situations OPPOSÉES — l'une est un geste
+ *  délibéré, l'autre une panne — et les confondre affichait `draft → null` pour
+ *  un brouillon écarté depuis la console (constaté le 2026-08-08). Un `null` de
+ *  JavaScript dans une étiquette lue par un humain est toujours un oubli. */
 export function transitionDe(avant, apres) {
+  if (apres === undefined) return avant?.status ? `écarté (était ${avant.status})` : 'écarté';
   const a = avant?.status ?? null;
   const b = apres?.status ?? null;
+  if (b === null) return a ? `${a} → illisible` : 'illisible';
   if (a === b) return a ? `reste ${a}` : 'modifié';
   if (!a) return `créé ${b}`;
   return `${a} → ${b}`;
@@ -214,9 +222,16 @@ function contenuA(ref, chemin) {
   }
 }
 
+/** Le contenu sur le disque.
+ *
+ *  Trois retours et non deux : l'objet, `null` si le fichier existe mais ne se
+ *  lit pas, `undefined` s'il n'existe plus. C'est cette dernière distinction qui
+ *  permet à `transitionDe` d'écrire « écarté » plutôt que « draft → null ». */
 function contenuLocal(chemin) {
+  const complet = join(ROOT, chemin);
+  if (!existsSync(complet)) return undefined;
   try {
-    return JSON.parse(readFileSync(join(ROOT, chemin), 'utf8'));
+    return JSON.parse(readFileSync(complet, 'utf8'));
   } catch {
     return null;
   }

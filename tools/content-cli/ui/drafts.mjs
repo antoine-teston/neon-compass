@@ -16,7 +16,7 @@
 //      mieux qu'une porte qui sait en créer.
 
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CONTENT, rawSchemas, schemaProblemsFor } from '../schemas.mjs';
 import { problemsFor, problemsIfPublished } from '../publishable.mjs';
@@ -44,10 +44,16 @@ export const EDITABLE_FIELDS = {
     { field: 'body', type: 'localized' },
     { field: 'category', type: 'enum' },
     { field: 'confidence', type: 'enum' },
+    // Ajouté le 2026-08-08. Le statut était déjà écrivable par cette porte —
+    // `writeDraft` n'a pas de chemin de publication à part — mais l'éditeur ne
+    // le MONTRAIT pas : le seul geste possible était le bouton « Publier », donc
+    // un aller sans retour. Dépublier demandait d'ouvrir le fichier à la main.
+    { field: 'status', type: 'enum' },
   ],
   'online-events': [
     { field: 'title', type: 'localized' },
     { field: 'confidence', type: 'enum' },
+    { field: 'status', type: 'enum' },
   ],
 };
 
@@ -130,7 +136,20 @@ export function triage(kind) {
 
     if (data.status !== 'draft') continue;
 
-    const item = { kind, id, date: dateOf(data, path), titre: data.title?.fr ?? data.title?.en ?? id };
+    const item = {
+      kind,
+      id,
+      date: dateOf(data, path),
+      titre: data.title?.fr ?? data.title?.en ?? id,
+      // La première source, pour ouvrir l'article d'origine sans ouvrir la fiche.
+      // Relire une actu, c'est presque toujours la comparer à ce dont elle sort ;
+      // obliger à ouvrir l'éditeur pour atteindre le lien ajoutait deux clics à
+      // chaque vérification.
+      //
+      // Une seule — les autres restent dans le volet « faits » de l'éditeur. La
+      // carte répond à « d'où ça sort », pas à « toutes les sources ».
+      source: Array.isArray(data.sources) ? data.sources[0] ?? null : null,
+    };
 
     const schemaProblems = schemaProblemsFor(SCHEMA_OF[kind], data);
     if (schemaProblems.length) {
@@ -295,6 +314,50 @@ export function writeDraft(kind, id, { data, fingerprint }) {
 
   writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`);
   return { kind, id, fingerprint: fingerprintOf(path), status: data.status };
+}
+
+/**
+ * Écarte un brouillon — supprime son fichier.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * TROIS REFUS, ET LE PREMIER EST LE SEUL QUI COMPTE VRAIMENT
+ *
+ *   1. **jamais un `published`.** Son fragment vit déjà sur le CDN : supprimer
+ *      le fichier ne le retire pas de chez les clients, ça retire seulement la
+ *      trace de ce qui a été publié. Pour retirer une actu en ligne il faut la
+ *      repasser en `draft` PUIS republier — ce que le sélecteur de statut permet
+ *      désormais, et ce que la suppression ne remplace pas ;
+ *   2. l'empreinte, comme pour l'écriture : supprimer un fichier que quelqu'un
+ *      vient de modifier, c'est jeter son travail sans le lui dire ;
+ *   3. le fichier doit exister, sinon `resolvePath` a déjà refusé.
+ *
+ * Aucun processus lancé ici non plus — `unlinkSync`, rien d'autre. L'invariant
+ * de la porte « édition » tient.
+ *
+ * La suppression n'est pas silencieuse pour autant : elle apparaît dans
+ * `git status`, donc dans le panneau Livraison, donc dans une PR relue. Rien ne
+ * disparaît du dépôt sans passer par là.
+ */
+export function deleteDraft(kind, id, { fingerprint } = {}) {
+  const path = resolvePath(kind, id);
+  const data = JSON.parse(readFileSync(path, 'utf8'));
+
+  if (data.status !== 'draft') {
+    throw new RefusedError(
+      `\`${id}\` est en \`${data.status}\` — un item publié ne s'écarte pas : son fragment est déjà `
+      + 'servi aux clients. Le repasser en `draft`, republier, puis écarter.',
+      409,
+    );
+  }
+  if (fingerprintOf(path) !== fingerprint) {
+    throw new RefusedError(
+      'le fichier a changé sur le disque depuis son ouverture — recharger avant de l’écarter',
+      409,
+    );
+  }
+
+  unlinkSync(path);
+  return { kind, id, ecarte: true, titre: data.title?.fr ?? data.title?.en ?? id };
 }
 
 export { RefusedError };

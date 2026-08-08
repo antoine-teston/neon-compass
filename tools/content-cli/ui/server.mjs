@@ -43,6 +43,7 @@ import { CARNET, FICHES } from './hotfix.mjs';
 import {
   EDITABLE_KINDS,
   RefusedError,
+  deleteDraft,
   readDraft,
   statistiques,
   triageAll,
@@ -221,11 +222,15 @@ const server = createServer(async (req, res) => {
 
   // ---- Porte « édition » : aucun processus lancé ici -----------------------
   const draftRoute = url.pathname.match(ROUTE_DRAFT);
-  if (draftRoute && (req.method === 'GET' || req.method === 'PUT')) {
+  if (draftRoute && ['GET', 'PUT', 'DELETE'].includes(req.method)) {
     const [, kind, id] = draftRoute.map(decodeURIComponent);
     try {
       if (req.method === 'GET') return send(res, 200, readDraft(kind, id));
       const body = await readBody(req);
+      // `DELETE` reste dans cette porte : il ne lance aucun processus non plus.
+      // Le corps porte l'empreinte — écarter un fichier que quelqu'un vient de
+      // modifier, c'est jeter son travail sans le lui dire.
+      if (req.method === 'DELETE') return send(res, 200, deleteDraft(kind, id, body));
       return send(res, 200, writeDraft(kind, id, body));
     } catch (err) {
       // 400 par défaut : une erreur qu'on n'a pas su classer n'est jamais un
