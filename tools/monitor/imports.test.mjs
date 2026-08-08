@@ -22,7 +22,7 @@
 // C'est assumé — le but est d'attraper la commodité, pas la malveillance, et
 // personne ne contourne sa propre garde par accident.
 
-import { ok, strictEqual } from 'node:assert/strict';
+import { match, ok, strictEqual } from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -95,4 +95,30 @@ test('le serveur du moniteur ne sert que du GET', () => {
   // une porte. Il n'y en a pas.
   const serveur = readFileSync(join(ICI, 'server.mjs'), 'utf8');
   ok(!/'POST'|"POST"/.test(serveur), 'le serveur du moniteur mentionne POST');
+});
+
+// ---------------------------------------------------------------------------
+// Un zéro ne laisse pas d'encre
+//
+// `min-width: 3px` sur une piste garde une PETITE valeur visible — utile pour le
+// graphe des motifs, où une barre à 1/1000 disparaîtrait. Appliqué à zéro, il
+// dessine un moignon : mesuré sur la production le 2026-08-08, cinq catégories
+// vides portaient chacune 3 px de couleur à côté de leur « 0 ».
+//
+// C'est la même faute que le zéro affiché faute de donnée, à ceci près qu'ici on
+// connaît la réponse : elle est zéro, et zéro ne se dessine pas.
+// ---------------------------------------------------------------------------
+
+test('une barre à zéro porte la classe qui lui retire son minimum', () => {
+  const source = readFileSync(join(ICI, 'graphes.mjs'), 'utf8');
+  match(
+    source,
+    /class="\$\{n \? '' : 'vide'\}"/,
+    'grapheCategories doit marquer les barres à zéro',
+  );
+  const css = readFileSync(join(ICI, 'graphes.css'), 'utf8');
+  match(css, /\.motif \.piste > span\.vide \{[^}]*min-width:\s*0/);
+  // Et le minimum reste pour les autres : le retirer ferait disparaître une
+  // petite valeur du graphe des motifs, ce qui serait l'erreur symétrique.
+  match(css, /\.motif \.piste > span \{[^}]*min-width:\s*3px/);
 });
