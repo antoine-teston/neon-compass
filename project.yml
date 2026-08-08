@@ -38,6 +38,13 @@ targets:
     platform: iOS
     settings:
       base:
+        # Sans cette clé, CFBundleDisplayName tombe sur PRODUCT_NAME et l'écran
+        # d'accueil affiche « NeonCompass », sans espace. C'est le nom de l'ICÔNE,
+        # tronqué au-delà d'une douzaine de caractères — à ne pas confondre avec le
+        # nom App Store (« Neon Compass: GTA 6 Companion », 30 caractères, localisé
+        # par boutique), qui vit dans App Store Connect et pas dans ce dépôt. Voir
+        # docs/superpowers/specs/2026-08-08-nom-app-usage-nominatif-design.md.
+        INFOPLIST_KEY_CFBundleDisplayName: Neon Compass
         CODE_SIGN_ENTITLEMENTS: NeonCompass/NeonCompass.entitlements
         # GADApplicationIdentifier has no Apple-recognized INFOPLIST_KEY_* mapping, so it can't be
         # synthesized via GENERATE_INFOPLIST_FILE alone (verified: INFOPLIST_KEY_GADApplicationIdentifier

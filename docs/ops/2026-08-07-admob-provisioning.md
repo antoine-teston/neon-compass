@@ -90,7 +90,7 @@ Deux conséquences pratiques :
 
 1. **Créer le compte éditeur** si ce n'est pas fait. Il demande une adresse de facturation et un pays. C'est cette adresse qui recevra les paiements ; le seuil de versement AdMob est de 100 $ cumulés.
 2. **Apps → Ajouter une application**. À la question « Votre app est-elle publiée sur un store ? », répondre **non** — elle ne l'est pas encore. AdMob crée alors une entrée provisoire à relier plus tard à la fiche App Store.
-3. **Nom de l'application : `Neon Compass`.** Aucune marque Rockstar nulle part, ni ici ni dans les descriptions. La contrainte IP du projet vaut aussi sur les consoles tierces.
+3. **Nom de l'application : `Neon Compass`.** Le nom court, pas celui de l'App Store — cette entrée sert à identifier l'app dans la console, elle n'est pas indexée par une recherche et n'a donc rien à gagner au descripteur. Aucune marque Rockstar dans les descriptions non plus : l'exception ouverte le 2026-08-08 porte sur le nom, le sous-titre et les mots-clés App Store, nulle part ailleurs.
 4. **Plateforme : iOS.**
 
 Relever ensuite **trois identifiants**, dans deux formats qu'il ne faut pas confondre :

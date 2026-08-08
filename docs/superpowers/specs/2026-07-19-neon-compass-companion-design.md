@@ -23,7 +23,7 @@ Fondement : **les faits ne sont pas protégés par le droit d'auteur** (cheat co
 
 ## 3. Identité & conformité
 
-- **Nom de travail** : Neon Compass (critère : évocateur Miami/néon, sans citer l'univers). Projet Xcode `NeonCompass` (le CLAUDE.md est mis à jour en conséquence).
+- **Nom de travail** : Neon Compass (critère : évocateur Miami/néon, sans citer l'univers). Projet Xcode `NeonCompass` (le CLAUDE.md est mis à jour en conséquence). — *Arrêté le 2026-08-08 : « Neon Compass » reste le nom propre et le nom d'écran d'accueil, mais le nom App Store devient `Neon Compass: GTA 6 Companion`. Voir `2026-08-08-nom-app-usage-nominatif-design.md`.*
 - **Classement** : 17+.
 - **Publicité** : AdMob avec prompt ATT + consentement UMP (UE), politique de confidentialité hébergée. Sans opt-in IDFA, AdMob sert des pubs contextuelles — le revenu repose sur le volume du pic de sortie.
 - **UGC (Apple 1.2)** : les quatre exigences couvertes — pré-modération (plus forte que le filtrage exigé), signalement de contenu, **blocage d'utilisateur par l'utilisateur** (masquer tous les spots d'un contributeur : liste de blocage locale + filtre à l'affichage, réversible dans les réglages), conditions d'utilisation acceptées avant la première contribution.
@@ -218,7 +218,7 @@ Fil social complet, upload de photos/screenshots, Mac, Android/web (sauf plan B)
 
 ## 12. Marketing & marque
 
-**Naming.** Contrainte structurante : le nom ne peut porter aucune marque Rockstar, donc la découvrabilité ne viendra pas du nom. Process : shortlist (« Neon Compass » en tête, alternatives à générer sur les critères Miami/néon/boussole-guide), vérification systématique EUIPO/USPTO + recherche App Store avant de trancher, et dépôt du nom retenu si le budget le permet. Champ mots-clés App Store : uniquement des termes factuels (« carte, guide, cheats, companion ») — y glisser « GTA » est une pratique répandue mais c'est un motif de rejet documenté ; on s'en abstient pour la review de lancement, réévaluation ensuite.
+**Naming.** — *Remplacé le 2026-08-08 par `2026-08-08-nom-app-usage-nominatif-design.md`, qui est la réévaluation annoncée en fin de paragraphe. La marque est désormais admise en descripteur après un nom propre qui nous appartient, dans le nom, le sous-titre et les mots-clés App Store ; l'icône et le bundle ID restent interdits. Le reste du paragraphe (vérification EUIPO/USPTO, dépôt éventuel) tient toujours.* Contrainte structurante : le nom ne peut porter aucune marque Rockstar, donc la découvrabilité ne viendra pas du nom. Process : shortlist (« Neon Compass » en tête, alternatives à générer sur les critères Miami/néon/boussole-guide), vérification systématique EUIPO/USPTO + recherche App Store avant de trancher, et dépôt du nom retenu si le budget le permet. Champ mots-clés App Store : uniquement des termes factuels (« carte, guide, cheats, companion ») — y glisser « GTA » est une pratique répandue mais c'est un motif de rejet documenté ; on s'en abstient pour la review de lancement, réévaluation ensuite.
 
 **Identité marketing.** L'icône (palmier/soleil néon) est l'actif n°1 — testée en A/B sur les fiches produit si possible. Screenshots App Store : mockups synthwave montrant carte → cheats plein écran → progression, textes courts dans les 5 langues. Vidéo preview 30 s centrée sur le geste signature (appui long → contribution). Ton de voix : années 80, second degré, jamais le vocabulaire maison de Rockstar.
 
