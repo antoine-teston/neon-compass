@@ -1145,70 +1145,142 @@
         }
       }
     },
-    "countdown.long %lld %lld %lld %lld": {
+    "countdown.unit.days": {
+      "extractionState": "manual",
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldT %lldStd %lldMin %lldS"
+            "value": "Tage"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldd %lldh %lldm %llds"
+            "value": "Days"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldd %lldh %lldmin %llds"
+            "value": "Días"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldj %lldh %lldmin %llds"
+            "value": "Jours"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldg %lldh %lldmin %llds"
+            "value": "Giorni"
           }
         }
       }
     },
-    "countdown.short %lld %lld %lld": {
+    "countdown.unit.hours": {
+      "extractionState": "manual",
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldStd %lldMin %lldS"
+            "value": "Stunden"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldh %lldm %llds"
+            "value": "Hours"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldh %lldmin %llds"
+            "value": "Horas"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldh %lldmin %llds"
+            "value": "Heures"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lldh %lldmin %llds"
+            "value": "Ore"
+          }
+        }
+      }
+    },
+    "countdown.unit.minutes": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minuten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minutes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minutos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minutes"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minuti"
+          }
+        }
+      }
+    },
+    "countdown.unit.seconds": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sekunden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seconds"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segundos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secondes"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secondi"
           }
         }
       }

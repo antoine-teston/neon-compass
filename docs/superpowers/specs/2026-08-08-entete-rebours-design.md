@@ -79,17 +79,47 @@ que nous écrivons ; la décision du même jour sur le nom App Store
 de boutique. Sur l'onglet Actu d'une app compagnon, « Sortie dans » ne désigne de
 toute façon rien d'autre.
 
+## Le format : une colonne par unité
+
+« 102j 2h 35min 47s » se lit comme une **durée** — quelque chose qu'on parcourt
+de gauche à droite pour en faire la somme. Le rebours est remplacé par quatre
+colonnes de largeur égale, chiffre au-dessus et unité en dessous, séparées par un
+trait :
+
+```
+  102  │  02  │  19  │  59
+ Jours │Heures│Minutes│Secondes
+```
+
+Ça se lit comme un tableau de bord : on y prend le nombre qu'on cherche sans lire
+le reste, et le trait fait le travail que les suffixes faisaient mal.
+
+Les chiffres sont complétés à deux positions par le style de format et non par un
+`String(format:)`, pour rester ceux de la langue de l'appareil. La colonne des
+jours **disparaît** le dernier jour plutôt que d'afficher un zéro — c'est le
+comportement qu'avaient déjà les deux formats de la ligne suivie, et c'est aussi
+le moment où l'ensemble passe au magenta.
+
+Les libellés sont invariablement au pluriel (« 01 Heures ») : c'est la convention
+des rebours, où l'unité titre une colonne au lieu de qualifier un nombre.
+
 ## Le refactor au passage
 
 `NCCountdownDigits` et `ncNeonGlow` sont extraits d'`OnlineEventCountdown`, qui
 en était le seul porteur. Le découpage jours/heures/minutes/secondes, les
 chiffres à largeur fixe, les deux ombres du halo et la bascule au magenta le
 dernier jour existaient en un exemplaire ; deux copies auraient divergé au
-premier réglage. Les clés `social.event.countdown.long/short` deviennent
-`countdown.long/short` — elles ne relèvent plus du domaine « social ».
+premier réglage. **L'événement en ligne de l'onglet Social hérite donc du format
+en colonnes**, ce qui est voulu : deux rebours de formes différentes dans la même
+app se liraient comme une incohérence.
 
-Le libellé, lui, **reste chez chaque appelant** : c'est la seule chose qui
-distingue les deux usages — une fenêtre qui se referme n'est pas un jeu qui sort.
+Les clés `social.event.countdown.long/short` disparaissent avec la ligne suivie,
+remplacées par les quatre `countdown.unit.*` — qui ne relèvent plus du domaine
+« social ».
+
+Le libellé d'ensemble, lui, **reste chez chaque appelant** : c'est la seule chose
+qui distingue les deux usages — une fenêtre qui se referme n'est pas un jeu qui
+sort.
 
 ## Vérification
 
