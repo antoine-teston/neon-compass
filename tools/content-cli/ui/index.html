@@ -3,21 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Neon Compass — console contenu</title>
+<title>Neon Compass — console de pilotage</title>
+<!-- Embarquée en data URI : sans elle le navigateur demande /favicon.ico, que la
+     liste blanche refuse, et une erreur 404 s'installe dans la console à chaque
+     chargement. Un bruit permanent finit par masquer les vraies erreurs. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230b0e17' stroke='%2335e6f0' stroke-width='2'/%3E%3Cpath d='M16 7l3.5 9.5L16 25l-3.5-8.5z' fill='%23ff4fa8'/%3E%3C/svg%3E">
+<!-- Les jetons de couleur ET toutes les règles de graphes vivent là, PARTAGÉS
+     avec le moniteur du Raspberry Pi (tools/monitor/). Une seule copie : les
+     couleurs y sont calculées par scripts/validate_palette.js, et une valeur
+     recopiée à la main perdrait sa preuve. -->
+<link rel="stylesheet" href="/graphes.css">
 <style>
-  :root {
-    --bg: #0b0e17;
-    --panel: #141a28;
-    --panel-2: #1b2233;
-    --line: #263149;
-    --ink: #e8ecf5;
-    --muted: #8e9ab5;
-    --cyan: #35e6f0;
-    --magenta: #ff4fa8;
-    --lime: #b6f542;
-    --amber: #ffb63d;
-    --red: #ff5c5c;
-  }
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -50,8 +46,10 @@
   .pill.warn { border-color: color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber); }
   .pill.bad { border-color: color-mix(in srgb, var(--red) 45%, transparent); color: var(--red); }
 
-  main { padding: 24px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
-  @media (max-width: 1020px) { main { grid-template-columns: minmax(0, 1fr); } }
+  main { padding: 24px; }
+  .vue { display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
+  .vue[hidden] { display: none; }
+  @media (max-width: 1020px) { .vue { grid-template-columns: minmax(0, 1fr); } }
 
   section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
   section > h2 {
@@ -63,7 +61,11 @@
     color: var(--muted);
     border-bottom: 1px solid var(--line);
     background: var(--panel-2);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
   }
+  section > h2 em { font-style: normal; text-transform: none; letter-spacing: 0; }
   .body { padding: 14px 16px; display: grid; gap: 10px; }
 
   .action { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
@@ -89,8 +91,9 @@
   button:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); }
   button:disabled { opacity: .4; cursor: not-allowed; }
   button.danger:hover:not(:disabled) { border-color: var(--magenta); color: var(--magenta); }
+  button.go { border-color: color-mix(in srgb, var(--lime) 45%, transparent); color: var(--lime); }
 
-  input {
+  input, select, textarea {
     font: inherit;
     font-size: 13.5px;
     padding: 7px 10px;
@@ -99,16 +102,160 @@
     background: var(--bg);
     color: var(--ink);
     min-width: 0;
+    width: 100%;
   }
-  input:focus { outline: none; border-color: var(--cyan); }
+  textarea { font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--cyan); }
   .row { display: flex; gap: 8px; }
   .row input { flex: 1; }
+  .row.narrow input { width: 78px; flex: 0 0 78px; }
 
   table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
   th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
   th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   td.num { text-align: right; font-variant-numeric: tabular-nums; }
   .dim { color: var(--muted); }
+  .warn { color: var(--amber); }
+  .bad { color: var(--red); }
+  .good { color: var(--lime); }
+
+  /* L'atelier : trois piles, et la première est la seule qui appelle une action. */
+  .pile + .pile { margin-top: 16px; }
+  .pile > h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+  .pile > h3 b { color: var(--ink); }
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 10px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    align-items: center;
+    cursor: pointer;
+  }
+  .item + .item { margin-top: 6px; }
+  .item:hover { border-color: var(--cyan); }
+  .item .why { grid-column: 1 / -1; font-size: 12px; color: var(--amber); }
+  .item .meta { font-size: 12px; color: var(--muted); }
+  .item.attend { border-left: 3px solid var(--lime); }
+  .item.retenu { border-left: 3px solid var(--amber); }
+  .item.casse { border-left: 3px solid var(--red); }
+
+  dialog {
+    background: var(--panel);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0;
+    width: min(1100px, 94vw);
+    max-height: 90vh;
+  }
+  dialog::backdrop { background: rgba(4, 6, 12, .72); }
+  .editor { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 0; max-height: 78vh; }
+  @media (max-width: 900px) { .editor { grid-template-columns: minmax(0, 1fr); } }
+  .editor > div { padding: 16px; overflow-y: auto; }
+  .faits { background: var(--bg); border-right: 1px solid var(--line); }
+  .faits h4, .champs h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .faits p { font-size: 13px; line-height: 1.6; }
+  .faits a { color: var(--cyan); word-break: break-all; font-size: 12.5px; }
+  .champ { margin-bottom: 14px; }
+  .champ label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .lang { display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: start; margin-bottom: 6px; }
+  .lang span { font-size: 12px; color: var(--muted); padding-top: 8px; text-transform: uppercase; }
+  .editor-foot {
+    padding: 12px 16px;
+    border-top: 1px solid var(--line);
+    background: var(--panel-2);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .editor-foot .msg { flex: 1; font-size: 12.5px; min-width: 200px; }
+
+  .fiche { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .fiche + .fiche { margin-top: 10px; }
+  .fiche > .head { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .fiche dl { margin: 8px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 12.5px; }
+  .fiche dt { color: var(--muted); white-space: nowrap; }
+  .fiche dd { margin: 0; }
+
+
+  /* ---- Onglets -------------------------------------------------------------
+     Neuf sections sur une page de 3 600 px : l'ordre imposé finit par lasser, et
+     le repli tout seul escamotait sans le dire. Les onglets suivent ce qu'on
+     FAIT — relire, récolter, contrôler, éteindre un incendie — rarement les
+     quatre à la fois. */
+  .onglets { display: flex; gap: 4px; padding: 0 24px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .onglet {
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    color: var(--muted);
+    padding: 9px 16px;
+    font-size: 13px;
+    margin-bottom: -1px;
+  }
+  .onglet:hover:not(.actif) { color: var(--ink); }
+  .onglet.actif { background: var(--panel); border-color: var(--line); color: var(--ink); border-bottom: 1px solid var(--panel); }
+  /* Un onglet devient zone de dépôt pendant un glissement : c'est ainsi qu'on
+     déplace une section d'un onglet à l'autre. */
+  .onglet.survol { border-color: var(--cyan); color: var(--cyan); }
+  .onglet .compte {
+    margin-left: 7px; font-size: 11px; padding: 1px 6px; border-radius: 999px;
+    background: color-mix(in srgb, var(--amber) 20%, transparent); color: var(--amber);
+  }
+
+  /* ---- La Sortie, hors des onglets ---------------------------------------- */
+  .sortie-fixe { padding: 0 24px 24px; }
+
+  /* ---- Repli et glissement -------------------------------------------------
+     Le CHEVRON seul replie. L'en-tête entier le faisait, et neuf clics
+     suffisaient à escamoter les vingt-sept boutons de la console sans qu'aucun
+     compteur ne le dise — c'est la règle « une carte ne ment jamais par
+     omission » qui était violée. */
+  .colonne { display: grid; gap: 24px; min-width: 0; align-content: start; }
+  .colonne.survol { outline: 1px dashed color-mix(in srgb, var(--cyan) 40%, transparent); outline-offset: 8px; border-radius: 12px; }
+
+  section > h2 { user-select: none; align-items: center; }
+  section:not([data-fixe]) > h2 { cursor: grab; }
+  section.glisse { opacity: .35; }
+  section.repliee > :not(h2) { display: none; }
+  section.repliee > h2 { border-bottom: none; }
+
+  .chevron {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; margin-right: 6px; border-radius: 6px;
+    color: var(--muted); cursor: pointer; transition: transform .12s ease; flex: 0 0 auto;
+  }
+  .chevron:hover { background: var(--line); color: var(--ink); }
+  section.repliee .chevron { transform: rotate(-90deg); }
+  .titre { display: flex; align-items: center; min-width: 0; }
+
+  .cible-avant { position: relative; }
+  .cible-avant::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -13px;
+    height: 2px; background: var(--cyan); border-radius: 2px;
+  }
+  .cible-fin { position: relative; }
+  .cible-fin::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -13px;
+    height: 2px; background: var(--cyan); border-radius: 2px;
+  }
+
+  .reinit, .deplier {
+    font-size: 12px; padding: 4px 10px; border-radius: 999px;
+    background: transparent; color: var(--muted); border-color: var(--line);
+  }
+  .deplier { border-color: color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber); }
+  .reinit[hidden], .deplier[hidden] { display: none; }
 
   #console {
     margin: 0;
@@ -128,227 +275,107 @@
 </head>
 <body>
 <header>
-  <h1>Neon Compass <span>— console contenu</span></h1>
+  <h1>Neon Compass <span>— console de pilotage</span></h1>
   <div class="pills" id="pills"></div>
+  <button id="deplier" class="deplier" hidden></button>
+  <button id="reinit" class="reinit" title="Remettre les sections dans leur onglet et leur ordre d’origine">Réinitialiser la disposition</button>
 </header>
 
-<main>
-  <div style="display:grid;gap:24px;min-width:0">
-    <section>
+<nav class="onglets" id="onglets"></nav>
+
+<!-- Les vues (onglet x 2 colonnes) sont construites par console.js depuis
+     `ONGLETS`, pour qu'ajouter un onglet ne demande pas de toucher au balisage.
+     Les sections attendent ici, hors écran, le temps d'être distribuées. -->
+<main id="vues"></main>
+
+<div id="reserve" hidden>
+    <section data-panneau="atelier">
+      <h2>Atelier des brouillons <em id="atelier-count" class="dim"></em></h2>
+      <div class="body" id="atelier"></div>
+    </section>
+    <!-- La livraison a sa propre section depuis le 2026-08-08. Elle était dans
+         « Écritures locales », entre un ré-import de carte et un bundle — le
+         geste le plus conséquent de la console, rangé comme un utilitaire.
+         Elle vit maintenant sous l'atelier, à l'endroit du flux : relire,
+         publier, livrer. Et elle MONTRE ce qu'elle ferait avant qu'on appuie. -->
+    <section data-panneau="livraison">
+      <h2>Livraison <em id="livraison-note" class="dim">—</em></h2>
+      <div class="body">
+        <div id="livraison-apercu"></div>
+        <div id="g-livraison"></div>
+      </div>
+    </section>
+    <section data-panneau="graphes">
+      <h2>File de revue <em id="graphes-note" class="dim"></em></h2>
+      <div class="body" id="graphes"></div>
+    </section>
+    <!-- Les deux sections nourries par la fonction `metrics` : une seule requête,
+         deux emplacements. La file va avec la revue ; la santé va avec les
+         contrôles, parce que « les fragments ne se reconstruisent plus » n'est
+         pas une décision à prendre, c'est une panne à voir. -->
+    <section data-panneau="communaute">
+      <h2>File communautaire <em id="communaute-note" class="dim">—</em></h2>
+      <div class="body" id="communaute"></div>
+    </section>
+    <section data-panneau="sante">
+      <h2>Santé de la production</h2>
+      <div class="body" id="sante"></div>
+    </section>
+    <section data-panneau="recolte">
+      <h2>Récolte <em id="recolte-verdict" class="dim">—</em></h2>
+      <div class="body" id="recolte"></div>
+    </section>
+    <section data-panneau="checks">
       <h2>Contrôles — aucune écriture</h2>
       <div class="body" id="g-checks"></div>
     </section>
-    <section>
+    <section data-panneau="local">
       <h2>Écritures locales — le dépôt, pas la production</h2>
       <div class="body" id="g-local"></div>
     </section>
-    <section>
-      <h2>Inventaire</h2>
-      <div class="body"><div id="inventory"></div></div>
+    <section data-panneau="carnet">
+      <h2>Carnet de hotfix</h2>
+      <div class="body" id="carnet"></div>
     </section>
-  </div>
-
-  <div style="display:grid;gap:24px;min-width:0">
-    <section>
+    <section data-panneau="prod">
       <h2>Production — écrit en ligne</h2>
       <div class="body" id="g-prod"></div>
     </section>
-    <section>
+    <section data-panneau="moderation">
       <h2>Modération</h2>
       <div class="body" id="g-moderation"></div>
     </section>
-    <section>
-      <h2>Sortie</h2>
-      <pre id="console"></pre>
+    <section data-panneau="inventaire">
+      <h2>Inventaire</h2>
+      <div class="body"><div id="inventory"></div></div>
     </section>
+</div>
+
+<!-- La Sortie vit HORS des onglets : elle porte le résultat de ce qu'on vient de
+     lancer, et la faire disparaître en changeant d'onglet reprendrait d'une main
+     ce qu'on venait de corriger. `data-fixe` : repliable, mais pas déplaçable. -->
+<div class="sortie-fixe">
+  <section data-panneau="sortie" data-fixe>
+    <h2>Sortie</h2>
+    <pre id="console"></pre>
+  </section>
+</div>
+
+<div class="bulle" id="bulle" hidden></div>
+
+<dialog id="editor">
+  <div class="editor">
+    <div class="faits"><h4>Les faits — non éditables</h4><div id="ed-faits"></div></div>
+    <div class="champs"><h4 id="ed-title">—</h4><div id="ed-champs"></div></div>
   </div>
-</main>
+  <div class="editor-foot">
+    <span class="msg" id="ed-msg"></span>
+    <button id="ed-close">Fermer</button>
+    <button id="ed-save">Enregistrer</button>
+    <button id="ed-publish" class="go">Publier</button>
+  </div>
+</dialog>
 
-<script>
-const out = document.getElementById('console');
-let running = false;
-let state = null;
-
-function log(text, cls) {
-  const node = cls ? Object.assign(document.createElement('span'), { className: cls, textContent: text }) : document.createTextNode(text);
-  out.appendChild(node);
-  out.scrollTop = out.scrollHeight;
-}
-
-function setRunning(value) {
-  running = value;
-  document.querySelectorAll('button[data-action]').forEach((b) => { b.disabled = value || b.dataset.blocked === '1'; });
-}
-
-async function run(name, id) {
-  if (running) return;
-  const action = state.actions[name];
-
-  // La confirmation est côté client ET côté serveur : celle-ci évite un clic
-  // malheureux, celle du serveur est la vraie barrière.
-  if (action.destructive) {
-    const what = id ? `${action.label} — ${id}` : action.label;
-    if (!confirm(`Action de production.\n\n${what}\n\nConfirmer ?`)) return;
-  }
-
-  setRunning(true);
-  out.textContent = '';
-  log(`$ ${name}${id ? ' ' + id : ''}\n\n`, 'cmd');
-
-  try {
-    const res = await fetch('/api/run', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ action: name, id, confirm: action.destructive ? true : undefined }),
-    });
-
-    if (!res.ok) {
-      const { error } = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-      log(error + '\n', 'exit-bad');
-      return;
-    }
-
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let tail = '';
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      tail += decoder.decode(value, { stream: true });
-      // Le code retour arrive en dernière ligne, sous un marqueur : on l'extrait
-      // pour le colorer plutôt que de le laisser passer pour de la sortie.
-      const at = tail.indexOf('__EXIT__:');
-      if (at === -1) { log(tail); tail = ''; continue; }
-      log(tail.slice(0, at));
-      const code = Number(tail.slice(at + 9).trim());
-      log(code === 0 ? '\n✔ terminé\n' : `\n✘ code retour ${code}\n`, code === 0 ? 'exit-ok' : 'exit-bad');
-      tail = '';
-    }
-    if (tail) log(tail);
-  } catch (err) {
-    log(String(err) + '\n', 'exit-bad');
-  } finally {
-    setRunning(false);
-    refresh();
-  }
-}
-
-function actionRow(name, action) {
-  const row = document.createElement('div');
-  row.className = 'action';
-
-  const tags = [
-    action.writesRepo ? '<span class="tag repo">dépôt</span>' : '',
-    action.destructive ? '<span class="tag prod">prod</span>' : '',
-    action.slow ? '<span class="tag slow">long</span>' : '',
-  ].join('');
-  row.innerHTML = `<div class="name">${action.label}${tags}</div>`;
-
-  const blocked = action.needsCredentials && !state.credentials;
-
-  if (action.needsID) {
-    const wrap = document.createElement('div');
-    wrap.className = 'row';
-    wrap.style.gridColumn = '1 / -1';
-    const input = document.createElement('input');
-    input.placeholder = 'identifiant';
-    input.spellcheck = false;
-    const button = document.createElement('button');
-    button.textContent = action.label;
-    button.className = 'danger';
-    button.dataset.action = name;
-    if (blocked) button.dataset.blocked = '1';
-    button.onclick = () => {
-      const id = input.value.trim();
-      if (!id) { input.focus(); return; }
-      run(name, id);
-    };
-    wrap.append(input, button);
-    row.append(wrap);
-  } else {
-    const button = document.createElement('button');
-    button.textContent = 'Lancer';
-    button.dataset.action = name;
-    if (action.destructive) button.className = 'danger';
-    if (blocked) button.dataset.blocked = '1';
-    button.onclick = () => run(name);
-    row.append(button);
-  }
-
-  if (action.hint || blocked) {
-    const hint = document.createElement('div');
-    hint.className = 'hint';
-    hint.textContent = blocked ? 'Credentials Firebase absents — voir docs/ops/2026-07-27-content-publishing.md' : action.hint;
-    row.append(hint);
-  }
-  return row;
-}
-
-function renderPills() {
-  const { credentials, seedsUpToDate, git } = state;
-  const pills = [
-    [`branche <b>${git.branch}</b> · ${git.commit}`, ''],
-    [git.dirtyCount ? `<b>${git.dirtyCount}</b> fichier(s) non committé(s)` : 'arbre propre', git.dirtyCount ? 'warn' : 'ok'],
-    [seedsUpToDate ? 'socles à jour' : 'socles en retard sur content/', seedsUpToDate ? 'ok' : 'bad'],
-    [credentials ? 'credentials Firebase' : 'pas de credentials', credentials ? 'ok' : 'warn'],
-  ];
-  document.getElementById('pills').innerHTML = pills
-    .map(([html, cls]) => `<span class="pill ${cls}">${html}</span>`)
-    .join('');
-}
-
-function renderInventory() {
-  const rows = Object.entries(state.kinds)
-    .map(([kind, k]) => `<tr><td>content/${kind}</td><td class="num">${k.total}</td>
-      <td class="num">${k.published}</td><td class="num ${k.draft ? '' : 'dim'}">${k.draft}</td></tr>`)
-    .join('');
-
-  const challenges = state.collections.filter((c) => c.isChallenge);
-  const withTotal = challenges.filter((c) => c.expectedCount != null);
-  const collectionRows = state.collections
-    .map((c) => {
-      const kind = !c.isChallenge
-        ? '<span class="dim">calque</span>'
-        : c.expectedCount != null
-          ? `défi · ${c.expectedCount}`
-          : '<span style="color:var(--amber)">défi · total inconnu</span>';
-      return `<tr><td>${c.id}</td><td>${c.title.fr ?? c.title.en}</td><td>${kind}</td></tr>`;
-    })
-    .join('');
-
-  document.getElementById('inventory').innerHTML = `
-    <table>
-      <thead><tr><th>Répertoire</th><th class="num">Total</th><th class="num">Publiés</th><th class="num">Brouillons</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    <p class="dim" style="margin:14px 0 6px;font-size:13px">
-      ${state.collections.length} collections · ${challenges.length} défis, dont ${withTotal.length} à total connu
-    </p>
-    <table>
-      <thead><tr><th>Collection</th><th>Titre</th><th>Nature</th></tr></thead>
-      <tbody>${collectionRows}</tbody>
-    </table>`;
-}
-
-function renderActions() {
-  for (const group of ['checks', 'local', 'prod', 'moderation']) {
-    const host = document.getElementById('g-' + group);
-    host.textContent = '';
-    for (const [name, action] of Object.entries(state.actions)) {
-      if (action.group === group) host.append(actionRow(name, action));
-    }
-  }
-  setRunning(running);
-}
-
-async function refresh() {
-  state = await (await fetch('/api/state')).json();
-  renderPills();
-  renderInventory();
-  renderActions();
-}
-
-refresh();
-</script>
+<script type="module" src="/console.js"></script>
 </body>
 </html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neon Compass — moniteur</title>
+<!-- En data URI, comme la console : sans favicon le navigateur demande
+     /favicon.ico, que la liste blanche refuse, et un 404 s'installe à chaque
+     chargement jusqu'à masquer les vraies erreurs. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230b0e17' stroke='%2300a9b4' stroke-width='2'/%3E%3Cpath d='M9 20l4-7 4 4 6-9' fill='none' stroke='%23ac3b73' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/graphes.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.5 ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
+  }
+  header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline;
+  }
+  h1 { font-size: 16px; margin: 0; }
+  h1 span { color: var(--cyan); }
+  /* L'âge du relevé, à droite : c'est la première chose à regarder quand un
+     chiffre surprend. Un tableau de bord figé et un tableau de bord calme ont
+     exactement la même tête. */
+  #fraicheur { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+  #fraicheur.vieux { color: var(--amber); }
+
+  main { padding: 20px; max-width: 780px; margin: 0 auto; }
+  section {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+  }
+  section > .body { padding: 16px 18px; }
+
+  /* Lecture à distance : sur un écran posé sur une étagère, le nombre en tête
+     doit se lire depuis l'autre bout de la pièce. */
+  @media (min-width: 700px) { .hero .n { font-size: 64px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Neon Compass <span>— moniteur</span></h1>
+  <span id="fraicheur">chargement…</span>
+</header>
+
+<main>
+  <section><div class="body" id="tout"></div></section>
+</main>
+
+<div class="bulle" id="bulle" hidden></div>
+
+<script type="module">
+import { installerBulle, renderMetriques } from '/graphes.mjs';
+
+installerBulle(document.getElementById('bulle'));
+const hote = document.getElementById('tout');
+const fraicheur = document.getElementById('fraicheur');
+
+let dernier = null;
+
+/** L'âge du DERNIER relevé réussi, pas l'heure courante.
+ *
+ *  C'est la différence entre « tout va bien » et « plus personne ne répond
+ *  depuis vingt minutes » : les deux montrent les mêmes graphes. */
+function direFraicheur() {
+  if (!dernier) return;
+  const s = Math.round((Date.now() - dernier) / 1000);
+  const texte = s < 90 ? `relevé il y a ${s} s` : `relevé il y a ${Math.round(s / 60)} min`;
+  fraicheur.textContent = texte;
+  fraicheur.classList.toggle('vieux', s > 180);
+}
+
+async function charger() {
+  let resultat;
+  try {
+    resultat = await (await fetch('/api/metrics')).json();
+  } catch (err) {
+    resultat = { indisponible: `le moniteur ne répond plus — ${err.message}` };
+  }
+  renderMetriques(hote, resultat);
+  if (resultat.instantane) dernier = Date.now();
+  else fraicheur.textContent = 'aucun relevé';
+  direFraicheur();
+  // La cadence vient du serveur : la changer ne demande pas de retoucher la
+  // page, seulement une variable d'environnement du conteneur.
+  setTimeout(charger, (resultat.rafraichirS ?? 30) * 1000);
+}
+
+setInterval(direFraicheur, 5000);
+charger();
+</script>
+</body>
+</html>

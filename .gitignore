@@ -6,3 +6,10 @@ DerivedData/
 tools/content-cli/dist/
 # Cache Deno des Edge Functions
 supabase/functions/**/deno.lock
+
+# Secrets d'environnement. Le moniteur du Pi lit `tools/monitor/.env`, qui
+# contient MONITOR_TOKEN — un fichier de secrets non ignoré est un secret
+# committé en une seule distraction.
+.env
+.env.*
+!.env.example
