@@ -14,9 +14,12 @@ struct ContributionRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 6) {
+                // Blanc et non cyan : cette ligne se répète à chaque
+                // proposition, et la date qui la suit était déjà en blanc — le
+                // cyan ne distinguait donc pas, il criait.
                 Text(spot.category.localizedNameKey)
                     .font(NCTypography.cardMeta)
-                    .foregroundStyle(NCColor.neonCyan)
+                    .foregroundStyle(.white.opacity(0.55))
                 if let relative = relativeDate {
                     Text(verbatim: "·")
                         .font(NCTypography.cardMeta)

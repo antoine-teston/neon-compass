@@ -115,9 +115,13 @@ struct OnlineEventCard: View {
             sectionLabel("social.event.highlights", icon: OnlineEventFormatting.highlightsIcon)
             ForEach(highlights) { highlight in
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    // Un seul accent par ligne, et c'est la VALEUR qui le prend :
+                    // l'icône ne fait qu'identifier le bonus, le multiplicateur
+                    // est ce qu'on vient lire. Les deux teintés faisaient huit
+                    // accents sur une carte de quatre lignes.
                     Image(systemName: highlight.icon)
                         .font(.caption)
-                        .foregroundStyle(NCColor.neonCyan)
+                        .foregroundStyle(.white.opacity(0.45))
                         .frame(width: 16)
                     Text(highlight.name)
                         .font(NCTypography.body)
@@ -140,8 +144,11 @@ struct OnlineEventCard: View {
                 if count > 0 {
                     Button { opened = category } label: {
                         HStack(spacing: 12) {
+                            // Ces lignes sont des portes, pas de l'information :
+                            // le compte à droite et le chevron disent déjà
+                            // qu'on peut entrer.
                             Image(systemName: category.icon)
-                                .foregroundStyle(NCColor.neonCyan)
+                                .foregroundStyle(.white.opacity(0.5))
                                 .frame(width: 20)
                             Text(category.titleKey)
                                 .font(NCTypography.body)

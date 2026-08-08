@@ -45,9 +45,16 @@ struct NewsDetailView: View {
 
     private var header: some View {
         HStack(spacing: 8) {
-            Label(categoryTitleKey(item.category), systemImage: categorySymbol(item.category))
-                .font(NCTypography.cardMeta)
-                .foregroundStyle(NCColor.neonCyan)
+            // Même partage que sur la carte du fil : le même élément ne peut pas
+            // se présenter autrement d'un écran à l'autre.
+            Label {
+                Text(categoryTitleKey(item.category))
+                    .foregroundStyle(.white.opacity(0.55))
+            } icon: {
+                Image(systemName: categorySymbol(item.category))
+                    .foregroundStyle(NCColor.neonCyan)
+            }
+            .font(NCTypography.cardMeta)
 
             Text(item.game.shortLabel)
                 .font(NCTypography.cardMeta)
