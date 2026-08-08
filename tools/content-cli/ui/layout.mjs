@@ -48,7 +48,11 @@ export const ONGLETS = [
  *  de corriger. */
 export const DEFAUT = {
   onglets: {
-    revue: [['atelier'], ['graphes', 'communaute']],
+    // La livraison AVANT l'atelier, alors que le flux se lit « relire puis
+    // livrer ». C'est délibéré : l'atelier est une liste longue qu'on parcourt,
+    // la livraison un résumé de quatre lignes qu'on consulte. Sous l'atelier
+    // elle tombait 1 400 px plus bas — c'est-à-dire nulle part.
+    revue: [['livraison', 'atelier'], ['graphes', 'communaute']],
     veille: [['recolte'], ['local']],
     controles: [['checks', 'sante'], ['inventaire']],
     pilotage: [['carnet'], ['prod', 'moderation']],

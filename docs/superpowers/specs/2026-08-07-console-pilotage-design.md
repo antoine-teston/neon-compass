@@ -408,6 +408,37 @@ qui **mangeait l'espace de tête** de la colonne d'état (` M chemin`). Les colo
 cran et la livraison annonçait « rien à livrer » avec des fichiers modifiés sous les yeux. Corrigé à
 la cause, et le parseur ancre désormais sur le chemin plutôt que sur des positions.
 
+#### Une section à elle, et ce qu'elle ne prend pas *(2026-08-08)*
+
+Les deux boutons vivaient dans « Écritures locales », entre un ré-import de carte de référence et un
+bundle. Le geste le plus conséquent de la console, rangé comme un utilitaire — et donc introuvable.
+Ils ont maintenant leur section, **dans l'onglet Revue, au-dessus de l'atelier**. Au-dessus, alors
+que le flux se lit « relire puis livrer » : l'atelier est une liste longue qu'on parcourt, la
+livraison un résumé court qu'on consulte. Sous l'atelier, elle tombait 1 400 px plus bas.
+
+La section **montre ce que le bouton ferait**, en permanence, via `GET /api/livraison` — une lecture
+pure (`git status`, `git log`). Une répétition n'est utile qu'à qui pense à la lancer ; la question
+« qu'est-ce qui partirait ? » doit se lire sans appuyer sur quoi que ce soit.
+
+**Le défaut de fond, corrigé le même jour.** `main()` ne demandait à git que l'état de `content/`.
+Une modification de code en attente restait donc dans l'arbre de travail **sans qu'une seule ligne
+le dise** : on ouvrait une pull request en croyant l'arbre propre. C'est mentir par omission — la
+panne que cette console existe pour supprimer — dans son geste le plus conséquent.
+
+`resteDeCote` répond désormais, en distinguant deux choses qui ne se lisent pas pareil : `content/inbox/`
+est **exclu à dessein** (du texte tiers, jamais commité — une règle tenue), tout le reste est
+**laissé de côté** et peut être un oubli. Les mélanger apprendrait à ignorer l'avertissement.
+
+Trois lignes puis un décompte, et non la liste entière : le signal est « il en reste », pas les
+noms — huit lignes repoussaient le bouton sous la ligne de flottaison d'un portable, ce qui rendait
+la section moins utile que le détail qu'elle affichait. La liste complète reste dans la répétition.
+
+*Deuxième panne trouvée en écrivant* : le test « les groupes déclarés sont ceux que la page sait
+afficher » lisait une **liste écrite à la main** tout en affirmant, dans son message d'échec,
+vérifier `index.html`. Il ne le faisait pas. Il lit maintenant les deux fichiers — la boucle de
+rendu dans `console.js`, les conteneurs dans `index.html` — donc il attrape le cas réel : un groupe
+dont les boutons n'apparaîtraient nulle part, sans erreur ni avertissement.
+
 ### Les graphes de la file de revue
 
 Quatre éléments, et la forme suit le **travail** de la donnée :

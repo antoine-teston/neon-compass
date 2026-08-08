@@ -55,6 +55,7 @@ import {
   credentialsPresent,
 } from './state.mjs';
 import { instantane } from '../../monitor/metrics.mjs';
+import { apercu } from '../deliver.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CLI_DIR = join(HERE, '..');
@@ -191,6 +192,21 @@ const server = createServer(async (req, res) => {
   // découvert cassé sur une étagère à l'autre bout de la maison.
   if (req.method === 'GET' && url.pathname === '/api/state/supabase') {
     return send(res, 200, await instantane(process.env));
+  }
+
+  // Ce que la livraison ferait, sans rien écrire. En LECTURE pure : `apercu()`
+  // n'exécute que des `git status` / `git log`.
+  //
+  // Une route à part plutôt qu'un `deliver.mjs --dry-run` lancé par la porte
+  // « geste » : la répétition n'est utile qu'à qui pense à la lancer, et la
+  // question « qu'est-ce qui partirait ? » doit se lire sans appuyer sur quoi
+  // que ce soit. C'est aussi ce qui révèle ce que la livraison n'emporte PAS.
+  if (req.method === 'GET' && url.pathname === '/api/livraison') {
+    try {
+      return send(res, 200, apercu());
+    } catch (err) {
+      return send(res, 200, { indisponible: `git muet — ${err.message}` });
+    }
   }
 
   if (req.method === 'GET' && url.pathname === '/api/drafts') {

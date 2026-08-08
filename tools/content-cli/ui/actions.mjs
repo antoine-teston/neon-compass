@@ -114,13 +114,13 @@ export const ACTIONS = {
   },
   'deliver-dry': {
     label: 'Livrer — répétition',
-    group: 'local',
+    group: 'livraison',
     hint: 'Montre la branche, le titre et les fichiers qui partiraient. N’écrit rien.',
     argv: ['deliver.mjs', '--dry-run'],
   },
   deliver: {
     label: 'Livrer : brancher, commiter, ouvrir la PR',
-    group: 'local',
+    group: 'livraison',
     hint: 'Titre et corps COMPOSÉS depuis le diff — rien de saisi. La PR n’est pas fusionnée.',
     argv: ['deliver.mjs'],
     writesRepo: true,

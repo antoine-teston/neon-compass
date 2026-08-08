@@ -7,7 +7,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { changementsDe, corpsDe, nomDeBranche, titreDe, transitionDe } from './deliver.mjs';
+import { changementsDe, corpsDe, nomDeBranche, resteDeCote, titreDe, transitionDe } from './deliver.mjs';
 
 test('les fichiers de contenu sont reconnus, les autres écartés', () => {
   const porcelain = [
@@ -130,4 +130,48 @@ test('une ligne dont l’espace de tête a été mangée reste lisible', () => {
   assert.deepEqual(changementsDe(' M content/news/a.json').map((c) => c.id), ['a']);
   assert.deepEqual(changementsDe('?? content/news/a.json').map((c) => c.id), ['a']);
   assert.deepEqual(changementsDe('content/news/a.json').map((c) => c.id), ['a']);
+});
+
+// ---------------------------------------------------------------------------
+// Ce que la livraison n'emporte PAS
+//
+// Corrigé le 2026-08-08. `main()` ne demandait à git que l'état de `content/` :
+// une modification de code en attente restait dans l'arbre de travail sans
+// qu'une seule ligne le dise, et on ouvrait une PR en croyant l'arbre propre.
+// Mentir par omission, dans le geste le plus conséquent de la console.
+// ---------------------------------------------------------------------------
+
+test('ce qui part n’est pas re-annoncé comme laissé de côté', () => {
+  // La confusion la plus facile à introduire : un fichier annoncé livré ET
+  // laissé, ce qui rendrait les deux listes inutiles.
+  const { laisse } = resteDeCote(' M content/news/a.json\n M tools/content-cli/cli.js');
+  assert.deepEqual(laisse, ['tools/content-cli/cli.js']);
+});
+
+test('l’inbox est distinguée d’un oubli', () => {
+  // Son absence est une RÈGLE tenue — du texte tiers, jamais commité — pas une
+  // distraction. Les mélanger apprendrait à ignorer l'avertissement.
+  const r = resteDeCote('?? content/inbox/2026-08-08.facts.json\n M Scripts/db-test.sh');
+  assert.deepEqual(r.exclu, ['content/inbox/2026-08-08.facts.json']);
+  assert.deepEqual(r.laisse, ['Scripts/db-test.sh']);
+});
+
+test('les deux colonnes d’état sont retirées, l’espace de tête comprise', () => {
+  // Sans ça le chemin vaut « M tools/… », que plus aucun motif ne reconnaît —
+  // et un fichier de contenu se retrouverait annoncé comme laissé de côté.
+  assert.deepEqual(resteDeCote(' M tools/a.mjs').laisse, ['tools/a.mjs']);
+  assert.deepEqual(resteDeCote('MM tools/a.mjs').laisse, ['tools/a.mjs']);
+  assert.deepEqual(resteDeCote('?? tools/monitor/').laisse, ['tools/monitor/']);
+  // Et la tolérance à une ligne dont l'espace de tête a été mangée, comme pour
+  // `changementsDe` — la panne du 2026-08-07 ne doit pas revenir par ce chemin.
+  assert.deepEqual(resteDeCote('M tools/a.mjs').laisse, ['tools/a.mjs']);
+});
+
+test('un renommage est rangé sous sa destination', () => {
+  assert.deepEqual(resteDeCote('R  vieux.mjs -> neuf.mjs').laisse, ['neuf.mjs']);
+});
+
+test('resteDeCote supporte une entrée vide ou absente', () => {
+  assert.deepEqual(resteDeCote(''), { exclu: [], laisse: [] });
+  assert.deepEqual(resteDeCote(null), { exclu: [], laisse: [] });
 });

@@ -30,6 +30,7 @@ let running = false;
 let state = null;
 let drafts = null;
 let metriques = null; // l'instantané Supabase, ou la phrase qui dit pourquoi non
+let livraison = null; // ce que la livraison ferait, ou la phrase qui dit pourquoi non
 let ouvert = null; // le brouillon affiché dans la boîte d'édition
 
 function log(text, cls) {
@@ -259,6 +260,8 @@ async function enregistrer(publier) {
   msg.className = 'msg good';
   msg.textContent = publier ? 'Publié dans le dépôt — reste à commiter.' : 'Enregistré.';
   await chargerDrafts();
+  // Publier un brouillon change ce qui partirait : la livraison le voit tout de suite.
+  chargerLivraison();
   if (publier) editor.close();
 }
 
@@ -485,7 +488,7 @@ function renderInventory() {
 }
 
 function renderActions() {
-  for (const group of ['checks', 'local', 'prod', 'moderation']) {
+  for (const group of ['checks', 'local', 'livraison', 'prod', 'moderation']) {
     const host = document.getElementById('g-' + group);
     host.textContent = '';
     for (const [name, action] of Object.entries(state.actions)) {
@@ -638,6 +641,103 @@ async function chargerDrafts() {
 }
 
 // ---------------------------------------------------------------------------
+// La livraison
+//
+// Le panneau MONTRE ce que le bouton ferait, avant qu'on appuie. Un bouton dont
+// l'effet ne se voit qu'après est un bouton qu'on n'appuie pas — et celui-ci
+// pousse une branche et ouvre une pull request.
+//
+// Il montre surtout ce que la livraison N'EMPORTE PAS. Jusqu'au 2026-08-08, une
+// modification de code en attente restait dans l'arbre de travail sans qu'une
+// ligne le dise : on ouvrait une PR en croyant l'arbre propre.
+// ---------------------------------------------------------------------------
+
+function renderLivraison() {
+  const hote = document.getElementById('livraison-apercu');
+  const note = document.getElementById('livraison-note');
+  hote.textContent = '';
+
+  if (!livraison) {
+    note.textContent = '—';
+    hote.innerHTML = '<p class="dim">chargement…</p>';
+    return;
+  }
+  if (livraison.indisponible) {
+    note.textContent = 'indisponible';
+    hote.innerHTML = `<p class="indispo">${esc(livraison.indisponible)}</p>`;
+    return;
+  }
+
+  const { changements, details, reste, titre, branche, enAvance } = livraison;
+  const morceaux = [];
+
+  if (!changements.length) {
+    note.textContent = 'rien à livrer';
+    morceaux.push('<p class="dim">Aucun fichier de contenu modifié. '
+      + 'Publier un brouillon depuis l’atelier, puis revenir.</p>');
+  } else {
+    note.textContent = `${changements.length} fichier${changements.length > 1 ? 's' : ''}`;
+    morceaux.push(
+      `<p class="dim" style="margin:0 0 8px">Branche <code>${esc(branche)}</code><br>`
+      + `Titre <code>${esc(titre)}</code></p>`,
+    );
+    for (const c of changements) {
+      morceaux.push(
+        `<div class="item attend"><span class="name">${esc(c.id)}</span>`
+        + `<span class="meta">${esc(details[c.chemin] ?? '')}</span>`
+        + `<span class="meta" style="grid-column:1/-1">${esc(c.chemin)}</span></div>`,
+      );
+    }
+  }
+
+  // Ce qui reste. En AMBRE et non en gris : ce n'est pas un détail, c'est la
+  // question « ai-je oublié quelque chose ».
+  if (reste?.laisse?.length) {
+    morceaux.push(
+      `<p class="warn" style="margin:12px 0 0">⚠ ${reste.laisse.length} modification`
+      + `${reste.laisse.length > 1 ? 's' : ''} ne part${reste.laisse.length > 1 ? 'ent' : ''} pas :</p>`
+      // Trois noms, puis un décompte. Le SIGNAL est « il en reste », pas la
+      // liste : huit lignes repoussaient le bouton sous la ligne de flottaison
+      // d'un écran de portable, ce qui rendait la section moins utile que le
+      // détail qu'elle affichait. La liste complète est dans la répétition.
+      + `<p class="dim" style="margin:2px 0 0;font-size:12.5px">`
+      + reste.laisse.slice(0, 3).map((c) => esc(c)).join('<br>')
+      + (reste.laisse.length > 3 ? `<br>… et ${reste.laisse.length - 3} autres` : '')
+      + '<br>Elles restent dans l’arbre de travail — à commiter à part si c’est voulu.</p>',
+    );
+  }
+  // L'inbox est une RÈGLE tenue, pas un oubli : elle ne prend pas la couleur de
+  // l'avertissement, sinon on apprendrait à ignorer l'avertissement.
+  if (reste?.exclu?.length) {
+    morceaux.push(
+      `<p class="dim" style="margin:8px 0 0;font-size:12.5px">${reste.exclu.length} `
+      + 'fichier(s) d’inbox exclus à dessein : du texte tiers, jamais commité.</p>',
+    );
+  }
+  if (enAvance?.length) {
+    morceaux.push(
+      '<p class="warn" style="margin:12px 0 0">⚠ la branche courante a des commits que '
+      + '<code>main</code> n’a pas — ils seront DANS la pull request :</p>'
+      + `<p class="dim" style="margin:2px 0 0;font-size:12.5px">`
+      + enAvance.slice(0, 3).map((l) => esc(l)).join('<br>')
+      + (enAvance.length > 3 ? `<br>… et ${enAvance.length - 3} autres` : '')
+      + '</p>',
+    );
+  }
+
+  hote.innerHTML = morceaux.join('');
+}
+
+async function chargerLivraison() {
+  try {
+    livraison = await (await fetch('/api/livraison')).json();
+  } catch (err) {
+    livraison = { indisponible: `la console ne répond pas — ${err.message}` };
+  }
+  renderLivraison();
+}
+
+// ---------------------------------------------------------------------------
 // Les métriques de production
 // ---------------------------------------------------------------------------
 
@@ -679,7 +779,9 @@ async function refresh() {
   renderCarnet();
   renderRecolte(null);
   renderMetriquesConsole();
+  renderLivraison();
   chargerDrafts();
+  chargerLivraison();
 
   // Puis le réseau, carte par carte. Une carte lente ne retarde plus rien.
   chargerMetriques();

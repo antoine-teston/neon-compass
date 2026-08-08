@@ -70,6 +70,51 @@ export function changementsDe(porcelain) {
   return changements.sort((a, b) => a.chemin.localeCompare(b.chemin));
 }
 
+/**
+ * Ce que la livraison N'EMPORTE PAS.
+ *
+ * Ajouté le 2026-08-08, et c'est une correction de fond. `main()` demandait à git
+ * l'état de `content/` **et de rien d'autre** : une modification de code en
+ * attente restait donc dans l'arbre de travail sans qu'une seule ligne le dise.
+ * On ouvrait une pull request en croyant l'arbre propre.
+ *
+ * C'est exactement la panne que cette console existe pour supprimer — **mentir
+ * par omission** — et elle était dans le geste le plus conséquent de tous.
+ *
+ * Deux catégories, parce qu'elles ne se lisent pas pareil :
+ *
+ *   - `exclu` : `content/inbox/` porte du TEXTE TIERS, jamais commité. Son
+ *     absence est une règle tenue, pas un oubli ;
+ *   - `laisse` : tout le reste. Là, c'est peut-être un oubli, et seul un humain
+ *     peut le dire — donc on le montre plutôt que d'en décider.
+ */
+export function resteDeCote(porcelainComplet) {
+  const exclu = [];
+  const laisse = [];
+  for (const ligne of String(porcelainComplet ?? '').split('\n')) {
+    const chemin = cheminDe(ligne);
+    if (!chemin) continue;
+    // Ce que la livraison emporte déjà : même définition que `changementsDe`,
+    // sinon un fichier serait annoncé livré ET laissé de côté.
+    if (/^content\/(?!inbox\/|schema\/)[a-z-]+\/[A-Za-z0-9_-]+\.json$/.test(chemin)) continue;
+    (chemin.startsWith('content/inbox/') ? exclu : laisse).push(chemin);
+  }
+  return { exclu: exclu.sort(), laisse: laisse.sort() };
+}
+
+/** Le chemin d'une ligne de `git status --porcelain`, ou `null`.
+ *
+ *  Le format v1 est `XY<espace>chemin` : deux colonnes d'état, dont l'une est
+ *  une espace pour un fichier seulement modifié. D'où les deux lectures — la
+ *  seconde rattrape une entrée dont on aurait mangé l'espace de tête en amont,
+ *  ce qui est précisément la panne du 2026-08-07 et qui, ici, produirait un
+ *  chemin `M content/news/…` que plus aucun motif ne reconnaîtrait. */
+function cheminDe(ligne) {
+  const brut = /^(..) (.+)$/.exec(ligne)?.[2] ?? /^[MADRCU?!]{1,2}\s+(.+)$/.exec(ligne)?.[1];
+  // `R ancien -> nouveau` : c'est la destination qui compte.
+  return brut ? brut.trim().split(' -> ').at(-1) : null;
+}
+
 /** Ce que le changement fait au statut de l'item : c'est LA information qui
  *  intéresse un relecteur, et elle ne se lit pas dans la liste des fichiers. */
 export function transitionDe(avant, apres) {
@@ -177,41 +222,96 @@ function contenuLocal(chemin) {
   }
 }
 
-async function main() {
-  const dryRun = process.argv.includes('--dry-run');
+/**
+ * Tout ce qu'il faut savoir AVANT de livrer, sans rien écrire.
+ *
+ * Exporté pour que la console l'affiche en permanence au lieu de le révéler
+ * seulement à qui pense à lancer la répétition. Un bouton dont on ne voit pas
+ * l'effet avant d'appuyer est un bouton qu'on n'appuie pas.
+ *
+ * N'exécute que des LECTURES git. Aucune écriture, aucun réseau.
+ */
+export function apercu() {
   const changements = changementsDe(git(['status', '--porcelain', '--', 'content/'], { brut: true }));
+  // Un SECOND appel, sans filtre de chemin, pour voir ce qu'on n'emporte pas.
+  // Deux appels plutôt qu'un filtrage : le premier garde exactement le
+  // comportement éprouvé de la livraison, et le second n'y touche pas.
+  const reste = resteDeCote(git(['status', '--porcelain'], { brut: true, silencieux: true }));
 
-  if (!changements.length) {
-    console.log('rien à livrer : aucun fichier de contenu modifié.');
-    console.log('Publier un brouillon depuis l’atelier, puis relancer.');
-    return true;
-  }
-
-  // La transition de statut se lit en comparant à HEAD, pas au disque seul.
   const details = {};
+  // La transition de statut se lit en comparant à HEAD, pas au disque seul.
   for (const c of changements) {
     details[c.chemin] = transitionDe(contenuA('HEAD', c.chemin), contenuLocal(c.chemin));
   }
 
-  const titre = titreDe(changements);
+  return {
+    changements,
+    details,
+    reste,
+    titre: changements.length ? titreDe(changements) : null,
+    branche: changements.length
+      ? nomDeBranche(
+          new Date().toISOString().slice(0, 10),
+          git(['branch', '--format=%(refname:short)']).split('\n'),
+        )
+      : null,
+    // La branche courante part-elle de `main` ? Sinon la PR emportera aussi les
+    // commits d'avant. On ne bloque pas — on le DIT, c'est parfois voulu.
+    enAvance: git(['log', '--oneline', 'origin/main..HEAD'], { silencieux: true })
+      .split('\n')
+      .filter(Boolean)
+      .slice(0, 5),
+  };
+}
+
+/** Les lignes « ce qui reste » qu'on imprime et que la console affiche. Une
+ *  seule formulation pour les deux, sinon elles divergent. */
+function direLeReste({ exclu, laisse }) {
+  const lignes = [];
+  if (laisse.length) {
+    lignes.push(
+      `⚠ ${laisse.length} modification(s) NE partent pas dans cette livraison :`,
+      ...laisse.slice(0, 8).map((c) => `    ${c}`),
+      ...(laisse.length > 8 ? [`    … et ${laisse.length - 8} autres`] : []),
+      '  Elles restent dans l’arbre de travail. À commiter à part si c’est voulu.',
+    );
+  }
+  if (exclu.length) {
+    lignes.push(
+      `  (${exclu.length} fichier(s) d’inbox exclus à dessein : du texte tiers, jamais commité.)`,
+    );
+  }
+  return lignes;
+}
+
+async function main() {
+  const dryRun = process.argv.includes('--dry-run');
+  const { changements, details, reste, titre, branche, enAvance } = apercu();
+
+  if (!changements.length) {
+    console.log('rien à livrer : aucun fichier de contenu modifié.');
+    console.log('Publier un brouillon depuis l’atelier, puis relancer.');
+    for (const l of direLeReste(reste)) console.log(l);
+    return true;
+  }
+
   const corps = corpsDe(changements, details);
-  const branche = nomDeBranche(
-    new Date().toISOString().slice(0, 10),
-    git(['branch', '--format=%(refname:short)']).split('\n'),
-  );
 
   console.log(`branche  : ${branche}`);
   console.log(`titre    : ${titre}`);
   console.log(`fichiers : ${changements.length}`);
   for (const c of changements) console.log(`  ${c.chemin.padEnd(44)} ${details[c.chemin]}`);
 
-  // La branche courante part-elle de `main` ? Sinon la PR emportera aussi les
-  // commits d'avant. On ne bloque pas — on le DIT, parce que c'est parfois voulu.
-  const enAvance = git(['log', '--oneline', 'origin/main..HEAD'], { silencieux: true });
-  if (enAvance) {
+  const resteDit = direLeReste(reste);
+  if (resteDit.length) {
+    console.log('');
+    for (const l of resteDit) console.log(l);
+  }
+
+  if (enAvance.length) {
     console.log('');
     console.log('⚠ la branche courante a des commits que `main` n’a pas :');
-    for (const l of enAvance.split('\n').slice(0, 5)) console.log(`    ${l}`);
+    for (const l of enAvance) console.log(`    ${l}`);
     console.log('  ils seront DANS la pull request. Repartir de `main` si ce n’est pas voulu.');
   }
 
