@@ -182,7 +182,7 @@ struct RootView: View {
             ZStack {
                 ForEach(AppTab.allCases) { tab in
                     if builtTabs.contains(tab) {
-                        screen(for: tab)
+                        tabContent(for: tab)
                             .opacity(tab == model.selectedTab ? 1 : 0)
                             .allowsHitTesting(tab == model.selectedTab)
                             .accessibilityHidden(tab != model.selectedTab)
@@ -200,7 +200,7 @@ struct RootView: View {
         TabView(selection: $model.selectedTab) {
             ForEach(AppTab.allCases) { tab in
                 Tab(value: tab) {
-                    screen(for: tab)
+                    tabContent(for: tab)
                 } label: {
                     Label(tab.titleKey, systemImage: tab.systemImage)
                 }
@@ -260,6 +260,30 @@ struct RootView: View {
             modelContext: modelContext,
             widgetSummaryCoordinator: widgetSummaryCoordinator
         )
+    }
+
+    /// Un écran d'onglet, coiffé de la barre haute quand il en veut une.
+    ///
+    /// L'accroche est ICI et non dans `compactLayout` : les deux dispositions
+    /// passent par cette fonction, donc la barre n'a besoin d'exister qu'une
+    /// fois. Posée dans le `ZStack` du compact, elle aurait fallu la dupliquer
+    /// côté `TabView`, où elle aurait en plus recouvert la barre latérale.
+    ///
+    /// `safeAreaPadding` et non `padding` : c'est ce qui fait descendre le
+    /// contenu des `ScrollView` de chaque écran SANS décoller leurs fonds, qui
+    /// ignorent la zone sûre. Aucun écran n'a donc à connaître la barre — à la
+    /// différence de la réserve basse, que chacun pose encore à la main.
+    @ViewBuilder
+    private func tabContent(for tab: AppTab) -> some View {
+        if tab.showsHeaderBar {
+            ZStack(alignment: .top) {
+                screen(for: tab)
+                    .safeAreaPadding(.top, NCLayout.headerBarClearance)
+                AppHeaderBar()
+            }
+        } else {
+            screen(for: tab)
+        }
     }
 
     @ViewBuilder

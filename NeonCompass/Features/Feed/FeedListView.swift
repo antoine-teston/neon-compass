@@ -16,6 +16,9 @@ struct FeedListView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
+                // Avant les articles ET avant le fil vide : quand rien n'est
+                // encore publié, c'est la seule chose que l'écran a à dire.
+                ReleaseCountdownCard()
                 if model.newsItems.isEmpty {
                     emptyState
                 } else {

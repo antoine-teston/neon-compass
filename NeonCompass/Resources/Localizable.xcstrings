@@ -1145,6 +1145,74 @@
         }
       }
     },
+    "countdown.long %lld %lld %lld %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldT %lldStd %lldMin %lldS"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldd %lldh %lldm %llds"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldd %lldh %lldmin %llds"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldj %lldh %lldmin %llds"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldg %lldh %lldmin %llds"
+          }
+        }
+      }
+    },
+    "countdown.short %lld %lld %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldStd %lldMin %lldS"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldh %lldm %llds"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldh %lldmin %llds"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldh %lldmin %llds"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lldh %lldmin %llds"
+          }
+        }
+      }
+    },
     "disclaimer.accept": {
       "extractionState": "stale",
       "localizations": {
@@ -1838,6 +1906,76 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ancora nessuna novità — ricontrolla presto."
+          }
+        }
+      }
+    },
+    "feed.release.countdown.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheint in"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Releases in"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sale en"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sortie dans"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esce tra"
+          }
+        }
+      }
+    },
+    "feed.release.out": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Es ist da."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "It's out."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya está aquí."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C'est sorti."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "È uscito."
           }
         }
       }
@@ -8483,74 +8621,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bonus"
-          }
-        }
-      }
-    },
-    "social.event.countdown.long %lld %lld %lld %lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldT %lldStd %lldMin %lldS"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldd %lldh %lldm %llds"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldd %lldh %lldmin %llds"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldj %lldh %lldmin %llds"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldg %lldh %lldmin %llds"
-          }
-        }
-      }
-    },
-    "social.event.countdown.short %lld %lld %lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldStd %lldMin %lldS"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldh %lldm %llds"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldh %lldmin %llds"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldh %lldmin %llds"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldh %lldmin %llds"
           }
         }
       }

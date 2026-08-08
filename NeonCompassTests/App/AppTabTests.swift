@@ -33,4 +33,16 @@ struct AppTabTests {
         #expect(tabs.count == 5)
         #expect(tabs[2] == .map)
     }
+
+    /// La barre haute est partout SAUF sur la carte, qui se joue en plein écran.
+    ///
+    /// Écrit dans les deux sens délibérément : une propriété qui rendrait `true`
+    /// partout satisfait la moitié d'un tel test, et c'est exactement l'erreur
+    /// qu'un `self != .map` mal recopié produit.
+    @Test func everyTabButTheMapHasAHeaderBar() {
+        #expect(!AppTab.map.showsHeaderBar)
+        for tab in AppTab.allCases where tab != .map {
+            #expect(tab.showsHeaderBar, "\(tab.rawValue) devrait porter la barre haute")
+        }
+    }
 }
