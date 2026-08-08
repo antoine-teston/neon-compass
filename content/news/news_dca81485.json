@@ -1,0 +1,21 @@
+{
+  "id": "news_dca81485",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le trimestre qui précède la sortie s'annonce en retrait",
+    "en": "The quarter before launch is guided lower"
+  },
+  "body": {
+    "fr": "L'éditeur du jeu prévoit entre 1,62 et 1,67 milliard de dollars de revenus nets pour son trimestre juillet-septembre, contre 1,96 milliard un an plus tôt. Le calendrier fiscal explique ce recul : ce trimestre se termine quelques semaines avant le lancement du 19 novembre, sans changer la prévision annuelle.",
+    "en": "The game's publisher expects $1.62-1.67 billion in net bookings for its July-September quarter, down from $1.96 billion a year earlier. The fiscal calendar explains the dip: the quarter ends weeks before the November 19 launch, and the annual forecast is unchanged."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/why-take-two-is-guiding-down-its-next-quarter-before-the-gta-6-launch-5ba6"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:3fc067eaf7fb",
+  "sourceClaim": "Take-Two Interactive a donné pour son trimestre en cours (juillet-septembre 2026) une prévision de revenus nets de 1,62 à 1,67 milliard de dollars, en retrait par rapport aux 1,96 milliard réalisés sur la même période un an plus tôt ; l'éditeur explique ce recul par le calendrier fiscal, ce trimestre se terminant quelques semaines avant la sortie du jeu à venir prévue le 19 novembre 2026, tout en maintenant inchangée sa prévision annuelle."
+}

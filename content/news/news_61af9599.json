@@ -1,0 +1,21 @@
+{
+  "id": "news_61af9599",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un site de fans évoque déjà du gameplay dans la vidéo à venir",
+    "en": "A fan site already describes gameplay in the upcoming video"
+  },
+  "body": {
+    "fr": "Un site communautaire présente la vidéo du 27 août comme allant au-delà d'une simple bande-annonce et incluant des séquences de gameplay — une lecture plus affirmative que celle d'autres médias spécialisés, qui restent dans le doute à la même date sur ce que montrera réellement le format. À vérifier lors de la diffusion officielle.",
+    "en": "A fan community site describes the August 27 video as going beyond a simple trailer and including gameplay footage — a more confident read than other specialist outlets, which remain unsure at the same date about what the format will actually show. Worth checking against the official broadcast."
+  },
+  "publishedAt": "2026-08-06",
+  "status": "draft",
+  "sources": [
+    "https://leonidaverse.com/en/news/gta-6-extended-look-netflix-premiere"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:a7288fee2a29",
+  "sourceClaim": "Un site communautaire présente l'aperçu étendu du 27 août comme allant au-delà d'une bande-annonce classique et incluant des séquences de gameplay, une caractérisation plus affirmative que celle d'autres médias spécialisés qui, à la même date, jugent encore incertain si le format montrera effectivement du gameplay."
+}

@@ -1,0 +1,21 @@
+{
+  "id": "news_8ee5e831",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Prévision annuelle relevée à plus de 8 milliards de dollars",
+    "en": "Annual forecast raised past $8 billion"
+  },
+  "body": {
+    "fr": "L'éditeur du jeu vise entre 8,0 et 8,2 milliards de dollars de revenus nets pour l'exercice en cours, contre 6,72 milliards réalisés l'an dernier — une hausse d'environ 1,4 milliard portée quasi entièrement par le lancement du 19 novembre. Le reste de son activité (sport, mobile, catalogue) devrait rester stable ou légèrement reculer.",
+    "en": "The game's publisher is guiding to $8.0-8.2 billion in net bookings for the current fiscal year, up from $6.72 billion last year — a roughly $1.4 billion jump driven almost entirely by the November 19 launch. The rest of its business (sports, mobile, back catalogue) is expected to hold steady or dip slightly."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/take-two-has-now-bet-its-entire-year-on-gta-6-5770"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:685b7101ea88",
+  "sourceClaim": "Take-Two Interactive a annoncé lors de son dernier appel avec les investisseurs viser entre 8,0 et 8,2 milliards de dollars de revenus nets pour l'exercice fiscal en cours, contre environ 6,72 milliards réalisés l'exercice précédent (clos en mars 2026) — une hausse d'environ 1,4 milliard de dollars, soit près de 20 %, portée quasi entièrement par le lancement du jeu à venir prévu le 19 novembre 2026."
+}

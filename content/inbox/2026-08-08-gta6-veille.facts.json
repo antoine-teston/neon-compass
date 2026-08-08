@@ -1,0 +1,94 @@
+{
+  "run": {
+    "date": "2026-08-08",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7",
+      "https://www.gtaboom.com/the-gta-6-extended-look-is-on-netflix-locking-out-fans-from-these-places-69b4",
+      "https://www.gtaboom.com/this-is-every-rockstar-games-title-available-on-netflix-right-now-e1f2",
+      "https://www.gtaboom.com/wwe-is-trademarking-vice-city-right-before-gta-6-aaa1",
+      "https://www.gtaboom.com/a-modder-is-trying-to-get-gta-iv-running-on-android-and-switch-7a5f",
+      "https://www.gtaboom.com/take-two-has-now-bet-its-entire-year-on-gta-6-5770",
+      "https://www.gtaboom.com/why-take-two-is-guiding-down-its-next-quarter-before-the-gta-6-launch-5ba6",
+      "https://www.gtaboom.com/take-two-quietly-killed-a-game-and-took-a-43-million-loss-97ca",
+      "https://leonidaverse.com/en/news/gta-6-extended-look-netflix-premiere",
+      "https://leonidaverse.com/fr/news/gta-6-extended-look-netflix-premiere"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Un message du support client de Netflix, relayé sans confirmation officielle par la presse spécialisée, évoquerait une durée d'environ vingt minutes pour l'aperçu étendu du jeu à venir diffusé le 27 août ; aucune source officielle ne confirme ce chiffre à ce stade.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7",
+      "source_date": "2026-08-07",
+      "confidence": "rumor",
+      "processed": true
+    },
+    {
+      "claim": "Netflix n'étant pas disponible dans cinq pays ou territoires (Chine, Corée du Nord, Russie, Syrie, Crimée), les joueurs qui y résident ne pourront pas suivre la première de l'aperçu étendu du jeu à venir le 27 août ; dans quatre de ces cinq zones, le repli gratuit prévu six heures plus tard sur YouTube et le site du studio est également inaccessible, YouTube y étant lui-même bloqué ou fortement restreint.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-gta-6-extended-look-is-on-netflix-locking-out-fans-from-these-places-69b4",
+      "source_date": "2026-08-07",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "À la mi-2026, le seul titre du studio encore disponible sur le service de jeux mobiles de Netflix est Red Dead Redemption (ajouté en décembre 2025) ; les trois jeux de la trilogie remasterisée de la série concurrente qui avaient été proposés en décembre 2023 en ont tous été retirés, le dernier (San Andreas) fin 2025, si bien qu'aucun jeu de la série du studio n'y figure plus malgré le rapprochement affiché avec la plateforme autour de la diffusion de l'aperçu étendu.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/this-is-every-rockstar-games-title-available-on-netflix-right-now-e1f2",
+      "source_date": "2026-08-07",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Une demande de marque déposée le 4 août 2026 par la fédération de catch WWE pour le terme « Vice City » ne concerne pas le jeu : elle vise à protéger l'image de la lutteuse Lola Vice, originaire de Miami (ville réelle ayant inspiré la Vice City fictive du studio), et couvre le catch et le spectacle vivant, un secteur distinct qui ne fait pas obstacle à l'usage du nom par le studio dans ses jeux.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/wwe-is-trademarking-vice-city-right-before-gta-6-aaa1",
+      "source_date": "2026-08-07",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Take-Two Interactive a annoncé lors de son dernier appel avec les investisseurs viser entre 8,0 et 8,2 milliards de dollars de revenus nets pour l'exercice fiscal en cours, contre environ 6,72 milliards réalisés l'exercice précédent (clos en mars 2026) — une hausse d'environ 1,4 milliard de dollars, soit près de 20 %, portée quasi entièrement par le lancement du jeu à venir prévu le 19 novembre 2026.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/take-two-has-now-bet-its-entire-year-on-gta-6-5770",
+      "source_date": "2026-08-07",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Take-Two Interactive a donné pour son trimestre en cours (juillet-septembre 2026) une prévision de revenus nets de 1,62 à 1,67 milliard de dollars, en retrait par rapport aux 1,96 milliard réalisés sur la même période un an plus tôt ; l'éditeur explique ce recul par le calendrier fiscal, ce trimestre se terminant quelques semaines avant la sortie du jeu à venir prévue le 19 novembre 2026, tout en maintenant inchangée sa prévision annuelle.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-take-two-is-guiding-down-its-next-quarter-before-the-gta-6-launch-5ba6",
+      "source_date": "2026-08-07",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Take-Two Interactive a comptabilisé une charge de dépréciation de 43,4 millions de dollars après avoir annulé un jeu tiers non annoncé qu'il devait éditer ; l'éditeur n'a précisé ni le nom ni la nature du projet, mais a indiqué qu'il n'était pas lié au studio à l'origine du jeu à venir ni à sa licence phare.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/take-two-quietly-killed-a-game-and-took-a-43-million-loss-97ca",
+      "source_date": "2026-08-07",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un site communautaire présente l'aperçu étendu du 27 août comme allant au-delà d'une bande-annonce classique et incluant des séquences de gameplay, une caractérisation plus affirmative que celle d'autres médias spécialisés qui, à la même date, jugent encore incertain si le format montrera effectivement du gameplay.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://leonidaverse.com/en/news/gta-6-extended-look-netflix-premiere",
+      "source_date": "2026-08-06",
+      "confidence": "single-source",
+      "note": "leonidaverse.com cite rockstargames.com et netflix.com comme sources mais formule cette caractérisation elle-même ; à recouper avec l'annonce officielle avant publication.",
+      "processed": true
+    }
+  ]
+}

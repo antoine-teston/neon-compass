@@ -1,0 +1,21 @@
+{
+  "id": "news_f90c58fc",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Un seul jeu du studio reste jouable sur le service de jeux Netflix",
+    "en": "Only one studio game is still playable on Netflix's game service"
+  },
+  "body": {
+    "fr": "À la mi-2026, le service de jeux mobiles de Netflix ne propose plus qu'un seul titre du studio à l'origine du jeu à venir : un western en monde ouvert de 2010, ajouté en décembre 2025. Les trois volets remasterisés d'une autre de ses séries avaient quitté le catalogue fin 2025, malgré le rapprochement affiché avec la plateforme autour de la diffusion du 27 août.",
+    "en": "As of mid-2026, Netflix's mobile game service carries just one title from the studio behind the upcoming game: a 2010 open-world western, added in December 2025. Three remastered entries from another of its series had left the catalogue by the end of 2025, despite the studio's newly announced partnership with the platform around the August 27 broadcast."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/this-is-every-rockstar-games-title-available-on-netflix-right-now-e1f2"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:2244efb2bce9",
+  "sourceClaim": "À la mi-2026, le seul titre du studio encore disponible sur le service de jeux mobiles de Netflix est Red Dead Redemption (ajouté en décembre 2025) ; les trois jeux de la trilogie remasterisée de la série concurrente qui avaient été proposés en décembre 2023 en ont tous été retirés, le dernier (San Andreas) fin 2025, si bien qu'aucun jeu de la série du studio n'y figure plus malgré le rapprochement affiché avec la plateforme autour de la diffusion de l'aperçu étendu."
+}
