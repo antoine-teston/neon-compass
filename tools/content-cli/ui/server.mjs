@@ -274,11 +274,25 @@ const server = createServer(async (req, res) => {
   send(res, 404, { error: 'not found' });
 });
 
-// 127.0.0.1 explicitement, pas 0.0.0.0 : ce serveur lance des processus, il n'a
-// rien à faire sur le réseau.
-server.listen(PORT, '127.0.0.1', () => {
+/** L'interface d'écoute. **127.0.0.1 par défaut, et ce défaut est le garde-fou
+ *  numéro un** : ce serveur lance des processus, publie sur le CDN et pousse des
+ *  branches — il n'a rien à faire sur un réseau.
+ *
+ *  Réglable uniquement pour le conteneur, qui doit écouter sur l'interface du
+ *  CONTENEUR (`0.0.0.0`) pour que Docker puisse lui parler. C'est alors
+ *  l'adresse de PUBLICATION du port qui porte la protection, et
+ *  `docker/compose.yml` la fixe à `127.0.0.1`.
+ *
+ *  Vérifié le 2026-08-08 sous Colima : l'adresse de publication est bien
+ *  honorée — le forwarder n'écoute que sur `127.0.0.1`, et le port est refusé
+ *  depuis le réseau local. Mais c'est une propriété du MOTEUR, pas du code, et
+ *  elle change avec lui : `docker/verifier-exposition.sh` la mesure au lieu de
+ *  la supposer, en essayant d'atteindre la console depuis l'adresse LAN. */
+const HOST = process.env.HOST ?? '127.0.0.1';
+
+server.listen(PORT, HOST, () => {
   const { brouillons } = cartesInstantanees();
-  console.log(`Console de pilotage  ->  http://127.0.0.1:${PORT}`);
+  console.log(`Console de pilotage  ->  http://${HOST}:${PORT}`);
   if (brouillons.totaux) {
     console.log(
       `  ${brouillons.totaux.attend} brouillon(s) attendent une décision, `

@@ -56,6 +56,12 @@ WORKDIR /depot/tools/content-cli
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Un HOME ÉCRIVABLE, et c'est indispensable : le conteneur tourne sous l'uid du
+# Mac (501), qui n'existe pas dans l'image et n'a donc pas de répertoire
+# personnel. `git config --global` tentait d'écrire `//.gitconfig`, échouait, et
+# l'entrée sortait — conteneur en boucle de redémarrage, avec pour seule trace
+# un « Permission denied » qui ne nomme pas la cause.
+ENV HOME=/tmp/console-home
 ENV NODE_ENV=production
 EXPOSE 4321
 

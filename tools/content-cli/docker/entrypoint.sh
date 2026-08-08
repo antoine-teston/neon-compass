@@ -6,6 +6,10 @@ set -eu
 
 DEPOT=/depot
 
+# Le HOME du conteneur. `/tmp` est le seul endroit sûrement écrivable par un uid
+# qui n'existe pas dans l'image — voir le Dockerfile.
+mkdir -p "${HOME:?}"
+
 # ---------------------------------------------------------------------------
 # 1. Le dépôt est-il bien là ?
 #
@@ -13,7 +17,10 @@ DEPOT=/depot
 # « 0 brouillon en attente » — le zéro qui se prend pour un fait, exactement ce
 # que tout ce tableau de bord existe pour supprimer.
 # ---------------------------------------------------------------------------
-if [ ! -d "$DEPOT/.git" ]; then
+# `-e` et non `-d` : dans un worktree git, `.git` est un FICHIER qui pointe
+# ailleurs, pas un répertoire. Tester le répertoire refuserait de démarrer sur
+# un worktree — et ce dépôt en utilise.
+if [ ! -e "$DEPOT/.git" ]; then
   echo "le dépôt n'est pas monté sur $DEPOT — vérifier le volume de compose.yml" >&2
   exit 1
 fi

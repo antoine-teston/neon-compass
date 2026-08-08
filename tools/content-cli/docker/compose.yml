@@ -19,6 +19,13 @@ services:
     container_name: neon-console
     restart: unless-stopped
     env_file: .env
+    environment:
+      # Le serveur écoute sur l'interface du CONTENEUR — sinon Docker ne peut pas
+      # lui parler, et le port publié ne mène à rien (constaté : réponse vide).
+      # La protection passe alors par l'adresse de PUBLICATION ci-dessous. Que
+      # le moteur l'honore est une propriété du moteur, pas du code : d'où
+      # `verifier-exposition.sh`, qui le mesure au lieu de le supposer.
+      HOST: 0.0.0.0
 
     ports:
       # ─────────────────────────────────────────────────────────────────────
@@ -32,16 +39,16 @@ services:
       # Écrire « 4321:4321 » l'exposerait sur toutes les interfaces. C'est la
       # faute d'un caractère, et `docker.test.mjs` échoue si elle est commise.
       # ─────────────────────────────────────────────────────────────────────
-      - "127.0.0.1:4321:4321"
+      # Le port HÔTE est réglable (CONSOLE_PORT) — on veut pouvoir lancer le
+      # conteneur pendant qu'une console manuelle occupe déjà 4321. Le préfixe,
+      # lui, ne l'est pas.
+      - "127.0.0.1:${CONSOLE_PORT:-4321}:4321"
 
     volumes:
       # Le dépôt, en écriture : la console édite les brouillons, commite et
       # pousse. Chemin relatif à ce fichier, donc indépendant de l'endroit d'où
       # `docker compose` est lancé.
       - ../../..:/depot
-      # Le cache npm hors du dépôt, pour ne pas salir l'arbre monté avec des
-      # fichiers appartenant à un autre utilisateur.
-      - console-npm:/home/node/.npm
 
     working_dir: /depot/tools/content-cli
 
@@ -63,6 +70,3 @@ services:
       options:
         max-size: "4m"
         max-file: "3"
-
-volumes:
-  console-npm:

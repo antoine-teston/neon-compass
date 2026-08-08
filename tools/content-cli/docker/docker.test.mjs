@@ -104,3 +104,30 @@ test('aucun secret n’est écrit en dur', () => {
     assert.equal(valeur.trim(), '', `${cle} porte une valeur dans .env.example`);
   }
 });
+
+test('le serveur écoute sur la boucle locale PAR DÉFAUT', () => {
+  // Le défaut est le garde-fou : `npm run ui` ne doit jamais se retrouver sur un
+  // réseau parce qu'un conteneur avait besoin d'autre chose.
+  const serveur = lire(join(ICI, '..', 'ui', 'server.mjs'));
+  assert.match(serveur, /process\.env\.HOST \?\? '127\.0\.0\.1'/);
+});
+
+test('le conteneur, lui, écoute sur son interface — et publie en boucle locale', () => {
+  // Les deux vont ensemble : sans `HOST: 0.0.0.0` le port publié ne mène à rien ;
+  // sans le préfixe de publication, la console est sur le réseau.
+  const yaml = lire(join(ICI, 'compose.yml'));
+  assert.match(yaml, /HOST:\s*0\.0\.0\.0/);
+  for (const p of portsDe(yaml)) assert.ok(p.startsWith('127.0.0.1:'), p);
+});
+
+test('le contrôle d’exposition existe et sait REFUSER', () => {
+  // Un script qui ne saurait que dire « tout va bien » serait indiscernable d'un
+  // bon résultat. Celui-ci sort en 1 quand la console répond depuis le LAN.
+  const script = readFileSync(join(ICI, 'verifier-exposition.sh'), 'utf8');
+  assert.match(script, /exit 1/);
+  assert.match(script, /127\.0\.0\.1:\\\$\{CONSOLE_PORT/, 'le script doit dire comment corriger');
+  // Et la sonde doit être une requête HTTP : `nc -z` accepte la connexion avant
+  // que le serveur soit prêt, et une première version a affiché « ✔ tout va
+  // bien » sur une console qui ne servait pas.
+  assert.match(script, /curl -s -m 4/, 'la sonde doit être une requête HTTP');
+});
