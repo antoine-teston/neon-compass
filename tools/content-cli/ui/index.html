@@ -182,6 +182,15 @@
     flex-direction: column;
     overflow: hidden;
   }
+  /* INDISPENSABLE, et découvert à ses dépens le 2026-08-08.
+     La feuille du navigateur ferme un `<dialog>` avec `dialog:not([open]) {
+     display: none }` — mais une règle d'AUTEUR l'emporte sur celle du navigateur,
+     quelle que soit sa spécificité. Le `display: flex` ci-dessus annulait donc la
+     fermeture : « Fermer » mettait bien `open` à faux, et la boîte restait à
+     l'écran. Elle était même visible avant toute ouverture.
+     Toute mise en page qui impose un `display` à un `<dialog>` doit rétablir
+     cette ligne. */
+  dialog:not([open]) { display: none; }
   dialog::backdrop { background: rgba(4, 6, 12, .72); }
   .editor {
     display: grid;
@@ -410,10 +419,12 @@
     <div class="champs"><h4 id="ed-title">—</h4><div id="ed-champs"></div></div>
   </div>
   <div class="editor-foot">
-    <span class="msg" id="ed-msg"></span>
-    <!-- « Écarter » à GAUCHE des trois autres, séparé : c'est le seul geste
-         irréversible du pied, il n'a rien à faire collé à « Enregistrer ». -->
+    <!-- « Écarter » AVANT le message, donc tout à gauche, séparé des trois
+         autres par lui. Placé après, il tombait exactement là où « Fermer » se
+         trouvait avant son arrivée : le geste irréversible héritait de la
+         position du geste inoffensif, et la mémoire du doigt fait le reste. -->
     <button id="ed-delete" class="danger">Écarter</button>
+    <span class="msg" id="ed-msg"></span>
     <button id="ed-close">Fermer</button>
     <button id="ed-save">Enregistrer</button>
     <button id="ed-publish" class="go">Publier</button>

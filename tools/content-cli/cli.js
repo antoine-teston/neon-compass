@@ -1,39 +1,19 @@
 #!/usr/bin/env node
 // Neon Compass admin CLI — brique C du pipeline (docs/superpowers/plans/
-// 2026-07-20-data-pipeline-pseudocode.md). Commandes :
-//   validate               valide content/{poi,poi-gtav,cheats,collections}/**.json
-//   check-publishable      règles éditoriales (cheats: verifiedBy >= 2, marques déposées)
-//   bundle                 régénère NeonCompass/Resources/POI/collections.json depuis
-//                          content/collections (projection, jamais éditée à la main)
-//   bundle --dry-run       équivalent de check-seeds (n'écrit rien)
-//   check-seeds            vérifie que les socles embarqués (collections.json,
-//                          seed-poi.json) ne sont pas en retard sur content/
-//   release                LA commande à utiliser : arbre propre + validate +
-//                          check-publishable + check-seeds, puis publish + bump.
-//                          `release --dry-run` exécute les mêmes contrôles sans écrire.
-//   translate --dry-run    liste les champs ES/IT/DE manquants
-//   publish --dry-run      montre ce qui partirait vers le CDN
-//   publish                construit le site statique et le téléverse sur Storage ;
-//                          nécessite SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY.
-//   pull-drafts            matérialise les brouillons du mode éditeur (posés au doigt
-//                          dans le build debug) en fichiers content/poi/*.json ;
-//                          nécessite SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY.
-//   pull-drafts --file X   même chose depuis un fichier exporté par l'app (repli sans
-//                          compte, cf. FileEditorDraftStore) ; aucun credential requis.
-//   pull-news              matérialise les faits `kind: "news"` de content/inbox en
-//                          squelettes content/news/*.json à rédiger ; idempotent
-//                          (cf. facts-to-news.mjs), aucun credential requis.
-//   pull-news --dry-run    montre ce qui serait matérialisé sans rien écrire.
-//   pull-online-events     matérialise les faits `kind: "online-event"` de content/inbox
-//                          en squelettes content/online-events/*.json à rédiger ;
-//                          idempotent (cf. facts-to-online-event.mjs), aucun
-//                          credential requis.
-//   pull-online-events --dry-run  montre ce qui serait matérialisé sans rien écrire.
-//   build-cdn              construit le site statique de contenu dans dist/ (JSON
-//                          versionné, lisible sans SDK — voir cdn-build.mjs)
-//   deploy-cdn             téléverse dist/ dans le bucket public `cdn`
-//   content-source [url|off]  affiche ou change la source de contenu lue par l'app
-//                          (contentBaseURL dans app_config ; `off` = socle embarqué seul)
+// 2026-07-20-data-pipeline-pseudocode.md).
+//
+//   node cli.js help              tout ce qui existe, par groupe
+//   node cli.js help <commande>   le détail, les pièges et des exemples
+//
+// La liste des commandes n'est PLUS ici. Elle vit dans `commands.mjs`, et
+// `commands.test.mjs` la compare aux `case` de ce fichier — dans les deux sens.
+//
+// Ce n'est pas du rangement : ce commentaire et la ligne d'usage étaient deux
+// copies d'une même liste, et toutes deux avaient dérivé. La ligne d'usage
+// proposait `deploy-rules`, disparu quand les règles d'accès sont devenues des
+// politiques RLS, et passait sous silence `bundle`, `check-seeds`, `release` et
+// `deploy-cdn`. Une aide fausse est pire qu'une aide absente : l'absence envoie
+// lire le code, le mensonge envoie taper une commande qui n'existe pas.
 //
 // Les règles d'accès n'ont plus de commande : ce sont des politiques RLS
 // versionnées dans supabase/migrations/, déployées par `supabase db push` et
@@ -255,8 +235,82 @@ async function publishAll() {
   }
 }
 
+import { NOMS, aide, aideDe, suggestion } from './commands.mjs';
+import { filtrer, formater, intervalle, lireLesActus, trier } from './news-list.mjs';
+
 const [cmd, ...flags] = process.argv.slice(2);
 const dry = flags.includes('--dry-run');
+
+/** Les options `--clé valeur` et `--drapeau`.
+ *
+ *  Un `--clé` sans valeur derrière est un DRAPEAU (`true`), pas une clé vide :
+ *  `--json` et `--since 2026-08-01` cohabitent sans qu'on ait à déclarer lequel
+ *  attend quoi. Une option inconnue n'est pas ignorée — voir plus bas. */
+function options(mots) {
+  const o = {};
+  for (let i = 0; i < mots.length; i++) {
+    if (!mots[i].startsWith('--')) continue;
+    const cle = mots[i].slice(2);
+    const suivant = mots[i + 1];
+    o[cle] = suivant && !suivant.startsWith('--') ? (i++, suivant) : true;
+  }
+  return o;
+}
+
+// L'aide AVANT de charger le contenu : `cli.js help` doit répondre même si un
+// fichier de `content/` est cassé — c'est même le moment où on en a le plus
+// besoin.
+if (cmd === undefined || cmd === 'help' || cmd === '--help' || cmd === '-h') {
+  const quoi = flags[0] ?? (cmd === 'help' ? undefined : flags[0]);
+  if (quoi) {
+    const detail = aideDe(quoi);
+    if (detail) {
+      console.log(detail);
+      process.exit(0);
+    }
+    console.error(`commande inconnue : ${quoi}`);
+    const proche = suggestion(quoi);
+    if (proche) console.error(`vouliez-vous dire « ${proche} » ?`);
+    process.exit(1);
+  }
+  console.log(aide());
+  process.exit(0);
+}
+
+// Une commande inconnue est refusée AVANT de charger `content/` : attendre la
+// fin du `switch` faisait lire six cents fichiers pour finir sur une faute de
+// frappe.
+if (!NOMS.includes(cmd)) {
+  console.error(`commande inconnue : ${cmd}`);
+  const proche = suggestion(cmd);
+  if (proche) console.error(`vouliez-vous dire « ${proche} » ?`);
+  console.error("`cli.js help` liste tout ce qui existe.");
+  process.exit(1);
+}
+
+// `news` ne lit que `content/news/` : ne pas charger tout le contenu pour lister
+// des actus, surtout quand on liste JUSTEMENT parce que quelque chose est cassé
+// ailleurs.
+if (cmd === 'news') {
+  try {
+    const o = options(flags);
+    const aujourdhui = new Date().toISOString().slice(0, 10);
+    const bornes = intervalle(
+      { since: o.since, until: o.until, days: o.days },
+      aujourdhui,
+    );
+    if (o.status && !['draft', 'published'].includes(o.status)) {
+      throw new Error(`--status : « ${o.status} » — attendu draft ou published`);
+    }
+    const items = trier(filtrer(lireLesActus(), { ...bornes, status: o.status }));
+    console.log(o.json ? JSON.stringify(items, null, 2) : formater(items, { ...bornes, status: o.status }));
+    process.exit(0);
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+}
+
 const entries = loadAll();
 
 let ok;
@@ -779,7 +833,10 @@ switch (cmd) {
     }
     break;
   default:
-    console.error('usage: cli.js <validate|check-publishable|translate --dry-run|publish --dry-run|deploy-rules|build-cdn|content-source [url|off]|pull-drafts [--file X]|pull-news [--dry-run]|pull-online-events [--dry-run]|moderate:list|moderate:approve <id>|moderate:reject <id>|shadow-ban <uid>|lift-shadow-ban <uid>|kill-switch [on|off]>');
+    // Inatteignable : `NOMS` a déjà filtré plus haut. Le garder rend l'oubli
+    // visible — une commande déclarée sans `case` tombe ici plutôt que de
+    // sortir en silence avec un code 0.
+    console.error(`« ${cmd} » est déclarée dans commands.mjs mais n'a pas de traitement.`);
     ok = false;
 }
 
