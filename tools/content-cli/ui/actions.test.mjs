@@ -6,6 +6,9 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { ACTIONS, ID_PATTERN, resolveAction } from './actions.mjs';
 import { CARNET, FICHES } from './hotfix.mjs';
 
@@ -71,10 +74,39 @@ test('toute action de production est marquée destructive ou needsCredentials', 
   }
 });
 
+/** Les groupes qui ne passent PAS par `renderActions`, et par où ils passent.
+ *
+ *  Une liste explicite plutôt qu'un fourre-tout : ajouter un groupe ici est une
+ *  décision qu'on écrit, pas un oubli qu'on tolère. */
+const RENDUS_AILLEURS = {
+  hotfix: 'le carnet (renderCarnet)',
+  github: 'la section Récolte (renderRecolte)',
+};
+
 test('les groupes déclarés sont ceux que la page sait afficher', () => {
-  const known = new Set(['checks', 'local', 'prod', 'moderation', 'github', 'hotfix']);
+  // Ce test lisait une liste écrite à la main tout en affirmant, dans son
+  // message d'échec, vérifier `index.html`. Il ne le faisait pas. Corrigé le
+  // 2026-08-08 : il lit maintenant les DEUX fichiers, donc il attrape le cas
+  // réel — un groupe déclaré dont la boucle de rendu ou le conteneur manque, et
+  // dont les boutons n'apparaîtraient nulle part, sans erreur ni avertissement.
+  const ici = dirname(fileURLToPath(import.meta.url));
+  const page = readFileSync(join(ici, 'index.html'), 'utf8');
+  const script = readFileSync(join(ici, 'console.js'), 'utf8');
+
+  const boucle = /for \(const group of \[([^\]]+)\]\)/.exec(script);
+  assert.ok(boucle, 'la boucle de rendu des groupes est introuvable dans console.js');
+  const rendus = new Set([...boucle[1].matchAll(/'([a-z-]+)'/g)].map((m) => m[1]));
+  assert.ok(rendus.size >= 4, `boucle de rendu suspecte : ${[...rendus]}`);
+
+  for (const groupe of rendus) {
+    assert.ok(
+      page.includes(`id="g-${groupe}"`),
+      `console.js rend le groupe « ${groupe} », mais index.html n'a pas de #g-${groupe}`,
+    );
+  }
   for (const [name, action] of Object.entries(ACTIONS)) {
-    assert.ok(known.has(action.group), `${name} : groupe « ${action.group} » sans conteneur dans index.html`);
+    const ok = rendus.has(action.group) || action.group in RENDUS_AILLEURS;
+    assert.ok(ok, `${name} : groupe « ${action.group} » rendu nulle part`);
   }
 });
 

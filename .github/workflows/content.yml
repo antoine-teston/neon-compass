@@ -44,6 +44,11 @@ on:
       - 'NeonCompass/Resources/POI/**'
       - '.github/workflows/**'
       - '.claude/agents/**'
+      # Ajouté le 2026-08-08 avec la fonction `metrics` : ses tests Deno sont la
+      # seule preuve qu'aucun nominatif ne sort de la porte des nombres, et
+      # aucun workflow ne les atteignait — `functions.yml` est un déploiement
+      # manuel, pas un contrôle de PR.
+      - 'supabase/functions/**'
   push:
     branches: [main]
     paths:
@@ -53,6 +58,11 @@ on:
       - 'NeonCompass/Resources/POI/**'
       - '.github/workflows/**'
       - '.claude/agents/**'
+      # Ajouté le 2026-08-08 avec la fonction `metrics` : ses tests Deno sont la
+      # seule preuve qu'aucun nominatif ne sort de la porte des nombres, et
+      # aucun workflow ne les atteignait — `functions.yml` est un déploiement
+      # manuel, pas un contrôle de PR.
+      - 'supabase/functions/**'
   workflow_dispatch:
     inputs:
       publish:
@@ -121,6 +131,23 @@ jobs:
           tools/content-cli/source-policy.test.mjs
           tools/edge-functions/drift.test.mjs
           tools/ops/set-admob-ids.test.mjs
+          tools/monitor/imports.test.mjs
+          tools/monitor/metrics.test.mjs
+
+      # Les tests Deno de la porte des nombres. Ils ne tournaient NULLE PART
+      # avant le 2026-08-08 — `functions.yml` est un déploiement manuel, donc
+      # aucune PR ne les atteignait.
+      #
+      # Ce n'est pas une suite comme une autre : `fuitesDe` est la seule preuve
+      # qu'aucun titre ni pseudonyme ne sort de `metrics`, et c'est sur cette
+      # promesse que repose le fait qu'un Raspberry Pi sur le réseau local ne
+      # détient qu'un jeton inoffensif. Une garantie qu'on ne rejoue jamais
+      # cesse d'en être une.
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Tests des Edge Functions
+        run: deno test --quiet supabase/functions/
 
       - name: Installer les dépendances du CLI
         working-directory: tools/content-cli
