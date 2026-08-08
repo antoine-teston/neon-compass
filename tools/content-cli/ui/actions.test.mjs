@@ -234,3 +234,68 @@ test('ID_PATTERN reste ancré des deux côtés', () => {
   assert.ok(ID_PATTERN.source.startsWith('^') && ID_PATTERN.source.endsWith('$'));
   assert.equal(ID_PATTERN.test('ok\nrm -rf /'), false);
 });
+
+// ---------------------------------------------------------------------------
+// Le piège du <dialog> à qui on impose un `display`
+//
+// La feuille du navigateur ferme un `<dialog>` avec
+// `dialog:not([open]) { display: none }`. Une règle d'AUTEUR l'emporte sur celle
+// du navigateur quelle que soit sa spécificité : poser `display: flex` sur
+// `dialog` annule donc la fermeture. « Fermer » met bien `open` à faux, et la
+// boîte reste à l'écran — visible même avant la première ouverture.
+//
+// Régression introduite puis corrigée le 2026-08-08, en passant l'éditeur en
+// colonne flex pour réparer son défilement. Le CSS n'a pas de suite de tests
+// dans ce dépôt ; celui-ci lit la feuille et vérifie la seule règle dont
+// l'absence transforme un correctif en panne.
+// ---------------------------------------------------------------------------
+
+/** Le texte sans ses commentaires CSS et HTML.
+ *
+ *  Indispensable, et la première version de ce test l'avait oublié — pour la
+ *  DEUXIÈME fois dans ce dépôt, après `tools/monitor/imports.test.mjs`. Le
+ *  commentaire qui EXPLIQUE la règle la cite, donc un test qui cherche la règle
+ *  dans le texte brut est satisfait par sa propre documentation : retirer la
+ *  ligne de code ne le faisait pas broncher.
+ *
+ *  Un contrôle qu'une explication suffit à contenter ne contrôle rien. */
+function sansCommentaires(texte) {
+  return texte.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/<!--[\s\S]*?-->/g, ' ');
+}
+
+test('un `display` imposé à un <dialog> s’accompagne de sa fermeture', () => {
+  const page = sansCommentaires(
+    readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'index.html'), 'utf8'),
+  );
+
+  // Le bloc `dialog { … }` de premier niveau, hors `::backdrop` et hors `:not`.
+  const bloc = /(^|\})\s*dialog\s*\{([^}]*)\}/m.exec(page);
+  assert.ok(bloc, 'aucune règle `dialog { … }` trouvée dans index.html');
+
+  if (/display\s*:/.test(bloc[2])) {
+    assert.match(
+      page,
+      /dialog:not\(\[open\]\)\s*\{[^}]*display\s*:\s*none/,
+      'index.html impose un `display` à `dialog` sans rétablir '
+      + '`dialog:not([open]) { display: none }` — la boîte restera à l’écran après « Fermer »',
+    );
+  }
+});
+
+test('le geste irréversible n’est pas là où on clique pour fermer', () => {
+  // « Écarter » a d'abord été posé juste avant « Fermer », donc exactement à la
+  // place que « Fermer » occupait la veille. La mémoire du doigt fait le reste.
+  // Il vit maintenant AVANT le message, qui l'écarte des trois autres.
+  const page = sansCommentaires(
+    readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'index.html'), 'utf8'),
+  );
+  const pied = /<div class="editor-foot">([\s\S]*?)<\/div>/.exec(page);
+  assert.ok(pied, 'pied de l’éditeur introuvable');
+
+  const ordre = [...pied[1].matchAll(/id="(ed-[a-z]+)"/g)].map((m) => m[1]);
+  assert.equal(ordre[0], 'ed-delete', `« Écarter » n’est plus en tête du pied : ${ordre}`);
+  assert.ok(
+    ordre.indexOf('ed-msg') < ordre.indexOf('ed-close'),
+    `le message doit séparer « Écarter » de « Fermer » : ${ordre}`,
+  );
+});

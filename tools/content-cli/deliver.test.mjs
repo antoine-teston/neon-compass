@@ -58,7 +58,11 @@ test('la transition de statut est ce qu’un relecteur veut voir', () => {
   assert.equal(transitionDe({ status: 'draft' }, { status: 'published' }), 'draft → published');
   assert.equal(transitionDe({ status: 'draft' }, { status: 'draft' }), 'reste draft');
   assert.equal(transitionDe(null, { status: 'draft' }), 'créé draft');
-  assert.equal(transitionDe(null, null), 'modifié');
+  // `(null, null)` disait « modifié » jusqu'au 2026-08-08, et ça ne disait rien :
+  // ce cas veut dire que le fichier EXISTE et ne se parse pas. Depuis que
+  // l'absence a son propre signal (`undefined`), `null` n'est plus ambigu du
+  // côté local, et « illisible » est ce qu'un relecteur a besoin de lire.
+  assert.equal(transitionDe(null, null), 'illisible');
 });
 
 test('le titre annonce le nombre, par kind', () => {
@@ -174,4 +178,21 @@ test('un renommage est rangé sous sa destination', () => {
 test('resteDeCote supporte une entrée vide ou absente', () => {
   assert.deepEqual(resteDeCote(''), { exclu: [], laisse: [] });
   assert.deepEqual(resteDeCote(null), { exclu: [], laisse: [] });
+});
+
+test('un fichier écarté ne s’affiche pas « draft → null »', () => {
+  // Constaté le 2026-08-08 en écartant un brouillon depuis la console : la
+  // Livraison annonçait `draft → null`. Un `null` de JavaScript dans une
+  // étiquette lue par un humain est toujours un oubli.
+  assert.equal(transitionDe({ status: 'draft' }, undefined), 'écarté (était draft)');
+  assert.equal(transitionDe(null, undefined), 'écarté');
+});
+
+test('« écarté » et « illisible » ne se confondent pas', () => {
+  // Le fichier n'existe plus VS il existe et ne se parse pas : un geste
+  // délibéré d'un côté, une panne de l'autre. Les afficher pareil ferait passer
+  // un JSON cassé pour une suppression voulue.
+  assert.equal(transitionDe({ status: 'published' }, undefined), 'écarté (était published)');
+  assert.equal(transitionDe({ status: 'published' }, null), 'published → illisible');
+  assert.equal(transitionDe(null, null), 'illisible');
 });

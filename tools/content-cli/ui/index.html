@@ -143,10 +143,33 @@
   .item:hover { border-color: var(--cyan); }
   .item .why { grid-column: 1 / -1; font-size: 12px; color: var(--amber); }
   .item .meta { font-size: 12px; color: var(--muted); }
+  /* Le lien vers l'article d'origine. Discret par défaut — c'est un recours, pas
+     la raison d'être de la carte — et il ne s'allume qu'au survol. */
+  .item .source {
+    font-size: 11.5px; color: var(--muted); text-decoration: none;
+    border-bottom: 1px dotted var(--line); white-space: nowrap;
+  }
+  .item .source:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
   .item.attend { border-left: 3px solid var(--lime); }
   .item.retenu { border-left: 3px solid var(--amber); }
   .item.casse { border-left: 3px solid var(--red); }
 
+  /* ---- L'éditeur, et le piège de `min-height: auto` -------------------------
+     Corrigé le 2026-08-08. Les colonnes portaient déjà `overflow-y: auto`, et
+     ça ne servait à RIEN : un élément de grille a `min-height: auto`, donc il
+     REFUSE de descendre sous la hauteur de son contenu. La colonne grandissait
+     jusqu'à son contenu, le débordement n'arrivait jamais, et `overflow-y`
+     restait sans effet.
+
+     Mesuré à 720 px de fenêtre : la grille montrait 562 px pour 670 px de
+     contenu — 108 px hors champ, aucune barre, `scrollTop` figé à 0. Aucune
+     erreur, aucun avertissement : le contenu était simplement coupé.
+
+     Deux corrections, et il faut les deux. `min-height: 0` rend les colonnes
+     compressibles ; le passage de la boîte de dialogue en colonne flex remplace
+     deux plafonds en `vh` qui pouvaient se contredire (90 pour la boîte, 78 pour
+     la grille) par une seule règle : le pied garde sa taille, la grille prend le
+     reste. Le pied ne peut donc plus sortir de l'écran. */
   dialog {
     background: var(--panel);
     color: var(--ink);
@@ -155,11 +178,38 @@
     padding: 0;
     width: min(1100px, 94vw);
     max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
+  /* INDISPENSABLE, et découvert à ses dépens le 2026-08-08.
+     La feuille du navigateur ferme un `<dialog>` avec `dialog:not([open]) {
+     display: none }` — mais une règle d'AUTEUR l'emporte sur celle du navigateur,
+     quelle que soit sa spécificité. Le `display: flex` ci-dessus annulait donc la
+     fermeture : « Fermer » mettait bien `open` à faux, et la boîte restait à
+     l'écran. Elle était même visible avant toute ouverture.
+     Toute mise en page qui impose un `display` à un `<dialog>` doit rétablir
+     cette ligne. */
+  dialog:not([open]) { display: none; }
   dialog::backdrop { background: rgba(4, 6, 12, .72); }
-  .editor { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 0; max-height: 78vh; }
-  @media (max-width: 900px) { .editor { grid-template-columns: minmax(0, 1fr); } }
-  .editor > div { padding: 16px; overflow-y: auto; }
+  .editor {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 0;
+    flex: 1 1 auto;
+    min-height: 0;   /* sinon la grille refuse de se compresser, comme ses enfants */
+  }
+  .editor > div { padding: 16px; overflow-y: auto; min-height: 0; }
+  .editor-foot { flex: 0 0 auto; }
+  /* En une seule colonne, c'est la GRILLE qui défile et non chaque volet : deux
+     zones de défilement empilées obligent à deviner laquelle répond à la molette.
+     APRÈS la règle ci-dessus, et pas avant : à spécificité égale c'est la
+     dernière qui gagne, et placée plus haut cette exception ne s'appliquait
+     jamais — les deux volets gardaient leur `overflow-y: auto`. */
+  @media (max-width: 900px) {
+    .editor { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
+    .editor > div { overflow-y: visible; }
+  }
   .faits { background: var(--bg); border-right: 1px solid var(--line); }
   .faits h4, .champs h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
   .faits p { font-size: 13px; line-height: 1.6; }
@@ -369,6 +419,11 @@
     <div class="champs"><h4 id="ed-title">—</h4><div id="ed-champs"></div></div>
   </div>
   <div class="editor-foot">
+    <!-- « Écarter » AVANT le message, donc tout à gauche, séparé des trois
+         autres par lui. Placé après, il tombait exactement là où « Fermer » se
+         trouvait avant son arrivée : le geste irréversible héritait de la
+         position du geste inoffensif, et la mémoire du doigt fait le reste. -->
+    <button id="ed-delete" class="danger">Écarter</button>
     <span class="msg" id="ed-msg"></span>
     <button id="ed-close">Fermer</button>
     <button id="ed-save">Enregistrer</button>

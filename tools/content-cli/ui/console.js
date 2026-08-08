@@ -104,12 +104,44 @@ async function run(name, params = {}) {
 // L'atelier
 // ---------------------------------------------------------------------------
 
+/** L'hôte d'une URL, ou `null` si elle est illisible.
+ *
+ *  L'URL entière ferait trois lignes sur la carte et n'apprendrait rien de plus :
+ *  ce qu'on veut savoir d'un coup d'œil, c'est DE QUI ça vient. L'adresse
+ *  complète part dans l'infobulle du lien. */
+function hoteDe(url) {
+  try {
+    return new URL(url).host.replace(/^www\./, '');
+  } catch {
+    return null;
+  }
+}
+
 function itemNode(item, pile) {
   const node = document.createElement('div');
   node.className = `item ${pile}`;
   node.innerHTML = `<div>${esc(item.titre ?? item.id)}</div>
     <div class="meta">${esc(item.date ?? '')}</div>
     <div class="meta">${esc(item.kind)} · ${esc(item.id)}</div><div></div>`;
+
+  // Le lien vers l'article d'origine, sur la carte. Relire une actu, c'est
+  // presque toujours la comparer à ce dont elle sort ; l'atteindre demandait
+  // jusqu'ici d'ouvrir l'éditeur, donc deux clics par vérification.
+  const hote = item.source ? hoteDe(item.source) : null;
+  if (hote) {
+    const lien = document.createElement('a');
+    lien.className = 'source';
+    lien.href = item.source;
+    lien.target = '_blank';
+    lien.rel = 'noreferrer';
+    lien.textContent = hote;
+    lien.title = item.source;
+    // Sans ça, ouvrir la source ouvrirait AUSSI la fiche derrière — la carte
+    // entière est cliquable.
+    lien.onclick = (e) => e.stopPropagation();
+    node.lastElementChild.append(lien);
+  }
+
   if (item.raisons?.length) {
     const why = document.createElement('div');
     why.className = 'why';
@@ -154,6 +186,10 @@ function renderAtelier() {
 function champNode(champ, data, onChange) {
   const wrap = document.createElement('div');
   wrap.className = 'champ';
+  // Le champ est retrouvable depuis l'extérieur : « Publier » doit pouvoir
+  // remettre le sélecteur de statut en accord avec ce qu'il vient d'écrire,
+  // sinon la page affiche `draft` sur un item qu'elle vient de publier.
+  wrap.dataset.champ = champ.field;
   wrap.innerHTML = `<label>${esc(champ.field)}</label>`;
 
   if (champ.type === 'localized') {
@@ -214,19 +250,44 @@ async function ouvrir(kind, id) {
 
   const host = document.getElementById('ed-champs');
   host.textContent = '';
-  const onChange = (field, value) => { ouvert.data[field] = value; };
+  const onChange = (field, value) => {
+    ouvert.data[field] = value;
+    // Changer le statut change ce que le pied doit dire — et surtout si
+    // « Écarter » a encore le droit d'exister.
+    if (field === 'status') majBlocages();
+  };
   for (const champ of ouvert.champs) host.append(champNode(champ, ouvert.data, onChange));
 
   majBlocages();
   editor.showModal();
 }
 
+/** Remet le sélecteur de statut en accord avec les données.
+ *
+ *  Appelé après « Publier », qui écrit `published` sans passer par le sélecteur.
+ *  Sans ça la page afficherait `draft` sur un item qu'elle vient de publier —
+ *  et le prochain enregistrement le dépublierait sans que personne l'ait demandé. */
+function synchroniserStatut() {
+  const select = document.querySelector('#ed-champs [data-champ="status"] select');
+  if (select) select.value = ouvert.data.status;
+}
+
 function majBlocages() {
   const msg = document.getElementById('ed-msg');
   const publier = document.getElementById('ed-publish');
+  const ecarter = document.getElementById('ed-delete');
+
+  // Un item publié ne s'écarte pas : son fragment est déjà servi aux clients, et
+  // supprimer le fichier n'enlèverait que la trace de ce qu'on a publié. Le
+  // serveur refuse aussi — ce bouton n'est que la politesse d'avance.
+  ecarter.disabled = ouvert.data.status !== 'draft';
+  ecarter.title = ecarter.disabled
+    ? 'Un item publié ne s’écarte pas : le repasser en `draft`, republier, puis écarter.'
+    : 'Supprime le fichier. La suppression apparaît dans la Livraison, donc dans une PR relue.';
+
   if (ouvert.data.status === 'published') {
     msg.className = 'msg good';
-    msg.textContent = 'Déjà publié.';
+    msg.textContent = 'Publié.';
     publier.disabled = true;
   } else if (ouvert.blocages.length) {
     msg.className = 'msg warn';
@@ -257,17 +318,49 @@ async function enregistrer(publier) {
   }
   ouvert.data = data;
   ouvert.fingerprint = body.fingerprint;
+  synchroniserStatut();
+  majBlocages();
   msg.className = 'msg good';
-  msg.textContent = publier ? 'Publié dans le dépôt — reste à commiter.' : 'Enregistré.';
+  msg.textContent = publier
+    ? 'Publié dans le dépôt — reste à commiter.'
+    : `Enregistré en \`${data.status}\`.`;
   await chargerDrafts();
   // Publier un brouillon change ce qui partirait : la livraison le voit tout de suite.
   chargerLivraison();
   if (publier) editor.close();
 }
 
+/** Écarte le brouillon ouvert.
+ *
+ *  La confirmation nomme le TITRE et pas l'identifiant : `news_4c5bfa38` ne dit
+ *  rien, et c'est exactement dans ce vide qu'on confirme la suppression du
+ *  mauvais item. */
+async function ecarter() {
+  const msg = document.getElementById('ed-msg');
+  const titre = ouvert.data.title?.fr ?? ouvert.data.title?.en ?? ouvert.id;
+  if (!confirm(`Écarter ce brouillon ?\n\n« ${titre} »\n\nLe fichier est supprimé du dépôt. `
+    + 'La suppression apparaîtra dans la Livraison, donc dans une pull request relue.')) return;
+
+  const res = await fetch(`/api/draft/${encodeURIComponent(ouvert.kind)}/${encodeURIComponent(ouvert.id)}`, {
+    method: 'DELETE',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ fingerprint: ouvert.fingerprint }),
+  });
+  const body = await res.json();
+  if (!res.ok) {
+    msg.className = 'msg bad';
+    msg.textContent = body.error;
+    return;
+  }
+  editor.close();
+  await chargerDrafts();
+  chargerLivraison();
+}
+
 document.getElementById('ed-close').onclick = () => editor.close();
 document.getElementById('ed-save').onclick = () => enregistrer(false);
 document.getElementById('ed-publish').onclick = () => enregistrer(true);
+document.getElementById('ed-delete').onclick = ecarter;
 
 // ---------------------------------------------------------------------------
 // La Récolte

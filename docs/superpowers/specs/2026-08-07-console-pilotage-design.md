@@ -562,6 +562,69 @@ que le réseau est tombé remplacerait un tableau de bord qui dit « injoignable
 Et l'âge du dernier relevé **réussi** est affiché en permanence, parce qu'un tableau de bord figé et
 un tableau de bord calme ont exactement la même tête.
 
+## La CLI, et le bouton Fermer *(2026-08-08)*
+
+### La régression, et sa cause exacte
+
+Passer la boîte d'édition en colonne flex pour réparer son défilement a cassé sa fermeture.
+La feuille du navigateur ferme un `<dialog>` avec `dialog:not([open]) { display: none }` — mais
+**une règle d'auteur l'emporte sur celle du navigateur, quelle que soit sa spécificité**. Le
+`display: flex` annulait donc la fermeture : « Fermer » mettait bien `open` à faux, et la boîte
+restait à l'écran. Elle était même visible avant la première ouverture.
+
+Deuxième défaut du même changement : « Écarter », posé juste avant « Fermer », tombait
+exactement là où « Fermer » se trouvait la veille. **Le geste irréversible héritait de la
+position du geste inoffensif.** Il vit maintenant avant le message, qui l'écarte des trois
+autres — et les trois retrouvent leurs abscisses d'origine (986, 1071, 1179 px).
+
+Le CSS n'a pas de suite de tests ici, donc deux tests lisent la feuille : l'un exige la règle de
+fermeture dès qu'un `display` est imposé à `dialog`, l'autre vérifie l'ordre du pied.
+
+**Le piège, rencontré deux fois dans la même journée** : un test qui cherche une règle dans le
+texte brut est satisfait par le COMMENTAIRE qui l'explique. La première version du test passait
+alors même qu'on retirait la ligne de code — c'est ma propre documentation qui la désarmait. Les
+deux tests retirent maintenant les commentaires avant de chercher, comme
+`tools/monitor/imports.test.mjs` avait déjà dû le faire.
+
+### La CLI : une aide qui ne peut plus mentir
+
+La ligne d'usage était une chaîne de 400 caractères recopiée à deux endroits, et **elle était
+fausse** : elle proposait `deploy-rules`, disparu quand les règles d'accès sont devenues des
+politiques RLS, et taisait `bundle`, `check-seeds`, `release`, `deploy-cdn`. Une aide fausse est
+pire qu'une aide absente — l'absence envoie lire le code, le mensonge envoie taper une commande
+qui n'existe pas.
+
+La liste vit maintenant dans `commands.mjs`, une seule fois, et `commands.test.mjs` la compare
+aux `case` du `switch` **dans les deux sens** : une commande sans traitement échoue, un
+traitement non déclaré aussi. Les deux mutations correspondantes ont été jouées.
+
+Ce qui change à l'usage : `cli.js help` groupe les commandes par moment de la journée (regarder,
+récolter, contrôler, publier, modérer) ; `cli.js help <commande>` donne la forme, les pièges et
+des exemples ; une faute de frappe propose la commande la plus proche, et **ne propose rien**
+quand rien n'est assez proche — envoyer sur une fausse piste coûte plus cher que se taire.
+
+### `news` — voir avant de vérifier
+
+Il n'existait aucun moyen de REGARDER le contenu en ligne de commande : `validate` dit si c'est
+valide, `check-publishable` si c'est publiable, rien ne disait « qu'est-ce qu'il y a ».
+
+```
+cli.js news --days 7
+cli.js news --since 2026-08-01 --status draft
+cli.js news --json | jq -r '.[].id'
+```
+
+Les dates portent sur `publishedAt`, jamais sur la date du fichier. `--days N` compte
+**aujourd'hui comme premier jour** : `--days 1` rend les actus du jour, sinon on lirait « aucune
+actu » le jour où l'on vient d'en publier trois.
+
+Trois refus plutôt que trois silences : une date mal formée, un intervalle inversé et un
+`--days` absurde sont des erreurs. Chacun, ignoré, aurait rendu une liste qui ment — et le pire
+est l'intervalle inversé, qui rendrait « aucune actu » sur une simple inversion de saisie.
+
+`news` et `help` s'exécutent **avant** le chargement de `content/` : c'est précisément quand un
+fichier est cassé qu'on a besoin de lister le contenu et de lire l'aide.
+
 ## Hors périmètre
 
 Nommé pour ne pas y revenir par accident :
