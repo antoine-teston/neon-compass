@@ -152,6 +152,7 @@ const FICHIERS = {
   '/': [join(HERE, 'index.html'), 'text/html'],
   '/console.js': [join(HERE, 'console.js'), 'text/javascript'],
   '/layout.mjs': [join(HERE, 'layout.mjs'), 'text/javascript'],
+  '/indicateurs.mjs': [join(HERE, 'indicateurs.mjs'), 'text/javascript'],
   // Partagés avec le moniteur du Raspberry Pi. Servis depuis `tools/monitor/`
   // plutôt que recopiés : deux copies auraient divergé, et les couleurs de ces
   // fichiers sont calculées — une valeur recopiée à la main perd sa preuve.

@@ -23,6 +23,10 @@ import {
 // PARTAGÉS tels quels avec le moniteur du Raspberry Pi. Servis par la liste
 // blanche sous `/graphes.mjs`.
 import { armerBulle, esc, installerBulle, renderFile, renderSante } from './graphes.mjs';
+// Ce que chaque onglet dit de lui-même. Module PUR — il reçoit l'état et rend
+// des objets, donc la règle « aucun indicateur ne ment par omission » se teste
+// sans navigateur.
+import { indicateurs } from './indicateurs.mjs';
 
 const out = document.getElementById('console');
 const editor = document.getElementById('editor');
@@ -31,6 +35,7 @@ let state = null;
 let drafts = null;
 let metriques = null; // l'instantané Supabase, ou la phrase qui dit pourquoi non
 let livraison = null; // ce que la livraison ferait, ou la phrase qui dit pourquoi non
+let reseau = null;    // récolte, app_config, dérive des fonctions — arrive après
 let ouvert = null; // le brouillon affiché dans la boîte d'édition
 
 function log(text, cls) {
@@ -731,6 +736,7 @@ async function chargerDrafts() {
   drafts = await (await fetch('/api/drafts')).json();
   renderAtelier();
   renderGraphes();
+  majIndicateurs();
 }
 
 // ---------------------------------------------------------------------------
@@ -828,6 +834,7 @@ async function chargerLivraison() {
     livraison = { indisponible: `la console ne répond pas — ${err.message}` };
   }
   renderLivraison();
+  majIndicateurs();
 }
 
 // ---------------------------------------------------------------------------
@@ -860,6 +867,7 @@ async function chargerMetriques() {
     metriques = { indisponible: `la console ne répond pas — ${err.message}` };
   }
   renderMetriquesConsole();
+  majIndicateurs();
 }
 
 async function refresh() {
@@ -873,14 +881,17 @@ async function refresh() {
   renderRecolte(null);
   renderMetriquesConsole();
   renderLivraison();
+  majIndicateurs();
   chargerDrafts();
   chargerLivraison();
 
   // Puis le réseau, carte par carte. Une carte lente ne retarde plus rien.
   chargerMetriques();
-  fetch('/api/state/network').then((r) => r.json()).then((reseau) => {
+  fetch('/api/state/network').then((r) => r.json()).then((recu) => {
+    reseau = recu;
     renderPills(reseau);
     renderRecolte(reseau);
+    majIndicateurs();
   }).catch((err) => {
     document.getElementById('recolte-verdict').textContent = 'illisible';
   });
@@ -913,7 +924,11 @@ for (const { id, label } of ONGLETS) {
   const bouton = document.createElement('button');
   bouton.className = 'onglet';
   bouton.dataset.onglet = id;
-  bouton.innerHTML = `${label}<span class="compte" hidden></span>`;
+  // Trois choses, dans cet ordre : le nom, ce que l'onglet a à dire, et le
+  // nombre de ses sections repliées. Les deux dernières répondent à des
+  // questions différentes — « qu'y a-t-il à faire » et « qu'est-ce que je me
+  // cache » — donc elles ne se confondent pas dans une seule pastille.
+  bouton.innerHTML = `${label}<span class="indic" hidden></span><span class="compte" hidden></span>`;
   bouton.onclick = () => activer(id);
   barre.append(bouton);
 
@@ -936,6 +951,24 @@ function activer(id) {
   ongletActif = id;
   for (const vue of vues.children) vue.hidden = vue.dataset.onglet !== id;
   for (const b of barre.children) b.classList.toggle('actif', b.dataset.onglet === id);
+}
+
+/** Pose l'indicateur de chaque onglet.
+ *
+ *  Appelée à chaque arrivée de données — instantanées, puis réseau, puis
+ *  métriques — parce qu'un indicateur qui resterait sur « ? » après le
+ *  chargement serait pire que pas d'indicateur du tout. */
+function majIndicateurs() {
+  const tous = indicateurs({ state, metriques, reseau, livraison });
+  for (const b of barre.children) {
+    const el = b.querySelector('.indic');
+    const i = tous[b.dataset.onglet];
+    el.hidden = !i;
+    if (!i) continue;
+    el.textContent = i.texte;
+    el.className = `indic n-${i.niveau}`;
+    el.title = i.titre;
+  }
 }
 
 function appliquerDisposition() {

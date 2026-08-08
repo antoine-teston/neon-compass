@@ -145,6 +145,24 @@
   .item .meta { font-size: 12px; color: var(--muted); }
   /* Le lien vers l'article d'origine. Discret par défaut — c'est un recours, pas
      la raison d'être de la carte — et il ne s'allume qu'au survol. */
+  /* ---- Indicateurs d'onglet -----------------------------------------------
+     Ce que l'onglet a à dire sans qu'on l'ouvre. La couleur ne porte JAMAIS le
+     sens à elle seule — les trois teintes de statut de cette console sont à
+     ΔE 6,6 en deutéranopie, donc chaque indicateur porte un chiffre ou un mot,
+     et le niveau ne fait que le teinter. */
+  .onglet .indic {
+    margin-left: 8px; font-size: 11.5px; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--muted);
+    font-weight: 400; white-space: nowrap; vertical-align: 1px;
+  }
+  .onglet .indic[hidden] { display: none; }
+  .indic.n-bon { color: var(--lime); border-color: color-mix(in srgb, var(--lime) 40%, transparent); }
+  .indic.n-attention { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); }
+  .indic.n-grave { color: var(--red); border-color: color-mix(in srgb, var(--red) 50%, transparent); }
+  /* `inconnu` reste GRIS et n'imite ni le bon ni le grave : une donnée qui n'est
+     pas arrivée n'est pas une nouvelle, ni bonne ni mauvaise. */
+  .indic.n-inconnu { color: var(--muted); border-style: dashed; }
+
   .item .source {
     font-size: 11.5px; color: var(--muted); text-decoration: none;
     border-bottom: 1px dotted var(--line); white-space: nowrap;
