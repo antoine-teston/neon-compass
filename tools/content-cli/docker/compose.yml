@@ -1,0 +1,72 @@
+# La console de pilotage, toujours là.
+#
+#   docker compose -f tools/content-cli/docker/compose.yml up -d --build
+#   docker compose -f tools/content-cli/docker/compose.yml logs -f
+#
+# Puis http://127.0.0.1:4321 — la même adresse qu'avec `npm run ui`.
+#
+# Les secrets viennent d'un `.env` posé À CÔTÉ de ce fichier, ignoré par git.
+# Voir `.env.example`, qui dit quoi mettre et comment l'obtenir.
+
+services:
+  console:
+    build:
+      context: .
+      # Le dépôt entier n'est PAS le contexte de construction : l'image ne copie
+      # qu'un script d'entrée, tout le reste arrive par le montage.
+      dockerfile: Dockerfile
+    image: neon-console
+    container_name: neon-console
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Le serveur écoute sur l'interface du CONTENEUR — sinon Docker ne peut pas
+      # lui parler, et le port publié ne mène à rien (constaté : réponse vide).
+      # La protection passe alors par l'adresse de PUBLICATION ci-dessous. Que
+      # le moteur l'honore est une propriété du moteur, pas du code : d'où
+      # `verifier-exposition.sh`, qui le mesure au lieu de le supposer.
+      HOST: 0.0.0.0
+
+    ports:
+      # ─────────────────────────────────────────────────────────────────────
+      # 127.0.0.1, ET C'EST TOUT CE QUI PROTÈGE CE SERVICE.
+      #
+      # La console n'a AUCUNE authentification. Sa porte « geste » lance
+      # `gh workflow run`, `git push` et des migrations ; sa porte « édition »
+      # écrit dans `content/`. La seule chose qui empêche n'importe quoi sur le
+      # réseau local de publier en production, c'est ce préfixe.
+      #
+      # Écrire « 4321:4321 » l'exposerait sur toutes les interfaces. C'est la
+      # faute d'un caractère, et `docker.test.mjs` échoue si elle est commise.
+      # ─────────────────────────────────────────────────────────────────────
+      # Le port HÔTE est réglable (CONSOLE_PORT) — on veut pouvoir lancer le
+      # conteneur pendant qu'une console manuelle occupe déjà 4321. Le préfixe,
+      # lui, ne l'est pas.
+      - "127.0.0.1:${CONSOLE_PORT:-4321}:4321"
+
+    volumes:
+      # Le dépôt, en écriture : la console édite les brouillons, commite et
+      # pousse. Chemin relatif à ce fichier, donc indépendant de l'endroit d'où
+      # `docker compose` est lancé.
+      - ../../..:/depot
+
+    working_dir: /depot/tools/content-cli
+
+    # L'uid du Mac (501:20 par défaut). Sans lui, le conteneur écrit en root
+    # dans le dépôt monté, et les fichiers deviennent inéditables depuis le Mac
+    # sans un `sudo chown` — une gêne qu'on découvre toujours au mauvais moment.
+    user: "${HOST_UID:-501}:${HOST_GID:-20}"
+
+    # Pas de `read_only` ici, contrairement au moniteur : ce service écrit dans
+    # le dépôt, c'est son travail. Le durcissement porte donc sur ce qu'il n'a
+    # pas besoin de pouvoir faire.
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    pids_limit: 256
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "4m"
+        max-file: "3"
