@@ -1,0 +1,21 @@
+{
+  "id": "news_285eebb3",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le patron de l'éditeur présente l'accord Netflix comme une première",
+    "en": "Publisher's chief frames Netflix deal as a first"
+  },
+  "body": {
+    "fr": "Interrogé par le magazine Variety, le dirigeant de l'éditeur a qualifié le partenariat avec Netflix pour l'aperçu étendu de manière particulièrement habile de transformer le lancement du jeu en événement culturel. Il a présenté cet accord comme une première pour l'entreprise, en le reliant à d'anciens accords de licence mobile et à un partenariat en cours autour d'un jeu de catch, comme les prémices d'une relation appelée à se développer avec la plateforme.",
+    "en": "Speaking to Variety, the publisher's chief executive called the Netflix partnership for the extended preview a rather clever way of turning the game's launch into a major cultural event. He described the deal as a first for the company, pointing to past mobile licensing deals and an ongoing licensed wrestling game as signs of a relationship expected to grow with the platform."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:8a4c7ad1b068",
+  "sourceClaim": "Interrogé par Variety, le PDG de Take-Two Strauss Zelnick a qualifié le partenariat Netflix pour l'aperçu étendu de « façon plutôt brillante » de transformer le jeu à venir en événement culturel de premier plan, présentant l'accord comme une première pour le studio et évoquant d'anciens accords de licence mobile GTA ainsi que le partenariat en cours autour de WWE 2K comme preuves d'une relation appelée à se développer avec la plateforme de streaming."
+}

@@ -1,0 +1,21 @@
+{
+  "id": "news_8571ea3f",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un dépôt de marque évoquant une ville du jeu n'a aucun lien avec lui",
+    "en": "A trademark filing echoing one of the game's cities isn't related to it"
+  },
+  "body": {
+    "fr": "Une organisation de catch a déposé début août une demande de marque reprenant le nom d'une ville fictive associée au jeu à venir, mais ce dépôt concerne en réalité l'image d'une catcheuse pour des usages de spectacle vivant. Les deux dépôts couvrent des secteurs distincts et peuvent coexister sans conflit.",
+    "en": "A wrestling organization filed a trademark application in early August reusing the name of a fictional city tied to the upcoming game, but the filing actually covers a wrestler's persona for live-event use. The two filings cover distinct categories and can coexist without conflict."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/wwe-is-trademarking-vice-city-right-before-gta-6-aaa1"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:58402f14deaf",
+  "sourceClaim": "La WWE a déposé le 4 août 2026 une demande de marque pour l'expression « Vice City », mais celle-ci concerne l'image de la catcheuse Lola Vice pour des usages de catch et de spectacle vivant et n'a aucun rapport avec le jeu à venir de Rockstar — les deux dépôts couvrant des secteurs distincts qui peuvent coexister sans conflit."
+}

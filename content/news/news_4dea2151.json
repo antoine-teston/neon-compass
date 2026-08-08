@@ -1,0 +1,21 @@
+{
+  "id": "news_4dea2151",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Sur l'exercice 2027, le studio du jeu pèserait plus du tiers des revenus du groupe",
+    "en": "In fiscal 2027, the game's studio would account for over a third of group revenue"
+  },
+  "body": {
+    "fr": "Lors de son point financier du 7 août, l'éditeur a réaffirmé viser 8,0 à 8,2 milliards de dollars de revenus nets pour son exercice fiscal 2027, contre environ 6,72 milliards l'exercice précédent — une prévision déjà déposée fin juillet, mais précisée cette fois par studio. Le studio à l'origine du jeu à venir représenterait à lui seul plus du tiers de ce total, porté presque entièrement par le lancement prévu le 19 novembre.",
+    "en": "At its August 7 financial update, the publisher reaffirmed its guidance of $8.0 to $8.2 billion in net revenue for fiscal 2027, up from about $6.72 billion the year before — a forecast already filed in late July, but now broken down by studio. The studio behind the upcoming game alone would account for over a third of that total, driven almost entirely by the planned November 19 launch."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/take-two-has-now-bet-its-entire-year-on-gta-6-5770"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:4add1176d604",
+  "sourceClaim": "Take-Two Interactive a indiqué à ses investisseurs viser entre 8,0 et 8,2 milliards de dollars de revenus nets sur son exercice fiscal 2027, contre environ 6,72 milliards l'exercice précédent (clos en mars 2026) — une hausse d'environ 1,4 milliard de dollars (~20 %) portée quasi entièrement par le lancement du jeu à venir le 19 novembre, la répartition prévisionnelle des revenus plaçant Rockstar Games à environ 37 %, Zynga à environ 34 % et 2K à environ 29 %."
+}

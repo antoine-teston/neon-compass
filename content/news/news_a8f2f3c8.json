@@ -1,0 +1,21 @@
+{
+  "id": "news_a8f2f3c8",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Charge de 43 millions de dollars pour l'annulation d'un jeu tiers",
+    "en": "$43M charge tied to a cancelled third-party game"
+  },
+  "body": {
+    "fr": "Dans son dernier rapport financier, l'éditeur a annoncé une charge de dépréciation de 43,4 millions de dollars liée à l'annulation d'un jeu tiers non annoncé qu'il devait publier — en précisant explicitement qu'il ne s'agit ni de son studio phare ni de sa franchise la plus connue. Le montant est comparable à une charge similaire d'environ 53 millions de dollars prise pour une annulation du même type en 2021.",
+    "en": "In its latest financial report, the publisher disclosed a $43.4 million impairment charge linked to cancelling an unannounced third-party game it was set to release — explicitly stating it involves neither its flagship studio nor its best-known franchise. The figure is comparable to a roughly $53 million charge taken for a similar cancellation in 2021."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/take-two-quietly-killed-a-game-and-took-a-43-million-loss-97ca"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:b08f72c6f68e",
+  "sourceClaim": "Dans son dernier rapport financier, Take-Two Interactive a annoncé une charge de dépréciation de 43,4 millions de dollars liée à l'annulation d'un jeu tiers non annoncé qu'il devait éditer, précisant explicitement qu'il ne s'agit ni d'un titre Rockstar ni d'un jeu de la licence GTA — un montant comparé à une charge similaire d'environ 53 millions de dollars prise pour une annulation du même type en 2021."
+}

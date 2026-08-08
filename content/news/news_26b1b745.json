@@ -1,0 +1,21 @@
+{
+  "id": "news_26b1b745",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Un jeu tiers annulé coûte 43 millions de dollars à l'éditeur",
+    "en": "A cancelled third-party game costs the publisher $43 million"
+  },
+  "body": {
+    "fr": "L'éditeur du jeu a comptabilisé une charge de 43,4 millions de dollars après avoir annulé un projet tiers non annoncé qu'il devait publier. Ni le nom ni la nature du jeu n'ont été précisés, mais l'éditeur indique que l'annulation ne concerne ni le studio à l'origine du jeu à venir ni sa licence phare.",
+    "en": "The game's publisher booked a $43.4 million impairment charge after cancelling an unannounced third-party title it was set to publish. Neither the game's name nor its nature was disclosed, but the publisher says the cancellation has nothing to do with the studio behind the upcoming game or its flagship series."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/take-two-quietly-killed-a-game-and-took-a-43-million-loss-97ca"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:01e821c01c47",
+  "sourceClaim": "Take-Two Interactive a comptabilisé une charge de dépréciation de 43,4 millions de dollars après avoir annulé un jeu tiers non annoncé qu'il devait éditer ; l'éditeur n'a précisé ni le nom ni la nature du projet, mais a indiqué qu'il n'était pas lié au studio à l'origine du jeu à venir ni à sa licence phare."
+}

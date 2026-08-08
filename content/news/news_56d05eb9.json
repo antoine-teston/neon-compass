@@ -1,0 +1,21 @@
+{
+  "id": "news_56d05eb9",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Non, ce dépôt de marque ne vise pas le jeu",
+    "en": "No, this trademark filing doesn't target the game"
+  },
+  "body": {
+    "fr": "Une fédération de catch a déposé le 4 août 2026 une demande de marque pour le nom de la ville fictive du jeu, mais elle vise en réalité l'image d'une lutteuse originaire de Miami, ville réelle qui a inspiré ce nom. Le dépôt couvre le catch et le spectacle vivant, un secteur distinct qui ne fait pas obstacle à l'usage du nom dans le jeu.",
+    "en": "A wrestling promotion filed a trademark application on August 4, 2026 for the name of the game's fictional city, but it actually protects the persona of a wrestler from Miami, the real city that inspired the name. The filing covers wrestling and live entertainment, a separate category that doesn't block the game's use of the name."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/wwe-is-trademarking-vice-city-right-before-gta-6-aaa1"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:6eaef6c02ef9",
+  "sourceClaim": "Une demande de marque déposée le 4 août 2026 par la fédération de catch WWE pour le terme « Vice City » ne concerne pas le jeu : elle vise à protéger l'image de la lutteuse Lola Vice, originaire de Miami (ville réelle ayant inspiré la Vice City fictive du studio), et couvre le catch et le spectacle vivant, un secteur distinct qui ne fait pas obstacle à l'usage du nom par le studio dans ses jeux."
+}

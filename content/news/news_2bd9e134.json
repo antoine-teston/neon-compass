@@ -1,0 +1,21 @@
+{
+  "id": "news_2bd9e134",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "L'aperçu du 27 août restera inaccessible dans cinq pays",
+    "en": "The August 27 preview will stay unreachable in five countries"
+  },
+  "body": {
+    "fr": "La diffusion en avant-première de l'aperçu étendu du jeu, prévue le 27 août sur Netflix, restera hors d'atteinte des joueurs de cinq pays ou territoires où le service n'opère pas. Le repli gratuit prévu six heures plus tard sur YouTube n'y change rien, cette plateforme étant elle aussi bloquée ou fortement restreinte dans la plupart de ces zones.",
+    "en": "The premiere of the game's extended preview, set for August 27 on Netflix, will remain out of reach for players in five countries or territories where the service doesn't operate. The free fallback planned six hours later on YouTube doesn't help, since that platform is also blocked or heavily restricted across most of those regions."
+  },
+  "publishedAt": "2026-08-07",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/the-gta-6-extended-look-is-on-netflix-locking-out-fans-from-these-places-69b4"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:537fa8f9960c",
+  "sourceClaim": "La diffusion en avant-première sur Netflix de l'aperçu étendu du jeu à venir, le 27 août, restera inaccessible aux joueurs de cinq pays ou territoires où le service n'opère pas (Chine, Corée du Nord, Russie, Syrie, Crimée) ; le repli gratuit sur YouTube six heures plus tard n'y change rien puisque YouTube y est également bloqué ou fortement restreint, à l'exception partielle de la Syrie."
+}

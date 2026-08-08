@@ -1,0 +1,95 @@
+{
+  "run": {
+    "date": "2026-08-08",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7",
+      "https://www.gtaboom.com/this-is-every-rockstar-games-title-available-on-netflix-right-now-e1f2",
+      "https://www.gtaboom.com/the-gta-6-extended-look-is-on-netflix-locking-out-fans-from-these-places-69b4",
+      "https://www.gtaboom.com/wwe-is-trademarking-vice-city-right-before-gta-6-aaa1",
+      "https://www.gtaboom.com/a-modder-is-trying-to-get-gta-iv-running-on-android-and-switch-7a5f",
+      "https://www.gtaboom.com/take-two-has-now-bet-its-entire-year-on-gta-6-5770",
+      "https://www.gtaboom.com/why-take-two-is-guiding-down-its-next-quarter-before-the-gta-6-launch-5ba6",
+      "https://www.gtaboom.com/take-two-quietly-killed-a-game-and-took-a-43-million-loss-97ca",
+      "https://leonidaverse.com/en/news/gta-6-extended-look-netflix-premiere",
+      "https://leonidaverse.com/fr/news/gta-6-extended-look-netflix-premiere"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Take-Two Interactive a indiqué à ses investisseurs viser entre 8,0 et 8,2 milliards de dollars de revenus nets sur son exercice fiscal 2027, contre environ 6,72 milliards l'exercice précédent (clos en mars 2026) — une hausse d'environ 1,4 milliard de dollars (~20 %) portée quasi entièrement par le lancement du jeu à venir le 19 novembre, la répartition prévisionnelle des revenus plaçant Rockstar Games à environ 37 %, Zynga à environ 34 % et 2K à environ 29 %.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/take-two-has-now-bet-its-entire-year-on-gta-6-5770",
+      "source_date": "2026-08-07",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Take-Two Interactive a annoncé viser entre 1,62 et 1,67 milliard de dollars de revenus nets pour son trimestre juillet-septembre 2026, en baisse par rapport aux 1,96 milliard réalisés sur la même période l'an dernier — un trimestre qui s'achève avant la sortie du jeu à venir le 19 novembre et que l'éditeur comble avec NBA 2K27 (sortie le 4 septembre) et les revenus récurrents du mode en ligne actuel, tout en maintenant inchangée sa prévision annuelle de 8,0 à 8,2 milliards de dollars.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-take-two-is-guiding-down-its-next-quarter-before-the-gta-6-launch-5ba6",
+      "source_date": "2026-08-07",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Dans son dernier rapport financier, Take-Two Interactive a annoncé une charge de dépréciation de 43,4 millions de dollars liée à l'annulation d'un jeu tiers non annoncé qu'il devait éditer, précisant explicitement qu'il ne s'agit ni d'un titre Rockstar ni d'un jeu de la licence GTA — un montant comparé à une charge similaire d'environ 53 millions de dollars prise pour une annulation du même type en 2021.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/take-two-quietly-killed-a-game-and-took-a-43-million-loss-97ca",
+      "source_date": "2026-08-07",
+      "confidence": "confirmed-official",
+      "note": "distinct de l'annulation de Midnight Club 5 / Agent / Bully 2 déjà rapportée le 05/08 (the-truth-about-every-game-rockstar-quietly-killed-for-gta-ffee, extrait le 06/08) : ici il s'agit d'un jeu tiers inédit et jamais nommé, révélé par une charge financière du dernier trimestre, pas d'une annulation Rockstar historique.",
+      "processed": true
+    },
+    {
+      "claim": "La WWE a déposé le 4 août 2026 une demande de marque pour l'expression « Vice City », mais celle-ci concerne l'image de la catcheuse Lola Vice pour des usages de catch et de spectacle vivant et n'a aucun rapport avec le jeu à venir de Rockstar — les deux dépôts couvrant des secteurs distincts qui peuvent coexister sans conflit.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/wwe-is-trademarking-vice-city-right-before-gta-6-aaa1",
+      "source_date": "2026-08-07",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "La diffusion en avant-première sur Netflix de l'aperçu étendu du jeu à venir, le 27 août, restera inaccessible aux joueurs de cinq pays ou territoires où le service n'opère pas (Chine, Corée du Nord, Russie, Syrie, Crimée) ; le repli gratuit sur YouTube six heures plus tard n'y change rien puisque YouTube y est également bloqué ou fortement restreint, à l'exception partielle de la Syrie.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-gta-6-extended-look-is-on-netflix-locking-out-fans-from-these-places-69b4",
+      "source_date": "2026-08-07",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Interrogé par Variety, le PDG de Take-Two Strauss Zelnick a qualifié le partenariat Netflix pour l'aperçu étendu de « façon plutôt brillante » de transformer le jeu à venir en événement culturel de premier plan, présentant l'accord comme une première pour le studio et évoquant d'anciens accords de licence mobile GTA ainsi que le partenariat en cours autour de WWE 2K comme preuves d'une relation appelée à se développer avec la plateforme de streaming.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7",
+      "source_date": "2026-08-07",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Selon des chiffres cités par Variety, les deux premières bandes-annonces du jeu à venir ont cumulé environ 288 millions de vues YouTube pour la première et environ 176 millions pour la seconde, des analystes projetant désormais entre 3,3 et 5,2 milliards de dollars de ventes mondiales pour sa seule première semaine de commercialisation.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7",
+      "source_date": "2026-08-07",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le site fan Leonidaverse décrit le format annoncé de l'Extended Look du 27 août comme allant au-delà d'une bande-annonce classique et incluant des séquences de gameplay, en s'appuyant sur des sources qu'il attribue à Rockstar Games et à Netflix Tudum — une caractérisation plus affirmative que celle de la presse anglophone, qui présente encore la présence de gameplay comme non confirmée.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://leonidaverse.com/en/news/gta-6-extended-look-netflix-premiere",
+      "source_date": "2026-08-06",
+      "confidence": "single-source",
+      "note": "en tension avec what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7 (gtaboom, 07/08), qui présente la présence de gameplay comme non confirmée (« is this finally gameplay? »). Version FR de la même page (leonidaverse.com/fr/...) confirmée strictement identique, non comptée comme source distincte.",
+      "processed": true
+    }
+  ]
+}
