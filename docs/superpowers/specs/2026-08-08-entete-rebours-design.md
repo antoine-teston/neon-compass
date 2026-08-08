@@ -73,11 +73,42 @@ l'app, elle mérite des chiffres qu'on lit de loin. Le prix — elle disparaît 
 premier geste de défilement — est le bon : on ne consulte pas un rebours en
 continu, on vient le voir.
 
-**Le libellé ne nomme jamais le jeu.** La marque reste interdite dans la prose
-que nous écrivons ; la décision du même jour sur le nom App Store
-(`2026-08-08-nom-app-usage-nominatif-design.md`) n'a ouvert que les métadonnées
-de boutique. Sur l'onglet Actu d'une app compagnon, « Sortie dans » ne désigne de
-toute façon rien d'autre.
+## La référence au jeu, et pourquoi elle tient
+
+La carte porte le nom du jeu, en pastille à droite de sa ligne de tête :
+
+```
+ Sortie dans                    [ GTA VI ]
+   102  │  02  │  19  │  59
+  Jours │Heures│Minutes│Secondes
+```
+
+Le premier jet ne le nommait pas, au motif que la marque est interdite dans la
+prose que nous écrivons. C'était appliquer la règle sans son critère. Ce que le
+projet interdit depuis le 2 août, et ce que la décision du 8 août sur le nom App
+Store a confirmé, c'est la marque **en position d'identité** — pas sa présence.
+
+La pastille est un **emplacement nominatif**, et sa forme le prouve : c'est un
+élément à part dont la valeur entière nomme le produit dont on parle. Notre
+prose — « Sortie dans » — est à gauche, sans marque. Les deux ne se mélangent
+jamais, ce qui est exactement le test que `nominative-fields.mjs` applique au
+contenu.
+
+Trois conséquences de forme :
+
+- **`Text(verbatim:)`, jamais le catalogue.** Un nom de produit est identique
+  dans les cinq langues — c'est ce qui en fait un nom et non une phrase. Effet
+  secondaire, plus utile que le premier : la marque ne peut pas être tissée par
+  mégarde dans une phrase traduite.
+- **« VI » et non « 6 ».** C'est la graphie officielle de l'éditeur, donc
+  clairement référentielle. Le « 6 » retenu pour le nom App Store répond à une
+  autre question — ce que les gens tapent dans une barre de recherche — qui ne se
+  pose pas à l'intérieur de l'app.
+- **Précédent** : l'app expédiait déjà un tel emplacement avant que la règle soit
+  écrite — `GTA$`, traduit cinq fois vers les mêmes cinq caractères.
+
+`CLAUDE.md` porte la règle générale ; ailleurs qu'en emplacement nominatif, les
+chiffres romains nus de `Game.shortLabel` restent la valeur par défaut.
 
 ## Le format : une colonne par unité
 
