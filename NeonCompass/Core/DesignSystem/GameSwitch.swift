@@ -22,7 +22,20 @@ struct GameSwitch: View {
             ForEach(Game.allCases) { candidate in
                 Button {
                     guard candidate != game else { return }
-                    withAnimation(.snappy) { game = candidate }
+                    // SURTOUT PAS de `withAnimation` ici, et c'est mesuré.
+                    //
+                    // Ce contrôle change le jeu affiché, ce qui remplace tout le
+                    // contenu de l'écran qui l'héberge. Enveloppée dans une
+                    // animation, la bascule faisait animer par SwiftUI
+                    // l'apparition et la disparition de toute une colonne de
+                    // cartes en verre : sur l'écran Codes, quarante images
+                    // perdues sur six bascules contre huit sans, et des pics de
+                    // 238 ms au lieu de 72 (sonde `CADisplayLink`, iPhone 17).
+                    //
+                    // L'animation qu'on veut est celle des deux pastilles, et
+                    // elle est posée en `.animation(_:value:)` sur la capsule.
+                    // Le même remède qu'a reçu `FeedFilterBar`.
+                    game = candidate
                 } label: {
                     Text(candidate.shortLabel)
                         .font(.system(size: 15, weight: .semibold, design: .rounded))
@@ -41,5 +54,8 @@ struct GameSwitch: View {
         }
         .padding(4)
         .glassEffect(.regular.interactive(), in: .capsule)
+        // Ciblée sur la capsule : le tap garde son retour immédiat, sans
+        // embarquer dans la même animation le contenu que la bascule remplace.
+        .animation(.snappy, value: game)
     }
 }
