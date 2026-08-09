@@ -34,23 +34,31 @@ struct BreathingHighlight: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .opacity(breathes ? (isLit ? 1 : 0.82) : 1)
-            .shadow(
-                color: NCColor.sunsetViolet.opacity(glowOpacity),
-                radius: breathes && isLit ? 8 : 3
-            )
+            .opacity(breathes ? (isLit ? 1 : 0.7) : 1)
+            // DEUX halos et non un seul : un rayon court donne le cœur dense qui
+            // fait lire la couleur, un rayon long donne la diffusion qui la fait
+            // rayonner. Empilés, ils accentuent sans forcer l'opacité d'un halo
+            // unique, qui devient sale bien avant d'être lumineux.
+            .shadow(color: NCColor.sunsetViolet.opacity(coreGlow), radius: breathes && isLit ? 5 : 2)
+            .shadow(color: NCColor.sunsetViolet.opacity(haloGlow), radius: breathes && isLit ? 14 : 4)
             .onAppear {
                 guard breathes else { return }
-                withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
+                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
                     isLit = true
                 }
             }
     }
 
-    private var glowOpacity: Double {
+    private var coreGlow: Double {
         guard isActive else { return 0 }
-        guard breathes else { return 0.55 }
-        return isLit ? 0.9 : 0.2
+        guard breathes else { return 0.7 }
+        return isLit ? 1 : 0.25
+    }
+
+    private var haloGlow: Double {
+        guard isActive else { return 0 }
+        guard breathes else { return 0.35 }
+        return isLit ? 0.65 : 0.1
     }
 }
 
