@@ -16,6 +16,9 @@ struct FeedListView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
+                // Avant les articles ET avant le fil vide : quand rien n'est
+                // encore publié, c'est la seule chose que l'écran a à dire.
+                ReleaseCountdownCard()
                 if model.newsItems.isEmpty {
                     emptyState
                 } else {
@@ -87,9 +90,18 @@ struct FeedListView: View {
         } label: {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 6) {
-                    Label(categoryTitleKey(item.category), systemImage: categorySymbol(item.category))
-                        .font(NCTypography.cardMeta)
-                        .foregroundStyle(NCColor.neonCyan)
+                    // L'icône garde l'accent, le libellé passe en blanc : le mot
+                    // ne fait que redire ce que l'icône montre déjà, et une
+                    // colonne de six cartes en faisait six accents cyan (voir
+                    // `NCColor.neonCyan`).
+                    Label {
+                        Text(categoryTitleKey(item.category))
+                            .foregroundStyle(.white.opacity(0.55))
+                    } icon: {
+                        Image(systemName: categorySymbol(item.category))
+                            .foregroundStyle(NCColor.neonCyan)
+                    }
+                    .font(NCTypography.cardMeta)
                     gameBadge(item.game)
                     Spacer(minLength: 8)
                     if let date = formattedDate(item.publishedAt) {

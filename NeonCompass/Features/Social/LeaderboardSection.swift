@@ -7,9 +7,12 @@ struct LeaderboardSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            // Même motif que les titres du volet Propositions : le gras suffit à
+            // marquer une section, l'accent est réservé à ce qu'un écran veut
+            // vraiment faire remarquer — ici, le rebours de la carte au-dessus.
             Text("social.leaderboard.title")
                 .font(NCTypography.body.bold())
-                .foregroundStyle(NCColor.neonCyan)
+                .foregroundStyle(.white.opacity(0.85))
 
             if rows.isEmpty {
                 Text("social.leaderboard.empty")

@@ -52,9 +52,11 @@ struct ContributionsPanel: View {
 
     private func section(_ titleKey: LocalizedStringKey, spots: [Contribution]) -> some View {
         VStack(alignment: .leading, spacing: 12) {
+            // Un titre de section structure, il n'attire pas : ce volet en
+            // empile plusieurs, ce qui faisait autant d'accents.
             Text(titleKey)
                 .font(NCTypography.cardMeta)
-                .foregroundStyle(NCColor.neonCyan)
+                .foregroundStyle(.white.opacity(0.5))
                 .textCase(.uppercase)
                 .frame(maxWidth: .infinity, alignment: .leading)
             ForEach(spots) { spot in

@@ -4,19 +4,17 @@ import SwiftData
 struct ProfileScreen: View {
     @Environment(AuthModel.self) private var authModel
     @Environment(\.modelContext) private var modelContext
-    @State private var profileModel = ProfileModel(
-        repository: SupabaseProfileRepository(),
-        functions: SupabaseAccountFunctions(),
-        localDeletion: SupabaseAccountDeletion()
-    )
-    @State private var communityModel: CommunityModel?
+    /// Fournis par `RootView`, qui les a repris à cet écran : la feuille de
+    /// réglages s'ouvre désormais depuis la barre haute, donc depuis des onglets
+    /// qui ne construisent jamais le Profil. C'est lui qui les charge aussi.
+    @Environment(ProfileModel.self) private var profileModel
+    @Environment(CommunityModel.self) private var communityModel: CommunityModel?
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     /// La jauge d'exploration est LOCALE : elle se lit ici, pas dans le
     /// profil serveur. `ProgressionSection` a déjà cette dépendance.
     @Environment(FoundStore.self) private var foundStore
     @Environment(AppModel.self) private var appModel
-    @State private var showSettings = false
     @State private var showContributeHint = false
 
     var body: some View {
@@ -33,7 +31,6 @@ struct ProfileScreen: View {
                             pendingContributionCount: communityModel?.myContributions
                                 .filter { $0.status == .pending }.count ?? 0
                         ),
-                        onOpenSettings: { showSettings = true },
                         onContribute: { showContributeHint = true }
                     )
 
@@ -50,20 +47,8 @@ struct ProfileScreen: View {
                 .padding(24)
             }
         }
-        .sheet(isPresented: $showSettings) {
-            SettingsScreen(profileModel: profileModel, communityModel: communityModel)
-        }
         .sheet(isPresented: $showContributeHint) {
             ContributeHintSheet(onOpenMap: { appModel.openMapToContribute() })
-        }
-        .task(id: authModel.userID) {
-            if let userID = authModel.userID {
-                await profileModel.loadProfile(uid: userID)
-                if communityModel == nil {
-                    communityModel = CommunityModel.live(modelContext: modelContext)
-                }
-                await communityModel?.loadMyContributions(uid: userID)
-            }
         }
     }
 
@@ -75,7 +60,7 @@ struct ProfileScreen: View {
                 .font(NCTypography.body)
                 .foregroundStyle(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
-            Button("profile.signIn.openSettings") { showSettings = true }
+            Button("profile.signIn.openSettings") { appModel.showsSettings = true }
         }
         .padding(20)
         .frame(maxWidth: .infinity)

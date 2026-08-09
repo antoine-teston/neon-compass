@@ -8,4 +8,14 @@ import CoreGraphics
 /// `CompactTabBar`'s content changes.
 enum NCLayout {
     static let compactTabBarClearance: CGFloat = 78
+
+    /// Réserve haute pour `AppHeaderBar`, et de la même nature approximative que
+    /// la réserve basse ci-dessus : le verre se dimensionne à son contenu, il n'y
+    /// a donc pas de hauteur à mesurer. La capsule fait une vingtaine de points
+    /// de contenu et deux fois dix de marge ; le reste sépare la barre du premier
+    /// élément de l'écran.
+    ///
+    /// `RootView` l'applique lui-même en `safeAreaPadding` : aucun écran n'a à
+    /// s'en souvenir, contrairement à la réserve basse que chacun pose à la main.
+    static let headerBarClearance: CGFloat = 48
 }
