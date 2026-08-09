@@ -11,10 +11,23 @@ struct CheatsListView: View {
             LazyVStack(alignment: .leading, spacing: 12) {
                 inputModePicker
                 searchRow
+                CheatsFilterBar(
+                    categories: model.availableCategories,
+                    selectedCategory: model.selectedCategory,
+                    onSelect: { model.selectCategory($0) }
+                )
+                // La rangée reprend ses propres marges à l'intérieur de son
+                // défilement, pour que les puces glissent bord à bord.
+                .padding(.horizontal, -16)
 
                 let flatIndex = model.flatIndexByID
                 ForEach(model.sections, id: \.category) { section in
-                    sectionHeader(section.category)
+                    // L'en-tête disparaît quand une rubrique est choisie : la
+                    // puce allumée dit déjà laquelle, et le répéter au-dessus
+                    // d'une liste qui ne contient qu'elle n'apprend rien.
+                    if model.selectedCategory == nil {
+                        sectionHeader(section.category)
+                    }
                     ForEach(section.cheats) { cheat in
                         if let code = cheat.codes[model.activeInputMode] {
                             CheatCard(

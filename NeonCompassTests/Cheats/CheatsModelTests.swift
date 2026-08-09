@@ -37,6 +37,87 @@ struct CheatsModelTests {
         CheatsModel(cheats: cheats, modelContext: try makeContext(), defaults: store)
     }
 
+    // MARK: - Filtre par rubrique
+
+    /// Le téléphone : c'est le mode par défaut, et le seul où les 36 codes
+    /// existent tous — une liste filtrée par rubrique ne doit pas se vider parce
+    /// que le mode de saisie manque.
+    private func sampleCodes() -> [CheatInputMode: CheatCode] {
+        [.phone: .phone(number: "1-999-0", mnemonic: nil)]
+    }
+
+    @Test func selectingACategoryRestrictsTheList() throws {
+        let store = defaults(#function)
+        let sut = try model([
+            cheat("a", .weapons, codes: sampleCodes()),
+            cheat("b", .vehicles, codes: sampleCodes()),
+            cheat("c", .weapons, codes: sampleCodes())
+        ], defaults: store)
+
+        #expect(sut.selectedCategory == nil)
+        #expect(sut.displayedCheats.count == 3)
+
+        sut.selectCategory(.weapons)
+        #expect(sut.displayedCheats.map(\.id).sorted() == ["a", "c"])
+
+        sut.selectCategory(nil)
+        #expect(sut.displayedCheats.count == 3)
+    }
+
+    /// Aucune puce ne doit pouvoir rendre une liste vide.
+    @Test func onlyOffersCategoriesThatWouldReturnSomething() throws {
+        let store = defaults(#function)
+        let sut = try model([
+            cheat("a", .weapons, codes: sampleCodes()),
+            cheat("b", .vehicles, codes: sampleCodes())
+        ], defaults: store)
+
+        // L'ordre vient de `allCases`, pas du contenu : sinon les puces
+        // changeraient de place d'une publication à l'autre.
+        #expect(sut.availableCategories == [.weapons, .vehicles])
+    }
+
+    @Test func changingGameReleasesACategoryTheNewGameDoesNotHave() throws {
+        let store = defaults(#function)
+        let sut = try model([
+            cheat("a", .weapons, game: .reference, codes: sampleCodes()),
+            cheat("b", .vehicles, game: .leonida, codes: sampleCodes())
+        ], defaults: store)
+
+        sut.selectCategory(.weapons)
+        #expect(sut.selectedCategory == .weapons)
+
+        sut.activeGame = .leonida
+        // « Armes » n'existe pas pour ce jeu : la rubrique est relâchée plutôt
+        // que de rendre zéro carte sous une puce allumée.
+        #expect(sut.selectedCategory == nil)
+        #expect(sut.displayedCheats.map(\.id) == ["b"])
+    }
+
+    @Test func changingGameKeepsACategoryTheNewGameAlsoHas() throws {
+        let store = defaults(#function)
+        let sut = try model([
+            cheat("a", .weapons, game: .reference, codes: sampleCodes()),
+            cheat("b", .weapons, game: .leonida, codes: sampleCodes())
+        ], defaults: store)
+
+        sut.selectCategory(.weapons)
+        sut.activeGame = .leonida
+        #expect(sut.selectedCategory == .weapons)
+        #expect(sut.displayedCheats.map(\.id) == ["b"])
+    }
+
+    /// `activeCategories` DÉRIVE de la sélection : deux états à tenir en accord
+    /// finiraient par diverger.
+    @Test func activeCategoriesDerivesFromTheSelection() throws {
+        let store = defaults(#function)
+        let sut = try model([cheat("a", .weapons, codes: sampleCodes())], defaults: store)
+
+        #expect(sut.activeCategories == Set(CheatCategory.allCases))
+        sut.selectCategory(.weapons)
+        #expect(sut.activeCategories == [.weapons])
+    }
+
     // MARK: - Mode de saisie
 
     // La clé « ps5 » stockée par l'ancienne version doit continuer à se lire :
@@ -199,7 +280,7 @@ struct CheatsModelTests {
             cheat("a", .weapons, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
             cheat("b", .misc, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
         ], defaults: defaults("categories"))
-        sut.activeCategories = [.weapons]
+        sut.selectCategory(.weapons)
         #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a"])
     }
 
