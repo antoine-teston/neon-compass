@@ -1,0 +1,21 @@
+{
+  "id": "news_b366a016",
+  "category": "announcement",
+  "game": "gtav",
+  "title": {
+    "fr": "Des PNJ à dialogue généré débarquent sur un serveur de jeu de rôle",
+    "en": "AI-voiced NPCs land on a roleplay server"
+  },
+  "body": {
+    "fr": "Une société tierce affirme avoir doté les personnages non joueurs d'un grand serveur de jeu de rôle communautaire, bâti sur le mode en ligne actuel, de dialogues générés et d'une mémoire des actions du joueur, partagée de personnage à personnage. Il s'agit d'une modification indépendante, sans lien avec le studio à l'origine du jeu — l'information vient d'une seule source et reste à confirmer.",
+    "en": "A third-party company says it has given non-player characters on a major community roleplay server, built on the current online mode, generated dialogue and memory of player actions that spreads between characters. This is an independent mod with no ties to the game's studio — the claim comes from a single source and remains unconfirmed."
+  },
+  "publishedAt": "2026-08-08",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/gta-roleplay-npcs-can-now-talk-back-remember-you-and-gossip-about-you-3d1c"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:90627eaaf15b",
+  "sourceClaim": "Une société tierce a annoncé un partenariat avec un grand serveur de jeu de rôle communautaire consacré au mode en ligne actuel, ajoutant à ses personnages non joueurs des dialogues générés et une mémoire des actions du joueur, propagée entre personnages par bouche-à-oreille ; il s'agit d'une modification tierce hébergée sur une plateforme communautaire, sans lien avec le studio à l'origine du jeu."
+}

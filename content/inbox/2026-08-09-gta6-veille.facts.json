@@ -1,0 +1,41 @@
+{
+  "run": {
+    "date": "2026-08-09",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/take-two-hints-at-gta-online-tool-that-could-be-a-gta-6-preview-0a4d",
+      "https://www.gtaboom.com/gta-roleplay-npcs-can-now-talk-back-remember-you-and-gossip-about-you-3d1c",
+      "https://www.gtaboom.com/why-rockstar-games-continued-gta-6-online-silence-is-not-bad-news-ac01",
+      "https://www.gtaboom.com/a-modder-is-trying-to-get-gta-iv-running-on-android-and-switch-7a5f"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le PDG de Take-Two Strauss Zelnick a réaffirmé cette année que le jeu à venir n'utilise aucune intelligence artificielle générative ni personnage à dialogue conversationnel : l'intégralité des dialogues reste écrite et interprétée par des humains.",
+      "kind": "game-fact",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-roleplay-npcs-can-now-talk-back-remember-you-and-gossip-about-you-3d1c",
+      "source_date": "2026-08-08",
+      "confidence": "confirmed-official"
+    },
+    {
+      "claim": "Le journaliste Jason Schreier (Bloomberg) indique que la date de sortie du 19 novembre reste d'actualité et que l'éditeur ne communique pour l'instant que sur le mode solo, sans aucune annonce sur la prochaine mouture du mode en ligne — un silence qu'il compare à celui observé avant le lancement du mode en ligne actuel en 2013.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-rockstar-games-continued-gta-6-online-silence-is-not-bad-news-ac01",
+      "source_date": "2026-08-08",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Dans ses derniers documents destinés aux investisseurs, l'éditeur a mis en avant l'outil de création de missions du mode en ligne actuel (disponible depuis décembre 2025), le présentant comme un moteur d'engagement communautaire.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/take-two-hints-at-gta-online-tool-that-could-be-a-gta-6-preview-0a4d",
+      "source_date": "2026-08-08",
+      "confidence": "confirmed-official",
+      "processed": true
+    }
+  ]
+}

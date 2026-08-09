@@ -1,0 +1,21 @@
+{
+  "id": "news_18d5bf7a",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Silence sur le futur mode en ligne : rien d'inquiétant, selon un journaliste",
+    "en": "Silence on the next online mode isn't a red flag, reporter says"
+  },
+  "body": {
+    "fr": "Un journaliste spécialisé rapporte, moins de 24 heures après le dernier point financier de l'éditeur, que le jeu à venir n'est pas retardé et reste prévu pour le 19 novembre 2026. L'éditeur ne s'exprime pour l'instant que sur le mode solo, sans date ni annonce de retard pour le prochain mode en ligne — un silence comparable à celui observé en 2013, où le mode en ligne de l'épisode précédent était arrivé environ deux semaines après le jeu principal.",
+    "en": "A gaming reporter notes, less than 24 hours after the publisher's latest earnings call, that the upcoming game isn't delayed and remains on track for November 19, 2026. The publisher is currently only discussing the single-player mode, with no date or delay announced for the next online mode — a silence similar to 2013, when the previous game's online mode arrived about two weeks after the main game."
+  },
+  "publishedAt": "2026-08-08",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/why-rockstar-games-continued-gta-6-online-silence-is-not-bad-news-ac01"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:62ac1a33025d",
+  "sourceClaim": "Un journaliste spécialisé (Bloomberg) a précisé, moins de 24h après le dernier appel financier de l'éditeur, que le jeu à venir n'est toujours pas retardé et reste prévu au 19 novembre 2026 ; il a aussi rappelé que l'éditeur ne s'exprime pour l'instant que sur le mode solo, sans avoir donné de date ni annoncé de retard pour le prochain mode en ligne, et que lors de la sortie de l'épisode précédent en 2013, son mode en ligne était arrivé environ deux semaines après le jeu principal."
+}

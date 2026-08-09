@@ -1,0 +1,21 @@
+{
+  "id": "news_e7439317",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "L'éditeur exclut toute IA générative dans le jeu à venir",
+    "en": "Publisher rules out generative AI in the upcoming game"
+  },
+  "body": {
+    "fr": "Le patron de l'éditeur aurait réaffirmé, plus tôt cette année, qu'aucune intelligence artificielle générative ni personnage à dialogue généré ne figurera dans le jeu à venir : chaque réplique reste écrite et interprétée par des équipes humaines. La date exacte de cette déclaration n'est pas précisée par la source, qui la rapporte de seconde main.",
+    "en": "The publisher's chief reportedly reaffirmed earlier this year that no generative AI or AI-driven dialogue characters will appear in the upcoming game — every line stays written and performed by human teams. The exact date of that statement isn't specified by the source, which reports it secondhand."
+  },
+  "publishedAt": "2026-08-08",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/gta-roleplay-npcs-can-now-talk-back-remember-you-and-gossip-about-you-3d1c"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:bc26a4797467",
+  "sourceClaim": "Le PDG de l'éditeur a réaffirmé plus tôt cette année qu'aucune intelligence artificielle générative ni personnage à dialogue généré ne serait utilisé dans le jeu à venir, chaque réplique restant écrite et interprétée par des équipes humaines."
+}

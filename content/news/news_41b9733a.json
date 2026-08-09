@@ -1,0 +1,21 @@
+{
+  "id": "news_41b9733a",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le calendrier de sortie tient, le silence sur le mode en ligne jugé normal",
+    "en": "Launch date holds, silence on the online mode called normal"
+  },
+  "body": {
+    "fr": "Un journaliste spécialisé rapporte que la date du 19 novembre reste d'actualité. Pour l'instant, l'éditeur ne communique que sur le mode solo, sans donner d'indication sur le prochain mode en ligne — un silence qu'il juge comparable à celui observé avant le lancement du mode en ligne actuel, en 2013.",
+    "en": "A specialist journalist reports that the November 19 date still holds. For now, the publisher is only discussing the single-player campaign, with no word yet on the next online mode — a silence he compares to what happened before the current online mode launched, back in 2013."
+  },
+  "publishedAt": "2026-08-08",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/why-rockstar-games-continued-gta-6-online-silence-is-not-bad-news-ac01"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:f7e3507bf3ce",
+  "sourceClaim": "Le journaliste Jason Schreier (Bloomberg) indique que la date de sortie du 19 novembre reste d'actualité et que l'éditeur ne communique pour l'instant que sur le mode solo, sans aucune annonce sur la prochaine mouture du mode en ligne — un silence qu'il compare à celui observé avant le lancement du mode en ligne actuel en 2013."
+}
