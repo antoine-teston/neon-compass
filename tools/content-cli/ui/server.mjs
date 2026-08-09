@@ -211,6 +211,30 @@ const server = createServer(async (req, res) => {
     }
   }
 
+  // La référence des fonctions, la MÊME que `cli.js doc` rend au terminal.
+  //
+  // Une route et non un fichier de la liste blanche : le markdown vit dans
+  // `docs/ops/`, pas dans `ui/`. L'ajouter à `FICHIERS` aurait fait servir un
+  // fichier hors de l'interface par le chemin prévu pour ses propres actifs —
+  // c'est-à-dire ouvrir d'un cran une porte dont l'étroitesse est le garde-fou.
+  //
+  // Aucun processus lancé, aucun paramètre lu : elle rend un fichier du dépôt,
+  // toujours le même.
+  if (req.method === 'GET' && url.pathname === '/api/doc') {
+    try {
+      const { enHTML, lire, sections } = await import('../doc.mjs');
+      const markdown = lire();
+      return send(res, 200, {
+        html: enHTML(markdown),
+        sections: sections(markdown).map(({ rang, titre }) => ({ rang, titre })),
+      });
+    } catch (err) {
+      // Une référence introuvable ne doit pas faire tomber la console : elle
+      // affiche pourquoi, comme toutes les cartes de ce tableau de bord.
+      return send(res, 200, { indisponible: err.message });
+    }
+  }
+
   if (req.method === 'GET' && url.pathname === '/api/drafts') {
     const triage = triageAll();
     // Les statistiques voyagent avec le triage : elles en sont dérivées, et les

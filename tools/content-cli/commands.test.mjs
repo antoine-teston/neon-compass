@@ -31,9 +31,9 @@ function casDuSwitch() {
 
 test('toute commande déclarée a un traitement', () => {
   const cas = casDuSwitch();
-  // `news` et `help` sont traités AVANT le switch — ils ne chargent pas
+  // `news`, `doc` et `help` sont traités AVANT le switch — ils ne chargent pas
   // `content/`, justement pour rester utilisables quand un fichier est cassé.
-  const horsSwitch = new Set(['news']);
+  const horsSwitch = new Set(['news', 'doc']);
   const orphelines = NOMS.filter((n) => !cas.has(n) && !horsSwitch.has(n));
   assert.deepEqual(orphelines, [], `déclarées sans traitement : ${orphelines.join(', ')}`);
 });

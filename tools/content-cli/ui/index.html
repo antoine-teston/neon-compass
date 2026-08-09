@@ -228,6 +228,48 @@
     .editor { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
     .editor > div { overflow-y: visible; }
   }
+  /* La référence. Même ossature que l'éditeur — un corps qui défile, un pied
+     qui garde sa taille — mais deux colonnes de largeurs inverses : le sommaire
+     est étroit et fixe, le texte prend le reste. */
+  .ref-corps {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .ref-sommaire {
+    background: var(--bg);
+    border-right: 1px solid var(--line);
+    padding: 16px 8px;
+    overflow-y: auto;
+    min-height: 0;
+  }
+  .ref-sommaire a {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+  .ref-sommaire a:hover { background: var(--panel); color: var(--ink); }
+  .ref-texte { padding: 8px 24px 24px; overflow-y: auto; min-height: 0; }
+  .ref-texte h2 { font-size: 15px; margin: 26px 0 10px; }
+  .ref-texte h3 { font-size: 13.5px; margin: 20px 0 8px; color: var(--muted); }
+  .ref-texte h4 { font-size: 13px; margin: 16px 0 6px; color: var(--muted); }
+  .ref-texte p, .ref-texte li { font-size: 13.5px; line-height: 1.65; }
+  .ref-texte code { font-size: 12.5px; }
+  .ref-texte hr { border: 0; border-top: 1px solid var(--line); margin: 22px 0; }
+  .ref-texte table { margin: 12px 0; }
+  /* Les tableaux de la référence ont jusqu'à six colonnes de prose : sans quoi
+     défiler, ils débordent de la boîte et poussent le pied hors de l'écran. */
+  .ref-texte { overflow-x: auto; }
+  @media (max-width: 900px) {
+    .ref-corps { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
+    .ref-sommaire { display: none; }
+    .ref-texte { overflow-y: visible; }
+  }
   .faits { background: var(--bg); border-right: 1px solid var(--line); }
   .faits h4, .champs h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
   .faits p { font-size: 13px; line-height: 1.6; }
@@ -346,6 +388,7 @@
   <h1>Neon Compass <span>— console de pilotage</span></h1>
   <div class="pills" id="pills"></div>
   <button id="deplier" class="deplier" hidden></button>
+  <button id="reference-ouvrir" class="reinit" title="Ce que fait chaque fonction de cette console — la même référence que `cli.js doc`">Référence</button>
   <button id="reinit" class="reinit" title="Remettre les sections dans leur onglet et leur ordre d’origine">Réinitialiser la disposition</button>
 </header>
 
@@ -446,6 +489,21 @@
     <button id="ed-close">Fermer</button>
     <button id="ed-save">Enregistrer</button>
     <button id="ed-publish" class="go">Publier</button>
+  </div>
+</dialog>
+
+<!-- La référence des fonctions. Le style vient des règles `dialog` déjà en
+     place : elles portent le cadre ET la fermeture (`dialog:not([open])`), donc
+     une boîte de plus n'a rien à redéclarer — surtout pas un `display`, voir le
+     piège documenté avec ces règles. -->
+<dialog id="reference">
+  <div class="ref-corps">
+    <nav class="ref-sommaire" id="ref-sommaire"></nav>
+    <article class="ref-texte" id="ref-texte"></article>
+  </div>
+  <div class="editor-foot">
+    <span class="msg" id="ref-msg"></span>
+    <button id="ref-close">Fermer</button>
   </div>
 </dialog>
 
