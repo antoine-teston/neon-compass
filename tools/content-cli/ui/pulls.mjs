@@ -259,6 +259,13 @@ export async function relectureDe(numero) {
     });
   }
 
+  // La référence a servi : on l'efface. Sans ça le dépôt accumule une référence
+  // par PR relue — constaté après trois relectures, `refs/console/pr/80` restant
+  // là indéfiniment. Rouvrir la même PR refait un fetch, ce qui coûte un appel
+  // et garantit qu'on relit l'état COURANT de la branche plutôt qu'un instantané
+  // vieux d'une heure.
+  await oublierLaReference(numero);
+
   return { pr, items, diff, chemins };
 }
 

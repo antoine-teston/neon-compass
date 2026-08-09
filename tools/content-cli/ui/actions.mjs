@@ -125,6 +125,29 @@ export const ACTIONS = {
     argv: ['deliver.mjs'],
     writesRepo: true,
   },
+  // La fusion. Elle passe par CETTE porte comme tout le reste — une route qui
+  // shell-outerait de son côté serait une porte de plus à défendre, dans un
+  // serveur dont le modèle tient à ce qu'il n'y en ait que deux.
+  //
+  // `precondition` est neuf : le nom d'un contrôle que le SERVEUR évalue avant
+  // de lancer quoi que ce soit. Il ne peut pas vivre ici — ce fichier est une
+  // déclaration pure, importée par les tests, sans réseau. Il ne peut pas vivre
+  // dans la page non plus : la console n'a aucune authentification, et un bouton
+  // grisé n'a jamais arrêté une requête forgée.
+  'merge-pr': {
+    label: 'Fusionner la pull request',
+    group: 'livraison',
+    hint: 'Contenu seulement, et CI verte. Pour l’actu, fusionner PUBLIE.',
+    bin: 'gh',
+    argv: ['pr', 'merge', '--merge'],
+    destructive: true,
+    precondition: 'pr-fusionnable',
+    params: {
+      // Le numéro part en dernier élément d'argv : `gh pr merge --merge 78`.
+      // Vérifié sur une PR déjà fusionnée, que `gh` refuse sans rien modifier.
+      numero: { pattern: /^\d{1,6}$/, required: true },
+    },
+  },
   import: {
     label: 'Ré-importer la carte de référence',
     group: 'local',

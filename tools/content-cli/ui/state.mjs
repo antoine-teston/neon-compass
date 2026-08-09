@@ -195,6 +195,23 @@ export async function carteFonctions() {
   }
 }
 
+/** Les pull requests ouvertes, avec ce que leur merge ferait.
+ *
+ *  L'effet du merge est l'information que GitHub ne donne nulle part : une PR
+ *  d'actu publie sur le CDN, une PR qui mélange actu et POI ne publie rien du
+ *  tout. Sans elle, cette carte ne serait qu'une liste de liens. */
+export async function cartePullRequests() {
+  try {
+    const { ghDisponible } = await import('./runs.mjs');
+    const dispo = await ghDisponible();
+    if (!dispo.ok) return { indisponible: dispo.erreur };
+    const { pullRequestsOuvertes } = await import('./pulls.mjs');
+    return { pulls: await pullRequestsOuvertes() };
+  } catch (err) {
+    return { indisponible: `pull requests illisibles — ${err.message}` };
+  }
+}
+
 export async function carteRecolte() {
   try {
     return await derniereRecolte();
@@ -210,15 +227,17 @@ export async function carteRecolte() {
  *  omission » — l'alternative serait un tableau de bord entièrement vide parce
  *  qu'un jeton manque. */
 export async function cartesReseau() {
-  const [recolte, appConfig, fonctions] = await Promise.allSettled([
+  const [recolte, appConfig, fonctions, pulls] = await Promise.allSettled([
     carteRecolte(),
     carteAppConfig(),
     carteFonctions(),
+    cartePullRequests(),
   ]);
   const denouer = (r, quoi) => (r.status === 'fulfilled' ? r.value : { indisponible: `${quoi} — ${r.reason?.message ?? r.reason}` });
   return {
     recolte: denouer(recolte, 'Récolte illisible'),
     appConfig: denouer(appConfig, 'app_config illisible'),
     fonctions: denouer(fonctions, 'dérive illisible'),
+    pulls: denouer(pulls, 'pull requests illisibles'),
   };
 }

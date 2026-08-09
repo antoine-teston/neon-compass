@@ -270,6 +270,35 @@
     .ref-sommaire { display: none; }
     .ref-texte { overflow-y: visible; }
   }
+  /* La relecture d'une PR. Une seule colonne qui défile : la lecture se fait de
+     haut en bas — effet, items, diff — et deux zones de défilement obligeraient
+     à deviner laquelle répond à la molette. */
+  .pr-corps { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 18px 22px; }
+  /* L'effet du merge, en tête et impossible à manquer : c'est la seule ligne
+     qui dit si des utilisateurs vont voir quelque chose. */
+  .pr-effet {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+  .pr-effet.publie { border-color: color-mix(in srgb, var(--amber) 55%, transparent); color: var(--amber); }
+  .pr-item { border-top: 1px solid var(--line); padding: 12px 0; }
+  .pr-item h4 { margin: 0 0 4px; font-size: 13.5px; }
+  .pr-item .meta { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .pr-item p { font-size: 13px; line-height: 1.6; margin: 0 0 6px; }
+  .pr-item a { color: var(--cyan); font-size: 12px; word-break: break-all; }
+  .pr-diff { margin-top: 18px; }
+  .pr-diff summary { cursor: pointer; font-size: 12.5px; color: var(--muted); }
+  .pr-diff pre { max-height: 420px; overflow: auto; font-size: 12px; margin-top: 8px; }
+  .pr-publication { margin-top: 18px; padding: 12px 14px; border-radius: 8px; background: var(--bg); font-size: 13px; }
+  .pr-ligne { border-top: 1px solid var(--line); padding: 9px 0; cursor: pointer; }
+  .pr-ligne:hover { background: var(--bg); }
+  .pr-ligne .meta { font-size: 12px; color: var(--muted); }
+  .pr-ligne .refus { font-size: 12px; color: var(--muted); font-style: italic; }
+
   .faits { background: var(--bg); border-right: 1px solid var(--line); }
   .faits h4, .champs h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
   .faits p { font-size: 13px; line-height: 1.6; }
@@ -416,6 +445,13 @@
         <div id="g-livraison"></div>
       </div>
     </section>
+
+    <section data-panneau="pulls">
+      <h2>PR ouvertes <em id="pulls-note" class="dim">—</em></h2>
+      <div class="body">
+        <div id="pulls-liste"></div>
+      </div>
+    </section>
     <section data-panneau="graphes">
       <h2>File de revue <em id="graphes-note" class="dim"></em></h2>
       <div class="body" id="graphes"></div>
@@ -489,6 +525,26 @@
     <button id="ed-close">Fermer</button>
     <button id="ed-save">Enregistrer</button>
     <button id="ed-publish" class="go">Publier</button>
+  </div>
+</dialog>
+
+<!-- La relecture d'une PR. Le bouton « Fusionner » vit ICI et non sur la carte :
+     fusionner sans avoir ouvert la relecture devient impossible par
+     construction, plutôt que par consigne. -->
+<dialog id="pr">
+  <div class="pr-corps">
+    <div class="pr-effet" id="pr-effet"></div>
+    <div id="pr-items"></div>
+    <details class="pr-diff">
+      <summary>Diff brut — tout ce que la PR change</summary>
+      <pre id="pr-diff"></pre>
+    </details>
+    <div class="pr-publication" id="pr-publication" hidden></div>
+  </div>
+  <div class="editor-foot">
+    <span class="msg" id="pr-msg"></span>
+    <button id="pr-close">Fermer</button>
+    <button id="pr-merge" class="go">Fusionner</button>
   </div>
 </dialog>
 

@@ -368,6 +368,172 @@ document.getElementById('ed-publish').onclick = () => enregistrer(true);
 document.getElementById('ed-delete').onclick = ecarter;
 
 // ---------------------------------------------------------------------------
+// Les pull requests ouvertes, et leur relecture
+//
+// Le bouton « Fusionner » vit dans la BOÎTE et non sur la carte : on ne peut pas
+// fusionner sans avoir ouvert la relecture. Ce n'est pas une consigne, c'est la
+// structure — et c'est ce qui remplace le garde-fou qu'on avait en obligeant à
+// passer par GitHub.
+// ---------------------------------------------------------------------------
+
+const boitePR = document.getElementById('pr');
+let prOuverte = null;
+
+function renderPulls() {
+  const host = document.getElementById('pulls-liste');
+  const note = document.getElementById('pulls-note');
+  host.textContent = '';
+
+  const carte = reseau?.pulls;
+  if (!carte) { host.innerHTML = '<p class="dim">chargement…</p>'; note.textContent = '—'; return; }
+  if (carte.indisponible) {
+    // Jamais un zéro : la carte dit POURQUOI elle ne sait pas.
+    host.innerHTML = `<p class="dim">${esc(carte.indisponible)}</p>`;
+    note.textContent = 'indisponible';
+    return;
+  }
+
+  const pulls = carte.pulls ?? [];
+  note.textContent = pulls.length ? `${pulls.length} ouverte(s)` : 'aucune';
+  if (!pulls.length) { host.innerHTML = '<p class="dim">aucune pull request ouverte</p>'; return; }
+
+  for (const pr of pulls) {
+    const node = document.createElement('div');
+    node.className = 'pr-ligne';
+    node.innerHTML = `<div>#${pr.numero} ${esc(pr.titre)}</div>
+      <div class="meta">${esc(pr.branche)} · ${pr.nbFichiers} fichier(s) · contrôles ${esc(pr.controles.etat)}</div>
+      <div class="meta">${esc(pr.effet.phrase)}</div>`;
+    if (pr.refus) {
+      const why = document.createElement('div');
+      why.className = 'refus';
+      why.textContent = `non fusionnable ici — ${pr.refus.message}`;
+      node.append(why);
+    }
+    node.onclick = () => ouvrirPR(pr.numero);
+    host.append(node);
+  }
+}
+
+async function ouvrirPR(numero) {
+  const effet = document.getElementById('pr-effet');
+  const items = document.getElementById('pr-items');
+  const diff = document.getElementById('pr-diff');
+  const msg = document.getElementById('pr-msg');
+  const publication = document.getElementById('pr-publication');
+  const bouton = document.getElementById('pr-merge');
+
+  // Ouvrir d'abord : la relecture demande un `git fetch`, et un bouton sans
+  // effet visible pendant ce temps se lit comme un clic perdu.
+  prOuverte = null;
+  effet.textContent = 'Lecture…';
+  effet.className = 'pr-effet';
+  items.textContent = '';
+  diff.textContent = '';
+  msg.textContent = '';
+  publication.hidden = true;
+  bouton.disabled = true;
+  boitePR.showModal();
+
+  try {
+    const d = await (await fetch(`/api/pulls/${numero}`)).json();
+    if (d.indisponible) { effet.textContent = d.indisponible; return; }
+
+    prOuverte = d;
+    effet.textContent = d.pr.effet.phrase;
+    if (d.pr.effet.verdict === 'publie') effet.classList.add('publie');
+
+    for (const item of d.items) {
+      const node = document.createElement('div');
+      node.className = 'pr-item';
+      const a = item.apercu;
+      node.innerHTML = `<h4>${esc(a?.titre ?? item.id)}</h4>
+        <div class="meta">${esc(item.kind)} · ${esc(item.id)} · ${esc(item.transition)}`
+        + `${a?.confiance ? ' · ' + esc(a.confiance) : ''}${a?.categorie ? ' · ' + esc(a.categorie) : ''}</div>`;
+      if (item.illisible) node.insertAdjacentHTML('beforeend', '<p class="dim">JSON illisible sur cette branche</p>');
+      else if (item.ecarte) node.insertAdjacentHTML('beforeend', '<p class="dim">écarté par cette PR</p>');
+      else if (a?.corps) node.insertAdjacentHTML('beforeend', `<p>${esc(a.corps)}</p>`);
+      for (const src of a?.sources ?? []) {
+        node.insertAdjacentHTML('beforeend', `<div><a href="${esc(src)}" target="_blank" rel="noreferrer">${esc(src)}</a></div>`);
+      }
+      items.append(node);
+    }
+
+    diff.textContent = d.diff || '(diff vide)';
+    // Le serveur refera le test au moment du geste : ceci n'est qu'un confort.
+    bouton.disabled = Boolean(d.pr.refus);
+    if (d.pr.refus) msg.textContent = d.pr.refus.message;
+  } catch (err) {
+    effet.textContent = `relecture injoignable — ${err.message}`;
+  }
+}
+
+async function fusionner() {
+  if (!prOuverte) return;
+  const pr = prOuverte.pr;
+  const msg = document.getElementById('pr-msg');
+  const publication = document.getElementById('pr-publication');
+
+  const quoi = pr.effet.verdict === 'publie'
+    ? `\n\nCe merge PUBLIE ${pr.effet.publiables.length} entrée(s) sur le CDN.`
+      + '\n\nRetour arrière : repasser les entrées en « draft », puis republier — '
+      + 'supprimer le fichier ne retire rien de chez les clients.'
+    : `\n\n${pr.effet.phrase}`;
+  if (!confirm(`Fusionner #${pr.numero} — ${pr.titre}${quoi}\n\nConfirmer ?`)) return;
+
+  // L'heure AVANT le geste : c'est elle qui distinguera le run déclenché par ce
+  // merge de celui du merge précédent.
+  const depuis = new Date().toISOString();
+  msg.textContent = 'fusion…';
+
+  const res = await fetch('/api/run', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ action: 'merge-pr', numero: String(pr.numero), confirm: true }),
+  });
+  if (!res.ok) {
+    const { error } = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+    msg.textContent = error;
+    return;
+  }
+  await res.text(); // le flux de sortie de `gh`, qu'on ne réaffiche pas ici
+  msg.textContent = 'fusionnée';
+  publication.hidden = false;
+
+  if (pr.effet.verdict !== 'publie') {
+    publication.textContent = 'Ce merge ne publie rien — il n’y a pas de run à attendre.';
+    chargerReseau();
+    return;
+  }
+
+  publication.textContent = 'Publication : en attente du run…';
+  suivrePublication(depuis, publication);
+  chargerReseau();
+}
+
+/** Le verdict de publication, relu jusqu'à ce qu'il soit tranché.
+ *
+ *  Le statut du run ne suffit pas : `publish-news` reste VERT quand les
+ *  identifiants Supabase manquent. C'est le journal qui décide. */
+async function suivrePublication(depuis, hote, essais = 0) {
+  if (essais > 40) { hote.textContent = 'Publication : toujours pas de verdict après 10 minutes.'; return; }
+  try {
+    const d = await (await fetch(`/api/pulls/publication?depuis=${encodeURIComponent(depuis)}`)).json();
+    if (d.indisponible) { hote.textContent = `Publication : ${d.indisponible}`; return; }
+    if (d.attente) {
+      hote.textContent = `Publication : ${d.attente}`;
+      setTimeout(() => suivrePublication(depuis, hote, essais + 1), 15000);
+      return;
+    }
+    hote.textContent = `Publication : ${d.verdict}${d.detail ? ' — ' + d.detail : ''}`;
+  } catch (err) {
+    hote.textContent = `Publication : injoignable — ${err.message}`;
+  }
+}
+
+document.getElementById('pr-close').onclick = () => boitePR.close();
+document.getElementById('pr-merge').onclick = fusionner;
+
+// ---------------------------------------------------------------------------
 // La référence des fonctions
 //
 // Le même texte que `cli.js doc`, servi par `/api/doc` et rendu en HTML côté
@@ -947,14 +1113,22 @@ async function refresh() {
 
   // Puis le réseau, carte par carte. Une carte lente ne retarde plus rien.
   chargerMetriques();
-  fetch('/api/state/network').then((r) => r.json()).then((recu) => {
-    reseau = recu;
+  chargerReseau();
+}
+
+/** Les cartes réseau. Extrait de `refresh` pour être rappelable seul — après
+ *  une fusion, la liste des PR a changé et elle seule. */
+async function chargerReseau() {
+  try {
+    reseau = await (await fetch('/api/state/network')).json();
     renderPills(reseau);
     renderRecolte(reseau);
+    renderPulls();
     majIndicateurs();
-  }).catch((err) => {
+  } catch {
     document.getElementById('recolte-verdict').textContent = 'illisible';
-  });
+    renderPulls();
+  }
 }
 
 // ---------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 # Console de pilotage — référence des fonctions
 
-Ce document décrit **ce que fait chaque fonction** de la console : les 29 actions,
-les 13 sections, les 4 onglets, les 11 routes HTTP. Il complète deux textes qui
+Ce document décrit **ce que fait chaque fonction** de la console : les 30 actions,
+les 14 sections, les 4 onglets, les 13 routes HTTP. Il complète deux textes qui
 existent déjà et ne les répète pas :
 
 - **Comment la lancer** → `docs/ops/2026-08-08-console-en-conteneur.md`
@@ -41,7 +41,7 @@ un incendie — rarement pour les trois.
 
 | Onglet | Colonne 1 | Colonne 2 |
 |---|---|---|
-| **Revue** | Livraison, Atelier des brouillons | File de revue, File communautaire |
+| **Revue** | Livraison, PR ouvertes, Atelier des brouillons | File de revue, File communautaire |
 | **Veille** | Récolte | Écritures locales |
 | **Contrôles** | Contrôles, Santé de la production | Inventaire |
 | **Pilotage** | Carnet de hotfix | Production, Modération |
@@ -78,7 +78,7 @@ ajouterait du bruit à une barre qu'on lit en diagonale.
 
 ---
 
-## 3. Les 29 actions
+## 3. Les 30 actions
 
 Colonnes : **Prod** = écrit en ligne, exige une confirmation explicite ;
 **Cred** = exige `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` ; **Dépôt** = écrit
@@ -105,12 +105,19 @@ dans les fichiers du dépôt.
 | `pull-online-events` | Idem pour les événements en ligne | ✓ | |
 | `import` | Ré-importe la carte de référence depuis les dumps amont. **Long, et réseau** — les ids existants sont réutilisés | ✓ | |
 
-### Livraison (2)
+### Livraison (3)
 
-| Action | Ce qu'elle fait | Dépôt |
-|---|---|:-:|
-| `deliver-dry` | Montre la branche, le titre et les fichiers qui partiraient. N'écrit rien | |
-| `deliver` | Branche, commite, ouvre la PR. Titre et corps **composés depuis le diff** — rien de saisi. **La PR n'est pas fusionnée** | ✓ |
+| Action | Ce qu'elle fait | Prod | Dépôt |
+|---|---|:-:|:-:|
+| `deliver-dry` | Montre la branche, le titre et les fichiers qui partiraient. N'écrit rien | | |
+| `deliver` | Branche, commite, ouvre la PR. Titre et corps **composés depuis le diff** — rien de saisi | | ✓ |
+| `merge-pr` | Fusionne une PR **de contenu**, à CI verte. Pour l'actu, fusionner **publie** | ✓ | |
+
+`merge-pr` ne s'appelle pas depuis un bouton de liste : il vit dans la boîte de
+relecture (§5 bis), et deux gardes **évaluées côté serveur** le précèdent — la PR
+ne doit toucher que `content/`, et ses contrôles doivent être au vert. Le bouton
+grisé de la page est un confort ; le refus du serveur est la barrière, puisque la
+console n'a aucune authentification.
 
 ### GitHub (1)
 
@@ -275,6 +282,57 @@ pas. La création reste à `pull-news`.
 
 ---
 
+## 5 bis. La relecture d'une PR, et sa fusion
+
+Cliquer une ligne de « PR ouvertes » ouvre la relecture. Elle se lit de haut en
+bas.
+
+**L'effet du merge, en premier**, parce que c'est la seule ligne qui dit si des
+utilisateurs vont voir quelque chose : « publie 4 entrées », « ne publie rien »,
+ou « sort du périmètre — ne publiera rien et le dira ». Ce dernier cas est le
+seul surprenant : une PR qui mélange une actu et un POI ne publie pas « juste
+l'actu », elle ne publie **rien du tout**, le verrou de versions étant global.
+
+**La lecture éditoriale ensuite**, un bloc par entrée : transition de statut,
+titre et corps rendus, confiance, catégorie, sources. C'est ce qu'on relit
+réellement — pas des lignes de JSON.
+
+**Le diff brut enfin, repliable et sans filtre de chemin.** Il est là pour que la
+mise en forme ne puisse rien cacher : un champ que la vue éditoriale ne rend pas,
+ou un fichier inattendu dans la PR, sont précisément ce qu'il faut voir.
+
+Le contenu se lit en **git local** — un `git fetch` de la référence de la PR sous
+`refs/console/pr/`, puis des `git show`. Ce fetch ne touche ni `HEAD` ni l'arbre
+de travail.
+
+### Les deux gardes
+
+| Garde | Ce qu'elle refuse |
+|---|---|
+| Contenu seulement | Une PR qui touche un fichier hors `content/` — le refus **nomme** le fichier fautif |
+| CI verte | Une CI rouge, en cours, ou absente. `inconnu` n'est pas `vert` : dans le doute on ne fusionne pas |
+
+Les deux s'évaluent **côté serveur, au moment du geste** — ce qui règle aussi la
+course « CI verte au chargement, commit arrivé depuis ». Une précondition
+invérifiable (`gh` muet, réseau tombé) est un **refus**, jamais un
+laissez-passer.
+
+### Après la fusion
+
+La boîte ne se ferme pas : elle suit le run de publication déclenché par le
+merge, et lit son **journal**, jamais son statut. Quatre issues, dont la
+dernière est celle qui justifie tout ce détour :
+
+| Verdict | Ce qu'il veut dire |
+|---|---|
+| `publié` | le téléversement a eu lieu, avec le nombre d'objets |
+| `rien à publier` | le merge ne touchait pas d'actu |
+| `hors périmètre` | le merge touchait aussi autre chose sous `content/` |
+| `identifiants absents` | **le job est vert et rien n'est publié** — les secrets Supabase manquent de l'environnement `production` |
+
+`indéterminé` n'est pas un succès : c'est ce qu'on rend quand le journal ne
+prouve rien.
+
 ## 6. Ce que les sections affichent
 
 ### Cartes instantanées — disque seul, à chaque chargement
@@ -298,6 +356,7 @@ pas retarder les brouillons. Une carte qui tombe n'emporte pas les autres.
 | Section | Contenu | Ce qu'il lui faut |
 |---|---|---|
 | **Récolte** | Verdict de la dernière récolte, étape par étape | `gh` authentifié |
+| **PR ouvertes** | Une ligne par PR : numéro, titre, branche, verdict des contrôles, et **l'effet de son merge** — l'information que GitHub ne donne nulle part. Une PR non fusionnable ici dit pourquoi | `gh` authentifié |
 | **Santé de la production** | `app_config` en lecture seule : `backendFeaturesEnabled`, `communityContributionsEnabled`, `contentBaseURL`, `interstitialFrequency` · dérive des edge functions | Credentials · `SUPABASE_PROJECT_REF` + `SUPABASE_ACCESS_TOKEN` |
 | **File communautaire** | Métriques de production — files, blocages, graphes | `SUPABASE_ANON_KEY` + `MONITOR_TOKEN` |
 
@@ -348,6 +407,8 @@ Quatre issues, et la quatrième n'est **pas** un succès :
 | `GET` | `/api/state/network` | Récolte, `app_config`, dérive des fonctions |
 | `GET` | `/api/state/supabase` | Métriques de production, par l'Edge Function |
 | `GET` | `/api/livraison` | Aperçu de livraison — **lecture pure**, `git status` / `git log` |
+| `GET` | `/api/pulls/:n` | La relecture d'une PR : effet du merge, lecture éditoriale, diff brut |
+| `GET` | `/api/pulls/publication` | Le verdict du run de publication déclenché par un merge, lu dans son **journal** |
 | `GET` | `/api/doc` | **Ce document**, rendu en HTML, plus son sommaire. C'est le bouton « Référence » de la barre du haut |
 | `GET` | `/api/drafts` | Le triage complet, plus ses statistiques |
 | `GET` | `/api/draft/:kind/:id` | Un item : données, empreinte, faits, champs, blocages |
@@ -383,7 +444,12 @@ page ne peut donc rien déclencher.
 - **Créer un item de contenu.** L'atelier corrige, il ne crée pas.
 - **Ouvrir les POI à l'édition.** Il leur faudrait une carte.
 - **Déployer des règles d'accès.** RLS versionné, relu en PR.
-- **Fusionner une PR.** `deliver` ouvre, ne fusionne pas.
+- **Fusionner une PR de code.** Seul le contenu se fusionne ici ; le reste passe
+  par GitHub.
+- **Fusionner sans relire.** Le bouton vit dans la boîte de relecture, pas sur la
+  liste.
+- **Commenter une PR.** La console montre, elle ne commente pas.
+- **Fermer une PR sans la fusionner**, et supprimer une branche.
 - **Écrire dans `app_config` hors d'un geste nommé.** Une valeur ne bouge que
   sous un nom qui dit pourquoi.
 - **S'authentifier.** Elle n'en a aucune — voir §1.
