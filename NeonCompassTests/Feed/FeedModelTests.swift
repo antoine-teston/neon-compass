@@ -284,6 +284,44 @@ struct FeedModelTests {
         #expect(model.adPositions == first)
     }
 
+    /// Revenir au même filtre doit redonner le MÊME placement.
+    ///
+    /// Non-régression d'un défaut mesuré : le fil retirait au hasard à chaque
+    /// changement de filtre, donc les encarts se déplaçaient à chaque tap de
+    /// puce — y compris en revenant à l'état précédent, où rien n'avait bougé.
+    /// Chaque déplacement détruisait et recréait une `BannerAdView`, donc une
+    /// requête AdMob dans le chemin du tap.
+    ///
+    /// Le commentaire d'`InlineAdPlacement.positions(itemCount:)` prévoyait
+    /// exactement ce cas — « pour une liste qui se refiltre en continu » — mais
+    /// le fil ne se refiltrait pas encore quand il a été écrit.
+    @Test func returningToTheSameFilterRestoresTheSameAdPositions() {
+        let scratch = ScratchDefaults()
+        let items = (1...30).map {
+            sampleItem(
+                id: "\($0)",
+                publishedAt: "2026-07-\(String(format: "%02d", ($0 % 28) + 1))",
+                category: $0.isMultiple(of: 2) ? .patch : .business
+            )
+        }
+        let model = FeedModel(newsItems: items, seenStore: FeedSeenStore(defaults: scratch.defaults))
+
+        var restricted: [Set<Int>] = []
+        var unrestricted: [Set<Int>] = []
+        for _ in 0..<6 {
+            model.selectCategory(.patch)
+            restricted.append(model.adPositions)
+            model.selectCategory(nil)
+            unrestricted.append(model.adPositions)
+        }
+
+        #expect(Set(restricted).count == 1, "les encarts sautent alors que le filtre est le même")
+        #expect(Set(unrestricted).count == 1, "les encarts sautent alors que le filtre est le même")
+        // Deux filtres DIFFÉRENTS ont le droit de placer différemment : ce n'est
+        // plus la même liste, et le tirage suit le nombre de cartes.
+        #expect(restricted[0] != unrestricted[0])
+    }
+
     /// Les encarts portent sur les cartes listées, pas sur le fil entier.
     @Test func adsAreNeverPlacedPastTheLastListedCard() {
         let scratch = ScratchDefaults()

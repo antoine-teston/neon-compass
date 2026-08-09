@@ -134,8 +134,7 @@ final class FeedModel {
         listedItemCount = listed.count
         sections = FeedFiltering.sections(from: listed, now: now())
 
-        var generator = SystemRandomNumberGenerator()
-        adPositions = InlineAdPlacement.positions(itemCount: listed.count, using: &generator)
+        adPositions = InlineAdPlacement.positions(itemCount: listed.count)
     }
 
     /// Compare le fil complet — pas le fil filtré — au magasin, puis enregistre.

@@ -77,6 +77,11 @@ struct FeedFilterBar: View {
             }
         }
         .scrollIndicators(.hidden)
+        // Ciblée sur la rangée, et sur la sélection seule. C'est ce qui donne
+        // au tap son retour immédiat — la capsule s'allume — sans embarquer le
+        // remplacement du fil dans la même animation.
+        .animation(.snappy, value: selectedGame)
+        .animation(.snappy, value: selectedCategory)
     }
 
     /// - Parameter isRestriction: si cette puce POSE un filtre. Les deux puces
@@ -97,7 +102,19 @@ struct FeedFilterBar: View {
     ) -> some View {
         Button {
             guard !isSelected else { return }
-            withAnimation(.snappy) { action() }
+            // SURTOUT PAS de `withAnimation` ici, et c'est mesuré.
+            //
+            // L'action remplace TOUT le contenu du fil. Enveloppée dans une
+            // animation, SwiftUI animait l'apparition et la disparition de
+            // dizaines de cartes portant chacune un `.glassEffect()` : douze
+            // images perdues et jusqu'à 127 ms de blocage par tap, contre zéro
+            // à une image sans elle (sonde `CADisplayLink`, iPhone 17). C'était
+            // toute la latence ressentie.
+            //
+            // L'animation qu'on veut vraiment est celle de la PUCE, qui ne
+            // concerne qu'une capsule : elle est posée en `.animation(_:value:)`
+            // sur la rangée, où elle ne touche pas la liste.
+            action()
         } label: {
             HStack(spacing: 5) {
                 if let symbol {
