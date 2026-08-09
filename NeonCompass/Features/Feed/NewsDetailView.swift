@@ -16,8 +16,14 @@ struct NewsDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     header
 
+                    // `featuredTitle` et non `displayTitle` : c'est la taille
+                    // qu'a déjà le titre sur la carte à la une, donc l'ouverture
+                    // ne le fait plus grossir d'un écran à l'autre. Et sur un
+                    // titre de quatre lignes, les six points gagnés valent trois
+                    // lignes de corps de plus au-dessus du pli — ce qui est
+                    // exactement ce que cet écran cherche.
                     Text(item.title.resolved(for: currentLanguageCode))
-                        .font(NCTypography.displayTitle)
+                        .font(NCTypography.featuredTitle)
                         .foregroundStyle(.white)
                         .fixedSize(horizontal: false, vertical: true)
 
@@ -48,10 +54,10 @@ struct NewsDetailView: View {
             // Même partage que sur la carte du fil : le même élément ne peut pas
             // se présenter autrement d'un écran à l'autre.
             Label {
-                Text(categoryTitleKey(item.category))
+                Text(item.category.titleKey)
                     .foregroundStyle(.white.opacity(0.55))
             } icon: {
-                Image(systemName: categorySymbol(item.category))
+                Image(systemName: item.category.symbolName)
                     .foregroundStyle(NCColor.neonCyan)
             }
             .font(NCTypography.cardMeta)
@@ -65,7 +71,7 @@ struct NewsDetailView: View {
 
             Spacer(minLength: 8)
 
-            if let date = formattedDate(item.publishedAt) {
+            if let date = formattedDate {
                 Text(date)
                     .font(NCTypography.cardMeta)
                     .foregroundStyle(.white.opacity(0.45))
@@ -111,38 +117,8 @@ struct NewsDetailView: View {
 
     /// Date longue ici, abrégée sur la carte : une entrée ouverte se lit, elle ne
     /// se balaye pas.
-    private func formattedDate(_ isoDate: String) -> String? {
-        guard let date = Self.isoFormatter.date(from: isoDate) else { return nil }
-        return date.formatted(.dateTime.day().month(.wide).year())
-    }
-
-    private static let isoFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
-    }()
-
-    private func categoryTitleKey(_ category: NewsCategory) -> LocalizedStringKey {
-        switch category {
-        case .announcement: "feed.category.announcement"
-        case .patch: "feed.category.patch"
-        case .event: "feed.category.event"
-        case .guide: "feed.category.guide"
-        case .business: "feed.category.business"
-        case .community: "feed.category.community"
-        }
-    }
-
-    private func categorySymbol(_ category: NewsCategory) -> String {
-        switch category {
-        case .announcement: "megaphone"
-        case .patch: "wrench.and.screwdriver"
-        case .event: "calendar"
-        case .guide: "lightbulb"
-        case .business: "tag"
-        case .community: "person.2"
-        }
+    private var formattedDate: String? {
+        item.publishedDate?.formatted(.dateTime.day().month(.wide).year())
     }
 
     private func confidenceTitleKey(_ confidence: NewsConfidence) -> LocalizedStringKey {

@@ -10,6 +10,11 @@ enum NCTypography {
     /// titres de trois lignes et une seule actu et demie par écran.
     static let cardTitle = Font.system(size: 17, weight: .bold, design: .rounded)
 
+    /// Titre de l'entrée mise en avant en tête d'un fil. Entre `displayTitle` et
+    /// `cardTitle` : assez grand pour que l'œil s'y pose d'abord, assez petit
+    /// pour rester une carte parmi d'autres et non un titre d'écran.
+    static let featuredTitle = Font.system(size: 22, weight: .bold, design: .rounded)
+
     /// Ligne d'informations d'une carte : catégorie, date. Assez petite pour
     /// s'effacer devant le titre, assez lisible pour être scannée.
     static let cardMeta = Font.system(size: 12, weight: .semibold, design: .rounded)
