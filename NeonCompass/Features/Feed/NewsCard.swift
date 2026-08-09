@@ -117,6 +117,7 @@ struct NewsCard: View {
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
             .background(.white.opacity(0.08), in: .capsule)
+            .breathingHighlight(item.game == .leonida)
     }
 
     private var currentLanguageCode: String {

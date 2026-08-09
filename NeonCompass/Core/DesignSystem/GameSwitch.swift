@@ -45,6 +45,7 @@ struct GameSwitch: View {
                         .background(
                             Circle().fill(candidate == game ? NCColor.neonCyan : .clear)
                         )
+                        .breathingHighlight(candidate == .leonida)
                 }
                 .accessibilityLabel(
                     Text(candidate == .leonida ? "map.game.upcoming" : "map.game.reference")

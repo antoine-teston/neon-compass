@@ -34,6 +34,7 @@ struct FeedFilterBar: View {
                         // cinq langues.
                         title: Text(verbatim: game.shortLabel),
                         isSelected: selectedGame == game,
+                        breathes: game == .leonida,
                         accessibilityLabel: Text(game == .leonida ? "map.game.upcoming" : "map.game.reference")
                     ) { onSelectGame(game) }
                 }
