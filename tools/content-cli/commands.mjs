@@ -53,6 +53,24 @@ export const COMMANDES = [
     ],
   },
   {
+    nom: 'doc',
+    groupe: 'Regarder',
+    resume: 'Affiche la référence des fonctions de la console.',
+    args: '[section|--list] [--raw]',
+    notes: [
+      'La source est `docs/ops/2026-08-09-console-reference-des-fonctions.md` — jamais recopiée ici.',
+      'La section se désigne par son rang ou par un mot de son titre, accents optionnels.',
+      '`--raw` rend le markdown intact, pour le passer à un pager ou à un rendu externe.',
+      'Répond sans charger `content/` : une référence doit rester lisible quand le contenu est cassé.',
+    ],
+    exemples: [
+      'cli.js doc --list',
+      'cli.js doc carnet',
+      'cli.js doc 3',
+      'cli.js doc --raw | less',
+    ],
+  },
+  {
     nom: 'translate',
     groupe: 'Regarder',
     resume: 'Liste les champs ES / IT / DE manquants.',

@@ -288,6 +288,44 @@ if (!NOMS.includes(cmd)) {
   process.exit(1);
 }
 
+// `doc` non plus ne charge rien : une référence doit rester lisible quand
+// `content/` est cassé — c'est même le moment où on la consulte. Même raison que
+// `help`, juste au-dessus.
+if (cmd === 'doc') {
+  try {
+    const { lire, rendre, sectionDe, sommaire } = await import('./doc.mjs');
+    const o = options(flags);
+    const markdown = lire();
+    const quoi = flags.find((f) => !f.startsWith('--'));
+
+    if (o.list) {
+      console.log(`Référence des fonctions de la console — ${sommaire(markdown).split('\n').length} sections\n`);
+      console.log(sommaire(markdown));
+      console.log('\n  cli.js doc <rang|mot>   une seule section');
+      process.exit(0);
+    }
+
+    let texte = markdown;
+    if (quoi) {
+      const section = sectionDe(markdown, quoi);
+      if (!section) {
+        // Lister ce qui existe plutôt que d'afficher la première section venue :
+        // la même règle que « vouliez-vous dire » pour les commandes.
+        console.error(`section inconnue : ${quoi}\n`);
+        console.error(sommaire(markdown));
+        process.exit(1);
+      }
+      texte = section.texte;
+    }
+
+    console.log(o.raw ? texte : rendre(texte));
+    process.exit(0);
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+}
+
 // `news` ne lit que `content/news/` : ne pas charger tout le contenu pour lister
 // des actus, surtout quand on liste JUSTEMENT parce que quelque chose est cassé
 // ailleurs.
