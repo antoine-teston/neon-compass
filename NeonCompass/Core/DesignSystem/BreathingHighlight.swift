@@ -34,16 +34,25 @@ struct BreathingHighlight: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .opacity(breathes ? (isLit ? 1 : 0.7) : 1)
-            // DEUX halos et non un seul : un rayon court donne le cœur dense qui
-            // fait lire la couleur, un rayon long donne la diffusion qui la fait
-            // rayonner. Empilés, ils accentuent sans forcer l'opacité d'un halo
-            // unique, qui devient sale bien avant d'être lumineux.
-            .shadow(color: NCColor.sunsetViolet.opacity(coreGlow), radius: breathes && isLit ? 5 : 2)
-            .shadow(color: NCColor.sunsetViolet.opacity(haloGlow), radius: breathes && isLit ? 14 : 4)
+            .opacity(breathes ? (isLit ? 1 : 0.58) : 1)
+            // Une pastille qui enfle très légèrement au sommet de la
+            // respiration. Six pour cent sur trente points, c'est deux points :
+            // assez pour que l'œil le prenne pour de la lumière, trop peu pour
+            // qu'il le lise comme un mouvement. `scaleEffect` ne touche pas la
+            // mise en page, donc rien ne bouge autour.
+            .scaleEffect(breathes && isLit ? 1.06 : 1)
+            // TROIS halos et non un seul : un rayon court donne le cœur dense
+            // qui fait lire la couleur, les deux plus larges donnent la
+            // diffusion qui la fait rayonner. Empilés, ils accentuent sans
+            // forcer l'opacité d'un halo unique — poussée seule, celle-ci grise
+            // le fond au lieu de l'éclairer, et devient sale bien avant d'être
+            // lumineuse.
+            .shadow(color: NCColor.sunsetViolet.opacity(coreGlow), radius: breathes && isLit ? 4 : 2)
+            .shadow(color: NCColor.sunsetViolet.opacity(coreGlow), radius: breathes && isLit ? 10 : 4)
+            .shadow(color: NCColor.sunsetViolet.opacity(haloGlow), radius: breathes && isLit ? 22 : 6)
             .onAppear {
                 guard breathes else { return }
-                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                withAnimation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true)) {
                     isLit = true
                 }
             }
@@ -51,14 +60,14 @@ struct BreathingHighlight: ViewModifier {
 
     private var coreGlow: Double {
         guard isActive else { return 0 }
-        guard breathes else { return 0.7 }
-        return isLit ? 1 : 0.25
+        guard breathes else { return 0.75 }
+        return isLit ? 1 : 0.3
     }
 
     private var haloGlow: Double {
         guard isActive else { return 0 }
-        guard breathes else { return 0.35 }
-        return isLit ? 0.65 : 0.1
+        guard breathes else { return 0.45 }
+        return isLit ? 0.85 : 0.12
     }
 }
 
