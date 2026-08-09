@@ -368,6 +368,66 @@ document.getElementById('ed-publish').onclick = () => enregistrer(true);
 document.getElementById('ed-delete').onclick = ecarter;
 
 // ---------------------------------------------------------------------------
+// La référence des fonctions
+//
+// Le même texte que `cli.js doc`, servi par `/api/doc` et rendu en HTML côté
+// serveur — la page ne convertit pas de markdown, elle affiche ce qu'on lui
+// donne. Une seule source, deux sorties.
+// ---------------------------------------------------------------------------
+
+const reference = document.getElementById('reference');
+/** Chargée une fois par session. Le fichier ne bouge pas pendant qu'on lit. */
+let referenceChargee = false;
+
+async function ouvrirReference() {
+  const texte = document.getElementById('ref-texte');
+  const sommaire = document.getElementById('ref-sommaire');
+  const msg = document.getElementById('ref-msg');
+
+  // Ouvrir D'ABORD : sur un premier appel, attendre la réponse avant d'ouvrir
+  // laisse le bouton sans effet visible pendant tout le chargement, ce qui se
+  // lit comme un clic perdu et invite à recliquer.
+  reference.showModal();
+  if (referenceChargee) return;
+
+  texte.textContent = 'Chargement…';
+  try {
+    const r = await fetch('/api/doc');
+    const d = await r.json();
+    if (d.indisponible) {
+      // Comme les cartes du tableau de bord : dire pourquoi, jamais rester vide.
+      texte.textContent = '';
+      msg.textContent = d.indisponible;
+      return;
+    }
+
+    texte.innerHTML = d.html;
+    sommaire.textContent = '';
+    for (const s of d.sections) {
+      const a = document.createElement('a');
+      a.textContent = s.titre;
+      a.href = '#';
+      a.onclick = (e) => {
+        e.preventDefault();
+        // Le titre porte son numéro : on retrouve le `h2` par son texte plutôt
+        // que par un identifiant qu'il faudrait fabriquer des deux côtés.
+        const cible = [...texte.querySelectorAll('h2')].find((h) => h.textContent.trim() === s.titre);
+        cible?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      sommaire.append(a);
+    }
+    msg.textContent = '';
+    referenceChargee = true;
+  } catch (err) {
+    texte.textContent = '';
+    msg.textContent = `référence injoignable — ${err.message}`;
+  }
+}
+
+document.getElementById('reference-ouvrir').onclick = ouvrirReference;
+document.getElementById('ref-close').onclick = () => reference.close();
+
+// ---------------------------------------------------------------------------
 // La Récolte
 // ---------------------------------------------------------------------------
 

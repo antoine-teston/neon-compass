@@ -1,7 +1,7 @@
 # Console de pilotage — référence des fonctions
 
 Ce document décrit **ce que fait chaque fonction** de la console : les 29 actions,
-les 13 sections, les 4 onglets, les 10 routes HTTP. Il complète deux textes qui
+les 13 sections, les 4 onglets, les 11 routes HTTP. Il complète deux textes qui
 existent déjà et ne les répète pas :
 
 - **Comment la lancer** → `docs/ops/2026-08-08-console-en-conteneur.md`
@@ -348,6 +348,7 @@ Quatre issues, et la quatrième n'est **pas** un succès :
 | `GET` | `/api/state/network` | Récolte, `app_config`, dérive des fonctions |
 | `GET` | `/api/state/supabase` | Métriques de production, par l'Edge Function |
 | `GET` | `/api/livraison` | Aperçu de livraison — **lecture pure**, `git status` / `git log` |
+| `GET` | `/api/doc` | **Ce document**, rendu en HTML, plus son sommaire. C'est le bouton « Référence » de la barre du haut |
 | `GET` | `/api/drafts` | Le triage complet, plus ses statistiques |
 | `GET` | `/api/draft/:kind/:id` | Un item : données, empreinte, faits, champs, blocages |
 | `PUT` | `/api/draft/:kind/:id` | Réécrit — validation **entièrement** faite avant le premier octet écrit |
@@ -401,7 +402,14 @@ page ne peut donc rien déclencher.
 | `ui/runs.mjs` | Le verdict des workflows, lu dans le journal |
 | `ui/indicateurs.mjs` | Ce que chaque onglet dit de lui-même |
 | `ui/layout.mjs` | Onglets, colonnes, réconciliation du rangement |
+| `doc.mjs` | Ce document : lecture, découpage, rendu terminal et rendu HTML |
 | `docker/` | Le conteneur, son `.env`, et `verifier-exposition.sh` |
+
+Cette référence se lit de trois endroits, tous servis par le **même** fichier
+markdown : ici, au terminal par `cli.js doc`, et dans la console par le bouton
+« Référence ». `doc.mjs` ne fait que lire et mettre en forme — il n'énonce aucun
+fait de son côté, et `doc.test.mjs` compare ce qui est écrit ici à ce que le code
+fait, dans les deux sens.
 
 Chacun de ces modules a son `.test.mjs` à côté. Les contrôles du conteneur
 (`docker/docker.test.mjs`, 9 tests) vérifient notamment que le port reste publié

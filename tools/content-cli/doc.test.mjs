@@ -23,12 +23,16 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { ACTIONS } from './ui/actions.mjs';
 import { CARNET } from './ui/hotfix.mjs';
 import { ONGLETS } from './ui/layout.mjs';
 import { EDITABLE_KINDS } from './ui/drafts.mjs';
-import { lire, rendre, sectionDe, sections, sommaire } from './doc.mjs';
+import { enHTML, lire, rendre, sectionDe, sections, sommaire } from './doc.mjs';
 
+const ICI = dirname(fileURLToPath(import.meta.url));
 const MD = lire();
 
 /** Les noms d'actions cités par les tableaux du CATALOGUE et du CARNET.
@@ -149,6 +153,22 @@ test('les actions marquées production le sont vraiment', () => {
   }
 });
 
+test('toute route servie par la console est documentée', () => {
+  // Le sens qui compte : une route ajoutée à `server.mjs` sans être décrite ici
+  // est une fonction que personne ne saura qu'elle existe. C'est arrivé pour
+  // `/api/doc` elle-même, ajoutée après la première rédaction de ce document.
+  const serveur = readFileSync(join(ICI, 'ui', 'server.mjs'), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const routes = [...serveur.matchAll(/url\.pathname === '(\/api\/[^']*)'/g)].map((m) => m[1]);
+  assert.ok(routes.length >= 5, `seulement ${routes.length} route(s) trouvée(s) — le motif a dérivé`);
+
+  const section = sectionDe(MD, 'routes');
+  assert.ok(section, 'la section des routes a disparu de la référence');
+  const absentes = [...new Set(routes)].filter((r) => !section.texte.includes(r));
+  assert.deepEqual(absentes, [], `routes non documentées : ${absentes.join(', ')}`);
+});
+
 // ---------------------------------------------------------------------------
 // Le service depuis la CLI
 // ---------------------------------------------------------------------------
@@ -210,4 +230,68 @@ test('le rendu de la référence entière ne perd aucune action', () => {
   const rendu = rendre(MD);
   const perdues = Object.keys(ACTIONS).filter((nom) => !rendu.includes(nom));
   assert.deepEqual(perdues, [], `perdues au rendu : ${perdues.join(', ')}`);
+});
+
+// ---------------------------------------------------------------------------
+// Le rendu HTML, pour la console web
+//
+// Éprouvé sur le FICHIER RÉEL et pas seulement sur des exemples : une
+// construction markdown employée un jour dans la référence et non couverte ici
+// s'afficherait en texte brut au milieu du reste, sans que rien ne le dise.
+// ---------------------------------------------------------------------------
+
+test('les tableaux deviennent de vrais tableaux', () => {
+  const html = enHTML('| a | b |\n|---|---|\n| 1 | 2 |\n');
+  assert.match(html, /<table>/);
+  assert.match(html, /<th>a<\/th>/);
+  assert.match(html, /<td>1<\/td>/);
+  // La ligne d'alignement ne doit pas devenir une ligne de données.
+  assert.ok(!html.includes('---'), 'le séparateur est passé en contenu');
+  assert.equal((html.match(/<tr>/g) ?? []).length, 2, 'une ligne de trop ou de moins');
+});
+
+test('les titres descendent d’un cran', () => {
+  // La boîte de dialogue porte déjà son titre : le `#` du document devient `h2`.
+  assert.match(enHTML('# Titre\n'), /<h2>Titre<\/h2>/);
+  assert.match(enHTML('## Section\n'), /<h3>Section<\/h3>/);
+});
+
+test('le balisage en ligne est rendu, y compris à cheval sur deux lignes', () => {
+  const html = enHTML('du `code` et **du gras\nsur deux lignes** ici\n');
+  assert.match(html, /<code>code<\/code>/);
+  assert.match(html, /<strong>du gras\nsur deux lignes<\/strong>/);
+});
+
+test('les listes des deux sortes sont rendues', () => {
+  assert.match(enHTML('- un\n- deux\n'), /<ul>\n<li>un<\/li>\n<li>deux<\/li>\n<\/ul>/);
+  assert.match(enHTML('1. un\n2. deux\n'), /<ol>\n<li>un<\/li>/);
+});
+
+test('le HTML cité dans le texte est échappé, pas interprété', () => {
+  // Sans ça, un `<h2>` cité dans une phrase disparaîtrait de l’écran.
+  const html = enHTML('on écrit `<h2>` dans le texte\n');
+  assert.match(html, /&lt;h2&gt;/);
+  assert.ok(!html.includes('<h2>dans'), 'la balise citée a été interprétée');
+});
+
+test('la référence réelle ne laisse aucun markdown non converti', () => {
+  const html = enHTML(MD);
+  // Le corps du texte, tables et titres retirés : il ne doit plus rester ni
+  // marqueur de gras, ni ligne de séparation de tableau, ni titre en dièses.
+  assert.ok(!html.includes('**'), 'des marqueurs de gras subsistent');
+  assert.ok(!/\|[\s:|-]+\|/.test(html), 'une ligne d’alignement de tableau subsiste');
+  assert.ok(!/^#{1,4} /m.test(html), 'un titre en dièses subsiste');
+  assert.ok(!/^\| /m.test(html), 'une ligne de tableau n’a pas été convertie');
+});
+
+test('la référence réelle produit autant de tableaux qu’elle en contient', () => {
+  const attendus = (MD.match(/^\|[\s:|-]+\|$/gm) ?? []).length;
+  const obtenus = (enHTML(MD).match(/<table>/g) ?? []).length;
+  assert.equal(obtenus, attendus, `${obtenus} tableau(x) rendus pour ${attendus} dans la source`);
+});
+
+test('le rendu HTML ne perd aucune action non plus', () => {
+  const html = enHTML(MD);
+  const perdues = Object.keys(ACTIONS).filter((nom) => !html.includes(nom));
+  assert.deepEqual(perdues, [], `perdues au rendu HTML : ${perdues.join(', ')}`);
 });

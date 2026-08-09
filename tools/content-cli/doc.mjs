@@ -139,6 +139,135 @@ function nettoyer(texte) {
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)');
 }
 
+// ---------------------------------------------------------------------------
+// Rendu HTML, pour la console web
+//
+// Pourquoi un rendu de plus, et pas le `<pre>` du terminal : la page STYLE DÉJÀ
+// les tableaux (`table`, `th`, `td` dans `index.html`), et la référence en est
+// pleine. Servir du texte préformaté afficherait des colonnes désalignées à
+// côté de tableaux natifs, dans la même fenêtre.
+//
+// Ce rendu reste volontairement partiel — il ne couvre que ce que la référence
+// emploie réellement. Un convertisseur markdown complet serait une dépendance,
+// ou trois cents lignes à maintenir pour des cas qu'aucun fichier n'utilise.
+// ---------------------------------------------------------------------------
+
+/** L'échappement, fait AVANT toute mise en forme.
+ *
+ *  Le fichier est local et écrit par nous, donc ceci n'est pas une défense
+ *  contre un attaquant — c'est ce qui empêche un `<h2>` cité dans une phrase de
+ *  disparaître de l'écran en devenant une balise. */
+function echapper(texte) {
+  return String(texte).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/** Gras, code, liens — appliqués après l'échappement, sur un paragraphe entier
+ *  et non ligne à ligne : `**…**` court souvent sur deux lignes. */
+function enLigne(texte) {
+  return texte
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
+
+const estSeparateurDeTableau = (l) => /^\s*\|[\s:|-]+\|\s*$/.test(l);
+const cellules = (l) => l.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+
+/**
+ * Markdown → HTML, pour l'injection dans la boîte de dialogue de la console.
+ *
+ * Couvre : titres, tableaux, listes à puces et numérotées, citations, filets,
+ * paragraphes, et la mise en forme en ligne. C'est tout ce que la référence
+ * emploie — `doc.test.mjs` le vérifie sur le fichier réel plutôt que sur des
+ * exemples inventés, pour qu'une construction nouvelle ne passe pas inaperçue.
+ */
+export function enHTML(markdown) {
+  const lignes = String(markdown).split('\n');
+  const sortie = [];
+  let paragraphe = [];
+  let liste = null;
+
+  const viderParagraphe = () => {
+    if (!paragraphe.length) return;
+    sortie.push(`<p>${enLigne(echapper(paragraphe.join('\n')))}</p>`);
+    paragraphe = [];
+  };
+  const fermerListe = () => {
+    if (!liste) return;
+    sortie.push(`</${liste}>`);
+    liste = null;
+  };
+  const vider = () => { viderParagraphe(); fermerListe(); };
+
+  for (let i = 0; i < lignes.length; i++) {
+    const ligne = lignes[i];
+
+    if (!ligne.trim()) { vider(); continue; }
+
+    const titre = ligne.match(/^(#{1,4}) +(.+)$/);
+    if (titre) {
+      vider();
+      // Le `#` du document devient un `h2` : la boîte de dialogue porte déjà son
+      // propre titre, et deux `h1` dans une page en font un de trop.
+      const niveau = Math.min(titre[1].length + 1, 5);
+      sortie.push(`<h${niveau}>${enLigne(echapper(titre[2]))}</h${niveau}>`);
+      continue;
+    }
+
+    if (/^---+$/.test(ligne.trim())) { vider(); sortie.push('<hr>'); continue; }
+
+    // Un tableau : la ligne d'en-tête, son séparateur, puis les lignes de corps.
+    if (ligne.trim().startsWith('|') && estSeparateurDeTableau(lignes[i + 1] ?? '')) {
+      vider();
+      const entetes = cellules(ligne);
+      sortie.push('<table><thead><tr>');
+      for (const c of entetes) sortie.push(`<th>${enLigne(echapper(c))}</th>`);
+      sortie.push('</tr></thead><tbody>');
+      i += 1; // le séparateur, qui ne porte que l'alignement
+      while ((lignes[i + 1] ?? '').trim().startsWith('|')) {
+        i += 1;
+        sortie.push('<tr>');
+        for (const c of cellules(lignes[i])) sortie.push(`<td>${enLigne(echapper(c))}</td>`);
+        sortie.push('</tr>');
+      }
+      sortie.push('</tbody></table>');
+      continue;
+    }
+
+    const puce = ligne.match(/^ *[-*] +(.+)$/);
+    const numero = ligne.match(/^ *\d+\. +(.+)$/);
+    if (puce || numero) {
+      viderParagraphe();
+      const voulue = puce ? 'ul' : 'ol';
+      if (liste !== voulue) { fermerListe(); sortie.push(`<${voulue}>`); liste = voulue; }
+      sortie.push(`<li>${enLigne(echapper((puce ?? numero)[1]))}</li>`);
+      continue;
+    }
+
+    if (ligne.startsWith('> ')) {
+      vider();
+      sortie.push(`<blockquote>${enLigne(echapper(ligne.slice(2)))}</blockquote>`);
+      continue;
+    }
+
+    // Une ligne d'un élément de liste qui se poursuit reste dans cet élément
+    // plutôt que d'ouvrir un paragraphe au milieu d'une liste.
+    if (liste && /^ {2,}\S/.test(ligne)) {
+      sortie[sortie.length - 1] = sortie[sortie.length - 1].replace(
+        /<\/li>$/,
+        ` ${enLigne(echapper(ligne.trim()))}</li>`,
+      );
+      continue;
+    }
+
+    fermerListe();
+    paragraphe.push(ligne);
+  }
+
+  vider();
+  return sortie.join('\n');
+}
+
 /** Le sommaire, pour `--list` et pour le message d'une section inconnue. */
 export function sommaire(markdown) {
   return sections(markdown).map((s) => `  ${String(s.rang).padStart(2)}. ${s.titre.replace(/^\d+\.\s*/, '')}`).join('\n');
