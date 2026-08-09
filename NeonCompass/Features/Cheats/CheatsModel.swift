@@ -15,8 +15,34 @@ final class CheatsModel {
     var searchQuery: String = "" {
         didSet { recompute() }
     }
-    var activeCategories: Set<CheatCategory> {
+    /// La rubrique regardée, ou `nil` pour toutes.
+    ///
+    /// SOURCE UNIQUE : `activeCategories` en dérive au lieu d'être un second
+    /// état à tenir en accord. Le modèle portait un `Set` depuis toujours — donc
+    /// la multi-sélection — mais rien ne l'exposait ; une seule rubrique à la
+    /// fois se lit d'un coup d'œil là où cinq puces demandent de les lire toutes,
+    /// et c'est ce que fait déjà le fil d'actu.
+    private(set) var selectedCategory: CheatCategory? {
         didSet { recompute() }
+    }
+
+    var activeCategories: Set<CheatCategory> {
+        selectedCategory.map { [$0] } ?? Set(CheatCategory.allCases)
+    }
+
+    /// Les rubriques qui rendront au moins un code pour le jeu actif.
+    ///
+    /// Aucune combinaison ne peut donc rendre une liste vide sous une puce
+    /// allumée. L'ordre vient de `allCases` et non du contenu, sans quoi les
+    /// puces changeraient de place d'une publication à l'autre.
+    var availableCategories: [CheatCategory] {
+        let present = Set(cheats.filter { $0.game == activeGame }.map(\.category))
+        return CheatCategory.allCases.filter { present.contains($0) }
+    }
+
+    func selectCategory(_ category: CheatCategory?) {
+        guard selectedCategory != category else { return }
+        selectedCategory = category
     }
     private(set) var favoriteCheatIDs: Set<String>
 
@@ -30,7 +56,15 @@ final class CheatsModel {
     var activeGame: Game {
         didSet {
             defaults.set(activeGame.rawValue, forKey: Self.gameKey)
-            recompute()
+            // Relâche une rubrique que le nouveau jeu ne propose pas, sans quoi
+            // la liste serait vide sous une puce allumée. L'affectation déclenche
+            // le recalcul par son propre `didSet` — d'où le `else`, qui évite de
+            // le faire deux fois.
+            if let category = selectedCategory, !availableCategories.contains(category) {
+                selectedCategory = nil
+            } else {
+                recompute()
+            }
         }
     }
 
@@ -73,7 +107,7 @@ final class CheatsModel {
         self.modelContext = modelContext
         self.defaults = defaults
         self.widgetSummaryCoordinator = widgetSummaryCoordinator
-        self.activeCategories = Set(CheatCategory.allCases)
+        self.selectedCategory = nil
         self.favoriteCheatIDs = Set(
             (try? modelContext.fetch(FetchDescriptor<FavoriteCheat>()))?.map(\.cheatID) ?? []
         )
