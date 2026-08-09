@@ -1,0 +1,21 @@
+{
+  "id": "news_282d351e",
+  "category": "business",
+  "game": "gtav",
+  "title": {
+    "fr": "L'éditeur met en avant l'outil de création de missions du mode en ligne actuel",
+    "en": "Publisher spotlights the current online mode's mission-creation tool"
+  },
+  "body": {
+    "fr": "Dans ses derniers documents financiers, l'éditeur cite l'outil de création de missions du mode en ligne, disponible depuis décembre 2025, comme un moteur d'engagement pour sa communauté. Le document ne mentionne rien de comparable pour le jeu à venir.",
+    "en": "In its latest financial materials, the publisher singles out the online mode's mission-creation tool, live since December 2025, as an engagement driver for its community. The filing makes no mention of anything similar for the upcoming game."
+  },
+  "publishedAt": "2026-08-08",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/take-two-hints-at-gta-online-tool-that-could-be-a-gta-6-preview-0a4d"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:9a86654ec6c9",
+  "sourceClaim": "Dans ses derniers documents destinés aux investisseurs, l'éditeur a mis en avant l'outil de création de missions du mode en ligne actuel (disponible depuis décembre 2025), le présentant comme un moteur d'engagement communautaire."
+}
