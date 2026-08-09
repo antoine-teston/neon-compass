@@ -169,7 +169,7 @@ export function grapheCategories(hote, moderation) {
     const ligne = document.createElement('div');
     ligne.className = 'motif';
     ligne.innerHTML = `<span class="nom">${esc(label)}</span><span class="val">${n}</span>
-      <span class="piste"><span style="width:${(n / max) * 100}%;background:${SERIE_ARRIVEES}"></span></span>`;
+      <span class="piste"><span class="${n ? '' : 'vide'}" style="width:${(n / max) * 100}%;background:${SERIE_ARRIVEES}"></span></span>`;
     armerBulle(ligne, `${pluriel(n, 'contribution')} — ${label}`);
     el.append(ligne);
   }

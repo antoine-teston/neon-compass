@@ -79,6 +79,12 @@
 .motif .val { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .motif .piste { grid-column: 1 / -1; height: 8px; background: var(--panel-2); border-radius: 4px; }
 .motif .piste > span { display: block; height: 100%; border-radius: 4px; background: var(--amber); min-width: 3px; }
+/* Le minimum de 3 px garde une PETITE valeur visible. Appliqué à zéro, il
+   dessinait un moignon — mesuré sur la production le 2026-08-08, cinq
+   catégories vides avec chacune sa marque. Un zéro qui laisse de l'encre se
+   lit comme « un peu », et c'est la même faute que le zéro affiché faute de
+   donnée : la seule différence est qu'ici on connaît la réponse. */
+.motif .piste > span.vide { min-width: 0; }
 
 /* Infobulle : la valeur exacte et le message complet du validateur, que
    l'étiquette courte de l'axe ne peut pas porter. */
