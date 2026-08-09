@@ -139,6 +139,28 @@ function publicCarnet() {
 }
 
 const ROUTE_DRAFT = /^\/api\/draft\/([^/]+)\/([^/]+)$/;
+const ROUTE_PULL = /^\/api\/pulls\/(\d{1,6})$/;
+
+/**
+ * Les préconditions, par nom. Une action peut en DÉCLARER une (`actions.mjs`) ;
+ * elle est évaluée ICI, au moment du geste, avant que le moindre processus ne
+ * soit lancé.
+ *
+ * Pourquoi côté serveur et pas dans la page : la console n'a aucune
+ * authentification. Un bouton grisé est un confort ; il n'a jamais arrêté une
+ * requête forgée. C'est aussi ce qui règle la course « CI verte au chargement,
+ * commit arrivé depuis » — on regarde l'état au moment de fusionner, pas au
+ * moment d'afficher.
+ *
+ * Une action qui déclare une précondition sans implémentation ici est une
+ * erreur attrapée par `actions.test.mjs`, pas un silence qui laisserait passer.
+ */
+const PRECONDITIONS = {
+  'pr-fusionnable': async ({ numero }) => {
+    const { pullRequestOuverte, refusDeFusion } = await import('./pulls.mjs');
+    return refusDeFusion(await pullRequestOuverte(numero));
+  },
+};
 
 /** Les fichiers que la page a le droit de demander.
  *
@@ -235,6 +257,38 @@ const server = createServer(async (req, res) => {
     }
   }
 
+  // La relecture d'une PR : lecture éditoriale, diff brut, et l'effet du merge.
+  //
+  // Le `git fetch` qu'elle déclenche ne touche ni `HEAD` ni l'arbre de travail —
+  // il pose une référence sous `refs/console/pr/`, à nous, effaçable.
+  const routePull = url.pathname.match(ROUTE_PULL);
+  if (req.method === 'GET' && routePull) {
+    try {
+      const { relectureDe } = await import('./pulls.mjs');
+      return send(res, 200, await relectureDe(Number(routePull[1])));
+    } catch (err) {
+      // 200 avec `indisponible`, comme les cartes : la boîte doit pouvoir dire
+      // pourquoi elle est vide plutôt que de rester vide.
+      return send(res, 200, { indisponible: err.message });
+    }
+  }
+
+  // Le verdict de publication du merge qu'on vient de faire. `depuis` (ISO)
+  // écarte les runs d'avant — sans lui on lirait celui du merge précédent.
+  if (req.method === 'GET' && url.pathname === '/api/pulls/publication') {
+    try {
+      const { derniersRuns, journalDeRun } = await import('./runs.mjs');
+      const { verdictDePublication } = await import('./pulls.mjs');
+      const depuis = url.searchParams.get('depuis');
+      const [run] = await derniersRuns('content.yml', { limite: 5, depuis });
+      if (!run) return send(res, 200, { attente: 'aucun run déclenché pour l’instant' });
+      if (run.status !== 'completed') return send(res, 200, { run, attente: `run ${run.status}` });
+      return send(res, 200, { run, ...verdictDePublication(await journalDeRun(run.databaseId)) });
+    } catch (err) {
+      return send(res, 200, { indisponible: `publication illisible — ${err.message}` });
+    }
+  }
+
   if (req.method === 'GET' && url.pathname === '/api/drafts') {
     const triage = triageAll();
     // Les statistiques voyagent avec le triage : elles en sont dérivées, et les
@@ -290,6 +344,25 @@ const server = createServer(async (req, res) => {
     // rapport ferait échouer un correctif pour une mauvaise raison.
     if ((action.destructive || action.needsCredentials) && !bin && !credentialsPresent()) {
       return send(res, 412, { error: CREDENTIALS_MANQUANTS });
+    }
+
+    // La précondition en DERNIER : elle interroge le réseau, et il n'y a aucune
+    // raison de payer cet appel pour une requête qu'on aurait refusée de toute
+    // façon.
+    if (action.precondition) {
+      const controle = PRECONDITIONS[action.precondition];
+      if (!controle) {
+        return send(res, 500, { error: `précondition « ${action.precondition} » sans implémentation` });
+      }
+      let refus;
+      try {
+        refus = await controle(params);
+      } catch (err) {
+        // Ne pas savoir est un REFUS, jamais un laissez-passer : `gh` muet ou
+        // réseau tombé ne doit pas ouvrir la fusion.
+        return send(res, 503, { error: `précondition invérifiable — ${err.message}` });
+      }
+      if (refus) return send(res, refus.code, { error: refus.message });
     }
 
     return stream(res, argv, bin);

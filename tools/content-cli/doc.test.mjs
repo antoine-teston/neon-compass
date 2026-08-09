@@ -129,6 +129,19 @@ test('le compte par groupe est le vrai', () => {
   assert.deepEqual(annoncesTries, reelsTries, 'les tailles de groupes annoncées ne sont pas celles du code');
 });
 
+test('le nombre de sections annoncé est le vrai', () => {
+  // Le trou trouvé le 2026-08-09 : la référence annonçait « 13 sections » et
+  // rien ne le vérifiait. Ajouter un panneau à la console — ce qu'a fait la
+  // fusion depuis la console — la faisait mentir sans qu'aucun test ne tombe.
+  const page = readFileSync(join(ICI, 'ui', 'index.html'), 'utf8');
+  const n = new Set([...page.matchAll(/data-panneau="([a-z-]+)"/g)].map((m) => m[1])).size;
+  assert.match(
+    MD,
+    new RegExp(`les ${n} sections`),
+    `la console a ${n} sections, la référence en annonce un autre nombre`,
+  );
+});
+
 test('le nombre d’onglets et de kinds éditables est le vrai', () => {
   assert.match(MD, new RegExp(`les ${ONGLETS.length} onglets`, 'i'));
   for (const onglet of ONGLETS) {

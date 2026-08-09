@@ -299,3 +299,47 @@ test('le geste irréversible n’est pas là où on clique pour fermer', () => {
     `le message doit séparer « Écarter » de « Fermer » : ${ordre}`,
   );
 });
+
+// ---------------------------------------------------------------------------
+// Les préconditions
+//
+// `precondition` est le NOM d'un contrôle que le serveur évalue avant de lancer
+// quoi que ce soit. Le nom vit ici, l'implémentation dans `server.mjs` : deux
+// fichiers, donc deux listes, donc une dérive possible. Une action qui
+// déclarerait une précondition sans implémentation partirait en erreur 500 au
+// moment du geste — c'est-à-dire au pire moment, et seulement pour qui clique.
+// ---------------------------------------------------------------------------
+
+test('toute précondition déclarée a une implémentation dans le serveur', () => {
+  const serveur = sansCommentaires(
+    readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'server.mjs'), 'utf8'),
+  );
+  const bloc = /const PRECONDITIONS = \{([\s\S]*?)\n\};/.exec(serveur);
+  const implementees = new Set(
+    bloc ? [...bloc[1].matchAll(/'([a-z-]+)':/g)].map((m) => m[1]) : [],
+  );
+
+  const declarees = [...new Set(
+    Object.values(ACTIONS).map((a) => a.precondition).filter(Boolean),
+  )];
+  const orphelines = declarees.filter((p) => !implementees.has(p));
+  assert.deepEqual(orphelines, [], `déclarées sans implémentation : ${orphelines.join(', ')}`);
+});
+
+test('aucune précondition implémentée ne dort sans usage', () => {
+  const serveur = sansCommentaires(
+    readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'server.mjs'), 'utf8'),
+  );
+  const bloc = /const PRECONDITIONS = \{([\s\S]*?)\n\};/.exec(serveur);
+  const implementees = bloc ? [...bloc[1].matchAll(/'([a-z-]+)':/g)].map((m) => m[1]) : [];
+  const declarees = new Set(Object.values(ACTIONS).map((a) => a.precondition).filter(Boolean));
+  const muettes = implementees.filter((p) => !declarees.has(p));
+  assert.deepEqual(muettes, [], `implémentées sans être déclarées : ${muettes.join(', ')}`);
+});
+
+test('la fusion déclare bien une précondition', () => {
+  // La garde n'est pas décorative : sans elle, `POST /api/run` fusionnerait
+  // n'importe quelle PR, y compris rouge, sur simple requête forgée.
+  assert.equal(ACTIONS['merge-pr'].precondition, 'pr-fusionnable');
+  assert.equal(ACTIONS['merge-pr'].destructive, true);
+});

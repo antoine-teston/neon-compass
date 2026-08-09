@@ -52,7 +52,10 @@ export const DEFAUT = {
     // livrer ». C'est délibéré : l'atelier est une liste longue qu'on parcourt,
     // la livraison un résumé de quatre lignes qu'on consulte. Sous l'atelier
     // elle tombait 1 400 px plus bas — c'est-à-dire nulle part.
-    revue: [['livraison', 'atelier'], ['graphes', 'communaute']],
+    // `pulls` juste sous `livraison` : c'est la suite immédiate du geste
+    // « Livrer », et les deux répondent à la même question — qu'est-ce qui
+    // attend une décision de ma part ?
+    revue: [['livraison', 'pulls', 'atelier'], ['graphes', 'communaute']],
     veille: [['recolte'], ['local']],
     controles: [['checks', 'sante'], ['inventaire']],
     pilotage: [['carnet'], ['prod', 'moderation']],
