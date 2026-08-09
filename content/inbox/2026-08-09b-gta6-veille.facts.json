@@ -1,0 +1,51 @@
+{
+  "run": {
+    "date": "2026-08-09",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/take-two-hints-at-gta-online-tool-that-could-be-a-gta-6-preview-0a4d",
+      "https://www.gtaboom.com/gta-roleplay-npcs-can-now-talk-back-remember-you-and-gossip-about-you-3d1c",
+      "https://www.gtaboom.com/why-rockstar-games-continued-gta-6-online-silence-is-not-bad-news-ac01"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Dans ses derniers documents destinés aux investisseurs, l'éditeur a mis en avant un outil de création de missions ajouté au mode en ligne actuel en décembre 2025, le présentant comme une preuve de l'importance du contenu généré par les joueurs dans sa stratégie ; il n'a formulé aucune promesse concernant le jeu à venir, se limitant à évoquer cet outil au titre du mode en ligne existant.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/take-two-hints-at-gta-online-tool-that-could-be-a-gta-6-preview-0a4d",
+      "source_date": "2026-08-08",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Une société tierce a annoncé un partenariat avec un grand serveur de jeu de rôle communautaire consacré au mode en ligne actuel, ajoutant à ses personnages non joueurs des dialogues générés et une mémoire des actions du joueur, propagée entre personnages par bouche-à-oreille ; il s'agit d'une modification tierce hébergée sur une plateforme communautaire, sans lien avec le studio à l'origine du jeu.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/gta-roleplay-npcs-can-now-talk-back-remember-you-and-gossip-about-you-3d1c",
+      "source_date": "2026-08-08",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le PDG de l'éditeur a réaffirmé plus tôt cette année qu'aucune intelligence artificielle générative ni personnage à dialogue généré ne serait utilisé dans le jeu à venir, chaque réplique restant écrite et interprétée par des équipes humaines.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-roleplay-npcs-can-now-talk-back-remember-you-and-gossip-about-you-3d1c",
+      "source_date": "2026-08-08",
+      "confidence": "single-source",
+      "note": "Reprise secondaire par gtaboom d'une déclaration antérieure non datée précisément (« plus tôt cette année ») ; à recouper avec la déclaration d'origine si publiée séparément.",
+      "processed": true
+    },
+    {
+      "claim": "Un journaliste spécialisé (Bloomberg) a précisé, moins de 24h après le dernier appel financier de l'éditeur, que le jeu à venir n'est toujours pas retardé et reste prévu au 19 novembre 2026 ; il a aussi rappelé que l'éditeur ne s'exprime pour l'instant que sur le mode solo, sans avoir donné de date ni annoncé de retard pour le prochain mode en ligne, et que lors de la sortie de l'épisode précédent en 2013, son mode en ligne était arrivé environ deux semaines après le jeu principal.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-rockstar-games-continued-gta-6-online-silence-is-not-bad-news-ac01",
+      "source_date": "2026-08-08",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}

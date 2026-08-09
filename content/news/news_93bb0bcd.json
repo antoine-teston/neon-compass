@@ -1,0 +1,21 @@
+{
+  "id": "news_93bb0bcd",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un outil de missions communautaires mis en avant devant les investisseurs",
+    "en": "A community mission tool gets investor spotlight"
+  },
+  "body": {
+    "fr": "Dans ses derniers documents pour les investisseurs, l'éditeur a mis en avant un outil de création de missions du mode en ligne actuel, ajouté en décembre 2025, comme preuve que le contenu créé par les joueurs compte dans sa stratégie. Aucune promesse n'est faite pour le jeu à venir : l'éditeur ne parle que du mode en ligne existant.",
+    "en": "In its latest investor materials, the publisher spotlighted a mission-creation tool added to the current online mode back in December 2025, citing it as proof that player-made content matters to its strategy. No promise was made about the upcoming game — the publisher only referenced the existing online mode."
+  },
+  "publishedAt": "2026-08-08",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/take-two-hints-at-gta-online-tool-that-could-be-a-gta-6-preview-0a4d"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:ba3a23e08377",
+  "sourceClaim": "Dans ses derniers documents destinés aux investisseurs, l'éditeur a mis en avant un outil de création de missions ajouté au mode en ligne actuel en décembre 2025, le présentant comme une preuve de l'importance du contenu généré par les joueurs dans sa stratégie ; il n'a formulé aucune promesse concernant le jeu à venir, se limitant à évoquer cet outil au titre du mode en ligne existant."
+}
