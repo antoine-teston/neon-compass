@@ -20,6 +20,7 @@ struct ProgressionListView: View {
                 Text(game.shortLabel)
                     .font(NCTypography.body.bold())
                     .foregroundStyle(NCColor.neonCyan)
+                    .breathingHighlight(game == .leonida)
                 Spacer()
             }
 

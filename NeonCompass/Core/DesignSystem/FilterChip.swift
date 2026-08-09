@@ -20,6 +20,9 @@ struct FilterChip: View {
     /// défaut.
     var isRestriction: Bool = true
 
+    /// Fait respirer la puce. Réservé à celle qui nomme le jeu à venir.
+    var breathes: Bool = false
+
     let accessibilityLabel: Text
     let action: () -> Void
 
@@ -51,6 +54,7 @@ struct FilterChip: View {
             // `CompactTabBar` marque déjà sa sélection ainsi, et empiler un fond
             // opaque sous du verre revient à payer le verre sans le voir.
             .glassEffect(glass, in: .capsule)
+            .breathingHighlight(breathes)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(accessibilityLabel)

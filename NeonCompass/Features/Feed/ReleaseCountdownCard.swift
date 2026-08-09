@@ -85,6 +85,7 @@ struct ReleaseCountdownCard: View {
     /// ne se pose pas ici.
     private var gameName: some View {
         Text(verbatim: "GTA VI")
+            .breathingHighlight()
             .font(NCTypography.cardMeta)
             .foregroundStyle(.white.opacity(0.7))
             .padding(.horizontal, 6)
