@@ -46,25 +46,39 @@ d'un point : `line.3.horizontal.decrease.circle`, cercle de verre interactif de
 quarante-cinq points figés en permanence sur un écran de huit cent soixante-quatorze,
 pour un réglage qu'on touche une fois par session, ne se paient pas.
 
-### 2. Les rubriques passent derrière l'entonnoir
+### 2. Les rubriques passent derrière l'entonnoir, dans la géométrie de la carte
 
-`CheatsFilterBar` n'apparaît qu'au tap, sous la ligne de recherche. Le composant ne
-change pas : c'est la même **rangée horizontale qui défile**, celle que l'Actu
-emploie. Pas une grille sur deux lignes — elle coûterait trois lignes au lieu d'une,
-et les six rubriques ne tiennent de toute façon pas d'un coup d'œil.
+`CheatsFilterBar` n'apparaît qu'au tap, sous la ligne de recherche, en **colonne
+alignée à droite** — le panneau de la carte, pas la rangée de l'Actu. L'alignement
+fait le travail : la colonne descend du bouton qui l'a ouverte et pointe vers lui.
+Elle coûte la hauteur de six puces, ce qu'on ne consent que parce qu'elle est
+transitoire.
+
+Un seul `GlassEffectContainer` englobe la ligne de recherche ET la colonne. Un
+seul, et c'est tout l'intérêt : le verre ne se fond qu'entre éléments d'un même
+conteneur, donc les puces naissent du bouton au lieu d'apparaître à côté. La carte
+en emploie deux et n'obtient pour cette raison qu'un fondu, jamais la fusion.
 
 L'état d'ouverture est un `@State` de `CheatsListView`. Il survit donc à un
 changement d'onglet — `RootView` garde ses écrans vivants dans un `ZStack` — et pas
 à un relancement. Rien n'est écrit dans `UserDefaults` : c'est un état de vue, pas
 une préférence.
 
-**Aucun `withAnimation` sur la bascule.** La leçon est mesurée sur ce projet :
-enveloppée dans une animation, l'insertion d'une ligne au-dessus d'une colonne de
-cartes en verre fait animer par SwiftUI le décalage de toute la colonne — douze
-images perdues par tap dans le cas de `FeedFilterBar`, jusqu'à 127 ms de blocage.
-La carte se le permet (`withAnimation(.snappy) { showFilters.toggle() }`) parce
-qu'il n'y a pas de pile de verre sous ses puces. Si l'apparition sèche déplaît, on
-la mesure à la sonde `FramePacingProbe` avant de l'animer, jamais l'inverse.
+**`withAnimation(.snappy)` sur la bascule, et c'est mesuré.** La première rédaction
+de cette spec l'interdisait, par transport de la leçon apprise sur `FilterChip`. Le
+transport était faux, et la sonde le montre : l'action d'une PUCE remplace le
+contenu de la liste, donc SwiftUI anime l'apparition et la disparition de dizaines
+de cartes en verre — douze images perdues par tap. Le dépliage du PANNEAU ne crée ni
+ne détruit aucune carte, il les décale.
+
+Sonde `CADisplayLink`, iPhone 17, trois tours de six allers-retours : **une à deux
+images perdues par tour, pire intervalle 33 à 47 ms**, contre zéro perdue et 17 ms
+sur la fenêtre de repos. Le déploiement sec ne fait pas mieux.
+
+Un piège à ne pas réapprendre : la **première** fenêtre mesurée paie un coût de
+premier passage de 127 à 172 ms, quelle que soit la variante qu'on y place. La
+mesure initiale, qui ouvrait sur la variante animée, la condamnait pour ce motif.
+Inverser l'ordre a déplacé la pointe sur l'autre variante — c'est ce qui a tranché.
 
 ### 3. Réparer ce que le repli casse
 
@@ -100,7 +114,9 @@ type, ni les clés `UserDefaults`, ni les chaînes visibles ne bougent.
 
 **`CheatsModel` ne bouge pas.** L'ouverture du panneau est de l'état de vue.
 
-**`CheatsFilterBar` ne bouge pas.** Elle est enveloppée dans un `if`, pas modifiée.
+**`FilterChip` et `FilterChipRow` ne bougent pas.** L'Actu garde sa rangée
+horizontale, où les puces sont là en permanence et ne coûtent qu'une ligne. Les
+Codes emploient un `FilterChipColumn` neuf, posé à côté — pas à la place.
 
 **`CheatsEmptyGameView` ne bouge pas.** Elle porte sa propre bascule de jeu, parce
 que la liste — et donc la bascule qui y vit — est absente dans cet état. Le
@@ -110,7 +126,9 @@ déplacement de la bascule à l'intérieur de la liste ne change rien pour elle.
 
 | Fichier | Changement |
 |---|---|
-| `Features/Cheats/CheatsListView.swift` | L'essentiel : ordre des lignes, `searchRow` scindée, bouton entonnoir, `@State showCategories`, en-tête toujours affiché |
+| `Core/DesignSystem/FilterChip.swift` | `FilterChipColumn`, la variante en colonne pour un panneau qui se déplie |
+| `Features/Cheats/CheatsFilterBar.swift` | Passe de la rangée à la colonne |
+| `Features/Cheats/CheatsListView.swift` | L'essentiel : ordre des lignes, `searchAndCategories` dans un `GlassEffectContainer` unique, bouton entonnoir, `@State showCategories`, en-tête toujours affiché |
 | `Features/Cheats/CheatsScreen.swift` | Deux commentaires devenus faux : celui de `CheatsEmptyGameView` (« la bascule vit dans la barre de recherche de la liste ») et le paragraphe final sur la ligne de recherche partagée |
 | `Resources/Localizable.xcstrings` | Une clé neuve : `cheats.filter.toggle.a11y`, cinq langues |
 

@@ -2,8 +2,10 @@ import SwiftUI
 
 /// Les puces de rubrique de l'écran Codes.
 ///
-/// Même rangée que le fil d'actu, au composant près : un lecteur qui a appris à
-/// filtrer sur un écran n'a pas à réapprendre sur l'autre.
+/// Mêmes puces que le fil d'actu, au composant près : un lecteur qui a appris à
+/// filtrer sur un écran n'a pas à réapprendre sur l'autre. En COLONNE et non en
+/// rangée, parce qu'ici elles ne sont pas là en permanence — elles se déplient
+/// derrière un bouton, dans la géométrie du panneau de la carte.
 ///
 /// Une seule rubrique à la fois, contrairement au `Set` que le modèle portait
 /// depuis toujours sans que rien ne l'expose. La multi-sélection demanderait de
@@ -15,7 +17,7 @@ struct CheatsFilterBar: View {
     let onSelect: (CheatCategory?) -> Void
 
     var body: some View {
-        FilterChipRow(animationTrigger: AnyHashable(selectedCategory?.rawValue)) {
+        FilterChipColumn {
             FilterChip(
                 title: Text("cheats.filter.category.all"),
                 isSelected: selectedCategory == nil,
