@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Sanchez dirt bike next to you.",
-    "fr": "Fait apparaître une moto tout-terrain Sanchez à côté de vous."
+    "fr": "Fait apparaître une moto tout-terrain Sanchez à côté de vous.",
+    "es": "Hace aparecer una moto de campo Sanchez a tu lado.",
+    "it": "Fa comparire una moto da cross Sanchez accanto a te.",
+    "de": "Lässt ein Sanchez-Geländemotorrad neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Sanchez",

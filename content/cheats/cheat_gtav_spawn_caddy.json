@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Caddy golf cart next to you.",
-    "fr": "Fait apparaître une voiturette de golf Caddy à côté de vous."
+    "fr": "Fait apparaître une voiturette de golf Caddy à côté de vous.",
+    "es": "Hace aparecer un carrito de golf Caddy a tu lado.",
+    "it": "Fa comparire una golf car Caddy accanto a te.",
+    "de": "Lässt einen Caddy-Golfwagen neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Caddy",

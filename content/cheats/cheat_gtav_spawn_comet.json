@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Comet sports car next to you.",
-    "fr": "Fait apparaître une voiture de sport Comet à côté de vous."
+    "fr": "Fait apparaître une voiture de sport Comet à côté de vous.",
+    "es": "Hace aparecer un deportivo Comet a tu lado.",
+    "it": "Fa comparire una sportiva Comet accanto a te.",
+    "de": "Lässt einen Comet-Sportwagen neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Comet",

@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Blurs the picture and makes your character stagger.",
-    "fr": "Trouble l’image et fait tituber votre personnage."
+    "fr": "Trouble l’image et fait tituber votre personnage.",
+    "es": "Distorsiona la imagen y hace tambalear a tu personaje.",
+    "it": "Distorce l'immagine e fa barcollare il tuo personaggio.",
+    "de": "Verzerrt das Bild und lässt deine Figur taumeln."
   },
   "shortEffect": {
     "en": "Drunk Mode",

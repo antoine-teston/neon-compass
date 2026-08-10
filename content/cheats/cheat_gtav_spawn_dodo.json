@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Dodo seaplane next to you.",
-    "fr": "Fait apparaître un hydravion Dodo à côté de vous."
+    "fr": "Fait apparaître un hydravion Dodo à côté de vous.",
+    "es": "Hace aparecer un hidroavión Dodo a tu lado.",
+    "it": "Fa comparire un idrovolante Dodo accanto a te.",
+    "de": "Lässt ein Dodo-Wasserflugzeug neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Dodo",

@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Stretch limousine next to you.",
-    "fr": "Fait apparaître une limousine Stretch à côté de vous."
+    "fr": "Fait apparaître une limousine Stretch à côté de vous.",
+    "es": "Hace aparecer una limusina Stretch a tu lado.",
+    "it": "Fa comparire una limousine Stretch accanto a te.",
+    "de": "Lässt eine Stretch-Limousine neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Stretch",

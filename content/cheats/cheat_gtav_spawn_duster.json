@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Duster crop-dusting plane next to you.",
-    "fr": "Fait apparaître un avion d’épandage Duster à côté de vous."
+    "fr": "Fait apparaître un avion d’épandage Duster à côté de vous.",
+    "es": "Hace aparecer una avioneta fumigadora Duster a tu lado.",
+    "it": "Fa comparire un aereo agricolo Duster accanto a te.",
+    "de": "Lässt ein Duster-Sprühflugzeug neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Duster",

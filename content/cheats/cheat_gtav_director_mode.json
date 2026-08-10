@@ -4,7 +4,10 @@
   "category": "misc",
   "effect": {
     "en": "Opens Director Mode, the free-roam scene editor.",
-    "fr": "Ouvre le mode Réalisateur, l’éditeur de scènes en roue libre."
+    "fr": "Ouvre le mode Réalisateur, l’éditeur de scènes en roue libre.",
+    "es": "Abre el modo Director, el editor de escenas en libertad.",
+    "it": "Apre la modalità Regista, l'editor di scene in libertà.",
+    "de": "Öffnet den Regisseursmodus, den freien Szeneneditor."
   },
   "shortEffect": {
     "en": "Director Mode",

@@ -4,7 +4,10 @@
   "category": "world",
   "effect": {
     "en": "Switches the weather to the next setting in the cycle.",
-    "fr": "Passe la météo au réglage suivant du cycle."
+    "fr": "Passe la météo au réglage suivant du cycle.",
+    "es": "Pasa el tiempo atmosférico al siguiente ajuste del ciclo.",
+    "it": "Porta il meteo all'impostazione successiva del ciclo.",
+    "de": "Schaltet das Wetter auf die nächste Stufe des Zyklus."
   },
   "shortEffect": {
     "en": "Change Weather",

@@ -4,7 +4,10 @@
   "category": "weapons",
   "effect": {
     "en": "Your punches blow away whatever they land on.",
-    "fr": "Vos coups de poing font exploser ce qu’ils atteignent."
+    "fr": "Vos coups de poing font exploser ce qu’ils atteignent.",
+    "es": "Tus puñetazos hacen explotar lo que alcanzan.",
+    "it": "I tuoi pugni fanno esplodere ciò che colpiscono.",
+    "de": "Deine Faustschläge lassen explodieren, was sie treffen."
   },
   "shortEffect": {
     "en": "Explosive Melee",

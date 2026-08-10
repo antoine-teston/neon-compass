@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Puts a parachute in your inventory.",
-    "fr": "Ajoute un parachute à votre inventaire."
+    "fr": "Ajoute un parachute à votre inventaire.",
+    "es": "Añade un paracaídas a tu inventario.",
+    "it": "Aggiunge un paracadute al tuo inventario.",
+    "de": "Fügt deinem Inventar einen Fallschirm hinzu."
   },
   "shortEffect": {
     "en": "Give Parachute",

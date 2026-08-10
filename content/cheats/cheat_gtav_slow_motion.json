@@ -4,7 +4,10 @@
   "category": "world",
   "effect": {
     "en": "Slows the whole world down. Stacks up to three times; a fourth entry turns it off.",
-    "fr": "Ralentit le monde entier. Cumulable trois fois ; une quatrième saisie désactive."
+    "fr": "Ralentit le monde entier. Cumulable trois fois ; une quatrième saisie désactive.",
+    "es": "Ralentiza el mundo entero. Acumulable tres veces; una cuarta entrada lo desactiva.",
+    "it": "Rallenta il mondo intero. Cumulabile tre volte; un quarto inserimento disattiva.",
+    "de": "Verlangsamt die ganze Welt. Dreifach stapelbar; eine vierte Eingabe schaltet ab."
   },
   "shortEffect": {
     "en": "Slow Motion",

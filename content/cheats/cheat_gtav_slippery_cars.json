@@ -4,7 +4,10 @@
   "category": "world",
   "effect": {
     "en": "Strips tyre grip, so every car slides.",
-    "fr": "Supprime l’adhérence des pneus : toutes les voitures glissent."
+    "fr": "Supprime l’adhérence des pneus : toutes les voitures glissent.",
+    "es": "Elimina el agarre de los neumáticos: todos los coches resbalan.",
+    "it": "Elimina l'aderenza degli pneumatici: tutte le auto scivolano.",
+    "de": "Entfernt die Reifenhaftung: Alle Autos rutschen."
   },
   "shortEffect": {
     "en": "Slippery Cars",
