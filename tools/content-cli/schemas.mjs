@@ -56,6 +56,36 @@ export const KINDS = {
   'online-events': { schema: 'online-events', collection: 'online_events' },
 };
 
+/** L'echelle de confiance, du plus FAIBLE au plus FORT.
+ *
+ *  L'enumeration de `news.schema.json` la donne dans l'ordre inverse ; un test
+ *  compare les deux ENSEMBLES, pour qu'ajouter un niveau au schema fasse tomber
+ *  la suite au lieu de creer une comparaison muette. */
+export const CONFIANCE_ORDRE = ['rumor', 'single-source', 'multi-source', 'confirmed-official'];
+
+/** Combien d'entrees une meme URL source a le droit de produire, par kind.
+ *
+ *  `une` declenche le controle de convergence ; `multiple` l'eteint. Les POI le
+ *  sont parce qu'un article « toutes les localisations confirmees » en donne
+ *  legitimement trois — c'est ainsi que les 537 POI sont arrives. */
+export const CARDINALITE = {
+  news: 'une',
+  poi: 'multiple',
+  'poi-gtav': 'multiple',
+  cheats: 'multiple',
+  collections: 'multiple',
+};
+
+/** Les kinds que le controle d'URL ne juge PAS, et pourquoi.
+ *
+ *  Deux tables plutot qu'un defaut : inscrire `online-events` dans
+ *  `CARDINALITE` suggererait qu'il est couvert par ce controle-ci alors qu'il
+ *  l'est par le sien ; le taire laisserait croire a un oubli. */
+export const HORS_CONTROLE = {
+  'online-events':
+    'identite portee par windowDiscriminant (debut de fenetre), deja insensible au claim',
+};
+
 export const schemas = Object.fromEntries(
   Object.entries(KINDS).map(([kind, { schema }]) => [kind, compiled[schema]]),
 );
