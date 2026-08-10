@@ -120,6 +120,19 @@ final class CheatsModel {
     private(set) var sections: [(category: CheatCategory, cheats: [Cheat])] = []
     private(set) var unavailableInActiveMode: [Cheat] = []
     private(set) var displayedCheats: [Cheat] = []
+
+    /// L'ordre dans lequel le lecteur plein écran feuillette.
+    ///
+    /// DISTINCT de `displayedCheats`, et c'est tout le sujet : celui-là est la
+    /// colonne sur laquelle les encarts se placent, dont les favoris sont
+    /// délibérément absents. Le lecteur, lui, doit pouvoir atteindre TOUT ce que
+    /// l'écran montre, carte des favoris comprise.
+    ///
+    /// Les avoir confondus a coûté un défaut réel : sorti les favoris de la
+    /// colonne, taper un favori présentait une pleine page vide — sans même un
+    /// bouton pour la refermer, la vue n'étant jamais construite. Deux besoins,
+    /// deux propriétés.
+    var readableCheats: [Cheat] { favoriteSection + displayedCheats }
     private(set) var flatIndexByID: [String: Int] = [:]
     private(set) var adPositions: Set<Int> = []
 
