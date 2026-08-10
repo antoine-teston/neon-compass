@@ -13,6 +13,23 @@ import SwiftUI
 /// n'entre en concurrence ni avec le cyan (rubriques, onglet actif, progression)
 /// ni avec le magenta (repère de nouveauté, bouton de la carte).
 ///
+/// **NE PAS POSER SUR UNE GRANDE SURFACE.** Pastilles, glyphes, capsules : c'est
+/// pour ça que c'est écrit, et c'est là que le coût ci-dessous a été mesuré. Posé
+/// sur une carte pleine largeur de plusieurs centaines de points — la carte des
+/// favoris de l'écran Codes, le 10 août 2026 — il a rendu **l'écran entièrement
+/// noir** : l'app vivante à 13 % de CPU, sans jamais présenter une image.
+/// Bissecté à variable unique jusqu'à ce seul modificateur.
+///
+/// La cause est dans les trois ombres ci-dessous, dont une de rayon 22 : le
+/// simulateur amplifie fortement leur coût, et trois d'entre elles ANIMÉES sur une
+/// telle surface dépassent ce qu'il sait rendre. Symptôme à reconnaître, parce
+/// qu'il ne ressemble pas à une lenteur : pas de plantage, pas de boucle à 100 %,
+/// juste un écran noir sous une barre d'état qui, elle, s'affiche.
+///
+/// Pour faire luire un grand bloc : une seule `.shadow` FIXE sur le bloc, et cette
+/// respiration sur un petit glyphe qu'il contient. C'est ce que fait
+/// `FavoritesCard`.
+///
 /// **Le coût est mesuré, pas supposé.** Sonde `CADisplayLink` sur iPhone 17,
 /// l'effet posé sur tous les emplacements à la fois : zéro image perdue au repos
 /// comme sans effet, et quatorze au défilement contre quinze sans. Le
