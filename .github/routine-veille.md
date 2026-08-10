@@ -176,9 +176,17 @@ gh api -X DELETE "repos/antoine-teston/neon-compass/git/refs/heads/veille/recolt
 ## 5. Matérialiser — ET RECUEILLIR CE QUI EST ÉCARTÉ
 
 ```sh
+(cd tools/content-cli && npm ci)
 node tools/content-cli/cli.js pull-news 2>&1 | tee /tmp/pull-news.log
 node tools/content-cli/cli.js pull-online-events
 ```
+
+L'installation d'abord, et ce n'est pas une précaution : `node_modules` est
+gitignoré, donc absent de tout dépôt fraîchement cloné, et `schemas.mjs` importe
+`ajv`. Sans cette ligne le premier appel au CLI meurt sur un
+`ERR_MODULE_NOT_FOUND` — ce qui était le cas depuis le 2026-08-03, chaque run
+s'en tirant par une réinstallation improvisée que rien n'avait écrite. L'étape 7
+la relance ; la seconde fois ne coûte rien.
 
 Depuis le 2026-08-10, `pull-news` ne fait plus qu'écrire : il ÉCARTE. Un fait
 dont la `source_url` est DÉJÀ couverte par une entrée existante ne produit rien,
