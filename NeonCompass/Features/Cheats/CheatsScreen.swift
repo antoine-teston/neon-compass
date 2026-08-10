@@ -63,15 +63,20 @@ struct CheatsScreen: View {
         .fullScreenCover(item: $readerCheat, onDismiss: {
             Task { await interstitialCoordinator.contentConsumed() }
         }) { cheat in
-            let readable = model.sections.flatMap(\.cheats)
-            if let index = readable.firstIndex(where: { $0.id == cheat.id }) {
-                CheatReaderView(
-                    cheats: readable,
-                    startIndex: index,
-                    inputMode: model.activeInputMode,
-                    onDismiss: { readerCheat = nil }
-                )
-            }
+            // `readableCheats` et non `sections` : les favoris n'y sont plus, et
+            // taper l'un d'eux présentait une pleine page vide.
+            let readable = model.readableCheats
+            let index = readable.firstIndex { $0.id == cheat.id }
+            // Le repli n'est pas décoratif. Une feuille plein écran dont le
+            // contenu ne se construit pas est un cul-de-sac : elle s'affiche
+            // vide, et son bouton de fermeture n'existe pas non plus. Plutôt
+            // qu'un `if let` qui laisse ce cas ouvert, on lit la triche seule.
+            CheatReaderView(
+                cheats: index == nil ? [cheat] : readable,
+                startIndex: index ?? 0,
+                inputMode: model.activeInputMode,
+                onDismiss: { readerCheat = nil }
+            )
         }
     }
 

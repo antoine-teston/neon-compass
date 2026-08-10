@@ -168,6 +168,16 @@ Les favoris sont donc RETIRÉS de `displayedCheats` — un test le fige, et un s
 vérifie que le filtre « Favoris » ne les rouvre pas aux annonces par la porte de
 derrière.
 
+**Deux besoins, deux propriétés.** `displayedCheats` est la colonne sur laquelle
+les encarts se placent ; `readableCheats` est l'ordre dans lequel le lecteur plein
+écran feuillette, et il doit atteindre TOUT ce que l'écran montre, carte comprise.
+Les avoir confondus a coûté un défaut réel, livré puis corrigé le même jour : le
+lecteur puisant dans les seules rubriques, taper un favori présentait une pleine
+page **vide** — sans même un bouton pour la refermer, la vue n'étant jamais
+construite. Le repli du `fullScreenCover` lit désormais la triche seule plutôt que
+de laisser ce cas ouvert : une feuille dont le contenu ne se construit pas est un
+cul-de-sac.
+
 La carte ouvre la liste, au-dessus des rubriques, et défile avec elle. Elle ne
 paraît que s'il y a au moins un favori pour le jeu ET le mode actifs. Chaque ligne
 tient l'effet sur une ligne coupée et son code en glyphes de quatorze points —

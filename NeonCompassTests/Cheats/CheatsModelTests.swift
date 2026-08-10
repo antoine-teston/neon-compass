@@ -447,6 +447,33 @@ struct CheatsModelTests {
         #expect(sut.displayedCheats.isEmpty)
     }
 
+    /// Le défaut qu'a coûté la sortie des favoris de la colonne : le lecteur
+    /// puisait dans `sections`, donc taper un favori ouvrait une pleine page
+    /// VIDE — sans bouton pour la refermer, la vue n'étant jamais construite.
+    ///
+    /// `readableCheats` doit atteindre tout ce que l'écran montre. C'est ce que
+    /// `displayedCheats` ne fait PLUS, et ne doit plus faire : les deux ne se
+    /// confondent pas.
+    @Test func theReaderCanReachAFavorite() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-readable"))
+        sut.toggleFavorite(favoritable[1])
+
+        #expect(sut.displayedCheats.map(\.id) == ["a"])
+        #expect(sut.readableCheats.map(\.id) == ["b", "a"])
+        #expect(sut.readableCheats.contains { $0.id == "b" })
+    }
+
+    /// Et sous le filtre « Favoris », où les rubriques ne rendent rien : sans
+    /// cette moitié-là, le lecteur serait inatteignable depuis la carte seule.
+    @Test func theReaderReachesFavoritesUnderTheFavoritesFilter() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-readable-filter"))
+        sut.toggleFavorite(favoritable[1])
+        sut.select(.favorites)
+
+        #expect(sut.displayedCheats.isEmpty)
+        #expect(sut.readableCheats.map(\.id) == ["b"])
+    }
+
     // MARK: - Plafond des favoris
 
     private func fiveFavoritable() -> [Cheat] {
