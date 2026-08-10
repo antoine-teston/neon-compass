@@ -636,8 +636,29 @@ Rejeu des vrais faits du dépôt en test. Contrôle prouvé capable d'échouer."
 - Test: `tools/content-cli/facts-to-news.test.mjs`
 
 **Interfaces:**
-- Consomme : `cleDeRefus`, `confianceSuperieure` de `refus.mjs` (Task 2).
+- Consomme : `cleDeRefus`, `confianceSuperieure` — **déplacés en Step 0 vers `vocabulaire.mjs`**, voir ci-dessous.
 - Produit : `materializeNews(facts, existing, refus = {})` — troisième paramètre optionnel. Sortie supplémentaire `leves: Array<{url, de, a, le}>`.
+
+- [ ] **Step 0: Déplacer les deux fonctions PURES du refus vers `vocabulaire.mjs`**
+
+`facts-to-news.mjs` promet « Aucune I/O » et ne doit importer que des modules qui n'en font pas — c'est ce que le correctif de la Task 3 a rétabli, preuve à l'appui (0 lecture disque à l'import). Or `refus.mjs:15` importe `CONTENT` depuis `schemas.mjs`, qui lit cinq schémas et compile AJV au chargement. Lui faire importer `refus.mjs` ferait rentrer les 87 lectures par la porte de derrière.
+
+Déplacer donc, **sans modifier leur corps ni leurs commentaires**, de `refus.mjs` vers `vocabulaire.mjs` :
+
+- `cleDeRefus(kind, url)`
+- `confianceSuperieure(candidate, reference)`
+
+`refus.mjs` garde ce qui touche au disque — `CHEMIN_REFUS`, `lireRefus`, `inscrireRefus` — et importe désormais `cleDeRefus` depuis `./vocabulaire.mjs` pour son propre usage dans `inscrireRefus`. Son import de `CONFIANCE_ORDRE` disparaît, `confianceSuperieure` partant avec.
+
+Mettre à jour `refus.test.mjs` : `cleDeRefus` et `confianceSuperieure` s'importent de `./vocabulaire.mjs`, le reste de `./refus.mjs`. **Ne toucher à aucune assertion** — ces tests passent déjà et doivent continuer à passer à l'identique.
+
+Vérifier avant de continuer :
+
+```bash
+cd tools/content-cli && node --test refus.test.mjs vocabulaire.test.mjs
+```
+
+Attendu : 13 tests verts (8 + 5).
 
 - [ ] **Step 1: Écrire les tests qui échouent**
 
@@ -699,10 +720,10 @@ Attendu : ÉCHEC — « un fait refusé ne produit rien » écrit quand même, `
 
 - [ ] **Step 3: Implémenter la levée**
 
-Dans `tools/content-cli/facts-to-news.mjs`, ajouter l'import :
+Dans `tools/content-cli/facts-to-news.mjs`, compléter l'import existant de `vocabulaire.mjs` — **pas d'import de `refus.mjs`**, qui ramènerait les I/O de `schemas.mjs` :
 
 ```js
-import { cleDeRefus, confianceSuperieure } from './refus.mjs';
+import { CARDINALITE, cleDeRefus, confianceSuperieure } from './vocabulaire.mjs';
 ```
 
 Changer la signature :
