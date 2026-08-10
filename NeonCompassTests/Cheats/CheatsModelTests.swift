@@ -474,37 +474,58 @@ struct CheatsModelTests {
         #expect(sut.readableCheats.map(\.id) == ["b"])
     }
 
-    // MARK: - Un favori appartient à son mode de saisie
+    // MARK: - Un favori appartient à son JEU, pas à son mode de saisie
 
-    /// Cinq des trente-six codes de GTA V n'ont pas d'équivalent manette. Tant
-    /// qu'un favori valait pour tous les modes, en poser cinq au téléphone puis
-    /// passer sur manette donnait une carte vide, un compteur plein, et tout
-    /// ajout refusé.
-    @Test func aFavoriteBelongsToTheModeItWasSetIn() throws {
+    /// Le mode a fait partie de la clé une heure durant. Il en est reparti pour
+    /// le widget d'activité : une sélection qui s'évapore au changement de
+    /// manette ne peut pas alimenter un écran verrouillé.
+    @Test func aFavoriteSurvivesAChangeOfInputMode() throws {
         let sut = try model(favoritable, defaults: defaults("fav-mode"))
         sut.activeInputMode = .phone
         sut.toggleFavorite(favoritable[0], isProEntitled: false)
-        #expect(sut.isFavorite(favoritable[0]))
 
         sut.activeInputMode = .playstation
-        #expect(!sut.isFavorite(favoritable[0]))
-        #expect(sut.favoriteCount == 0)
+        #expect(sut.isFavorite(favoritable[0]))
+        #expect(sut.favoriteCount == 1)
     }
 
-    @Test func theCapCountsOnlyTheActiveMode() throws {
-        let all = fiveFavoritable()
-        let sut = try model(all, defaults: defaults("fav-cap-mode"))
-        sut.activeInputMode = .phone
-        for cheat in all.prefix(5) {
-            #expect(sut.toggleFavorite(cheat, isProEntitled: false))
+    /// Cinq par jeu, et le compte ne suit QUE le jeu actif : c'est la maille du
+    /// widget à venir, cinq codes épinglables par jeu.
+    @Test func theCapCountsTheActiveGameOnly() throws {
+        let five = (0..<5).map {
+            cheat("v\($0)", .misc, game: .reference, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)])
         }
+        let onVI = cheat("vi", .misc, game: .leonida, codes: [.phone: .phone(number: "1-999-9", mnemonic: nil)])
+        let sut = try model(five + [onVI], defaults: defaults("fav-cap-game"))
+
+        for cheat in five { #expect(sut.toggleFavorite(cheat, isProEntitled: false)) }
+        #expect(sut.favoriteCount == 5)
         #expect(sut.isAtFavoriteCap(isProEntitled: false))
 
-        // Un autre mode part de zéro : c'est tout l'objet de la séparation.
-        sut.activeInputMode = .playstation
+        // L'autre jeu part de zéro.
+        sut.activeGame = .leonida
         #expect(sut.favoriteCount == 0)
-        #expect(!sut.isAtFavoriteCap(isProEntitled: false))
-        #expect(sut.toggleFavorite(all[0], isProEntitled: false))
+        #expect(sut.toggleFavorite(onVI, isProEntitled: false))
+    }
+
+    /// LE défaut que la clé par mode traitait, traité autrement : un favori que
+    /// le mode actif ne sait pas saisir reste MONTRÉ. Le cacher consommait le
+    /// plafond dans le vide — carte vide, compteur plein, retrait impossible.
+    @Test func aFavoriteWithoutACodeInThisModeIsStillShown() throws {
+        let phoneOnly = cheat("phone-only", .misc, codes: [
+            .phone: .phone(number: "1-999-1", mnemonic: nil),
+        ])
+        let sut = try model([phoneOnly], defaults: defaults("fav-no-code"))
+        sut.activeInputMode = .phone
+        sut.toggleFavorite(phoneOnly, isProEntitled: false)
+        #expect(sut.favoriteSection.map(\.id) == ["phone-only"])
+
+        sut.activeInputMode = .playstation
+        #expect(sut.favoriteSection.map(\.id) == ["phone-only"])
+        #expect(sut.favoriteCount == 1)
+        // Et il n'apparaît pas AUSSI dans le groupe des indisponibles : une
+        // carte, un endroit.
+        #expect(sut.unavailableInActiveMode.isEmpty)
     }
 
     /// Une publication qui renomme un identifiant laisserait sinon une place
@@ -516,7 +537,6 @@ struct CheatsModelTests {
         for cheat in all.prefix(5) { sut.toggleFavorite(cheat, isProEntitled: false) }
         #expect(sut.favoriteCount == 5)
 
-        // Le catalogue perd trois de ces triches.
         sut.updateCheats(Array(all.prefix(2)))
         #expect(sut.favoriteCount == 2)
         #expect(!sut.isAtFavoriteCap(isProEntitled: false))
@@ -538,33 +558,34 @@ struct CheatsModelTests {
         #expect(!sut.displayedCheats.isEmpty)
     }
 
-    /// Même impasse par un autre chemin : changer de mode peut vider les favoris
-    /// sans qu'on ait touché à une étoile.
-    @Test func changingInputModeAlsoReleasesTheFavoritesFilter() throws {
-        let sut = try model(favoritable, defaults: defaults("fav-release-mode"))
-        sut.activeInputMode = .phone
-        sut.toggleFavorite(favoritable[0], isProEntitled: false)
+    /// Changer de JEU peut vider les favoris affichables, et mène à la même
+    /// impasse. Le mode, lui, ne les vide plus : ils restent montrés sans code.
+    @Test func changingGameAlsoReleasesTheFavoritesFilter() throws {
+        let sut = try model([
+            cheat("v", .misc, game: .reference, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("vi", .misc, game: .leonida, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+        ], defaults: defaults("fav-release-game"))
+        sut.toggleFavorite(sut.sections.flatMap(\.cheats)[0], isProEntitled: false)
         sut.select(.favorites)
         #expect(sut.filter == .favorites)
 
-        sut.activeInputMode = .playstation
+        sut.activeGame = .leonida
         #expect(sut.filter == .none)
     }
 
-    /// La puce ne s'offre que si le jeu ET le mode actifs savent afficher quelque
-    /// chose. Le compte du plafond ne suffit pas : il porte aussi sur l'autre jeu.
+    /// La puce ne s'offre que si le JEU actif a un favori — sinon elle ne rendrait
+    /// qu'une liste vide, ce que sa propre documentation dit vouloir éviter.
     @Test func theChipIsOfferedOnlyWhenSomethingWouldShow() throws {
         let sut = try model([
             cheat("v", .misc, game: .reference, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
             cheat("vi", .misc, game: .leonida, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
         ], defaults: defaults("fav-chip"))
-        sut.activeInputMode = .phone
         sut.activeGame = .leonida
         sut.toggleFavorite(sut.sections.flatMap(\.cheats)[0], isProEntitled: false)
         #expect(sut.hasDisplayableFavorites)
 
         sut.activeGame = .reference
-        #expect(sut.favoriteCount == 1)
+        #expect(sut.favoriteCount == 0)
         #expect(!sut.hasDisplayableFavorites)
     }
 

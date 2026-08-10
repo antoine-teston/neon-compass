@@ -691,6 +691,40 @@
         }
       }
     },
+    "cheats.favorites.noCodeHere": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Code für diese Eingabeart"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No code for this input method"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin código para este método de entrada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas de code sur ce mode de saisie"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun codice per questa modalità"
+          }
+        }
+      }
+    },
     "cheats.favorites.title": {
       "localizations": {
         "de": {

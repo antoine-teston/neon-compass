@@ -57,18 +57,8 @@ final class CheatsModel {
         select(category.map(CheatFilter.category) ?? .none)
     }
 
-    /// Les favoris posés, mode par mode.
-    ///
-    /// Un `Set` de couples et non d'identifiants : c'est la clé du magasin, et
-    /// c'est ce qui rend « la même triche en favori sur PS mais pas au clavier »
-    /// représentable.
-    private(set) var favorites: Set<FavoriteKey>
-
-    /// Les favoris du mode actif, en identifiants. Ce que les vues consultent.
-    var favoriteCheatIDs: Set<String> {
-        let mode = activeInputMode
-        return Set(favorites.lazy.filter { $0.mode == mode }.map(\.cheatID))
-    }
+    /// Les favoris posés, tous jeux confondus.
+    private(set) var favoriteCheatIDs: Set<String>
 
     var activeInputMode: CheatInputMode {
         didSet {
@@ -161,9 +151,8 @@ final class CheatsModel {
         self.modelContext = modelContext
         self.defaults = defaults
         self.widgetSummaryCoordinator = widgetSummaryCoordinator
-        let mode = Self.storedInputMode(in: defaults)
-        self.favorites = Self.loadFavorites(from: modelContext, adoptingLegacyRowsInto: mode)
-        self.activeInputMode = mode
+        self.favoriteCheatIDs = Self.loadFavorites(from: modelContext)
+        self.activeInputMode = Self.storedInputMode(in: defaults)
         self.activeGame = game
         // Les `didSet` ne se déclenchent pas pendant l'initialisation : les
         // dérivées seraient restées vides sans cet appel explicite.
@@ -171,35 +160,26 @@ final class CheatsModel {
         notifyWidgetFavoriteCheat()
     }
 
-    /// Charge les favoris, en ADOPTANT au passage les lignes d'avant la
-    /// séparation par mode.
+    /// Charge les favoris en DÉDOUBLONNANT.
     ///
-    /// Ces lignes n'ont pas de mode — le champ est vide. On leur donne celui que
-    /// l'utilisateur avait mémorisé : c'est celui sur lequel il les a posées, donc
-    /// la seule attribution qui ne perde rien. Les supprimer pour « repartir
-    /// propre » reviendrait à effacer ce qu'il avait rangé, et l'alternative
-    /// (les faire valoir pour les quatre modes) recréerait exactement le défaut
-    /// que la séparation ferme.
-    ///
-    /// L'écriture se fait une fois : au lancement suivant, plus aucune ligne
-    /// n'est vide.
-    private static func loadFavorites(
-        from context: ModelContext,
-        adoptingLegacyRowsInto mode: CheatInputMode
-    ) -> Set<FavoriteKey> {
+    /// Le magasin a porté un mode de saisie le temps d'une version : la même
+    /// triche a donc pu y être écrite deux fois, une par mode. Retirer le mode
+    /// laisse ces doublons, et `Set` les fond — mais les LIGNES restent. On les
+    /// supprime ici, une fois, plutôt que de laisser le magasin enfler.
+    private static func loadFavorites(from context: ModelContext) -> Set<String> {
         let rows = (try? context.fetch(FetchDescriptor<FavoriteCheat>())) ?? []
-        var adopted = false
-        for row in rows where row.inputMode.isEmpty {
-            row.inputMode = mode.rawValue
-            adopted = true
-        }
-        if adopted { try? context.save() }
-        return Set(
-            rows.compactMap { row in
-                CheatInputMode(rawValue: row.inputMode)
-                    .map { FavoriteKey(cheatID: row.cheatID, mode: $0) }
+        var seen: Set<String> = []
+        var duplicates = false
+        for row in rows {
+            if seen.contains(row.cheatID) {
+                context.delete(row)
+                duplicates = true
+            } else {
+                seen.insert(row.cheatID)
             }
-        )
+        }
+        if duplicates { try? context.save() }
+        return seen
     }
 
     /// La valeur de l'ancienne clé est encore la préférence de l'utilisateur :
@@ -240,9 +220,12 @@ final class CheatsModel {
         // Les favoris ne remontent en tête de leur rubrique QUE sous un filtre
         // de rubrique. Sans filtre ils ont leur propre section, et les faire
         // apparaître aux deux endroits serait du bruit.
+        // Sur `matching` et non `available` : un favori que le mode actif ne sait
+        // pas saisir reste MONTRÉ, en le disant. Le cacher est ce qui consommait
+        // le plafond dans le vide.
         switch filter {
         case .none, .favorites:
-            favoriteSection = available.filter(isFavorite)
+            favoriteSection = matching.filter(isFavorite)
         case .category:
             favoriteSection = []
         }
@@ -263,11 +246,15 @@ final class CheatsModel {
             return group.isEmpty ? nil : (category, group)
         }
 
-        // Ce que le mode actif ne permet pas de saisir. Affiché, pas masqué :
+        // Ce que le mode actif ne permet pas de saisir, HORS FAVORIS : ceux-là
+        // sont déjà dans leur carte, et paraîtraient deux fois.
+        // Affiché, pas masqué :
         // masquer ferait croire que ces triches n'existent pas. Dérivé du même
         // ensemble filtré que `sections`, ce qui garantit qu'aucune triche ne
         // tombe dans les deux ni dans aucune.
-        unavailableInActiveMode = matching.filter { $0.codes[activeInputMode] == nil }
+        unavailableInActiveMode = matching.filter {
+            $0.codes[activeInputMode] == nil && !favoriteSection.contains($0)
+        }
 
         // Les encarts se comptent sur la colonne entière et non par catégorie :
         // une rubrique de deux codes n'a pas à porter son propre encart.
@@ -328,30 +315,27 @@ final class CheatsModel {
     }
 
     func isFavorite(_ cheat: Cheat) -> Bool {
-        favorites.contains(FavoriteKey(cheatID: cheat.id, mode: activeInputMode))
+        favoriteCheatIDs.contains(cheat.id)
     }
 
     /// Cinq en gratuit, sans limite en Pro.
     static let freeFavoriteCap = 5
 
-    /// Le compte du plafond : les favoris DU MODE ACTIF, tous jeux confondus, et
-    /// seulement ceux qui désignent une triche que le catalogue connaît encore.
+    /// Le compte du plafond : les favoris DU JEU ACTIF.
     ///
-    /// Trois exclusions, trois défauts qu'elles ferment :
+    /// Par jeu, parce que c'est la maille du widget d'activité à venir : cinq
+    /// codes épinglables pour V, cinq pour VI. Un plafond par mode de saisie en
+    /// aurait donné quarante — plus une sélection, une liste.
     ///
-    /// - **Les autres modes.** Cinq codes de GTA V n'ont pas d'équivalent
-    ///   manette. Un compte tous modes confondus se remplissait de favoris qu'on
-    ///   ne pouvait plus voir ni retirer depuis le mode courant.
-    /// - **Les identifiants disparus.** `favorites` est chargé une fois et ne se
-    ///   réconcilie pas avec le catalogue ; une publication qui renomme un
-    ///   identifiant laisserait sinon une place consommée pour toujours. Rien
-    ///   n'est supprimé pour autant — l'identifiant peut revenir.
-    /// - Reste ouvert : les deux JEUX partagent le compte, par décision du
-    ///   2026-08-10. Le compteur peut donc annoncer cinq au-dessus d'une carte
-    ///   qui en montre trois, le jour où le jeu à venir publiera ses codes.
+    /// Le mode de saisie n'entre PAS dans le compte, et c'est ce qui permet à la
+    /// carte de montrer un favori que le mode actif ne sait pas saisir : rien ne
+    /// disparaît, donc rien ne se consomme à vide.
+    ///
+    /// Les identifiants que le catalogue ne connaît plus sont exclus — une
+    /// publication qui en renomme un laisserait sinon une place consommée pour
+    /// toujours. Rien n'est supprimé pour autant : l'identifiant peut revenir.
     var favoriteCount: Int {
-        let known = Set(cheats.map(\.id))
-        return favorites.count { $0.mode == activeInputMode && known.contains($0.cheatID) }
+        cheats.count { $0.game == activeGame && favoriteCheatIDs.contains($0.id) }
     }
 
     func isAtFavoriteCap(isProEntitled: Bool) -> Bool {
@@ -368,11 +352,7 @@ final class CheatsModel {
     /// délibérément vide sous un filtre de rubrique, où la puce doit pourtant
     /// rester offerte.
     var hasDisplayableFavorites: Bool {
-        cheats.contains { cheat in
-            cheat.game == activeGame
-                && cheat.codes[activeInputMode] != nil
-                && isFavorite(cheat)
-        }
+        cheats.contains { $0.game == activeGame && isFavorite($0) }
     }
 
     /// Rend `false` quand le plafond a REFUSÉ l'ajout — jamais pour un retrait,
@@ -387,10 +367,9 @@ final class CheatsModel {
     /// qu'un appelant distrait le contournerait sans que rien ne le signale.
     @discardableResult
     func toggleFavorite(_ cheat: Cheat, isProEntitled: Bool) -> Bool {
-        let key = FavoriteKey(cheatID: cheat.id, mode: activeInputMode)
-        if let existing = storedFavorite(key) {
+        if let existing = storedFavorite(cheat.id) {
             modelContext.delete(existing)
-            favorites.remove(key)
+            favoriteCheatIDs.remove(cheat.id)
         } else {
             // Le plafond bloque l'AJOUT, il ne supprime rien. Il n'existait pas
             // jusqu'ici : quelqu'un peut avoir plus de cinq favoris, et les
@@ -398,8 +377,8 @@ final class CheatsModel {
             // détruire ce qu'il a rangé. Il les garde, et n'en ajoute plus tant
             // qu'il n'est pas repassé sous la barre.
             guard !isAtFavoriteCap(isProEntitled: isProEntitled) else { return false }
-            modelContext.insert(FavoriteCheat(cheatID: cheat.id, inputMode: activeInputMode))
-            favorites.insert(key)
+            modelContext.insert(FavoriteCheat(cheatID: cheat.id))
+            favoriteCheatIDs.insert(cheat.id)
         }
         try? modelContext.save()
         // Relâche « Favoris » quand il ne reste plus rien à montrer. Sans ça,
@@ -434,21 +413,17 @@ final class CheatsModel {
         }
     }
 
-    private func storedFavorite(_ key: FavoriteKey) -> FavoriteCheat? {
-        let cheatID = key.cheatID
-        let mode = key.mode.rawValue
+    private func storedFavorite(_ cheatID: String) -> FavoriteCheat? {
         let descriptor = FetchDescriptor<FavoriteCheat>(
-            predicate: #Predicate { $0.cheatID == cheatID && $0.inputMode == mode }
+            predicate: #Predicate { $0.cheatID == cheatID }
         )
         return try? modelContext.fetch(descriptor).first
     }
 
-    /// Le widget montre un favori du mode actif — celui qu'on saurait saisir.
+    /// Le widget montre un favori du jeu actif.
     private func notifyWidgetFavoriteCheat() {
-        let title = favorites
-            .filter { $0.mode == activeInputMode }
-            .compactMap { key in cheats.first { $0.id == key.cheatID } }
-            .first
+        let title = cheats
+            .first { $0.game == activeGame && isFavorite($0) }
             .map { $0.effect.resolved(for: currentLanguageCode) }
         widgetSummaryCoordinator?.updateFavoriteCheat(title)
     }
