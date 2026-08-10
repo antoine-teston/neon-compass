@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "You will see the entrance to a small concrete tunnel, with a fallen tree trunk across the entrance. Just inside the tunnel is this Part.",
-    "fr": "Un petit tunnel de béton s'ouvre ici, barré par un tronc d'arbre tombé. La pièce est juste à l'intérieur."
+    "fr": "Un petit tunnel de béton s'ouvre ici, barré par un tronc d'arbre tombé. La pièce est juste à l'intérieur.",
+    "es": "Aquí se abre un pequeño túnel de hormigón, bloqueado por un tronco caído. La pieza está justo dentro.",
+    "it": "Qui si apre un piccolo tunnel di cemento, sbarrato da un tronco caduto. Il pezzo è appena dentro.",
+    "de": "Hier öffnet sich ein kleiner Betontunnel, versperrt von einem umgestürzten Baumstamm. Das Teil liegt gleich dahinter."
   },
   "status": "published",
   "sources": [

@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Number of different sports cars will spawn here regularly",
-    "fr": "Plusieurs voitures de sport différentes apparaissent régulièrement ici."
+    "fr": "Plusieurs voitures de sport différentes apparaissent régulièrement ici.",
+    "es": "Aquí aparecen con regularidad varios coches deportivos distintos.",
+    "it": "Qui compaiono regolarmente diverse auto sportive.",
+    "de": "Hier erscheinen regelmäßig verschiedene Sportwagen."
   },
   "status": "published",
   "sources": [

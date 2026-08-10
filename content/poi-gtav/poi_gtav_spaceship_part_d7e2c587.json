@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "In the construction area you will find two freight containers side by side. The green one has an opening and inside it is the Spaceship Part.",
-    "fr": "Sur le chantier, deux conteneurs sont posés côte à côte. Le vert est ouvert : la pièce est à l'intérieur."
+    "fr": "Sur le chantier, deux conteneurs sont posés côte à côte. Le vert est ouvert : la pièce est à l'intérieur.",
+    "es": "En la obra hay dos contenedores puestos uno al lado del otro. El verde está abierto: la pieza está dentro.",
+    "it": "Nel cantiere ci sono due container affiancati. Quello verde è aperto: il pezzo è all'interno.",
+    "de": "Auf der Baustelle stehen zwei Container nebeneinander. Der grüne ist offen: Das Teil liegt darin."
   },
   "status": "published",
   "sources": [

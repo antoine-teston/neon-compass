@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "[Helicopter Required] You will see a concrete jetty sticking out from the side of the road with a circular building at the end of it. Unfortunately, the building is too high to climb up so you will need to delicately land a helicopter on top of it to grab the Spaceship Part.",
-    "fr": "[Hélicoptère nécessaire] Une jetée de béton part de la route et s'achève sur un bâtiment circulaire. Il est trop haut pour être escaladé : il faut poser délicatement un hélicoptère dessus pour récupérer la pièce."
+    "fr": "[Hélicoptère nécessaire] Une jetée de béton part de la route et s'achève sur un bâtiment circulaire. Il est trop haut pour être escaladé : il faut poser délicatement un hélicoptère dessus pour récupérer la pièce.",
+    "es": "[Se necesita helicóptero] Un muelle de hormigón sale de la carretera y termina en un edificio circular. Es demasiado alto para escalarlo: hay que posar con cuidado un helicóptero encima para recoger la pieza.",
+    "it": "[Elicottero necessario] Un molo di cemento parte dalla strada e termina su un edificio circolare. È troppo alto per essere scalato: bisogna posarvi delicatamente un elicottero per recuperare il pezzo.",
+    "de": "[Helikopter nötig] Ein Betonsteg führt von der Straße zu einem runden Gebäude. Es ist zu hoch zum Erklettern: Man muss einen Helikopter behutsam darauf absetzen, um das Teil zu holen."
   },
   "status": "published",
   "sources": [

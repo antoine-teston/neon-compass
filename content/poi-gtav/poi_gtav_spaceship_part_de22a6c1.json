@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "[Helicopter Required] This Part is located in the empty swimming pool on the roof of the hotel. Fly up there and jump down into the pool to grab it.",
-    "fr": "[Hélicoptère nécessaire] Cette pièce est dans la piscine vide, sur le toit de l'hôtel. Montez-y et sautez dans le bassin pour la ramasser."
+    "fr": "[Hélicoptère nécessaire] Cette pièce est dans la piscine vide, sur le toit de l'hôtel. Montez-y et sautez dans le bassin pour la ramasser.",
+    "es": "[Se necesita helicóptero] Esta pieza está en la piscina vacía, en el tejado del hotel. Sube allí y salta al vaso para recogerla.",
+    "it": "[Elicottero necessario] Questo pezzo è nella piscina vuota, sul tetto dell'hotel. Sali e salta nella vasca per raccoglierlo.",
+    "de": "[Helikopter nötig] Dieses Teil liegt im leeren Pool auf dem Hoteldach. Steig hinauf und spring ins Becken, um es aufzunehmen."
   },
   "status": "published",
   "sources": [

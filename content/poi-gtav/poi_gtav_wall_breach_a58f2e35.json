@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Go to the location as seen below. Turn to the open garage and drive straight throgh the wall. Note: during day time you need an bicycle because there are boxes that prevent you from entering the garage!",
-    "fr": "Rendez-vous à l'endroit indiqué. Tournez-vous vers le garage ouvert et traversez le mur en roulant. Attention : de jour, il faut un vélo, des caisses bloquent l'accès au garage."
+    "fr": "Rendez-vous à l'endroit indiqué. Tournez-vous vers le garage ouvert et traversez le mur en roulant. Attention : de jour, il faut un vélo, des caisses bloquent l'accès au garage.",
+    "es": "Ve al lugar indicado. Vuélvete hacia el garaje abierto y atraviesa el muro rodando. Atención: de día hace falta una bicicleta, unas cajas bloquean el acceso al garaje.",
+    "it": "Recati nel luogo indicato. Voltati verso il garage aperto e attraversa il muro pedalando. Attenzione: di giorno serve una bici, delle casse bloccano l'accesso al garage.",
+    "de": "Geh an den angegebenen Ort. Dreh dich zur offenen Garage und fahr durch die Wand. Achtung: Tagsüber brauchst du ein Fahrrad, Kisten versperren den Garagenzugang."
   },
   "status": "published",
   "sources": [

@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Go to the location as seen below. Climb over the wall and walk straight into the building.",
-    "fr": "Rendez-vous à l'endroit indiqué. Franchissez le mur et marchez tout droit dans le bâtiment."
+    "fr": "Rendez-vous à l'endroit indiqué. Franchissez le mur et marchez tout droit dans le bâtiment.",
+    "es": "Ve al lugar indicado. Atraviesa el muro y camina recto dentro del edificio.",
+    "it": "Recati nel luogo indicato. Attraversa il muro e cammina dritto nell'edificio.",
+    "de": "Geh an den angegebenen Ort. Geh durch die Wand und laufe geradeaus ins Gebäude."
   },
   "status": "published",
   "sources": [

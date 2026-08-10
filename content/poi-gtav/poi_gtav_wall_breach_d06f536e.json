@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Go to the location as seen below. Walk behind the house, turn right and sprint into the house.",
-    "fr": "Rendez-vous à l'endroit indiqué. Passez derrière la maison, tournez à droite et foncez dedans en sprintant."
+    "fr": "Rendez-vous à l'endroit indiqué. Passez derrière la maison, tournez à droite et foncez dedans en sprintant.",
+    "es": "Ve al lugar indicado. Pasa por detrás de la casa, gira a la derecha y lánzate dentro esprintando.",
+    "it": "Recati nel luogo indicato. Passa dietro la casa, gira a destra e lanciati dentro sprintando.",
+    "de": "Geh an den angegebenen Ort. Geh hinter das Haus, wende dich rechts und sprinte hinein."
   },
   "status": "published",
   "sources": [

@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "There will be a field filled with metal pens in which cows are grazing. In the middle of this area lying on the floor is the Spaceship Part.",
-    "fr": "Un champ est occupé par des enclos métalliques où paissent des vaches. La pièce est au sol, au milieu de la zone."
+    "fr": "Un champ est occupé par des enclos métalliques où paissent des vaches. La pièce est au sol, au milieu de la zone.",
+    "es": "Un campo está ocupado por corrales metálicos donde pastan vacas. La pieza está en el suelo, en medio de la zona.",
+    "it": "Un campo è occupato da recinti metallici dove pascolano delle mucche. Il pezzo è a terra, in mezzo alla zona.",
+    "de": "Ein Feld ist von Metallgehegen belegt, in denen Kühe weiden. Das Teil liegt mitten im Areal am Boden."
   },
   "status": "published",
   "sources": [

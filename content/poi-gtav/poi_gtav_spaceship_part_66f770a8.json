@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "[Helicopter Required] This is another one which requires a helicopter. You will need to land your helicopter on the roof of the Galileo Observatory, and the Spaceship Part will be located next to the dome on the left-hand side of the roof.",
-    "fr": "[Hélicoptère nécessaire] Encore une qui demande un hélicoptère. Posez-vous sur le toit de l'observatoire Galileo : la pièce est près du dôme, sur la gauche du toit."
+    "fr": "[Hélicoptère nécessaire] Encore une qui demande un hélicoptère. Posez-vous sur le toit de l'observatoire Galileo : la pièce est près du dôme, sur la gauche du toit.",
+    "es": "[Se necesita helicóptero] Otra que exige helicóptero. Posate en el tejado del observatorio Galileo: la pieza está junto a la cúpula, en la parte izquierda del tejado.",
+    "it": "[Elicottero necessario] Un altro che richiede l'elicottero. Posati sul tetto dell'osservatorio Galileo: il pezzo è vicino alla cupola, sul lato sinistro del tetto.",
+    "de": "[Helikopter nötig] Auch hier braucht es einen Helikopter. Lande auf dem Dach des Galileo-Observatoriums: Das Teil liegt nahe der Kuppel, links auf dem Dach."
   },
   "status": "published",
   "sources": [

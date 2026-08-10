@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "[Helicopter Required] You will need to fly up to the top of the “Penris” building for this one. Land on the roof and grab the clearly-visible Spaceship Part.",
-    "fr": "[Hélicoptère nécessaire] Il faut monter au sommet de l'immeuble « Penris ». Posez-vous sur le toit : la pièce est bien en vue."
+    "fr": "[Hélicoptère nécessaire] Il faut monter au sommet de l'immeuble « Penris ». Posez-vous sur le toit : la pièce est bien en vue.",
+    "es": "[Se necesita helicóptero] Hay que subir a lo alto del edificio «Penris». Posate en el tejado: la pieza está bien a la vista.",
+    "it": "[Elicottero necessario] Bisogna salire in cima al palazzo «Penris». Posati sul tetto: il pezzo è ben in vista.",
+    "de": "[Helikopter nötig] Man muss auf das Dach des Gebäudes „Penris“. Lande dort: Das Teil liegt gut sichtbar."
   },
   "status": "published",
   "sources": [
