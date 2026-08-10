@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Le jeu de rôle multijoueur arrive sur la version remaniée",
-    "en": "Multiplayer roleplay arrives on the reworked version"
+    "en": "Multiplayer roleplay arrives on the reworked version",
+    "es": "El juego de rol multijugador llega a la versión renovada",
+    "it": "Il gioco di ruolo multigiocatore arriva sulla versione rinnovata",
+    "de": "Das Multiplayer-Rollenspiel kommt auf die überarbeitete Fassung"
   },
   "body": {
     "fr": "La plateforme est passée en accès anticipé le 21 juillet, exactement à la date annoncée par ses développeurs — après plus d'un an d'attente.",
-    "en": "The platform entered early access on July 21, exactly on the date its developers had promised — after more than a year of waiting."
+    "en": "The platform entered early access on July 21, exactly on the date its developers had promised — after more than a year of waiting.",
+    "es": "La plataforma pasó a acceso anticipado el 21 de julio, exactamente en la fecha anunciada por sus desarrolladores — tras más de un año de espera.",
+    "it": "La piattaforma è passata in accesso anticipato il 21 luglio, esattamente nella data annunciata dai suoi sviluppatori — dopo oltre un anno di attesa.",
+    "de": "Die Plattform ging am 21. Juli in den Early Access, genau am von ihren Entwicklern angekündigten Termin — nach über einem Jahr Wartezeit."
   },
   "publishedAt": "2026-07-22",
   "status": "published",

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Rotten Tomatoes Games republie les deux bandes-annonces, un an après",
-    "en": "Rotten Tomatoes Games re-uploaded both trailers, a year late"
+    "en": "Rotten Tomatoes Games re-uploaded both trailers, a year late",
+    "es": "Rotten Tomatoes Games vuelve a publicar los dos tráileres, un año después",
+    "it": "Rotten Tomatoes Games ripubblica i due trailer, un anno dopo",
+    "de": "Rotten Tomatoes Games stellt die beiden Trailer ein Jahr später erneut online"
   },
   "body": {
     "fr": "La chaîne les a mises en ligne comme s'il s'agissait de nouveautés. La plaisanterie a fonctionné, et c'est surtout ce qu'elle dit de la disette d'informations officielles qui est notable.",
-    "en": "The channel posted them as if they were new. The joke landed — and what it says about the official information drought is the notable part."
+    "en": "The channel posted them as if they were new. The joke landed — and what it says about the official information drought is the notable part.",
+    "es": "El canal los subió como si fueran novedades. La broma funcionó, y lo más llamativo es lo que dice sobre la sequía de información oficial.",
+    "it": "Il canale li ha caricati come se fossero novità. Lo scherzo ha funzionato, e ciò che colpisce è soprattutto quel che dice sulla penuria di informazioni ufficiali.",
+    "de": "Der Kanal lud sie hoch, als wären sie neu. Der Scherz ging auf — bemerkenswert ist vor allem, was er über die Flaute an offiziellen Informationen aussagt."
   },
   "publishedAt": "2026-07-29",
   "status": "published",

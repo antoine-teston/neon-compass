@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Un streamer termine l'épisode précédent en 48 heures d'affilée",
-    "en": "A streamer finished the previous game in 48 straight hours"
+    "en": "A streamer finished the previous game in 48 straight hours",
+    "es": "Un streamer termina la entrega anterior en 48 horas seguidas",
+    "it": "Uno streamer finisce il capitolo precedente in 48 ore di fila",
+    "de": "Ein Streamer beendet den Vorgänger in 48 Stunden am Stück"
   },
   "body": {
     "fr": "Il s'était imposé de ne pas s'arrêter avant la fin de l'histoire. Un peu plus de quarante-huit heures plus tard, générique atteint, il lui a mis la note maximale.",
-    "en": "He had set himself a rule: no stopping before the story was done. A little over forty-eight hours later, credits reached, he gave it top marks."
+    "en": "He had set himself a rule: no stopping before the story was done. A little over forty-eight hours later, credits reached, he gave it top marks.",
+    "es": "Se había impuesto no parar antes del final de la historia. Poco más de cuarenta y ocho horas después, con los créditos en pantalla, le puso la nota máxima.",
+    "it": "Si era imposto di non fermarsi prima della fine della storia. Poco più di quarantotto ore dopo, arrivato ai titoli di coda, gli ha dato il voto massimo.",
+    "de": "Er hatte sich vorgenommen, vor dem Ende der Geschichte nicht aufzuhören. Gut achtundvierzig Stunden später, beim Abspann angekommen, gab er die Höchstnote."
   },
   "publishedAt": "2026-07-23",
   "status": "published",

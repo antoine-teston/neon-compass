@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Prévision annuelle relevée à plus de 8 milliards de dollars",
-    "en": "Annual forecast raised past $8 billion"
+    "en": "Annual forecast raised past $8 billion",
+    "es": "Previsión anual elevada a más de 8 mil millones de dólares",
+    "it": "Previsione annuale portata a oltre 8 miliardi di dollari",
+    "de": "Jahresprognose auf über 8 Milliarden Dollar angehoben"
   },
   "body": {
     "fr": "L'éditeur du jeu vise entre 8,0 et 8,2 milliards de dollars de revenus nets pour l'exercice en cours, contre 6,72 milliards réalisés l'an dernier — une hausse d'environ 1,4 milliard portée quasi entièrement par le lancement du 19 novembre. Le reste de son activité (sport, mobile, catalogue) devrait rester stable ou légèrement reculer.",
-    "en": "The game's publisher is guiding to $8.0-8.2 billion in net bookings for the current fiscal year, up from $6.72 billion last year — a roughly $1.4 billion jump driven almost entirely by the November 19 launch. The rest of its business (sports, mobile, back catalogue) is expected to hold steady or dip slightly."
+    "en": "The game's publisher is guiding to $8.0-8.2 billion in net bookings for the current fiscal year, up from $6.72 billion last year — a roughly $1.4 billion jump driven almost entirely by the November 19 launch. The rest of its business (sports, mobile, back catalogue) is expected to hold steady or dip slightly.",
+    "es": "La editora del juego apunta a entre 8,0 y 8,2 mil millones de dólares de ingresos netos para el ejercicio en curso, frente a 6,72 mil millones el año pasado — un alza de unos 1,4 mil millones sostenida casi por completo por el lanzamiento del 19 de noviembre. El resto de su actividad (deporte, móvil, catálogo) debería mantenerse estable o retroceder ligeramente.",
+    "it": "L'editore del gioco punta a 8,0-8,2 miliardi di dollari di ricavi netti per l'esercizio in corso, contro 6,72 miliardi dell'anno scorso — un aumento di circa 1,4 miliardi trainato quasi interamente dal lancio del 19 novembre. Il resto dell'attività (sport, mobile, catalogo) dovrebbe restare stabile o calare lievemente.",
+    "de": "Der Publisher des Spiels peilt für das laufende Geschäftsjahr 8,0 bis 8,2 Milliarden Dollar Nettoumsatz an, nach 6,72 Milliarden im Vorjahr — ein Plus von rund 1,4 Milliarden, fast vollständig getragen vom Start am 19. November. Das übrige Geschäft (Sport, Mobile, Katalog) dürfte stabil bleiben oder leicht zurückgehen."
   },
   "publishedAt": "2026-08-07",
   "status": "draft",

@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Les versions mobiles exigent désormais iOS 17",
-    "en": "Mobile versions now require iOS 17"
+    "en": "Mobile versions now require iOS 17",
+    "es": "Las versiones móviles exigen ahora iOS 17",
+    "it": "Le versioni mobili richiedono ora iOS 17",
+    "de": "Die Mobilfassungen verlangen jetzt iOS 17"
   },
   "body": {
     "fr": "Une note d'assistance officielle le confirme. Les appareils restés en iOS 16 ou antérieur ne reçoivent plus de mises à jour et ne bénéficient plus du support technique.",
-    "en": "An official support notice confirms it. Devices still on iOS 16 or earlier no longer receive updates and are no longer covered by technical support."
+    "en": "An official support notice confirms it. Devices still on iOS 16 or earlier no longer receive updates and are no longer covered by technical support.",
+    "es": "Una nota de soporte oficial lo confirma. Los dispositivos que siguen en iOS 16 o anterior ya no reciben actualizaciones ni soporte técnico.",
+    "it": "Una nota di assistenza ufficiale lo conferma. I dispositivi rimasti a iOS 16 o precedenti non ricevono più aggiornamenti né supporto tecnico.",
+    "de": "Ein offizieller Support-Hinweis bestätigt es. Geräte mit iOS 16 oder älter erhalten weder Updates noch technischen Support."
   },
   "publishedAt": "2026-07-25",
   "status": "published",

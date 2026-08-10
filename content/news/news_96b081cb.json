@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le trimestre qui précède la sortie s'annonce en repli",
-    "en": "Pre-launch quarter guided down, annual forecast unchanged"
+    "en": "Pre-launch quarter guided down, annual forecast unchanged",
+    "es": "El trimestre previo al lanzamiento apunta a la baja",
+    "it": "Il trimestre che precede l'uscita si annuncia in calo",
+    "de": "Das Quartal vor dem Start fällt schwächer aus"
   },
   "body": {
     "fr": "L'éditeur prévoit entre 1,62 et 1,67 milliard de dollars de revenus nets pour son trimestre juillet-septembre 2026, contre 1,96 milliard sur la même période l'an dernier. Ce creux, comblé par un autre jeu de sport à paraître début septembre et par les revenus récurrents du mode en ligne actuel, n'affecte pas sa prévision annuelle inchangée de 8,0 à 8,2 milliards de dollars, le lancement du 19 novembre restant le principal moteur attendu.",
-    "en": "The publisher expects $1.62 to $1.67 billion in net revenue for its July-September 2026 quarter, down from $1.96 billion a year earlier. The shortfall, offset by another sports title due out in early September and by ongoing online-mode revenue, doesn't move its unchanged annual forecast of $8.0 to $8.2 billion, with the November 19 launch still expected to drive most of the growth."
+    "en": "The publisher expects $1.62 to $1.67 billion in net revenue for its July-September 2026 quarter, down from $1.96 billion a year earlier. The shortfall, offset by another sports title due out in early September and by ongoing online-mode revenue, doesn't move its unchanged annual forecast of $8.0 to $8.2 billion, with the November 19 launch still expected to drive most of the growth.",
+    "es": "La editora prevé entre 1,62 y 1,67 mil millones de dólares de ingresos netos para el trimestre julio-septiembre de 2026, frente a 1,96 mil millones en el mismo periodo del año pasado. Ese bache, cubierto por otro juego deportivo que sale a principios de septiembre y por los ingresos recurrentes del modo en línea actual, no afecta a su previsión anual, que sigue en 8,0 a 8,2 mil millones, con el lanzamiento del 19 de noviembre como principal motor esperado.",
+    "it": "L'editore prevede 1,62-1,67 miliardi di dollari di ricavi netti per il trimestre luglio-settembre 2026, contro 1,96 miliardi nello stesso periodo dell'anno scorso. Questo calo, colmato da un altro gioco sportivo in uscita a inizio settembre e dai ricavi ricorrenti dell'attuale modalità online, non intacca la previsione annuale, invariata a 8,0-8,2 miliardi, con il lancio del 19 novembre come motore principale atteso.",
+    "de": "Der Publisher erwartet für das Quartal Juli bis September 2026 einen Nettoumsatz von 1,62 bis 1,67 Milliarden Dollar, nach 1,96 Milliarden im Vorjahreszeitraum. Diese Delle, aufgefangen von einem weiteren Sportspiel Anfang September und den wiederkehrenden Einnahmen des aktuellen Online-Modus, lässt die unveränderte Jahresprognose von 8,0 bis 8,2 Milliarden unberührt — Haupttreiber bleibt der Start am 19. November."
   },
   "publishedAt": "2026-08-07",
   "status": "published",

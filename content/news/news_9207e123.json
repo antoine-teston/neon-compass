@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Non, le code du jeu n'expire pas au bout de 170 jours",
-    "en": "No, the game code does not expire after 170 days"
+    "en": "No, the game code does not expire after 170 days",
+    "es": "No, el código del juego no caduca a los 170 días",
+    "it": "No, il codice del gioco non scade dopo 170 giorni",
+    "de": "Nein, der Spielcode verfällt nicht nach 170 Tagen"
   },
   "body": {
     "fr": "La rumeur venait d'un contresens sur les boîtes japonaises, rectifié par l'auteur du message d'origine : la mention d'expiration couvre le contenu additionnel, pas le jeu. Seuls le pack bonus, jusqu'au 20 novembre, et l'essai du service par abonnement ont une date limite réelle.",
-    "en": "The rumour came from a misreading of Japanese packaging, corrected by the person who first posted it: the expiry notice covers add-on content, not the game itself. Only the bonus pack, until November 20, and the subscription trial have real deadlines."
+    "en": "The rumour came from a misreading of Japanese packaging, corrected by the person who first posted it: the expiry notice covers add-on content, not the game itself. Only the bonus pack, until November 20, and the subscription trial have real deadlines.",
+    "es": "El rumor venía de una mala lectura de las cajas japonesas, rectificada por el autor del mensaje original: la mención de caducidad cubre el contenido adicional, no el juego. Solo el pack de bonificaciones, hasta el 20 de noviembre, y la prueba del servicio por suscripción tienen una fecha límite real.",
+    "it": "La voce nasceva da un fraintendimento sulle confezioni giapponesi, corretto dall'autore del messaggio originale: la dicitura di scadenza riguarda i contenuti aggiuntivi, non il gioco. Solo il pacchetto bonus, fino al 20 novembre, e la prova del servizio in abbonamento hanno una scadenza reale.",
+    "de": "Das Gerücht ging auf ein Missverständnis bei den japanischen Packungen zurück, das der Verfasser der Ursprungsmeldung richtigstellte: Der Verfallshinweis betrifft die Zusatzinhalte, nicht das Spiel. Nur das Bonuspaket, bis zum 20. November, und die Testphase des Abodienstes haben ein echtes Ablaufdatum."
   },
   "publishedAt": "2026-07-25",
   "status": "published",

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le jeu réapparaît sur une liste PlayStation des sorties attendues",
-    "en": "The game resurfaces on a PlayStation most-anticipated list"
+    "en": "The game resurfaces on a PlayStation most-anticipated list",
+    "es": "El juego reaparece en una lista PlayStation de lanzamientos esperados",
+    "it": "Il gioco riappare in un elenco PlayStation delle uscite attese",
+    "de": "Das Spiel taucht wieder auf einer PlayStation-Liste erwarteter Titel auf"
   },
   "body": {
     "fr": "Sony l'avait retiré, en janvier 2026, d'une page éditoriale listant les sorties PS5 les plus attendues de l'année ; le jeu y figure de nouveau. Cette page marketing est mise à jour librement par Sony selon sa propre lecture du calendrier de sortie, donc ce retour n'est ni une annonce ni une confirmation de date — un signal à prendre avec prudence.",
-    "en": "Sony had pulled it from an editorial page listing the year's most-anticipated PS5 releases back in January 2026; the game is back on that list. Sony updates the marketing page at its own discretion based on its read of the release calendar, so this comeback isn't an announcement or a date confirmation — just a signal worth treating cautiously."
+    "en": "Sony had pulled it from an editorial page listing the year's most-anticipated PS5 releases back in January 2026; the game is back on that list. Sony updates the marketing page at its own discretion based on its read of the release calendar, so this comeback isn't an announcement or a date confirmation — just a signal worth treating cautiously.",
+    "es": "Sony lo había retirado, en enero de 2026, de una página editorial con los lanzamientos de PS5 más esperados del año; el juego vuelve a figurar en ella. Esa página de marketing la actualiza Sony libremente según su propia lectura del calendario, así que este regreso no es ni un anuncio ni una confirmación de fecha — una señal que conviene tomar con prudencia.",
+    "it": "Sony lo aveva rimosso, a gennaio 2026, da una pagina editoriale con le uscite PS5 più attese dell'anno; il gioco vi compare di nuovo. Quella pagina di marketing è aggiornata liberamente da Sony secondo la propria lettura del calendario, quindi il ritorno non è né un annuncio né una conferma di data — un segnale da prendere con prudenza.",
+    "de": "Sony hatte es im Januar 2026 von einer redaktionellen Seite mit den meisterwarteten PS5-Titeln des Jahres gestrichen; nun steht es wieder darauf. Diese Marketingseite pflegt Sony nach eigener Einschätzung des Terminplans, die Rückkehr ist also weder Ankündigung noch Terminbestätigung — ein Signal, das man vorsichtig lesen sollte."
   },
   "publishedAt": "2026-08-05",
   "status": "draft",

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le record de ventes du précédent épisode résiste de justesse au dernier film Spider-Man",
-    "en": "The previous game's sales record narrowly survives the new Spider-Man film"
+    "en": "The previous game's sales record narrowly survives the new Spider-Man film",
+    "es": "El récord de ventas de la entrega anterior aguanta por poco ante la última de Spider-Man",
+    "it": "Il record di vendite del capitolo precedente resiste per poco all'ultimo film di Spider-Man",
+    "de": "Der Verkaufsrekord des Vorgängers hält dem neuen Spider-Man knapp stand"
   },
   "body": {
     "fr": "Le dernier film Spider-Man a rapporté environ 927 millions de dollars lors de son week-end de sortie début août 2026, sans dépasser le milliard atteint en trois jours par le précédent épisode du jeu en 2013. La presse y voit un indice de plus que le jeu à venir pourrait battre ce record lors de son lancement de novembre.",
-    "en": "The latest Spider-Man film grossed about $927 million on its opening weekend in early August 2026, falling short of the $1 billion the previous game hit in three days back in 2013. Specialist outlets read it as one more sign the upcoming game could break that record at its November launch."
+    "en": "The latest Spider-Man film grossed about $927 million on its opening weekend in early August 2026, falling short of the $1 billion the previous game hit in three days back in 2013. Specialist outlets read it as one more sign the upcoming game could break that record at its November launch.",
+    "es": "La última película de Spider-Man recaudó unos 927 millones de dólares en su fin de semana de estreno a principios de agosto de 2026, sin superar los mil millones que la entrega anterior del juego alcanzó en tres días en 2013. La prensa lo ve como un indicio más de que el juego por venir podría batir ese récord en su lanzamiento de noviembre.",
+    "it": "L'ultimo film di Spider-Man ha incassato circa 927 milioni di dollari nel weekend d'uscita a inizio agosto 2026, senza superare il miliardo raggiunto in tre giorni dal capitolo precedente del gioco nel 2013. La stampa vi legge un indizio in più che il gioco in arrivo possa battere quel record al lancio di novembre.",
+    "de": "Der jüngste Spider-Man-Film spielte an seinem Startwochenende Anfang August 2026 rund 927 Millionen Dollar ein und blieb damit unter der Milliarde, die der Vorgänger des Spiels 2013 in drei Tagen erreichte. Die Presse sieht darin ein weiteres Indiz, dass das kommende Spiel diesen Rekord im November brechen könnte."
   },
   "publishedAt": "2026-08-05",
   "status": "draft",
