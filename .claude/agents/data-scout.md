@@ -136,13 +136,32 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
   qui lit le hub hebdomadaire de la source comme le tableau qu'il est. Une
   semaine du mode en ligne, ce n'est pas une phrase mais huit bonus, onze remises
   et une fenêtre horaire — une reformulation en prose y perdrait les nombres.
-  Danger concret si tu en écris un quand même : l'identité d'un fait est le
+  Danger concret si tu en écris un quand même : l'identité d'un fait reste le
   hachage de `source_url + claim`, donc ton fait et celui de l'outil porteraient
-  deux identités pour la MÊME semaine, et l'app afficherait deux cartes
-  concurrentes.
+  deux identités pour la MÊME semaine. Depuis le 2026-08-10, `materializeNews`
+  écarte le second au lieu de créer une carte concurrente — mais il l'ÉCARTE,
+  c'est-à-dire qu'une lecture est perdue et rapportée comme telle. Le contrôle
+  te rattrape ; il ne t'en dispense pas.
 - Si tu croises une mise à jour hebdomadaire du mode en ligne dans un flux, elle
   reste un bon fait `kind: "news"` — c'est une annonce datée, et l'outil ci-dessus
   s'occupe de la fenêtre.
+- **Un sujet écarté par un humain ne se re-signale pas en le reformulant.**
+  `content/inbox/refus.json` porte les refus éditoriaux, avec leur motif et la
+  confiance qu'avait le fait au moment du refus. Une URL qui y figure a été
+  jugée. Tu peux la re-signaler UNIQUEMENT si ta source lui donne une confiance
+  strictement supérieure à celle inscrite — c'est exactement ce que la chaîne
+  vérifiera, et le refus tiendra si tu te contentes de réécrire la phrase.
+- **Une URL déjà présente dans `content/inbox/*.facts.json` a déjà été
+  récoltée.** La re-extraire n'est pas une faute — la chaîne écarte le doublon —
+  mais c'est un appel réseau et une rédaction pour rien. Les 6 et 7 août 2026, un
+  run UNIQUE a produit deux faits pour un même article, quatre fois : la
+  répétition ne vient pas seulement des runs en double, elle vient aussi de toi.
+- **Un article riche mérite des faits séparés, et tu es le seul à pouvoir en
+  juger.** Un même article peut porter plusieurs sujets réellement distincts —
+  `what-to-expect-when-gta-6-hits-netflix-…` en portait quatre. Mais depuis le
+  contrôle de convergence, deux faits `news` de MÊME `source_url` ne produisent
+  qu'une entrée : le second est écarté, en le disant. Émets donc le fait le plus
+  important de l'article, pas quatre variantes du même.
 - Termine par un log dans `content/inbox/runs/YYYY-MM-DD.md` : sources visitées,
   nombre de faits, doutes à trancher par un humain. **Signale toute source qui a
   échoué après réessais** — c'est le seul endroit où une source qui se ferme

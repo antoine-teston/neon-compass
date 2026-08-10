@@ -235,6 +235,30 @@ registre ne doit donc PAS être pré-rempli avec cette décision : il se remplir
 par le geste « Écarter », au cas par cas, quand un article aura été jugé en
 entier.
 
+**Le revers de la même pièce, mesuré en exécutant la preuve de bout en bout.**
+Si un refus à `rumor` est inscrit sur une URL et qu'un AUTRE sujet du même
+article arrive en `single-source`, la levée se déclenche — et le journal annonce
+« refus levé, confiance passée de rumor à single-source » en écrivant une entrée
+qui n'a rien à voir avec le sujet refusé. Le résultat est bon (ce sujet-là
+mérite d'exister), la raison est fausse.
+
+C'est la même cause que ci-dessus : la clé est l'article, pas le sujet. Un refus
+y couvre trop, et n'importe lequel de ses frères mieux sourcé le lève.
+
+Le remède serait une clé au sujet — mais le seul discriminant de sujet
+disponible est le `claim`, prose écrite par un modèle, c'est-à-dire précisément
+ce que tout ce chantier retire des identités. On garde donc la clé par URL, et
+on écrit ici sa limite plutôt que de la découvrir un jour dans un fil qui
+ressuscite. **La conséquence pratique tient en une phrase : écarter est un
+jugement sur l'ARTICLE, pas sur la brève.**
+
+Un article riche rend donc le geste grossier. Celui du 27 août en est
+l'illustration : `what-to-expect-when-gta-6-hits-netflix-…` a produit à lui seul
+quatre sujets distincts — la durée de vingt minutes, l'accord Netflix comme une
+première, le demi-milliard de vues des bandes-annonces, et le partenariat
+qualifié par le PDG. Les écarter tous parce que le premier est une rumeur serait
+une perte réelle.
+
 **Pas de geste de levée manuelle.** Le fichier est versionné et lisible : retirer
 la ligne EST la levée.
 
