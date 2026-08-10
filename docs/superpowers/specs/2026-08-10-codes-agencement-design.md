@@ -234,7 +234,45 @@ l'autre, un plafond atteint sans aucune carte à l'écran pour l'expliquer. C'es
 inatteignable tant que le jeu à venir n'a aucun code — rien n'est construit contre,
 et c'est à rouvrir le jour où il en publie.
 
-### 5. Un favori appartient à son mode de saisie
+### 5. Un favori appartient à son JEU — cinq par jeu, sans limite en Pro
+
+**Le mode de saisie a fait partie de la clé pendant une heure, et il en est
+reparti.** Il y était pour un vrai défaut : cinq des trente-six codes de GTA V
+n'ont pas d'équivalent manette, et un favori devenu invisible consommait le
+plafond sans qu'on puisse le retirer.
+
+Ce qui a renversé la décision, c'est le but final — **un widget d'activité qui pose
+le code sur l'écran verrouillé.** Deux choses s'y opposaient :
+
+- une sélection indexée sur la manette **s'évapore** dès qu'on change de manette,
+  et le widget avec ;
+- un plafond par mode en donne quarante. Quarante favoris ne sont plus une
+  sélection : il faudrait re-sélectionner ce que le widget montre. **Cinq par jeu,
+  ce sont déjà les cinq du widget.**
+
+Le défaut d'origine est donc traité à l'AFFICHAGE : un favori que le mode actif ne
+sait pas saisir reste **montré**, en le disant (« pas de code sur ce mode de
+saisie »). Rien ne disparaît, donc rien ne se consomme à vide — et il ne paraît pas
+non plus dans le groupe des indisponibles, où il ferait doublon.
+
+Le plafond compte donc les favoris du **jeu actif** : cinq pour V, cinq pour VI, sans
+limite en Pro. Les identifiants que le catalogue ne connaît plus sont exclus du
+compte, sans être supprimés — ils peuvent revenir.
+
+**Migration éprouvée, deux fois.** Ajouter un attribut obligatoire à une entité
+existante fait échouer la migration légère, et `NeonCompassApp` construit son
+`ModelContainer` avec `try!` : c'était un plantage au lancement, constaté puis
+corrigé par une valeur par défaut. Le retrait a été vérifié de la même façon, sur un
+magasin écrit par la version précédente et portant deux fois la même triche sous
+deux modes : la colonne disparaît, les doublons sont absorbés au chargement, les
+favoris distincts survivent.
+
+#### Reste à faire — le widget d'activité
+
+Rien n'existe encore : l'extension `NeonCompassWidgets` ne connaît qu'un widget de
+progression, et **ActivityKit n'est utilisé nulle part**. Chantier distinct.
+
+### 5bis. Le premier essai : un favori par mode de saisie
 
 **Le défaut que ça ferme, et il est atteignable.** Cinq des trente-six codes de
 GTA V n'ont pas d'équivalent manette, un n'en a pas au clavier. Tant qu'un favori

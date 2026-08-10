@@ -1,52 +1,28 @@
 import Foundation
 import SwiftData
 
-/// Un favori, POUR UN MODE DE SAISIE donné.
+/// Un favori : une triche, et rien d'autre.
 ///
-/// **Pourquoi le mode fait partie de la clé.** Cinq des trente-six codes de GTA V
-/// n'ont pas d'équivalent manette, un n'en a pas au clavier. Tant qu'un favori
-/// valait pour tous les modes, mettre en favori cinq codes de téléphone puis
-/// passer sur manette donnait une carte VIDE, un compteur à `5/5`, et tout ajout
-/// refusé : le plafond se consommait sur des favoris qu'on ne pouvait plus voir.
-/// Le mode dans la clé supprime ce cas au lieu de le rattraper.
+/// **Le mode de saisie a fait partie de cette clé pendant une heure, et il en est
+/// reparti.** Il y était pour un vrai défaut — cinq des trente-six codes de GTA V
+/// n'ont pas d'équivalent manette, et un favori invisible consommait le plafond
+/// sans qu'on puisse le retirer. Mais le but final est un widget d'activité qui
+/// pose le code sur l'écran verrouillé, et deux choses s'y opposaient :
+/// une sélection qui s'évapore quand on change de manette, et un plafond de
+/// quarante qui obligerait à re-sélectionner ce que le widget doit montrer.
 ///
-/// L'unicité porte donc sur le COUPLE. Elle portait sur `cheatID` seul, ce qui
-/// interdisait précisément ce qu'on veut : la même triche en favori sur deux
-/// modes.
+/// Le défaut est donc traité à l'affichage plutôt que dans la clé : un favori que
+/// le mode actif ne sait pas saisir reste MONTRÉ, en le disant. Rien ne disparaît,
+/// donc rien ne se consomme à vide.
+///
+/// Pas de contrainte d'unicité déclarée : `CheatsModel` cherche avant d'insérer,
+/// et une contrainte qui change est la plus mauvaise des migrations SwiftData —
+/// celle-ci en a déjà coûté une, échouée au lancement.
 @Model
 final class FavoriteCheat {
-    #Unique<FavoriteCheat>([\.cheatID, \.inputMode])
+    var cheatID: String = ""
 
-    var cheatID: String
-
-    /// Le `rawValue` de `CheatInputMode`, et non l'énumération : SwiftData stocke
-    /// des types simples, et une chaîne survit à l'ajout d'un cas.
-    ///
-    /// **Vide = ligne d'avant la séparation par mode.** Le plafond n'existait pas
-    /// et le mode non plus ; ces lignes sont adoptées au premier lancement par
-    /// `CheatsModel`, qui leur attribue le mode mémorisé — celui sur lequel elles
-    /// ont été posées. Aucune n'est supprimée.
-    ///
-    /// **La valeur par défaut n'est pas décorative : sans elle, l'app ne démarre
-    /// plus.** Un attribut obligatoire ajouté à une entité qui existe déjà n'a
-    /// rien à mettre dans les lignes déjà écrites, et la migration légère refuse
-    /// — « Validation error missing attribute values on mandatory destination
-    /// attribute ». Or `NeonCompassApp` construit son `ModelContainer` avec
-    /// `try!` : ce n'est pas un mode dégradé, c'est un plantage au lancement pour
-    /// quiconque avait un favori. Constaté à l'exécution, pas supposé.
-    var inputMode: String = ""
-
-    init(cheatID: String, inputMode: CheatInputMode) {
+    init(cheatID: String) {
         self.cheatID = cheatID
-        self.inputMode = inputMode.rawValue
     }
-}
-
-/// La clé d'un favori : une triche ET le mode de saisie sous lequel on l'a posée.
-///
-/// Un type plutôt qu'un tuple ou une chaîne concaténée : il se met dans un `Set`,
-/// il se lit, et il empêche d'inverser les deux composantes par accident.
-struct FavoriteKey: Hashable, Sendable {
-    let cheatID: String
-    let mode: CheatInputMode
 }

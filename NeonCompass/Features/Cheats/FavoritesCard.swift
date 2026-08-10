@@ -46,17 +46,11 @@ struct FavoritesCard: View {
     ///
     /// Sauf sous le filtre « Favoris », où la carte EST tout ce qu'on a demandé à
     /// voir : là, elle les montre tous.
-    private var visibleRows: [(cheat: Cheat, code: CheatCode)] {
-        let entries = cheats.compactMap { cheat in
-            cheat.codes[inputMode].map { (cheat: cheat, code: $0) }
-        }
-        guard !showsAll else { return entries }
-        return Array(entries.prefix(CheatsModel.freeFavoriteCap))
+    private var visibleRows: [Cheat] {
+        showsAll ? cheats : Array(cheats.prefix(CheatsModel.freeFavoriteCap))
     }
 
-    private var overflow: Int {
-        max(0, cheats.count { $0.codes[inputMode] != nil } - visibleRows.count)
-    }
+    private var overflow: Int { max(0, cheats.count - visibleRows.count) }
 
     /// Le pied qui dit ce qu'on ne montre pas, et y mène.
     private var overflowRow: some View {
@@ -84,7 +78,7 @@ struct FavoritesCard: View {
             // d'une ligne qui n'était pas rendue, soit un trait tout seul. Une
             // garde qui a l'air défensive et ne l'est pas est pire qu'aucune.
             let shown = visibleRows
-            ForEach(Array(shown.enumerated()), id: \.element.cheat.id) { index, entry in
+            ForEach(Array(shown.enumerated()), id: \.element.id) { index, cheat in
                 if index > 0 {
                     // Le filet vit ENTRE les lignes et non sous chacune : une
                     // carte qui se termine par un trait paraît coupée.
@@ -93,7 +87,7 @@ struct FavoritesCard: View {
                         .frame(height: 1)
                         .accessibilityHidden(true)
                 }
-                row(entry.cheat, code: entry.code)
+                row(cheat)
             }
             if overflow > 0 { overflowRow }
         }
@@ -151,7 +145,13 @@ struct FavoritesCard: View {
         .padding(.bottom, 12)
     }
 
-    private func row(_ cheat: Cheat, code: CheatCode) -> some View {
+    /// Une ligne, AVEC OU SANS code.
+    ///
+    /// Un favori que le mode actif ne sait pas saisir reste ici, et le dit. Le
+    /// masquer était le défaut : la carte se vidait en changeant de manette
+    /// pendant que le compteur restait plein, et on ne pouvait plus retirer ce
+    /// qu'on ne voyait plus. Cinq des trente-six codes de GTA V sont dans ce cas.
+    private func row(_ cheat: Cheat) -> some View {
         HStack(alignment: .top, spacing: 8) {
             Button {
                 onSelect(cheat)
@@ -168,7 +168,13 @@ struct FavoritesCard: View {
                     // Plus petit que sur une carte de liste — quatorze contre
                     // dix-huit. C'est ce qui fait tenir cinq codes dans un bloc
                     // sans qu'il occupe l'écran entier.
-                    CheatCodeView(code: code, glyphSize: 14)
+                    if let code = cheat.codes[inputMode] {
+                        CheatCodeView(code: code, glyphSize: 14)
+                    } else {
+                        Text("cheats.favorites.noCodeHere")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(.rect)
