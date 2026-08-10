@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Gas Station",
-    "fr": "Station-service"
+    "fr": "Station-service",
+    "es": "Gasolinera",
+    "it": "Stazione di servizio",
+    "de": "Tankstelle"
   },
   "status": "published",
   "sources": [

@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Knife Flight #1",
-    "fr": "Vol en rase-mottes #1"
+    "fr": "Vol en rase-mottes #1",
+    "es": "Vuelo rasante #1",
+    "it": "Volo radente #1",
+    "de": "Tiefflug #1"
   },
   "status": "published",
   "sources": [

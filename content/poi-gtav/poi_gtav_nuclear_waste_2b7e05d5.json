@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Nuclear Waste #3",
-    "fr": "Déchets nucléaires #3"
+    "fr": "Déchets nucléaires #3",
+    "es": "Residuos nucleares #3",
+    "it": "Scorie nucleari #3",
+    "de": "Atommüll #3"
   },
   "note": {
     "en": "Depth: 85",

@@ -137,7 +137,38 @@ function bundleCollections(entries) {
   const content = collectionsSeedContent(entries);
   writeFileSync(COLLECTIONS_SEED, content);
   console.log(`bundle: ${JSON.parse(content).length} collection(s) -> ${COLLECTIONS_SEED}`);
+  const poi = poiSeedContent(entries);
+  writeFileSync(POI_SEED, poi);
+  console.log(`bundle: ${JSON.parse(poi).length} POI -> ${POI_SEED}`);
   return true;
+}
+
+/**
+ * Le socle des POI de la carte de référence, projeté depuis `content/`.
+ *
+ * Pourquoi il vit ICI alors que `tools/basemap/gtav-poi.mjs` l'écrit déjà :
+ * ce script-là REFETCH les dumps amont, c'est-à-dire qu'il touche le réseau et
+ * réécrit `content/poi-gtav`. L'exiger pour rafraîchir un socle après une simple
+ * édition de titre — une traduction, par exemple — obligerait à rejouer un
+ * import complet, avec le risque d'écraser ce qu'on vient d'écrire.
+ *
+ * `check-seeds` contrôlait trois socles quand `bundle` n'en régénérait que deux.
+ * L'écart se payait au premier contenu modifié à la main.
+ *
+ * L'ORDRE du fichier existant est conservé : le socle en compte 537, et une
+ * permutation rendrait illisible un diff dont on veut voir les trois lignes qui
+ * ont vraiment bougé.
+ */
+function poiSeedContent(entries) {
+  const projete = new Map(
+    entries.filter((e) => e.kind === 'poi-gtav').map((e) => [e.data.id, seedProjection(e.data)]),
+  );
+  const ordreActuel = existsSync(POI_SEED)
+    ? JSON.parse(readFileSync(POI_SEED, 'utf8')).map((p) => p.id)
+    : [];
+  const connus = ordreActuel.filter((id) => projete.has(id));
+  const neufs = [...projete.keys()].filter((id) => !ordreActuel.includes(id));
+  return `${JSON.stringify([...connus, ...neufs].map((id) => projete.get(id)), null, 2)}\n`;
 }
 
 /** Champs du POI que le socle embarqué porte réellement — les autres sont
@@ -425,7 +456,34 @@ switch (cmd) {
       break;
     }
 
-    if (!dry) { console.error('usage: cli.js translate [--dry-run | --todo | --apply <fichier>]'); ok = false; break; }
+    // Les titres GABARITÉS de la carte de référence ne passent pas par un
+    // modèle : ils se composent depuis une table, et le français déjà relu sert
+    // d'oracle — un titre que la table décrit mal est écarté, pas écrasé.
+    if (flags.includes('--composer')) {
+      const { titresComposables } = await import('./gabarits.mjs');
+      const cibles = entries.filter((e) => e.kind === 'poi-gtav');
+      const { composables, ignores } = titresComposables(cibles);
+
+      const parFile = new Map(cibles.map((e) => [e.file, e]));
+      for (const { file, langues } of composables) {
+        const data = structuredClone(parFile.get(file).data);
+        Object.assign(data.title, langues);
+        writeFileSync(join(CONTENT, file), `${JSON.stringify(data, null, 2)}\n`);
+      }
+
+      // Nommer ce qui reste, et pourquoi. Une composition qui tairait ses
+      // 59 refus se lirait comme un travail terminé.
+      const parRaison = {};
+      ignores.forEach((i) => { parRaison[i.raison.split(' (')[0]] = (parRaison[i.raison.split(' (')[0]] ?? 0) + 1; });
+      Object.entries(parRaison).forEach(([r, n]) => console.log(`  ${String(n).padStart(3)} écarté(s) — ${r}`));
+
+      const relus = loadAll();
+      ok = validate(relus);
+      console.log(`translate --composer: ${composables.length} titre(s) composé(s), ${ignores.length} laissé(s) à la rédaction`);
+      break;
+    }
+
+    if (!dry) { console.error('usage: cli.js translate [--dry-run | --todo | --apply <fichier> | --composer]'); ok = false; break; }
     ok = translateDryRun(entries);
     break;
   }

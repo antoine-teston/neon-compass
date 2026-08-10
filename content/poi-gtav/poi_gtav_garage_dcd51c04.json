@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Garage — MP_GAR_SIMEON",
-    "fr": "Garage — MP_GAR_SIMEON"
+    "fr": "Garage — MP_GAR_SIMEON",
+    "es": "Garage — MP_GAR_SIMEON",
+    "it": "Garage — MP_GAR_SIMEON",
+    "de": "Garage — MP_GAR_SIMEON"
   },
   "status": "published",
   "sources": [

@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Nuclear Waste #2",
-    "fr": "Déchets nucléaires #2"
+    "fr": "Déchets nucléaires #2",
+    "es": "Residuos nucleares #2",
+    "it": "Scorie nucleari #2",
+    "de": "Atommüll #2"
   },
   "note": {
     "en": "Depth: 96",

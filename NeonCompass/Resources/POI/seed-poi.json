@@ -9,7 +9,10 @@
     },
     "title": {
       "en": "Nuclear Waste #1",
-      "fr": "Déchets nucléaires #1"
+      "fr": "Déchets nucléaires #1",
+      "es": "Residuos nucleares #1",
+      "it": "Scorie nucleari #1",
+      "de": "Atommüll #1"
     },
     "note": {
       "en": "Depth: 83",
@@ -26,7 +29,10 @@
     },
     "title": {
       "en": "Nuclear Waste #2",
-      "fr": "Déchets nucléaires #2"
+      "fr": "Déchets nucléaires #2",
+      "es": "Residuos nucleares #2",
+      "it": "Scorie nucleari #2",
+      "de": "Atommüll #2"
     },
     "note": {
       "en": "Depth: 96",
@@ -43,7 +49,10 @@
     },
     "title": {
       "en": "Nuclear Waste #3",
-      "fr": "Déchets nucléaires #3"
+      "fr": "Déchets nucléaires #3",
+      "es": "Residuos nucleares #3",
+      "it": "Scorie nucleari #3",
+      "de": "Atommüll #3"
     },
     "note": {
       "en": "Depth: 85",
@@ -60,7 +69,10 @@
     },
     "title": {
       "en": "Nuclear Waste #4",
-      "fr": "Déchets nucléaires #4"
+      "fr": "Déchets nucléaires #4",
+      "es": "Residuos nucleares #4",
+      "it": "Scorie nucleari #4",
+      "de": "Atommüll #4"
     },
     "note": {
       "en": "Depth: 443",
@@ -77,7 +89,10 @@
     },
     "title": {
       "en": "Nuclear Waste #5",
-      "fr": "Déchets nucléaires #5"
+      "fr": "Déchets nucléaires #5",
+      "es": "Residuos nucleares #5",
+      "it": "Scorie nucleari #5",
+      "de": "Atommüll #5"
     },
     "note": {
       "en": "Depth: 122",
@@ -94,7 +109,10 @@
     },
     "title": {
       "en": "Nuclear Waste #6",
-      "fr": "Déchets nucléaires #6"
+      "fr": "Déchets nucléaires #6",
+      "es": "Residuos nucleares #6",
+      "it": "Scorie nucleari #6",
+      "de": "Atommüll #6"
     },
     "note": {
       "en": "Depth: 432",
@@ -111,7 +129,10 @@
     },
     "title": {
       "en": "Nuclear Waste #7",
-      "fr": "Déchets nucléaires #7"
+      "fr": "Déchets nucléaires #7",
+      "es": "Residuos nucleares #7",
+      "it": "Scorie nucleari #7",
+      "de": "Atommüll #7"
     },
     "note": {
       "en": "Depth: 462",
@@ -128,7 +149,10 @@
     },
     "title": {
       "en": "Nuclear Waste #8",
-      "fr": "Déchets nucléaires #8"
+      "fr": "Déchets nucléaires #8",
+      "es": "Residuos nucleares #8",
+      "it": "Scorie nucleari #8",
+      "de": "Atommüll #8"
     },
     "note": {
       "en": "Depth: 496",
@@ -145,7 +169,10 @@
     },
     "title": {
       "en": "Nuclear Waste #9",
-      "fr": "Déchets nucléaires #9"
+      "fr": "Déchets nucléaires #9",
+      "es": "Residuos nucleares #9",
+      "it": "Scorie nucleari #9",
+      "de": "Atommüll #9"
     },
     "note": {
       "en": "Depth: 70",
@@ -162,7 +189,10 @@
     },
     "title": {
       "en": "Nuclear Waste #10",
-      "fr": "Déchets nucléaires #10"
+      "fr": "Déchets nucléaires #10",
+      "es": "Residuos nucleares #10",
+      "it": "Scorie nucleari #10",
+      "de": "Atommüll #10"
     },
     "note": {
       "en": "Depth: 97",
@@ -179,7 +209,10 @@
     },
     "title": {
       "en": "Nuclear Waste #11",
-      "fr": "Déchets nucléaires #11"
+      "fr": "Déchets nucléaires #11",
+      "es": "Residuos nucleares #11",
+      "it": "Scorie nucleari #11",
+      "de": "Atommüll #11"
     },
     "note": {
       "en": "Depth: 113",
@@ -196,7 +229,10 @@
     },
     "title": {
       "en": "Nuclear Waste #12",
-      "fr": "Déchets nucléaires #12"
+      "fr": "Déchets nucléaires #12",
+      "es": "Residuos nucleares #12",
+      "it": "Scorie nucleari #12",
+      "de": "Atommüll #12"
     },
     "note": {
       "en": "Depth: 32",
@@ -213,7 +249,10 @@
     },
     "title": {
       "en": "Nuclear Waste #13",
-      "fr": "Déchets nucléaires #13"
+      "fr": "Déchets nucléaires #13",
+      "es": "Residuos nucleares #13",
+      "it": "Scorie nucleari #13",
+      "de": "Atommüll #13"
     },
     "note": {
       "en": "Depth: 68",
@@ -230,7 +269,10 @@
     },
     "title": {
       "en": "Nuclear Waste #14",
-      "fr": "Déchets nucléaires #14"
+      "fr": "Déchets nucléaires #14",
+      "es": "Residuos nucleares #14",
+      "it": "Scorie nucleari #14",
+      "de": "Atommüll #14"
     },
     "note": {
       "en": "Depth: 55",
@@ -247,7 +289,10 @@
     },
     "title": {
       "en": "Nuclear Waste #15",
-      "fr": "Déchets nucléaires #15"
+      "fr": "Déchets nucléaires #15",
+      "es": "Residuos nucleares #15",
+      "it": "Scorie nucleari #15",
+      "de": "Atommüll #15"
     },
     "note": {
       "en": "Depth: 465",
@@ -264,7 +309,10 @@
     },
     "title": {
       "en": "Nuclear Waste #16",
-      "fr": "Déchets nucléaires #16"
+      "fr": "Déchets nucléaires #16",
+      "es": "Residuos nucleares #16",
+      "it": "Scorie nucleari #16",
+      "de": "Atommüll #16"
     },
     "note": {
       "en": "Depth: 351",
@@ -281,7 +329,10 @@
     },
     "title": {
       "en": "Nuclear Waste #17",
-      "fr": "Déchets nucléaires #17"
+      "fr": "Déchets nucléaires #17",
+      "es": "Residuos nucleares #17",
+      "it": "Scorie nucleari #17",
+      "de": "Atommüll #17"
     },
     "note": {
       "en": "Depth: 153",
@@ -298,7 +349,10 @@
     },
     "title": {
       "en": "Nuclear Waste #18",
-      "fr": "Déchets nucléaires #18"
+      "fr": "Déchets nucléaires #18",
+      "es": "Residuos nucleares #18",
+      "it": "Scorie nucleari #18",
+      "de": "Atommüll #18"
     },
     "note": {
       "en": "Depth: 144",
@@ -315,7 +369,10 @@
     },
     "title": {
       "en": "Nuclear Waste #19",
-      "fr": "Déchets nucléaires #19"
+      "fr": "Déchets nucléaires #19",
+      "es": "Residuos nucleares #19",
+      "it": "Scorie nucleari #19",
+      "de": "Atommüll #19"
     },
     "note": {
       "en": "Depth: 58",
@@ -332,7 +389,10 @@
     },
     "title": {
       "en": "Nuclear Waste #20",
-      "fr": "Déchets nucléaires #20"
+      "fr": "Déchets nucléaires #20",
+      "es": "Residuos nucleares #20",
+      "it": "Scorie nucleari #20",
+      "de": "Atommüll #20"
     },
     "note": {
       "en": "Depth: 109",
@@ -349,7 +409,10 @@
     },
     "title": {
       "en": "Nuclear Waste #21",
-      "fr": "Déchets nucléaires #21"
+      "fr": "Déchets nucléaires #21",
+      "es": "Residuos nucleares #21",
+      "it": "Scorie nucleari #21",
+      "de": "Atommüll #21"
     },
     "note": {
       "en": "Depth: 210",
@@ -366,7 +429,10 @@
     },
     "title": {
       "en": "Nuclear Waste #22",
-      "fr": "Déchets nucléaires #22"
+      "fr": "Déchets nucléaires #22",
+      "es": "Residuos nucleares #22",
+      "it": "Scorie nucleari #22",
+      "de": "Atommüll #22"
     },
     "note": {
       "en": "Depth: 84",
@@ -383,7 +449,10 @@
     },
     "title": {
       "en": "Nuclear Waste #23",
-      "fr": "Déchets nucléaires #23"
+      "fr": "Déchets nucléaires #23",
+      "es": "Residuos nucleares #23",
+      "it": "Scorie nucleari #23",
+      "de": "Atommüll #23"
     },
     "note": {
       "en": "Depth: 62",
@@ -400,7 +469,10 @@
     },
     "title": {
       "en": "Nuclear Waste #24",
-      "fr": "Déchets nucléaires #24"
+      "fr": "Déchets nucléaires #24",
+      "es": "Residuos nucleares #24",
+      "it": "Scorie nucleari #24",
+      "de": "Atommüll #24"
     },
     "note": {
       "en": "Depth: 30",
@@ -417,7 +489,10 @@
     },
     "title": {
       "en": "Nuclear Waste #25",
-      "fr": "Déchets nucléaires #25"
+      "fr": "Déchets nucléaires #25",
+      "es": "Residuos nucleares #25",
+      "it": "Scorie nucleari #25",
+      "de": "Atommüll #25"
     },
     "note": {
       "en": "Depth: 84",
@@ -434,7 +509,10 @@
     },
     "title": {
       "en": "Nuclear Waste #26",
-      "fr": "Déchets nucléaires #26"
+      "fr": "Déchets nucléaires #26",
+      "es": "Residuos nucleares #26",
+      "it": "Scorie nucleari #26",
+      "de": "Atommüll #26"
     },
     "note": {
       "en": "Depth: 82",
@@ -451,7 +529,10 @@
     },
     "title": {
       "en": "Nuclear Waste #27",
-      "fr": "Déchets nucléaires #27"
+      "fr": "Déchets nucléaires #27",
+      "es": "Residuos nucleares #27",
+      "it": "Scorie nucleari #27",
+      "de": "Atommüll #27"
     },
     "note": {
       "en": "Depth: 167",
@@ -468,7 +549,10 @@
     },
     "title": {
       "en": "Nuclear Waste #28",
-      "fr": "Déchets nucléaires #28"
+      "fr": "Déchets nucléaires #28",
+      "es": "Residuos nucleares #28",
+      "it": "Scorie nucleari #28",
+      "de": "Atommüll #28"
     },
     "note": {
       "en": "Depth: 181",
@@ -485,7 +569,10 @@
     },
     "title": {
       "en": "Nuclear Waste #29",
-      "fr": "Déchets nucléaires #29"
+      "fr": "Déchets nucléaires #29",
+      "es": "Residuos nucleares #29",
+      "it": "Scorie nucleari #29",
+      "de": "Atommüll #29"
     },
     "note": {
       "en": "Depth: 354",
@@ -502,7 +589,10 @@
     },
     "title": {
       "en": "Nuclear Waste #30",
-      "fr": "Déchets nucléaires #30"
+      "fr": "Déchets nucléaires #30",
+      "es": "Residuos nucleares #30",
+      "it": "Scorie nucleari #30",
+      "de": "Atommüll #30"
     },
     "note": {
       "en": "Depth: 477",
@@ -519,7 +609,10 @@
     },
     "title": {
       "en": "Hidden Package #1",
-      "fr": "Magot caché n°1"
+      "fr": "Magot caché n°1",
+      "es": "Paquete oculto #1",
+      "it": "Pacco nascosto #1",
+      "de": "Verstecktes Paket #1"
     }
   },
   {
@@ -532,7 +625,10 @@
     },
     "title": {
       "en": "Spaceship Part #1 - Mount Chiliad",
-      "fr": "Pièce de vaisseau #1 - Mount Chiliad"
+      "fr": "Pièce de vaisseau #1 - Mount Chiliad",
+      "es": "Pieza de nave #1 - Mount Chiliad",
+      "it": "Parte di astronave #1 - Mount Chiliad",
+      "de": "Raumschiffteil #1 - Mount Chiliad"
     },
     "note": {
       "en": "You will come to a farm area with two large barns. One of the barns has a “Zancudo Grain Growers” logo painted on the side of it, and in the back of this barn on the floor is the Spaceship Part.",
@@ -549,7 +645,10 @@
     },
     "title": {
       "en": "Spaceship Part #2 - Mount Chiliad",
-      "fr": "Pièce de vaisseau #2 - Mount Chiliad"
+      "fr": "Pièce de vaisseau #2 - Mount Chiliad",
+      "es": "Pieza de nave #2 - Mount Chiliad",
+      "it": "Parte di astronave #2 - Mount Chiliad",
+      "de": "Raumschiffteil #2 - Mount Chiliad"
     },
     "note": {
       "en": "This is located in another farm area. The Spaceship Part is located inside the large shed with a red crate outside the entrance.",
@@ -566,7 +665,10 @@
     },
     "title": {
       "en": "Spaceship Part #3 - Grapeseed",
-      "fr": "Pièce de vaisseau #3 - Grapeseed"
+      "fr": "Pièce de vaisseau #3 - Grapeseed",
+      "es": "Pieza de nave #3 - Grapeseed",
+      "it": "Parte di astronave #3 - Grapeseed",
+      "de": "Raumschiffteil #3 - Grapeseed"
     },
     "note": {
       "en": "There will be a field filled with metal pens in which cows are grazing. In the middle of this area lying on the floor is the Spaceship Part.",
@@ -583,7 +685,10 @@
     },
     "title": {
       "en": "Spaceship Part #4 - San Chianski Mountain Range",
-      "fr": "Pièce de vaisseau #4 - San Chianski Mountain Range"
+      "fr": "Pièce de vaisseau #4 - San Chianski Mountain Range",
+      "es": "Pieza de nave #4 - San Chianski Mountain Range",
+      "it": "Parte di astronave #4 - San Chianski Mountain Range",
+      "de": "Raumschiffteil #4 - San Chianski Mountain Range"
     },
     "note": {
       "en": "At the top of the mountain trail there will be a circular road. By the side of it is a wrecked red boat next to a barn. Inside this barn is the Part.",
@@ -600,7 +705,10 @@
     },
     "title": {
       "en": "Spaceship Part #5 - San Chianski Mountain Range",
-      "fr": "Pièce de vaisseau #5 - San Chianski Mountain Range"
+      "fr": "Pièce de vaisseau #5 - San Chianski Mountain Range",
+      "es": "Pieza de nave #5 - San Chianski Mountain Range",
+      "it": "Parte di astronave #5 - San Chianski Mountain Range",
+      "de": "Raumschiffteil #5 - San Chianski Mountain Range"
     },
     "note": {
       "en": "You will come across a small hill decorated in colourful graffiti by alien cultists. On the top of this hill on a small ledge is a Spaceship Part.",
@@ -617,7 +725,10 @@
     },
     "title": {
       "en": "Spaceship Part #6 - Sandy Shores",
-      "fr": "Pièce de vaisseau #6 - Sandy Shores"
+      "fr": "Pièce de vaisseau #6 - Sandy Shores",
+      "es": "Pieza de nave #6 - Sandy Shores",
+      "it": "Parte di astronave #6 - Sandy Shores",
+      "de": "Raumschiffteil #6 - Sandy Shores"
     },
     "note": {
       "en": "This Part is located underwater in the small bay on the north of Sandy Shores. Dive down underwater and you will see the Part glowing brightly against the seafloor, so it’s hard to miss.",
@@ -634,7 +745,10 @@
     },
     "title": {
       "en": "Spaceship Part #7 - Grand Senora Desert",
-      "fr": "Pièce de vaisseau #7 - Grand Senora Desert"
+      "fr": "Pièce de vaisseau #7 - Grand Senora Desert",
+      "es": "Pieza de nave #7 - Grand Senora Desert",
+      "it": "Parte di astronave #7 - Grand Senora Desert",
+      "de": "Raumschiffteil #7 - Grand Senora Desert"
     },
     "note": {
       "en": "Next to the off-road trail is a rock formation. Up the small hill underneath the face of the rock is this Part.",
@@ -651,7 +765,10 @@
     },
     "title": {
       "en": "Spaceship Part #8 - Grand Senora Desert",
-      "fr": "Pièce de vaisseau #8 - Grand Senora Desert"
+      "fr": "Pièce de vaisseau #8 - Grand Senora Desert",
+      "es": "Pieza de nave #8 - Grand Senora Desert",
+      "it": "Parte di astronave #8 - Grand Senora Desert",
+      "de": "Raumschiffteil #8 - Grand Senora Desert"
     },
     "note": {
       "en": "By the side of the road will be 5 huge satellite dishes. If you’re looking at them from the main road, the right-hand most dish will have the Part. Climb up the stairs on the dish to get it.",
@@ -668,7 +785,10 @@
     },
     "title": {
       "en": "Spaceship Part #9 - Grand Senora Desert",
-      "fr": "Pièce de vaisseau #9 - Grand Senora Desert"
+      "fr": "Pièce de vaisseau #9 - Grand Senora Desert",
+      "es": "Pieza de nave #9 - Grand Senora Desert",
+      "it": "Parte di astronave #9 - Grand Senora Desert",
+      "de": "Raumschiffteil #9 - Grand Senora Desert"
     },
     "note": {
       "en": "You should see a large boat with the initials “LS 4145 RS” on the side of it amongst a few rusty trailers. The Part is located next to the boat.",
@@ -685,7 +805,10 @@
     },
     "title": {
       "en": "Spaceship Part #10 - Grand Senora Desert",
-      "fr": "Pièce de vaisseau #10 - Grand Senora Desert"
+      "fr": "Pièce de vaisseau #10 - Grand Senora Desert",
+      "es": "Pieza de nave #10 - Grand Senora Desert",
+      "it": "Parte di astronave #10 - Grand Senora Desert",
+      "de": "Raumschiffteil #10 - Grand Senora Desert"
     },
     "note": {
       "en": "By the side of the road you will see a derelict house with boarded up windows. Behind the house where the back porch was is the Spaceship Part.",
@@ -702,7 +825,10 @@
     },
     "title": {
       "en": "Spaceship Part #11 - Grand Senora Desert",
-      "fr": "Pièce de vaisseau #11 - Grand Senora Desert"
+      "fr": "Pièce de vaisseau #11 - Grand Senora Desert",
+      "es": "Pieza de nave #11 - Grand Senora Desert",
+      "it": "Parte di astronave #11 - Grand Senora Desert",
+      "de": "Raumschiffteil #11 - Grand Senora Desert"
     },
     "note": {
       "en": "This Part is located down in the small rocky valley beside the road. It will be amongst some rocks.",
@@ -719,7 +845,10 @@
     },
     "title": {
       "en": "Spaceship Part #12 - Grand Senora Desert",
-      "fr": "Pièce de vaisseau #12 - Grand Senora Desert"
+      "fr": "Pièce de vaisseau #12 - Grand Senora Desert",
+      "es": "Pieza de nave #12 - Grand Senora Desert",
+      "it": "Parte di astronave #12 - Grand Senora Desert",
+      "de": "Raumschiffteil #12 - Grand Senora Desert"
     },
     "note": {
       "en": "On the top of the hill is a small house with a green roof and a US flag outside the front. Behind the house is a white banner strung between two posts with “Welcome” written on it. The Part is located under this banner.",
@@ -736,7 +865,10 @@
     },
     "title": {
       "en": "Spaceship Part #13 - Ron Alternates Wind Farm",
-      "fr": "Pièce de vaisseau #13 - Ron Alternates Wind Farm"
+      "fr": "Pièce de vaisseau #13 - Ron Alternates Wind Farm",
+      "es": "Pieza de nave #13 - Ron Alternates Wind Farm",
+      "it": "Parte di astronave #13 - Ron Alternates Wind Farm",
+      "de": "Raumschiffteil #13 - Ron Alternates Wind Farm"
     },
     "note": {
       "en": "This Part is located inside a cavern, so you will need to either swim or use a boat/jetski to get inside. Once inside, dive down underwater and you will easily see the Part glowing.",
@@ -753,7 +885,10 @@
     },
     "title": {
       "en": "Spaceship Part #14 - Tatavium Mountains",
-      "fr": "Pièce de vaisseau #14 - Tatavium Mountains"
+      "fr": "Pièce de vaisseau #14 - Tatavium Mountains",
+      "es": "Pieza de nave #14 - Tatavium Mountains",
+      "it": "Parte di astronave #14 - Tatavium Mountains",
+      "de": "Raumschiffteil #14 - Tatavium Mountains"
     },
     "note": {
       "en": "To the right of the large cavern entrance, there is a tiny beach. On this beach is the Spaceship Part.",
@@ -770,7 +905,10 @@
     },
     "title": {
       "en": "Spaceship Part #15 - Tatavium Mountains",
-      "fr": "Pièce de vaisseau #15 - Tatavium Mountains"
+      "fr": "Pièce de vaisseau #15 - Tatavium Mountains",
+      "es": "Pieza de nave #15 - Tatavium Mountains",
+      "it": "Parte di astronave #15 - Tatavium Mountains",
+      "de": "Raumschiffteil #15 - Tatavium Mountains"
     },
     "note": {
       "en": "You will see five pipes running down into the water. In the left-hand pipe is the Spaceship Part.",
@@ -787,7 +925,10 @@
     },
     "title": {
       "en": "Spaceship Part #16 - Davis",
-      "fr": "Pièce de vaisseau #16 - Davis"
+      "fr": "Pièce de vaisseau #16 - Davis",
+      "es": "Pieza de nave #16 - Davis",
+      "it": "Parte di astronave #16 - Davis",
+      "de": "Raumschiffteil #16 - Davis"
     },
     "note": {
       "en": "Down by the rocks is a small wooden jetty with two red safety rings housed on it. Dive underneath this jetty and the Spaceship Part will be on the seafloor.",
@@ -804,7 +945,10 @@
     },
     "title": {
       "en": "Spaceship Part #17 - Murreta Heights",
-      "fr": "Pièce de vaisseau #17 - Murreta Heights"
+      "fr": "Pièce de vaisseau #17 - Murreta Heights",
+      "es": "Pieza de nave #17 - Murreta Heights",
+      "it": "Parte di astronave #17 - Murreta Heights",
+      "de": "Raumschiffteil #17 - Murreta Heights"
     },
     "note": {
       "en": "By the side of the freeway is an area where water comes out and flows down under the freeway. You should see a brown metal walkway with three concrete pillars jutting out from underneath it. On the middle of these pillars is the Spaceship Part.",
@@ -821,7 +965,10 @@
     },
     "title": {
       "en": "Spaceship Part #18 - El Burro Heights",
-      "fr": "Pièce de vaisseau #18 - El Burro Heights"
+      "fr": "Pièce de vaisseau #18 - El Burro Heights",
+      "es": "Pieza de nave #18 - El Burro Heights",
+      "it": "Parte di astronave #18 - El Burro Heights",
+      "de": "Raumschiffteil #18 - El Burro Heights"
     },
     "note": {
       "en": "In the construction area you will find two freight containers side by side. The green one has an opening and inside it is the Spaceship Part.",
@@ -838,7 +985,10 @@
     },
     "title": {
       "en": "Spaceship Part #19 - Pacific Ocean",
-      "fr": "Pièce de vaisseau #19 - Pacific Ocean"
+      "fr": "Pièce de vaisseau #19 - Pacific Ocean",
+      "es": "Pieza de nave #19 - Pacific Ocean",
+      "it": "Parte di astronave #19 - Pacific Ocean",
+      "de": "Raumschiffteil #19 - Pacific Ocean"
     },
     "note": {
       "en": "This one is located on a small island out to sea. Just swim the small distance to the island and then climb onto the rocks. The Part will be amongst the rocks.",
@@ -855,7 +1005,10 @@
     },
     "title": {
       "en": "Spaceship Part #20 - El Burro Heights",
-      "fr": "Pièce de vaisseau #20 - El Burro Heights"
+      "fr": "Pièce de vaisseau #20 - El Burro Heights",
+      "es": "Pieza de nave #20 - El Burro Heights",
+      "it": "Parte di astronave #20 - El Burro Heights",
+      "de": "Raumschiffteil #20 - El Burro Heights"
     },
     "note": {
       "en": "In front of the freeway-supporting wall with the “VAGOS” graffiti on it is a sewer pipe that pumps water out to sea. Right next to the pipe opening is the Spaceship Part.",
@@ -872,7 +1025,10 @@
     },
     "title": {
       "en": "Spaceship Part #21 - Elysian Island",
-      "fr": "Pièce de vaisseau #21 - Elysian Island"
+      "fr": "Pièce de vaisseau #21 - Elysian Island",
+      "es": "Pieza de nave #21 - Elysian Island",
+      "it": "Parte di astronave #21 - Elysian Island",
+      "de": "Raumschiffteil #21 - Elysian Island"
     },
     "note": {
       "en": "Underwater here will be the ruins of a metal structure. In amongst it is this Spaceship Part.",
@@ -889,7 +1045,10 @@
     },
     "title": {
       "en": "Spaceship Part #22 - Elysian Island",
-      "fr": "Pièce de vaisseau #22 - Elysian Island"
+      "fr": "Pièce de vaisseau #22 - Elysian Island",
+      "es": "Pieza de nave #22 - Elysian Island",
+      "it": "Parte di astronave #22 - Elysian Island",
+      "de": "Raumschiffteil #22 - Elysian Island"
     },
     "note": {
       "en": "In between the two huge domes is a set of stairs. Take the first flight up and at the fork take the left staircase. Keep following the stairs and you’ll eventually come to a building with a ladder on top of the dome. Climb the ladder and drop down onto the pipe. Run along the pipe, and halfway between the two domes on the pipe will be the Spaceship Part.",
@@ -906,7 +1065,10 @@
     },
     "title": {
       "en": "Spaceship Part #23 - Rancho / Dutch London St",
-      "fr": "Pièce de vaisseau #23 - Rancho / Dutch London St"
+      "fr": "Pièce de vaisseau #23 - Rancho / Dutch London St",
+      "es": "Pieza de nave #23 - Rancho / Dutch London St",
+      "it": "Parte di astronave #23 - Rancho / Dutch London St",
+      "de": "Raumschiffteil #23 - Rancho / Dutch London St"
     },
     "note": {
       "en": "In a fenced area you will see four decorated alien-like sculptures that look like futuristic towers. Go inside the entrance and the ledge around the bottom of the right-hand tower will have the Spaceship Part on it.",
@@ -923,7 +1085,10 @@
     },
     "title": {
       "en": "Spaceship Part #24 - Los Santos International Airport",
-      "fr": "Pièce de vaisseau #24 - Los Santos International Airport"
+      "fr": "Pièce de vaisseau #24 - Los Santos International Airport",
+      "es": "Pieza de nave #24 - Los Santos International Airport",
+      "it": "Parte di astronave #24 - Los Santos International Airport",
+      "de": "Raumschiffteil #24 - Los Santos International Airport"
     },
     "note": {
       "en": "Right in the southern-most section of the airport, just inside the fence. This Part is located next to a dumpster and a stack of red, white, green and blue crates.",
@@ -940,7 +1105,10 @@
     },
     "title": {
       "en": "Spaceship Part #25 - Davis / Innocence Blvd",
-      "fr": "Pièce de vaisseau #25 - Davis / Innocence Blvd"
+      "fr": "Pièce de vaisseau #25 - Davis / Innocence Blvd",
+      "es": "Pieza de nave #25 - Davis / Innocence Blvd",
+      "it": "Parte di astronave #25 - Davis / Innocence Blvd",
+      "de": "Raumschiffteil #25 - Davis / Innocence Blvd"
     },
     "note": {
       "en": "This Part is located on the roof of Central Los Santos Medical Centre. Climb up the stairs to the top of the first roof, then up the ladder to get onto the highest roof. The Spaceship Part will be next to the helicopter on the right-hand side.",
@@ -957,7 +1125,10 @@
     },
     "title": {
       "en": "Spaceship Part #26 - Strawberry / Elgin Ave",
-      "fr": "Pièce de vaisseau #26 - Strawberry / Elgin Ave"
+      "fr": "Pièce de vaisseau #26 - Strawberry / Elgin Ave",
+      "es": "Pieza de nave #26 - Strawberry / Elgin Ave",
+      "it": "Parte di astronave #26 - Strawberry / Elgin Ave",
+      "de": "Raumschiffteil #26 - Strawberry / Elgin Ave"
     },
     "note": {
       "en": "Underneath the freeway is a campsite where the homeless are dwelling. The Spaceship Part will be in front of a couch with a red and pink sleeping bag on it.",
@@ -974,7 +1145,10 @@
     },
     "title": {
       "en": "Spaceship Part #27 - Textile City",
-      "fr": "Pièce de vaisseau #27 - Textile City"
+      "fr": "Pièce de vaisseau #27 - Textile City",
+      "es": "Pieza de nave #27 - Textile City",
+      "it": "Parte di astronave #27 - Textile City",
+      "de": "Raumschiffteil #27 - Textile City"
     },
     "note": {
       "en": "In this alleyway there will be numerous shops and market stalls. Find the “Bean Machine” coffee shop, and just to the right of it will be a small alcove where this Part can be found.",
@@ -991,7 +1165,10 @@
     },
     "title": {
       "en": "Spaceship Part #28 - Pillbox Hill",
-      "fr": "Pièce de vaisseau #28 - Pillbox Hill"
+      "fr": "Pièce de vaisseau #28 - Pillbox Hill",
+      "es": "Pieza de nave #28 - Pillbox Hill",
+      "it": "Parte di astronave #28 - Pillbox Hill",
+      "de": "Raumschiffteil #28 - Pillbox Hill"
     },
     "note": {
       "en": "[Helicopter Required] You will need to fly up to the top of the “Penris” building for this one. Land on the roof and grab the clearly-visible Spaceship Part.",
@@ -1008,7 +1185,10 @@
     },
     "title": {
       "en": "Spaceship Part #29 - Pillbox Hill",
-      "fr": "Pièce de vaisseau #29 - Pillbox Hill"
+      "fr": "Pièce de vaisseau #29 - Pillbox Hill",
+      "es": "Pieza de nave #29 - Pillbox Hill",
+      "it": "Parte di astronave #29 - Pillbox Hill",
+      "de": "Raumschiffteil #29 - Pillbox Hill"
     },
     "note": {
       "en": "This Part is located in a tunnel, the entrance of which can be found in Textile City. Drive into the tunnel and take a right at the fork. Keep driving along the train tracks until you are met with two enclosed tunnels. Take the left tunnel and drive through it until you are met with another choice of two tunnels. Take the right one this time and drive through it a short way until you come out into a room. Go up the ramp to the right to find some constructions workers stood around. The Spaceship Part is located behind the red barrier next to a table with a blueprint on it.",
@@ -1025,7 +1205,10 @@
     },
     "title": {
       "en": "Spaceship Part #30 - Vespucci Canals",
-      "fr": "Pièce de vaisseau #30 - Vespucci Canals"
+      "fr": "Pièce de vaisseau #30 - Vespucci Canals",
+      "es": "Pieza de nave #30 - Vespucci Canals",
+      "it": "Parte di astronave #30 - Vespucci Canals",
+      "de": "Raumschiffteil #30 - Vespucci Canals"
     },
     "note": {
       "en": "Next to the road you will see a huge “Destroy The Ring” billboard. Climb up the ladder that goes up the billboard’s supporting pole. Go up the short ramp and then climb the second ladder. The Spaceship Part will be on the platform at the top of the billboard.",
@@ -1042,7 +1225,10 @@
     },
     "title": {
       "en": "Spaceship Part #31 - Little Seoul / Del Perro Fwy",
-      "fr": "Pièce de vaisseau #31 - Little Seoul / Del Perro Fwy"
+      "fr": "Pièce de vaisseau #31 - Little Seoul / Del Perro Fwy",
+      "es": "Pieza de nave #31 - Little Seoul / Del Perro Fwy",
+      "it": "Parte di astronave #31 - Little Seoul / Del Perro Fwy",
+      "de": "Raumschiffteil #31 - Little Seoul / Del Perro Fwy"
     },
     "note": {
       "en": "This is located inside the Vinewood studios. You will have to drive or run through the barrier at the entrance. Take the first left and then right in front of you will be an open doorway and some stairs. Go up the stairs, take a right and then a right again up another set of stairs. Climb over the wall in front of you and the Spaceship Part will be on the balcony here.",
@@ -1059,7 +1245,10 @@
     },
     "title": {
       "en": "Spaceship Part #32 - Burton",
-      "fr": "Pièce de vaisseau #32 - Burton"
+      "fr": "Pièce de vaisseau #32 - Burton",
+      "es": "Pieza de nave #32 - Burton",
+      "it": "Parte di astronave #32 - Burton",
+      "de": "Raumschiffteil #32 - Burton"
     },
     "note": {
       "en": "The Spaceship Part will be right in the middle of the small grassy area in the middle of the circular road.",
@@ -1076,7 +1265,10 @@
     },
     "title": {
       "en": "Spaceship Part #33 - Burton",
-      "fr": "Pièce de vaisseau #33 - Burton"
+      "fr": "Pièce de vaisseau #33 - Burton",
+      "es": "Pieza de nave #33 - Burton",
+      "it": "Parte di astronave #33 - Burton",
+      "de": "Raumschiffteil #33 - Burton"
     },
     "note": {
       "en": "[Helicopter Required] This Part is located in the empty swimming pool on the roof of the hotel. Fly up there and jump down into the pool to grab it.",
@@ -1093,7 +1285,10 @@
     },
     "title": {
       "en": "Spaceship Part #34 - Rockford Hills",
-      "fr": "Pièce de vaisseau #34 - Rockford Hills"
+      "fr": "Pièce de vaisseau #34 - Rockford Hills",
+      "es": "Pieza de nave #34 - Rockford Hills",
+      "it": "Parte di astronave #34 - Rockford Hills",
+      "de": "Raumschiffteil #34 - Rockford Hills"
     },
     "note": {
       "en": "This Part is located on a tiny island in the south-western lake of the golf course. Jump into the water and swim to the island for it.",
@@ -1110,7 +1305,10 @@
     },
     "title": {
       "en": "Spaceship Part #35 - Vinewood Hills",
-      "fr": "Pièce de vaisseau #35 - Vinewood Hills"
+      "fr": "Pièce de vaisseau #35 - Vinewood Hills",
+      "es": "Pieza de nave #35 - Vinewood Hills",
+      "it": "Parte di astronave #35 - Vinewood Hills",
+      "de": "Raumschiffteil #35 - Vinewood Hills"
     },
     "note": {
       "en": "By the side of the lake is a small stone building. If you dive into the lake just to the right of the building, you should see the Spaceship Part behind you on the seafloor next to the side of the stone wall.",
@@ -1127,7 +1325,10 @@
     },
     "title": {
       "en": "Spaceship Part #36 - Vinewood Hills",
-      "fr": "Pièce de vaisseau #36 - Vinewood Hills"
+      "fr": "Pièce de vaisseau #36 - Vinewood Hills",
+      "es": "Pieza de nave #36 - Vinewood Hills",
+      "it": "Parte di astronave #36 - Vinewood Hills",
+      "de": "Raumschiffteil #36 - Vinewood Hills"
     },
     "note": {
       "en": "[Helicopter Required] You will see a concrete jetty sticking out from the side of the road with a circular building at the end of it. Unfortunately, the building is too high to climb up so you will need to delicately land a helicopter on top of it to grab the Spaceship Part.",
@@ -1144,7 +1345,10 @@
     },
     "title": {
       "en": "Spaceship Part #37 - Vinewood Hills",
-      "fr": "Pièce de vaisseau #37 - Vinewood Hills"
+      "fr": "Pièce de vaisseau #37 - Vinewood Hills",
+      "es": "Pieza de nave #37 - Vinewood Hills",
+      "it": "Parte di astronave #37 - Vinewood Hills",
+      "de": "Raumschiffteil #37 - Vinewood Hills"
     },
     "note": {
       "en": "[Helicopter Required] This is another one which requires a helicopter. You will need to land your helicopter on the roof of the Galileo Observatory, and the Spaceship Part will be located next to the dome on the left-hand side of the roof.",
@@ -1161,7 +1365,10 @@
     },
     "title": {
       "en": "Spaceship Part #38 - Richman Glen",
-      "fr": "Pièce de vaisseau #38 - Richman Glen"
+      "fr": "Pièce de vaisseau #38 - Richman Glen",
+      "es": "Pieza de nave #38 - Richman Glen",
+      "it": "Parte di astronave #38 - Richman Glen",
+      "de": "Raumschiffteil #38 - Richman Glen"
     },
     "note": {
       "en": "In front of the house is a large tree next to a small circular fountain. The Spaceship Part is at the base of the tree.",
@@ -1178,7 +1385,10 @@
     },
     "title": {
       "en": "Spaceship Part #39 - Tongva Hills",
-      "fr": "Pièce de vaisseau #39 - Tongva Hills"
+      "fr": "Pièce de vaisseau #39 - Tongva Hills",
+      "es": "Pieza de nave #39 - Tongva Hills",
+      "it": "Parte di astronave #39 - Tongva Hills",
+      "de": "Raumschiffteil #39 - Tongva Hills"
     },
     "note": {
       "en": "On your map you should see a stream going off from the side of the road. Follow this stream about halfway and you should see an opening in the rock face in front of you. Just inside the entrance is this Spaceship Part.",
@@ -1195,7 +1405,10 @@
     },
     "title": {
       "en": "Spaceship Part #40 - Banham Canyon",
-      "fr": "Pièce de vaisseau #40 - Banham Canyon"
+      "fr": "Pièce de vaisseau #40 - Banham Canyon",
+      "es": "Pieza de nave #40 - Banham Canyon",
+      "it": "Parte di astronave #40 - Banham Canyon",
+      "de": "Raumschiffteil #40 - Banham Canyon"
     },
     "note": {
       "en": "Behind the house at the end of the short road is a swimming pool. Right next to this is small white concrete square on the ground that has a telescope erected on it at night. On the ground next to the telescope is this Part.",
@@ -1212,7 +1425,10 @@
     },
     "title": {
       "en": "Spaceship Part #41 - Tongva Hills",
-      "fr": "Pièce de vaisseau #41 - Tongva Hills"
+      "fr": "Pièce de vaisseau #41 - Tongva Hills",
+      "es": "Pieza de nave #41 - Tongva Hills",
+      "it": "Parte di astronave #41 - Tongva Hills",
+      "de": "Raumschiffteil #41 - Tongva Hills"
     },
     "note": {
       "en": "On the side of a hill is a farm area with lots of hedges. The Spaceship Part is located halfway up the hill in between the rows of hedges. You won’t be able climb over them so you’ll have to find a gap in the side and run along the row.",
@@ -1229,7 +1445,10 @@
     },
     "title": {
       "en": "Spaceship Part #42 - Tongva Hills",
-      "fr": "Pièce de vaisseau #42 - Tongva Hills"
+      "fr": "Pièce de vaisseau #42 - Tongva Hills",
+      "es": "Pieza de nave #42 - Tongva Hills",
+      "it": "Parte di astronave #42 - Tongva Hills",
+      "de": "Raumschiffteil #42 - Tongva Hills"
     },
     "note": {
       "en": "Underneath the bridge you will see a waterfall. Do not dive in off the bridge as you will die. Work your way down and in the small pool at the bottom of the waterfall, dive down and find the Spaceship Part underwater.",
@@ -1246,7 +1465,10 @@
     },
     "title": {
       "en": "Spaceship Part #43 - Zancudo River",
-      "fr": "Pièce de vaisseau #43 - Zancudo River"
+      "fr": "Pièce de vaisseau #43 - Zancudo River",
+      "es": "Pieza de nave #43 - Zancudo River",
+      "it": "Parte di astronave #43 - Zancudo River",
+      "de": "Raumschiffteil #43 - Zancudo River"
     },
     "note": {
       "en": "Underneath the wooden bridge over the river, this one is located between the central support pillar and the small support at the end of the bridge.",
@@ -1263,7 +1485,10 @@
     },
     "title": {
       "en": "Spaceship Part #44 - Zancudo River",
-      "fr": "Pièce de vaisseau #44 - Zancudo River"
+      "fr": "Pièce de vaisseau #44 - Zancudo River",
+      "es": "Pieza de nave #44 - Zancudo River",
+      "it": "Parte di astronave #44 - Zancudo River",
+      "de": "Raumschiffteil #44 - Zancudo River"
     },
     "note": {
       "en": "This one is located in a small alcove in the rocks on the river bank. The alcove will be on the left if you are looking at the bridge ahead of you in the distance.",
@@ -1280,7 +1505,10 @@
     },
     "title": {
       "en": "Spaceship Part #45 - Mount Josiah",
-      "fr": "Pièce de vaisseau #45 - Mount Josiah"
+      "fr": "Pièce de vaisseau #45 - Mount Josiah",
+      "es": "Pieza de nave #45 - Mount Josiah",
+      "it": "Parte di astronave #45 - Mount Josiah",
+      "de": "Raumschiffteil #45 - Mount Josiah"
     },
     "note": {
       "en": "[Helicopter Required] This Part is quite tricky and requires a helicopter. Fly up to the side of Mount Josiah where you can see levels of rock, almost like giant steps. You should see the Part glowing on one of the ledges, so land your helicopter on the one above it and jump down.",
@@ -1297,7 +1525,10 @@
     },
     "title": {
       "en": "Spaceship Part #46 - Pacific Ocean",
-      "fr": "Pièce de vaisseau #46 - Pacific Ocean"
+      "fr": "Pièce de vaisseau #46 - Pacific Ocean",
+      "es": "Pieza de nave #46 - Pacific Ocean",
+      "it": "Parte di astronave #46 - Pacific Ocean",
+      "de": "Raumschiffteil #46 - Pacific Ocean"
     },
     "note": {
       "en": "[Helicopter Required] This is by far the most difficult Spaceship Part to get. It will require extremely precise control with a helicopter, or pinpoint landing with a parachute. If you are using a helicopter like in the video, you will need to land perfectly in between the concrete support beam and the underside of the bridge. The Spaceship Part will be on a ledge.",
@@ -1314,7 +1545,10 @@
     },
     "title": {
       "en": "Spaceship Part #47 - Cassoy Creek",
-      "fr": "Pièce de vaisseau #47 - Cassoy Creek"
+      "fr": "Pièce de vaisseau #47 - Cassoy Creek",
+      "es": "Pieza de nave #47 - Cassoy Creek",
+      "it": "Parte di astronave #47 - Cassoy Creek",
+      "de": "Raumschiffteil #47 - Cassoy Creek"
     },
     "note": {
       "en": "Directly underneath the bridge is a small outcropping of rock right next to a waterfall. The Spaceship Part is on this outcropping.",
@@ -1331,7 +1565,10 @@
     },
     "title": {
       "en": "Spaceship Part #48 - Paleto Cove",
-      "fr": "Pièce de vaisseau #48 - Paleto Cove"
+      "fr": "Pièce de vaisseau #48 - Paleto Cove",
+      "es": "Pieza de nave #48 - Paleto Cove",
+      "it": "Parte di astronave #48 - Paleto Cove",
+      "de": "Raumschiffteil #48 - Paleto Cove"
     },
     "note": {
       "en": "This Part is easy to find, it’s in plain sight at the top of the small hill that extends out from the beach.",
@@ -1348,7 +1585,10 @@
     },
     "title": {
       "en": "Spaceship Part #49 - Paleto Forest",
-      "fr": "Pièce de vaisseau #49 - Paleto Forest"
+      "fr": "Pièce de vaisseau #49 - Paleto Forest",
+      "es": "Pieza de nave #49 - Paleto Forest",
+      "it": "Parte di astronave #49 - Paleto Forest",
+      "de": "Raumschiffteil #49 - Paleto Forest"
     },
     "note": {
       "en": "You will see the entrance to a small concrete tunnel, with a fallen tree trunk across the entrance. Just inside the tunnel is this Part.",
@@ -1365,7 +1605,10 @@
     },
     "title": {
       "en": "Spaceship Part #50 - Paleto Forest",
-      "fr": "Pièce de vaisseau #50 - Paleto Forest"
+      "fr": "Pièce de vaisseau #50 - Paleto Forest",
+      "es": "Pieza de nave #50 - Paleto Forest",
+      "it": "Parte di astronave #50 - Paleto Forest",
+      "de": "Raumschiffteil #50 - Paleto Forest"
     },
     "note": {
       "en": "On this block you should see an ugly grey tower with a metal staircase around it. Climb up two flights of stairs, and jump inside the window. The Spaceship Part is on the floor inside this room.",
@@ -1382,7 +1625,10 @@
     },
     "title": {
       "en": "Stunt Jump #1 - Burton",
-      "fr": "Saut cascade #1 - Burton"
+      "fr": "Saut cascade #1 - Burton",
+      "es": "Salto acrobático #1 - Burton",
+      "it": "Salto acrobatico #1 - Burton",
+      "de": "Stuntsprung #1 - Burton"
     }
   },
   {
@@ -1395,7 +1641,10 @@
     },
     "title": {
       "en": "Stunt Jump #2 - Downtown",
-      "fr": "Saut cascade #2 - Downtown"
+      "fr": "Saut cascade #2 - Downtown",
+      "es": "Salto acrobático #2 - Downtown",
+      "it": "Salto acrobatico #2 - Downtown",
+      "de": "Stuntsprung #2 - Downtown"
     }
   },
   {
@@ -1408,7 +1657,10 @@
     },
     "title": {
       "en": "Stunt Jump #3 - Textile City",
-      "fr": "Saut cascade #3 - Textile City"
+      "fr": "Saut cascade #3 - Textile City",
+      "es": "Salto acrobático #3 - Textile City",
+      "it": "Salto acrobatico #3 - Textile City",
+      "de": "Stuntsprung #3 - Textile City"
     }
   },
   {
@@ -1421,7 +1673,10 @@
     },
     "title": {
       "en": "Stunt Jump #4 - La Mesa",
-      "fr": "Saut cascade #4 - La Mesa"
+      "fr": "Saut cascade #4 - La Mesa",
+      "es": "Salto acrobático #4 - La Mesa",
+      "it": "Salto acrobatico #4 - La Mesa",
+      "de": "Stuntsprung #4 - La Mesa"
     }
   },
   {
@@ -1434,7 +1689,10 @@
     },
     "title": {
       "en": "Stunt Jump #5 - Pillbox Hill",
-      "fr": "Saut cascade #5 - Pillbox Hill"
+      "fr": "Saut cascade #5 - Pillbox Hill",
+      "es": "Salto acrobático #5 - Pillbox Hill",
+      "it": "Salto acrobatico #5 - Pillbox Hill",
+      "de": "Stuntsprung #5 - Pillbox Hill"
     }
   },
   {
@@ -1447,7 +1705,10 @@
     },
     "title": {
       "en": "Stunt Jump #6 - Pillbox Hill/Elgin Ave",
-      "fr": "Saut cascade #6 - Pillbox Hill/Elgin Ave"
+      "fr": "Saut cascade #6 - Pillbox Hill/Elgin Ave",
+      "es": "Salto acrobático #6 - Pillbox Hill/Elgin Ave",
+      "it": "Salto acrobatico #6 - Pillbox Hill/Elgin Ave",
+      "de": "Stuntsprung #6 - Pillbox Hill/Elgin Ave"
     }
   },
   {
@@ -1460,7 +1721,10 @@
     },
     "title": {
       "en": "Stunt Jump #7 - Strawberry",
-      "fr": "Saut cascade #7 - Strawberry"
+      "fr": "Saut cascade #7 - Strawberry",
+      "es": "Salto acrobático #7 - Strawberry",
+      "it": "Salto acrobatico #7 - Strawberry",
+      "de": "Stuntsprung #7 - Strawberry"
     }
   },
   {
@@ -1473,7 +1737,10 @@
     },
     "title": {
       "en": "Stunt Jump #8 - Strawberry",
-      "fr": "Saut cascade #8 - Strawberry"
+      "fr": "Saut cascade #8 - Strawberry",
+      "es": "Salto acrobático #8 - Strawberry",
+      "it": "Salto acrobatico #8 - Strawberry",
+      "de": "Stuntsprung #8 - Strawberry"
     }
   },
   {
@@ -1486,7 +1753,10 @@
     },
     "title": {
       "en": "Stunt Jump #9 - Rancho/Innocence Blvd",
-      "fr": "Saut cascade #9 - Rancho/Innocence Blvd"
+      "fr": "Saut cascade #9 - Rancho/Innocence Blvd",
+      "es": "Salto acrobático #9 - Rancho/Innocence Blvd",
+      "it": "Salto acrobatico #9 - Rancho/Innocence Blvd",
+      "de": "Stuntsprung #9 - Rancho/Innocence Blvd"
     }
   },
   {
@@ -1499,7 +1769,10 @@
     },
     "title": {
       "en": "Stunt Jump #10 - El Burro Heights",
-      "fr": "Saut cascade #10 - El Burro Heights"
+      "fr": "Saut cascade #10 - El Burro Heights",
+      "es": "Salto acrobático #10 - El Burro Heights",
+      "it": "Salto acrobatico #10 - El Burro Heights",
+      "de": "Stuntsprung #10 - El Burro Heights"
     }
   },
   {
@@ -1512,7 +1785,10 @@
     },
     "title": {
       "en": "Stunt Jump #11 - Terminal/Buccaneer Way",
-      "fr": "Saut cascade #11 - Terminal/Buccaneer Way"
+      "fr": "Saut cascade #11 - Terminal/Buccaneer Way",
+      "es": "Salto acrobático #11 - Terminal/Buccaneer Way",
+      "it": "Salto acrobatico #11 - Terminal/Buccaneer Way",
+      "de": "Stuntsprung #11 - Terminal/Buccaneer Way"
     }
   },
   {
@@ -1525,7 +1801,10 @@
     },
     "title": {
       "en": "Stunt Jump #12 - Elysian Island",
-      "fr": "Saut cascade #12 - Elysian Island"
+      "fr": "Saut cascade #12 - Elysian Island",
+      "es": "Salto acrobático #12 - Elysian Island",
+      "it": "Salto acrobatico #12 - Elysian Island",
+      "de": "Stuntsprung #12 - Elysian Island"
     }
   },
   {
@@ -1538,7 +1817,10 @@
     },
     "title": {
       "en": "Stunt Jump #13 - Elysian Island",
-      "fr": "Saut cascade #13 - Elysian Island"
+      "fr": "Saut cascade #13 - Elysian Island",
+      "es": "Salto acrobático #13 - Elysian Island",
+      "it": "Salto acrobatico #13 - Elysian Island",
+      "de": "Stuntsprung #13 - Elysian Island"
     }
   },
   {
@@ -1551,7 +1833,10 @@
     },
     "title": {
       "en": "Stunt Jump #14 - Elysian Island/Plaice PL",
-      "fr": "Saut cascade #14 - Elysian Island/Plaice PL"
+      "fr": "Saut cascade #14 - Elysian Island/Plaice PL",
+      "es": "Salto acrobático #14 - Elysian Island/Plaice PL",
+      "it": "Salto acrobatico #14 - Elysian Island/Plaice PL",
+      "de": "Stuntsprung #14 - Elysian Island/Plaice PL"
     }
   },
   {
@@ -1564,7 +1849,10 @@
     },
     "title": {
       "en": "Stunt Jump #15 - Elysian Island",
-      "fr": "Saut cascade #15 - Elysian Island"
+      "fr": "Saut cascade #15 - Elysian Island",
+      "es": "Salto acrobático #15 - Elysian Island",
+      "it": "Salto acrobatico #15 - Elysian Island",
+      "de": "Stuntsprung #15 - Elysian Island"
     }
   },
   {
@@ -1577,7 +1865,10 @@
     },
     "title": {
       "en": "Stunt Jump #16 - Elysian Island",
-      "fr": "Saut cascade #16 - Elysian Island"
+      "fr": "Saut cascade #16 - Elysian Island",
+      "es": "Salto acrobático #16 - Elysian Island",
+      "it": "Salto acrobatico #16 - Elysian Island",
+      "de": "Stuntsprung #16 - Elysian Island"
     }
   },
   {
@@ -1590,7 +1881,10 @@
     },
     "title": {
       "en": "Stunt Jump #17 - Elysian Island/Elysian Fields Fwy",
-      "fr": "Saut cascade #17 - Elysian Island/Elysian Fields Fwy"
+      "fr": "Saut cascade #17 - Elysian Island/Elysian Fields Fwy",
+      "es": "Salto acrobático #17 - Elysian Island/Elysian Fields Fwy",
+      "it": "Salto acrobatico #17 - Elysian Island/Elysian Fields Fwy",
+      "de": "Stuntsprung #17 - Elysian Island/Elysian Fields Fwy"
     }
   },
   {
@@ -1603,7 +1897,10 @@
     },
     "title": {
       "en": "Stunt Jump #18 - Elysian Island",
-      "fr": "Saut cascade #18 - Elysian Island"
+      "fr": "Saut cascade #18 - Elysian Island",
+      "es": "Salto acrobático #18 - Elysian Island",
+      "it": "Salto acrobatico #18 - Elysian Island",
+      "de": "Stuntsprung #18 - Elysian Island"
     }
   },
   {
@@ -1616,7 +1913,10 @@
     },
     "title": {
       "en": "Stunt Jump #19 - Elysian Island/Voodoo Place",
-      "fr": "Saut cascade #19 - Elysian Island/Voodoo Place"
+      "fr": "Saut cascade #19 - Elysian Island/Voodoo Place",
+      "es": "Salto acrobático #19 - Elysian Island/Voodoo Place",
+      "it": "Salto acrobatico #19 - Elysian Island/Voodoo Place",
+      "de": "Stuntsprung #19 - Elysian Island/Voodoo Place"
     }
   },
   {
@@ -1629,7 +1929,10 @@
     },
     "title": {
       "en": "Stunt Jump #20 - Elysian Island/Voodoo Place",
-      "fr": "Saut cascade #20 - Elysian Island/Voodoo Place"
+      "fr": "Saut cascade #20 - Elysian Island/Voodoo Place",
+      "es": "Salto acrobático #20 - Elysian Island/Voodoo Place",
+      "it": "Salto acrobatico #20 - Elysian Island/Voodoo Place",
+      "de": "Stuntsprung #20 - Elysian Island/Voodoo Place"
     }
   },
   {
@@ -1642,7 +1945,10 @@
     },
     "title": {
       "en": "Stunt Jump #21 - Banning",
-      "fr": "Saut cascade #21 - Banning"
+      "fr": "Saut cascade #21 - Banning",
+      "es": "Salto acrobático #21 - Banning",
+      "it": "Salto acrobatico #21 - Banning",
+      "de": "Stuntsprung #21 - Banning"
     }
   },
   {
@@ -1655,7 +1961,10 @@
     },
     "title": {
       "en": "Stunt Jump #22 - Los Santos International Airport/New Empire Way",
-      "fr": "Saut cascade #22 - Los Santos International Airport/New Empire Way"
+      "fr": "Saut cascade #22 - Los Santos International Airport/New Empire Way",
+      "es": "Salto acrobático #22 - Los Santos International Airport/New Empire Way",
+      "it": "Salto acrobatico #22 - Los Santos International Airport/New Empire Way",
+      "de": "Stuntsprung #22 - Los Santos International Airport/New Empire Way"
     }
   },
   {
@@ -1668,7 +1977,10 @@
     },
     "title": {
       "en": "Stunt Jump #23 - Los Santos International Airport/New Empire Way",
-      "fr": "Saut cascade #23 - Los Santos International Airport/New Empire Way"
+      "fr": "Saut cascade #23 - Los Santos International Airport/New Empire Way",
+      "es": "Salto acrobático #23 - Los Santos International Airport/New Empire Way",
+      "it": "Salto acrobatico #23 - Los Santos International Airport/New Empire Way",
+      "de": "Stuntsprung #23 - Los Santos International Airport/New Empire Way"
     }
   },
   {
@@ -1681,7 +1993,10 @@
     },
     "title": {
       "en": "Stunt Jump #24 - Los Santos International Airport/New Empire Way",
-      "fr": "Saut cascade #24 - Los Santos International Airport/New Empire Way"
+      "fr": "Saut cascade #24 - Los Santos International Airport/New Empire Way",
+      "es": "Salto acrobático #24 - Los Santos International Airport/New Empire Way",
+      "it": "Salto acrobatico #24 - Los Santos International Airport/New Empire Way",
+      "de": "Stuntsprung #24 - Los Santos International Airport/New Empire Way"
     }
   },
   {
@@ -1694,7 +2009,10 @@
     },
     "title": {
       "en": "Stunt Jump #25 - La Puerta",
-      "fr": "Saut cascade #25 - La Puerta"
+      "fr": "Saut cascade #25 - La Puerta",
+      "es": "Salto acrobático #25 - La Puerta",
+      "it": "Salto acrobatico #25 - La Puerta",
+      "de": "Stuntsprung #25 - La Puerta"
     }
   },
   {
@@ -1707,7 +2025,10 @@
     },
     "title": {
       "en": "Stunt Jump #26 - La Puerta",
-      "fr": "Saut cascade #26 - La Puerta"
+      "fr": "Saut cascade #26 - La Puerta",
+      "es": "Salto acrobático #26 - La Puerta",
+      "it": "Salto acrobatico #26 - La Puerta",
+      "de": "Stuntsprung #26 - La Puerta"
     }
   },
   {
@@ -1720,7 +2041,10 @@
     },
     "title": {
       "en": "Stunt Jump #27 - La Puerta/Dutch London St",
-      "fr": "Saut cascade #27 - La Puerta/Dutch London St"
+      "fr": "Saut cascade #27 - La Puerta/Dutch London St",
+      "es": "Salto acrobático #27 - La Puerta/Dutch London St",
+      "it": "Salto acrobatico #27 - La Puerta/Dutch London St",
+      "de": "Stuntsprung #27 - La Puerta/Dutch London St"
     }
   },
   {
@@ -1733,7 +2057,10 @@
     },
     "title": {
       "en": "Stunt Jump #28 - Little Seoul",
-      "fr": "Saut cascade #28 - Little Seoul"
+      "fr": "Saut cascade #28 - Little Seoul",
+      "es": "Salto acrobático #28 - Little Seoul",
+      "it": "Salto acrobatico #28 - Little Seoul",
+      "de": "Stuntsprung #28 - Little Seoul"
     }
   },
   {
@@ -1746,7 +2073,10 @@
     },
     "title": {
       "en": "Stunt Jump #29 - Little Seoul/La Puerta Fwy",
-      "fr": "Saut cascade #29 - Little Seoul/La Puerta Fwy"
+      "fr": "Saut cascade #29 - Little Seoul/La Puerta Fwy",
+      "es": "Salto acrobático #29 - Little Seoul/La Puerta Fwy",
+      "it": "Salto acrobatico #29 - Little Seoul/La Puerta Fwy",
+      "de": "Stuntsprung #29 - Little Seoul/La Puerta Fwy"
     }
   },
   {
@@ -1759,7 +2089,10 @@
     },
     "title": {
       "en": "Stunt Jump #30 - Little Seoul/Adam's Apple Blvd",
-      "fr": "Saut cascade #30 - Little Seoul/Adam's Apple Blvd"
+      "fr": "Saut cascade #30 - Little Seoul/Adam's Apple Blvd",
+      "es": "Salto acrobático #30 - Little Seoul/Adam's Apple Blvd",
+      "it": "Salto acrobatico #30 - Little Seoul/Adam's Apple Blvd",
+      "de": "Stuntsprung #30 - Little Seoul/Adam's Apple Blvd"
     }
   },
   {
@@ -1772,7 +2105,10 @@
     },
     "title": {
       "en": "Stunt Jump #31 - Pillbox Hill",
-      "fr": "Saut cascade #31 - Pillbox Hill"
+      "fr": "Saut cascade #31 - Pillbox Hill",
+      "es": "Salto acrobático #31 - Pillbox Hill",
+      "it": "Salto acrobatico #31 - Pillbox Hill",
+      "de": "Stuntsprung #31 - Pillbox Hill"
     }
   },
   {
@@ -1785,7 +2121,10 @@
     },
     "title": {
       "en": "Stunt Jump #32 - Little Seoul",
-      "fr": "Saut cascade #32 - Little Seoul"
+      "fr": "Saut cascade #32 - Little Seoul",
+      "es": "Salto acrobático #32 - Little Seoul",
+      "it": "Salto acrobatico #32 - Little Seoul",
+      "de": "Stuntsprung #32 - Little Seoul"
     }
   },
   {
@@ -1798,7 +2137,10 @@
     },
     "title": {
       "en": "Stunt Jump #33 - Little Seoul/Vespucci Blvd",
-      "fr": "Saut cascade #33 - Little Seoul/Vespucci Blvd"
+      "fr": "Saut cascade #33 - Little Seoul/Vespucci Blvd",
+      "es": "Salto acrobático #33 - Little Seoul/Vespucci Blvd",
+      "it": "Salto acrobatico #33 - Little Seoul/Vespucci Blvd",
+      "de": "Stuntsprung #33 - Little Seoul/Vespucci Blvd"
     }
   },
   {
@@ -1811,7 +2153,10 @@
     },
     "title": {
       "en": "Stunt Jump #34 - Del Perro/Equality Way",
-      "fr": "Saut cascade #34 - Del Perro/Equality Way"
+      "fr": "Saut cascade #34 - Del Perro/Equality Way",
+      "es": "Salto acrobático #34 - Del Perro/Equality Way",
+      "it": "Salto acrobatico #34 - Del Perro/Equality Way",
+      "de": "Stuntsprung #34 - Del Perro/Equality Way"
     }
   },
   {
@@ -1824,7 +2169,10 @@
     },
     "title": {
       "en": "Stunt Jump #35 - Pacific Bluffs",
-      "fr": "Saut cascade #35 - Pacific Bluffs"
+      "fr": "Saut cascade #35 - Pacific Bluffs",
+      "es": "Salto acrobático #35 - Pacific Bluffs",
+      "it": "Salto acrobatico #35 - Pacific Bluffs",
+      "de": "Stuntsprung #35 - Pacific Bluffs"
     }
   },
   {
@@ -1837,7 +2185,10 @@
     },
     "title": {
       "en": "Stunt Jump #36 - Burton",
-      "fr": "Saut cascade #36 - Burton"
+      "fr": "Saut cascade #36 - Burton",
+      "es": "Salto acrobático #36 - Burton",
+      "it": "Salto acrobatico #36 - Burton",
+      "de": "Stuntsprung #36 - Burton"
     }
   },
   {
@@ -1850,7 +2201,10 @@
     },
     "title": {
       "en": "Stunt Jump #37 - Rockford Hills",
-      "fr": "Saut cascade #37 - Rockford Hills"
+      "fr": "Saut cascade #37 - Rockford Hills",
+      "es": "Salto acrobático #37 - Rockford Hills",
+      "it": "Salto acrobatico #37 - Rockford Hills",
+      "de": "Stuntsprung #37 - Rockford Hills"
     }
   },
   {
@@ -1863,7 +2217,10 @@
     },
     "title": {
       "en": "Stunt Jump #38 - GWC Golfing Society",
-      "fr": "Saut cascade #38 - GWC Golfing Society"
+      "fr": "Saut cascade #38 - GWC Golfing Society",
+      "es": "Salto acrobático #38 - GWC Golfing Society",
+      "it": "Salto acrobatico #38 - GWC Golfing Society",
+      "de": "Stuntsprung #38 - GWC Golfing Society"
     }
   },
   {
@@ -1876,7 +2233,10 @@
     },
     "title": {
       "en": "Stunt Jump #39 - Richman",
-      "fr": "Saut cascade #39 - Richman"
+      "fr": "Saut cascade #39 - Richman",
+      "es": "Salto acrobático #39 - Richman",
+      "it": "Salto acrobatico #39 - Richman",
+      "de": "Stuntsprung #39 - Richman"
     }
   },
   {
@@ -1889,7 +2249,10 @@
     },
     "title": {
       "en": "Stunt Jump #40 - Vinewood Hills",
-      "fr": "Saut cascade #40 - Vinewood Hills"
+      "fr": "Saut cascade #40 - Vinewood Hills",
+      "es": "Salto acrobático #40 - Vinewood Hills",
+      "it": "Salto acrobatico #40 - Vinewood Hills",
+      "de": "Stuntsprung #40 - Vinewood Hills"
     }
   },
   {
@@ -1902,7 +2265,10 @@
     },
     "title": {
       "en": "Stunt Jump #41 - Raton Canyon",
-      "fr": "Saut cascade #41 - Raton Canyon"
+      "fr": "Saut cascade #41 - Raton Canyon",
+      "es": "Salto acrobático #41 - Raton Canyon",
+      "it": "Salto acrobatico #41 - Raton Canyon",
+      "de": "Stuntsprung #41 - Raton Canyon"
     }
   },
   {
@@ -1915,7 +2281,10 @@
     },
     "title": {
       "en": "Stunt Jump #42 - Alamo Sea",
-      "fr": "Saut cascade #42 - Alamo Sea"
+      "fr": "Saut cascade #42 - Alamo Sea",
+      "es": "Salto acrobático #42 - Alamo Sea",
+      "it": "Salto acrobatico #42 - Alamo Sea",
+      "de": "Stuntsprung #42 - Alamo Sea"
     }
   },
   {
@@ -1928,7 +2297,10 @@
     },
     "title": {
       "en": "Stunt Jump #43 - Paleto Bay/Procopio Promenade",
-      "fr": "Saut cascade #43 - Paleto Bay/Procopio Promenade"
+      "fr": "Saut cascade #43 - Paleto Bay/Procopio Promenade",
+      "es": "Salto acrobático #43 - Paleto Bay/Procopio Promenade",
+      "it": "Salto acrobatico #43 - Paleto Bay/Procopio Promenade",
+      "de": "Stuntsprung #43 - Paleto Bay/Procopio Promenade"
     }
   },
   {
@@ -1941,7 +2313,10 @@
     },
     "title": {
       "en": "Stunt Jump #44 - Paleto Bay",
-      "fr": "Saut cascade #44 - Paleto Bay"
+      "fr": "Saut cascade #44 - Paleto Bay",
+      "es": "Salto acrobático #44 - Paleto Bay",
+      "it": "Salto acrobatico #44 - Paleto Bay",
+      "de": "Stuntsprung #44 - Paleto Bay"
     }
   },
   {
@@ -1954,7 +2329,10 @@
     },
     "title": {
       "en": "Stunt Jump #45 - Mount Gordo",
-      "fr": "Saut cascade #45 - Mount Gordo"
+      "fr": "Saut cascade #45 - Mount Gordo",
+      "es": "Salto acrobático #45 - Mount Gordo",
+      "it": "Salto acrobatico #45 - Mount Gordo",
+      "de": "Stuntsprung #45 - Mount Gordo"
     }
   },
   {
@@ -1967,7 +2345,10 @@
     },
     "title": {
       "en": "Stunt Jump #46 - Sandy Shores",
-      "fr": "Saut cascade #46 - Sandy Shores"
+      "fr": "Saut cascade #46 - Sandy Shores",
+      "es": "Salto acrobático #46 - Sandy Shores",
+      "it": "Salto acrobatico #46 - Sandy Shores",
+      "de": "Stuntsprung #46 - Sandy Shores"
     }
   },
   {
@@ -1980,7 +2361,10 @@
     },
     "title": {
       "en": "Stunt Jump #47 - Grand Senora Desert",
-      "fr": "Saut cascade #47 - Grand Senora Desert"
+      "fr": "Saut cascade #47 - Grand Senora Desert",
+      "es": "Salto acrobático #47 - Grand Senora Desert",
+      "it": "Salto acrobatico #47 - Grand Senora Desert",
+      "de": "Stuntsprung #47 - Grand Senora Desert"
     }
   },
   {
@@ -1993,7 +2377,10 @@
     },
     "title": {
       "en": "Stunt Jump #48 - Grand Senora Desert",
-      "fr": "Saut cascade #48 - Grand Senora Desert"
+      "fr": "Saut cascade #48 - Grand Senora Desert",
+      "es": "Salto acrobático #48 - Grand Senora Desert",
+      "it": "Salto acrobatico #48 - Grand Senora Desert",
+      "de": "Stuntsprung #48 - Grand Senora Desert"
     }
   },
   {
@@ -2006,7 +2393,10 @@
     },
     "title": {
       "en": "Stunt Jump #49 - Grand Senora Desert",
-      "fr": "Saut cascade #49 - Grand Senora Desert"
+      "fr": "Saut cascade #49 - Grand Senora Desert",
+      "es": "Salto acrobático #49 - Grand Senora Desert",
+      "it": "Salto acrobatico #49 - Grand Senora Desert",
+      "de": "Stuntsprung #49 - Grand Senora Desert"
     }
   },
   {
@@ -2019,7 +2409,10 @@
     },
     "title": {
       "en": "Stunt Jump #50 - Ron Alternates Wind Farm",
-      "fr": "Saut cascade #50 - Ron Alternates Wind Farm"
+      "fr": "Saut cascade #50 - Ron Alternates Wind Farm",
+      "es": "Salto acrobático #50 - Ron Alternates Wind Farm",
+      "it": "Salto acrobatico #50 - Ron Alternates Wind Farm",
+      "de": "Stuntsprung #50 - Ron Alternates Wind Farm"
     }
   },
   {
@@ -2032,7 +2425,10 @@
     },
     "title": {
       "en": "Letter Scrap #1 - Paleto Bay",
-      "fr": "Fragment de lettre #1 - Paleto Bay"
+      "fr": "Fragment de lettre #1 - Paleto Bay",
+      "es": "Fragmento de carta #1 - Paleto Bay",
+      "it": "Frammento di lettera #1 - Paleto Bay",
+      "de": "Brieffetzen #1 - Paleto Bay"
     },
     "note": {
       "en": "By the side of the road is one wooden house which is abandoned and boarded up. Go around the back and through the door, and in this room is the Letter.",
@@ -2049,7 +2445,10 @@
     },
     "title": {
       "en": "Letter Scrap #2 - Paleto Bay",
-      "fr": "Fragment de lettre #2 - Paleto Bay"
+      "fr": "Fragment de lettre #2 - Paleto Bay",
+      "es": "Fragmento de carta #2 - Paleto Bay",
+      "it": "Frammento di lettera #2 - Paleto Bay",
+      "de": "Brieffetzen #2 - Paleto Bay"
     },
     "note": {
       "en": "By the side of the circular road is a small wooden building which seems to be a public toilet. On the left hand side, up a couple of steps and in front of the “Male” toilet sign, is this Letter.",
@@ -2066,7 +2465,10 @@
     },
     "title": {
       "en": "Letter Scrap #3 - Mount Chiliad",
-      "fr": "Fragment de lettre #3 - Mount Chiliad"
+      "fr": "Fragment de lettre #3 - Mount Chiliad",
+      "es": "Fragmento de carta #3 - Mount Chiliad",
+      "it": "Frammento di lettera #3 - Mount Chiliad",
+      "de": "Brieffetzen #3 - Mount Chiliad"
     },
     "note": {
       "en": "In the campsite, which seems to be the home of an anti-capitalism protest, there will be a white tent with a “Social Justice For All” banner hanging outside of it along with some multi-coloured crates. In the entrance of this tent is the Letter.",
@@ -2083,7 +2485,10 @@
     },
     "title": {
       "en": "Letter Scrap #4 - Mount Chiliad",
-      "fr": "Fragment de lettre #4 - Mount Chiliad"
+      "fr": "Fragment de lettre #4 - Mount Chiliad",
+      "es": "Fragmento de carta #4 - Mount Chiliad",
+      "it": "Frammento di lettera #4 - Mount Chiliad",
+      "de": "Brieffetzen #4 - Mount Chiliad"
     },
     "note": {
       "en": "You will come across a farming area where crops are growing inside white canvas “tunnels”. Looking down the hill, the second tunnel on the left will contain the Letter, about halfway down.",
@@ -2100,7 +2505,10 @@
     },
     "title": {
       "en": "Letter Scrap #5 - El Gordo Lighthouse",
-      "fr": "Fragment de lettre #5 - El Gordo Lighthouse"
+      "fr": "Fragment de lettre #5 - El Gordo Lighthouse",
+      "es": "Fragmento de carta #5 - El Gordo Lighthouse",
+      "it": "Frammento di lettera #5 - El Gordo Lighthouse",
+      "de": "Brieffetzen #5 - El Gordo Lighthouse"
     },
     "note": {
       "en": "Just off the shore is a lighthouse. Swim over across to it, and on the left-hand side of the circular base is a small ledge and some stairs. Climb up these and the Letter will be on the floor in front of you behind the lighthouse.",
@@ -2117,7 +2525,10 @@
     },
     "title": {
       "en": "Letter Scrap #6 - Galilee",
-      "fr": "Fragment de lettre #6 - Galilee"
+      "fr": "Fragment de lettre #6 - Galilee",
+      "es": "Fragmento de carta #6 - Galilee",
+      "it": "Frammento di lettera #6 - Galilee",
+      "de": "Brieffetzen #6 - Galilee"
     },
     "note": {
       "en": "There will be a few houses overlooking a jetty and a lake. In front of the one with the red door and a metal boat frame outside will be this Letter.",
@@ -2134,7 +2545,10 @@
     },
     "title": {
       "en": "Letter Scrap #7 - Sandy Shores",
-      "fr": "Fragment de lettre #7 - Sandy Shores"
+      "fr": "Fragment de lettre #7 - Sandy Shores",
+      "es": "Fragmento de carta #7 - Sandy Shores",
+      "it": "Frammento di lettera #7 - Sandy Shores",
+      "de": "Brieffetzen #7 - Sandy Shores"
     },
     "note": {
       "en": "In front of the derelict motel will be an abandoned area that used to be used for sporting activities. In the small dug-out section that used to be a swimming pool will be this Letter.",
@@ -2151,7 +2565,10 @@
     },
     "title": {
       "en": "Letter Scrap #8 - Grand Senora Desert",
-      "fr": "Fragment de lettre #8 - Grand Senora Desert"
+      "fr": "Fragment de lettre #8 - Grand Senora Desert",
+      "es": "Fragmento de carta #8 - Grand Senora Desert",
+      "it": "Frammento di lettera #8 - Grand Senora Desert",
+      "de": "Brieffetzen #8 - Grand Senora Desert"
     },
     "note": {
       "en": "On the top of the three-tiered rock next to the runway is this Letter. You don’t actually need a helicopter to get up there, you can just climb up the rock with",
@@ -2168,7 +2585,10 @@
     },
     "title": {
       "en": "Letter Scrap #9 - Grand Senora Desert",
-      "fr": "Fragment de lettre #9 - Grand Senora Desert"
+      "fr": "Fragment de lettre #9 - Grand Senora Desert",
+      "es": "Fragmento de carta #9 - Grand Senora Desert",
+      "it": "Frammento di lettera #9 - Grand Senora Desert",
+      "de": "Brieffetzen #9 - Grand Senora Desert"
     },
     "note": {
       "en": "On the construction site is the shell of a circular gas structure. In the very centre on some grating with construction poles sticking out of it is this Letter.",
@@ -2185,7 +2605,10 @@
     },
     "title": {
       "en": "Letter Scrap #10 - Ron Alternates Wind Farm",
-      "fr": "Fragment de lettre #10 - Ron Alternates Wind Farm"
+      "fr": "Fragment de lettre #10 - Ron Alternates Wind Farm",
+      "es": "Fragmento de carta #10 - Ron Alternates Wind Farm",
+      "it": "Frammento di lettera #10 - Ron Alternates Wind Farm",
+      "de": "Brieffetzen #10 - Ron Alternates Wind Farm"
     },
     "note": {
       "en": "You will have to either drive a boat or swim inside the cavern. In the back left is a small sandy section, on which this Letter lies.",
@@ -2202,7 +2625,10 @@
     },
     "title": {
       "en": "Letter Scrap #11 - Pacific Ocean",
-      "fr": "Fragment de lettre #11 - Pacific Ocean"
+      "fr": "Fragment de lettre #11 - Pacific Ocean",
+      "es": "Fragmento de carta #11 - Pacific Ocean",
+      "it": "Frammento di lettera #11 - Pacific Ocean",
+      "de": "Brieffetzen #11 - Pacific Ocean"
     },
     "note": {
       "en": "This is located on the first island south of No.10. Swim or drive to the island and the Letter will be amongst the rocks on the northern section of the island.",
@@ -2219,7 +2645,10 @@
     },
     "title": {
       "en": "Letter Scrap #12 - Vinewood Hills",
-      "fr": "Fragment de lettre #12 - Vinewood Hills"
+      "fr": "Fragment de lettre #12 - Vinewood Hills",
+      "es": "Fragmento de carta #12 - Vinewood Hills",
+      "it": "Frammento di lettera #12 - Vinewood Hills",
+      "de": "Brieffetzen #12 - Vinewood Hills"
     },
     "note": {
       "en": "On top of the “I” on the “VINEWOOD” sign. Climb up the ladder on the side of it to get up there.",
@@ -2236,7 +2665,10 @@
     },
     "title": {
       "en": "Letter Scrap #13 - Vinewood Racetrack",
-      "fr": "Fragment de lettre #13 - Vinewood Racetrack"
+      "fr": "Fragment de lettre #13 - Vinewood Racetrack",
+      "es": "Fragmento de carta #13 - Vinewood Racetrack",
+      "it": "Frammento di lettera #13 - Vinewood Racetrack",
+      "de": "Brieffetzen #13 - Vinewood Racetrack"
     },
     "note": {
       "en": "This one is in the stand facing the racetrack. Go up the stairs in front of the “Information” entrance, and the Letter will be on the fifth row of seats up.",
@@ -2253,7 +2685,10 @@
     },
     "title": {
       "en": "Letter Scrap #14 - East Vinewood",
-      "fr": "Fragment de lettre #14 - East Vinewood"
+      "fr": "Fragment de lettre #14 - East Vinewood",
+      "es": "Fragmento de carta #14 - East Vinewood",
+      "it": "Frammento di lettera #14 - East Vinewood",
+      "de": "Brieffetzen #14 - East Vinewood"
     },
     "note": {
       "en": "Underneath the bridge, this Letter is on the middle of the three platforms jutting out over the river.",
@@ -2270,7 +2705,10 @@
     },
     "title": {
       "en": "Letter Scrap #15 - Hawick",
-      "fr": "Fragment de lettre #15 - Hawick"
+      "fr": "Fragment de lettre #15 - Hawick",
+      "es": "Fragmento de carta #15 - Hawick",
+      "it": "Frammento di lettera #15 - Hawick",
+      "de": "Brieffetzen #15 - Hawick"
     },
     "note": {
       "en": "This one is inside the skate park, on the floor in the middle of the ramp.",
@@ -2287,7 +2725,10 @@
     },
     "title": {
       "en": "Letter Scrap #16 - Alta",
-      "fr": "Fragment de lettre #16 - Alta"
+      "fr": "Fragment de lettre #16 - Alta",
+      "es": "Fragmento de carta #16 - Alta",
+      "it": "Frammento di lettera #16 - Alta",
+      "de": "Brieffetzen #16 - Alta"
     },
     "note": {
       "en": "This Letter is in a hole on the construction site. You should easily be able to spot it by the number of red bollards around the hole.",
@@ -2304,7 +2745,10 @@
     },
     "title": {
       "en": "Letter Scrap #17 - Pillbox Hill",
-      "fr": "Fragment de lettre #17 - Pillbox Hill"
+      "fr": "Fragment de lettre #17 - Pillbox Hill",
+      "es": "Fragmento de carta #17 - Pillbox Hill",
+      "it": "Frammento di lettera #17 - Pillbox Hill",
+      "de": "Brieffetzen #17 - Pillbox Hill"
     },
     "note": {
       "en": "This is on top of the huge yellow crane in Los Santos. You can access the ladder underground in the construction site, then you’ll have to climb up all the way to the top which will take several minutes. At the very top is the Letter.",
@@ -2321,7 +2765,10 @@
     },
     "title": {
       "en": "Letter Scrap #18 - La Mesa",
-      "fr": "Fragment de lettre #18 - La Mesa"
+      "fr": "Fragment de lettre #18 - La Mesa",
+      "es": "Fragmento de carta #18 - La Mesa",
+      "it": "Frammento di lettera #18 - La Mesa",
+      "de": "Brieffetzen #18 - La Mesa"
     },
     "note": {
       "en": "Either side of the bridge is an archway. Underneath the arch on the south side of the bridge is this letter.",
@@ -2338,7 +2785,10 @@
     },
     "title": {
       "en": "Letter Scrap #19 - Pacific Ocean",
-      "fr": "Fragment de lettre #19 - Pacific Ocean"
+      "fr": "Fragment de lettre #19 - Pacific Ocean",
+      "es": "Fragmento de carta #19 - Pacific Ocean",
+      "it": "Frammento di lettera #19 - Pacific Ocean",
+      "de": "Brieffetzen #19 - Pacific Ocean"
     },
     "note": {
       "en": "On the east side of the island is a beach. At the far end of it is this Letter.",
@@ -2355,7 +2805,10 @@
     },
     "title": {
       "en": "Letter Scrap #20 - El Burro Heights",
-      "fr": "Fragment de lettre #20 - El Burro Heights"
+      "fr": "Fragment de lettre #20 - El Burro Heights",
+      "es": "Fragmento de carta #20 - El Burro Heights",
+      "it": "Frammento di lettera #20 - El Burro Heights",
+      "de": "Brieffetzen #20 - El Burro Heights"
     },
     "note": {
       "en": "Inside the middle building in this area is a rusty sheltered area with a green roof and a skip next to it. In this small area is the Letter.",
@@ -2372,7 +2825,10 @@
     },
     "title": {
       "en": "Letter Scrap #21 - El Burro Heights",
-      "fr": "Fragment de lettre #21 - El Burro Heights"
+      "fr": "Fragment de lettre #21 - El Burro Heights",
+      "es": "Fragmento de carta #21 - El Burro Heights",
+      "it": "Frammento di lettera #21 - El Burro Heights",
+      "de": "Brieffetzen #21 - El Burro Heights"
     },
     "note": {
       "en": "This Letter is located on a platform by the side of the train tunnel. To get in there, you will have to drive through the entrance to the tunnel which is further south.",
@@ -2389,7 +2845,10 @@
     },
     "title": {
       "en": "Letter Scrap #22 - Terminal / Buccaneer Way",
-      "fr": "Fragment de lettre #22 - Terminal / Buccaneer Way"
+      "fr": "Fragment de lettre #22 - Terminal / Buccaneer Way",
+      "es": "Fragmento de carta #22 - Terminal / Buccaneer Way",
+      "it": "Frammento di lettera #22 - Terminal / Buccaneer Way",
+      "de": "Brieffetzen #22 - Terminal / Buccaneer Way"
     },
     "note": {
       "en": "This one involves climbing quite a few containers in the shipment area. First climb up the yellow “Post Op” container, and then the grey “Jetsam” one. Jump over the small gap to the next container, then climb up the one either side to jump across to the blue on which the Letter sits on top of.",
@@ -2406,7 +2865,10 @@
     },
     "title": {
       "en": "Letter Scrap #23 - Elysian Island",
-      "fr": "Fragment de lettre #23 - Elysian Island"
+      "fr": "Fragment de lettre #23 - Elysian Island",
+      "es": "Fragmento de carta #23 - Elysian Island",
+      "it": "Frammento di lettera #23 - Elysian Island",
+      "de": "Brieffetzen #23 - Elysian Island"
     },
     "note": {
       "en": "This is located on the western-most boat on dry land in this area. Cross the small yellow bridge to get on the boat, then take the steps up to the captain’s bridge and the Letter is just behind the enclosed section.",
@@ -2423,7 +2885,10 @@
     },
     "title": {
       "en": "Letter Scrap #24 - Davis / Grove St",
-      "fr": "Fragment de lettre #24 - Davis / Grove St"
+      "fr": "Fragment de lettre #24 - Davis / Grove St",
+      "es": "Fragmento de carta #24 - Davis / Grove St",
+      "it": "Frammento di lettera #24 - Davis / Grove St",
+      "de": "Brieffetzen #24 - Davis / Grove St"
     },
     "note": {
       "en": "This is located behind one of the houses in Grove Street, on the doorstep of the back door. The particular house in question should be familiar to anyone who played San Andreas.",
@@ -2440,7 +2905,10 @@
     },
     "title": {
       "en": "Letter Scrap #25 - Davis / Davis Ave",
-      "fr": "Fragment de lettre #25 - Davis / Davis Ave"
+      "fr": "Fragment de lettre #25 - Davis / Davis Ave",
+      "es": "Fragmento de carta #25 - Davis / Davis Ave",
+      "it": "Frammento di lettera #25 - Davis / Davis Ave",
+      "de": "Brieffetzen #25 - Davis / Davis Ave"
     },
     "note": {
       "en": "This is located in a green container filled with rubbish outside the blue “Mega Mall” building.",
@@ -2457,7 +2925,10 @@
     },
     "title": {
       "en": "Letter Scrap #26 - Los Santos International Airport",
-      "fr": "Fragment de lettre #26 - Los Santos International Airport"
+      "fr": "Fragment de lettre #26 - Los Santos International Airport",
+      "es": "Fragmento de carta #26 - Los Santos International Airport",
+      "it": "Frammento di lettera #26 - Los Santos International Airport",
+      "de": "Brieffetzen #26 - Los Santos International Airport"
     },
     "note": {
       "en": "[Helicopter Required] You will need a helicopter to fly onto the circular structure inside the airport. In front of a door in the circular blue column is the Letter.",
@@ -2474,7 +2945,10 @@
     },
     "title": {
       "en": "Letter Scrap #27 - Los Santos International Airport",
-      "fr": "Fragment de lettre #27 - Los Santos International Airport"
+      "fr": "Fragment de lettre #27 - Los Santos International Airport",
+      "es": "Fragmento de carta #27 - Los Santos International Airport",
+      "it": "Frammento di lettera #27 - Los Santos International Airport",
+      "de": "Brieffetzen #27 - Los Santos International Airport"
     },
     "note": {
       "en": "To the right of the steps leading down into the airport with the red “LSIA” sign above them. This Letter will be on the floor in front of 4 blue seats built into the wall.",
@@ -2491,7 +2965,10 @@
     },
     "title": {
       "en": "Letter Scrap #28 - San Andreas",
-      "fr": "Fragment de lettre #28 - San Andreas"
+      "fr": "Fragment de lettre #28 - San Andreas",
+      "es": "Fragmento de carta #28 - San Andreas",
+      "it": "Frammento di lettera #28 - San Andreas",
+      "de": "Brieffetzen #28 - San Andreas"
     },
     "note": {
       "en": "On the beach there is a concrete skate park. This Letter is located in one of the holes in the park.",
@@ -2508,7 +2985,10 @@
     },
     "title": {
       "en": "Letter Scrap #29 - La Puerta",
-      "fr": "Fragment de lettre #29 - La Puerta"
+      "fr": "Fragment de lettre #29 - La Puerta",
+      "es": "Fragmento de carta #29 - La Puerta",
+      "it": "Frammento di lettera #29 - La Puerta",
+      "de": "Brieffetzen #29 - La Puerta"
     },
     "note": {
       "en": "Underneath the bridge is a tunnel. Jump into the water and swim under the bridge. The Letter is on the platform in the centre of the tunnel.",
@@ -2525,7 +3005,10 @@
     },
     "title": {
       "en": "Letter Scrap #30 - La Puerta / Palomino Ave",
-      "fr": "Fragment de lettre #30 - La Puerta / Palomino Ave"
+      "fr": "Fragment de lettre #30 - La Puerta / Palomino Ave",
+      "es": "Fragmento de carta #30 - La Puerta / Palomino Ave",
+      "it": "Frammento di lettera #30 - La Puerta / Palomino Ave",
+      "de": "Brieffetzen #30 - La Puerta / Palomino Ave"
     },
     "note": {
       "en": "At the end of the pier is a large blue/grey building. Climb up the stairs on the left-hand side of the grey section and cross the bridge to the right of the toilets. The Letter will be next to a couple of blue umbrellas on the floor.",
@@ -2542,7 +3025,10 @@
     },
     "title": {
       "en": "Letter Scrap #31 - Richards Majestic",
-      "fr": "Fragment de lettre #31 - Richards Majestic"
+      "fr": "Fragment de lettre #31 - Richards Majestic",
+      "es": "Fragmento de carta #31 - Richards Majestic",
+      "it": "Frammento di lettera #31 - Richards Majestic",
+      "de": "Brieffetzen #31 - Richards Majestic"
     },
     "note": {
       "en": "Climb over the fence in front of the “Vinewood Zombie” sign and go up the stairs. Climb up onto the air condition unit and then over the railing to find this Letter between two more units.",
@@ -2559,7 +3045,10 @@
     },
     "title": {
       "en": "Letter Scrap #32 - Pacific Bluffs",
-      "fr": "Fragment de lettre #32 - Pacific Bluffs"
+      "fr": "Fragment de lettre #32 - Pacific Bluffs",
+      "es": "Fragmento de carta #32 - Pacific Bluffs",
+      "it": "Frammento di lettera #32 - Pacific Bluffs",
+      "de": "Brieffetzen #32 - Pacific Bluffs"
     },
     "note": {
       "en": "This is located in front of the sarcophagus with two rose wreaths laid against it, on the small island in the middle of the pond.",
@@ -2576,7 +3065,10 @@
     },
     "title": {
       "en": "Letter Scrap #33 - Pacific Bluffs",
-      "fr": "Fragment de lettre #33 - Pacific Bluffs"
+      "fr": "Fragment de lettre #33 - Pacific Bluffs",
+      "es": "Fragmento de carta #33 - Pacific Bluffs",
+      "it": "Frammento di lettera #33 - Pacific Bluffs",
+      "de": "Brieffetzen #33 - Pacific Bluffs"
     },
     "note": {
       "en": "This is really easy to spot, located on the bar next to the swimming pool.",
@@ -2593,7 +3085,10 @@
     },
     "title": {
       "en": "Letter Scrap #34 - Pacific Bluffs",
-      "fr": "Fragment de lettre #34 - Pacific Bluffs"
+      "fr": "Fragment de lettre #34 - Pacific Bluffs",
+      "es": "Fragmento de carta #34 - Pacific Bluffs",
+      "it": "Frammento di lettera #34 - Pacific Bluffs",
+      "de": "Brieffetzen #34 - Pacific Bluffs"
     },
     "note": {
       "en": "This is located in the maze. From the entrance, follow the path to the first fork. Then take a right, then the first left, then left again twice to come across this Letter.",
@@ -2610,7 +3105,10 @@
     },
     "title": {
       "en": "Letter Scrap #35 - West Vinewood",
-      "fr": "Fragment de lettre #35 - West Vinewood"
+      "fr": "Fragment de lettre #35 - West Vinewood",
+      "es": "Fragmento de carta #35 - West Vinewood",
+      "it": "Frammento di lettera #35 - West Vinewood",
+      "de": "Brieffetzen #35 - West Vinewood"
     },
     "note": {
       "en": "In front of some doors is a semicircular cobblestoned area with a sort of table next to it. On the table is this Letter.",
@@ -2627,7 +3125,10 @@
     },
     "title": {
       "en": "Letter Scrap #36 - Pacific Bluffs",
-      "fr": "Fragment de lettre #36 - Pacific Bluffs"
+      "fr": "Fragment de lettre #36 - Pacific Bluffs",
+      "es": "Fragmento de carta #36 - Pacific Bluffs",
+      "it": "Frammento di lettera #36 - Pacific Bluffs",
+      "de": "Brieffetzen #36 - Pacific Bluffs"
     },
     "note": {
       "en": "This one is inside the room next to the swimming pool, in front of a table tennis table.",
@@ -2644,7 +3145,10 @@
     },
     "title": {
       "en": "Letter Scrap #37 - Tongva Valley",
-      "fr": "Fragment de lettre #37 - Tongva Valley"
+      "fr": "Fragment de lettre #37 - Tongva Valley",
+      "es": "Fragmento de carta #37 - Tongva Valley",
+      "it": "Frammento di lettera #37 - Tongva Valley",
+      "de": "Brieffetzen #37 - Tongva Valley"
     },
     "note": {
       "en": "By the side of the road is a tourist information board. The Letter is right in front of it.",
@@ -2661,7 +3165,10 @@
     },
     "title": {
       "en": "Letter Scrap #38 - Vinewood Hills",
-      "fr": "Fragment de lettre #38 - Vinewood Hills"
+      "fr": "Fragment de lettre #38 - Vinewood Hills",
+      "es": "Fragmento de carta #38 - Vinewood Hills",
+      "it": "Frammento di lettera #38 - Vinewood Hills",
+      "de": "Brieffetzen #38 - Vinewood Hills"
     },
     "note": {
       "en": "This is located just to the right of the orange “Big” juice stand next to a set of four tables and benches.",
@@ -2678,7 +3185,10 @@
     },
     "title": {
       "en": "Letter Scrap #39 - Great Chaparaal",
-      "fr": "Fragment de lettre #39 - Great Chaparaal"
+      "fr": "Fragment de lettre #39 - Great Chaparaal",
+      "es": "Fragmento de carta #39 - Great Chaparaal",
+      "it": "Frammento di lettera #39 - Great Chaparaal",
+      "de": "Brieffetzen #39 - Great Chaparaal"
     },
     "note": {
       "en": "By the side of the road is an old mine entrance. Just to the left of it is the Letter Scrap.",
@@ -2695,7 +3205,10 @@
     },
     "title": {
       "en": "Letter Scrap #40 - Grand Senora Desert",
-      "fr": "Fragment de lettre #40 - Grand Senora Desert"
+      "fr": "Fragment de lettre #40 - Grand Senora Desert",
+      "es": "Fragmento de carta #40 - Grand Senora Desert",
+      "it": "Frammento di lettera #40 - Grand Senora Desert",
+      "de": "Brieffetzen #40 - Grand Senora Desert"
     },
     "note": {
       "en": "Between the huge barn and the abandoned house is an old wooden billboard. The Letter is behind it.",
@@ -2712,7 +3225,10 @@
     },
     "title": {
       "en": "Letter Scrap #41 - Grand Senora Desert",
-      "fr": "Fragment de lettre #41 - Grand Senora Desert"
+      "fr": "Fragment de lettre #41 - Grand Senora Desert",
+      "es": "Fragmento de carta #41 - Grand Senora Desert",
+      "it": "Frammento di lettera #41 - Grand Senora Desert",
+      "de": "Brieffetzen #41 - Grand Senora Desert"
     },
     "note": {
       "en": "This is on top of the largest building in the quarry. To get up there, follow the series of ladders which begins on ground level next to the building on one of the support beams.",
@@ -2729,7 +3245,10 @@
     },
     "title": {
       "en": "Letter Scrap #42 - Great Chaparaal",
-      "fr": "Fragment de lettre #42 - Great Chaparaal"
+      "fr": "Fragment de lettre #42 - Great Chaparaal",
+      "es": "Fragmento de carta #42 - Great Chaparaal",
+      "it": "Frammento di lettera #42 - Great Chaparaal",
+      "de": "Brieffetzen #42 - Great Chaparaal"
     },
     "note": {
       "en": "In front of the church is a small graveyard. In the graveyard in front of three white crosses is the Letter.",
@@ -2746,7 +3265,10 @@
     },
     "title": {
       "en": "Letter Scrap #43 - Great Chaparaal",
-      "fr": "Fragment de lettre #43 - Great Chaparaal"
+      "fr": "Fragment de lettre #43 - Great Chaparaal",
+      "es": "Fragmento de carta #43 - Great Chaparaal",
+      "it": "Frammento di lettera #43 - Great Chaparaal",
+      "de": "Brieffetzen #43 - Great Chaparaal"
     },
     "note": {
       "en": "Underneath the bridge is a rocky path, and this Letter Scrap is right in the middle of it.",
@@ -2763,7 +3285,10 @@
     },
     "title": {
       "en": "Letter Scrap #44 - Zancudo River / Route 68",
-      "fr": "Fragment de lettre #44 - Zancudo River / Route 68"
+      "fr": "Fragment de lettre #44 - Zancudo River / Route 68",
+      "es": "Fragmento de carta #44 - Zancudo River / Route 68",
+      "it": "Frammento di lettera #44 - Zancudo River / Route 68",
+      "de": "Brieffetzen #44 - Zancudo River / Route 68"
     },
     "note": {
       "en": "If the bridge is ahead of you in the distance, this Letter will be just in front of the stream amongst some reeds to the right.",
@@ -2780,7 +3305,10 @@
     },
     "title": {
       "en": "Letter Scrap #45 - Raton Canyon",
-      "fr": "Fragment de lettre #45 - Raton Canyon"
+      "fr": "Fragment de lettre #45 - Raton Canyon",
+      "es": "Fragmento de carta #45 - Raton Canyon",
+      "it": "Frammento di lettera #45 - Raton Canyon",
+      "de": "Brieffetzen #45 - Raton Canyon"
     },
     "note": {
       "en": "[Helicopter Required] This Letter is on top of a small rock that can only be accessed by a helicopter. Once you’re up there, it’s very easy to spot.",
@@ -2797,7 +3325,10 @@
     },
     "title": {
       "en": "Letter Scrap #46 - Mount Chiliad",
-      "fr": "Fragment de lettre #46 - Mount Chiliad"
+      "fr": "Fragment de lettre #46 - Mount Chiliad",
+      "es": "Fragmento de carta #46 - Mount Chiliad",
+      "it": "Frammento di lettera #46 - Mount Chiliad",
+      "de": "Brieffetzen #46 - Mount Chiliad"
     },
     "note": {
       "en": "On the small hill sticking out into the sea, this one is located down next to the sea.",
@@ -2814,7 +3345,10 @@
     },
     "title": {
       "en": "Letter Scrap #47 - Chiliad Mountain State Wilderness",
-      "fr": "Fragment de lettre #47 - Chiliad Mountain State Wilderness"
+      "fr": "Fragment de lettre #47 - Chiliad Mountain State Wilderness",
+      "es": "Fragmento de carta #47 - Chiliad Mountain State Wilderness",
+      "it": "Frammento di lettera #47 - Chiliad Mountain State Wilderness",
+      "de": "Brieffetzen #47 - Chiliad Mountain State Wilderness"
     },
     "note": {
       "en": "This is located in the Altruist’s camp. Once inside, climb up the stairs cut into the side of the hill and go up the trail to the hut. Climb up the two ladders and this will be on a ledge next to you.",
@@ -2831,7 +3365,10 @@
     },
     "title": {
       "en": "Letter Scrap #48 - Paleto Forest",
-      "fr": "Fragment de lettre #48 - Paleto Forest"
+      "fr": "Fragment de lettre #48 - Paleto Forest",
+      "es": "Fragmento de carta #48 - Paleto Forest",
+      "it": "Frammento di lettera #48 - Paleto Forest",
+      "de": "Brieffetzen #48 - Paleto Forest"
     },
     "note": {
       "en": "By the side of the road is a rock and a few trees together. Between two of the tress is this Letter.",
@@ -2848,7 +3385,10 @@
     },
     "title": {
       "en": "Letter Scrap #49 - Mount Chiliad",
-      "fr": "Fragment de lettre #49 - Mount Chiliad"
+      "fr": "Fragment de lettre #49 - Mount Chiliad",
+      "es": "Fragmento de carta #49 - Mount Chiliad",
+      "it": "Frammento di lettera #49 - Mount Chiliad",
+      "de": "Brieffetzen #49 - Mount Chiliad"
     },
     "note": {
       "en": "This Letter is located on the floor of the cable car station at the very summit of Mount Chiliad.",
@@ -2865,7 +3405,10 @@
     },
     "title": {
       "en": "Letter Scrap #50 - Paleto Bay / Proccopio Dr",
-      "fr": "Fragment de lettre #50 - Paleto Bay / Proccopio Dr"
+      "fr": "Fragment de lettre #50 - Paleto Bay / Proccopio Dr",
+      "es": "Fragmento de carta #50 - Paleto Bay / Proccopio Dr",
+      "it": "Frammento di lettera #50 - Paleto Bay / Proccopio Dr",
+      "de": "Brieffetzen #50 - Paleto Bay / Proccopio Dr"
     },
     "note": {
       "en": "This Letter is on the roof of the house. Use the steps to get up there and it’ll be on the floor near a table with an umbrella over it.",
@@ -2882,7 +3425,10 @@
     },
     "title": {
       "en": "Knife Flight #1",
-      "fr": "Vol en rase-mottes #1"
+      "fr": "Vol en rase-mottes #1",
+      "es": "Vuelo rasante #1",
+      "it": "Volo radente #1",
+      "de": "Tiefflug #1"
     }
   },
   {
@@ -2895,7 +3441,10 @@
     },
     "title": {
       "en": "Knife Flight #2",
-      "fr": "Vol en rase-mottes #2"
+      "fr": "Vol en rase-mottes #2",
+      "es": "Vuelo rasante #2",
+      "it": "Volo radente #2",
+      "de": "Tiefflug #2"
     }
   },
   {
@@ -2908,7 +3457,10 @@
     },
     "title": {
       "en": "Knife Flight #3",
-      "fr": "Vol en rase-mottes #3"
+      "fr": "Vol en rase-mottes #3",
+      "es": "Vuelo rasante #3",
+      "it": "Volo radente #3",
+      "de": "Tiefflug #3"
     }
   },
   {
@@ -2921,7 +3473,10 @@
     },
     "title": {
       "en": "Knife Flight #4",
-      "fr": "Vol en rase-mottes #4"
+      "fr": "Vol en rase-mottes #4",
+      "es": "Vuelo rasante #4",
+      "it": "Volo radente #4",
+      "de": "Tiefflug #4"
     }
   },
   {
@@ -2934,7 +3489,10 @@
     },
     "title": {
       "en": "Knife Flight #5",
-      "fr": "Vol en rase-mottes #5"
+      "fr": "Vol en rase-mottes #5",
+      "es": "Vuelo rasante #5",
+      "it": "Volo radente #5",
+      "de": "Tiefflug #5"
     }
   },
   {
@@ -2947,7 +3505,10 @@
     },
     "title": {
       "en": "Knife Flight #6",
-      "fr": "Vol en rase-mottes #6"
+      "fr": "Vol en rase-mottes #6",
+      "es": "Vuelo rasante #6",
+      "it": "Volo radente #6",
+      "de": "Tiefflug #6"
     }
   },
   {
@@ -2960,7 +3521,10 @@
     },
     "title": {
       "en": "Knife Flight #7",
-      "fr": "Vol en rase-mottes #7"
+      "fr": "Vol en rase-mottes #7",
+      "es": "Vuelo rasante #7",
+      "it": "Volo radente #7",
+      "de": "Tiefflug #7"
     }
   },
   {
@@ -2973,7 +3537,10 @@
     },
     "title": {
       "en": "Knife Flight #8",
-      "fr": "Vol en rase-mottes #8"
+      "fr": "Vol en rase-mottes #8",
+      "es": "Vuelo rasante #8",
+      "it": "Volo radente #8",
+      "de": "Tiefflug #8"
     }
   },
   {
@@ -2986,7 +3553,10 @@
     },
     "title": {
       "en": "Knife Flight #9",
-      "fr": "Vol en rase-mottes #9"
+      "fr": "Vol en rase-mottes #9",
+      "es": "Vuelo rasante #9",
+      "it": "Volo radente #9",
+      "de": "Tiefflug #9"
     }
   },
   {
@@ -2999,7 +3569,10 @@
     },
     "title": {
       "en": "Knife Flight #10",
-      "fr": "Vol en rase-mottes #10"
+      "fr": "Vol en rase-mottes #10",
+      "es": "Vuelo rasante #10",
+      "it": "Volo radente #10",
+      "de": "Tiefflug #10"
     }
   },
   {
@@ -3012,7 +3585,10 @@
     },
     "title": {
       "en": "Knife Flight #11",
-      "fr": "Vol en rase-mottes #11"
+      "fr": "Vol en rase-mottes #11",
+      "es": "Vuelo rasante #11",
+      "it": "Volo radente #11",
+      "de": "Tiefflug #11"
     }
   },
   {
@@ -3025,7 +3601,10 @@
     },
     "title": {
       "en": "Knife Flight #12",
-      "fr": "Vol en rase-mottes #12"
+      "fr": "Vol en rase-mottes #12",
+      "es": "Vuelo rasante #12",
+      "it": "Volo radente #12",
+      "de": "Tiefflug #12"
     }
   },
   {
@@ -3038,7 +3617,10 @@
     },
     "title": {
       "en": "Knife Flight #13",
-      "fr": "Vol en rase-mottes #13"
+      "fr": "Vol en rase-mottes #13",
+      "es": "Vuelo rasante #13",
+      "it": "Volo radente #13",
+      "de": "Tiefflug #13"
     }
   },
   {
@@ -3051,7 +3633,10 @@
     },
     "title": {
       "en": "Knife Flight #14",
-      "fr": "Vol en rase-mottes #14"
+      "fr": "Vol en rase-mottes #14",
+      "es": "Vuelo rasante #14",
+      "it": "Volo radente #14",
+      "de": "Tiefflug #14"
     }
   },
   {
@@ -3064,7 +3649,10 @@
     },
     "title": {
       "en": "Knife Flight #15",
-      "fr": "Vol en rase-mottes #15"
+      "fr": "Vol en rase-mottes #15",
+      "es": "Vuelo rasante #15",
+      "it": "Volo radente #15",
+      "de": "Tiefflug #15"
     }
   },
   {
@@ -3077,7 +3665,10 @@
     },
     "title": {
       "en": "Hidden Package #2",
-      "fr": "Magot caché n°2"
+      "fr": "Magot caché n°2",
+      "es": "Paquete oculto #2",
+      "it": "Pacco nascosto #2",
+      "de": "Verstecktes Paket #2"
     }
   },
   {
@@ -3090,7 +3681,10 @@
     },
     "title": {
       "en": "Hidden Package #3",
-      "fr": "Magot caché n°3"
+      "fr": "Magot caché n°3",
+      "es": "Paquete oculto #3",
+      "it": "Pacco nascosto #3",
+      "de": "Verstecktes Paket #3"
     }
   },
   {
@@ -3103,7 +3697,10 @@
     },
     "title": {
       "en": "Hidden Package #4",
-      "fr": "Magot caché n°4"
+      "fr": "Magot caché n°4",
+      "es": "Paquete oculto #4",
+      "it": "Pacco nascosto #4",
+      "de": "Verstecktes Paket #4"
     }
   },
   {
@@ -3116,7 +3713,10 @@
     },
     "title": {
       "en": "Hidden Package #5",
-      "fr": "Magot caché n°5"
+      "fr": "Magot caché n°5",
+      "es": "Paquete oculto #5",
+      "it": "Pacco nascosto #5",
+      "de": "Verstecktes Paket #5"
     }
   },
   {
@@ -3129,7 +3729,10 @@
     },
     "title": {
       "en": "Hidden Package #6",
-      "fr": "Magot caché n°6"
+      "fr": "Magot caché n°6",
+      "es": "Paquete oculto #6",
+      "it": "Pacco nascosto #6",
+      "de": "Verstecktes Paket #6"
     }
   },
   {
@@ -3142,7 +3745,10 @@
     },
     "title": {
       "en": "Hidden Package #7",
-      "fr": "Magot caché n°7"
+      "fr": "Magot caché n°7",
+      "es": "Paquete oculto #7",
+      "it": "Pacco nascosto #7",
+      "de": "Verstecktes Paket #7"
     }
   },
   {
@@ -3155,7 +3761,10 @@
     },
     "title": {
       "en": "Hidden Package #8",
-      "fr": "Magot caché n°8"
+      "fr": "Magot caché n°8",
+      "es": "Paquete oculto #8",
+      "it": "Pacco nascosto #8",
+      "de": "Verstecktes Paket #8"
     }
   },
   {
@@ -3185,7 +3794,10 @@
     },
     "title": {
       "en": "Hidden Package #10",
-      "fr": "Magot caché n°10"
+      "fr": "Magot caché n°10",
+      "es": "Paquete oculto #10",
+      "it": "Pacco nascosto #10",
+      "de": "Verstecktes Paket #10"
     }
   },
   {
@@ -3198,7 +3810,10 @@
     },
     "title": {
       "en": "Hidden Package #11",
-      "fr": "Magot caché n°11"
+      "fr": "Magot caché n°11",
+      "es": "Paquete oculto #11",
+      "it": "Pacco nascosto #11",
+      "de": "Verstecktes Paket #11"
     }
   },
   {
@@ -3211,7 +3826,10 @@
     },
     "title": {
       "en": "Hidden Package #12",
-      "fr": "Magot caché n°12"
+      "fr": "Magot caché n°12",
+      "es": "Paquete oculto #12",
+      "it": "Pacco nascosto #12",
+      "de": "Verstecktes Paket #12"
     }
   },
   {
@@ -3241,7 +3859,10 @@
     },
     "title": {
       "en": "Adder",
-      "fr": "Adder"
+      "fr": "Adder",
+      "es": "Adder",
+      "it": "Adder",
+      "de": "Adder"
     },
     "note": {
       "en": "In-game version of the Bugatti",
@@ -3271,7 +3892,10 @@
     },
     "title": {
       "en": "Declasse Tornado",
-      "fr": "Declasse Tornado"
+      "fr": "Declasse Tornado",
+      "es": "Declasse Tornado",
+      "it": "Declasse Tornado",
+      "de": "Declasse Tornado"
     }
   },
   {
@@ -3284,7 +3908,10 @@
     },
     "title": {
       "en": "Pegassi Vacca",
-      "fr": "Pegassi Vacca"
+      "fr": "Pegassi Vacca",
+      "es": "Pegassi Vacca",
+      "it": "Pegassi Vacca",
+      "de": "Pegassi Vacca"
     }
   },
   {
@@ -3297,7 +3924,10 @@
     },
     "title": {
       "en": "Benefactor Surano",
-      "fr": "Benefactor Surano"
+      "fr": "Benefactor Surano",
+      "es": "Benefactor Surano",
+      "it": "Benefactor Surano",
+      "de": "Benefactor Surano"
     }
   },
   {
@@ -3310,7 +3940,10 @@
     },
     "title": {
       "en": "Enus Super Diamond",
-      "fr": "Enus Super Diamond"
+      "fr": "Enus Super Diamond",
+      "es": "Enus Super Diamond",
+      "it": "Enus Super Diamond",
+      "de": "Enus Super Diamond"
     }
   },
   {
@@ -3323,7 +3956,10 @@
     },
     "title": {
       "en": "Dinka Double-T",
-      "fr": "Dinka Double-T"
+      "fr": "Dinka Double-T",
+      "es": "Dinka Double-T",
+      "it": "Dinka Double-T",
+      "de": "Dinka Double-T"
     }
   },
   {
@@ -3336,7 +3972,10 @@
     },
     "title": {
       "en": "Epsilon Tract #1",
-      "fr": "Tract Epsilon #1"
+      "fr": "Tract Epsilon #1",
+      "es": "Panfleto Epsilon #1",
+      "it": "Volantino Epsilon #1",
+      "de": "Epsilon-Flugblatt #1"
     },
     "note": {
       "en": "“We worship Kram where the earth reaches up to Kraff”.",
@@ -3353,7 +3992,10 @@
     },
     "title": {
       "en": "Epsilon Tract #2",
-      "fr": "Tract Epsilon #2"
+      "fr": "Tract Epsilon #2",
+      "es": "Panfleto Epsilon #2",
+      "it": "Volantino Epsilon #2",
+      "de": "Epsilon-Flugblatt #2"
     },
     "note": {
       "en": "“Where the first one of the fleet succumbed to the waves, there the message is seeded”.",
@@ -3370,7 +4012,10 @@
     },
     "title": {
       "en": "Epsilon Tract #3",
-      "fr": "Tract Epsilon #3"
+      "fr": "Tract Epsilon #3",
+      "es": "Panfleto Epsilon #3",
+      "it": "Volantino Epsilon #3",
+      "de": "Epsilon-Flugblatt #3"
     },
     "note": {
       "en": "“When they sail from the North, they will find this offering”.",
@@ -3387,7 +4032,10 @@
     },
     "title": {
       "en": "Epsilon Tract #4",
-      "fr": "Tract Epsilon #4"
+      "fr": "Tract Epsilon #4",
+      "es": "Panfleto Epsilon #4",
+      "it": "Volantino Epsilon #4",
+      "de": "Epsilon-Flugblatt #4"
     },
     "note": {
       "en": "“In the core of the mountain, where the blast is not felt, you shall find it”.",
@@ -3404,7 +4052,10 @@
     },
     "title": {
       "en": "Epsilon Tract #5",
-      "fr": "Tract Epsilon #5"
+      "fr": "Tract Epsilon #5",
+      "es": "Panfleto Epsilon #5",
+      "it": "Volantino Epsilon #5",
+      "de": "Epsilon-Flugblatt #5"
     },
     "note": {
       "en": "“In the rubble of the old religion, will be the basis for the new”.",
@@ -3421,7 +4072,10 @@
     },
     "title": {
       "en": "Epsilon Tract #6",
-      "fr": "Tract Epsilon #6"
+      "fr": "Tract Epsilon #6",
+      "es": "Panfleto Epsilon #6",
+      "it": "Volantino Epsilon #6",
+      "de": "Epsilon-Flugblatt #6"
     },
     "note": {
       "en": "“When the first fleet sailed, the new fleet will find the map”.",
@@ -3438,7 +4092,10 @@
     },
     "title": {
       "en": "Epsilon Tract #7",
-      "fr": "Tract Epsilon #7"
+      "fr": "Tract Epsilon #7",
+      "es": "Panfleto Epsilon #7",
+      "it": "Volantino Epsilon #7",
+      "de": "Epsilon-Flugblatt #7"
     },
     "note": {
       "en": "“What dwelling is worthy of Kraff? He is humble, yet we exalt him”.",
@@ -3455,7 +4112,10 @@
     },
     "title": {
       "en": "Epsilon Tract #8",
-      "fr": "Tract Epsilon #8"
+      "fr": "Tract Epsilon #8",
+      "es": "Panfleto Epsilon #8",
+      "it": "Volantino Epsilon #8",
+      "de": "Epsilon-Flugblatt #8"
     },
     "note": {
       "en": "“We are not dinosaurs, or plants, but a tree in the jet stream may hold Kraff's true word”.",
@@ -3472,7 +4132,10 @@
     },
     "title": {
       "en": "Epsilon Tract #9",
-      "fr": "Tract Epsilon #9"
+      "fr": "Tract Epsilon #9",
+      "es": "Panfleto Epsilon #9",
+      "it": "Volantino Epsilon #9",
+      "de": "Epsilon-Flugblatt #9"
     },
     "note": {
       "en": "“The tallest obelisk of glass and steel holds no comparison to the word of Kraff”.",
@@ -3489,7 +4152,10 @@
     },
     "title": {
       "en": "Epsilon Tract #10",
-      "fr": "Tract Epsilon #10"
+      "fr": "Tract Epsilon #10",
+      "es": "Panfleto Epsilon #10",
+      "it": "Volantino Epsilon #10",
+      "de": "Epsilon-Flugblatt #10"
     },
     "note": {
       "en": "“Where they discard their earthly prisons, there you may find the germ of higher civilization”.",
@@ -3506,7 +4172,10 @@
     },
     "title": {
       "en": "Under the Bridge #1",
-      "fr": "Passage sous pont #1"
+      "fr": "Passage sous pont #1",
+      "es": "Paso bajo puente #1",
+      "it": "Passaggio sotto il ponte #1",
+      "de": "Brückenunterquerung #1"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3523,7 +4192,10 @@
     },
     "title": {
       "en": "Under the Bridge #2",
-      "fr": "Passage sous pont #2"
+      "fr": "Passage sous pont #2",
+      "es": "Paso bajo puente #2",
+      "it": "Passaggio sotto il ponte #2",
+      "de": "Brückenunterquerung #2"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3540,7 +4212,10 @@
     },
     "title": {
       "en": "Under the Bridge #3",
-      "fr": "Passage sous pont #3"
+      "fr": "Passage sous pont #3",
+      "es": "Paso bajo puente #3",
+      "it": "Passaggio sotto il ponte #3",
+      "de": "Brückenunterquerung #3"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3557,7 +4232,10 @@
     },
     "title": {
       "en": "Under the Bridge #4",
-      "fr": "Passage sous pont #4"
+      "fr": "Passage sous pont #4",
+      "es": "Paso bajo puente #4",
+      "it": "Passaggio sotto il ponte #4",
+      "de": "Brückenunterquerung #4"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3574,7 +4252,10 @@
     },
     "title": {
       "en": "Under the Bridge #5",
-      "fr": "Passage sous pont #5"
+      "fr": "Passage sous pont #5",
+      "es": "Paso bajo puente #5",
+      "it": "Passaggio sotto il ponte #5",
+      "de": "Brückenunterquerung #5"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3591,7 +4272,10 @@
     },
     "title": {
       "en": "Under the Bridge #6",
-      "fr": "Passage sous pont #6"
+      "fr": "Passage sous pont #6",
+      "es": "Paso bajo puente #6",
+      "it": "Passaggio sotto il ponte #6",
+      "de": "Brückenunterquerung #6"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3608,7 +4292,10 @@
     },
     "title": {
       "en": "Under the Bridge #7",
-      "fr": "Passage sous pont #7"
+      "fr": "Passage sous pont #7",
+      "es": "Paso bajo puente #7",
+      "it": "Passaggio sotto il ponte #7",
+      "de": "Brückenunterquerung #7"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3625,7 +4312,10 @@
     },
     "title": {
       "en": "Under the Bridge #8",
-      "fr": "Passage sous pont #8"
+      "fr": "Passage sous pont #8",
+      "es": "Paso bajo puente #8",
+      "it": "Passaggio sotto il ponte #8",
+      "de": "Brückenunterquerung #8"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3642,7 +4332,10 @@
     },
     "title": {
       "en": "Under the Bridge #9",
-      "fr": "Passage sous pont #9"
+      "fr": "Passage sous pont #9",
+      "es": "Paso bajo puente #9",
+      "it": "Passaggio sotto il ponte #9",
+      "de": "Brückenunterquerung #9"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3659,7 +4352,10 @@
     },
     "title": {
       "en": "Under the Bridge #10",
-      "fr": "Passage sous pont #10"
+      "fr": "Passage sous pont #10",
+      "es": "Paso bajo puente #10",
+      "it": "Passaggio sotto il ponte #10",
+      "de": "Brückenunterquerung #10"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3676,7 +4372,10 @@
     },
     "title": {
       "en": "Under the Bridge #11",
-      "fr": "Passage sous pont #11"
+      "fr": "Passage sous pont #11",
+      "es": "Paso bajo puente #11",
+      "it": "Passaggio sotto il ponte #11",
+      "de": "Brückenunterquerung #11"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3693,7 +4392,10 @@
     },
     "title": {
       "en": "Under the Bridge #12",
-      "fr": "Passage sous pont #12"
+      "fr": "Passage sous pont #12",
+      "es": "Paso bajo puente #12",
+      "it": "Passaggio sotto il ponte #12",
+      "de": "Brückenunterquerung #12"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3710,7 +4412,10 @@
     },
     "title": {
       "en": "Under the Bridge #13",
-      "fr": "Passage sous pont #13"
+      "fr": "Passage sous pont #13",
+      "es": "Paso bajo puente #13",
+      "it": "Passaggio sotto il ponte #13",
+      "de": "Brückenunterquerung #13"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3727,7 +4432,10 @@
     },
     "title": {
       "en": "Under the Bridge #14",
-      "fr": "Passage sous pont #14"
+      "fr": "Passage sous pont #14",
+      "es": "Paso bajo puente #14",
+      "it": "Passaggio sotto il ponte #14",
+      "de": "Brückenunterquerung #14"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3744,7 +4452,10 @@
     },
     "title": {
       "en": "Under the Bridge #15",
-      "fr": "Passage sous pont #15"
+      "fr": "Passage sous pont #15",
+      "es": "Paso bajo puente #15",
+      "it": "Passaggio sotto il ponte #15",
+      "de": "Brückenunterquerung #15"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3761,7 +4472,10 @@
     },
     "title": {
       "en": "Under the Bridge #16",
-      "fr": "Passage sous pont #16"
+      "fr": "Passage sous pont #16",
+      "es": "Paso bajo puente #16",
+      "it": "Passaggio sotto il ponte #16",
+      "de": "Brückenunterquerung #16"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3778,7 +4492,10 @@
     },
     "title": {
       "en": "Under the Bridge #17",
-      "fr": "Passage sous pont #17"
+      "fr": "Passage sous pont #17",
+      "es": "Paso bajo puente #17",
+      "it": "Passaggio sotto il ponte #17",
+      "de": "Brückenunterquerung #17"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3795,7 +4512,10 @@
     },
     "title": {
       "en": "Under the Bridge #18",
-      "fr": "Passage sous pont #18"
+      "fr": "Passage sous pont #18",
+      "es": "Paso bajo puente #18",
+      "it": "Passaggio sotto il ponte #18",
+      "de": "Brückenunterquerung #18"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3812,7 +4532,10 @@
     },
     "title": {
       "en": "Under the Bridge #19",
-      "fr": "Passage sous pont #19"
+      "fr": "Passage sous pont #19",
+      "es": "Paso bajo puente #19",
+      "it": "Passaggio sotto il ponte #19",
+      "de": "Brückenunterquerung #19"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3829,7 +4552,10 @@
     },
     "title": {
       "en": "Under the Bridge #20",
-      "fr": "Passage sous pont #20"
+      "fr": "Passage sous pont #20",
+      "es": "Paso bajo puente #20",
+      "it": "Passaggio sotto il ponte #20",
+      "de": "Brückenunterquerung #20"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3846,7 +4572,10 @@
     },
     "title": {
       "en": "Under the Bridge #21",
-      "fr": "Passage sous pont #21"
+      "fr": "Passage sous pont #21",
+      "es": "Paso bajo puente #21",
+      "it": "Passaggio sotto il ponte #21",
+      "de": "Brückenunterquerung #21"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3863,7 +4592,10 @@
     },
     "title": {
       "en": "Under the Bridge #22",
-      "fr": "Passage sous pont #22"
+      "fr": "Passage sous pont #22",
+      "es": "Paso bajo puente #22",
+      "it": "Passaggio sotto il ponte #22",
+      "de": "Brückenunterquerung #22"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3880,7 +4612,10 @@
     },
     "title": {
       "en": "Under the Bridge #23",
-      "fr": "Passage sous pont #23"
+      "fr": "Passage sous pont #23",
+      "es": "Paso bajo puente #23",
+      "it": "Passaggio sotto il ponte #23",
+      "de": "Brückenunterquerung #23"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3897,7 +4632,10 @@
     },
     "title": {
       "en": "Under the Bridge #24",
-      "fr": "Passage sous pont #24"
+      "fr": "Passage sous pont #24",
+      "es": "Paso bajo puente #24",
+      "it": "Passaggio sotto il ponte #24",
+      "de": "Brückenunterquerung #24"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3914,7 +4652,10 @@
     },
     "title": {
       "en": "Under the Bridge #25",
-      "fr": "Passage sous pont #25"
+      "fr": "Passage sous pont #25",
+      "es": "Paso bajo puente #25",
+      "it": "Passaggio sotto il ponte #25",
+      "de": "Brückenunterquerung #25"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3931,7 +4672,10 @@
     },
     "title": {
       "en": "Under the Bridge #26",
-      "fr": "Passage sous pont #26"
+      "fr": "Passage sous pont #26",
+      "es": "Paso bajo puente #26",
+      "it": "Passaggio sotto il ponte #26",
+      "de": "Brückenunterquerung #26"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3948,7 +4692,10 @@
     },
     "title": {
       "en": "Under the Bridge #27",
-      "fr": "Passage sous pont #27"
+      "fr": "Passage sous pont #27",
+      "es": "Paso bajo puente #27",
+      "it": "Passaggio sotto il ponte #27",
+      "de": "Brückenunterquerung #27"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3965,7 +4712,10 @@
     },
     "title": {
       "en": "Under the Bridge #28",
-      "fr": "Passage sous pont #28"
+      "fr": "Passage sous pont #28",
+      "es": "Paso bajo puente #28",
+      "it": "Passaggio sotto il ponte #28",
+      "de": "Brückenunterquerung #28"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3982,7 +4732,10 @@
     },
     "title": {
       "en": "Under the Bridge #29",
-      "fr": "Passage sous pont #29"
+      "fr": "Passage sous pont #29",
+      "es": "Paso bajo puente #29",
+      "it": "Passaggio sotto il ponte #29",
+      "de": "Brückenunterquerung #29"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -3999,7 +4752,10 @@
     },
     "title": {
       "en": "Under the Bridge #30",
-      "fr": "Passage sous pont #30"
+      "fr": "Passage sous pont #30",
+      "es": "Paso bajo puente #30",
+      "it": "Passaggio sotto il ponte #30",
+      "de": "Brückenunterquerung #30"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4016,7 +4772,10 @@
     },
     "title": {
       "en": "Under the Bridge #31",
-      "fr": "Passage sous pont #31"
+      "fr": "Passage sous pont #31",
+      "es": "Paso bajo puente #31",
+      "it": "Passaggio sotto il ponte #31",
+      "de": "Brückenunterquerung #31"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4033,7 +4792,10 @@
     },
     "title": {
       "en": "Under the Bridge #32",
-      "fr": "Passage sous pont #32"
+      "fr": "Passage sous pont #32",
+      "es": "Paso bajo puente #32",
+      "it": "Passaggio sotto il ponte #32",
+      "de": "Brückenunterquerung #32"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4050,7 +4812,10 @@
     },
     "title": {
       "en": "Under the Bridge #33",
-      "fr": "Passage sous pont #33"
+      "fr": "Passage sous pont #33",
+      "es": "Paso bajo puente #33",
+      "it": "Passaggio sotto il ponte #33",
+      "de": "Brückenunterquerung #33"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4067,7 +4832,10 @@
     },
     "title": {
       "en": "Under the Bridge #34",
-      "fr": "Passage sous pont #34"
+      "fr": "Passage sous pont #34",
+      "es": "Paso bajo puente #34",
+      "it": "Passaggio sotto il ponte #34",
+      "de": "Brückenunterquerung #34"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4084,7 +4852,10 @@
     },
     "title": {
       "en": "Under the Bridge #35",
-      "fr": "Passage sous pont #35"
+      "fr": "Passage sous pont #35",
+      "es": "Paso bajo puente #35",
+      "it": "Passaggio sotto il ponte #35",
+      "de": "Brückenunterquerung #35"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4101,7 +4872,10 @@
     },
     "title": {
       "en": "Under the Bridge #36",
-      "fr": "Passage sous pont #36"
+      "fr": "Passage sous pont #36",
+      "es": "Paso bajo puente #36",
+      "it": "Passaggio sotto il ponte #36",
+      "de": "Brückenunterquerung #36"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4118,7 +4892,10 @@
     },
     "title": {
       "en": "Under the Bridge #37",
-      "fr": "Passage sous pont #37"
+      "fr": "Passage sous pont #37",
+      "es": "Paso bajo puente #37",
+      "it": "Passaggio sotto il ponte #37",
+      "de": "Brückenunterquerung #37"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4135,7 +4912,10 @@
     },
     "title": {
       "en": "Under the Bridge #38",
-      "fr": "Passage sous pont #38"
+      "fr": "Passage sous pont #38",
+      "es": "Paso bajo puente #38",
+      "it": "Passaggio sotto il ponte #38",
+      "de": "Brückenunterquerung #38"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4152,7 +4932,10 @@
     },
     "title": {
       "en": "Under the Bridge #39",
-      "fr": "Passage sous pont #39"
+      "fr": "Passage sous pont #39",
+      "es": "Paso bajo puente #39",
+      "it": "Passaggio sotto il ponte #39",
+      "de": "Brückenunterquerung #39"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4169,7 +4952,10 @@
     },
     "title": {
       "en": "Under the Bridge #40",
-      "fr": "Passage sous pont #40"
+      "fr": "Passage sous pont #40",
+      "es": "Paso bajo puente #40",
+      "it": "Passaggio sotto il ponte #40",
+      "de": "Brückenunterquerung #40"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4186,7 +4972,10 @@
     },
     "title": {
       "en": "Under the Bridge #41",
-      "fr": "Passage sous pont #41"
+      "fr": "Passage sous pont #41",
+      "es": "Paso bajo puente #41",
+      "it": "Passaggio sotto il ponte #41",
+      "de": "Brückenunterquerung #41"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4203,7 +4992,10 @@
     },
     "title": {
       "en": "Under the Bridge #42",
-      "fr": "Passage sous pont #42"
+      "fr": "Passage sous pont #42",
+      "es": "Paso bajo puente #42",
+      "it": "Passaggio sotto il ponte #42",
+      "de": "Brückenunterquerung #42"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4220,7 +5012,10 @@
     },
     "title": {
       "en": "Under the Bridge #43",
-      "fr": "Passage sous pont #43"
+      "fr": "Passage sous pont #43",
+      "es": "Paso bajo puente #43",
+      "it": "Passaggio sotto il ponte #43",
+      "de": "Brückenunterquerung #43"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4237,7 +5032,10 @@
     },
     "title": {
       "en": "Under the Bridge #44",
-      "fr": "Passage sous pont #44"
+      "fr": "Passage sous pont #44",
+      "es": "Paso bajo puente #44",
+      "it": "Passaggio sotto il ponte #44",
+      "de": "Brückenunterquerung #44"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4254,7 +5052,10 @@
     },
     "title": {
       "en": "Under the Bridge #45",
-      "fr": "Passage sous pont #45"
+      "fr": "Passage sous pont #45",
+      "es": "Paso bajo puente #45",
+      "it": "Passaggio sotto il ponte #45",
+      "de": "Brückenunterquerung #45"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4271,7 +5072,10 @@
     },
     "title": {
       "en": "Under the Bridge #46",
-      "fr": "Passage sous pont #46"
+      "fr": "Passage sous pont #46",
+      "es": "Paso bajo puente #46",
+      "it": "Passaggio sotto il ponte #46",
+      "de": "Brückenunterquerung #46"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4288,7 +5092,10 @@
     },
     "title": {
       "en": "Under the Bridge #47",
-      "fr": "Passage sous pont #47"
+      "fr": "Passage sous pont #47",
+      "es": "Paso bajo puente #47",
+      "it": "Passaggio sotto il ponte #47",
+      "de": "Brückenunterquerung #47"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4305,7 +5112,10 @@
     },
     "title": {
       "en": "Under the Bridge #48",
-      "fr": "Passage sous pont #48"
+      "fr": "Passage sous pont #48",
+      "es": "Paso bajo puente #48",
+      "it": "Passaggio sotto il ponte #48",
+      "de": "Brückenunterquerung #48"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4322,7 +5132,10 @@
     },
     "title": {
       "en": "Under the Bridge #49",
-      "fr": "Passage sous pont #49"
+      "fr": "Passage sous pont #49",
+      "es": "Paso bajo puente #49",
+      "it": "Passaggio sotto il ponte #49",
+      "de": "Brückenunterquerung #49"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4339,7 +5152,10 @@
     },
     "title": {
       "en": "Under the Bridge #50",
-      "fr": "Passage sous pont #50"
+      "fr": "Passage sous pont #50",
+      "es": "Paso bajo puente #50",
+      "it": "Passaggio sotto il ponte #50",
+      "de": "Brückenunterquerung #50"
     },
     "note": {
       "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
@@ -4356,7 +5172,10 @@
     },
     "title": {
       "en": "Obey Tailgator",
-      "fr": "Obey Tailgator"
+      "fr": "Obey Tailgator",
+      "es": "Obey Tailgator",
+      "it": "Obey Tailgator",
+      "de": "Obey Tailgator"
     },
     "note": {
       "en": "You can find Michaels story car (Audi A6/A8) on the parking lot of the golf course.",
@@ -4373,7 +5192,10 @@
     },
     "title": {
       "en": "Bulldozer",
-      "fr": "Bulldozer"
+      "fr": "Bulldozer",
+      "es": "Bulldozer",
+      "it": "Bulldozer",
+      "de": "Bulldozer"
     },
     "note": {
       "en": "Located in the quarry in Tataviam Mountains.",
@@ -4458,7 +5280,10 @@
     },
     "title": {
       "en": "Eclipse Tower",
-      "fr": "Eclipse Tower"
+      "fr": "Eclipse Tower",
+      "es": "Eclipse Tower",
+      "it": "Eclipse Tower",
+      "de": "Eclipse Tower"
     },
     "note": {
       "en": "Go to the location as seen below with a decent siced vehicle. Open your phone and call Simeon. Once you see the \"Request a Job Invite\" HUD, do not press anything. Drive your truck to any corner of the garage door, get out, jump on top of the truck and jump inside the building.",
@@ -4611,7 +5436,10 @@
     },
     "title": {
       "en": "Rockford Plaza",
-      "fr": "Rockford Plaza"
+      "fr": "Rockford Plaza",
+      "es": "Rockford Plaza",
+      "it": "Rockford Plaza",
+      "de": "Rockford Plaza"
     },
     "note": {
       "en": "Go to the location as seen below. Park your car against the railing. Hop onto your roof, run and jump into the wall.",
@@ -5019,7 +5847,10 @@
     },
     "title": {
       "en": "Ambulance",
-      "fr": "Ambulance"
+      "fr": "Ambulance",
+      "es": "Ambulance",
+      "it": "Ambulance",
+      "de": "Ambulance"
     },
     "note": {
       "en": "Go to the location as seen below. Get in a vehicle than can hold you in the back like the van in the video. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside of the ambulance.",
@@ -5053,7 +5884,10 @@
     },
     "title": {
       "en": "Rockford Plaza",
-      "fr": "Rockford Plaza"
+      "fr": "Rockford Plaza",
+      "es": "Rockford Plaza",
+      "it": "Rockford Plaza",
+      "de": "Rockford Plaza"
     },
     "note": {
       "en": "Go to the location as seen below. Get in a vehicle than can hold you in the back like the van in the video. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside the building.",
@@ -5104,7 +5938,10 @@
     },
     "title": {
       "en": "Casino",
-      "fr": "Casino"
+      "fr": "Casino",
+      "es": "Casino",
+      "it": "Casino",
+      "de": "Casino"
     },
     "note": {
       "en": "Go to the location as seen below. Get a Sanchez motor-bike and go the right corner of the building. Drive between the buildings and try to fall off to breach into the Casino.",
@@ -5172,7 +6009,10 @@
     },
     "title": {
       "en": "Ratloader",
-      "fr": "Ratloader"
+      "fr": "Ratloader",
+      "es": "Ratloader",
+      "it": "Ratloader",
+      "de": "Ratloader"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5189,7 +6029,10 @@
     },
     "title": {
       "en": "Sultan",
-      "fr": "Sultan"
+      "fr": "Sultan",
+      "es": "Sultan",
+      "it": "Sultan",
+      "de": "Sultan"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5206,7 +6049,10 @@
     },
     "title": {
       "en": "BF Surfer",
-      "fr": "BF Surfer"
+      "fr": "BF Surfer",
+      "es": "BF Surfer",
+      "it": "BF Surfer",
+      "de": "BF Surfer"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5240,7 +6086,10 @@
     },
     "title": {
       "en": "Vapid Bobcat XL",
-      "fr": "Vapid Bobcat XL"
+      "fr": "Vapid Bobcat XL",
+      "es": "Vapid Bobcat XL",
+      "it": "Vapid Bobcat XL",
+      "de": "Vapid Bobcat XL"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5257,7 +6106,10 @@
     },
     "title": {
       "en": "Western Daemon",
-      "fr": "Western Daemon"
+      "fr": "Western Daemon",
+      "es": "Western Daemon",
+      "it": "Western Daemon",
+      "de": "Western Daemon"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5274,7 +6126,10 @@
     },
     "title": {
       "en": "Ocelot Jackal",
-      "fr": "Ocelot Jackal"
+      "fr": "Ocelot Jackal",
+      "es": "Ocelot Jackal",
+      "it": "Ocelot Jackal",
+      "de": "Ocelot Jackal"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5308,7 +6163,10 @@
     },
     "title": {
       "en": "Karin Intruder",
-      "fr": "Karin Intruder"
+      "fr": "Karin Intruder",
+      "es": "Karin Intruder",
+      "it": "Karin Intruder",
+      "de": "Karin Intruder"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5342,7 +6200,10 @@
     },
     "title": {
       "en": "Karin BeeJay XL",
-      "fr": "Karin BeeJay XL"
+      "fr": "Karin BeeJay XL",
+      "es": "Karin BeeJay XL",
+      "it": "Karin BeeJay XL",
+      "de": "Karin BeeJay XL"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5359,7 +6220,10 @@
     },
     "title": {
       "en": "Ubermacht Sentinel XS",
-      "fr": "Ubermacht Sentinel XS"
+      "fr": "Ubermacht Sentinel XS",
+      "es": "Ubermacht Sentinel XS",
+      "it": "Ubermacht Sentinel XS",
+      "de": "Ubermacht Sentinel XS"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5393,7 +6257,10 @@
     },
     "title": {
       "en": "Ocelot F620",
-      "fr": "Ocelot F620"
+      "fr": "Ocelot F620",
+      "es": "Ocelot F620",
+      "it": "Ocelot F620",
+      "de": "Ocelot F620"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5410,7 +6277,10 @@
     },
     "title": {
       "en": "Vapid Peyote",
-      "fr": "Vapid Peyote"
+      "fr": "Vapid Peyote",
+      "es": "Vapid Peyote",
+      "it": "Vapid Peyote",
+      "de": "Vapid Peyote"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5427,7 +6297,10 @@
     },
     "title": {
       "en": "Albani Primo",
-      "fr": "Albani Primo"
+      "fr": "Albani Primo",
+      "es": "Albani Primo",
+      "it": "Albani Primo",
+      "de": "Albani Primo"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5444,7 +6317,10 @@
     },
     "title": {
       "en": "Cheval Picador",
-      "fr": "Cheval Picador"
+      "fr": "Cheval Picador",
+      "es": "Cheval Picador",
+      "it": "Cheval Picador",
+      "de": "Cheval Picador"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5478,7 +6354,10 @@
     },
     "title": {
       "en": "Benefactor Surano",
-      "fr": "Benefactor Surano"
+      "fr": "Benefactor Surano",
+      "es": "Benefactor Surano",
+      "it": "Benefactor Surano",
+      "de": "Benefactor Surano"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5495,7 +6374,10 @@
     },
     "title": {
       "en": "Albani Manana",
-      "fr": "Albani Manana"
+      "fr": "Albani Manana",
+      "es": "Albani Manana",
+      "it": "Albani Manana",
+      "de": "Albani Manana"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5512,7 +6394,10 @@
     },
     "title": {
       "en": "Declasse Voodoo",
-      "fr": "Declasse Voodoo"
+      "fr": "Declasse Voodoo",
+      "es": "Declasse Voodoo",
+      "it": "Declasse Voodoo",
+      "de": "Declasse Voodoo"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5529,7 +6414,10 @@
     },
     "title": {
       "en": "Declasse Rancher XL",
-      "fr": "Declasse Rancher XL"
+      "fr": "Declasse Rancher XL",
+      "es": "Declasse Rancher XL",
+      "it": "Declasse Rancher XL",
+      "de": "Declasse Rancher XL"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5546,7 +6434,10 @@
     },
     "title": {
       "en": "Western Bagger",
-      "fr": "Western Bagger"
+      "fr": "Western Bagger",
+      "es": "Western Bagger",
+      "it": "Western Bagger",
+      "de": "Western Bagger"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5563,7 +6454,10 @@
     },
     "title": {
       "en": "Benefactor Schafter",
-      "fr": "Benefactor Schafter"
+      "fr": "Benefactor Schafter",
+      "es": "Benefactor Schafter",
+      "it": "Benefactor Schafter",
+      "de": "Benefactor Schafter"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5580,7 +6474,10 @@
     },
     "title": {
       "en": "Principe Nemesis",
-      "fr": "Principe Nemesis"
+      "fr": "Principe Nemesis",
+      "es": "Principe Nemesis",
+      "it": "Principe Nemesis",
+      "de": "Principe Nemesis"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5597,7 +6494,10 @@
     },
     "title": {
       "en": "Duneloader",
-      "fr": "Duneloader"
+      "fr": "Duneloader",
+      "es": "Duneloader",
+      "it": "Duneloader",
+      "de": "Duneloader"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -5784,7 +6684,10 @@
     },
     "title": {
       "en": "Gentry Manor",
-      "fr": "Gentry Manor"
+      "fr": "Gentry Manor",
+      "es": "Gentry Manor",
+      "it": "Gentry Manor",
+      "de": "Gentry Manor"
     },
     "note": {
       "en": "Get a helicopter and fly up around the area of Eclipse Towers, When you see a Team Deathmatch that's where you need to be. If you're looking at the front on the right hand side on the roof, You'll see a smokestack and a corner by a terrace. Fly as high as you need to parachute, or land a bit and jump out if you're able. Run to the corner if you're not there already and walk into it or you'll fall through the building.",
@@ -5852,7 +6755,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5865,7 +6771,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5878,7 +6787,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5891,7 +6803,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5904,7 +6819,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5917,7 +6835,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5930,7 +6851,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5943,7 +6867,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5956,7 +6883,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5969,7 +6899,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5982,7 +6915,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -5995,7 +6931,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6008,7 +6947,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6021,7 +6963,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6034,7 +6979,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6047,7 +6995,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6060,7 +7011,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6073,7 +7027,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6086,7 +7043,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6099,7 +7059,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6112,7 +7075,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6125,7 +7091,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6138,7 +7107,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6151,7 +7123,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6164,7 +7139,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6177,7 +7155,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6190,7 +7171,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6203,7 +7187,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6216,7 +7203,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6229,7 +7219,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6242,7 +7235,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6255,7 +7251,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6268,7 +7267,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6281,7 +7283,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6294,7 +7299,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6307,7 +7315,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6320,7 +7331,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6333,7 +7347,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6346,7 +7363,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6359,7 +7379,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6372,7 +7395,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6385,7 +7411,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6398,7 +7427,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6411,7 +7443,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6424,7 +7459,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6437,7 +7475,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6450,7 +7491,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6463,7 +7507,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6476,7 +7523,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6489,7 +7539,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6502,7 +7555,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6515,7 +7571,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6528,7 +7587,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6541,7 +7603,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6554,7 +7619,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6567,7 +7635,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6580,7 +7651,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6593,7 +7667,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6606,7 +7683,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6619,7 +7699,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6632,7 +7715,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6645,7 +7731,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6658,7 +7747,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6671,7 +7763,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6684,7 +7779,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6697,7 +7795,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6710,7 +7811,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6723,7 +7827,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6736,7 +7843,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6749,7 +7859,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6762,7 +7875,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6775,7 +7891,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6788,7 +7907,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6801,7 +7923,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6814,7 +7939,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6827,7 +7955,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6840,7 +7971,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6853,7 +7987,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6866,7 +8003,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6879,7 +8019,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6892,7 +8035,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6905,7 +8051,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6918,7 +8067,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6931,7 +8083,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6944,7 +8099,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6957,7 +8115,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6970,7 +8131,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6983,7 +8147,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -6996,7 +8163,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7009,7 +8179,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7022,7 +8195,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7035,7 +8211,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7048,7 +8227,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7061,7 +8243,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7074,7 +8259,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7087,7 +8275,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7100,7 +8291,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7113,7 +8307,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7126,7 +8323,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7139,7 +8339,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7152,7 +8355,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7165,7 +8371,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7178,7 +8387,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7191,7 +8403,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7204,7 +8419,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7217,7 +8435,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7230,7 +8451,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7243,7 +8467,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7256,7 +8483,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7269,7 +8499,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7282,7 +8515,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7295,7 +8531,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7308,7 +8547,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7321,7 +8563,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7334,7 +8579,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7347,7 +8595,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7360,7 +8611,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7373,7 +8627,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7386,7 +8643,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7399,7 +8659,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7412,7 +8675,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7425,7 +8691,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7438,7 +8707,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7451,7 +8723,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7464,7 +8739,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7477,7 +8755,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7490,7 +8771,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7503,7 +8787,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7516,7 +8803,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7529,7 +8819,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7542,7 +8835,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7555,7 +8851,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7568,7 +8867,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7581,7 +8883,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7594,7 +8899,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7607,7 +8915,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7620,7 +8931,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7633,7 +8947,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7646,7 +8963,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7659,7 +8979,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7672,7 +8995,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7685,7 +9011,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7698,7 +9027,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7711,7 +9043,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7724,7 +9059,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7737,7 +9075,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7750,7 +9091,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7763,7 +9107,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7776,7 +9123,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7789,7 +9139,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7802,7 +9155,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7815,7 +9171,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7828,7 +9187,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7841,7 +9203,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7854,7 +9219,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7867,7 +9235,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7880,7 +9251,10 @@
     },
     "title": {
       "en": "Gas Station",
-      "fr": "Station-service"
+      "fr": "Station-service",
+      "es": "Gasolinera",
+      "it": "Stazione di servizio",
+      "de": "Tankstelle"
     }
   },
   {
@@ -7893,7 +9267,10 @@
     },
     "title": {
       "en": "Garage — Michael - Beverly Hills",
-      "fr": "Garage — Michael - Beverly Hills"
+      "fr": "Garage — Michael - Beverly Hills",
+      "es": "Garage — Michael - Beverly Hills",
+      "it": "Garage — Michael - Beverly Hills",
+      "de": "Garage — Michael - Beverly Hills"
     }
   },
   {
@@ -7906,7 +9283,10 @@
     },
     "title": {
       "en": "Garage — Trevor - Countryside",
-      "fr": "Garage — Trevor - Countryside"
+      "fr": "Garage — Trevor - Countryside",
+      "es": "Garage — Trevor - Countryside",
+      "it": "Garage — Trevor - Countryside",
+      "de": "Garage — Trevor - Countryside"
     }
   },
   {
@@ -7919,7 +9299,10 @@
     },
     "title": {
       "en": "Garage — Trevor - City",
-      "fr": "Garage — Trevor - City"
+      "fr": "Garage — Trevor - City",
+      "es": "Garage — Trevor - City",
+      "it": "Garage — Trevor - City",
+      "de": "Garage — Trevor - City"
     }
   },
   {
@@ -7932,7 +9315,10 @@
     },
     "title": {
       "en": "Garage — Trevor - Stripclub",
-      "fr": "Garage — Trevor - Stripclub"
+      "fr": "Garage — Trevor - Stripclub",
+      "es": "Garage — Trevor - Stripclub",
+      "it": "Garage — Trevor - Stripclub",
+      "de": "Garage — Trevor - Stripclub"
     }
   },
   {
@@ -7945,7 +9331,10 @@
     },
     "title": {
       "en": "Garage — Franklin - Aunt",
-      "fr": "Garage — Franklin - Aunt"
+      "fr": "Garage — Franklin - Aunt",
+      "es": "Garage — Franklin - Aunt",
+      "it": "Garage — Franklin - Aunt",
+      "de": "Garage — Franklin - Aunt"
     }
   },
   {
@@ -7958,7 +9347,10 @@
     },
     "title": {
       "en": "Garage — Franklin - Hills",
-      "fr": "Garage — Franklin - Hills"
+      "fr": "Garage — Franklin - Hills",
+      "es": "Garage — Franklin - Hills",
+      "it": "Garage — Franklin - Hills",
+      "de": "Garage — Franklin - Hills"
     }
   },
   {
@@ -7971,7 +9363,10 @@
     },
     "title": {
       "en": "Garage — Lockup_PSY_01",
-      "fr": "Garage — Lockup_PSY_01"
+      "fr": "Garage — Lockup_PSY_01",
+      "es": "Garage — Lockup_PSY_01",
+      "it": "Garage — Lockup_PSY_01",
+      "de": "Garage — Lockup_PSY_01"
     }
   },
   {
@@ -7984,7 +9379,10 @@
     },
     "title": {
       "en": "Garage — Lockup_PSY_02",
-      "fr": "Garage — Lockup_PSY_02"
+      "fr": "Garage — Lockup_PSY_02",
+      "es": "Garage — Lockup_PSY_02",
+      "it": "Garage — Lockup_PSY_02",
+      "de": "Garage — Lockup_PSY_02"
     }
   },
   {
@@ -7997,7 +9395,10 @@
     },
     "title": {
       "en": "Garage — Lockup_PSY_03",
-      "fr": "Garage — Lockup_PSY_03"
+      "fr": "Garage — Lockup_PSY_03",
+      "es": "Garage — Lockup_PSY_03",
+      "it": "Garage — Lockup_PSY_03",
+      "de": "Garage — Lockup_PSY_03"
     }
   },
   {
@@ -8010,7 +9411,10 @@
     },
     "title": {
       "en": "Garage — Lockup_CSY_01",
-      "fr": "Garage — Lockup_CSY_01"
+      "fr": "Garage — Lockup_CSY_01",
+      "es": "Garage — Lockup_CSY_01",
+      "it": "Garage — Lockup_CSY_01",
+      "de": "Garage — Lockup_CSY_01"
     }
   },
   {
@@ -8023,7 +9427,10 @@
     },
     "title": {
       "en": "Garage — Lockup_CSY_02",
-      "fr": "Garage — Lockup_CSY_02"
+      "fr": "Garage — Lockup_CSY_02",
+      "es": "Garage — Lockup_CSY_02",
+      "it": "Garage — Lockup_CSY_02",
+      "de": "Garage — Lockup_CSY_02"
     }
   },
   {
@@ -8036,7 +9443,10 @@
     },
     "title": {
       "en": "Garage — Lockup_CSY_03",
-      "fr": "Garage — Lockup_CSY_03"
+      "fr": "Garage — Lockup_CSY_03",
+      "es": "Garage — Lockup_CSY_03",
+      "it": "Garage — Lockup_CSY_03",
+      "de": "Garage — Lockup_CSY_03"
     }
   },
   {
@@ -8049,7 +9459,10 @@
     },
     "title": {
       "en": "Garage — Lockup_CMS_01",
-      "fr": "Garage — Lockup_CMS_01"
+      "fr": "Garage — Lockup_CMS_01",
+      "es": "Garage — Lockup_CMS_01",
+      "it": "Garage — Lockup_CMS_01",
+      "de": "Garage — Lockup_CMS_01"
     }
   },
   {
@@ -8062,7 +9475,10 @@
     },
     "title": {
       "en": "Garage — Lockup_CMS_02",
-      "fr": "Garage — Lockup_CMS_02"
+      "fr": "Garage — Lockup_CMS_02",
+      "es": "Garage — Lockup_CMS_02",
+      "it": "Garage — Lockup_CMS_02",
+      "de": "Garage — Lockup_CMS_02"
     }
   },
   {
@@ -8075,7 +9491,10 @@
     },
     "title": {
       "en": "Garage — Lockup_CMS_03",
-      "fr": "Garage — Lockup_CMS_03"
+      "fr": "Garage — Lockup_CMS_03",
+      "es": "Garage — Lockup_CMS_03",
+      "it": "Garage — Lockup_CMS_03",
+      "de": "Garage — Lockup_CMS_03"
     }
   },
   {
@@ -8088,7 +9507,10 @@
     },
     "title": {
       "en": "Garage — MP_GAR_SIMEON",
-      "fr": "Garage — MP_GAR_SIMEON"
+      "fr": "Garage — MP_GAR_SIMEON",
+      "es": "Garage — MP_GAR_SIMEON",
+      "it": "Garage — MP_GAR_SIMEON",
+      "de": "Garage — MP_GAR_SIMEON"
     }
   },
   {
@@ -8101,7 +9523,10 @@
     },
     "title": {
       "en": "Garage — Franklin - Hills",
-      "fr": "Garage — Franklin - Hills"
+      "fr": "Garage — Franklin - Hills",
+      "es": "Garage — Franklin - Hills",
+      "it": "Garage — Franklin - Hills",
+      "de": "Garage — Franklin - Hills"
     }
   }
 ]
