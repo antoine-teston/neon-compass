@@ -47,12 +47,10 @@ struct CheatsListView: View {
     private var list: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
-                // Les trois commandes suivent l'entonnoir : quel jeu, comment on
-                // saisit, quoi chercher. Elles étaient dans l'ordre inverse du
-                // plus large au plus étroit, et la bascule de jeu — qui remplace
-                // tout le contenu de l'écran — voisinait avec le champ de
-                // recherche sans hiérarchie qui dise lequel des deux compte.
-                gameRow
+                // L'ordre de l'entonnoir, dont le premier cran est monté d'un
+                // étage : le jeu se choisit dans la barre haute, puis le mode de
+                // saisie, puis la recherche. La bascule tenait ici une ligne
+                // entière pour deux chiffres romains.
                 inputModePicker
                 searchRow
 
@@ -97,18 +95,6 @@ struct CheatsListView: View {
             // Pro — la barre est là pour tout le monde.
             .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
         }
-    }
-
-    /// La bascule de jeu, seule et centrée.
-    ///
-    /// Centrée parce que cet écran n'a pas de titre — `RootView` n'accorde de
-    /// barre de navigation à aucun écran d'onglet — et qu'un contrôle qui remplace
-    /// tout le contenu en tient lieu. Sur la carte elle est en bas à droite : là,
-    /// le fond EST ce qu'on regarde, et rien ne doit s'asseoir au milieu. Ici il
-    /// n'y a rien à masquer.
-    private var gameRow: some View {
-        GameSwitch(game: $model.activeGame)
-            .frame(maxWidth: .infinity, alignment: .center)
     }
 
     /// La recherche et l'entonnoir. Elle se mesure : c'est elle que le panneau

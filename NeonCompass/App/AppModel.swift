@@ -1,9 +1,37 @@
+import Foundation
 import Observation
 
 @Observable
 @MainActor
 final class AppModel {
+    private static let gameKey = "cheatsActiveGame"
+
     var selectedTab: AppTab = .feed
+
+    /// Le jeu regardé sur l'écran Codes.
+    ///
+    /// Ici et non dans `CheatsModel`, où il vivait : la bascule est passée dans
+    /// la barre haute, que `RootView` monte AU-DESSUS de l'écran. L'état doit
+    /// donc être visible des deux côtés, et le modèle de l'écran le reçoit au
+    /// lieu de le détenir.
+    ///
+    /// La clé de persistance garde son ancien nom, `cheatsActiveGame`, qui ne
+    /// décrit plus où l'état vit. La renommer renverrait au défaut tous ceux qui
+    /// avaient déjà choisi — un nom exact ne vaut pas ce prix.
+    ///
+    /// `.reference` par défaut : c'est le jeu qui a des codes. Ouvrir sur celui
+    /// qui n'en a pas encore afficherait un écran d'attente au premier lancement.
+    var activeGame: Game {
+        didSet { defaults.set(activeGame.rawValue, forKey: Self.gameKey) }
+    }
+
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        self.activeGame = defaults.string(forKey: Self.gameKey)
+            .flatMap(Game.init(rawValue:)) ?? .reference
+    }
 
     /// La feuille de réglages, ouverte depuis la molette de la barre haute.
     ///

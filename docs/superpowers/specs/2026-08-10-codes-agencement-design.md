@@ -24,27 +24,59 @@ Trois défauts, dans l'ordre de gravité.
 
 ## Ce qu'on fait
 
-### 1. Trois lignes, dans l'ordre de l'entonnoir
+### 1. L'ordre de l'entonnoir, dont le premier cran monte d'un étage
 
 ```
-              ( VI )( V )           ← GameSwitch, seule, centrée
-[ Tél. ][ PS ][ Xbox ][ PC ]        ← segmenté, inchangé
-( Rechercher un code…      ) ( ☰ )  ← TextField + bouton entonnoir
+✦ NEON COMPASS        ( VI )( V )  (⚙)   ← barre haute, hors de l'écran
+─────────────────────────────────────
+[ PS ][ Xbox ][ Clavier ][ Téléphone ]   ← segmenté, inchangé
+( Rechercher des codes…        ) ( ☰ )   ← TextField + bouton entonnoir
 ```
 
-Le `GameSwitch` est **centré**. Sur la carte il vit en bas à droite, parce que la
-carte occupe le fond et qu'un contrôle centré masquerait ce qu'on regarde ; cette
-contrainte n'existe pas au-dessus d'une liste. Centrée, et seule sur sa ligne, la
-bascule tient lieu de titre à un écran qui n'en a pas — `RootView` n'accorde de
-barre de navigation à aucun écran d'onglet.
+Le `GameSwitch` **quitte l'écran pour la barre haute**, entre le mot-marque et la
+molette. Il tenait une ligne entière pour deux chiffres romains ; la barre, elle,
+est là de toute façon. Vérifié à la capture : tout tient sur un iPhone 17 sans
+raccourcir le mot-marque, qui garde `NEON COMPASS` en entier.
 
 Le bouton entonnoir reprend `MapFilterControls.filterToggleButton` sans le modifier
 d'un point : `line.3.horizontal.decrease.circle`, cercle de verre interactif de
 44 pt.
 
-**Le bloc défile avec la liste**, comme aujourd'hui. Il n'est pas épinglé : cent
-quarante-cinq points figés en permanence sur un écran de huit cent soixante-quatorze,
-pour un réglage qu'on touche une fois par session, ne se paient pas.
+**Le bloc défile avec la liste.** Il n'est pas épinglé : des points figés en
+permanence sur un écran de huit cent soixante-quatorze, pour un réglage qu'on
+touche une fois par session, ne se paient pas.
+
+#### Ce que ça change dans la barre, et pourquoi la règle cède
+
+`AppHeaderBar` portait une règle explicite : « la molette est la seule chose admise
+à droite — une barre dont le côté droit changerait d'un onglet à l'autre cesserait
+d'être un repère ». Elle est révisée, et remplacée par une formulation plus juste :
+**ce qui est ancré, c'est la molette, pas le vide à sa gauche.** Un écran peut
+glisser un contrôle dans un emplacement `accessory` situé entre le mot-marque et
+elle ; la molette ne bouge pas d'un point, donc le geste appris tient.
+
+Ce qui reste interdit : déplacer la molette, la remplacer, ou poser dans
+`accessory` autre chose qu'un contrôle qui commande l'écran surplombé. Le seul
+usage aujourd'hui est l'écran Codes. Le mot-marque porte `layoutPriority(-1)` : il
+est le seul élément dont la largeur soit négociable si une langue allonge ou si le
+corps de texte grossit.
+
+#### Où vit l'état, désormais
+
+Le jeu passe de `CheatsModel` à **`AppModel`**, parce que la barre est montée par
+`RootView`, au-dessus de l'écran : les deux côtés doivent le voir. `CheatsModel` le
+**reçoit** — `CheatsScreen` le pousse par `onChange` — et garde ce qu'il est seul à
+savoir faire : relâcher une rubrique que le nouveau jeu ne propose pas, et
+recalculer.
+
+La clé de persistance garde son ancien nom, `cheatsActiveGame`, qui ne décrit plus
+où l'état vit. La renommer renverrait au défaut tous ceux qui avaient déjà choisi ;
+un test le fige explicitement pour qu'un rangement bien intentionné ne le fasse pas.
+
+**`CheatsEmptyGameView` perd sa bascule de secours.** Elle en portait une parce que
+le seul exemplaire vivait dans la liste, absente dans cet état — sans elle on
+restait enfermé sur le jeu à venir. La barre la porte maintenant, et la barre reste
+quoi qu'affiche l'écran.
 
 ### 2. Les rubriques passent derrière l'entonnoir, dans la géométrie de la carte
 
@@ -128,7 +160,9 @@ les combos sont identiques. La clé héritée `cheatsActivePlatform` est encore 
 fois au démarrage pour ne pas renvoyer au défaut quelqu'un qui avait choisi. Ni le
 type, ni les clés `UserDefaults`, ni les chaînes visibles ne bougent.
 
-**`CheatsModel` ne bouge pas.** L'ouverture du panneau est de l'état de vue.
+**L'ouverture du panneau reste de l'état de vue** — un `@State` de
+`CheatsListView`, rien dans `UserDefaults`. Contrairement au jeu, elle n'a pas à
+être visible d'ailleurs que de l'écran.
 
 **`FilterChip` et `FilterChipRow` ne bougent pas.** L'Actu garde sa rangée
 horizontale, où les puces sont là en permanence et ne coûtent qu'une ligne. Les
@@ -142,6 +176,10 @@ déplacement de la bascule à l'intérieur de la liste ne change rien pour elle.
 
 | Fichier | Changement |
 |---|---|
+| `App/AppHeaderBar.swift` | Un emplacement `accessory` entre le mot-marque et la molette ; la règle du côté droit révisée |
+| `App/AppModel.swift` | `activeGame`, monté depuis `CheatsModel`, persisté sous la clé héritée |
+| `App/RootView.swift` | Remplit l'emplacement pour le seul onglet Codes |
+| `Features/Cheats/CheatsEmptyGameView.swift` | Perd sa bascule de secours |
 | `Core/DesignSystem/FilterChip.swift` | `FilterChipColumn`, la variante en colonne pour un panneau qui se déplie |
 | `Features/Cheats/CheatsFilterBar.swift` | Passe de la rangée à la colonne |
 | `Features/Cheats/CheatsListView.swift` | L'essentiel : ordre des lignes, `searchAndCategories` dans un `GlassEffectContainer` unique, bouton entonnoir, `@State showCategories`, en-tête toujours affiché |

@@ -11,14 +11,12 @@ import SwiftUI
 /// l'app est câblé sur les catégories de POI, et le généraliser est un autre
 /// chantier.
 struct CheatsEmptyGameView: View {
-    @Binding var game: Game
-
     var body: some View {
         VStack(spacing: 16) {
-            // Le seul chemin de retour : la liste et sa barre de recherche, qui
-            // portent d'ordinaire cette bascule, sont absentes de cet état.
-            GameSwitch(game: $game)
-                .padding(.bottom, 8)
+            // Aucune bascule ici : elle a porté cet état, du temps où le seul
+            // exemplaire vivait dans la liste — absente quand cette vue
+            // s'affiche. La barre haute la porte désormais, et la barre reste
+            // quoi qu'affiche l'écran.
             Image(systemName: "hourglass")
                 .font(.system(size: 44, weight: .light))
                 .foregroundStyle(NCColor.neonCyan)
