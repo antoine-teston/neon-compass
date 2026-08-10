@@ -24,17 +24,67 @@ struct FavoritesCard: View {
     let favoriteCount: Int
     let showsCount: Bool
     let isAtCap: Bool
+    /// La carte montre-t-elle TOUS les favoris ? Vrai sous le filtre « Favoris »,
+    /// où c'est précisément ce qu'on a demandé à voir.
+    let showsAll: Bool
     let onSelect: (Cheat) -> Void
     let onRemove: (Cheat) -> Void
+    let onShowAll: () -> Void
 
     private var currentLanguageCode: String {
         Locale.current.language.languageCode?.identifier ?? "en"
     }
 
+    /// Les lignes réellement rendues, plafonnées.
+    ///
+    /// **Pourquoi un plafond ici alors que le plafond des favoris existe déjà :**
+    /// Pro le lève. Un abonné qui étoile les trente-six codes obtiendrait une
+    /// carte de trente-six lignes, construites d'un bloc — ce n'est plus un
+    /// raccourci, c'est un mur qui repousse le catalogue plusieurs écrans plus
+    /// bas. Et une grande carte est précisément ce qui a déjà coûté un écran noir
+    /// sur cet écran.
+    ///
+    /// Sauf sous le filtre « Favoris », où la carte EST tout ce qu'on a demandé à
+    /// voir : là, elle les montre tous.
+    private var visibleRows: [(cheat: Cheat, code: CheatCode)] {
+        let entries = cheats.compactMap { cheat in
+            cheat.codes[inputMode].map { (cheat: cheat, code: $0) }
+        }
+        guard !showsAll else { return entries }
+        return Array(entries.prefix(CheatsModel.freeFavoriteCap))
+    }
+
+    private var overflow: Int {
+        max(0, cheats.count { $0.codes[inputMode] != nil } - visibleRows.count)
+    }
+
+    /// Le pied qui dit ce qu'on ne montre pas, et y mène.
+    private var overflowRow: some View {
+        Button(action: onShowAll) {
+            HStack(spacing: 6) {
+                Text("cheats.favorites.more \(overflow)")
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 10, weight: .bold))
+            }
+            .font(NCTypography.cardMeta)
+            .foregroundStyle(NCColor.sunsetOrange)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 12)
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
-            ForEach(Array(cheats.enumerated()), id: \.element.id) { index, cheat in
+            // `shown` et non `cheats` : les lignes en trop vivent derrière le
+            // pied de carte. Et le filtrage sur le code se fait ICI, avant
+            // d'énumérer — le faire dans la boucle laissait passer le filet
+            // d'une ligne qui n'était pas rendue, soit un trait tout seul. Une
+            // garde qui a l'air défensive et ne l'est pas est pire qu'aucune.
+            let shown = visibleRows
+            ForEach(Array(shown.enumerated()), id: \.element.cheat.id) { index, entry in
                 if index > 0 {
                     // Le filet vit ENTRE les lignes et non sous chacune : une
                     // carte qui se termine par un trait paraît coupée.
@@ -43,10 +93,9 @@ struct FavoritesCard: View {
                         .frame(height: 1)
                         .accessibilityHidden(true)
                 }
-                if let code = cheat.codes[inputMode] {
-                    row(cheat, code: code)
-                }
+                row(entry.cheat, code: entry.code)
             }
+            if overflow > 0 { overflowRow }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)

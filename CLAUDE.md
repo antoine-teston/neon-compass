@@ -66,5 +66,6 @@ Feature-first folders (`App/`, `Features/`, `Core/`), pas layer-first.
 
 - Small diffs. One feature or fix per session; don't refactor opportunistically.
 - Before claiming done: build + tests must pass locally. Paste the failing output if they don't.
+- **`-only-testing` sur UN test Swift Testing ne lance rien, et rapporte `TEST SUCCEEDED`.** Même famille de piège que le « 0 tests » ci-dessous, et plus vicieuse : elle survient au moment précis où l'on cherche à prouver qu'un test sait échouer, et elle répond « tout va bien ». Cibler la SUITE (`-only-testing:NeonCompassTests/MaSuite`) et lire la ligne `Test run with N tests` — un compte inattendu vaut échec.
 - **`xcodebuild test` peut réécrire `Localizable.xcstrings`.** L'extraction automatique de chaînes y ajoute des variantes à suffixe `%@` sans traduction, ce qui fait tomber `LocalizationCoverageTests`. Le fichier apparaît alors modifié sans qu'on y ait touché : vérifier `git status` avant de commiter, et restaurer (`git checkout -- NeonCompass/Resources/Localizable.xcstrings`) plutôt que d'emporter l'artefact.
 - When a decision here conflicts with reality (API deprecated, better tool exists), raise it in the conversation — don't silently deviate.

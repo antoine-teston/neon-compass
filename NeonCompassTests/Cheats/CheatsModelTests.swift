@@ -383,7 +383,7 @@ struct CheatsModelTests {
         #expect(sut.favoriteSection.isEmpty)
         #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a", "b"])
 
-        sut.toggleFavorite(favoritable[1])
+        sut.toggleFavorite(favoritable[1], isProEntitled: true)
         #expect(sut.favoriteSection.map(\.id) == ["b"])
         #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a"])
     }
@@ -392,7 +392,7 @@ struct CheatsModelTests {
     /// le favori y reste, et remonte en tête.
     @Test func underACategoryFilterTheFavoriteStaysAndLeads() throws {
         let sut = try model(favoritable, defaults: defaults("fav-under-filter"))
-        sut.toggleFavorite(favoritable[1])
+        sut.toggleFavorite(favoritable[1], isProEntitled: true)
         sut.select(.category(.weapons))
 
         #expect(sut.favoriteSection.isEmpty)
@@ -403,7 +403,7 @@ struct CheatsModelTests {
     /// les mêmes codes aux deux endroits seraient un doublon.
     @Test func theFavoritesFilterLeavesEverythingToTheCard() throws {
         let sut = try model(favoritable, defaults: defaults("fav-filter"))
-        sut.toggleFavorite(favoritable[1])
+        sut.toggleFavorite(favoritable[1], isProEntitled: true)
         sut.select(.favorites)
 
         #expect(sut.favoriteSection.map(\.id) == ["b"])
@@ -417,7 +417,7 @@ struct CheatsModelTests {
     /// Ce test remplace son inverse, qui figeait la forme précédente.
     @Test func theFavoritesCardIsOutsideTheAdColumn() throws {
         let sut = try model(favoritable, defaults: defaults("fav-column"))
-        sut.toggleFavorite(favoritable[1])
+        sut.toggleFavorite(favoritable[1], isProEntitled: true)
         #expect(sut.favoriteSection.map(\.id) == ["b"])
         #expect(sut.displayedCheats.map(\.id) == ["a"])
         #expect(sut.flatIndexByID["b"] == nil)
@@ -456,7 +456,7 @@ struct CheatsModelTests {
     /// confondent pas.
     @Test func theReaderCanReachAFavorite() throws {
         let sut = try model(favoritable, defaults: defaults("fav-readable"))
-        sut.toggleFavorite(favoritable[1])
+        sut.toggleFavorite(favoritable[1], isProEntitled: true)
 
         #expect(sut.displayedCheats.map(\.id) == ["a"])
         #expect(sut.readableCheats.map(\.id) == ["b", "a"])
@@ -467,11 +467,132 @@ struct CheatsModelTests {
     /// cette moitié-là, le lecteur serait inatteignable depuis la carte seule.
     @Test func theReaderReachesFavoritesUnderTheFavoritesFilter() throws {
         let sut = try model(favoritable, defaults: defaults("fav-readable-filter"))
-        sut.toggleFavorite(favoritable[1])
+        sut.toggleFavorite(favoritable[1], isProEntitled: true)
         sut.select(.favorites)
 
         #expect(sut.displayedCheats.isEmpty)
         #expect(sut.readableCheats.map(\.id) == ["b"])
+    }
+
+    // MARK: - Un favori appartient à son mode de saisie
+
+    /// Cinq des trente-six codes de GTA V n'ont pas d'équivalent manette. Tant
+    /// qu'un favori valait pour tous les modes, en poser cinq au téléphone puis
+    /// passer sur manette donnait une carte vide, un compteur plein, et tout
+    /// ajout refusé.
+    @Test func aFavoriteBelongsToTheModeItWasSetIn() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-mode"))
+        sut.activeInputMode = .phone
+        sut.toggleFavorite(favoritable[0], isProEntitled: false)
+        #expect(sut.isFavorite(favoritable[0]))
+
+        sut.activeInputMode = .playstation
+        #expect(!sut.isFavorite(favoritable[0]))
+        #expect(sut.favoriteCount == 0)
+    }
+
+    @Test func theCapCountsOnlyTheActiveMode() throws {
+        let all = fiveFavoritable()
+        let sut = try model(all, defaults: defaults("fav-cap-mode"))
+        sut.activeInputMode = .phone
+        for cheat in all.prefix(5) {
+            #expect(sut.toggleFavorite(cheat, isProEntitled: false))
+        }
+        #expect(sut.isAtFavoriteCap(isProEntitled: false))
+
+        // Un autre mode part de zéro : c'est tout l'objet de la séparation.
+        sut.activeInputMode = .playstation
+        #expect(sut.favoriteCount == 0)
+        #expect(!sut.isAtFavoriteCap(isProEntitled: false))
+        #expect(sut.toggleFavorite(all[0], isProEntitled: false))
+    }
+
+    /// Une publication qui renomme un identifiant laisserait sinon une place
+    /// consommée pour toujours — invisible, donc irrécupérable. Rien n'est
+    /// supprimé pour autant : l'identifiant peut revenir.
+    @Test func aVanishedCheatDoesNotConsumeTheCap() throws {
+        let all = fiveFavoritable()
+        let sut = try model(all, defaults: defaults("fav-vanished"))
+        for cheat in all.prefix(5) { sut.toggleFavorite(cheat, isProEntitled: false) }
+        #expect(sut.favoriteCount == 5)
+
+        // Le catalogue perd trois de ces triches.
+        sut.updateCheats(Array(all.prefix(2)))
+        #expect(sut.favoriteCount == 2)
+        #expect(!sut.isAtFavoriteCap(isProEntitled: false))
+    }
+
+    // MARK: - Ne jamais laisser l'écran sans issue
+
+    /// Retirer son dernier favori sous le filtre « Favoris » laissait un écran
+    /// sans carte, sans liste, sans état vide — et sans la puce qui aurait permis
+    /// d'en sortir, disparue avec le dernier favori.
+    @Test func removingTheLastFavoriteReleasesTheFavoritesFilter() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-release"))
+        sut.toggleFavorite(favoritable[0], isProEntitled: false)
+        sut.select(.favorites)
+        #expect(sut.filter == .favorites)
+
+        sut.toggleFavorite(favoritable[0], isProEntitled: false)
+        #expect(sut.filter == .none)
+        #expect(!sut.displayedCheats.isEmpty)
+    }
+
+    /// Même impasse par un autre chemin : changer de mode peut vider les favoris
+    /// sans qu'on ait touché à une étoile.
+    @Test func changingInputModeAlsoReleasesTheFavoritesFilter() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-release-mode"))
+        sut.activeInputMode = .phone
+        sut.toggleFavorite(favoritable[0], isProEntitled: false)
+        sut.select(.favorites)
+        #expect(sut.filter == .favorites)
+
+        sut.activeInputMode = .playstation
+        #expect(sut.filter == .none)
+    }
+
+    /// La puce ne s'offre que si le jeu ET le mode actifs savent afficher quelque
+    /// chose. Le compte du plafond ne suffit pas : il porte aussi sur l'autre jeu.
+    @Test func theChipIsOfferedOnlyWhenSomethingWouldShow() throws {
+        let sut = try model([
+            cheat("v", .misc, game: .reference, codes: [.phone: .phone(number: "1-999-1", mnemonic: nil)]),
+            cheat("vi", .misc, game: .leonida, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)]),
+        ], defaults: defaults("fav-chip"))
+        sut.activeInputMode = .phone
+        sut.activeGame = .leonida
+        sut.toggleFavorite(sut.sections.flatMap(\.cheats)[0], isProEntitled: false)
+        #expect(sut.hasDisplayableFavorites)
+
+        sut.activeGame = .reference
+        #expect(sut.favoriteCount == 1)
+        #expect(!sut.hasDisplayableFavorites)
+    }
+
+    // MARK: - Les encarts ne bougent pas quand on favorite
+
+    /// Les favoris quittent la colonne, donc en raccourcissent la longueur. Semée
+    /// sur cette longueur, la suite d'encarts changeait ENTIÈREMENT à chaque
+    /// étoile : chaque `BannerAdView` détruite et recréée, donc une requête AdMob
+    /// dans le chemin du tap. C'est le défaut que ce projet a déjà corrigé une
+    /// fois pour le fil d'actu.
+    @Test func favoritingDoesNotMoveTheAds() throws {
+        let many = (0..<40).map {
+            cheat("m\($0)", .misc, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)])
+        }
+        let sut = try model(many, defaults: defaults("fav-ads-stable"))
+        let before = sut.adPositions
+        #expect(!before.isEmpty)
+
+        sut.toggleFavorite(many[30], isProEntitled: false)
+
+        // ÉGALITÉ EXACTE, pas une inclusion. La première rédaction se contentait
+        // d'un `isSubset` : elle passait avec la graine cassée, donc ne prouvait
+        // rien. À graine constante la suite d'écarts est la même, et raccourcir
+        // la colonne d'un élément ne fait que tronquer la fin — `positions`
+        // s'arrête à `itemCount`, d'où la borne ci-dessous.
+        let count = sut.displayedCheats.count
+        #expect(count == many.count - 1)
+        #expect(sut.adPositions == before.filter { $0 < count - 1 })
     }
 
     // MARK: - Plafond des favoris
@@ -530,9 +651,9 @@ struct CheatsModelTests {
         let sut = try model(favoritable, defaults: defaults("fav-ids"))
         let target = favoritable[0]
         #expect(!sut.favoriteCheatIDs.contains(target.id))
-        sut.toggleFavorite(target)
+        sut.toggleFavorite(target, isProEntitled: true)
         #expect(sut.favoriteCheatIDs.contains(target.id))
-        sut.toggleFavorite(target)
+        sut.toggleFavorite(target, isProEntitled: true)
         #expect(!sut.favoriteCheatIDs.contains(target.id))
     }
 }

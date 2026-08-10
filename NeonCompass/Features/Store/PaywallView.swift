@@ -12,6 +12,16 @@ private struct FixedIconLabelStyle: LabelStyle {
 }
 
 struct PaywallView: View {
+    /// Ce qui a fait apparaître cet écran, quand c'est un refus et non un choix.
+    ///
+    /// Sans elle, buter sur le plafond des favoris ouvrait un écran Pro générique :
+    /// l'étoile ne s'allumait pas, une page de vente surgissait, et c'était à
+    /// l'utilisateur de faire le lien. Une phrase suffit à le faire pour lui.
+    ///
+    /// `nil` quand on vient l'ouvrir soi-même, depuis les réglages ou le profil —
+    /// là, personne n'a besoin qu'on lui rappelle ce qu'il vient de demander.
+    var reason: LocalizedStringKey?
+
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     @Environment(\.dismiss) private var dismiss
 
@@ -45,6 +55,13 @@ struct PaywallView: View {
                     // Le dégradé de marque : cet écran vend Pro, et Pro est
                     // désormais de la famille chaude — cf. le badge de l'entête
                     // du Profil. Le bouton d'achat était déjà en magenta.
+                    if let reason {
+                        Text(reason)
+                            .font(NCTypography.cardMeta)
+                            .foregroundStyle(NCColor.sunsetOrange)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     Text("paywall.title")
                         .font(NCTypography.displayTitle)
                         .foregroundStyle(NCColor.sunset)
