@@ -106,15 +106,31 @@ un fait déjà matérialisé s'est réapparié à son entrée, un fait écarté 
 *jeté*. Les confondre afficherait « rien à faire » à qui vient de perdre une
 lecture.
 
-**Il écarte, il ne fusionne pas, et il le dit.** `pull-news` rapporte chaque
-écart avec l'URL et l'entrée qui la portait déjà :
+**Il écarte, il ne fusionne pas, et il le dit — avec le `claim` écarté.**
 
 ```
 écarté  what-to-expect-when-gta-6-hits-netflix-…  — déjà porté par news_9bd3ef15
+        « Un message du support client de Netflix évoquerait une durée de… »
 pull-news: 2 squelette(s), 3 écarté(s) — URL déjà couverte, 78 déjà matérialisé(s)
 ```
 
-Un écart silencieux se lirait comme une absence de travail.
+Le `claim` dans le rapport n'est pas du confort, et c'est le prix assumé de ce
+contrôle. **Une URL peut légitimement porter deux sujets distincts.** Le cas
+existe dans les données : `playstation-quietly-adds-gta-6-…` porte trois faits du
+2026-08-06, dont deux sont des doublons du même sujet (Sony réinscrit le jeu à
+sa page éditoriale) — mais le troisième parle d'un ancien animateur du studio
+jugeant le jeu achevé à 80-90 %. Rien de mécanique ne les distingue : il faudrait
+lire.
+
+Le contrôle écartera donc ce troisième fait. Il ne peut pas ne pas l'écarter sans
+rouvrir la porte aux doublons, mais il ne doit pas le perdre en silence : le
+`claim` imprimé, relu dans la PR quotidienne, laisse la décision à un humain qui
+peut rouvrir le sujet depuis une autre source.
+
+**Ce que ces données apprennent en passant** : les doublons ne viennent pas
+seulement des doubles runs. Les 06 et 07 août, un run UNIQUE a produit deux faits
+pour un même article, quatre fois. L'agent se répète tout seul. Un correctif qui
+se serait contenté de l'ordonnanceur n'aurait rien réglé de cela.
 
 ### La cardinalité, en un seul endroit
 
@@ -250,7 +266,10 @@ tout ce qui a été écarté.
 - **Le contrôle retiré fait revenir les doublons** — exécuté, pas supposé. Un
   contrôle qui ne sait qu'approuver est indiscernable d'un bon.
 - **Les faits multiples légitimes passent** : les trois `poi` d'un même article de
-  localisations produisent trois entrées.
+  localisations produisent trois entrées — la cardinalité `multiple` les exempte.
+- **Un écart nomme ce qu'il jette** : le `claim` figure dans le rapport, testé
+  sur le cas réel de `playstation-quietly-adds-gta-6-…` où le troisième fait est
+  un sujet distinct légitimement sacrifié.
 - **Tout kind de `KINDS` figure dans exactement une des deux tables** —
   `CARDINALITE` ou `HORS_CONTROLE`. Un kind dans les deux, ou dans aucune, fait
   tomber la suite.
@@ -271,14 +290,22 @@ minutes.
 
 ## Hors périmètre
 
-- **La traduction ES/IT/DE.** `cli.js:370` déclare que `translate` n'a que son
-  `--dry-run` et que « l'appel IA reste à câbler » ; les 78 actus publiées sont
-  toutes en `en+fr` seulement, alors que le schéma accepte les cinq langues et que
-  la console affiche déjà un bouton « Traductions manquantes ». Chantier réel,
-  spec distincte : il vit après la rédaction, pas à la matérialisation, et aucune
-  de ses questions — quel modèle, quel coût, traduit-on les brouillons ou seulement
-  le publiable, une traduction manquante bloque-t-elle la publication — ne touche
-  celui-ci.
+- **La traduction ES/IT/DE.** La cause est une couture, comme le reste de ce
+  dossier : `content-editor.md:15` dit « ES/IT/DE sont générés par le CLI — ne les
+  remplis pas », et `cli.js:370` dit « l'appel IA reste à câbler ». Chaque moitié
+  délègue à l'autre, et les 78 actus publiées sont bilingues alors que le schéma
+  accepte les cinq langues et que la console affiche déjà un bouton « Traductions
+  manquantes ».
+
+  **Tranché le 2026-08-10 : c'est la ROUTINE qui traduira, pas le CLI.** Elle
+  écrit déjà `title` et `body` en EN et FR depuis le `claim` ; écrire les cinq
+  langues est le même geste, même modèle, même passe — aucune clé d'API, aucun
+  coût, aucun secret de plus. `translate --dry-run` n'est donc pas un producteur
+  inachevé mais le **contrôle**, et il devient utile tel quel.
+
+  Chantier distinct malgré tout, parce que deux questions y restent entières et
+  n'ont rien à voir avec l'identité ni le refus : une traduction manquante
+  bloque-t-elle la publication, et que fait-on des 78 entrées déjà publiées.
 - **L'ordonnanceur de la Routine**, hors dépôt.
 - **`factDiscriminant`**, inchangé.
 - **La fusion de deux lectures concurrentes** : le contrôle écarte la seconde en
