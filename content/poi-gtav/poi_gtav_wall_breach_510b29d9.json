@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Floyd's house",
-    "fr": "Appartement de Floyd"
+    "fr": "Appartement de Floyd",
+    "es": "Piso de Floyd",
+    "it": "Appartamento di Floyd",
+    "de": "Floyds Wohnung"
   },
   "note": {
     "en": "Go to the location as seen below. Walk upstairs and climb up the root. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Floyd's house.",

@@ -3777,7 +3777,10 @@
     },
     "title": {
       "en": "Hidden Package #9 - $25,000",
-      "fr": "Magot caché n°9 — 25 000 $"
+      "fr": "Magot caché n°9 — 25 000 $",
+      "es": "Paquete oculto #9 — 25 000 $",
+      "it": "Pacco nascosto #9 — 25.000 $",
+      "de": "Verstecktes Paket #9 — 25.000 $"
     },
     "note": {
       "en": "This briefcase is exploitable for unlimited money",
@@ -3842,7 +3845,10 @@
     },
     "title": {
       "en": "Rare Car Spawn",
-      "fr": "Apparition de voiture rare"
+      "fr": "Apparition de voiture rare",
+      "es": "Aparición de coche raro",
+      "it": "Comparsa di auto rara",
+      "de": "Seltenes Fahrzeug"
     },
     "note": {
       "en": "Number of different sports cars will spawn here regularly",
@@ -3879,7 +3885,10 @@
     },
     "title": {
       "en": "Unmarked FIB Car",
-      "fr": "Voiture banalisée du FIB"
+      "fr": "Voiture banalisée du FIB",
+      "es": "Coche camuflado del FIB",
+      "it": "Auto civetta del FIB",
+      "de": "Ziviles FIB-Fahrzeug"
     }
   },
   {
@@ -5212,7 +5221,10 @@
     },
     "title": {
       "en": "East LSC bridge",
-      "fr": "Pont du LSC est"
+      "fr": "Pont du LSC est",
+      "es": "Puente del LSC este",
+      "it": "Ponte del LSC est",
+      "de": "Brücke am östlichen LSC"
     },
     "note": {
       "en": "Go to the location as seen below. Push the trash bin with your car straight against the wall. Stand on the bin and now just jump and you will be inside and under the bridge. You'll be able to shoot anywhere through it.",
@@ -5229,7 +5241,10 @@
     },
     "title": {
       "en": "Bridge in Del Perro",
-      "fr": "Pont de Del Perro"
+      "fr": "Pont de Del Perro",
+      "es": "Puente de Del Perro",
+      "it": "Ponte di Del Perro",
+      "de": "Brücke in Del Perro"
     },
     "note": {
       "en": "Go to the location as seen below. Swim under the bridge and hop up the rail on the left side. Turn left and straight run through the wall.",
@@ -5246,7 +5261,10 @@
     },
     "title": {
       "en": "Kayton Skyscraper",
-      "fr": "Gratte-ciel Kayton"
+      "fr": "Gratte-ciel Kayton",
+      "es": "Rascacielos Kayton",
+      "it": "Grattacielo Kayton",
+      "de": "Kayton-Hochhaus"
     },
     "note": {
       "en": "Go to the location as seen below. Get into a helicopter and fly about 15 meters above the ground. Fly straigt ahead the tower to wall breach. If you are inside just fly down and land your helicopter.",
@@ -5263,7 +5281,10 @@
     },
     "title": {
       "en": "Beach Store",
-      "fr": "Boutique de la plage"
+      "fr": "Boutique de la plage",
+      "es": "Tienda de la playa",
+      "it": "Negozio della spiaggia",
+      "de": "Strandladen"
     },
     "note": {
       "en": "Go to the location as seen below. Turn to the open garage and drive straight throgh the wall. Note: during day time you need an bicycle because there are boxes that prevent you from entering the garage!",
@@ -5300,7 +5321,10 @@
     },
     "title": {
       "en": "Parking lot in San Andreas",
-      "fr": "Parking de San Andreas"
+      "fr": "Parking de San Andreas",
+      "es": "Aparcamiento de San Andreas",
+      "it": "Parcheggio di San Andreas",
+      "de": "Parkplatz in San Andreas"
     },
     "note": {
       "en": "Go to the location as seen below. Turn to the building, hop over the shrub, move about ten more meters and turn to the left wall. Jump to get inside the parking lot.",
@@ -5317,7 +5341,10 @@
     },
     "title": {
       "en": "Insurance store in San Andreas",
-      "fr": "Agence d'assurance de San Andreas"
+      "fr": "Agence d'assurance de San Andreas",
+      "es": "Aseguradora de San Andreas",
+      "it": "Agenzia assicurativa di San Andreas",
+      "de": "Versicherungsbüro in San Andreas"
     },
     "note": {
       "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building.",
@@ -5334,7 +5361,10 @@
     },
     "title": {
       "en": "Garage in San Andreas",
-      "fr": "Garage de San Andreas"
+      "fr": "Garage de San Andreas",
+      "es": "Garaje de San Andreas",
+      "it": "Garage di San Andreas",
+      "de": "Garage in San Andreas"
     },
     "note": {
       "en": "Go to the location as seen below. Get into a decent sized vehicle and park it infront of the garage. Hop on it and jump to get inside the building.",
@@ -5351,7 +5381,10 @@
     },
     "title": {
       "en": "Residence near LSPD",
-      "fr": "Résidence près du commissariat LSPD"
+      "fr": "Résidence près du commissariat LSPD",
+      "es": "Residencia junto a la LSPD",
+      "it": "Residenza vicino alla LSPD",
+      "de": "Wohnhaus nahe der LSPD"
     },
     "note": {
       "en": "Go to the location as seen below. Turn around to the red residence house. Hop over the gate, run to the backyard, go upstairs to the second floor. Turn left to the red pillar and jump.",
@@ -5368,7 +5401,10 @@
     },
     "title": {
       "en": "FIB tower",
-      "fr": "Tour du FIB"
+      "fr": "Tour du FIB",
+      "es": "Torre del FIB",
+      "it": "Torre del FIB",
+      "de": "FIB-Turm"
     },
     "note": {
       "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building.",
@@ -5385,7 +5421,10 @@
     },
     "title": {
       "en": "Car park",
-      "fr": "Parking"
+      "fr": "Parking",
+      "es": "Aparcamiento",
+      "it": "Parcheggio",
+      "de": "Parkplatz"
     },
     "note": {
       "en": "Go to the location as seen below. Drive into the wall about one meter besides the electricity box.",
@@ -5402,7 +5441,10 @@
     },
     "title": {
       "en": "Shrub near Eclipse tower",
-      "fr": "Buisson près de l'Eclipse Tower"
+      "fr": "Buisson près de l'Eclipse Tower",
+      "es": "Arbusto junto a la Eclipse Tower",
+      "it": "Cespuglio vicino all'Eclipse Tower",
+      "de": "Busch nahe dem Eclipse Tower"
     },
     "note": {
       "en": "Go to the location as seen below. Walk to the pillar and jump to get into the shrub.",
@@ -5419,7 +5461,10 @@
     },
     "title": {
       "en": "Bridge in Tataviam Mountains",
-      "fr": "Pont des monts Tataviam"
+      "fr": "Pont des monts Tataviam",
+      "es": "Puente de los montes Tataviam",
+      "it": "Ponte dei monti Tataviam",
+      "de": "Brücke in den Tataviam Mountains"
     },
     "note": {
       "en": "Go to the location as seen below. Walk towards the bridge wall. Turn right and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge.",
@@ -5456,7 +5501,10 @@
     },
     "title": {
       "en": "Example of \"Breach anywhere\" method",
-      "fr": "Exemple de la méthode « passage n'importe où »"
+      "fr": "Exemple de la méthode « passage n'importe où »",
+      "es": "Ejemplo del método « brecha en cualquier sitio »",
+      "it": "Esempio del metodo « varco ovunque »",
+      "de": "Beispiel für die Methode « Durchbruch überall »"
     },
     "note": {
       "en": "Go to the location as seen below. Park your car against the railing. Hop onto your roof, run and jump into the wall.",
@@ -5473,7 +5521,10 @@
     },
     "title": {
       "en": "Industrial building",
-      "fr": "Bâtiment industriel"
+      "fr": "Bâtiment industriel",
+      "es": "Nave industrial",
+      "it": "Edificio industriale",
+      "de": "Industriegebäude"
     },
     "note": {
       "en": "Go to the location as seen below. Climb up the ladder, run across the roof and jump onto the roof of the building next to it. Run at the end of the roof to the left corner. Once you're there you'll fall through the roof.",
@@ -5490,7 +5541,10 @@
     },
     "title": {
       "en": "Highway",
-      "fr": "Autoroute"
+      "fr": "Autoroute",
+      "es": "Autopista",
+      "it": "Autostrada",
+      "de": "Autobahn"
     },
     "note": {
       "en": "Works the same like \"Bridge in Tataviam Mountains\". Go to the location as seen below. Walk towards the bridge wall. Turn left and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge.",
@@ -5507,7 +5561,10 @@
     },
     "title": {
       "en": "Sandy Shores Store",
-      "fr": "Boutique de Sandy Shores"
+      "fr": "Boutique de Sandy Shores",
+      "es": "Tienda de Sandy Shores",
+      "it": "Negozio di Sandy Shores",
+      "de": "Laden in Sandy Shores"
     },
     "note": {
       "en": "Go to the location as seen below. Walk towards the store right beside the entrance. Jump to get inside the building.",
@@ -5524,7 +5581,10 @@
     },
     "title": {
       "en": "FIB Tower",
-      "fr": "Tour du FIB"
+      "fr": "Tour du FIB",
+      "es": "Torre del FIB",
+      "it": "Torre del FIB",
+      "de": "FIB-Turm"
     },
     "note": {
       "en": "Go to the location as seen below. Get a helicopter and fly on top of the building. Get out and walk to the side of the building. Walk downstairs the ladder and turn right. At the end of that platform turn left and walk straight into the wall/border (not on the side with the big FIB logo). You should fall and end up on the next floor. After some seconds the textures should load and you should be inside the FIB building.",
@@ -5541,7 +5601,10 @@
     },
     "title": {
       "en": "Beach house",
-      "fr": "Maison de plage"
+      "fr": "Maison de plage",
+      "es": "Casa de la playa",
+      "it": "Casa sulla spiaggia",
+      "de": "Strandhaus"
     },
     "note": {
       "en": "Go to the location as seen below. Walk behind the house, turn right and sprint into the house.",
@@ -5558,7 +5621,10 @@
     },
     "title": {
       "en": "Below Airport",
-      "fr": "Sous l'aéroport"
+      "fr": "Sous l'aéroport",
+      "es": "Bajo el aeropuerto",
+      "it": "Sotto l'aeroporto",
+      "de": "Unter dem Flughafen"
     },
     "note": {
       "en": "Go to the location as seen below. Walk to the stack of greenish pillars, make your way to the top of them. Walk straight ahead to the little space between them, get in there and run straight into the grey pillars until you glitch into them.",
@@ -5575,7 +5641,10 @@
     },
     "title": {
       "en": "Meth lab",
-      "fr": "Labo de méthamphétamine"
+      "fr": "Labo de méthamphétamine",
+      "es": "Laboratorio de metanfetamina",
+      "it": "Laboratorio di metanfetamina",
+      "de": "Meth-Labor"
     },
     "note": {
       "en": "Go to the location as seen below. Back up your car to the wall where the generators are. Hop on your car and shoot out the window on the second floor. Climb up the fan and then climb up inside the window.",
@@ -5592,7 +5661,10 @@
     },
     "title": {
       "en": "Vespucci Canals building",
-      "fr": "Immeuble des canaux de Vespucci"
+      "fr": "Immeuble des canaux de Vespucci",
+      "es": "Edificio de los canales de Vespucci",
+      "it": "Edificio dei canali di Vespucci",
+      "de": "Gebäude an den Vespucci-Kanälen"
     },
     "note": {
       "en": "Go to the location as seen below. Climb over the wall and walk straight into the building.",
@@ -5609,7 +5681,10 @@
     },
     "title": {
       "en": "Vinewood Observatory",
-      "fr": "Observatoire de Vinewood"
+      "fr": "Observatoire de Vinewood",
+      "es": "Observatorio de Vinewood",
+      "it": "Osservatorio di Vinewood",
+      "de": "Vinewood-Observatorium"
     },
     "note": {
       "en": "Go to the location as seen below. Climb up the ladder and turn left. Run to the gap between the two roof elements. Try to fall between them to breach into the building.",
@@ -5626,7 +5701,10 @@
     },
     "title": {
       "en": "Dollar Pills",
-      "fr": "Pharmacie Dollar Pills"
+      "fr": "Pharmacie Dollar Pills",
+      "es": "Farmacia Dollar Pills",
+      "it": "Farmacia Dollar Pills",
+      "de": "Dollar-Pills-Apotheke"
     },
     "note": {
       "en": "Go to the location as seen below. Climb on top of the yellow cloth bin and jump again to get inside the building.",
@@ -5643,7 +5721,10 @@
     },
     "title": {
       "en": "City Hall",
-      "fr": "Hôtel de ville"
+      "fr": "Hôtel de ville",
+      "es": "Ayuntamiento",
+      "it": "Municipio",
+      "de": "Rathaus"
     },
     "note": {
       "en": "Go to the location as seen below and go up the stairs to Mike's left in the picture. Follow the path until you reach an intersection. Your going to want to take a left. Like before, keep following the path until you you find the corner. It should be on the right hand side if you went the way I told you. All you have to do now, is walk into it. Do not continually walk into the wall, let go of the left stick once you are behind the little rail thingy. If you did it correctly, you should slide down the wall, into a little room. The invisible wall to Mike's left is bullet proof, but the one in front of him you can shoot through. The only way to get out of this little room is to jump into the void of death (behind mike out of frame).",
@@ -5660,7 +5741,10 @@
     },
     "title": {
       "en": "Humane Laboratory",
-      "fr": "Laboratoires Humane"
+      "fr": "Laboratoires Humane",
+      "es": "Laboratorios Humane",
+      "it": "Laboratori Humane",
+      "de": "Humane-Labore"
     },
     "note": {
       "en": "Go to the location as seen below. Walk upstairs and turn left. Run straight at the end of this to the generator. Hop on the generator and walk to the three blue pipes. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the laboratory.",
@@ -5677,7 +5761,10 @@
     },
     "title": {
       "en": "Flecca Bank",
-      "fr": "Banque Flecca"
+      "fr": "Banque Flecca",
+      "es": "Banco Flecca",
+      "it": "Banca Flecca",
+      "de": "Flecca-Bank"
     },
     "note": {
       "en": "Go to the location as seen below. Get a decent sized vehicle and park it infront of the bank. Hop on it and climb up the roof of the bank. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the bank.",
@@ -5694,7 +5781,10 @@
     },
     "title": {
       "en": "LSPD police station",
-      "fr": "Commissariat du LSPD"
+      "fr": "Commissariat du LSPD",
+      "es": "Comisaría de la LSPD",
+      "it": "Commissariato della LSPD",
+      "de": "LSPD-Polizeiwache"
     },
     "note": {
       "en": "Go to the location as seen below. Walk over the shrub and stand besides the building wall. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the police station.",
@@ -5711,7 +5801,10 @@
     },
     "title": {
       "en": "Floyd's house",
-      "fr": "Appartement de Floyd"
+      "fr": "Appartement de Floyd",
+      "es": "Piso de Floyd",
+      "it": "Appartamento di Floyd",
+      "de": "Floyds Wohnung"
     },
     "note": {
       "en": "Go to the location as seen below. Walk upstairs and climb up the root. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Floyd's house.",
@@ -5728,7 +5821,10 @@
     },
     "title": {
       "en": "Lester's house",
-      "fr": "Maison de Lester"
+      "fr": "Maison de Lester",
+      "es": "Casa de Lester",
+      "it": "Casa di Lester",
+      "de": "Lesters Haus"
     },
     "note": {
       "en": "Go to the location as seen below. Go to the backside of the house and try to jump on top the AC fan. Position yourself in the middle of the root. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Lester's house.",
@@ -5745,7 +5841,10 @@
     },
     "title": {
       "en": "Strip Club office",
-      "fr": "Bureau du club de strip-tease"
+      "fr": "Bureau du club de strip-tease",
+      "es": "Oficina del club de striptease",
+      "it": "Ufficio dello strip club",
+      "de": "Büro des Stripclubs"
     },
     "note": {
       "en": "Go to the location as seen below. Climb up the ladder and face the metal box on top of it. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Strip Club.",
@@ -5762,7 +5861,10 @@
     },
     "title": {
       "en": "Trevors torture room",
-      "fr": "Salle de torture de Trevor"
+      "fr": "Salle de torture de Trevor",
+      "es": "Sala de tortura de Trevor",
+      "it": "Stanza delle torture di Trevor",
+      "de": "Trevors Folterraum"
     },
     "note": {
       "en": "Go to the location as seen below. Climb up the ladder and face wall on the left jump on top the second roof. Walk in the middle of the roof and pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the room.",
@@ -5779,7 +5881,10 @@
     },
     "title": {
       "en": "Franklins mansion",
-      "fr": "Villa de Franklin"
+      "fr": "Villa de Franklin",
+      "es": "Mansión de Franklin",
+      "it": "Villa di Franklin",
+      "de": "Franklins Villa"
     },
     "note": {
       "en": "Go to the location as seen below. Drive your car under the porch on the right if you are facing the mansion. Hop on top of it and climb up the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Franklins mansion.",
@@ -5796,7 +5901,10 @@
     },
     "title": {
       "en": "Michaels mansion",
-      "fr": "Villa de Michael"
+      "fr": "Villa de Michael",
+      "es": "Mansión de Michael",
+      "it": "Villa di Michael",
+      "de": "Michaels Villa"
     },
     "note": {
       "en": "Go to the location as seen below. Use a helicopter to get ontop of the roof. Walk in the middle, pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Micheals mansion.",
@@ -5813,7 +5921,10 @@
     },
     "title": {
       "en": "Space Docker garage",
-      "fr": "Garage du Space Docker"
+      "fr": "Garage du Space Docker",
+      "es": "Garaje del Space Docker",
+      "it": "Garage dello Space Docker",
+      "de": "Space-Docker-Garage"
     },
     "note": {
       "en": "Go to the location as seen below. Get a decent sized vehicle and drive it against the trailer. Get on top and climb on the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage.",
@@ -5830,7 +5941,10 @@
     },
     "title": {
       "en": "Recycling Plant",
-      "fr": "Centre de recyclage"
+      "fr": "Centre de recyclage",
+      "es": "Planta de reciclaje",
+      "it": "Centro di riciclaggio",
+      "de": "Recyclinganlage"
     },
     "note": {
       "en": "Go to the location as seen below. Climb up the ladders and walk in the middle of the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage.",
@@ -5867,7 +5981,10 @@
     },
     "title": {
       "en": "Central LSC",
-      "fr": "LSC du centre"
+      "fr": "LSC du centre",
+      "es": "LSC del centro",
+      "it": "LSC del centro",
+      "de": "LSC im Zentrum"
     },
     "note": {
       "en": "Go to the location as seen below. Get in a vehicle than can hold you in the back like the van in the video. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside of the LSC building.",
@@ -5904,7 +6021,10 @@
     },
     "title": {
       "en": "Martins mansion",
-      "fr": "Villa de Martin"
+      "fr": "Villa de Martin",
+      "es": "Mansión de Martin",
+      "it": "Villa di Martin",
+      "de": "Martins Villa"
     },
     "note": {
       "en": "Go to the location as seen below. Get the free van from the beach bum DLC and let your friend pick you up with a Cargobob. Once inside tell your friend to drop you on the balcony deck thingy. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside the building.",
@@ -5921,7 +6041,10 @@
     },
     "title": {
       "en": "Helicopter under map",
-      "fr": "Hélicoptère sous la carte"
+      "fr": "Hélicoptère sous la carte",
+      "es": "Helicóptero bajo el mapa",
+      "it": "Elicottero sotto la mappa",
+      "de": "Helikopter unter der Karte"
     },
     "note": {
       "en": "Go to the location as seen below. Get into a helicopter and fly towards the green and white building. Fly low enought to get between the gab on the white side of the building. Once you are there, fly straight up to get into the second part of the building. Fly towards the middle and then down the ground below the map.",
@@ -5958,7 +6081,10 @@
     },
     "title": {
       "en": "Military base tower",
-      "fr": "Tour de la base militaire"
+      "fr": "Tour de la base militaire",
+      "es": "Torre de la base militar",
+      "it": "Torre della base militare",
+      "de": "Turm der Militärbasis"
     },
     "note": {
       "en": "Withdraw all your money from your bank account. Go to Lester and demand a \"Blind Eye\". Go to the location as seen below, walk against the right side of the green door of the tower and go to Dynasty 8 website. Pretent you would buy a property, when the alert pops up, press A and immedietly jump inside the door.",
@@ -5975,7 +6101,10 @@
     },
     "title": {
       "en": "Ship at Merryweather docks",
-      "fr": "Navire des docks Merryweather"
+      "fr": "Navire des docks Merryweather",
+      "es": "Barco de los muelles de Merryweather",
+      "it": "Nave dei moli Merryweather",
+      "de": "Schiff an den Merryweather-Docks"
     },
     "note": {
       "en": "Go to the location as seen on the interactive map, get aboard the ship and walk towards the back of the ship where there's an overhang. Wace the wall and just jump.",
@@ -5992,7 +6121,10 @@
     },
     "title": {
       "en": "Michaels mansion (via garage)",
-      "fr": "Villa de Michael (par le garage)"
+      "fr": "Villa de Michael (par le garage)",
+      "es": "Mansión de Michael (por el garaje)",
+      "it": "Villa di Michael (dal garage)",
+      "de": "Michaels Villa (über die Garage)"
     },
     "note": {
       "en": "Go to the location as seen below, drive your car next to the garage and hop onto it. Climb ontop the garage roof and walk to the little balcony of the main house. Run across the wall towards the balcony and jump to climb it up. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Michaels mansion.",
@@ -6069,7 +6201,10 @@
     },
     "title": {
       "en": "BF Surfer (with surfboard)",
-      "fr": "BF Surfer (avec planche de surf)"
+      "fr": "BF Surfer (avec planche de surf)",
+      "es": "BF Surfer (con tabla de surf)",
+      "it": "BF Surfer (con tavola da surf)",
+      "de": "BF Surfer (mit Surfbrett)"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -6146,7 +6281,10 @@
     },
     "title": {
       "en": "Youga Van",
-      "fr": "Van Youga"
+      "fr": "Van Youga",
+      "es": "Furgoneta Youga",
+      "it": "Furgone Youga",
+      "de": "Youga-Van"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -6183,7 +6321,10 @@
     },
     "title": {
       "en": "Karin Intruder #2",
-      "fr": "Karin Intruder n°2"
+      "fr": "Karin Intruder n°2",
+      "es": "Karin Intruder #2",
+      "it": "Karin Intruder #2",
+      "de": "Karin Intruder #2"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -6240,7 +6381,10 @@
     },
     "title": {
       "en": "Mariachi",
-      "fr": "Van des mariachis"
+      "fr": "Van des mariachis",
+      "es": "Furgoneta de los mariachis",
+      "it": "Furgone dei mariachi",
+      "de": "Mariachi-Van"
     },
     "note": {
       "en": "Go to the location as seen below _at 19:00_. Drive down the hill and with a bit of luck you can catch the car.",
@@ -6337,7 +6481,10 @@
     },
     "title": {
       "en": "Hearse",
-      "fr": "Corbillard"
+      "fr": "Corbillard",
+      "es": "Coche fúnebre",
+      "it": "Carro funebre",
+      "de": "Leichenwagen"
     },
     "note": {
       "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
@@ -6514,7 +6661,10 @@
     },
     "title": {
       "en": "House in West Vinewood",
-      "fr": "Maison de West Vinewood"
+      "fr": "Maison de West Vinewood",
+      "es": "Casa de West Vinewood",
+      "it": "Casa di West Vinewood",
+      "de": "Haus in West Vinewood"
     },
     "note": {
       "en": "Go to location indicated and enter the yard through the entrance shown in the images. Take a right and follow the building until it meets a white wall near a tree. Climb this wall and go West (left) to reach the back of the house. Run up to the starting position, where the grass meets the dirt such that you are facing South towards the small part of the house. Run down towards and then against the wall shown while spamming X/A. You will then slide into the house. Don't forget a parachute for more fun!",
@@ -6531,7 +6681,10 @@
     },
     "title": {
       "en": "Road Near Airport LSC",
-      "fr": "Route près du LSC de l'aéroport"
+      "fr": "Route près du LSC de l'aéroport",
+      "es": "Carretera junto al LSC del aeropuerto",
+      "it": "Strada vicino al LSC dell'aeroporto",
+      "de": "Straße nahe dem Flughafen-LSC"
     },
     "note": {
       "en": "Go to location indicated and find the group of trees shown as a guide. Locate the second support beam, that is jutting from the road, to the left of the group of trees and stand to the right of this beam. Run or jump such that you character falls into the small space to the right of the support beam. If done correctly your character will breach the wall after erecting him/herself.",
@@ -6548,7 +6701,10 @@
     },
     "title": {
       "en": "Parking Garage Under Tennis Courts in La Puerta",
-      "fr": "Parking sous les courts de tennis de La Puerta"
+      "fr": "Parking sous les courts de tennis de La Puerta",
+      "es": "Aparcamiento bajo las pistas de tenis de La Puerta",
+      "it": "Parcheggio sotto i campi da tennis di La Puerta",
+      "de": "Parkhaus unter den Tennisplätzen in La Puerta"
     },
     "note": {
       "en": "Go to location indicated and locate the bushes to the right of the fenced-off entrance of the parking garage. Stand between the two bushes shown and press Box to climb in.",
@@ -6565,7 +6721,10 @@
     },
     "title": {
       "en": "Parking Garage in Rockford Hills",
-      "fr": "Parking de Rockford Hills"
+      "fr": "Parking de Rockford Hills",
+      "es": "Aparcamiento de Rockford Hills",
+      "it": "Parcheggio di Rockford Hills",
+      "de": "Parkhaus in Rockford Hills"
     },
     "note": {
       "en": "Go to the location as seen on the interactive map--a parking garage across from the east-side Ammunation--enter the second level of the parking garage and walk to the red-brick structure as seen in the pictures. Walk to, and face, the western wall of this structure. Simply walk through the rightmost side of this wall to breach.",
@@ -6582,7 +6741,10 @@
     },
     "title": {
       "en": "Bridge in La Mesa",
-      "fr": "Pont de La Mesa"
+      "fr": "Pont de La Mesa",
+      "es": "Puente de La Mesa",
+      "it": "Ponte di La Mesa",
+      "de": "Brücke in La Mesa"
     },
     "note": {
       "en": "Go to location indicated and walk to the eastern-most strut on the northern side of the bridge. Walk where indicated and face west as shown. Walk up to the indicated wall and press Box to climb in.",
@@ -6599,7 +6761,10 @@
     },
     "title": {
       "en": "Airport LSC Wall-breach",
-      "fr": "Passage de mur du LSC de l'aéroport"
+      "fr": "Passage de mur du LSC de l'aéroport",
+      "es": "Brecha del LSC del aeropuerto",
+      "it": "Varco del LSC dell'aeroporto",
+      "de": "Wanddurchbruch am Flughafen-LSC"
     },
     "note": {
       "en": "Go to the location as noted and stand behind the LSC. Park a car between the two shutter-doors that are directly right of the small crane. Climb onto the car you parked, face the wall and press Box to breach the wall.",
@@ -6616,7 +6781,10 @@
     },
     "title": {
       "en": "Rollercoaster seat glitch",
-      "fr": "Anomalie du siège de montagnes russes"
+      "fr": "Anomalie du siège de montagnes russes",
+      "es": "Fallo del asiento de la montaña rusa",
+      "it": "Anomalia del sedile delle montagne russe",
+      "de": "Achterbahnsitz-Glitch"
     },
     "note": {
       "en": "Go to Rollercoaster. Choose a seat on the Rollercoaster. Someone can choose the same seat as you and will sit \"inside\" of you. (More people can also sit in the same exact seat)",
@@ -6633,7 +6801,10 @@
     },
     "title": {
       "en": "Walk on water/air",
-      "fr": "Marcher sur l'eau et dans les airs"
+      "fr": "Marcher sur l'eau et dans les airs",
+      "es": "Caminar sobre el agua y por el aire",
+      "it": "Camminare sull'acqua e nell'aria",
+      "de": "Auf Wasser und in der Luft gehen"
     },
     "note": {
       "en": "Head over to the helipad near Los Santos Customs. Walk over to the wall near the water and lean on it. Walk to your left until the gun is under the water. Aim the gun at the wall and it will switch to the knife (then you know the glitch worked). Head back to the ramp. Now turn around and walk back to the water. And now you'll be walking on water.",
@@ -6650,7 +6821,10 @@
     },
     "title": {
       "en": "Gate/swing set glitch",
-      "fr": "Anomalie du portail"
+      "fr": "Anomalie du portail",
+      "es": "Fallo de la verja",
+      "it": "Anomalia del cancello",
+      "de": "Tor-Glitch"
     },
     "note": {
       "en": "Go to the location as noted. Let your friend lean against the wall like you saw in the video. Now drive slowly into the gate.",
@@ -6667,7 +6841,10 @@
     },
     "title": {
       "en": "Gate/swing set glitch #2",
-      "fr": "Anomalie du portail n°2"
+      "fr": "Anomalie du portail n°2",
+      "es": "Fallo de la verja #2",
+      "it": "Anomalia del cancello #2",
+      "de": "Tor-Glitch #2"
     },
     "note": {
       "en": "Go to the location as noted. Let your friend lean against the wall like you saw in the video. Now drive slowly into the gate.",
@@ -6704,7 +6881,10 @@
     },
     "title": {
       "en": "Military base tower (easy)",
-      "fr": "Tour de la base militaire (facile)"
+      "fr": "Tour de la base militaire (facile)",
+      "es": "Torre de la base militar (fácil)",
+      "it": "Torre della base militare (facile)",
+      "de": "Turm der Militärbasis (leicht)"
     },
     "note": {
       "en": "Call Lester for blind eye. Walk up to the right side of the wall by the green door. Keep jumping/ punching the air.",
@@ -6721,7 +6901,10 @@
     },
     "title": {
       "en": "Martins mansion (with bike)",
-      "fr": "Villa de Martin (à moto)"
+      "fr": "Villa de Martin (à moto)",
+      "es": "Mansión de Martin (en moto)",
+      "it": "Villa di Martin (in moto)",
+      "de": "Martins Villa (mit dem Motorrad)"
     },
     "note": {
       "en": "Reach the patio of the house just NW of Martin's house on a motorbike (you can use the slanted rock to the right of Martin's driveway as a ramp). Once on the patio of Martin's neighbor, position yourself so you are facing Martin's house (give yourself room to pick up speed). Begin driving towards Martin's roof while tilting backwards on the bike. If done correctly, you will hit the short wall and hop into the air, giving yourself enough airtime to reach Martin's roof. Drive slowly off the back of Martin's roof so that you land on his patio overlooking the city. Facing away from Martin's house, turn right and go as far as you can around the patio. You will reach a corner with those gray utility meters. Drive slowly through the corner to the right of the utility meters. You should go straight through the wall.",
@@ -6738,7 +6921,10 @@
     },
     "title": {
       "en": "Skateboard/Surfboard",
-      "fr": "Skateboard / planche de surf"
+      "fr": "Skateboard / planche de surf",
+      "es": "Monopatín / tabla de surf",
+      "it": "Skateboard / tavola da surf",
+      "de": "Skateboard / Surfbrett"
     },
     "note": {
       "en": "Go to the location on the beach with lots of blue fences. Run anyone of them over. Stand in the center of the fence. Shoot at the top to go forward.",

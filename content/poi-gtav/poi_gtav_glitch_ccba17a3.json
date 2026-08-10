@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Rollercoaster seat glitch",
-    "fr": "Anomalie du siège de montagnes russes"
+    "fr": "Anomalie du siège de montagnes russes",
+    "es": "Fallo del asiento de la montaña rusa",
+    "it": "Anomalia del sedile delle montagne russe",
+    "de": "Achterbahnsitz-Glitch"
   },
   "note": {
     "en": "Go to Rollercoaster. Choose a seat on the Rollercoaster. Someone can choose the same seat as you and will sit \"inside\" of you. (More people can also sit in the same exact seat)",

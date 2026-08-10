@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "FIB Tower",
-    "fr": "Tour du FIB"
+    "fr": "Tour du FIB",
+    "es": "Torre del FIB",
+    "it": "Torre del FIB",
+    "de": "FIB-Turm"
   },
   "note": {
     "en": "Go to the location as seen below. Get a helicopter and fly on top of the building. Get out and walk to the side of the building. Walk downstairs the ladder and turn right. At the end of that platform turn left and walk straight into the wall/border (not on the side with the big FIB logo). You should fall and end up on the next floor. After some seconds the textures should load and you should be inside the FIB building.",

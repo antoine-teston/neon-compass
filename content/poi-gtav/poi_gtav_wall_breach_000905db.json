@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Space Docker garage",
-    "fr": "Garage du Space Docker"
+    "fr": "Garage du Space Docker",
+    "es": "Garaje del Space Docker",
+    "it": "Garage dello Space Docker",
+    "de": "Space-Docker-Garage"
   },
   "note": {
     "en": "Go to the location as seen below. Get a decent sized vehicle and drive it against the trailer. Get on top and climb on the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage.",

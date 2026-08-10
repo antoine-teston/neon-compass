@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Car park",
-    "fr": "Parking"
+    "fr": "Parking",
+    "es": "Aparcamiento",
+    "it": "Parcheggio",
+    "de": "Parkplatz"
   },
   "note": {
     "en": "Go to the location as seen below. Drive into the wall about one meter besides the electricity box.",

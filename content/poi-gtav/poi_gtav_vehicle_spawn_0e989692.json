@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Rare Car Spawn",
-    "fr": "Apparition de voiture rare"
+    "fr": "Apparition de voiture rare",
+    "es": "Aparición de coche raro",
+    "it": "Comparsa di auto rara",
+    "de": "Seltenes Fahrzeug"
   },
   "note": {
     "en": "Number of different sports cars will spawn here regularly",

@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Hearse",
-    "fr": "Corbillard"
+    "fr": "Corbillard",
+    "es": "Coche fúnebre",
+    "it": "Carro funebre",
+    "de": "Leichenwagen"
   },
   "note": {
     "en": "Go to the location as seen below. With a bit of luck it will spawn there.",

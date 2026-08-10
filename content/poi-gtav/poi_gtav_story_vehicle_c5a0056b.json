@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "BF Surfer (with surfboard)",
-    "fr": "BF Surfer (avec planche de surf)"
+    "fr": "BF Surfer (avec planche de surf)",
+    "es": "BF Surfer (con tabla de surf)",
+    "it": "BF Surfer (con tavola da surf)",
+    "de": "BF Surfer (mit Surfbrett)"
   },
   "note": {
     "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
