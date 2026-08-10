@@ -376,11 +376,97 @@ struct CheatsModelTests {
         ]
     }
 
-    @Test func favoritesAreToggleableAndPinnedFirst() throws {
-        let sut = try model(favoritable, defaults: defaults("fav-pinned"))
+    /// Une carte, un endroit : sans filtre, un favori QUITTE sa rubrique pour la
+    /// section des favoris. L'y laisser en plus serait l'afficher deux fois.
+    @Test func aFavoriteLeavesItsCategoryForTheFavoritesSection() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-section"))
+        #expect(sut.favoriteSection.isEmpty)
         #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a", "b"])
+
         sut.toggleFavorite(favoritable[1])
-        #expect(sut.sections.flatMap(\.cheats).first?.id == "b")
+        #expect(sut.favoriteSection.map(\.id) == ["b"])
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["a"])
+    }
+
+    /// Sous filtre de rubrique, en revanche, c'est cette rubrique qu'on regarde :
+    /// le favori y reste, et remonte en tête.
+    @Test func underACategoryFilterTheFavoriteStaysAndLeads() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-under-filter"))
+        sut.toggleFavorite(favoritable[1])
+        sut.select(.category(.weapons))
+
+        #expect(sut.favoriteSection.isEmpty)
+        #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["b", "a"])
+    }
+
+    @Test func theFavoritesFilterKeepsOnlyFavorites() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-filter"))
+        sut.toggleFavorite(favoritable[1])
+        sut.select(.favorites)
+
+        #expect(sut.favoriteSection.isEmpty)
+        #expect(sut.displayedCheats.map(\.id) == ["b"])
+    }
+
+    /// La section des favoris est EN TÊTE de la même colonne que les rubriques.
+    /// L'oublier de `displayedCheats` décalerait toutes les positions d'encarts.
+    @Test func theFavoritesSectionCountsInTheColumn() throws {
+        let sut = try model(favoritable, defaults: defaults("fav-column"))
+        sut.toggleFavorite(favoritable[1])
+        #expect(sut.displayedCheats.map(\.id) == ["b", "a"])
+        #expect(sut.flatIndexByID["b"] == 0)
+    }
+
+    // MARK: - Plafond des favoris
+
+    private func fiveFavoritable() -> [Cheat] {
+        (0..<6).map {
+            cheat("f\($0)", .misc, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)])
+        }
+    }
+
+    @Test func theSixthFavoriteIsRefusedWithoutPro() throws {
+        let all = fiveFavoritable()
+        let sut = try model(all, defaults: defaults("fav-cap"))
+        for cheat in all.prefix(5) {
+            #expect(sut.toggleFavorite(cheat, isProEntitled: false))
+        }
+        #expect(sut.isAtFavoriteCap(isProEntitled: false))
+        #expect(!sut.toggleFavorite(all[5], isProEntitled: false))
+        #expect(sut.favoriteCount == CheatsModel.freeFavoriteCap)
+        #expect(!sut.isFavorite(all[5]))
+    }
+
+    @Test func proHasNoCap() throws {
+        let all = fiveFavoritable()
+        let sut = try model(all, defaults: defaults("fav-cap-pro"))
+        for cheat in all {
+            #expect(sut.toggleFavorite(cheat, isProEntitled: true))
+        }
+        #expect(sut.favoriteCount == 6)
+        #expect(!sut.isAtFavoriteCap(isProEntitled: true))
+    }
+
+    /// Le plafond bloque l'AJOUT, il ne supprime rien. Quelqu'un qui avait plus
+    /// de cinq favoris avant qu'il existe les garde, et peut en retirer jusqu'à
+    /// repasser sous la barre — sans quoi une règle apparue après coup
+    /// détruirait ce qu'il avait rangé.
+    @Test func beyondTheCapNothingIsTakenAwayAndRemovingStillWorks() throws {
+        let all = fiveFavoritable()
+        let sut = try model(all, defaults: defaults("fav-cap-legacy"))
+        for cheat in all { sut.toggleFavorite(cheat, isProEntitled: true) }
+        #expect(sut.favoriteCount == 6)
+
+        // Passé en gratuit : rien n'est rogné.
+        #expect(sut.isAtFavoriteCap(isProEntitled: false))
+        #expect(sut.favoriteCount == 6)
+
+        // Retirer reste permis, et ramène sous la barre.
+        #expect(sut.toggleFavorite(all[0], isProEntitled: false))
+        #expect(sut.toggleFavorite(all[1], isProEntitled: false))
+        #expect(sut.favoriteCount == 4)
+        #expect(!sut.isAtFavoriteCap(isProEntitled: false))
+        #expect(sut.toggleFavorite(all[0], isProEntitled: false))
     }
 
     @Test func favoriteCheatIDsReflectsToggleImmediately() throws {

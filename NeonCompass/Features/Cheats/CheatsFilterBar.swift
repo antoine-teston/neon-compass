@@ -13,25 +13,43 @@ import SwiftUI
 /// d'un coup d'œil, et c'est ce que fait déjà le fil.
 struct CheatsFilterBar: View {
     let categories: [CheatCategory]
-    let selectedCategory: CheatCategory?
-    let onSelect: (CheatCategory?) -> Void
+    let filter: CheatFilter
+    /// Y a-t-il au moins un favori ? La puce ne s'affiche pas sinon : elle ne
+    /// rendrait qu'une liste vide, et une commande qui ne peut rien faire est
+    /// pire qu'absente.
+    let hasFavorites: Bool
+    let onSelect: (CheatFilter) -> Void
 
     var body: some View {
         FilterChipColumn {
             FilterChip(
                 title: Text("cheats.filter.category.all"),
-                isSelected: selectedCategory == nil,
+                isSelected: filter == .none,
                 isRestriction: false,
                 accessibilityLabel: Text("cheats.filter.category.all.a11y")
-            ) { onSelect(nil) }
+            ) { onSelect(.none) }
 
             ForEach(categories, id: \.self) { category in
                 FilterChip(
                     title: Text(category.label),
                     symbol: category.symbolName,
-                    isSelected: selectedCategory == category,
+                    isSelected: filter == .category(category),
                     accessibilityLabel: Text(category.label)
-                ) { onSelect(category) }
+                ) { onSelect(.category(category)) }
+            }
+
+            // En BAS de la colonne et non en tête, séparée : la colonne descend
+            // du bouton, donc son dernier élément est le plus loin de lui — et
+            // « Favoris » n'est pas une rubrique de plus, c'est une restriction
+            // d'un autre ordre. Le séparateur le dit avant qu'on ait lu.
+            if hasFavorites {
+                FilterChipDivider(axis: .vertical)
+                FilterChip(
+                    title: Text("cheats.favorites.title"),
+                    symbol: "star.fill",
+                    isSelected: filter == .favorites,
+                    accessibilityLabel: Text("cheats.favorites.title")
+                ) { onSelect(.favorites) }
             }
         }
     }

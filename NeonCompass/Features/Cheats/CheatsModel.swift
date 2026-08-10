@@ -14,16 +14,24 @@ final class CheatsModel {
     var searchQuery: String = "" {
         didSet { recompute() }
     }
-    /// La rubrique regardée, ou `nil` pour toutes.
+    /// Ce que la liste montre.
     ///
-    /// SOURCE UNIQUE : `activeCategories` en dérive au lieu d'être un second
-    /// état à tenir en accord. Le modèle portait un `Set` depuis toujours — donc
-    /// la multi-sélection — mais rien ne l'exposait ; une seule rubrique à la
-    /// fois se lit d'un coup d'œil là où cinq puces demandent de les lire toutes,
-    /// et c'est ce que fait déjà le fil d'actu.
-    private(set) var selectedCategory: CheatCategory? {
+    /// UNE énumération et non une rubrique plus un booléen « favoris ». Les trois
+    /// cas s'excluent par construction ; deux états côte à côte seraient deux
+    /// états à tenir en accord, ce que ce fichier refuse déjà pour
+    /// `activeCategories`. Une restriction à la fois se lit aussi d'un coup
+    /// d'œil, là où deux commandes demandent de lire les deux.
+    private(set) var filter: CheatFilter = .none {
         didSet { recompute() }
     }
+
+    /// Façade sur `filter`, pour ce qui ne connaît que les rubriques.
+    var selectedCategory: CheatCategory? {
+        if case .category(let category) = filter { return category }
+        return nil
+    }
+
+    var showsFavoritesOnly: Bool { filter == .favorites }
 
     var activeCategories: Set<CheatCategory> {
         selectedCategory.map { [$0] } ?? Set(CheatCategory.allCases)
@@ -39,10 +47,16 @@ final class CheatsModel {
         return CheatCategory.allCases.filter { present.contains($0) }
     }
 
-    func selectCategory(_ category: CheatCategory?) {
-        guard selectedCategory != category else { return }
-        selectedCategory = category
+    func select(_ newFilter: CheatFilter) {
+        guard filter != newFilter else { return }
+        filter = newFilter
     }
+
+    /// Façade héritée : une rubrique, ou `nil` pour tout relâcher.
+    func selectCategory(_ category: CheatCategory?) {
+        select(category.map(CheatFilter.category) ?? .none)
+    }
+
     private(set) var favoriteCheatIDs: Set<String>
 
     var activeInputMode: CheatInputMode {
@@ -65,7 +79,7 @@ final class CheatsModel {
             // le recalcul par son propre `didSet` — d'où le `else`, qui évite de
             // le faire deux fois.
             if let category = selectedCategory, !availableCategories.contains(category) {
-                selectedCategory = nil
+                filter = .none
             } else {
                 recompute()
             }
@@ -91,6 +105,15 @@ final class CheatsModel {
     // l'autre applique. Le recalcul se fait aux seuls moments où une entrée
     // change — c'est ce que garantissent les `didSet` ci-dessus, plus les
     // appels explicites de `updateCheats` et `toggleFavorite`.
+    /// Les favoris du jeu et du mode actifs, en tête de liste.
+    ///
+    /// VIDE dès qu'un filtre est posé : sous une rubrique on regarde cette
+    /// rubrique, et sous « Favoris » la section ferait doublon avec la liste
+    /// entière. Ce qu'elle contient est donc RETIRÉ de `sections` — une carte, un
+    /// endroit. C'est aussi ce qui a rendu inutile le tri « favoris d'abord » à
+    /// l'intérieur des rubriques, qui n'a plus rien à remonter quand aucune
+    /// rubrique n'est choisie.
+    private(set) var favoriteSection: [Cheat] = []
     private(set) var sections: [(category: CheatCategory, cheats: [Cheat])] = []
     private(set) var unavailableInActiveMode: [Cheat] = []
     private(set) var displayedCheats: [Cheat] = []
@@ -112,7 +135,6 @@ final class CheatsModel {
         self.modelContext = modelContext
         self.defaults = defaults
         self.widgetSummaryCoordinator = widgetSummaryCoordinator
-        self.selectedCategory = nil
         self.favoriteCheatIDs = Set(
             (try? modelContext.fetch(FetchDescriptor<FavoriteCheat>()))?.map(\.cheatID) ?? []
         )
@@ -159,12 +181,25 @@ final class CheatsModel {
         let matching = matchingCheats()
         let available = matching.filter { $0.codes[activeInputMode] != nil }
 
+        // Les favoris ne remontent en tête de leur rubrique QUE sous un filtre
+        // de rubrique. Sans filtre ils ont leur propre section, et les faire
+        // apparaître aux deux endroits serait du bruit.
+        switch filter {
+        case .none:
+            favoriteSection = available.filter(isFavorite)
+        case .favorites, .category:
+            favoriteSection = []
+        }
+        let grouped = filter == .none
+            ? available.filter { !isFavorite($0) }
+            : available
+
         // Groupé par catégorie, dans l'ordre de déclaration de l'énumération —
         // pas dans l'ordre alphabétique d'une langue, qui changerait la mise en
         // page d'une locale à l'autre. Les catégories vides ne produisent pas
         // de section.
         sections = CheatCategory.allCases.compactMap { category in
-            let group = available
+            let group = grouped
                 .filter { $0.category == category }
                 .sorted { isFavorite($0) && !isFavorite($1) }
             return group.isEmpty ? nil : (category, group)
@@ -177,8 +212,10 @@ final class CheatsModel {
         unavailableInActiveMode = matching.filter { $0.codes[activeInputMode] == nil }
 
         // Les encarts se comptent sur la colonne entière et non par catégorie :
-        // une rubrique de deux codes n'a pas à porter son propre encart.
-        displayedCheats = sections.flatMap(\.cheats)
+        // une rubrique de deux codes n'a pas à porter son propre encart. La
+        // section des favoris EN FAIT PARTIE — elle est en tête de la même
+        // colonne, et l'oublier décalerait toutes les positions d'encarts.
+        displayedCheats = favoriteSection + sections.flatMap(\.cheats)
         flatIndexByID = Dictionary(
             uniqueKeysWithValues: displayedCheats.enumerated().map { ($0.element.id, $0.offset) }
         )
@@ -193,6 +230,7 @@ final class CheatsModel {
         return cheats.filter { cheat in
             cheat.game == activeGame
                 && activeCategories.contains(cheat.category)
+                && (filter != .favorites || isFavorite(cheat))
                 && (searchQuery.isEmpty
                     || cheat.effect.resolved(for: languageCode)
                         .localizedCaseInsensitiveContains(searchQuery))
@@ -214,21 +252,51 @@ final class CheatsModel {
         favoriteCheatIDs.contains(cheat.id)
     }
 
-    func toggleFavorite(_ cheat: Cheat) {
+    /// Cinq en gratuit, sans limite en Pro.
+    static let freeFavoriteCap = 5
+
+    /// Le compte est GLOBAL, tous jeux confondus, parce que le plafond l'est.
+    ///
+    /// Conséquence à connaître : quelqu'un dont les cinq favoris seraient sur un
+    /// jeu verrait, sur l'autre, un plafond atteint sans aucune carte à l'écran
+    /// pour l'expliquer. Inatteignable tant que le jeu à venir n'a aucun code —
+    /// à rouvrir le jour où il en publie.
+    var favoriteCount: Int { favoriteCheatIDs.count }
+
+    func isAtFavoriteCap(isProEntitled: Bool) -> Bool {
+        !isProEntitled && favoriteCount >= Self.freeFavoriteCap
+    }
+
+    /// Rend `false` quand le plafond a REFUSÉ l'ajout — jamais pour un retrait,
+    /// qui est toujours permis. C'est ce que la vue attend pour proposer Pro.
+    ///
+    /// La règle vit ici et pas dans la vue : une vue ne se teste pas, et il y a
+    /// déjà deux endroits d'où l'on étoile une triche — la carte et le lecteur
+    /// plein écran.
+    @discardableResult
+    func toggleFavorite(_ cheat: Cheat, isProEntitled: Bool = true) -> Bool {
         let cheatID = cheat.id
         let descriptor = FetchDescriptor<FavoriteCheat>(predicate: #Predicate { $0.cheatID == cheatID })
         if let existing = try? modelContext.fetch(descriptor).first {
             modelContext.delete(existing)
             favoriteCheatIDs.remove(cheatID)
         } else {
+            // Le plafond bloque l'AJOUT, il ne supprime rien. Il n'existait pas
+            // jusqu'ici : quelqu'un peut avoir plus de cinq favoris, et les
+            // rogner pour tenir dans une règle apparue après coup serait
+            // détruire ce qu'il a rangé. Il les garde, et n'en ajoute plus tant
+            // qu'il n'est pas repassé sous la barre.
+            guard !isAtFavoriteCap(isProEntitled: isProEntitled) else { return false }
             modelContext.insert(FavoriteCheat(cheatID: cheat.id))
             favoriteCheatIDs.insert(cheatID)
         }
         try? modelContext.save()
-        // Les favoris remontent en tête de leur rubrique : l'ordre des sections
-        // en dépend, il faut donc le refaire ici aussi.
+        // Les favoris ont leur propre section, et remontent en tête de leur
+        // rubrique sous filtre : l'ordre des sections en dépend, il faut donc
+        // le refaire ici aussi.
         recompute()
         notifyWidgetFavoriteCheat()
+        return true
     }
 
     private func notifyWidgetFavoriteCheat() {
