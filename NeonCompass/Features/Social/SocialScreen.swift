@@ -19,9 +19,11 @@ struct SocialScreen: View {
     /// sont son sujet principal jusqu'à la sortie.
     @State private var panel: Panel = .events
     @State private var communityModel: CommunityModel?
+    @State private var communitiesModel: CommunitiesModel?
+    @State private var communityHubEnabled = false
 
     private enum Panel: String, CaseIterable, Identifiable {
-        case events, proposals
+        case events, proposals, communities
 
         var id: String { rawValue }
 
@@ -29,6 +31,7 @@ struct SocialScreen: View {
             switch self {
             case .events: "social.panel.events"
             case .proposals: "social.panel.proposals"
+            case .communities: "social.panel.communities"
             }
         }
     }
@@ -41,7 +44,10 @@ struct SocialScreen: View {
     /// applique déjà, et le premier jet l'avait manquée : vu au simulateur, le
     /// segment existait et son contenu était une page blanche.
     private var availablePanels: [Panel] {
-        serverFeatures.isEnabled ? Panel.allCases : [.events]
+        var panels: [Panel] = [.events]
+        if serverFeatures.isEnabled { panels.append(.proposals) }
+        if serverFeatures.isEnabled && communityHubEnabled { panels.append(.communities) }
+        return panels
     }
     private let leaderboardRepository: any LeaderboardRepository = SupabaseLeaderboardRepository()
     /// Réévalué chaque minute : sans ça le compte à rebours resterait figé sur
@@ -76,6 +82,13 @@ struct SocialScreen: View {
             guard panel == .proposals else { return }
             await loadCommunity()
         }
+        .task(id: panel) {
+            guard panel == .communities else { return }
+            if communitiesModel == nil {
+                communitiesModel = CommunitiesModel()
+            }
+            await communitiesModel?.load()
+        }
         .onReceive(tick) { now = $0 }
     }
 
@@ -107,6 +120,12 @@ struct SocialScreen: View {
                     } else {
                         ProgressView()
                     }
+                case .communities:
+                    if let communitiesModel {
+                        CommunitiesPanel(model: communitiesModel)
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
             // Plafonnée pour l'iPad : vu au simulateur, la carte s'étirait sur
@@ -124,6 +143,7 @@ struct SocialScreen: View {
             await scheduleReminders(for: model.events)
             await loadLeaderboard()
             await loadCommunity()
+            await communitiesModel?.load()
         }
     }
 
@@ -214,6 +234,9 @@ struct SocialScreen: View {
         model?.update(events: contentStore.items)
         await scheduleReminders(for: contentStore.items)
         await loadLeaderboard()
+        communityHubEnabled = (try? await SupabaseAppConfig.shared.bool(
+            AppConfigKey.communityHubEnabled, default: false
+        )) ?? false
     }
 
     /// Une lecture, gardée par le drapeau serveur : sans Cloud Functions
