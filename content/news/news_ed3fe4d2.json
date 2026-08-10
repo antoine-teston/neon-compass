@@ -1,0 +1,21 @@
+{
+  "id": "news_ed3fe4d2",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "L'éditeur promet un aperçu qui se regardera comme une émission",
+    "en": "Publisher promises a preview that will feel like a show"
+  },
+  "body": {
+    "fr": "Interrogé par un journaliste spécialisé, le PDG de l'éditeur a qualifié l'aperçu étendu du 27 août d'événement incontournable, sans en préciser le format ni la durée. La diffusion démarrera en exclusivité sur Netflix à 15h (heure de New York), avant une mise en ligne gratuite six heures plus tard sur YouTube et le site du studio. Le mode en ligne ne devrait, lui, pas être abordé.",
+    "en": "Speaking to a specialist journalist, the publisher's CEO described the August 27 extended preview as a must-see event, without detailing its format or length. The broadcast starts exclusively on Netflix at 3pm New York time, before going free on YouTube and the studio's site six hours later. The online mode is not expected to be covered."
+  },
+  "publishedAt": "2026-08-09",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/take-two-ceo-says-gta-6-extended-look-will-feel-like-a-show-6fab"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:05df594cd4bc",
+  "sourceClaim": "Le PDG de l'éditeur, interrogé par un journaliste de Bloomberg, a affirmé que l'aperçu étendu du jeu à venir — diffusé en exclusivité sur une plateforme de streaming le 27 août à 15h (heure de New York), avant sa mise en ligne gratuite six heures plus tard sur YouTube et le site du studio — aura l'allure d'une émission incontournable ; il n'a précisé ni le format ni la durée, et le mode en ligne ne devrait pas y être abordé."
+}
