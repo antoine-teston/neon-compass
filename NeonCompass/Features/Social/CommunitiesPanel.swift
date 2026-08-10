@@ -3,7 +3,9 @@ import SwiftUI
 struct CommunitiesPanel: View {
     let model: CommunitiesModel
 
+    @Environment(AuthModel.self) private var authModel
     @State private var selectedCommunity: PlayerCommunity?
+    @State private var showCreateSheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -17,6 +19,10 @@ struct CommunitiesPanel: View {
 
             filters
             communityList
+
+            if authModel.userID != nil {
+                createButton
+            }
         }
         .sheet(item: $selectedCommunity) { community in
             CommunityDetailSheet(
@@ -139,6 +145,34 @@ struct CommunitiesPanel: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 40)
             }
+        }
+    }
+
+    private var createButton: some View {
+        Button { showCreateSheet = true } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "plus.circle")
+                    .foregroundStyle(NCColor.neonCyan)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("social.communities.create.button")
+                        .font(NCTypography.body)
+                        .foregroundStyle(.white)
+                    Text("social.communities.create.buttonDetail")
+                        .font(NCTypography.cardMeta)
+                        .foregroundStyle(.white.opacity(0.5))
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.4))
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity)
+            .glassEffect(.regular, in: .rect(cornerRadius: 16))
+        }
+        .buttonStyle(.plain)
+        .sheet(isPresented: $showCreateSheet) {
+            CreateCommunitySheet(model: model)
         }
     }
 
