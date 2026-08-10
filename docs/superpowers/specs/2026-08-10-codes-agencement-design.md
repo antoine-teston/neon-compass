@@ -267,10 +267,45 @@ magasin écrit par la version précédente et portant deux fois la même triche 
 deux modes : la colonne disparaît, les doublons sont absorbés au chargement, les
 favoris distincts survivent.
 
-#### Reste à faire — le widget d'activité
+### 5ter. Le widget d'activité — les cinq favoris sur l'écran verrouillé
 
-Rien n'existe encore : l'extension `NeonCompassWidgets` ne connaît qu'un widget de
-progression, et **ActivityKit n'est utilisé nulle part**. Chantier distinct.
+**Réservé à Pro.** Ce n'est pas le plafond qui se vend, ce sont les favoris
+épinglés : tout le monde garde ses cinq, seul un abonné peut les poser sur l'écran
+verrouillé.
+
+Un bouton dans l'en-tête de la carte, pas un par ligne : ce qu'on épingle, ce sont
+les cinq. Il disparaît si le système refuse les activités — un bouton qui ne peut
+rien faire est pire qu'absent.
+
+**Ce que la contrainte de place impose.** La bannière fait environ cent
+cinquante-sept points, l'en-tête en prend quatorze : il reste **vingt-quatre points
+par favori**. La première version y a empilé l'effet au-dessus du code, deux lignes
+par favori — le résultat était illisible, et c'est le contraire de ce que cette
+activité existe pour faire. Une seule ligne par favori : le code à seize points,
+gras, monospace, prioritaire ; l'effet réduit à un rappel qui se coupe et cède
+toute sa largeur devant un code de douze boutons.
+
+Les codes y sont du **texte** — `○ L1 △ R2` — et non les glyphes dessinés de l'app :
+l'extension ne compile pas ses vues, et à cette taille un pictogramme de croix
+directionnelle devient une tache.
+
+**Trois contraintes techniques consignées :**
+
+- `FavoritesActivityAttributes` est compilé dans les DEUX cibles, ce qu'ActivityKit
+  exige. Il n'a donc aucune dépendance — pas même `Cheat` : l'activité ne
+  transporte que du texte déjà résolu, dans la langue et le mode du moment.
+- `Activity` est une classe **non-`Sendable`** dont `update` et `end` sont
+  `nonisolated async`. La retenir sur l'acteur principal puis l'attendre est un
+  envoi que Swift 6 refuse. Le contrôleur ne la retient donc pas : les deux
+  méthodes sont `nonisolated` et la retrouvent elles-mêmes par `Activity.activities`
+  — créée et consommée du même côté, elle ne traverse rien. C'est aussi ce qui
+  permet de reprendre la main sur une activité qui survit à la fermeture de l'app.
+- `NSSupportsLiveActivities` n'a pas de mapping `INFOPLIST_KEY_*` : il vit dans le
+  fichier de propriétés partiel, à côté de `GADApplicationIdentifier`.
+
+L'état est dérivé dans le MODÈLE et testé : la langue, le mode et le jeu y entrent,
+et une erreur sur l'un des trois donne un code faux à l'endroit où on le lit sans
+pouvoir le vérifier.
 
 ### 5bis. Le premier essai : un favori par mode de saisie
 

@@ -27,9 +27,13 @@ struct FavoritesCard: View {
     /// La carte montre-t-elle TOUS les favoris ? Vrai sous le filtre « Favoris »,
     /// où c'est précisément ce qu'on a demandé à voir.
     let showsAll: Bool
+    /// L'activité tourne-t-elle ? `nil` quand le bouton n'a pas lieu d'être —
+    /// système qui les refuse, ou aucun favori à porter.
+    let isPinned: Bool?
     let onSelect: (Cheat) -> Void
     let onRemove: (Cheat) -> Void
     let onShowAll: () -> Void
+    let onTogglePin: () -> Void
 
     private var currentLanguageCode: String {
         Locale.current.language.languageCode?.identifier ?? "en"
@@ -126,6 +130,7 @@ struct FavoritesCard: View {
             Text("cheats.favorites.title")
                 .textCase(.uppercase)
             Spacer()
+            if let isPinned { pinButton(isPinned) }
             // Masqué en Pro, où il n'y a pas de plafond : un dénominateur ne
             // dirait rien. Même règle que le carnet d'épingles.
             if showsCount {
@@ -151,6 +156,26 @@ struct FavoritesCard: View {
     /// masquer était le défaut : la carte se vidait en changeant de manette
     /// pendant que le compteur restait plein, et on ne pouvait plus retirer ce
     /// qu'on ne voyait plus. Cinq des trente-six codes de GTA V sont dans ce cas.
+    /// Épingler les favoris à l'écran verrouillé — la Live Activity.
+    ///
+    /// Dans l'en-tête de la CARTE et non sur une ligne : ce qu'on épingle, ce
+    /// sont les cinq, pas l'un d'eux. Un bouton par ligne aurait suggéré le
+    /// contraire.
+    private func pinButton(_ isPinned: Bool) -> some View {
+        Button(action: onTogglePin) {
+            Image(systemName: isPinned ? "lock.badge.clock.fill" : "lock.badge.clock")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(isPinned ? NCColor.sunsetOrange : .secondary)
+                .frame(width: 32, height: 28)
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(
+            isPinned ? Text("cheats.favorites.unpin") : Text("cheats.favorites.pin")
+        )
+        .accessibilityAddTraits(isPinned ? [.isSelected] : [])
+    }
+
     private func row(_ cheat: Cheat) -> some View {
         HStack(alignment: .top, spacing: 8) {
             Button {

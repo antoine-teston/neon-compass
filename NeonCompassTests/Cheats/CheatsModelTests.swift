@@ -616,6 +616,43 @@ struct CheatsModelTests {
         #expect(sut.adPositions == before.filter { $0 < count - 1 })
     }
 
+    // MARK: - Ce que la Live Activity porte
+
+    /// Cette dérivation se teste parce qu'un code faux y est illisible en tant
+    /// que faux : on le lit sur un écran verrouillé, manette en main, sans rien
+    /// pour le vérifier.
+    @Test func theLiveActivityCarriesTheFavoritesOfTheActiveGameAndMode() throws {
+        let ps = cheat("ps", .misc, codes: [
+            .playstation: .buttons([.circle, .l1, .cross]),
+            .phone: .phone(number: "1-999-1", mnemonic: nil),
+        ])
+        let phoneOnly = cheat("tel", .misc, codes: [.phone: .phone(number: "1-999-2", mnemonic: nil)])
+        let sut = try model([ps, phoneOnly], defaults: defaults("fav-live"))
+        sut.activeInputMode = .playstation
+        sut.toggleFavorite(ps, isProEntitled: false)
+        sut.toggleFavorite(phoneOnly, isProEntitled: false)
+
+        let state = sut.liveActivityState
+        #expect(state.entries.map(\.id) == ["ps", "tel"])
+        // Les glyphes deviennent du texte : l'extension ne sait pas les dessiner.
+        #expect(state.entries[0].code == "○ L1 ✕")
+        // Et le favori que ce mode ne porte pas reste, sans code — comme dans la
+        // carte. Le masquer serait mentir sur ce qui est épinglé.
+        #expect(state.entries[1].code == nil)
+    }
+
+    /// Au plus cinq lignes : c'est ce que l'écran verrouillé sait montrer, et Pro
+    /// lève le plafond des favoris sans lever celui-ci.
+    @Test func theLiveActivityNeverCarriesMoreThanFive() throws {
+        let many = (0..<9).map {
+            cheat("m\($0)", .misc, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)])
+        }
+        let sut = try model(many, defaults: defaults("fav-live-cap"))
+        for cheat in many { sut.toggleFavorite(cheat, isProEntitled: true) }
+        #expect(sut.favoriteCount == 9)
+        #expect(sut.liveActivityState.entries.count == CheatsModel.freeFavoriteCap)
+    }
+
     // MARK: - Plafond des favoris
 
     private func fiveFavoritable() -> [Cheat] {
