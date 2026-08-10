@@ -6,6 +6,13 @@
     "en": "Drops a Comet sports car next to you.",
     "fr": "Fait apparaître une voiture de sport Comet à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Comet",
+    "fr": "Invoquer Comet",
+    "es": "Invocar Comet",
+    "it": "Evoca Comet",
+    "de": "Comet spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

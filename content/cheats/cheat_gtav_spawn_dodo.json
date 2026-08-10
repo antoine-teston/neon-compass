@@ -6,6 +6,13 @@
     "en": "Drops a Dodo seaplane next to you.",
     "fr": "Fait apparaître un hydravion Dodo à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Dodo",
+    "fr": "Invoquer Dodo",
+    "es": "Invocar Dodo",
+    "it": "Evoca Dodo",
+    "de": "Dodo spawnen"
+  },
   "codes": {
     "pc": {
       "kind": "keyword",

@@ -6,6 +6,13 @@
     "en": "Drops a BMX bike next to you.",
     "fr": "Fait apparaître un BMX à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn BMX",
+    "fr": "Invoquer BMX",
+    "es": "Invocar BMX",
+    "it": "Evoca BMX",
+    "de": "BMX spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

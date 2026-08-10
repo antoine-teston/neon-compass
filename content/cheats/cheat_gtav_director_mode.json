@@ -6,6 +6,13 @@
     "en": "Opens Director Mode, the free-roam scene editor.",
     "fr": "Ouvre le mode Réalisateur, l’éditeur de scènes en roue libre."
   },
+  "shortEffect": {
+    "en": "Director Mode",
+    "fr": "Mode Réalisateur",
+    "es": "Modo Director",
+    "it": "Modalità Regista",
+    "de": "Regisseur-Modus"
+  },
   "codes": {
     "pc": {
       "kind": "keyword",

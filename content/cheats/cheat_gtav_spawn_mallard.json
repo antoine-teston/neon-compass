@@ -6,6 +6,13 @@
     "en": "Drops a Mallard stunt biplane next to you.",
     "fr": "Fait apparaître un biplan de voltige Mallard à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Mallard",
+    "fr": "Invoquer Mallard",
+    "es": "Invocar Mallard",
+    "it": "Evoca Mallard",
+    "de": "Mallard spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

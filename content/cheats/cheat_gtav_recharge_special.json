@@ -6,6 +6,13 @@
     "en": "Refills your character’s special ability meter.",
     "fr": "Recharge la jauge de capacité spéciale de votre personnage."
   },
+  "shortEffect": {
+    "en": "Recharge Special",
+    "fr": "Recharge spéciale",
+    "es": "Recargar especial",
+    "it": "Ricarica speciale",
+    "de": "Spezial aufladen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

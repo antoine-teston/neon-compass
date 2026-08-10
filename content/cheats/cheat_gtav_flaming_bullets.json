@@ -6,6 +6,13 @@
     "en": "Your bullets set what they hit on fire.",
     "fr": "Vos balles enflamment ce qu’elles touchent."
   },
+  "shortEffect": {
+    "en": "Flaming Bullets",
+    "fr": "Balles incendiaires",
+    "es": "Balas incendiarias",
+    "it": "Proiettili infuocati",
+    "de": "Brandbeschuss"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

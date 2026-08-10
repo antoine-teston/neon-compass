@@ -6,6 +6,13 @@
     "en": "Your bullets detonate on impact.",
     "fr": "Vos balles explosent à l’impact."
   },
+  "shortEffect": {
+    "en": "Explosive Rounds",
+    "fr": "Balles explosives",
+    "es": "Balas explosivas",
+    "it": "Proiettili esplosivi",
+    "de": "Explosivmunition"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

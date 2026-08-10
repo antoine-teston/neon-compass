@@ -6,6 +6,13 @@
     "en": "Slows time only while you aim. Stacks up to three times; a fourth entry turns it off.",
     "fr": "Ralentit le temps seulement pendant que vous visez. Cumulable trois fois ; une quatrième saisie désactive."
   },
+  "shortEffect": {
+    "en": "Slow-Mo Aiming",
+    "fr": "Visée ralentie",
+    "es": "Apuntar a cámara lenta",
+    "it": "Mira al rallentatore",
+    "de": "Zeitlupen-Zielen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

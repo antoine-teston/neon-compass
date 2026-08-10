@@ -6,6 +6,13 @@
     "en": "Adds one star to your wanted level.",
     "fr": "Ajoute une étoile à votre niveau de recherche."
   },
+  "shortEffect": {
+    "en": "Raise Wanted Level",
+    "fr": "Ajouter une étoile",
+    "es": "Aumentar búsqueda",
+    "it": "Aumentare ricercatezza",
+    "de": "Fahndung erhöhen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

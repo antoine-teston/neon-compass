@@ -6,6 +6,13 @@
     "en": "Drops a Rapid GT sports car next to you.",
     "fr": "Fait apparaître une voiture de sport Rapid GT à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Rapid GT",
+    "fr": "Invoquer Rapid GT",
+    "es": "Invocar Rapid GT",
+    "it": "Evoca Rapid GT",
+    "de": "Rapid GT spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

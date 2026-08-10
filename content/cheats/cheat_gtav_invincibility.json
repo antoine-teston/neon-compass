@@ -6,6 +6,13 @@
     "en": "Makes you immune to damage for five minutes. Enter it again to renew.",
     "fr": "Vous rend insensible aux dégâts pendant cinq minutes. À resaisir pour prolonger."
   },
+  "shortEffect": {
+    "en": "Invincibility",
+    "fr": "Invincibilité",
+    "es": "Invencibilidad",
+    "it": "Invincibilità",
+    "de": "Unverwundbarkeit"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

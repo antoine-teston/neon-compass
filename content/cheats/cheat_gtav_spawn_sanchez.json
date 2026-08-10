@@ -6,6 +6,13 @@
     "en": "Drops a Sanchez dirt bike next to you.",
     "fr": "Fait apparaître une moto tout-terrain Sanchez à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Sanchez",
+    "fr": "Invoquer Sanchez",
+    "es": "Invocar Sanchez",
+    "it": "Evoca Sanchez",
+    "de": "Sanchez spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

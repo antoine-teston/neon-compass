@@ -6,6 +6,13 @@
     "en": "Switches the weather to the next setting in the cycle.",
     "fr": "Passe la météo au réglage suivant du cycle."
   },
+  "shortEffect": {
+    "en": "Change Weather",
+    "fr": "Changer la météo",
+    "es": "Cambiar el clima",
+    "it": "Cambia meteo",
+    "de": "Wetter ändern"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

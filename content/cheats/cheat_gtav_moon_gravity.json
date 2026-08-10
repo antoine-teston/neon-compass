@@ -6,6 +6,13 @@
     "en": "Weakens gravity, so vehicles and bodies drift.",
     "fr": "Affaiblit la gravité : véhicules et corps se mettent à flotter."
   },
+  "shortEffect": {
+    "en": "Moon Gravity",
+    "fr": "Gravité lunaire",
+    "es": "Gravedad lunar",
+    "it": "Gravità lunare",
+    "de": "Mondgravitation"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

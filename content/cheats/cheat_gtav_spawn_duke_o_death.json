@@ -6,6 +6,13 @@
     "en": "Drops the armoured Duke O’Death next to you.",
     "fr": "Fait apparaître la Duke O’Death blindée à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Duke O'Death",
+    "fr": "Invoquer Duke O'Death",
+    "es": "Invocar Duke O'Death",
+    "it": "Evoca Duke O'Death",
+    "de": "Duke O'Death spawnen"
+  },
   "codes": {
     "pc": {
       "kind": "keyword",

@@ -6,6 +6,13 @@
     "en": "Switches your in-game phone to its black theme.",
     "fr": "Passe le téléphone du jeu sur son thème noir."
   },
+  "shortEffect": {
+    "en": "Black Phone",
+    "fr": "Téléphone noir",
+    "es": "Teléfono negro",
+    "it": "Telefono nero",
+    "de": "Schwarzes Handy"
+  },
   "codes": {
     "phone": {
       "kind": "phone",

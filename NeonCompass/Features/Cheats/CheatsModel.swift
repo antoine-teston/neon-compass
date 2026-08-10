@@ -435,7 +435,7 @@ final class CheatsModel {
         let entries = favoriteSection.prefix(Self.freeFavoriteCap).map { cheat in
             FavoritesActivityAttributes.Entry(
                 id: cheat.id,
-                effect: cheat.effect.resolved(for: language),
+                effect: cheat.resolvedShortEffect(for: language),
                 code: cheat.codes[activeInputMode].map(CheatCodePlainText.render)
             )
         }

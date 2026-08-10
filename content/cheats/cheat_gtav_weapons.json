@@ -6,6 +6,13 @@
     "en": "Gives you the full arsenal, ammunition included.",
     "fr": "Vous donne tout l’arsenal, munitions comprises."
   },
+  "shortEffect": {
+    "en": "Give All Weapons",
+    "fr": "Tout l'arsenal",
+    "es": "Todas las armas",
+    "it": "Tutte le armi",
+    "de": "Alle Waffen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

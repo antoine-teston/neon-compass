@@ -6,6 +6,13 @@
     "en": "Drops a Caddy golf cart next to you.",
     "fr": "Fait apparaître une voiturette de golf Caddy à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Caddy",
+    "fr": "Invoquer Caddy",
+    "es": "Invocar Caddy",
+    "it": "Evoca Caddy",
+    "de": "Caddy spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

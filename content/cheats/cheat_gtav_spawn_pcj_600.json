@@ -6,6 +6,13 @@
     "en": "Drops a PCJ-600 motorcycle next to you.",
     "fr": "Fait apparaître une moto PCJ-600 à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn PCJ-600",
+    "fr": "Invoquer PCJ-600",
+    "es": "Invocar PCJ-600",
+    "it": "Evoca PCJ-600",
+    "de": "PCJ-600 spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

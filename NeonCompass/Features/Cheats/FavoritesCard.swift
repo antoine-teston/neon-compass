@@ -182,13 +182,10 @@ struct FavoritesCard: View {
                 onSelect(cheat)
             } label: {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(cheat.effect.resolved(for: currentLanguageCode))
+                    Text(cheat.resolvedShortEffect(for: currentLanguageCode))
                         .font(NCTypography.body)
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.leading)
-                        // Une ligne, coupée s'il le faut : cinq effets entiers
-                        // feraient de la carte un mur, et l'effet complet est à
-                        // un tap dans le lecteur.
                         .lineLimit(1)
                     // Plus petit que sur une carte de liste — quatorze contre
                     // dix-huit. C'est ce qui fait tenir cinq codes dans un bloc
