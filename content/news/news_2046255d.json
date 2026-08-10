@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Treize bugs du dernier braquage corrigés en ligne",
-    "en": "Thirteen bugs fixed on the latest heist"
+    "en": "Thirteen bugs fixed on the latest heist",
+    "es": "Trece fallos del último golpe corregidos en línea",
+    "it": "Tredici bug dell'ultimo colpo corretti online",
+    "de": "Dreizehn Fehler des jüngsten Raubzugs online behoben"
   },
   "body": {
     "fr": "Le correctif du 30 juillet règle des gardes qui s'alertaient sans cause apparente, des déguisements repérés par les caméras du quai de chargement et une caméra de sécurité restée invisible, entre autres. C'est la troisième vague de correctifs sur ce braquage depuis son lancement.",
-    "en": "The July 30 patch fixes guards getting alerted for no clear reason, disguises spotted by loading-bay cameras, and a security camera that stayed invisible, among other issues. It is the third round of fixes for this heist since launch."
+    "en": "The July 30 patch fixes guards getting alerted for no clear reason, disguises spotted by loading-bay cameras, and a security camera that stayed invisible, among other issues. It is the third round of fixes for this heist since launch.",
+    "es": "El parche del 30 de julio arregla, entre otras cosas, guardias que se alertaban sin causa aparente, disfraces detectados por las cámaras del muelle de carga y una cámara de seguridad que permanecía invisible. Es la tercera tanda de correcciones de este golpe desde su estreno.",
+    "it": "La patch del 30 luglio risolve, tra le altre cose, guardie che si allarmavano senza motivo apparente, travestimenti individuati dalle telecamere della banchina di carico e una telecamera di sicurezza rimasta invisibile. È la terza ondata di correzioni su questo colpo dal lancio.",
+    "de": "Der Patch vom 30. Juli behebt unter anderem Wachen, die grundlos Alarm schlugen, Verkleidungen, die von den Kameras der Laderampe erkannt wurden, und eine unsichtbar gebliebene Überwachungskamera. Es ist die dritte Korrekturwelle für diesen Raubzug seit Erscheinen."
   },
   "publishedAt": "2026-08-03",
   "status": "published",

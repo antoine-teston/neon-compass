@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Du contenu coupé de l'épisode précédent pourrait resservir",
-    "en": "Cut content from the previous game could resurface"
+    "en": "Cut content from the previous game could resurface",
+    "es": "Contenido descartado de la entrega anterior podría reutilizarse",
+    "it": "Contenuti tagliati dal capitolo precedente potrebbero tornare utili",
+    "de": "Gestrichene Inhalte des Vorgängers könnten wiederverwendet werden"
   },
   "body": {
     "fr": "John Ricchio, ancien producteur du studio, l’estime possible sur le podcast Kiwi Talkz et cite des précédents. Il assortit sa réponse d’une condition : l’évolution des moteurs rend une reprise directe peu probable. Rien de confirmé.",
-    "en": "John Ricchio, a former producer at the studio, thinks it possible on the Kiwi Talkz podcast and cites precedents. He attaches a condition: engine changes make direct reuse unlikely. Nothing confirmed."
+    "en": "John Ricchio, a former producer at the studio, thinks it possible on the Kiwi Talkz podcast and cites precedents. He attaches a condition: engine changes make direct reuse unlikely. Nothing confirmed.",
+    "es": "John Ricchio, antiguo productor del estudio, lo cree posible en el pódcast Kiwi Talkz y cita precedentes. Acompaña su respuesta de una condición: la evolución de los motores hace poco probable una reutilización directa. Nada confirmado.",
+    "it": "John Ricchio, ex produttore dello studio, lo ritiene possibile nel podcast Kiwi Talkz e cita dei precedenti. Accompagna la risposta con una condizione: l'evoluzione dei motori rende poco probabile un riutilizzo diretto. Nulla di confermato.",
+    "de": "John Ricchio, früherer Produzent des Studios, hält es im Podcast Kiwi Talkz für möglich und nennt Präzedenzfälle. Er knüpft eine Bedingung daran: Durch die Weiterentwicklung der Engines sei eine direkte Übernahme unwahrscheinlich. Nichts ist bestätigt."
   },
   "publishedAt": "2026-07-22",
   "status": "draft",

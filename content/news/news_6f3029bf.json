@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Le mode en ligne reste verrouillé au PlayStation Plus",
-    "en": "Online mode still requires PlayStation Plus"
+    "en": "Online mode still requires PlayStation Plus",
+    "es": "El modo en línea sigue atado a PlayStation Plus",
+    "it": "La modalità online resta vincolata a PlayStation Plus",
+    "de": "Der Online-Modus bleibt an PlayStation Plus gebunden"
   },
   "body": {
     "fr": "Sur console PlayStation, l'abonnement PlayStation Plus reste obligatoire pour jouer au mode en ligne actuel du jeu, quel que soit le contentieux en cours entre une partie des joueurs et le fabricant de la console sur l'arrêt annoncé des jeux en version disque. Résilier son abonnement pour protester revient donc d'abord à se couper soi-même l'accès ; l'accès reste lui gratuit sur PC.",
-    "en": "On PlayStation consoles, a PlayStation Plus subscription remains required to play the game's current online mode, regardless of the ongoing dispute between some players and the console maker over its planned end to disc-based games. Cancelling the subscription in protest mainly cuts off your own access first — access remains free on PC."
+    "en": "On PlayStation consoles, a PlayStation Plus subscription remains required to play the game's current online mode, regardless of the ongoing dispute between some players and the console maker over its planned end to disc-based games. Cancelling the subscription in protest mainly cuts off your own access first — access remains free on PC.",
+    "es": "En consola PlayStation, la suscripción a PlayStation Plus sigue siendo obligatoria para jugar al modo en línea actual del juego, sea cual sea el litigio en curso entre parte de los jugadores y el fabricante de la consola por el fin anunciado de los juegos en formato físico. Cancelar la suscripción como protesta equivale, ante todo, a cortarse uno mismo el acceso; en PC, en cambio, el acceso es gratuito.",
+    "it": "Su console PlayStation, l'abbonamento PlayStation Plus resta obbligatorio per giocare all'attuale modalità online del gioco, qualunque sia il contenzioso in corso tra una parte dei giocatori e il produttore della console sulla fine annunciata dei giochi su disco. Disdire l'abbonamento per protesta significa quindi anzitutto tagliarsi l'accesso da soli; su PC, invece, l'accesso è gratuito.",
+    "de": "Auf der PlayStation bleibt ein PlayStation-Plus-Abo Pflicht, um den aktuellen Online-Modus zu spielen — unabhängig vom laufenden Streit zwischen einem Teil der Spielerschaft und dem Konsolenhersteller über das angekündigte Ende der Disc-Fassungen. Aus Protest zu kündigen heißt also zuerst, sich selbst den Zugang zu nehmen; auf dem PC ist er dagegen kostenlos."
   },
   "publishedAt": "2026-08-06",
   "status": "published",

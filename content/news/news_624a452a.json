@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Date de sortie confirmée : 19 novembre 2026",
-    "en": "Release date confirmed: November 19, 2026"
+    "en": "Release date confirmed: November 19, 2026",
+    "es": "Fecha de lanzamiento confirmada: 19 de noviembre de 2026",
+    "it": "Data d'uscita confermata: 19 novembre 2026",
+    "de": "Erscheinungstermin bestätigt: 19. November 2026"
   },
   "body": {
     "fr": "Le jeu sortira le 19 novembre 2026 sur PS5 et Xbox Series X|S. Les précommandes sont ouvertes depuis le 25 juin, avec une édition standard à 79,99 $ et une édition ultime à 99,99 $.",
-    "en": "The game arrives on November 19, 2026 for PS5 and Xbox Series X|S. Pre-orders opened on June 25, with a standard edition at $79.99 and an ultimate edition at $99.99."
+    "en": "The game arrives on November 19, 2026 for PS5 and Xbox Series X|S. Pre-orders opened on June 25, with a standard edition at $79.99 and an ultimate edition at $99.99.",
+    "es": "El juego saldrá el 19 de noviembre de 2026 en PS5 y Xbox Series X|S. Las reservas están abiertas desde el 25 de junio, con una edición estándar a 79,99 $ y una edición definitiva a 99,99 $.",
+    "it": "Il gioco uscirà il 19 novembre 2026 su PS5 e Xbox Series X|S. I preordini sono aperti dal 25 giugno, con un'edizione standard a 79,99 $ e un'edizione definitiva a 99,99 $.",
+    "de": "Das Spiel erscheint am 19. November 2026 für PS5 und Xbox Series X|S. Vorbestellungen laufen seit dem 25. Juni, mit einer Standard-Edition für 79,99 $ und einer Ultimate-Edition für 99,99 $."
   },
   "publishedAt": "2026-06-25",
   "status": "published",

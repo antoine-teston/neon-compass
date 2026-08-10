@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un acteur du précédent jeu dit avoir auditionné plus de soixante fois",
-    "en": "An actor from the previous game says he auditioned over sixty times"
+    "en": "An actor from the previous game says he auditioned over sixty times",
+    "es": "Un actor del juego anterior dice haber audicionado más de sesenta veces",
+    "it": "Un attore del gioco precedente dice di aver fatto oltre sessanta provini",
+    "de": "Ein Darsteller des Vorgängers spricht von über sechzig Vorsprechen"
   },
   "body": {
     "fr": "Robert Bogue, qui prêtait sa voix à un personnage du jeu précédent, affirme avoir passé plus de soixante auditions pour le jeu à venir sans en obtenir aucune ni recevoir de réponse — malgré avoir déjà été repris par le studio à plusieurs reprises dans le passé. Rien n'indique s'il figure ou non au casting final.",
-    "en": "Robert Bogue, who voiced a character in the previous game, says he has gone through more than sixty auditions for the upcoming one without landing a single role or even hearing back — despite having worked with the studio repeatedly in the past. Whether he ends up in the final cast remains unknown."
+    "en": "Robert Bogue, who voiced a character in the previous game, says he has gone through more than sixty auditions for the upcoming one without landing a single role or even hearing back — despite having worked with the studio repeatedly in the past. Whether he ends up in the final cast remains unknown.",
+    "es": "Robert Bogue, que puso voz a un personaje del juego anterior, afirma haber hecho más de sesenta audiciones para el juego por venir sin conseguir ninguna ni recibir respuesta — pese a que el estudio ya había vuelto a contar con él varias veces en el pasado. Nada indica si figura o no en el reparto final.",
+    "it": "Robert Bogue, che aveva prestato la voce a un personaggio del gioco precedente, afferma di aver sostenuto oltre sessanta provini per il gioco in arrivo senza ottenerne alcuno né ricevere risposta — pur essendo già stato richiamato dallo studio più volte in passato. Nulla indica se figuri o meno nel cast finale.",
+    "de": "Robert Bogue, der einer Figur des Vorgängers seine Stimme lieh, gibt an, über sechzig Mal für das kommende Spiel vorgesprochen zu haben, ohne eine Rolle oder auch nur eine Antwort zu bekommen — obwohl ihn das Studio in der Vergangenheit mehrfach erneut besetzt hatte. Ob er in der finalen Besetzung steht, ist offen."
   },
   "publishedAt": "2026-08-05",
   "status": "draft",

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "« Terminé à 90 % » : ce n'est pas ce que Jason Schreier a dit",
-    "en": "\"90 percent done\" is not what Jason Schreier said"
+    "en": "\"90 percent done\" is not what Jason Schreier said",
+    "es": "«Terminado al 90 %»: no es lo que dijo Jason Schreier",
+    "it": "«Completo al 90 %»: non è ciò che ha detto Jason Schreier",
+    "de": "„Zu 90 % fertig“ — das hat Jason Schreier nicht gesagt"
   },
   "body": {
     "fr": "Le journaliste de Bloomberg s’est dit confiant à 90 % sur la tenue de la date du 19 novembre. Le chiffre porte sur le calendrier, pas sur l’avancement du développement. La reprise virale a transformé une estimation de confiance en état d’achèvement.",
-    "en": "The Bloomberg reporter said he was 90 percent confident the November 19 date would hold. The figure is about the schedule, not about how finished the game is. The viral retelling turned a confidence estimate into a completion status."
+    "en": "The Bloomberg reporter said he was 90 percent confident the November 19 date would hold. The figure is about the schedule, not about how finished the game is. The viral retelling turned a confidence estimate into a completion status.",
+    "es": "El periodista de Bloomberg se declaró seguro al 90 % de que se mantendrá la fecha del 19 de noviembre. La cifra se refiere al calendario, no al avance del desarrollo. La difusión viral convirtió una estimación de confianza en un grado de finalización.",
+    "it": "Il giornalista di Bloomberg si è detto sicuro al 90 % che la data del 19 novembre reggerà. La cifra riguarda il calendario, non l'avanzamento dello sviluppo. La ripresa virale ha trasformato una stima di fiducia in uno stato di completamento.",
+    "de": "Der Bloomberg-Journalist zeigte sich zu 90 % zuversichtlich, dass der 19. November hält. Die Zahl bezieht sich auf den Termin, nicht auf den Entwicklungsstand. Die virale Weitergabe machte aus einer Zuversichtsangabe einen Fertigstellungsgrad."
   },
   "publishedAt": "2026-07-24",
   "status": "published",

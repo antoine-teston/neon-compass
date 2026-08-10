@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Non, ce dépôt de marque ne vise pas le jeu",
-    "en": "No, this trademark filing doesn't target the game"
+    "en": "No, this trademark filing doesn't target the game",
+    "es": "No, ese registro de marca no apunta al juego",
+    "it": "No, quel deposito di marchio non riguarda il gioco",
+    "de": "Nein, diese Markenanmeldung zielt nicht auf das Spiel"
   },
   "body": {
     "fr": "Une fédération de catch a déposé le 4 août 2026 une demande de marque pour le nom de la ville fictive du jeu, mais elle vise en réalité l'image d'une lutteuse originaire de Miami, ville réelle qui a inspiré ce nom. Le dépôt couvre le catch et le spectacle vivant, un secteur distinct qui ne fait pas obstacle à l'usage du nom dans le jeu.",
-    "en": "A wrestling promotion filed a trademark application on August 4, 2026 for the name of the game's fictional city, but it actually protects the persona of a wrestler from Miami, the real city that inspired the name. The filing covers wrestling and live entertainment, a separate category that doesn't block the game's use of the name."
+    "en": "A wrestling promotion filed a trademark application on August 4, 2026 for the name of the game's fictional city, but it actually protects the persona of a wrestler from Miami, the real city that inspired the name. The filing covers wrestling and live entertainment, a separate category that doesn't block the game's use of the name.",
+    "es": "Una federación de lucha libre presentó el 4 de agosto de 2026 una solicitud de marca para el nombre de la ciudad ficticia del juego, pero en realidad apunta a la imagen de una luchadora natural de Miami, ciudad real que inspiró ese nombre. El registro cubre la lucha libre y el espectáculo en directo, un sector distinto que no impide usar el nombre en el juego.",
+    "it": "Una federazione di wrestling ha depositato il 4 agosto 2026 una domanda di marchio per il nome della città immaginaria del gioco, ma riguarda in realtà l'immagine di una lottatrice originaria di Miami, città reale che ha ispirato quel nome. Il deposito copre il wrestling e lo spettacolo dal vivo, un settore distinto che non ostacola l'uso del nome nel gioco.",
+    "de": "Ein Wrestling-Verband meldete am 4. August 2026 eine Marke auf den Namen der fiktiven Stadt des Spiels an — gemeint ist jedoch das Bild einer Wrestlerin aus Miami, jener realen Stadt, die den Namen inspiriert hat. Die Anmeldung deckt Wrestling und Live-Unterhaltung ab, einen anderen Bereich, der die Verwendung des Namens im Spiel nicht behindert."
   },
   "publishedAt": "2026-08-07",
   "status": "draft",

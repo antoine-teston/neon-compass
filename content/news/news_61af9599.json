@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un site de fans évoque déjà du gameplay dans la vidéo à venir",
-    "en": "A fan site already describes gameplay in the upcoming video"
+    "en": "A fan site already describes gameplay in the upcoming video",
+    "es": "Un sitio de fans ya habla de gameplay en el vídeo por venir",
+    "it": "Un sito di fan parla già di gameplay nel video in arrivo",
+    "de": "Eine Fanseite spricht schon von Gameplay im kommenden Video"
   },
   "body": {
     "fr": "Un site communautaire présente la vidéo du 27 août comme allant au-delà d'une simple bande-annonce et incluant des séquences de gameplay — une lecture plus affirmative que celle d'autres médias spécialisés, qui restent dans le doute à la même date sur ce que montrera réellement le format. À vérifier lors de la diffusion officielle.",
-    "en": "A fan community site describes the August 27 video as going beyond a simple trailer and including gameplay footage — a more confident read than other specialist outlets, which remain unsure at the same date about what the format will actually show. Worth checking against the official broadcast."
+    "en": "A fan community site describes the August 27 video as going beyond a simple trailer and including gameplay footage — a more confident read than other specialist outlets, which remain unsure at the same date about what the format will actually show. Worth checking against the official broadcast.",
+    "es": "Un sitio comunitario presenta el vídeo del 27 de agosto como algo que va más allá de un simple tráiler e incluye secuencias de gameplay — una lectura más rotunda que la de otros medios especializados, que en la misma fecha siguen sin saber qué mostrará realmente el formato. Habrá que comprobarlo en la emisión oficial.",
+    "it": "Un sito della community presenta il video del 27 agosto come qualcosa che va oltre un semplice trailer e include sequenze di gameplay — una lettura più netta di quella di altre testate specializzate, che alla stessa data restano nel dubbio su cosa mostrerà davvero il formato. Da verificare alla messa in onda ufficiale.",
+    "de": "Eine Community-Seite stellt das Video vom 27. August als mehr als einen bloßen Trailer mit Gameplay-Sequenzen dar — eine bestimmtere Lesart als die anderer Fachmedien, die zum selben Zeitpunkt offenlassen, was das Format tatsächlich zeigen wird. Zu prüfen bei der offiziellen Ausstrahlung."
   },
   "publishedAt": "2026-08-06",
   "status": "draft",

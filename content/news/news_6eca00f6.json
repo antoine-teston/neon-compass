@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Le catalogue ancien de la série au prix le plus bas jamais vu",
-    "en": "The back catalogue hits its lowest prices ever"
+    "en": "The back catalogue hits its lowest prices ever",
+    "es": "El catálogo antiguo de la serie, al precio más bajo jamás visto",
+    "it": "Il catalogo storico della serie al prezzo più basso mai visto",
+    "de": "Der ältere Katalog der Reihe so günstig wie nie"
   },
   "body": {
     "fr": "Une vague de remises touche les trois grandes boutiques en ligne. Plusieurs titres atteignent leur plancher historique — l'épisode de 2008 passe sous les sept dollars.",
-    "en": "A wave of discounts landed across the three major stores. Several titles reached all-time lows — the 2008 entry drops under seven dollars."
+    "en": "A wave of discounts landed across the three major stores. Several titles reached all-time lows — the 2008 entry drops under seven dollars.",
+    "es": "Una oleada de rebajas alcanza a las tres grandes tiendas en línea. Varios títulos tocan su mínimo histórico — la entrega de 2008 baja de los siete dólares.",
+    "it": "Un'ondata di sconti tocca i tre grandi negozi online. Diversi titoli raggiungono il minimo storico — il capitolo del 2008 scende sotto i sette dollari.",
+    "de": "Eine Rabattwelle erfasst die drei großen Onlineshops. Mehrere Titel erreichen ihren historischen Tiefstand — der Teil von 2008 fällt unter sieben Dollar."
   },
   "publishedAt": "2026-07-27",
   "status": "published",

@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "L'éditeur met en avant l'outil de création de missions du mode en ligne actuel",
-    "en": "Publisher spotlights the current online mode's mission-creation tool"
+    "en": "Publisher spotlights the current online mode's mission-creation tool",
+    "es": "La editora destaca la herramienta de creación de misiones del modo en línea actual",
+    "it": "L'editore valorizza lo strumento di creazione missioni dell'attuale modalità online",
+    "de": "Publisher hebt den Missionseditor des aktuellen Online-Modus hervor"
   },
   "body": {
     "fr": "Dans ses derniers documents financiers, l'éditeur cite l'outil de création de missions du mode en ligne, disponible depuis décembre 2025, comme un moteur d'engagement pour sa communauté. Le document ne mentionne rien de comparable pour le jeu à venir.",
-    "en": "In its latest financial materials, the publisher singles out the online mode's mission-creation tool, live since December 2025, as an engagement driver for its community. The filing makes no mention of anything similar for the upcoming game."
+    "en": "In its latest financial materials, the publisher singles out the online mode's mission-creation tool, live since December 2025, as an engagement driver for its community. The filing makes no mention of anything similar for the upcoming game.",
+    "es": "En sus últimos documentos financieros, la editora cita la herramienta de creación de misiones del modo en línea, disponible desde diciembre de 2025, como motor de participación para su comunidad. El documento no menciona nada equivalente para el juego por venir.",
+    "it": "Nei suoi ultimi documenti finanziari, l'editore cita lo strumento di creazione missioni della modalità online, disponibile da dicembre 2025, come motore di coinvolgimento per la sua community. Il documento non menziona nulla di analogo per il gioco in arrivo.",
+    "de": "In seinen jüngsten Finanzunterlagen nennt der Publisher den seit Dezember 2025 verfügbaren Missionseditor des Online-Modus als Motor für das Engagement seiner Community. Zum kommenden Spiel enthält das Dokument nichts Vergleichbares."
   },
   "publishedAt": "2026-08-08",
   "status": "published",

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le calendrier de sortie tient, le silence sur le mode en ligne jugé normal",
-    "en": "Launch date holds, silence on the online mode called normal"
+    "en": "Launch date holds, silence on the online mode called normal",
+    "es": "El calendario de lanzamiento se mantiene; el silencio sobre el modo en línea se considera normal",
+    "it": "Il calendario d'uscita tiene, il silenzio sulla modalità online giudicato normale",
+    "de": "Der Termin steht, das Schweigen zum Online-Modus gilt als normal"
   },
   "body": {
     "fr": "Un journaliste spécialisé rapporte que la date du 19 novembre reste d'actualité. Pour l'instant, l'éditeur ne communique que sur le mode solo, sans donner d'indication sur le prochain mode en ligne — un silence qu'il juge comparable à celui observé avant le lancement du mode en ligne actuel, en 2013.",
-    "en": "A specialist journalist reports that the November 19 date still holds. For now, the publisher is only discussing the single-player campaign, with no word yet on the next online mode — a silence he compares to what happened before the current online mode launched, back in 2013."
+    "en": "A specialist journalist reports that the November 19 date still holds. For now, the publisher is only discussing the single-player campaign, with no word yet on the next online mode — a silence he compares to what happened before the current online mode launched, back in 2013.",
+    "es": "Un periodista especializado informa de que la fecha del 19 de noviembre sigue vigente. Por ahora, la editora solo comunica sobre el modo para un jugador, sin dar indicaciones sobre el próximo modo en línea — un silencio que considera comparable al observado antes del lanzamiento del modo en línea actual, en 2013.",
+    "it": "Un giornalista specializzato riferisce che la data del 19 novembre resta valida. Per ora l'editore comunica solo sulla modalità in singolo, senza indicazioni sulla prossima modalità online — un silenzio che giudica simile a quello osservato prima del lancio dell'attuale modalità online, nel 2013.",
+    "de": "Ein Fachjournalist berichtet, der 19. November habe weiterhin Bestand. Der Publisher äußert sich bislang nur zum Einzelspielermodus und gibt keine Hinweise zum kommenden Online-Modus — ein Schweigen, das er mit dem vor dem Start des heutigen Online-Modus 2013 vergleicht."
   },
   "publishedAt": "2026-08-08",
   "status": "draft",

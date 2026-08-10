@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Le nouveau braquage en solo, difficulté élevée, défi d'élite validé",
-    "en": "The new heist solo, hard mode, elite challenge cleared"
+    "en": "The new heist solo, hard mode, elite challenge cleared",
+    "es": "El nuevo golpe en solitario, dificultad alta, reto de élite superado",
+    "it": "Il nuovo colpo in solitaria, difficoltà elevata, sfida d'élite superata",
+    "de": "Der neue Solo-Raubzug, hoher Schwierigkeitsgrad, Elite-Herausforderung bestanden"
   },
   "body": {
     "fr": "Un itinéraire testé couvre la préparation, l'infiltration, la salle des lasers, la chambre forte, les cibles secondaires et la fuite par la surface. Réalisé en 16 min 14, avec des variations d'une partie à l'autre.",
-    "en": "A tested route covers prep, the stealth path, the laser room, the vault, secondary targets and the surface escape. Done in 16:14, with variation from run to run."
+    "en": "A tested route covers prep, the stealth path, the laser room, the vault, secondary targets and the surface escape. Done in 16:14, with variation from run to run.",
+    "es": "Un itinerario probado cubre la preparación, la infiltración, la sala de láseres, la cámara acorazada, los objetivos secundarios y la huida por la superficie. Completado en 16 min 14, con variaciones de una partida a otra.",
+    "it": "Un percorso testato copre la preparazione, l'infiltrazione, la sala dei laser, il caveau, gli obiettivi secondari e la fuga in superficie. Completato in 16 min 14, con variazioni da una partita all'altra.",
+    "de": "Eine erprobte Route umfasst Vorbereitung, Einschleusen, Laserraum, Tresorraum, Nebenziele und Flucht über die Oberfläche. Geschafft in 16:14, mit Abweichungen von Durchgang zu Durchgang."
   },
   "publishedAt": "2026-07-24",
   "status": "published",

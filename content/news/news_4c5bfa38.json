@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un acteur du précédent épisode dit avoir auditionné plus de 60 fois sans succès",
-    "en": "A previous game's actor says he auditioned 60+ times with no callback"
+    "en": "A previous game's actor says he auditioned 60+ times with no callback",
+    "es": "Un actor de la entrega anterior dice haber audicionado más de 60 veces sin éxito",
+    "it": "Un attore del capitolo precedente dice di aver fatto oltre 60 provini senza esito",
+    "de": "Ein Darsteller des Vorgängers spricht von über 60 erfolglosen Vorsprechen"
   },
   "body": {
     "fr": "L'acteur qui incarnait un agent fédéral corrompu dans le précédent épisode affirme avoir passé plus de soixante auditions pour des rôles du jeu à venir sans jamais recevoir de réponse, alors que le studio l'avait déjà fait rejouer à plusieurs reprises dans d'autres épisodes de la série. Rien n'indique une politique délibérée d'écarter les acteurs habitués : l'information reste à confirmer par le studio.",
-    "en": "The actor who played a corrupt federal agent in the previous game says he tried out for more than sixty roles in the upcoming title without ever hearing back, despite the studio having cast him again in other entries before. Nothing suggests a deliberate policy against reusing familiar actors — the studio has not confirmed the account."
+    "en": "The actor who played a corrupt federal agent in the previous game says he tried out for more than sixty roles in the upcoming title without ever hearing back, despite the studio having cast him again in other entries before. Nothing suggests a deliberate policy against reusing familiar actors — the studio has not confirmed the account.",
+    "es": "El actor que encarnaba a un agente federal corrupto en la entrega anterior afirma haber hecho más de sesenta audiciones para papeles del juego por venir sin recibir jamás respuesta, pese a que el estudio ya lo había vuelto a contratar varias veces en otras entregas de la serie. Nada indica una política deliberada de apartar a los actores habituales: la información está pendiente de confirmación por el estudio.",
+    "it": "L'attore che interpretava un agente federale corrotto nel capitolo precedente afferma di aver sostenuto oltre sessanta provini per ruoli del gioco in arrivo senza mai ricevere risposta, benché lo studio lo avesse già richiamato più volte in altri capitoli della serie. Nulla indica una politica deliberata di escludere gli attori abituali: l'informazione resta da confermare da parte dello studio.",
+    "de": "Der Darsteller eines korrupten Bundesagenten im Vorgänger gibt an, über sechzig Mal für Rollen im kommenden Spiel vorgesprochen zu haben, ohne je eine Antwort zu erhalten — obwohl ihn das Studio in anderen Teilen der Reihe mehrfach erneut besetzt hatte. Nichts deutet auf eine bewusste Politik hin, langjährige Darsteller auszuschließen: Die Angabe ist vom Studio noch zu bestätigen."
   },
   "publishedAt": "2026-08-05",
   "status": "draft",
