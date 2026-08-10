@@ -72,6 +72,36 @@ sujet est compris.
 **Le rattrapage se fait en une passe**, sur les 679 items d'un coup. Il produit
 une PR relue.
 
+**Mais les 537 POI de la carte de référence ne se traduisent pas — ils se
+composent.** Constaté en les regardant, après avoir traduit les trois petits
+kinds : leurs titres sont massivement GABARITÉS, et le suffixe est toujours un
+nom de lieu qui reste identique dans les cinq langues.
+
+| famille | occurrences |
+|---|---:|
+| `Gas Station` | 157 |
+| `Under the Bridge #N` | 50 |
+| `Nuclear Waste #N` | 30 |
+| `Knife Flight #N` | 15 |
+| `Hidden Package #N` | 11 |
+| `Epsilon Tract #N` | 10 |
+| `Spaceship Part #N - <lieu>`, `Stunt Jump #N - <lieu>`, `Letter Scrap #N - <lieu>` | ~150 |
+| noms propres de véhicules, identiques EN=FR | 52 |
+
+Confier ces 2454 champs à un modèle serait payer cher une variabilité qu'on ne
+veut pas : deux passes produiraient deux formulations pour « Gas Station », et
+rien ne le rattraperait. **Une table de préfixes, appliquée mécaniquement, rend
+les cinq langues déterministes et relisibles** — c'est précisément ce qui fait
+de l'unique `online-event` le seul item complet du dépôt depuis toujours.
+
+Restent alors une soixantaine de titres descriptifs uniques (« Michaels
+mansion », « Meth lab ») et les 281 notes, qui eux relèvent bien de la
+rédaction.
+
+**Conséquence sur l'ordre des lots** : `news` (prose, 80 items) et les notes de
+POI passent par la Routine ; les titres gabarités passent par une table. Les
+traiter d'un même geste était l'erreur de cadrage que ce constat évite.
+
 ## Architecture
 
 ### `translate --todo` — ce qu'il reste à faire
