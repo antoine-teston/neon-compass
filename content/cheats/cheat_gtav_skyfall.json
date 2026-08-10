@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Teleports you high above the map and drops you in free fall.",
-    "fr": "Vous téléporte très haut au-dessus de la carte et vous lâche en chute libre."
+    "fr": "Vous téléporte très haut au-dessus de la carte et vous lâche en chute libre.",
+    "es": "Te teletransporta muy alto sobre el mapa y te suelta en caída libre.",
+    "it": "Ti teletrasporta in alto sopra la mappa e ti lascia in caduta libera.",
+    "de": "Versetzt dich hoch über die Karte und lässt dich im freien Fall los."
   },
   "shortEffect": {
     "en": "Skyfall",

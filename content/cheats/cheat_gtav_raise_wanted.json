@@ -4,7 +4,10 @@
   "category": "misc",
   "effect": {
     "en": "Adds one star to your wanted level.",
-    "fr": "Ajoute une étoile à votre niveau de recherche."
+    "fr": "Ajoute une étoile à votre niveau de recherche.",
+    "es": "Añade una estrella a tu nivel de búsqueda.",
+    "it": "Aggiunge una stella al tuo livello di sospetto.",
+    "de": "Fügt deinem Fahndungslevel einen Stern hinzu."
   },
   "shortEffect": {
     "en": "Raise Wanted Level",

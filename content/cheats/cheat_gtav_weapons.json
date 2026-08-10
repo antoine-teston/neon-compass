@@ -4,7 +4,10 @@
   "category": "weapons",
   "effect": {
     "en": "Gives you the full arsenal, ammunition included.",
-    "fr": "Vous donne tout l’arsenal, munitions comprises."
+    "fr": "Vous donne tout l’arsenal, munitions comprises.",
+    "es": "Te da todo el arsenal, munición incluida.",
+    "it": "Ti dà tutto l'arsenale, munizioni comprese.",
+    "de": "Gibt dir das gesamte Arsenal samt Munition."
   },
   "shortEffect": {
     "en": "Give All Weapons",

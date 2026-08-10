@@ -4,7 +4,10 @@
     "game": "gtav",
     "title": {
       "en": "Epsilon Vehicles",
-      "fr": "Véhicules Epsilon"
+      "fr": "Véhicules Epsilon",
+      "es": "Vehículos Epsilon",
+      "it": "Veicoli Epsilon",
+      "de": "Epsilon-Fahrzeuge"
     },
     "isChallenge": true,
     "status": "draft",
@@ -17,7 +20,10 @@
     "game": "gtav",
     "title": {
       "en": "Epsilon Tracts",
-      "fr": "Tracts Epsilon"
+      "fr": "Tracts Epsilon",
+      "es": "Panfletos Epsilon",
+      "it": "Volantini Epsilon",
+      "de": "Epsilon-Flugblätter"
     },
     "isChallenge": true,
     "expectedCount": 10,
@@ -32,7 +38,10 @@
     "game": "gtav",
     "title": {
       "en": "Garages",
-      "fr": "Garages"
+      "fr": "Garages",
+      "es": "Garajes",
+      "it": "Garage",
+      "de": "Garagen"
     },
     "isChallenge": false,
     "status": "draft",
@@ -45,7 +54,10 @@
     "game": "gtav",
     "title": {
       "en": "Gas Stations",
-      "fr": "Stations-service"
+      "fr": "Stations-service",
+      "es": "Gasolineras",
+      "it": "Stazioni di servizio",
+      "de": "Tankstellen"
     },
     "isChallenge": false,
     "status": "draft",
@@ -58,7 +70,10 @@
     "game": "gtav",
     "title": {
       "en": "Glitches",
-      "fr": "Anomalies"
+      "fr": "Anomalies",
+      "es": "Fallos",
+      "it": "Anomalie",
+      "de": "Glitches"
     },
     "isChallenge": false,
     "status": "draft",
@@ -71,7 +86,10 @@
     "game": "gtav",
     "title": {
       "en": "Hidden Packages",
-      "fr": "Magots cachés"
+      "fr": "Magots cachés",
+      "es": "Paquetes ocultos",
+      "it": "Pacchi nascosti",
+      "de": "Versteckte Pakete"
     },
     "isChallenge": true,
     "expectedCount": 12,
@@ -86,7 +104,10 @@
     "game": "gtav",
     "title": {
       "en": "Knife Flights",
-      "fr": "Vols en rase-mottes"
+      "fr": "Vols en rase-mottes",
+      "es": "Vuelos rasantes",
+      "it": "Voli radenti",
+      "de": "Tiefflüge"
     },
     "isChallenge": true,
     "expectedCount": 15,
@@ -101,7 +122,10 @@
     "game": "gtav",
     "title": {
       "en": "Letter Scraps",
-      "fr": "Fragments de lettre"
+      "fr": "Fragments de lettre",
+      "es": "Fragmentos de carta",
+      "it": "Frammenti di lettera",
+      "de": "Brieffetzen"
     },
     "isChallenge": true,
     "expectedCount": 50,
@@ -116,7 +140,10 @@
     "game": "gtav",
     "title": {
       "en": "Nuclear Waste",
-      "fr": "Déchets nucléaires"
+      "fr": "Déchets nucléaires",
+      "es": "Residuos nucleares",
+      "it": "Scorie nucleari",
+      "de": "Atommüll"
     },
     "isChallenge": true,
     "expectedCount": 30,
@@ -131,7 +158,10 @@
     "game": "gtav",
     "title": {
       "en": "Spaceship Parts",
-      "fr": "Pièces de vaisseau"
+      "fr": "Pièces de vaisseau",
+      "es": "Piezas de nave",
+      "it": "Parti di astronave",
+      "de": "Raumschiffteile"
     },
     "isChallenge": true,
     "expectedCount": 50,
@@ -146,7 +176,10 @@
     "game": "gtav",
     "title": {
       "en": "Story Vehicles",
-      "fr": "Véhicules de récit"
+      "fr": "Véhicules de récit",
+      "es": "Vehículos de la historia",
+      "it": "Veicoli della storia",
+      "de": "Story-Fahrzeuge"
     },
     "isChallenge": false,
     "status": "draft",
@@ -159,7 +192,10 @@
     "game": "gtav",
     "title": {
       "en": "Stunt Jumps",
-      "fr": "Sauts cascade"
+      "fr": "Sauts cascade",
+      "es": "Saltos acrobáticos",
+      "it": "Salti acrobatici",
+      "de": "Stuntsprünge"
     },
     "isChallenge": true,
     "expectedCount": 50,
@@ -174,7 +210,10 @@
     "game": "gtav",
     "title": {
       "en": "Bridge Flyunders",
-      "fr": "Passages sous les ponts"
+      "fr": "Passages sous les ponts",
+      "es": "Pasos bajo puentes",
+      "it": "Passaggi sotto i ponti",
+      "de": "Brückenunterquerungen"
     },
     "isChallenge": true,
     "expectedCount": 50,
@@ -189,7 +228,10 @@
     "game": "gtav",
     "title": {
       "en": "Vehicle Spawns",
-      "fr": "Apparitions de véhicules"
+      "fr": "Apparitions de véhicules",
+      "es": "Apariciones de vehículos",
+      "it": "Comparse di veicoli",
+      "de": "Fahrzeug-Spawns"
     },
     "isChallenge": false,
     "status": "draft",
@@ -202,7 +244,10 @@
     "game": "gtav",
     "title": {
       "en": "Wall Breaches",
-      "fr": "Passages de mur"
+      "fr": "Passages de mur",
+      "es": "Brechas en muros",
+      "it": "Varchi nei muri",
+      "de": "Wanddurchbrüche"
     },
     "isChallenge": false,
     "status": "draft",

@@ -4,7 +4,10 @@
   "category": "world",
   "effect": {
     "en": "Weakens gravity, so vehicles and bodies drift.",
-    "fr": "Affaiblit la gravité : véhicules et corps se mettent à flotter."
+    "fr": "Affaiblit la gravité : véhicules et corps se mettent à flotter.",
+    "es": "Debilita la gravedad: vehículos y cuerpos se ponen a flotar.",
+    "it": "Indebolisce la gravità: veicoli e corpi iniziano a fluttuare.",
+    "de": "Schwächt die Schwerkraft: Fahrzeuge und Körper schweben."
   },
   "shortEffect": {
     "en": "Moon Gravity",

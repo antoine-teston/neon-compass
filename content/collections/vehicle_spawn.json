@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Vehicle Spawns",
-    "fr": "Apparitions de véhicules"
+    "fr": "Apparitions de véhicules",
+    "es": "Apariciones de vehículos",
+    "it": "Comparse di veicoli",
+    "de": "Fahrzeug-Spawns"
   },
   "isChallenge": false,
   "status": "draft",

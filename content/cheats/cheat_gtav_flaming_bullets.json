@@ -4,7 +4,10 @@
   "category": "weapons",
   "effect": {
     "en": "Your bullets set what they hit on fire.",
-    "fr": "Vos balles enflamment ce qu’elles touchent."
+    "fr": "Vos balles enflamment ce qu’elles touchent.",
+    "es": "Tus balas incendian lo que tocan.",
+    "it": "I tuoi proiettili incendiano ciò che toccano.",
+    "de": "Deine Kugeln entzünden, was sie treffen."
   },
   "shortEffect": {
     "en": "Flaming Bullets",

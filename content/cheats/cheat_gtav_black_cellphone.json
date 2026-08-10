@@ -4,7 +4,10 @@
   "category": "misc",
   "effect": {
     "en": "Switches your in-game phone to its black theme.",
-    "fr": "Passe le téléphone du jeu sur son thème noir."
+    "fr": "Passe le téléphone du jeu sur son thème noir.",
+    "es": "Cambia el teléfono del juego a su tema negro.",
+    "it": "Passa il telefono del gioco al tema nero.",
+    "de": "Stellt das Spieltelefon auf sein schwarzes Design um."
   },
   "shortEffect": {
     "en": "Black Phone",

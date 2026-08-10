@@ -5,7 +5,10 @@
     "category": "misc",
     "effect": {
       "en": "Switches your in-game phone to its black theme.",
-      "fr": "Passe le téléphone du jeu sur son thème noir."
+      "fr": "Passe le téléphone du jeu sur son thème noir.",
+      "es": "Cambia el teléfono del juego a su tema negro.",
+      "it": "Passa il telefono del gioco al tema nero.",
+      "de": "Stellt das Spieltelefon auf sein schwarzes Design um."
     },
     "codes": {
       "phone": {
@@ -22,7 +25,10 @@
     "category": "world",
     "effect": {
       "en": "Switches the weather to the next setting in the cycle.",
-      "fr": "Passe la météo au réglage suivant du cycle."
+      "fr": "Passe la météo au réglage suivant du cycle.",
+      "es": "Pasa el tiempo atmosférico al siguiente ajuste del ciclo.",
+      "it": "Porta il meteo all'impostazione successiva del ciclo.",
+      "de": "Schaltet das Wetter auf die nächste Stufe des Zyklus."
     },
     "codes": {
       "playstation": {
@@ -69,7 +75,10 @@
     "category": "misc",
     "effect": {
       "en": "Opens Director Mode, the free-roam scene editor.",
-      "fr": "Ouvre le mode Réalisateur, l’éditeur de scènes en roue libre."
+      "fr": "Ouvre le mode Réalisateur, l’éditeur de scènes en roue libre.",
+      "es": "Abre el modo Director, el editor de escenas en libertad.",
+      "it": "Apre la modalità Regista, l'editor di scene in libertà.",
+      "de": "Öffnet den Regisseursmodus, den freien Szeneneditor."
     },
     "codes": {
       "pc": {
@@ -90,7 +99,10 @@
     "category": "player",
     "effect": {
       "en": "Blurs the picture and makes your character stagger.",
-      "fr": "Trouble l’image et fait tituber votre personnage."
+      "fr": "Trouble l’image et fait tituber votre personnage.",
+      "es": "Distorsiona la imagen y hace tambalear a tu personaje.",
+      "it": "Distorce l'immagine e fa barcollare il tuo personaggio.",
+      "de": "Verzerrt das Bild und lässt deine Figur taumeln."
     },
     "codes": {
       "playstation": {
@@ -137,7 +149,10 @@
     "category": "weapons",
     "effect": {
       "en": "Your bullets detonate on impact.",
-      "fr": "Vos balles explosent à l’impact."
+      "fr": "Vos balles explosent à l’impact.",
+      "es": "Tus balas explotan al impactar.",
+      "it": "I tuoi proiettili esplodono all'impatto.",
+      "de": "Deine Kugeln explodieren beim Aufprall."
     },
     "codes": {
       "playstation": {
@@ -192,7 +207,10 @@
     "category": "weapons",
     "effect": {
       "en": "Your punches blow away whatever they land on.",
-      "fr": "Vos coups de poing font exploser ce qu’ils atteignent."
+      "fr": "Vos coups de poing font exploser ce qu’ils atteignent.",
+      "es": "Tus puñetazos hacen explotar lo que alcanzan.",
+      "it": "I tuoi pugni fanno esplodere ciò che colpiscono.",
+      "de": "Deine Faustschläge lassen explodieren, was sie treffen."
     },
     "codes": {
       "playstation": {
@@ -241,7 +259,10 @@
     "category": "player",
     "effect": {
       "en": "Doubles how fast you run.",
-      "fr": "Double votre vitesse de course."
+      "fr": "Double votre vitesse de course.",
+      "es": "Duplica tu velocidad de carrera.",
+      "it": "Raddoppia la tua velocità di corsa.",
+      "de": "Verdoppelt dein Lauftempo."
     },
     "codes": {
       "playstation": {
@@ -286,7 +307,10 @@
     "category": "player",
     "effect": {
       "en": "Doubles how fast you swim.",
-      "fr": "Double votre vitesse de nage."
+      "fr": "Double votre vitesse de nage.",
+      "es": "Duplica tu velocidad de natación.",
+      "it": "Raddoppia la tua velocità di nuoto.",
+      "de": "Verdoppelt dein Schwimmtempo."
     },
     "codes": {
       "playstation": {
@@ -335,7 +359,10 @@
     "category": "weapons",
     "effect": {
       "en": "Your bullets set what they hit on fire.",
-      "fr": "Vos balles enflamment ce qu’elles touchent."
+      "fr": "Vos balles enflamment ce qu’elles touchent.",
+      "es": "Tus balas incendian lo que tocan.",
+      "it": "I tuoi proiettili incendiano ciò che toccano.",
+      "de": "Deine Kugeln entzünden, was sie treffen."
     },
     "codes": {
       "playstation": {
@@ -390,7 +417,10 @@
     "category": "player",
     "effect": {
       "en": "Makes you immune to damage for five minutes. Enter it again to renew.",
-      "fr": "Vous rend insensible aux dégâts pendant cinq minutes. À resaisir pour prolonger."
+      "fr": "Vous rend insensible aux dégâts pendant cinq minutes. À resaisir pour prolonger.",
+      "es": "Te vuelve inmune al daño durante cinco minutos. Reintrodúcelo para prolongarlo.",
+      "it": "Ti rende immune ai danni per cinque minuti. Reinseriscilo per prolungarlo.",
+      "de": "Macht dich fünf Minuten lang unverwundbar. Zum Verlängern erneut eingeben."
     },
     "codes": {
       "playstation": {
@@ -441,7 +471,10 @@
     "category": "misc",
     "effect": {
       "en": "Removes one star from your wanted level.",
-      "fr": "Retire une étoile à votre niveau de recherche."
+      "fr": "Retire une étoile à votre niveau de recherche.",
+      "es": "Quita una estrella a tu nivel de búsqueda.",
+      "it": "Toglie una stella al tuo livello di sospetto.",
+      "de": "Nimmt deinem Fahndungslevel einen Stern."
     },
     "codes": {
       "playstation": {
@@ -492,7 +525,10 @@
     "category": "player",
     "effect": {
       "en": "Refills your health and armour to full.",
-      "fr": "Remet votre santé et votre gilet au maximum."
+      "fr": "Remet votre santé et votre gilet au maximum.",
+      "es": "Restaura al máximo tu salud y tu chaleco.",
+      "it": "Riporta al massimo la tua salute e il tuo giubbotto.",
+      "de": "Setzt Gesundheit und Weste auf das Maximum."
     },
     "codes": {
       "playstation": {
@@ -547,7 +583,10 @@
     "category": "world",
     "effect": {
       "en": "Weakens gravity, so vehicles and bodies drift.",
-      "fr": "Affaiblit la gravité : véhicules et corps se mettent à flotter."
+      "fr": "Affaiblit la gravité : véhicules et corps se mettent à flotter.",
+      "es": "Debilita la gravedad: vehículos y cuerpos se ponen a flotar.",
+      "it": "Indebolisce la gravità: veicoli e corpi iniziano a fluttuare.",
+      "de": "Schwächt die Schwerkraft: Fahrzeuge und Körper schweben."
     },
     "codes": {
       "playstation": {
@@ -596,7 +635,10 @@
     "category": "player",
     "effect": {
       "en": "Puts a parachute in your inventory.",
-      "fr": "Ajoute un parachute à votre inventaire."
+      "fr": "Ajoute un parachute à votre inventaire.",
+      "es": "Añade un paracaídas a tu inventario.",
+      "it": "Aggiunge un paracadute al tuo inventario.",
+      "de": "Fügt deinem Inventar einen Fallschirm hinzu."
     },
     "codes": {
       "playstation": {
@@ -649,7 +691,10 @@
     "category": "misc",
     "effect": {
       "en": "Adds one star to your wanted level.",
-      "fr": "Ajoute une étoile à votre niveau de recherche."
+      "fr": "Ajoute une étoile à votre niveau de recherche.",
+      "es": "Añade una estrella a tu nivel de búsqueda.",
+      "it": "Aggiunge una stella al tuo livello di sospetto.",
+      "de": "Fügt deinem Fahndungslevel einen Stern hinzu."
     },
     "codes": {
       "playstation": {
@@ -700,7 +745,10 @@
     "category": "player",
     "effect": {
       "en": "Refills your character’s special ability meter.",
-      "fr": "Recharge la jauge de capacité spéciale de votre personnage."
+      "fr": "Recharge la jauge de capacité spéciale de votre personnage.",
+      "es": "Recarga la barra de habilidad especial de tu personaje.",
+      "it": "Ricarica la barra di abilità speciale del tuo personaggio.",
+      "de": "Lädt die Spezialfähigkeitsleiste deiner Figur auf."
     },
     "codes": {
       "playstation": {
@@ -749,7 +797,10 @@
     "category": "player",
     "effect": {
       "en": "Teleports you high above the map and drops you in free fall.",
-      "fr": "Vous téléporte très haut au-dessus de la carte et vous lâche en chute libre."
+      "fr": "Vous téléporte très haut au-dessus de la carte et vous lâche en chute libre.",
+      "es": "Te teletransporta muy alto sobre el mapa y te suelta en caída libre.",
+      "it": "Ti teletrasporta in alto sopra la mappa e ti lascia in caduta libera.",
+      "de": "Versetzt dich hoch über die Karte und lässt dich im freien Fall los."
     },
     "codes": {
       "playstation": {
@@ -812,7 +863,10 @@
     "category": "world",
     "effect": {
       "en": "Strips tyre grip, so every car slides.",
-      "fr": "Supprime l’adhérence des pneus : toutes les voitures glissent."
+      "fr": "Supprime l’adhérence des pneus : toutes les voitures glissent.",
+      "es": "Elimina el agarre de los neumáticos: todos los coches resbalan.",
+      "it": "Elimina l'aderenza degli pneumatici: tutte le auto scivolano.",
+      "de": "Entfernt die Reifenhaftung: Alle Autos rutschen."
     },
     "codes": {
       "playstation": {
@@ -859,7 +913,10 @@
     "category": "world",
     "effect": {
       "en": "Slows the whole world down. Stacks up to three times; a fourth entry turns it off.",
-      "fr": "Ralentit le monde entier. Cumulable trois fois ; une quatrième saisie désactive."
+      "fr": "Ralentit le monde entier. Cumulable trois fois ; une quatrième saisie désactive.",
+      "es": "Ralentiza el mundo entero. Acumulable tres veces; una cuarta entrada lo desactiva.",
+      "it": "Rallenta il mondo intero. Cumulabile tre volte; un quarto inserimento disattiva.",
+      "de": "Verlangsamt die ganze Welt. Dreifach stapelbar; eine vierte Eingabe schaltet ab."
     },
     "codes": {
       "playstation": {
@@ -904,7 +961,10 @@
     "category": "world",
     "effect": {
       "en": "Slows time only while you aim. Stacks up to three times; a fourth entry turns it off.",
-      "fr": "Ralentit le temps seulement pendant que vous visez. Cumulable trois fois ; une quatrième saisie désactive."
+      "fr": "Ralentit le temps seulement pendant que vous visez. Cumulable trois fois ; une quatrième saisie désactive.",
+      "es": "Ralentiza el tiempo solo mientras apuntas. Acumulable tres veces; una cuarta entrada lo desactiva.",
+      "it": "Rallenta il tempo solo mentre miri. Cumulabile tre volte; un quarto inserimento disattiva.",
+      "de": "Verlangsamt die Zeit nur beim Zielen. Dreifach stapelbar; eine vierte Eingabe schaltet ab."
     },
     "codes": {
       "playstation": {
@@ -953,7 +1013,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a BMX bike next to you.",
-      "fr": "Fait apparaître un BMX à côté de vous."
+      "fr": "Fait apparaître un BMX à côté de vous.",
+      "es": "Hace aparecer una BMX a tu lado.",
+      "it": "Fa comparire una BMX accanto a te.",
+      "de": "Lässt ein BMX neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1006,7 +1069,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops an armed Buzzard helicopter next to you.",
-      "fr": "Fait apparaître un hélicoptère armé Buzzard à côté de vous."
+      "fr": "Fait apparaître un hélicoptère armé Buzzard à côté de vous.",
+      "es": "Hace aparecer un helicóptero armado Buzzard a tu lado.",
+      "it": "Fa comparire un elicottero armato Buzzard accanto a te.",
+      "de": "Lässt einen bewaffneten Buzzard-Helikopter neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1061,7 +1127,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Caddy golf cart next to you.",
-      "fr": "Fait apparaître une voiturette de golf Caddy à côté de vous."
+      "fr": "Fait apparaître une voiturette de golf Caddy à côté de vous.",
+      "es": "Hace aparecer un carrito de golf Caddy a tu lado.",
+      "it": "Fa comparire una golf car Caddy accanto a te.",
+      "de": "Lässt einen Caddy-Golfwagen neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1112,7 +1181,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Comet sports car next to you.",
-      "fr": "Fait apparaître une voiture de sport Comet à côté de vous."
+      "fr": "Fait apparaître une voiture de sport Comet à côté de vous.",
+      "es": "Hace aparecer un deportivo Comet a tu lado.",
+      "it": "Fa comparire una sportiva Comet accanto a te.",
+      "de": "Lässt einen Comet-Sportwagen neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1163,7 +1235,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Dodo seaplane next to you.",
-      "fr": "Fait apparaître un hydravion Dodo à côté de vous."
+      "fr": "Fait apparaître un hydravion Dodo à côté de vous.",
+      "es": "Hace aparecer un hidroavión Dodo a tu lado.",
+      "it": "Fa comparire un idrovolante Dodo accanto a te.",
+      "de": "Lässt ein Dodo-Wasserflugzeug neben dir erscheinen."
     },
     "codes": {
       "pc": {
@@ -1184,7 +1259,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops the armoured Duke O’Death next to you.",
-      "fr": "Fait apparaître la Duke O’Death blindée à côté de vous."
+      "fr": "Fait apparaître la Duke O’Death blindée à côté de vous.",
+      "es": "Hace aparecer el Duke O'Death blindado a tu lado.",
+      "it": "Fa comparire la Duke O'Death blindata accanto a te.",
+      "de": "Lässt den gepanzerten Duke O'Death neben dir erscheinen."
     },
     "codes": {
       "pc": {
@@ -1205,7 +1283,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Duster crop-dusting plane next to you.",
-      "fr": "Fait apparaître un avion d’épandage Duster à côté de vous."
+      "fr": "Fait apparaître un avion d’épandage Duster à côté de vous.",
+      "es": "Hace aparecer una avioneta fumigadora Duster a tu lado.",
+      "it": "Fa comparire un aereo agricolo Duster accanto a te.",
+      "de": "Lässt ein Duster-Sprühflugzeug neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1260,7 +1341,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Kraken submarine next to you.",
-      "fr": "Fait apparaître un sous-marin Kraken à côté de vous."
+      "fr": "Fait apparaître un sous-marin Kraken à côté de vous.",
+      "es": "Hace aparecer un submarino Kraken a tu lado.",
+      "it": "Fa comparire un sottomarino Kraken accanto a te.",
+      "de": "Lässt ein Kraken-U-Boot neben dir erscheinen."
     },
     "codes": {
       "pc": {
@@ -1281,7 +1365,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Mallard stunt biplane next to you.",
-      "fr": "Fait apparaître un biplan de voltige Mallard à côté de vous."
+      "fr": "Fait apparaître un biplan de voltige Mallard à côté de vous.",
+      "es": "Hace aparecer un biplano acrobático Mallard a tu lado.",
+      "it": "Fa comparire un biplano acrobatico Mallard accanto a te.",
+      "de": "Lässt einen Mallard-Kunstflugdoppeldecker neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1336,7 +1423,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a PCJ-600 motorcycle next to you.",
-      "fr": "Fait apparaître une moto PCJ-600 à côté de vous."
+      "fr": "Fait apparaître une moto PCJ-600 à côté de vous.",
+      "es": "Hace aparecer una moto PCJ-600 a tu lado.",
+      "it": "Fa comparire una moto PCJ-600 accanto a te.",
+      "de": "Lässt ein PCJ-600-Motorrad neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1391,7 +1481,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Rapid GT sports car next to you.",
-      "fr": "Fait apparaître une voiture de sport Rapid GT à côté de vous."
+      "fr": "Fait apparaître une voiture de sport Rapid GT à côté de vous.",
+      "es": "Hace aparecer un deportivo Rapid GT a tu lado.",
+      "it": "Fa comparire una sportiva Rapid GT accanto a te.",
+      "de": "Lässt einen Rapid-GT-Sportwagen neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1442,7 +1535,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Sanchez dirt bike next to you.",
-      "fr": "Fait apparaître une moto tout-terrain Sanchez à côté de vous."
+      "fr": "Fait apparaître une moto tout-terrain Sanchez à côté de vous.",
+      "es": "Hace aparecer una moto de campo Sanchez a tu lado.",
+      "it": "Fa comparire una moto da cross Sanchez accanto a te.",
+      "de": "Lässt ein Sanchez-Geländemotorrad neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1497,7 +1593,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Stretch limousine next to you.",
-      "fr": "Fait apparaître une limousine Stretch à côté de vous."
+      "fr": "Fait apparaître une limousine Stretch à côté de vous.",
+      "es": "Hace aparecer una limusina Stretch a tu lado.",
+      "it": "Fa comparire una limousine Stretch accanto a te.",
+      "de": "Lässt eine Stretch-Limousine neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1546,7 +1645,10 @@
     "category": "vehicles",
     "effect": {
       "en": "Drops a Trashmaster garbage truck next to you.",
-      "fr": "Fait apparaître un camion-poubelle Trashmaster à côté de vous."
+      "fr": "Fait apparaître un camion-poubelle Trashmaster à côté de vous.",
+      "es": "Hace aparecer un camión de basura Trashmaster a tu lado.",
+      "it": "Fa comparire un camion della spazzatura Trashmaster accanto a te.",
+      "de": "Lässt einen Trashmaster-Müllwagen neben dir erscheinen."
     },
     "codes": {
       "playstation": {
@@ -1597,7 +1699,10 @@
     "category": "player",
     "effect": {
       "en": "Turns every jump into a huge leap.",
-      "fr": "Transforme chaque saut en bond démesuré."
+      "fr": "Transforme chaque saut en bond démesuré.",
+      "es": "Convierte cada salto en un brinco desmesurado.",
+      "it": "Trasforma ogni salto in un balzo smisurato.",
+      "de": "Macht aus jedem Sprung einen gewaltigen Satz."
     },
     "codes": {
       "playstation": {
@@ -1650,7 +1755,10 @@
     "category": "weapons",
     "effect": {
       "en": "Gives you the full arsenal, ammunition included.",
-      "fr": "Vous donne tout l’arsenal, munitions comprises."
+      "fr": "Vous donne tout l’arsenal, munitions comprises.",
+      "es": "Te da todo el arsenal, munición incluida.",
+      "it": "Ti dà tutto l'arsenale, munizioni comprese.",
+      "de": "Gibt dir das gesamte Arsenal samt Munition."
     },
     "codes": {
       "playstation": {

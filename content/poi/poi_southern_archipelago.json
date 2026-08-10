@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "Southern Archipelago",
-    "fr": "Archipel du sud"
+    "fr": "Archipel du sud",
+    "es": "Archipiélago del sur",
+    "it": "Arcipelago del sud",
+    "de": "Südliches Archipel"
   },
   "note": {
     "en": "A chain of small tropical islands strung along causeways off the state's southern tip, this archipelago trades city noise for salt air, dive shops, and slow afternoons — the kind of place you go to unwind between missions. Its laid-back, sunburnt charm draws an obvious comparison to a real-world island chain much further south in Florida. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
-    "fr": "Un chapelet de petites îles tropicales reliées par des chaussées, tout au sud de l'État : ambiance décontractée, boutiques de plongée et rythme au ralenti — l'endroit rêvé pour souffler entre deux missions. Son charme salé et un brin fatigué n'est pas sans rappeler un célèbre archipel de Floride, bien plus au sud sur la carte réelle. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+    "fr": "Un chapelet de petites îles tropicales reliées par des chaussées, tout au sud de l'État : ambiance décontractée, boutiques de plongée et rythme au ralenti — l'endroit rêvé pour souffler entre deux missions. Son charme salé et un brin fatigué n'est pas sans rappeler un célèbre archipel de Floride, bien plus au sud sur la carte réelle. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément.",
+    "es": "Un rosario de pequeñas islas tropicales unidas por calzadas, en el extremo sur del estado: ambiente relajado, tiendas de buceo y ritmo pausado — el sitio ideal para respirar entre dos misiones. Su encanto salado y algo cansado recuerda a un célebre archipiélago de Florida, mucho más al sur en el mapa real. Aún no ha salido ningún mapa oficial completo, así que este punto sigue siendo provisional hasta que alguien lo sitúe con precisión.",
+    "it": "Una collana di piccole isole tropicali collegate da strade rialzate, all'estremo sud dello stato: atmosfera rilassata, negozi di immersioni e ritmo lento — il posto ideale per rifiatare tra due missioni. Il suo fascino salmastro e un po' stanco ricorda un celebre arcipelago della Florida, molto più a sud sulla mappa reale. Non è ancora uscita alcuna mappa ufficiale completa, quindi questo punto resta provvisorio finché qualcuno non lo collocherà con precisione.",
+    "de": "Eine Kette kleiner tropischer Inseln, durch Dämme verbunden, ganz im Süden des Bundesstaats: gelassene Stimmung, Tauchläden und langsamer Rhythmus — der ideale Ort zum Durchatmen zwischen zwei Missionen. Ihr salziger, leicht müder Charme erinnert an ein berühmtes Archipel in Florida, auf der echten Karte deutlich weiter südlich. Eine vollständige offizielle Karte gibt es noch nicht, dieser Punkt bleibt also vorläufig, bis ihn jemand genau platziert."
   },
   "status": "draft",
-  "sources": ["https://gta.fandom.com/wiki/Leonida_Keys"]
+  "sources": [
+    "https://gta.fandom.com/wiki/Leonida_Keys"
+  ]
 }

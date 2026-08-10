@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Epsilon Tracts",
-    "fr": "Tracts Epsilon"
+    "fr": "Tracts Epsilon",
+    "es": "Panfletos Epsilon",
+    "it": "Volantini Epsilon",
+    "de": "Epsilon-Flugblätter"
   },
   "isChallenge": true,
   "expectedCount": 10,

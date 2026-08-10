@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Refills your character’s special ability meter.",
-    "fr": "Recharge la jauge de capacité spéciale de votre personnage."
+    "fr": "Recharge la jauge de capacité spéciale de votre personnage.",
+    "es": "Recarga la barra de habilidad especial de tu personaje.",
+    "it": "Ricarica la barra di abilità speciale del tuo personaggio.",
+    "de": "Lädt die Spezialfähigkeitsleiste deiner Figur auf."
   },
   "shortEffect": {
     "en": "Recharge Special",

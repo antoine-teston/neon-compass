@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a PCJ-600 motorcycle next to you.",
-    "fr": "Fait apparaître une moto PCJ-600 à côté de vous."
+    "fr": "Fait apparaître une moto PCJ-600 à côté de vous.",
+    "es": "Hace aparecer una moto PCJ-600 a tu lado.",
+    "it": "Fa comparire una moto PCJ-600 accanto a te.",
+    "de": "Lässt ein PCJ-600-Motorrad neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn PCJ-600",

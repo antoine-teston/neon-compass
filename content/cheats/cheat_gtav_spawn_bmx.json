@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a BMX bike next to you.",
-    "fr": "Fait apparaître un BMX à côté de vous."
+    "fr": "Fait apparaître un BMX à côté de vous.",
+    "es": "Hace aparecer una BMX a tu lado.",
+    "it": "Fa comparire una BMX accanto a te.",
+    "de": "Lässt ein BMX neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn BMX",

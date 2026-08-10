@@ -366,10 +366,69 @@ switch (cmd) {
   case 'check-seeds':
     ok = checkSeeds(entries);
     break;
-  case 'translate':
-    if (!dry) { console.error('translate: seul --dry-run est implémenté (l\'appel IA reste à câbler)'); ok = false; break; }
+  // `translate` ne traduit pas, et n'a jamais eu à le faire. Il compte ce qui
+  // manque (`--dry-run`), rend le travail à faire (`--todo`) et range le
+  // résultat qu'un agent lui remet (`--apply`). La traduction elle-même est
+  // écrite par la Routine, au moment de la rédaction, avec le même modèle et
+  // dans la même passe que le EN et le FR — décidé le 2026-08-10.
+  case 'translate': {
+    const { travailATraduire, problemesDeTraduction, appliquer } = await import('./traduction.mjs');
+
+    const iTodo = flags.indexOf('--todo');
+    const iApply = flags.indexOf('--apply');
+
+    if (iTodo !== -1) {
+      const iKind = flags.indexOf('--kind');
+      const iLimite = flags.indexOf('--limit');
+      const travail = travailATraduire(entries, {
+        kind: iKind === -1 ? undefined : flags[iKind + 1],
+        limite: iLimite === -1 ? undefined : Number(flags[iLimite + 1]),
+      });
+      console.log(JSON.stringify(travail, null, 2));
+      ok = true;
+      break;
+    }
+
+    if (iApply !== -1) {
+      const chemin = flags[iApply + 1];
+      if (!chemin) { console.error('usage: cli.js translate --apply <fichier.json> [--force]'); ok = false; break; }
+      let charge;
+      try {
+        charge = JSON.parse(readFileSync(chemin, 'utf8'));
+      } catch (err) {
+        console.error(`translate --apply: ${chemin} illisible — ${err.message}`);
+        ok = false;
+        break;
+      }
+
+      // Un seul item fautif refuse le lot ENTIER. Appliquer la moitié d'un
+      // rattrapage laisserait un travail à moitié fait sans qu'on sache lequel
+      // — même raison que le refus en bloc de `materializeNews`.
+      const problemes = problemesDeTraduction(entries, charge, { force: flags.includes('--force') });
+      if (problemes.length) {
+        problemes.forEach((p) => console.error(`  ${p}`));
+        console.error(`translate --apply: ${problemes.length} problème(s) — rien écrit`);
+        ok = false;
+        break;
+      }
+
+      const ecritures = appliquer(entries, charge);
+      ecritures.forEach(({ file, data }) => {
+        writeFileSync(join(CONTENT, file), `${JSON.stringify(data, null, 2)}\n`);
+        console.log(`  traduit ${file}`);
+      });
+      // Revalider ce qu'on vient d'écrire : une traduction qui casse le schéma
+      // doit tomber ici, pas trois jours plus tard à la publication.
+      const relus = loadAll();
+      ok = validate(relus);
+      console.log(`translate --apply: ${ecritures.length} fichier(s) écrit(s)`);
+      break;
+    }
+
+    if (!dry) { console.error('usage: cli.js translate [--dry-run | --todo | --apply <fichier>]'); ok = false; break; }
     ok = translateDryRun(entries);
     break;
+  }
   case 'publish':
     if (dry) { ok = validate(entries) && checkPublishable(entries) && publishDryRun(entries); break; }
     if (!(validate(entries) && checkPublishable(entries))) { ok = false; break; }

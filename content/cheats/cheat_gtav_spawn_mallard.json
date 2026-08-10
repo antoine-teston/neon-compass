@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Mallard stunt biplane next to you.",
-    "fr": "Fait apparaître un biplan de voltige Mallard à côté de vous."
+    "fr": "Fait apparaître un biplan de voltige Mallard à côté de vous.",
+    "es": "Hace aparecer un biplano acrobático Mallard a tu lado.",
+    "it": "Fa comparire un biplano acrobatico Mallard accanto a te.",
+    "de": "Lässt einen Mallard-Kunstflugdoppeldecker neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Mallard",

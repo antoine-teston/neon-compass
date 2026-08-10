@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Wall Breaches",
-    "fr": "Passages de mur"
+    "fr": "Passages de mur",
+    "es": "Brechas en muros",
+    "it": "Varchi nei muri",
+    "de": "Wanddurchbrüche"
   },
   "isChallenge": false,
   "status": "draft",

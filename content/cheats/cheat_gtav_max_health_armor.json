@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Refills your health and armour to full.",
-    "fr": "Remet votre santé et votre gilet au maximum."
+    "fr": "Remet votre santé et votre gilet au maximum.",
+    "es": "Restaura al máximo tu salud y tu chaleco.",
+    "it": "Riporta al massimo la tua salute e il tuo giubbotto.",
+    "de": "Setzt Gesundheit und Weste auf das Maximum."
   },
   "shortEffect": {
     "en": "Max Health & Armor",

@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Makes you immune to damage for five minutes. Enter it again to renew.",
-    "fr": "Vous rend insensible aux dégâts pendant cinq minutes. À resaisir pour prolonger."
+    "fr": "Vous rend insensible aux dégâts pendant cinq minutes. À resaisir pour prolonger.",
+    "es": "Te vuelve inmune al daño durante cinco minutos. Reintrodúcelo para prolongarlo.",
+    "it": "Ti rende immune ai danni per cinque minuti. Reinseriscilo per prolungarlo.",
+    "de": "Macht dich fünf Minuten lang unverwundbar. Zum Verlängern erneut eingeben."
   },
   "shortEffect": {
     "en": "Invincibility",

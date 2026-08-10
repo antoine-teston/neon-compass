@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops the armoured Duke O’Death next to you.",
-    "fr": "Fait apparaître la Duke O’Death blindée à côté de vous."
+    "fr": "Fait apparaître la Duke O’Death blindée à côté de vous.",
+    "es": "Hace aparecer el Duke O'Death blindado a tu lado.",
+    "it": "Fa comparire la Duke O'Death blindata accanto a te.",
+    "de": "Lässt den gepanzerten Duke O'Death neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Duke O'Death",

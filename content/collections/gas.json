@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Gas Stations",
-    "fr": "Stations-service"
+    "fr": "Stations-service",
+    "es": "Gasolineras",
+    "it": "Stazioni di servizio",
+    "de": "Tankstellen"
   },
   "isChallenge": false,
   "status": "draft",

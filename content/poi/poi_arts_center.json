@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "Arts Center",
-    "fr": "Centre culturel des arts"
+    "fr": "Centre culturel des arts",
+    "es": "Centro cultural de las artes",
+    "it": "Centro culturale delle arti",
+    "de": "Kulturzentrum für Kunst"
   },
   "note": {
     "en": "A dedicated arts and culture venue also makes an appearance in the trailers. Nearby, at least two distinct beachfront hotels can be spotted too — exact spots and names still TBD until more official material drops.",
-    "fr": "Un centre culturel dédié aux arts apparaît lui aussi dans les bandes-annonces. À proximité, on repère au moins deux hôtels distincts en bord de plage — noms et positions précises encore à confirmer."
+    "fr": "Un centre culturel dédié aux arts apparaît lui aussi dans les bandes-annonces. À proximité, on repère au moins deux hôtels distincts en bord de plage — noms et positions précises encore à confirmer.",
+    "es": "Un centro cultural dedicado a las artes aparece también en los tráileres. Cerca se distinguen al menos dos hoteles distintos frente a la playa: nombres y posiciones exactas aún por confirmar.",
+    "it": "Un centro culturale dedicato alle arti compare anche nei trailer. Nelle vicinanze si notano almeno due hotel distinti sul lungomare: nomi e posizioni precise ancora da confermare.",
+    "de": "Ein den Künsten gewidmetes Kulturzentrum taucht ebenfalls in den Trailern auf. In der Nähe sind mindestens zwei verschiedene Hotels am Strand zu erkennen — Namen und genaue Lage noch unbestätigt."
   },
   "status": "draft",
-  "sources": ["https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"]
+  "sources": [
+    "https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"
+  ]
 }

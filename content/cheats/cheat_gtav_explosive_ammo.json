@@ -4,7 +4,10 @@
   "category": "weapons",
   "effect": {
     "en": "Your bullets detonate on impact.",
-    "fr": "Vos balles explosent à l’impact."
+    "fr": "Vos balles explosent à l’impact.",
+    "es": "Tus balas explotan al impactar.",
+    "it": "I tuoi proiettili esplodono all'impatto.",
+    "de": "Deine Kugeln explodieren beim Aufprall."
   },
   "shortEffect": {
     "en": "Explosive Rounds",

@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Stunt Jumps",
-    "fr": "Sauts cascade"
+    "fr": "Sauts cascade",
+    "es": "Saltos acrobáticos",
+    "it": "Salti acrobatici",
+    "de": "Stuntsprünge"
   },
   "isChallenge": true,
   "expectedCount": 50,

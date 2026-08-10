@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Trashmaster garbage truck next to you.",
-    "fr": "Fait apparaître un camion-poubelle Trashmaster à côté de vous."
+    "fr": "Fait apparaître un camion-poubelle Trashmaster à côté de vous.",
+    "es": "Hace aparecer un camión de basura Trashmaster a tu lado.",
+    "it": "Fa comparire un camion della spazzatura Trashmaster accanto a te.",
+    "de": "Lässt einen Trashmaster-Müllwagen neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Trashmaster",

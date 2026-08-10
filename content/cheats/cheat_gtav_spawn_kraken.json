@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Kraken submarine next to you.",
-    "fr": "Fait apparaître un sous-marin Kraken à côté de vous."
+    "fr": "Fait apparaître un sous-marin Kraken à côté de vous.",
+    "es": "Hace aparecer un submarino Kraken a tu lado.",
+    "it": "Fa comparire un sottomarino Kraken accanto a te.",
+    "de": "Lässt ein Kraken-U-Boot neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Kraken",

@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops an armed Buzzard helicopter next to you.",
-    "fr": "Fait apparaître un hélicoptère armé Buzzard à côté de vous."
+    "fr": "Fait apparaître un hélicoptère armé Buzzard à côté de vous.",
+    "es": "Hace aparecer un helicóptero armado Buzzard a tu lado.",
+    "it": "Fa comparire un elicottero armato Buzzard accanto a te.",
+    "de": "Lässt einen bewaffneten Buzzard-Helikopter neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Buzzard",

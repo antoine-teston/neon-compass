@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Turns every jump into a huge leap.",
-    "fr": "Transforme chaque saut en bond démesuré."
+    "fr": "Transforme chaque saut en bond démesuré.",
+    "es": "Convierte cada salto en un brinco desmesurado.",
+    "it": "Trasforma ogni salto in un balzo smisurato.",
+    "de": "Macht aus jedem Sprung einen gewaltigen Satz."
   },
   "shortEffect": {
     "en": "Super Jump",

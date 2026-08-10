@@ -4,7 +4,10 @@
   "category": "vehicles",
   "effect": {
     "en": "Drops a Rapid GT sports car next to you.",
-    "fr": "Fait apparaître une voiture de sport Rapid GT à côté de vous."
+    "fr": "Fait apparaître une voiture de sport Rapid GT à côté de vous.",
+    "es": "Hace aparecer un deportivo Rapid GT a tu lado.",
+    "it": "Fa comparire una sportiva Rapid GT accanto a te.",
+    "de": "Lässt einen Rapid-GT-Sportwagen neben dir erscheinen."
   },
   "shortEffect": {
     "en": "Spawn Rapid GT",

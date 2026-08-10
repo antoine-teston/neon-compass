@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Doubles how fast you run.",
-    "fr": "Double votre vitesse de course."
+    "fr": "Double votre vitesse de course.",
+    "es": "Duplica tu velocidad de carrera.",
+    "it": "Raddoppia la tua velocità di corsa.",
+    "de": "Verdoppelt dein Lauftempo."
   },
   "shortEffect": {
     "en": "Fast Run",

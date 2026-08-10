@@ -4,7 +4,10 @@
   "category": "misc",
   "effect": {
     "en": "Removes one star from your wanted level.",
-    "fr": "Retire une étoile à votre niveau de recherche."
+    "fr": "Retire une étoile à votre niveau de recherche.",
+    "es": "Quita una estrella a tu nivel de búsqueda.",
+    "it": "Toglie una stella al tuo livello di sospetto.",
+    "de": "Nimmt deinem Fahndungslevel einen Stern."
   },
   "shortEffect": {
     "en": "Lower Wanted Level",

@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Story Vehicles",
-    "fr": "Véhicules de récit"
+    "fr": "Véhicules de récit",
+    "es": "Vehículos de la historia",
+    "it": "Veicoli della storia",
+    "de": "Story-Fahrzeuge"
   },
   "isChallenge": false,
   "status": "draft",

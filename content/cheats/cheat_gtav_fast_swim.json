@@ -4,7 +4,10 @@
   "category": "player",
   "effect": {
     "en": "Doubles how fast you swim.",
-    "fr": "Double votre vitesse de nage."
+    "fr": "Double votre vitesse de nage.",
+    "es": "Duplica tu velocidad de natación.",
+    "it": "Raddoppia la tua velocità di nuoto.",
+    "de": "Verdoppelt dein Schwimmtempo."
   },
   "shortEffect": {
     "en": "Fast Swim",

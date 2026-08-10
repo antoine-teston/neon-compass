@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Bridge Flyunders",
-    "fr": "Passages sous les ponts"
+    "fr": "Passages sous les ponts",
+    "es": "Pasos bajo puentes",
+    "it": "Passaggi sotto i ponti",
+    "de": "Brückenunterquerungen"
   },
   "isChallenge": true,
   "expectedCount": 50,

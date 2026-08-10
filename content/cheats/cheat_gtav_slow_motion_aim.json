@@ -4,7 +4,10 @@
   "category": "world",
   "effect": {
     "en": "Slows time only while you aim. Stacks up to three times; a fourth entry turns it off.",
-    "fr": "Ralentit le temps seulement pendant que vous visez. Cumulable trois fois ; une quatrième saisie désactive."
+    "fr": "Ralentit le temps seulement pendant que vous visez. Cumulable trois fois ; une quatrième saisie désactive.",
+    "es": "Ralentiza el tiempo solo mientras apuntas. Acumulable tres veces; una cuarta entrada lo desactiva.",
+    "it": "Rallenta il tempo solo mentre miri. Cumulabile tre volte; un quarto inserimento disattiva.",
+    "de": "Verlangsamt die Zeit nur beim Zielen. Dreifach stapelbar; eine vierte Eingabe schaltet ab."
   },
   "shortEffect": {
     "en": "Slow-Mo Aiming",
