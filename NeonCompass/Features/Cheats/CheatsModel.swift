@@ -420,6 +420,28 @@ final class CheatsModel {
         return try? modelContext.fetch(descriptor).first
     }
 
+    /// Ce que la Live Activity doit porter, dérivé de l'état courant.
+    ///
+    /// Dans le MODÈLE et non dans la vue, parce que c'est une dérivation qui se
+    /// teste : la langue, le mode de saisie et le jeu y entrent, et une erreur
+    /// sur l'un des trois donne un code faux sur un écran verrouillé — l'endroit
+    /// où on le lit sans pouvoir le vérifier.
+    ///
+    /// Le code est rendu en TEXTE ici : l'extension ne sait pas dessiner les
+    /// glyphes de manette de l'app, et à onze points ils deviendraient des
+    /// taches de toute façon.
+    var liveActivityState: FavoritesActivityAttributes.ContentState {
+        let language = currentLanguageCode
+        let entries = favoriteSection.prefix(Self.freeFavoriteCap).map { cheat in
+            FavoritesActivityAttributes.Entry(
+                id: cheat.id,
+                effect: cheat.effect.resolved(for: language),
+                code: cheat.codes[activeInputMode].map(CheatCodePlainText.render)
+            )
+        }
+        return .init(entries: Array(entries), modeLabel: String(localized: activeInputMode.shortLabel))
+    }
+
     /// Le widget montre un favori du jeu actif.
     private func notifyWidgetFavoriteCheat() {
         let title = cheats

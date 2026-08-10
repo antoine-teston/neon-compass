@@ -117,6 +117,11 @@ targets:
       # Shared design-system views/colors/type used by the widget's UI. Verified
       # dependency-free (pure SwiftUI + Foundation), so safe to compile into this
       # target too rather than duplicating a widget-local copy.
+      # Le type d'attributs de la Live Activity. ActivityKit EXIGE que l'app qui
+      # démarre l'activité et l'extension qui la dessine voient le même type ;
+      # il est donc compilé dans les deux cibles, et n'a pour cette raison
+      # aucune dépendance — pas même `Cheat`.
+      - path: NeonCompass/Core/LiveActivity/FavoritesActivityAttributes.swift
       - path: NeonCompass/Core/DesignSystem/ProgressRing.swift
       - path: NeonCompass/Core/DesignSystem/NCColor.swift
       - path: NeonCompass/Core/DesignSystem/NCTypography.swift

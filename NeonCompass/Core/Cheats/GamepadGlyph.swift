@@ -43,3 +43,52 @@ enum GamepadGlyph {
         }
     }
 }
+
+/// Un code en TEXTE NU, pour là où l'on ne peut pas dessiner.
+///
+/// L'écran verrouillé, en l'occurrence : l'extension de widget ne compile pas les
+/// vues de l'app, et à onze points un pictogramme de croix directionnelle devient
+/// une tache. Les noms de boutons, eux, se lisent.
+///
+/// Ce n'est donc pas un doublon de `CheatCodeView` mais son pendant pour un autre
+/// support — d'où la source unique ci-dessous : les deux tirent leurs boutons de
+/// la même énumération, et un bouton ajouté ne peut pas manquer ici sans que le
+/// compilateur le dise.
+enum CheatCodePlainText {
+    static func render(_ code: CheatCode) -> String {
+        switch code {
+        case .buttons(let buttons):
+            buttons.map(label).joined(separator: " ")
+        case .keyword(let word):
+            word
+        case .phone(let number, _):
+            number
+        }
+    }
+
+    static func label(_ button: GamepadButton) -> String {
+        switch button {
+        case .up: "↑"
+        case .down: "↓"
+        case .left: "←"
+        case .right: "→"
+        // Les formes PlayStation en caractères, faute de pouvoir les dessiner.
+        case .cross: "✕"
+        case .circle: "○"
+        case .square: "□"
+        case .triangle: "△"
+        case .l1: "L1"
+        case .l2: "L2"
+        case .r1: "R1"
+        case .r2: "R2"
+        case .a: "A"
+        case .b: "B"
+        case .x: "X"
+        case .y: "Y"
+        case .lb: "LB"
+        case .lt: "LT"
+        case .rb: "RB"
+        case .rt: "RT"
+        }
+    }
+}

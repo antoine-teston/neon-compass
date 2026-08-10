@@ -725,6 +725,74 @@
         }
       }
     },
+    "cheats.favorites.pin": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An den Sperrbildschirm heften"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pin to the Lock Screen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fijar en la pantalla bloqueada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Épingler à l'écran verrouillé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fissa nella schermata di blocco"
+          }
+        }
+      }
+    },
+    "cheats.favorites.pinIsPro": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriten am Sperrbildschirm sind Pro vorbehalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorites on the Lock Screen are a Pro feature."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los favoritos en la pantalla bloqueada son función Pro."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les favoris sur l'écran verrouillé sont réservés à Pro."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I preferiti nella schermata di blocco sono una funzione Pro."
+          }
+        }
+      }
+    },
     "cheats.favorites.title": {
       "localizations": {
         "de": {
@@ -755,6 +823,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Preferiti"
+          }
+        }
+      }
+    },
+    "cheats.favorites.unpin": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vom Sperrbildschirm lösen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unpin from the Lock Screen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar de la pantalla bloqueada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer de l'écran verrouillé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rimuovi dalla schermata di blocco"
           }
         }
       }

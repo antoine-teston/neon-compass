@@ -5,5 +5,6 @@ import WidgetKit
 struct NeonCompassWidgetsBundle: WidgetBundle {
     var body: some Widget {
         ProgressWidget()
+        FavoritesLiveActivity()
     }
 }

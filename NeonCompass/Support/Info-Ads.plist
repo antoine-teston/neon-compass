@@ -14,6 +14,14 @@
 	     `SupabaseAuthProvider.oauthRedirectURL` ET figurer dans les URL de
 	     redirection autorisées du projet Supabase : si l'une des trois manque,
 	     le navigateur reste ouvert sur une page blanche, sans erreur. -->
+	<!-- Sans cette clé, `Activity.request` lève `ActivityAuthorizationError
+	     .attributesTooLarge`… non : elle lève `.unsupported`, et surtout
+	     `ActivityAuthorizationInfo().areActivitiesEnabled` reste FAUX quoi que
+	     l'utilisateur autorise dans Réglages. Elle n'a pas de mapping
+	     INFOPLIST_KEY_* reconnu, d'où sa place dans ce fichier partiel. -->
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

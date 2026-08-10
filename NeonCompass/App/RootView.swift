@@ -4,6 +4,10 @@ import SwiftUI
 
 struct RootView: View {
     @State private var model = AppModel()
+    /// Construit ICI et non dans l'écran : une Live Activity survit à la
+    /// fermeture de l'app, et un contrôleur reconstruit à chaque bascule
+    /// d'onglet perdrait la main sur celle qui tourne.
+    @State private var liveActivity = FavoritesLiveActivityController()
     @State private var onboarding = OnboardingModel()
     @State private var authModel = AuthModel(authProvider: SupabaseAuthProvider())
     @State private var proEntitlementModel: ProEntitlementModel
@@ -92,6 +96,7 @@ struct RootView: View {
         // à contribuer : une contribution se pose sur la carte, pas ailleurs.
         .environment(model)
         .environment(proEntitlementModel)
+        .environment(liveActivity)
         .environment(widgetSummaryCoordinator)
         .environment(themeStore)
         .environment(serverFeatures)

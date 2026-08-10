@@ -4,6 +4,7 @@ struct CheatsListView: View {
     @Bindable var model: CheatsModel
     let onSelect: (Cheat) -> Void
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
+    @Environment(FavoritesLiveActivityController.self) private var liveActivity
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     /// Le panneau de rubriques est-il déployé ?
@@ -22,7 +23,25 @@ struct CheatsListView: View {
 
     /// Ouverte quand le plafond a refusé un favori. Le refus lui-même vit dans
     /// le modèle ; la vue ne fait qu'en montrer la conséquence.
-    @State private var showPaywall = false
+    /// Pourquoi le paywall s'ouvre. Deux refus le déclenchent — le plafond des
+    /// favoris et l'épinglage — et ils ne disent pas la même chose.
+    ///
+    /// Une énumération et non une `LocalizedStringKey` optionnelle : `sheet(item:)`
+    /// veut un `Identifiable`, et une clé de chaîne ne l'est pas. Elle porte donc
+    /// son propre libellé.
+    enum PaywallReason: String, Identifiable {
+        case favoritesCap, pinning
+        var id: String { rawValue }
+
+        var message: LocalizedStringKey {
+            switch self {
+            case .favoritesCap: "cheats.favorites.capReached"
+            case .pinning: "cheats.favorites.pinIsPro"
+            }
+        }
+    }
+
+    @State private var paywallReason: PaywallReason?
 
     private static let screenSpace = "cheatsScreen"
 
@@ -46,8 +65,13 @@ struct CheatsListView: View {
             }
         }
         .coordinateSpace(.named(Self.screenSpace))
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(reason: "cheats.favorites.capReached")
+        .sheet(item: $paywallReason) { PaywallView(reason: $0.message) }
+        // La Live Activity suit ce que la carte montre : poser une étoile,
+        // changer de mode de saisie ou de jeu doit se voir sur l'écran
+        // verrouillé, sans quoi elle afficherait un code qu'on ne joue plus.
+        .task(id: model.liveActivityState) {
+            guard liveActivity.isRunning else { return }
+            await liveActivity.update(model.liveActivityState)
         }
     }
 
@@ -66,7 +90,7 @@ struct CheatsListView: View {
                 let accepted = model.toggleFavorite(
                     cheat, isProEntitled: proEntitlementModel.isProEntitled
                 )
-                if !accepted { showPaywall = true }
+                if !accepted { paywallReason = .favoritesCap }
             }
         )
     }
@@ -92,6 +116,9 @@ struct CheatsListView: View {
                             isProEntitled: proEntitlementModel.isProEntitled
                         ),
                         showsAll: model.filter == .favorites,
+                        // Caché quand le système refuse les activités : un bouton
+                        // qui ne peut rien faire est pire qu'absent.
+                        isPinned: liveActivity.isAvailable ? liveActivity.isRunning : nil,
                         onSelect: onSelect,
                         onRemove: { cheat in
                             // Un retrait n'est jamais refusé : le plafond ne
@@ -101,7 +128,8 @@ struct CheatsListView: View {
                                 cheat, isProEntitled: proEntitlementModel.isProEntitled
                             )
                         },
-                        onShowAll: { select(.favorites) }
+                        onShowAll: { select(.favorites) },
+                        onTogglePin: togglePin
                     )
                 }
                 ForEach(model.sections, id: \.category) { section in
@@ -209,6 +237,22 @@ struct CheatsListView: View {
         silent.disablesAnimations = true
         withTransaction(silent) { model.select(filter) }
         close()
+    }
+
+    /// Épingler est réservé à Pro — c'est la fonctionnalité vendue, pas les
+    /// favoris eux-mêmes, que tout le monde garde.
+    private func togglePin() {
+        guard proEntitlementModel.isProEntitled else {
+            paywallReason = .pinning
+            return
+        }
+        if liveActivity.isRunning {
+            Task { await liveActivity.stop() }
+        } else {
+            liveActivity.start(
+                game: model.activeGame.shortLabel, state: model.liveActivityState
+            )
+        }
     }
 
     private func close() {
