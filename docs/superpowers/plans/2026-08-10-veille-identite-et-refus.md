@@ -306,7 +306,8 @@ Créer `tools/content-cli/refus.mjs` :
 // qui le rend testable sans disque.
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { CONFIANCE_ORDRE } from './schemas.mjs';
+import { join } from 'node:path';
+import { CONFIANCE_ORDRE, CONTENT } from './schemas.mjs';
 
 /** Le chemin réel, absolu, construit depuis `CONTENT` comme tout le reste du
  *  dossier. Absolu et non relatif : deux appelants qui le résoudraient chacun
