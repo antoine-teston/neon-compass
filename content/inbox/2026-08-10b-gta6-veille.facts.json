@@ -1,0 +1,31 @@
+{
+  "run": {
+    "date": "2026-08-10",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/take-two-ceo-says-gta-6-extended-look-will-feel-like-a-show-6fab",
+      "https://www.gtaboom.com/take-two-says-gta-6-pre-orders-vastly-beat-its-forecasts-ace9"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le PDG de Take-Two Strauss Zelnick a déclaré au journaliste Jason Schreier (Bloomberg) que l'avant-première étendue diffusée sur Netflix le 27 août aura l'ambiance d'un événement télévisé incontournable, sans préciser si elle montrera surtout des séquences de jeu, des cinématiques, ou un mélange des deux.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/take-two-ceo-says-gta-6-extended-look-will-feel-like-a-show-6fab",
+      "source_date": "2026-08-09",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Lors de la publication de ses résultats trimestriels, l'éditeur a indiqué que les précommandes du jeu à venir dépassaient largement ses prévisions internes, sans citer de chiffre ; son PDG a précisé qu'il ne pouvait pas encore distinguer une demande reportée d'un volume de ventes réellement supérieur, et les prévisions annuelles du groupe ont été maintenues plutôt que relevées.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/take-two-says-gta-6-pre-orders-vastly-beat-its-forecasts-ace9",
+      "source_date": "2026-08-09",
+      "confidence": "confirmed-official",
+      "processed": true
+    }
+  ]
+}
