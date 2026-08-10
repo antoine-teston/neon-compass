@@ -196,34 +196,44 @@ définitivement invisible parce qu'il a été jugé une fois.
 **Pas de geste de levée manuelle.** Le fichier est versionné et lisible : retirer
 la ligne EST la levée.
 
-### Le geste « Écarter » — action `discard-draft`
+### Le geste « Écarter » — `deleteDraft`, qui existe déjà
 
-Sur la porte « geste » (`POST /api/run`), aux côtés de `moderate:reject` qui a
-déjà cette forme. Pas sur la porte « édition » : ce geste supprime un fichier et
-écrit dans un registre, il lance un traitement — il n'édite pas un champ.
+**Aucune action nouvelle.** Le geste est déjà là : bouton `#ed-delete` de
+l'éditeur, `DELETE /api/draft/:kind/:id`, `drafts.mjs:341 deleteDraft()`. Il
+refuse déjà un item `published` en 409 avec le bon motif, et vérifie l'empreinte
+du fichier pour ne pas écraser une édition faite au terminal entre-temps.
 
-- `destructive: true` — donc `confirm: true` exigé dans le corps de la requête.
-- Paramètres `kind`, `id`, `motif`. **Le motif est obligatoire et non vide.**
-- Précondition serveur `draft-ecartable` : l'entrée existe et son `status` vaut
-  `draft`.
+Lui adjoindre une action `discard-draft` sur la porte « geste » créerait une
+**seconde façon d'écarter** — une porte de plus à défendre, dans un serveur dont
+le modèle tient à ce qu'il n'y en ait que deux, et deux chemins dont un seul
+inscrirait le refus. La bonne forme est d'étendre celui qui existe.
 
-Un seul geste, deux effets : supprimer `content/<kind>/<id>.json` et inscrire le
-refus avec la confiance qu'avait l'entrée. C'est ce qui rend le mécanisme
-utilisable — un registre qui demande une étape séparée ne serait jamais rempli.
-Le motif obligatoire capture ce qui a été perdu le 09/08 : la phrase existait,
-mais dans un message de commit.
+`deleteDraft(kind, id, { fingerprint, motif })` gagne donc un paramètre :
 
-Écarter une entrée `published` est refusé. Dépublier est un autre geste, plus
-risqué — supprimer le fichier ne retire rien de chez les clients déjà servis — et
-il est hors périmètre.
+- **`motif` obligatoire et non vide**, sinon 400 et rien n'est supprimé. C'est ce
+  qui capture la phrase du 09/08, qui existait — mais dans un message de commit.
+- Le fichier supprimé **et** le refus inscrit dans le même appel, avec la
+  confiance qu'avait l'entrée. Un registre qui demanderait une étape séparée ne
+  serait jamais rempli.
+- Une inscription par `source` de l'entrée écartée : le refus doit mordre quelle
+  que soit celle qui la re-signale.
+
+L'ordre compte : **le registre s'écrit avant le `unlinkSync`.** L'inverse
+laisserait, si l'écriture échouait, un fichier supprimé sans refus enregistré —
+c'est-à-dire précisément la panne qu'on corrige, reproduite par le correctif.
+
+La page ajoute la saisie du motif au geste existant. `#ed-delete` reste au même
+endroit, avec le même `disabled` sur `published`.
 
 ## Erreurs
 
 | Situation | Réponse |
 |---|---|
-| `motif` absent ou vide | 400, l'action est refusée avant tout effet |
-| entrée inexistante | 404 par la précondition |
-| entrée `published` | 422 par la précondition, avec le motif |
+| `motif` absent ou vide | 400, **rien n'est supprimé** |
+| entrée inexistante | 404, comme aujourd'hui |
+| entrée `published` | 409, message inchangé (`drafts.mjs:345`) |
+| fichier modifié depuis l'ouverture | 409, empreinte, comportement inchangé |
+| échec d'écriture du registre | l'erreur remonte et **le fichier n'est pas supprimé** — le registre s'écrit d'abord |
 | `refus.json` illisible ou JSON invalide | `pull-news` **s'arrête** ; un registre qu'on ne sait pas lire ne vaut pas un registre vide, qui laisserait tout repasser |
 | `refus.json` absent | traité comme vide — c'est l'état initial légitime |
 | deux sessions écartent en même temps | le second `git push` échoue en non-fast-forward ; le rebase relit le registre |
@@ -249,8 +259,10 @@ tout ce qui a été écarté.
 - **La levée fonctionne** : même URL, confiance passée de `rumor` à
   `multi-source` → l'entrée est produite et l'écart est rapporté.
 - **La levée ne se déclenche pas à confiance égale ou inférieure.**
-- **`motif` vide est refusé** par l'action, avec un test qui le prouve en
-  échouant.
+- **`motif` vide est refusé par `deleteDraft`, et le fichier survit** — la
+  seconde moitié compte autant que la première.
+- **Le registre s'écrit avant la suppression** : une écriture qui échoue laisse
+  le brouillon en place, prouvé en la faisant échouer.
 
 **Critère d'acceptation vivant.** Aujourd'hui, `pull-news --dry-run` sur `main`
 veut écrire `news_9bd3ef15`. Après ce chantier il ne le veut plus, sans qu'on ait
