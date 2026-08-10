@@ -165,13 +165,26 @@ façon (API `contents`) et copie-le tel quel dans `content/inbox/` : c'est la
 semaine du mode en ligne, déjà structurée par l'outil. N'écris JAMAIS toi-même un
 fait `kind: "online-event"`.
 
-## 4. Supprimer la branche de transport
+## 4. Supprimer la branche de transport — ET VÉRIFIER QU'ELLE EST PARTIE
 
-C'est du texte écrit par des tiers : il transite, il ne séjourne pas.
+C'est du texte écrit par des tiers, sur un dépôt **public** : il transite, il ne
+séjourne pas.
 
 ```sh
 gh api -X DELETE "repos/antoine-teston/neon-compass/git/refs/heads/veille/recolte"
+gh api "repos/antoine-teston/neon-compass/git/refs/heads/veille/recolte" >/dev/null 2>&1 \
+  && echo "ÉCHEC : le transport est toujours là" \
+  || echo "transport supprimé"
 ```
+
+**La suppression ne se suppose pas, elle se relit.** Le 2026-08-10, la branche du
+run de 03:30 UTC a survécu toute la journée sur le dépôt public — six articles
+intégraux dans `pages/` et 90 ko de texte tiers dans `recolte.json` — sans que le
+compte-rendu le signale, parce que personne ne lisait le résultat de la commande.
+Une commande dont on ne lit pas la sortie n'est pas une garantie.
+
+Si la suppression échoue : rapporte-le en tête du compte-rendu de run. C'est plus
+urgent que la récolte du jour.
 
 ## 5. Matérialiser — ET RECUEILLIR CE QUI EST ÉCARTÉ
 
@@ -260,10 +273,21 @@ run.
 ## 8. La PR
 
 ```sh
+# Filet : le transport ne doit plus exister. S'il est là, l'étape 4 a été sautée.
+gh api "repos/antoine-teston/neon-compass/git/refs/heads/veille/recolte" >/dev/null 2>&1 \
+  && gh api -X DELETE "repos/antoine-teston/neon-compass/git/refs/heads/veille/recolte" \
+  && echo "TRANSPORT SUPPRIMÉ TARDIVEMENT — à signaler en tête du compte-rendu"
+
 git add content/ && git commit -m "content(veille): récolte du AAAA-MM-JJ"
 git push -u origin veille/courante
 gh pr create --title "Veille — récolte courante" --body-file .github/pr-body-veille.md || gh pr view veille/courante --json url --jq .url
 ```
+
+Le filet n'est pas un doublon de l'étape 4 : il attrape le cas où celle-ci n'a
+pas été exécutée du tout — un enchaînement qui saute, une erreur avalée, une
+session reprise au milieu. C'est ce qui s'est produit le 2026-08-10, et rien ne
+l'a rattrapé de la journée. Un texte tiers publié une heure de trop sur un dépôt
+public coûte plus cher qu'une récolte perdue.
 
 Pas de `--force` : tu ajoutes à la branche, tu n'écrases pas les récoltes
 précédentes. Si `git status --porcelain content/` est vide, ne commite rien — en

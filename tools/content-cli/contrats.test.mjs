@@ -139,6 +139,29 @@ test('toute commande du CLI citée par la Routine existe', () => {
   assert.deepEqual(inventees, [], `citées par la Routine mais inexistantes : ${inventees.join(', ')}`);
 });
 
+test('la disparition du transport est vérifiée, puis revérifiée avant la PR', () => {
+  // Le 2026-08-10, `veille/recolte` a survécu toute la journée sur le dépôt
+  // PUBLIC — six articles intégraux et 90 ko de texte tiers — parce que l'étape 4
+  // lançait la suppression sans jamais lire son résultat. La contrainte IP est la
+  // première du projet ; elle ne peut pas reposer sur une commande muette.
+  const contrat = lire(ROUTINE);
+  const REF = 'git/refs/heads/veille/recolte';
+  assert.ok(
+    contrat.includes(`-X DELETE "repos/antoine-teston/neon-compass/${REF}"`),
+    'le contrat ne supprime plus la branche de transport',
+  );
+  // Les LECTURES de la ref — `gh api "…"` sans `-X DELETE` entre les deux.
+  const lectures = [...contrat.matchAll(new RegExp(`gh api "[^"]*${REF}"`, 'g'))];
+  assert.ok(
+    lectures.length >= 2,
+    `le transport n'est relu que ${lectures.length} fois : il en faut deux — à l'étape 4, puis en filet avant la PR`,
+  );
+  assert.ok(
+    lectures[lectures.length - 1].index < contrat.indexOf('gh pr create'),
+    'le dernier contrôle du transport arrive après l’ouverture de la PR — il ne protège plus rien',
+  );
+});
+
 test('les dépendances sont installées avant le premier appel au CLI', () => {
   // `node_modules` est gitignoré : dans le dépôt cloné par l'ordonnanceur, il
   // n'existe pas. `schemas.mjs` important `ajv`, tout appel au CLI meurt avant
