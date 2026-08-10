@@ -112,6 +112,28 @@ struct FilterChipRow<Content: View>: View {
     }
 }
 
+/// La COLONNE qui porte les puces, pour un panneau qui se déplie.
+///
+/// C'est la géométrie du panneau de filtres de la carte : les puces s'empilent
+/// alignées à droite, sous le bouton qui les a ouvertes, et l'alignement les fait
+/// pointer vers lui. La rangée ci-dessus reste le bon choix quand les puces sont
+/// là en permanence — elle ne coûte qu'une ligne ; la colonne, elle, prend la
+/// hauteur de six puces, ce qu'on ne consent que pour un panneau transitoire.
+///
+/// Pas de `GlassEffectContainer` ici : celui qui compte englobe AUSSI le bouton
+/// qui déplie, sans quoi les puces ne peuvent pas se fondre avec lui. Il est donc
+/// posé par l'appelant, un cran plus haut.
+struct FilterChipColumn<Content: View>: View {
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 8) {
+            content
+        }
+        .frame(maxWidth: .infinity, alignment: .trailing)
+    }
+}
+
 /// Le séparateur entre deux groupes de puces d'une même rangée.
 struct FilterChipDivider: View {
     var body: some View {

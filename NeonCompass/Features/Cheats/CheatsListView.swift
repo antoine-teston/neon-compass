@@ -23,17 +23,7 @@ struct CheatsListView: View {
                 // recherche sans hiérarchie qui dise lequel des deux compte.
                 gameRow
                 inputModePicker
-                searchRow
-                if showCategories {
-                    CheatsFilterBar(
-                        categories: model.availableCategories,
-                        selectedCategory: model.selectedCategory,
-                        onSelect: { model.selectCategory($0) }
-                    )
-                    // La rangée reprend ses propres marges à l'intérieur de son
-                    // défilement, pour que les puces glissent bord à bord.
-                    .padding(.horizontal, -16)
-                }
+                searchAndCategories
 
                 let flatIndex = model.flatIndexByID
                 ForEach(model.sections, id: \.category) { section in
@@ -91,14 +81,39 @@ struct CheatsListView: View {
             .frame(maxWidth: .infinity, alignment: .center)
     }
 
-    /// La recherche, et l'entonnoir qui déplie les rubriques.
-    private var searchRow: some View {
-        HStack(spacing: 10) {
-            TextField("cheats.search.placeholder", text: $model.searchQuery)
-                .textFieldStyle(.plain)
-                .padding(12)
-                .glassEffect(.regular, in: .capsule)
-            categoryToggleButton
+    /// La recherche, l'entonnoir, et la colonne qu'il déplie — dans UN SEUL
+    /// `GlassEffectContainer`.
+    ///
+    /// Un seul, et c'est tout l'intérêt : le verre ne se fond qu'entre éléments
+    /// d'un même conteneur. Les puces naissent donc du bouton et s'y résorbent,
+    /// au lieu d'apparaître à côté de lui. La carte en emploie deux — un pour sa
+    /// rangée haute, un pour ses puces — et n'obtient pour cette raison qu'un
+    /// fondu, jamais la fusion.
+    private var searchAndCategories: some View {
+        GlassEffectContainer(spacing: 10) {
+            VStack(alignment: .trailing, spacing: 10) {
+                HStack(spacing: 10) {
+                    TextField("cheats.search.placeholder", text: $model.searchQuery)
+                        .textFieldStyle(.plain)
+                        .padding(12)
+                        .glassEffect(.regular, in: .capsule)
+                    categoryToggleButton
+                }
+                if showCategories {
+                    CheatsFilterBar(
+                        categories: model.availableCategories,
+                        selectedCategory: model.selectedCategory,
+                        onSelect: { model.selectCategory($0) }
+                    )
+                    // Le point d'ancrage EST le message : la colonne se déploie
+                    // depuis le coin où se trouve le bouton, et s'y replie. Une
+                    // simple opacité la ferait apparaître de nulle part.
+                    .transition(
+                        .scale(scale: 0.85, anchor: .topTrailing)
+                            .combined(with: .opacity)
+                    )
+                }
+            }
         }
     }
 
@@ -110,16 +125,22 @@ struct CheatsListView: View {
     private var categoryToggleButton: some View {
         let isFiltering = model.selectedCategory != nil
         return Button {
-            // SURTOUT PAS de `withAnimation` ici, contrairement au bouton jumeau
-            // de la carte.
+            // `withAnimation` ICI, et c'est mesuré — contrairement à ce que
+            // l'interdiction posée sur `FilterChip` laissait craindre.
             //
-            // Déployer les puces insère une ligne AU-DESSUS d'une colonne de
-            // cartes portant chacune un `.glassEffect()` : sous animation,
-            // SwiftUI anime le décalage de toute la colonne. C'est le défaut
-            // mesuré sur `FeedFilterBar` — douze images perdues par tap, jusqu'à
-            // 127 ms de blocage. La carte se le permet parce qu'il n'y a pas de
-            // pile de verre sous ses puces.
-            showCategories.toggle()
+            // La distinction est nette : l'action d'une PUCE remplace le contenu
+            // de la liste, donc SwiftUI anime l'apparition et la disparition de
+            // dizaines de cartes en verre — douze images perdues par tap. Le
+            // dépliage du PANNEAU, lui, ne crée ni ne détruit aucune carte : il
+            // les décale. Sonde `CADisplayLink`, iPhone 17, trois tours de six
+            // allers-retours : une à deux images perdues par tour, pire
+            // intervalle 33 à 47 ms, contre zéro perdue et 17 ms au repos.
+            //
+            // Le premier tour d'une mesure paie un coût de premier passage
+            // — 127 à 172 ms — quelle que soit la variante placée en tête. Ne pas
+            // le prendre pour le coût de l'animation, c'est l'erreur que la
+            // première mesure a failli inscrire ici.
+            withAnimation(.snappy) { showCategories.toggle() }
         } label: {
             Image(
                 systemName: isFiltering
