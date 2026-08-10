@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Garages",
-    "fr": "Garages"
+    "fr": "Garages",
+    "es": "Garajes",
+    "it": "Garage",
+    "de": "Garagen"
   },
   "isChallenge": false,
   "status": "draft",

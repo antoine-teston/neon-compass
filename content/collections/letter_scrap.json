@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Letter Scraps",
-    "fr": "Fragments de lettre"
+    "fr": "Fragments de lettre",
+    "es": "Fragmentos de carta",
+    "it": "Frammenti di lettera",
+    "de": "Brieffetzen"
   },
   "isChallenge": true,
   "expectedCount": 50,

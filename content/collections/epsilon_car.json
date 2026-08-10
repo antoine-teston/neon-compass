@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Epsilon Vehicles",
-    "fr": "Véhicules Epsilon"
+    "fr": "Véhicules Epsilon",
+    "es": "Vehículos Epsilon",
+    "it": "Veicoli Epsilon",
+    "de": "Epsilon-Fahrzeuge"
   },
   "isChallenge": true,
   "status": "draft",

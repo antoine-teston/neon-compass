@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Nuclear Waste",
-    "fr": "Déchets nucléaires"
+    "fr": "Déchets nucléaires",
+    "es": "Residuos nucleares",
+    "it": "Scorie nucleari",
+    "de": "Atommüll"
   },
   "isChallenge": true,
   "expectedCount": 30,

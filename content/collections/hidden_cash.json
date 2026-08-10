@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Hidden Packages",
-    "fr": "Magots cachés"
+    "fr": "Magots cachés",
+    "es": "Paquetes ocultos",
+    "it": "Pacchi nascosti",
+    "de": "Versteckte Pakete"
   },
   "isChallenge": true,
   "expectedCount": 12,

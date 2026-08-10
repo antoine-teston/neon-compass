@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Spaceship Parts",
-    "fr": "Pièces de vaisseau"
+    "fr": "Pièces de vaisseau",
+    "es": "Piezas de nave",
+    "it": "Parti di astronave",
+    "de": "Raumschiffteile"
   },
   "isChallenge": true,
   "expectedCount": 50,

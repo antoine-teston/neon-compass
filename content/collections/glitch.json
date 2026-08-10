@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Glitches",
-    "fr": "Anomalies"
+    "fr": "Anomalies",
+    "es": "Fallos",
+    "it": "Anomalie",
+    "de": "Glitches"
   },
   "isChallenge": false,
   "status": "draft",

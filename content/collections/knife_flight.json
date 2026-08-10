@@ -3,7 +3,10 @@
   "game": "gtav",
   "title": {
     "en": "Knife Flights",
-    "fr": "Vols en rase-mottes"
+    "fr": "Vols en rase-mottes",
+    "es": "Vuelos rasantes",
+    "it": "Voli radenti",
+    "de": "Tiefflüge"
   },
   "isChallenge": true,
   "expectedCount": 15,
