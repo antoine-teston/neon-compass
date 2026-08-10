@@ -24,10 +24,11 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LANGS_CIBLES } from './traduction.mjs';
+import { NOMS } from './commands.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 
@@ -42,7 +43,27 @@ const LANGUES = ['en', 'fr', ...LANGS_CIBLES];
 const CONTRATS = {
   'content-editor.md': join(ICI, '..', '..', '.claude', 'agents', 'content-editor.md'),
   'rewrite-news.md': join(ICI, 'prompts', 'rewrite-news.md'),
+  'routine-veille.md': join(ICI, '..', '..', '.github', 'routine-veille.md'),
 };
+
+/** Le contrat de la Routine quotidienne. Rapatrié dans le dépôt le 2026-08-10 :
+ *  sa seule copie complète vivait jusque-là dans le `job_config` de la tâche
+ *  planifiée, chez le fournisseur — dérivante parce qu'aucun test ne l'atteignait,
+ *  et captive parce que la reconstruire ailleurs supposait d'interroger l'API dont
+ *  on veut justement pouvoir se passer. */
+const ROUTINE = join(ICI, '..', '..', '.github', 'routine-veille.md');
+
+/** Ce dont la Routine dépend pour ne pas mourir à 4h17 du matin, dans une session
+ *  cloud dont personne ne lira le journal. Vérifié dans les DEUX sens : un fichier
+ *  déplacé la casse en silence, un fichier qu'elle cesse de citer est une étape
+ *  qu'elle a perdue. */
+const APPUIS = [
+  '.claude/agents/data-scout.md',
+  'tools/content-cli/prompts/rewrite-news.md',
+  'tools/content-cli/fetch-source.mjs',
+  '.github/pr-body-veille.md',
+  '.github/workflows/recolte.yml',
+];
 
 const lire = (chemin) => readFileSync(chemin, 'utf8');
 
@@ -88,6 +109,47 @@ for (const [nom, chemin] of Object.entries(CONTRATS)) {
     }
   });
 }
+
+// ---------------------------------------------------------------------------
+// Le contrat de la Routine, et ce sur quoi il s'appuie
+// ---------------------------------------------------------------------------
+
+test('tout fichier dont la Routine dépend existe, et elle le cite encore', () => {
+  const contrat = lire(ROUTINE);
+  for (const chemin of APPUIS) {
+    assert.ok(
+      existsSync(join(ICI, '..', '..', chemin)),
+      `${chemin} : cité par le contrat de la Routine, absent du dépôt — elle mourra au prochain run`,
+    );
+    // Le nom de base suffit : le contrat cite `recolte.yml` sans son dossier.
+    assert.ok(
+      contrat.includes(chemin) || contrat.includes(chemin.split('/').pop()),
+      `${chemin} : plus cité par le contrat de la Routine — une étape a disparu`,
+    );
+  }
+});
+
+test('toute commande du CLI citée par la Routine existe', () => {
+  // La cicatrice `deploy-rules` : une aide recopiée proposait une commande
+  // disparue. Ici l'enjeu est pire — personne ne lit le journal d'une session
+  // cloud de 4h17, donc une commande renommée s'y perd sans un bruit.
+  const citees = [...lire(ROUTINE).matchAll(/cli\.js ([a-z][a-z0-9-]*)/g)].map((m) => m[1]);
+  assert.ok(citees.length >= 3, `seulement ${citees.length} commande(s) trouvée(s) — le motif a dérivé`);
+  const inventees = [...new Set(citees)].filter((nom) => !NOMS.includes(nom));
+  assert.deepEqual(inventees, [], `citées par la Routine mais inexistantes : ${inventees.join(', ')}`);
+});
+
+test('les interdits irréversibles ne dépendent pas d’un fichier lu', () => {
+  // L'amorçage hébergé les répète, et le contrat le justifie. Si cette
+  // justification disparaît, quelqu'un finira par « simplifier » l'amorçage en
+  // les retirant — or ils doivent tenir même quand la lecture du contrat échoue.
+  const contrat = lire(ROUTINE);
+  assert.match(contrat, /ne doit pas dépendre[\s\S]{0,80}lecture réussie/i,
+    'la raison d’être des interdits répétés dans l’amorçage a disparu du contrat');
+  for (const interdit of [/ne publies JAMAIS/, /ne fusionnes JAMAIS/, /jamais sur `main`/]) {
+    assert.match(contrat, interdit, `interdit absent de l’amorçage cité : ${interdit}`);
+  }
+});
 
 test('« les cinq langues » en est bien cinq', () => {
   // Un nombre écrit en toutes lettres dans une consigne est une affirmation.
