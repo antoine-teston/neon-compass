@@ -1,6 +1,6 @@
-// Le vocabulaire pur de la veille : CONFIANCE_ORDRE, CARDINALITE et
-// HORS_CONTROLE — trois tables de constantes, sans schéma JSON ni disque
-// derrière elles.
+// Le vocabulaire pur de la veille : les tables CONFIANCE_ORDRE, CARDINALITE et
+// HORS_CONTROLE, plus les deux fonctions qui les lisent — `cleDeRefus` et
+// `confianceSuperieure`. Aucun schéma JSON, aucun disque derrière tout ça.
 //
 // Elles vivaient dans `schemas.mjs`, à côté des schémas. Mais `schemas.mjs`
 // lit cinq fichiers `.schema.json` et compile AJV en haut du module (voir
