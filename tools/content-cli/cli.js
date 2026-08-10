@@ -597,6 +597,7 @@ switch (cmd) {
   case 'pull-news':
     try {
       const { materializeNews } = await import('./facts-to-news.mjs');
+      const { lireRefus, CHEMIN_REFUS } = await import('./refus.mjs');
 
       const inbox = join(CONTENT, 'inbox');
       const factFiles = existsSync(inbox)
@@ -617,7 +618,11 @@ switch (cmd) {
             }))
         : [];
 
-      const result = materializeNews(facts, existing);
+      // Le registre est lu ICI : `facts-to-news.mjs` est pur et ne touche pas au
+      // disque. Une lecture qui échoue ARRÊTE la commande — un registre illisible
+      // traité comme vide ferait revenir en silence tout ce qui a été écarté.
+      const refus = lireRefus(CHEMIN_REFUS);
+      const result = materializeNews(facts, existing, refus);
 
       if (result.conflicts.length) {
         result.conflicts.forEach((c) => console.error(`  conflit: ${c.reason}\n           « ${c.claim?.slice(0, 80)}… »`));
@@ -626,10 +631,22 @@ switch (cmd) {
         break;
       }
 
+      // Écarts et levées se rapportent dans les DEUX modes : un `--dry-run` qui
+      // les tairait donnerait une répétition mensongère de la vraie commande.
+      result.ecartes.forEach((e) => {
+        console.log(`  écarté  ${e.url}`);
+        console.log(`          ${e.raison}, déjà porté par ${e.par}`);
+        console.log(`          « ${String(e.claim ?? '').slice(0, 100)}… »`);
+      });
+      result.leves.forEach((l) => {
+        console.log(`  refus du ${l.le} levé — confiance passée de ${l.de} à ${l.a} (${l.url})`);
+      });
+
       if (dry) {
         result.writes.forEach(({ path, data }) => console.log(`  écrirait ${path}  [${data.confidence}] ${data.publishedAt}`));
         console.log(
           `pull-news --dry-run: ${result.writes.length} squelette(s), ` +
+            `${result.ecartes.length} écarté(s), ` +
             `${result.alreadyMaterialized.length} déjà matérialisé(s), aucune écriture`,
         );
         ok = true;
@@ -670,6 +687,7 @@ switch (cmd) {
 
       console.log(
         `pull-news: ${result.writes.length} squelette(s) écrit(s), ` +
+          `${result.ecartes.length} écarté(s), ` +
           `${result.alreadyMaterialized.length} déjà présent(s), ${marked} fait(s) marqué(s) — à rédiger puis committer`,
       );
       ok = true;

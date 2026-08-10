@@ -11,6 +11,7 @@
 
 import { createHash } from 'node:crypto';
 import { identityKey } from '../basemap/gtav-poi-ids.mjs';
+import { CARDINALITE, cleDeRefus, confianceSuperieure } from './vocabulaire.mjs';
 
 /** Source d'identité des items nés de la veille — partie stable de la clé
  *  écrite dans `processedFrom`, et ce sur quoi le run suivant se réapparie. */
@@ -28,6 +29,11 @@ const DEFAULT_GAME = 'leonida';
  *  un conflit bloque le lot ENTIER. Un seul fait `single-source` suffirait donc
  *  à faire perdre toute la veille de la semaine, en silence. */
 const CONFIDENCES = new Set(['confirmed-official', 'multi-source', 'single-source', 'rumor']);
+
+/** Le kind que ce module matérialise. Sa cardinalité est lue dans la table
+ *  plutôt que supposée : la basculer sur `multiple` éteint le contrôle, ce qui
+ *  est exactement ce que la table est censée décider. */
+const KIND = 'news';
 
 /** Catégorie par défaut du squelette. La rédaction peut la corriger : c'est une
  *  décision éditoriale (une date de sortie n'est pas un événement daté), pas
@@ -72,24 +78,39 @@ function invalidReason(fact) {
  * @param facts     faits d'inbox, tous kinds confondus, aplatis depuis les
  *                  fichiers `.facts.json`
  * @param existing  [{ path, data }] — les fichiers actuels de content/news
+ * @param refus     le registre des refus, LU PAR L'APPELANT — ce module reste
+ *                  pur. `{}` par défaut : sans registre, rien ne change.
  * @returns {{
  *   writes: Array<{path: string, data: object}>,        squelettes à écrire
  *   alreadyMaterialized: Array<{key: string, id: string}>, déjà couverts
  *   covered: Array<{fact: object, key: string, id: string}>, à marquer dans l'inbox
  *   skipped: Array<{claim: string, reason: string}>,    écartés, mais classés
+ *   ecartes: Array<{url, claim, raison, par}>,          jetés, et pourquoi
+ *   leves: Array<{url, de, a, le}>,                     refus levés, et par quoi
  *   conflicts: Array<{claim: string, reason: string}>   si non vide, N'ÉCRIRE RIEN
  * }}
  */
-export function materializeNews(facts, existing) {
+export function materializeNews(facts, existing, refus = {}) {
   const byID = new Map(existing.map((entry) => [entry.data.id, entry]));
   const byProcessedFrom = new Map(
     existing.filter((entry) => entry.data.processedFrom).map((entry) => [entry.data.processedFrom, entry]),
   );
 
+  // L'index des URL déjà portées. C'est le « registre des URL récoltées » de la
+  // spec — il ne s'écrit nulle part : il EST le contenu déjà là.
+  const parSource = new Map();
+  for (const entry of existing) {
+    for (const url of entry.data.sources ?? []) {
+      if (!parSource.has(url)) parSource.set(url, entry.data.id);
+    }
+  }
+
   const writes = [];
   const alreadyMaterialized = [];
   const covered = [];
   const skipped = [];
+  const ecartes = [];
+  const leves = [];
   const conflicts = [];
 
   for (const fact of facts) {
@@ -116,6 +137,47 @@ export function materializeNews(facts, existing) {
       alreadyMaterialized.push({ key, id: previous.data.id });
       covered.push({ fact, key, id: previous.data.id });
       continue;
+    }
+
+    // LE CONTRÔLE DE CONVERGENCE.
+    //
+    // Après `byProcessedFrom` et pas avant : un fait qui se réapparie à SON
+    // entrée est « déjà matérialisé », pas « écarté ». Les confondre dirait
+    // qu'on a jeté quelque chose alors qu'on a reconnu.
+    //
+    // Le claim n'entre pas dans la décision — c'est ce qui rend le contrôle
+    // insensible à la reformulation, donc capable de voir deux sessions
+    // concurrentes là où `factDiscriminant` voyait deux faits distincts.
+    if (CARDINALITE[KIND] === 'une') {
+      const deja = parSource.get(fact.source_url);
+      if (deja) {
+        ecartes.push({
+          url: fact.source_url,
+          claim: fact.claim,
+          raison: 'URL déjà couverte',
+          par: deja,
+        });
+        continue;
+      }
+    }
+
+    // Le refus, et sa levée.
+    //
+    // Après le contrôle d'URL : si une entrée porte déjà cette URL, le refus
+    // est sans objet — un item écarté a été supprimé, donc rien ne la porte.
+    const refuse = refus[cleDeRefus(KIND, fact.source_url)];
+    if (refuse) {
+      if (!confianceSuperieure(fact.confidence, refuse.confiance)) {
+        ecartes.push({
+          url: fact.source_url,
+          claim: fact.claim,
+          raison: `refus du ${refuse.le} — ${refuse.motif}`,
+          par: refuse.entree,
+        });
+        continue;
+      }
+      // Le 2026-08-09 n'a pas écarté un sujet, il a écarté une rumeur.
+      leves.push({ url: fact.source_url, de: refuse.confiance, a: fact.confidence, le: refuse.le });
     }
 
     const id = mintNewsId(key);
@@ -147,14 +209,17 @@ export function materializeNews(facts, existing) {
     byID.set(id, entry);
     byProcessedFrom.set(key, entry);
     covered.push({ fact, key, id });
+    // Sans cette ligne, deux faits du MÊME lot portant la même URL passeraient
+    // tous les deux : l'index ne connaîtrait que les entrées d'avant le run.
+    parSource.set(fact.source_url, id);
   }
 
   // Un conflit invalide le lot entier : matérialiser la moitié d'un run
   // laisserait l'inbox à moitié marquée, et le fait fautif reviendrait au run
   // suivant sans qu'on sache ce qui a déjà été fait.
   if (conflicts.length) {
-    return { writes: [], alreadyMaterialized: [], covered: [], skipped: [], conflicts };
+    return { writes: [], alreadyMaterialized: [], covered: [], skipped: [], ecartes: [], leves: [], conflicts };
   }
 
-  return { writes, alreadyMaterialized, covered, skipped, conflicts };
+  return { writes, alreadyMaterialized, covered, skipped, ecartes, leves, conflicts };
 }

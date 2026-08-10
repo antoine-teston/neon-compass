@@ -343,13 +343,31 @@ async function enregistrer(publier) {
 async function ecarter() {
   const msg = document.getElementById('ed-msg');
   const titre = ouvert.data.title?.fr ?? ouvert.data.title?.en ?? ouvert.id;
-  if (!confirm(`Écarter ce brouillon ?\n\n« ${titre} »\n\nLe fichier est supprimé du dépôt. `
-    + 'La suppression apparaîtra dans la Livraison, donc dans une pull request relue.')) return;
+
+  // Une saisie et non une confirmation : sans motif, le serveur refuse en 400 et
+  // ne supprime rien. Ce motif est ce qui manquait au geste du 2026-08-09 — la
+  // phrase existait, mais dans un message de commit, donc invisible au prochain
+  // `pull-news`, qui a voulu recréer l'entrée le lendemain.
+  const motif = prompt(
+    `Écarter ce brouillon ?\n\n« ${titre} »\n\n`
+    + 'Pourquoi ? Ce motif est inscrit au registre des refus, et c’est lui qui empêchera '
+    + 'la veille de recréer cette entrée.\n\n'
+    + 'Le refus se lèvera tout seul si une source lui donne une confiance supérieure : '
+    + 'écarter une rumeur n’enterre pas le sujet.\n\n'
+    + 'Le fichier est supprimé du dépôt ; la suppression apparaîtra dans la Livraison, '
+    + 'donc dans une pull request relue.',
+  );
+  if (motif === null) return; // annulé — rien n'est envoyé
+  if (!motif.trim()) {
+    msg.className = 'msg warn';
+    msg.textContent = 'Écarter demande un motif : c’est lui qui empêche la veille de recréer l’entrée.';
+    return;
+  }
 
   const res = await fetch(`/api/draft/${encodeURIComponent(ouvert.kind)}/${encodeURIComponent(ouvert.id)}`, {
     method: 'DELETE',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ fingerprint: ouvert.fingerprint }),
+    body: JSON.stringify({ fingerprint: ouvert.fingerprint, motif }),
   });
   const body = await res.json();
   if (!res.ok) {

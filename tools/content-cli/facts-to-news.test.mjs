@@ -1,6 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { materializeNews, INBOX_SOURCE } from './facts-to-news.mjs';
+import { readdirSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ICI = dirname(fileURLToPath(import.meta.url));
 
 function newsFact(overrides = {}) {
   return {
@@ -114,8 +119,12 @@ test('les faits d’un autre kind sont écartés, jamais transformés', () => {
 });
 
 test('deux faits distincts produisent deux ids distincts', () => {
+  // source_url distincte pour le second fait : depuis le contrôle de
+  // convergence, deux faits de même source_url et de kind news n'en
+  // produisent qu'un. Deux faits VRAIMENT distincts viennent donc de deux
+  // articles distincts, pas seulement de deux claims sur le même article.
   const result = materializeNews(
-    [newsFact(), newsFact({ claim: 'Un autre fait, tout aussi sourcé.' })],
+    [newsFact(), newsFact({ source_url: 'https://example.test/article-b', claim: 'Un autre fait, tout aussi sourcé.' })],
     [],
   );
 
@@ -152,8 +161,17 @@ test('les quatre confiances du contrat data-scout sont acceptées', () => {
   // transformation ignore ferait perdre toute la récolte de la semaine, sans
   // que rien ne dise pourquoi. Ce test est le seul endroit où les deux
   // définitions se regardent (.claude/agents/data-scout.md).
+  //
+  // Une source_url distincte par confiance : depuis le contrôle de
+  // convergence, deux faits de même source_url et de kind news n'en
+  // produisent qu'un, ce qui masquerait ici trois des quatre écritures
+  // attendues.
   const confidences = ['confirmed-official', 'multi-source', 'single-source', 'rumor'];
-  const facts = confidences.map((confidence) => newsFact({ confidence, claim: `Fait ${confidence}.` }));
+  const facts = confidences.map((confidence) => newsFact({
+    confidence,
+    claim: `Fait ${confidence}.`,
+    source_url: `https://example.test/${confidence}`,
+  }));
 
   const result = materializeNews(facts, []);
 
@@ -187,9 +205,13 @@ test('une confiance inconnue bloque le lot', () => {
 
 test('un id frappé qui collisionne avec un autre processedFrom bloque tout le lot', () => {
   const minted = materializeNews([newsFact()], []).writes[0].data;
+  // sources DIFFÉRENTE de celle des faits entrants, id INCHANGÉ (celui qui doit
+  // collisionner) : depuis le contrôle de convergence, une source_url déjà
+  // portée écarte le fait avant même la frappe d'id — la collision qu'on veut
+  // tester n'aurait jamais lieu si cette entrée portait la même URL.
   const existing = [{
     path: 'content/news/collision.json',
-    data: { ...minted, processedFrom: 'inbox:news:000000000000' },
+    data: { ...minted, sources: ['https://example.test/autre-article'], processedFrom: 'inbox:news:000000000000' },
   }];
 
   // Un second fait parfaitement valide accompagne le fautif : il ne doit pas
@@ -215,7 +237,10 @@ test('un conflit n’écrit rien du tout, même les faits sains du lot', () => {
 });
 
 test('les faits couverts sont rendus pour que l’inbox puisse être marquée', () => {
-  const fresh = newsFact();
+  // source_url distincte pour fresh : depuis le contrôle de convergence, deux
+  // faits de même source_url et de kind news n'en produisent qu'un — fresh
+  // serait écarté au lieu d'être compté comme couvert par écriture.
+  const fresh = newsFact({ source_url: 'https://example.test/article-fraiche' });
   const already = newsFact({ claim: 'Fait déjà matérialisé la semaine dernière.' });
   const existing = [{ path: 'content/news/y.json', data: materializeNews([already], []).writes[0].data }];
 
@@ -225,4 +250,111 @@ test('les faits couverts sont rendus pour que l’inbox puisse être marquée', 
   // réappariement. L'inbox doit marquer les DEUX, sinon le fait ancien
   // ressortirait comme « à traiter » à chaque run.
   assert.equal(result.covered.length, 2);
+});
+
+// ---------------------------------------------------------------------------
+// Le contrôle de convergence
+//
+// Il tourne ICI, après le merge, et pas à la récolte : deux sessions
+// concurrentes liraient toutes deux « URL non couverte » avant que l'une
+// n'écrive. Constaté les 08, 09 et 10 août 2026.
+// ---------------------------------------------------------------------------
+
+test('deux lectures du même article ne produisent qu’une entrée', () => {
+  // La panne exacte de la PR #83 : deux sessions, deux claims, un seul article.
+  const a = newsFact({ claim: 'Le PDG a déclaré que les précommandes dépassaient les prévisions.' });
+  const b = newsFact({ claim: 'Lors de ses résultats, l’éditeur a indiqué que les précommandes dépassaient ses prévisions.' });
+  const { writes, ecartes } = materializeNews([a, b], []);
+
+  assert.equal(writes.length, 1, 'un article, une entrée');
+  assert.equal(ecartes.length, 1);
+  assert.equal(ecartes[0].url, a.source_url);
+  assert.match(ecartes[0].raison, /déjà couverte/);
+});
+
+test('un écart NOMME le claim qu’il jette', () => {
+  // Une URL peut légitimement porter deux sujets. Le contrôle en sacrifie un ;
+  // il ne doit pas le perdre en silence.
+  const a = newsFact({ claim: 'Sony a réinscrit le jeu sur sa page éditoriale.' });
+  const b = newsFact({ claim: 'Un ancien animateur juge le jeu achevé à 80-90 %.' });
+  const { ecartes } = materializeNews([a, b], []);
+
+  assert.equal(ecartes.length, 1);
+  assert.match(ecartes[0].claim, /ancien animateur/);
+});
+
+test('une URL déjà portée par une entrée EXISTANTE écarte le fait', () => {
+  const existant = existingItem({ id: 'news_deja', sources: ['https://example.test/article-a'] });
+  const { writes, ecartes } = materializeNews([newsFact()], [existant]);
+
+  assert.equal(writes.length, 0);
+  assert.equal(ecartes[0].par, 'news_deja', 'le rapport nomme l’entrée qui la portait déjà');
+});
+
+test('deux articles DIFFÉRENTS produisent bien deux entrées', () => {
+  const a = newsFact({ source_url: 'https://example.test/un' });
+  const b = newsFact({ source_url: 'https://example.test/deux', claim: 'Un autre fait.' });
+  const { writes, ecartes } = materializeNews([a, b], []);
+
+  assert.equal(writes.length, 2);
+  assert.equal(ecartes.length, 0);
+});
+
+test('rejeu du réel : aucune URL n’est matérialisée deux fois', () => {
+  // Les vrais faits du dépôt, pas une reconstitution. 12 URLs y sont dupliquées
+  // par les doubles runs des 08, 09 et 10 août, plus quatre doublons INTRA-run
+  // des 06 et 07 — l'agent se répète aussi tout seul.
+  const inbox = join(ICI, '..', '..', 'content', 'inbox');
+  const facts = readdirSync(inbox)
+    .filter((f) => f.endsWith('.facts.json'))
+    .sort()
+    .flatMap((f) => JSON.parse(readFileSync(join(inbox, f), 'utf8')).facts ?? []);
+
+  const { writes } = materializeNews(facts, []);
+  const urls = writes.map((w) => w.data.sources[0]);
+  assert.equal(new Set(urls).size, urls.length, 'deux entrées produites pour une même URL');
+});
+
+// ---------------------------------------------------------------------------
+// Le registre des refus, vu du matérialiseur
+// ---------------------------------------------------------------------------
+
+const registreRefusant = (confiance = 'rumor') => ({
+  'news|https://example.test/article-a': {
+    motif: 'ne tient qu’à un message du support client',
+    entree: 'news_9bd3ef15',
+    confiance,
+    le: '2026-08-09',
+  },
+});
+
+test('un fait refusé ne produit rien', () => {
+  const { writes, ecartes } = materializeNews([newsFact({ confidence: 'rumor' })], [], registreRefusant());
+
+  assert.equal(writes.length, 0);
+  assert.match(ecartes[0].raison, /refus du 2026-08-09/);
+  assert.equal(ecartes[0].par, 'news_9bd3ef15');
+});
+
+test('le refus tient à confiance ÉGALE', () => {
+  const { writes } = materializeNews([newsFact({ confidence: 'rumor' })], [], registreRefusant('rumor'));
+  assert.equal(writes.length, 0);
+});
+
+test('une confiance STRICTEMENT supérieure lève le refus', () => {
+  const { writes, leves, ecartes } = materializeNews(
+    [newsFact({ confidence: 'multi-source' })],
+    [],
+    registreRefusant('rumor'),
+  );
+
+  assert.equal(writes.length, 1, 'le sujet revient quand il se confirme');
+  assert.equal(ecartes.length, 0);
+  assert.deepEqual(leves, [{ url: 'https://example.test/article-a', de: 'rumor', a: 'multi-source', le: '2026-08-09' }]);
+});
+
+test('sans registre, rien ne change', () => {
+  const { writes, leves } = materializeNews([newsFact()], []);
+  assert.equal(writes.length, 1);
+  assert.deepEqual(leves, []);
 });
