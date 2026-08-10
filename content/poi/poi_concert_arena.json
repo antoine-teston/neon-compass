@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "Concert Arena",
-    "fr": "Salle de spectacle"
+    "fr": "Salle de spectacle",
+    "es": "Sala de espectáculos",
+    "it": "Sala per spettacoli",
+    "de": "Veranstaltungshalle"
   },
   "note": {
     "en": "A large concert hall / arena shows up across the official trailers. Map pin pending an official reveal — no full map yet.",
-    "fr": "Une grande salle de spectacle apparaît dans plusieurs bandes-annonces officielles. Le placement sur la carte reste à confirmer, faute de plan officiel complet."
+    "fr": "Une grande salle de spectacle apparaît dans plusieurs bandes-annonces officielles. Le placement sur la carte reste à confirmer, faute de plan officiel complet.",
+    "es": "Una gran sala de espectáculos aparece en varios tráileres oficiales. Su ubicación en el mapa está por confirmar, a falta de un plano oficial completo.",
+    "it": "Una grande sala per spettacoli compare in più trailer ufficiali. La collocazione sulla mappa resta da confermare, in assenza di una pianta ufficiale completa.",
+    "de": "Eine große Veranstaltungshalle erscheint in mehreren offiziellen Trailern. Die Platzierung auf der Karte ist mangels vollständigem offiziellem Plan noch offen."
   },
   "status": "draft",
-  "sources": ["https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"]
+  "sources": [
+    "https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"
+  ]
 }

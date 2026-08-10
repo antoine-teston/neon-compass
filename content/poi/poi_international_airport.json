@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "International Airport",
-    "fr": "Aéroport international"
+    "fr": "Aéroport international",
+    "es": "Aeropuerto internacional",
+    "it": "Aeroporto internazionale",
+    "de": "Internationaler Flughafen"
   },
   "note": {
     "en": "The international airport serving the main city and its county shows up in official promo material. Its exact spot on the map is pending — no full official map has been released yet.",
-    "fr": "L'aéroport international qui dessert la ville principale et son comté apparaît dans le matériel promotionnel officiel. Sa position exacte sur la carte reste en attente : aucun plan complet n'a encore été publié."
+    "fr": "L'aéroport international qui dessert la ville principale et son comté apparaît dans le matériel promotionnel officiel. Sa position exacte sur la carte reste en attente : aucun plan complet n'a encore été publié.",
+    "es": "El aeropuerto internacional que da servicio a la ciudad principal y a su condado aparece en el material promocional oficial. Su posición exacta en el mapa sigue pendiente: aún no se ha publicado ningún plano completo.",
+    "it": "L'aeroporto internazionale che serve la città principale e la sua contea compare nel materiale promozionale ufficiale. La sua posizione esatta sulla mappa resta in sospeso: non è ancora stata pubblicata alcuna pianta completa.",
+    "de": "Der internationale Flughafen, der die Hauptstadt und ihren Bezirk bedient, erscheint im offiziellen Werbematerial. Seine genaue Lage auf der Karte steht noch aus: Ein vollständiger Plan wurde bislang nicht veröffentlicht."
   },
   "status": "draft",
-  "sources": ["https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"]
+  "sources": [
+    "https://www.gtaboom.com/Every_GTA_6_Location_Confirmed_So_Far"
+  ]
 }

@@ -1,15 +1,26 @@
 {
   "id": "poi_sample_lighthouse",
   "category": "landmark",
-  "position": { "x": 0.7312, "y": 0.4147 },
+  "position": {
+    "x": 0.7312,
+    "y": 0.4147
+  },
   "title": {
     "en": "Old Harbor Lighthouse",
-    "fr": "Phare du vieux port"
+    "fr": "Phare du vieux port",
+    "es": "Faro del puerto viejo",
+    "it": "Faro del vecchio porto",
+    "de": "Leuchtturm am alten Hafen"
   },
   "note": {
     "en": "Sample POI used to validate the pipeline before launch. Not real game data.",
-    "fr": "POI factice servant à valider le pipeline avant la sortie. Pas une donnée réelle."
+    "fr": "POI factice servant à valider le pipeline avant la sortie. Pas une donnée réelle.",
+    "es": "Punto de interés ficticio que sirve para validar la cadena antes del lanzamiento. No es un dato real.",
+    "it": "Punto di interesse fittizio usato per validare la catena prima dell'uscita. Non è un dato reale.",
+    "de": "Fiktiver Punkt, der die Kette vor dem Erscheinen prüfen soll. Keine echte Angabe."
   },
   "status": "draft",
-  "sources": ["internal:fixture"]
+  "sources": [
+    "internal:fixture"
+  ]
 }

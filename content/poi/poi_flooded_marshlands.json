@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "The Flooded Marshlands",
-    "fr": "Les marais noyés"
+    "fr": "Les marais noyés",
+    "es": "Las marismas anegadas",
+    "it": "Le paludi allagate",
+    "de": "Die überfluteten Sümpfe"
   },
   "note": {
     "en": "Endless flooded grass plains and cypress-lined channels stretch across two fictional counties in the state's south — an ecosystem built for airboats, gator sightings, and getting genuinely lost off the beaten path. It's the map's clearest nod to the real Everglades, right down to the humidity you can almost feel through the screen. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
-    "fr": "Prairies noyées à perte de vue, canaux bordés de cyprès, à cheval sur deux comtés fictifs du sud de la carte : un terrain taillé pour les airboats, les alligators et les balades qui finissent hors sentiers. La référence aux vrais Everglades de Floride saute aux yeux, jusque dans l'humidité qu'on devine à l'écran. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+    "fr": "Prairies noyées à perte de vue, canaux bordés de cyprès, à cheval sur deux comtés fictifs du sud de la carte : un terrain taillé pour les airboats, les alligators et les balades qui finissent hors sentiers. La référence aux vrais Everglades de Floride saute aux yeux, jusque dans l'humidité qu'on devine à l'écran. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément.",
+    "es": "Praderas anegadas hasta el horizonte, canales bordeados de cipreses, a caballo entre dos condados ficticios del sur del mapa: un terreno hecho para los aerodeslizadores, los caimanes y los paseos que acaban fuera de las sendas. La referencia a los Everglades de Florida salta a la vista, hasta en la humedad que se intuye en pantalla. Aún no ha salido ningún mapa oficial completo, así que este punto sigue siendo provisional hasta que alguien lo sitúe con precisión.",
+    "it": "Praterie allagate a perdita d'occhio, canali orlati di cipressi, a cavallo tra due contee immaginarie del sud della mappa: un terreno fatto per gli airboat, gli alligatori e le gite che finiscono fuori sentiero. Il riferimento alle Everglades della Florida salta agli occhi, fin nell'umidità che si intuisce sullo schermo. Non è ancora uscita alcuna mappa ufficiale completa, quindi questo punto resta provvisorio finché qualcuno non lo collocherà con precisione.",
+    "de": "Überflutete Wiesen bis zum Horizont, von Zypressen gesäumte Kanäle, verteilt auf zwei fiktive Bezirke im Süden der Karte: ein Gelände wie geschaffen für Airboats, Alligatoren und Ausflüge, die abseits der Wege enden. Die Anspielung auf die Everglades in Florida springt ins Auge, bis hin zur Feuchtigkeit, die man auf dem Bildschirm zu spüren meint. Eine vollständige offizielle Karte gibt es noch nicht, dieser Punkt bleibt also vorläufig, bis ihn jemand genau platziert."
   },
   "status": "draft",
-  "sources": ["https://gta.fandom.com/wiki/Grassrivers"]
+  "sources": [
+    "https://gta.fandom.com/wiki/Grassrivers"
+  ]
 }

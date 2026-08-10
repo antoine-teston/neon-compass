@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "The Faded Port Town",
-    "fr": "La ville portuaire défraîchie"
+    "fr": "La ville portuaire défraîchie",
+    "es": "La ciudad portuaria descolorida",
+    "it": "La città portuale sbiadita",
+    "de": "Die verblasste Hafenstadt"
   },
   "note": {
     "en": "Once a postcard-worthy holiday stop on the state's western shore, this town has seen better decades — rusting industrial yards and half-shuttered storefronts now sit beside quiet, wooded backroads. There's a specific kind of melancholy here that makes it stand out from the flashier parts of the map. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
-    "fr": "Ancienne halte de vacances sur la côte ouest, aujourd'hui à bout de souffle : entrepôts industriels qui rouillent, devantures à moitié fermées, et tout autour, des routes de campagne perdues dans les bois. Une mélancolie particulière qui tranche avec les quartiers plus tape-à-l'œil de la carte. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+    "fr": "Ancienne halte de vacances sur la côte ouest, aujourd'hui à bout de souffle : entrepôts industriels qui rouillent, devantures à moitié fermées, et tout autour, des routes de campagne perdues dans les bois. Une mélancolie particulière qui tranche avec les quartiers plus tape-à-l'œil de la carte. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément.",
+    "es": "Antigua parada vacacional en la costa oeste, hoy sin aliento: almacenes industriales que se oxidan, escaparates a medio cerrar y, alrededor, carreteras rurales perdidas entre los bosques. Una melancolía particular que contrasta con los barrios más llamativos del mapa. Aún no ha salido ningún mapa oficial completo, así que este punto sigue siendo provisional hasta que alguien lo sitúe con precisión.",
+    "it": "Antica tappa di vacanza sulla costa ovest, oggi senza fiato: magazzini industriali che arrugginiscono, vetrine mezze chiuse e, tutt'intorno, strade di campagna perse nei boschi. Una malinconia particolare che stona con i quartieri più vistosi della mappa. Non è ancora uscita alcuna mappa ufficiale completa, quindi questo punto resta provvisorio finché qualcuno non lo collocherà con precisione.",
+    "de": "Einst ein Ferienziel an der Westküste, heute am Ende seiner Kräfte: rostende Industriehallen, halb geschlossene Ladenfronten und ringsum Landstraßen, die sich in den Wäldern verlieren. Eine eigene Melancholie, die mit den auffälligeren Vierteln der Karte bricht. Eine vollständige offizielle Karte gibt es noch nicht, dieser Punkt bleibt also vorläufig, bis ihn jemand genau platziert."
   },
   "status": "draft",
-  "sources": ["https://gta.fandom.com/wiki/Port_Gellhorn"]
+  "sources": [
+    "https://gta.fandom.com/wiki/Port_Gellhorn"
+  ]
 }

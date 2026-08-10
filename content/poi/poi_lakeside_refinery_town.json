@@ -4,11 +4,17 @@
   "position": null,
   "title": {
     "en": "Lakeside Refinery Town",
-    "fr": "La ville-usine du lac"
+    "fr": "La ville-usine du lac",
+    "es": "El pueblo fabril del lago",
+    "it": "La città-fabbrica del lago",
+    "de": "Die Fabrikstadt am See"
   },
   "note": {
     "en": "A small lakeside town in the middle of the map whose whole economy runs on one giant sugar refinery — smokestacks over flat farmland, a real company-town feel where everyone's paycheck traces back to the same factory. It's a clear stand-in for a real sugar-industry town in central Florida. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
-    "fr": "Petite ville posée au bord d'un lac, en plein centre de la carte, dont toute l'économie tient à une immense raffinerie de sucre : cheminées au-dessus des champs plats, ambiance de ville-usine où tous les salaires remontent à la même entreprise. Un clin d'œil assumé à une véritable ville sucrière du centre de la Floride. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+    "fr": "Petite ville posée au bord d'un lac, en plein centre de la carte, dont toute l'économie tient à une immense raffinerie de sucre : cheminées au-dessus des champs plats, ambiance de ville-usine où tous les salaires remontent à la même entreprise. Un clin d'œil assumé à une véritable ville sucrière du centre de la Floride. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément.",
+    "es": "Pequeña población a orillas de un lago, en pleno centro del mapa, cuya economía entera depende de una inmensa refinería de azúcar: chimeneas por encima de los campos llanos, ambiente de pueblo fabril donde todos los sueldos vienen de la misma empresa. Un guiño asumido a una auténtica ciudad azucarera del centro de Florida. Aún no ha salido ningún mapa oficial completo, así que este punto sigue siendo provisional hasta que alguien lo sitúe con precisión.",
+    "it": "Piccola cittadina in riva a un lago, in pieno centro della mappa, la cui economia dipende interamente da un'immensa raffineria di zucchero: ciminiere sopra i campi piatti, atmosfera da città-fabbrica dove tutti gli stipendi risalgono alla stessa azienda. Un omaggio dichiarato a una vera cittadina saccarifera del centro della Florida. Non è ancora uscita alcuna mappa ufficiale completa, quindi questo punto resta provvisorio finché qualcuno non lo collocherà con precisione.",
+    "de": "Ein kleiner Ort am Ufer eines Sees, mitten auf der Karte, dessen gesamte Wirtschaft an einer riesigen Zuckerraffinerie hängt: Schlote über flachen Feldern, Fabrikstadtstimmung, in der alle Löhne von derselben Firma kommen. Eine bewusste Anspielung auf eine reale Zuckerstadt in Zentralflorida. Eine vollständige offizielle Karte gibt es noch nicht, dieser Punkt bleibt also vorläufig, bis ihn jemand genau platziert."
   },
   "status": "draft",
   "sources": [

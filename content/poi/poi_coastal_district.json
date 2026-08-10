@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "Beachfront District",
-    "fr": "Quartier balnéaire"
+    "fr": "Quartier balnéaire",
+    "es": "Barrio costero",
+    "it": "Quartiere balneare",
+    "de": "Küstenviertel"
   },
   "note": {
     "en": "A laid-back coastal district glimpsed in the trailers — think a police station, a military base, and a seafront boardwalk all in one stretch. Everything points to it being explorable early in the story. No official full map has dropped yet, so this pin is a placeholder until we can drop it exactly right.",
-    "fr": "Un quartier balnéaire tranquille aperçu dans les bandes-annonces : poste de police, base militaire et promenade en bord de mer, tout ça sur le même secteur. Tout indique qu'on pourra s'y balader dès le début de l'histoire. Aucune carte officielle complète n'est encore sortie, donc ce point est provisoire en attendant qu'on le place pile où il faut."
+    "fr": "Un quartier balnéaire tranquille aperçu dans les bandes-annonces : poste de police, base militaire et promenade en bord de mer, tout ça sur le même secteur. Tout indique qu'on pourra s'y balader dès le début de l'histoire. Aucune carte officielle complète n'est encore sortie, donc ce point est provisoire en attendant qu'on le place pile où il faut.",
+    "es": "Un tranquilo barrio costero visto en los tráileres: comisaría, base militar y paseo marítimo, todo en el mismo sector. Todo apunta a que se podrá recorrer desde el principio de la historia. Aún no ha salido ningún mapa oficial completo, así que este punto es provisional hasta poder situarlo con exactitud.",
+    "it": "Un tranquillo quartiere balneare intravisto nei trailer: commissariato, base militare e lungomare, tutto nello stesso settore. Tutto lascia pensare che sarà percorribile fin dall'inizio della storia. Non è ancora uscita alcuna mappa ufficiale completa, quindi questo punto resta provvisorio in attesa di collocarlo con precisione.",
+    "de": "Ein ruhiges Küstenviertel aus den Trailern: Polizeiwache, Militärbasis und Strandpromenade, alles im selben Abschnitt. Vieles deutet darauf hin, dass man es von Beginn der Geschichte an erkunden kann. Eine vollständige offizielle Karte gibt es noch nicht, dieser Punkt bleibt also vorläufig, bis er genau platziert werden kann."
   },
   "status": "published",
-  "sources": ["https://www.gtaboom.com/gta-6-locations-5163"]
+  "sources": [
+    "https://www.gtaboom.com/gta-6-locations-5163"
+  ]
 }

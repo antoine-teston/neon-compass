@@ -4,11 +4,17 @@
   "position": null,
   "title": {
     "en": "Downtown Business District",
-    "fr": "Centre-ville d'affaires"
+    "fr": "Centre-ville d'affaires",
+    "es": "Centro financiero",
+    "it": "Centro direzionale",
+    "de": "Geschäftsviertel"
   },
   "note": {
     "en": "Dense high-rises and neon-drenched signage — this is the beating heart of the main city's skyline, sitting in a coastal county tucked in the southeast of the game's fictional state. No official full map yet, so treat this pin as provisional.",
-    "fr": "Gratte-ciels serrés et enseignes néon à perte de vue : c'est le cœur battant de la skyline de la ville principale, posée dans un comté côtier au sud-est de l'État fictif du jeu. Aucune carte officielle complète n'étant sortie, ce point reste provisoire."
+    "fr": "Gratte-ciels serrés et enseignes néon à perte de vue : c'est le cœur battant de la skyline de la ville principale, posée dans un comté côtier au sud-est de l'État fictif du jeu. Aucune carte officielle complète n'étant sortie, ce point reste provisoire.",
+    "es": "Rascacielos apretados y letreros de neón hasta donde alcanza la vista: es el corazón palpitante del perfil urbano de la ciudad principal, situada en un condado costero al sureste del estado ficticio del juego. Como no ha salido ningún mapa oficial completo, este punto sigue siendo provisional.",
+    "it": "Grattacieli serrati e insegne al neon a perdita d'occhio: è il cuore pulsante dello skyline della città principale, posata in una contea costiera a sud-est dello stato immaginario del gioco. Non essendo uscita alcuna mappa ufficiale completa, questo punto resta provvisorio.",
+    "de": "Dicht gedrängte Wolkenkratzer und Neonschilder, so weit das Auge reicht: das schlagende Herz der Skyline der Hauptstadt, gelegen in einem Küstenbezirk im Südosten des fiktiven Bundesstaats des Spiels. Da noch keine vollständige offizielle Karte erschienen ist, bleibt dieser Punkt vorläufig."
   },
   "status": "published",
   "sources": [

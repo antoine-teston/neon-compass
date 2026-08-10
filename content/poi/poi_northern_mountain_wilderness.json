@@ -4,12 +4,20 @@
   "position": null,
   "title": {
     "en": "Northern Mountain Wilderness",
-    "fr": "Les hauteurs sauvages du nord"
+    "fr": "Les hauteurs sauvages du nord",
+    "es": "Las alturas salvajes del norte",
+    "it": "Le alture selvagge del nord",
+    "de": "Die wilden Höhen des Nordens"
   },
   "note": {
     "en": "Up at the state's northern edge, expect thick forest, carved canyons, and rivers worth following — this is where the map leans into the outdoors: hunting, fishing, and off-road trails all got teased in promo material. If the southern coast is neon, this is where you go for pine and dirt. No official full map has dropped yet, so this pin stays provisional until a human can place it exactly.",
-    "fr": "Tout au nord de la carte : forêts denses, canyons creusés et rivières à suivre. C'est le coin qui mise sur le plein air — chasse, pêche et pistes tout-terrain apparaissent dans le matériel promotionnel. Si le sud brille au néon, ici on troque les néons contre les pins et la terre battue. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément."
+    "fr": "Tout au nord de la carte : forêts denses, canyons creusés et rivières à suivre. C'est le coin qui mise sur le plein air — chasse, pêche et pistes tout-terrain apparaissent dans le matériel promotionnel. Si le sud brille au néon, ici on troque les néons contre les pins et la terre battue. Aucune carte officielle complète n'est encore sortie, donc ce point reste provisoire en attendant qu'un humain le place précisément.",
+    "es": "En el extremo norte del mapa: bosques densos, cañones excavados y ríos que seguir. Es el rincón que apuesta por el aire libre — caza, pesca y pistas todoterreno aparecen en el material promocional. Si el sur brilla de neón, aquí se cambian los neones por los pinos y la tierra batida. Aún no ha salido ningún mapa oficial completo, así que este punto sigue siendo provisional hasta que alguien lo sitúe con precisión.",
+    "it": "All'estremo nord della mappa: foreste fitte, canyon scavati e fiumi da seguire. È l'angolo che punta sull'aria aperta — caccia, pesca e piste fuoristrada compaiono nel materiale promozionale. Se il sud brilla di neon, qui si scambiano i neon con i pini e la terra battuta. Non è ancora uscita alcuna mappa ufficiale completa, quindi questo punto resta provvisorio finché qualcuno non lo collocherà con precisione.",
+    "de": "Ganz im Norden der Karte: dichte Wälder, ausgewaschene Schluchten und Flüsse, denen man folgen kann. Die Ecke, die auf das Draußen setzt — Jagd, Angeln und Geländepisten tauchen im Werbematerial auf. Während der Süden in Neon leuchtet, tauscht man hier Neonlicht gegen Kiefern und festgefahrene Erde. Eine vollständige offizielle Karte gibt es noch nicht, dieser Punkt bleibt also vorläufig, bis ihn jemand genau platziert."
   },
   "status": "draft",
-  "sources": ["https://gta.fandom.com/wiki/Mount_Kalaga_National_Park"]
+  "sources": [
+    "https://gta.fandom.com/wiki/Mount_Kalaga_National_Park"
+  ]
 }
