@@ -399,22 +399,52 @@ struct CheatsModelTests {
         #expect(sut.sections.flatMap(\.cheats).map(\.id) == ["b", "a"])
     }
 
-    @Test func theFavoritesFilterKeepsOnlyFavorites() throws {
+    /// Sous « Favoris », la carte porte tout et les rubriques ne rendent rien :
+    /// les mêmes codes aux deux endroits seraient un doublon.
+    @Test func theFavoritesFilterLeavesEverythingToTheCard() throws {
         let sut = try model(favoritable, defaults: defaults("fav-filter"))
         sut.toggleFavorite(favoritable[1])
         sut.select(.favorites)
 
-        #expect(sut.favoriteSection.isEmpty)
-        #expect(sut.displayedCheats.map(\.id) == ["b"])
+        #expect(sut.favoriteSection.map(\.id) == ["b"])
+        #expect(sut.displayedCheats.isEmpty)
     }
 
-    /// La section des favoris est EN TÊTE de la même colonne que les rubriques.
-    /// L'oublier de `displayedCheats` décalerait toutes les positions d'encarts.
-    @Test func theFavoritesSectionCountsInTheColumn() throws {
+    /// LA raison d'être de la carte : les favoris sortent de la colonne où
+    /// `InlineAdPlacement` distribue ses encarts. En section, ils en offraient
+    /// des emplacements entre eux ; dans un seul bloc, aucun.
+    ///
+    /// Ce test remplace son inverse, qui figeait la forme précédente.
+    @Test func theFavoritesCardIsOutsideTheAdColumn() throws {
         let sut = try model(favoritable, defaults: defaults("fav-column"))
         sut.toggleFavorite(favoritable[1])
-        #expect(sut.displayedCheats.map(\.id) == ["b", "a"])
-        #expect(sut.flatIndexByID["b"] == 0)
+        #expect(sut.favoriteSection.map(\.id) == ["b"])
+        #expect(sut.displayedCheats.map(\.id) == ["a"])
+        #expect(sut.flatIndexByID["b"] == nil)
+    }
+
+    /// Sous le filtre « Favoris », aucun encart — et par le bon mécanisme : la
+    /// carte porte tout, donc la colonne est VIDE, donc il n'y a nulle part où
+    /// poser une bannière. C'est `displayedCheats.isEmpty` qui porte la preuve ;
+    /// l'assertion sur `adPositions` seule serait creuse, ce qu'une garde
+    /// explicite retirée du modèle a démontré.
+    ///
+    /// Ce qu'il attrape : quiconque redonnerait des lignes de colonne aux favoris
+    /// — un retour à la section — rouvrirait les annonces entre eux.
+    @Test func theFavoritesFilterCarriesNoAds() throws {
+        let many = (0..<40).map {
+            cheat("m\($0)", .misc, codes: [.phone: .phone(number: "1-999-\($0)", mnemonic: nil)])
+        }
+        let sut = try model(many, defaults: defaults("fav-no-ads"))
+        // Quarante cartes : la colonne en porte forcément, c'est ce qui rend le
+        // zéro d'après attribuable au filtre et non à la brièveté de la liste.
+        #expect(!sut.adPositions.isEmpty)
+
+        for cheat in many.prefix(5) { sut.toggleFavorite(cheat, isProEntitled: false) }
+        sut.select(.favorites)
+        #expect(sut.adPositions.isEmpty)
+        #expect(sut.favoriteSection.count == 5)
+        #expect(sut.displayedCheats.isEmpty)
     }
 
     // MARK: - Plafond des favoris

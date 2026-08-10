@@ -105,14 +105,17 @@ final class CheatsModel {
     // l'autre applique. Le recalcul se fait aux seuls moments où une entrée
     // change — c'est ce que garantissent les `didSet` ci-dessus, plus les
     // appels explicites de `updateCheats` et `toggleFavorite`.
-    /// Les favoris du jeu et du mode actifs, en tête de liste.
+    /// Les favoris du jeu et du mode actifs, portés par UNE carte en tête.
     ///
-    /// VIDE dès qu'un filtre est posé : sous une rubrique on regarde cette
-    /// rubrique, et sous « Favoris » la section ferait doublon avec la liste
-    /// entière. Ce qu'elle contient est donc RETIRÉ de `sections` — une carte, un
-    /// endroit. C'est aussi ce qui a rendu inutile le tri « favoris d'abord » à
-    /// l'intérieur des rubriques, qui n'a plus rien à remonter quand aucune
-    /// rubrique n'est choisie.
+    /// Une carte et non une section de cartes, pour une raison qui n'est pas
+    /// d'apparence : une section prend des places dans la colonne, donc des
+    /// emplacements d'encarts entre ses éléments. Un seul bloc n'en offre aucun.
+    /// Le raccourci qu'on se garde vers ses cinq codes ne se paie pas d'une
+    /// bannière au milieu.
+    ///
+    /// VIDE sous un filtre de RUBRIQUE : on y regarde cette rubrique, et les
+    /// favoris qui en font partie y restent, en tête. Sous « Favoris », en
+    /// revanche, la carte est tout ce qu'il y a à montrer.
     private(set) var favoriteSection: [Cheat] = []
     private(set) var sections: [(category: CheatCategory, cheats: [Cheat])] = []
     private(set) var unavailableInActiveMode: [Cheat] = []
@@ -185,14 +188,16 @@ final class CheatsModel {
         // de rubrique. Sans filtre ils ont leur propre section, et les faire
         // apparaître aux deux endroits serait du bruit.
         switch filter {
-        case .none:
+        case .none, .favorites:
             favoriteSection = available.filter(isFavorite)
-        case .favorites, .category:
+        case .category:
             favoriteSection = []
         }
+        // Sous « Favoris » la carte porte tout : les rubriques n'ont plus rien
+        // à rendre, sans quoi les mêmes codes paraîtraient deux fois.
         let grouped = filter == .none
             ? available.filter { !isFavorite($0) }
-            : available
+            : (filter == .favorites ? [] : available)
 
         // Groupé par catégorie, dans l'ordre de déclaration de l'énumération —
         // pas dans l'ordre alphabétique d'une langue, qui changerait la mise en
@@ -212,13 +217,23 @@ final class CheatsModel {
         unavailableInActiveMode = matching.filter { $0.codes[activeInputMode] == nil }
 
         // Les encarts se comptent sur la colonne entière et non par catégorie :
-        // une rubrique de deux codes n'a pas à porter son propre encart. La
-        // section des favoris EN FAIT PARTIE — elle est en tête de la même
-        // colonne, et l'oublier décalerait toutes les positions d'encarts.
-        displayedCheats = favoriteSection + sections.flatMap(\.cheats)
+        // une rubrique de deux codes n'a pas à porter son propre encart.
+        //
+        // Les favoris en sont EXCLUS, et c'est le sens de la carte qui les
+        // porte : rassemblés dans un seul bloc, aucune publicité ne peut plus
+        // s'intercaler entre eux. Ils avaient d'abord leur propre section, donc
+        // leurs propres emplacements d'encarts — c'est précisément ce que cette
+        // forme supprime. Le raccourci qu'on se garde vers ses cinq codes ne se
+        // paie pas d'une bannière au milieu.
+        displayedCheats = sections.flatMap(\.cheats)
         flatIndexByID = Dictionary(
             uniqueKeysWithValues: displayedCheats.enumerated().map { ($0.element.id, $0.offset) }
         )
+        // Rien à ajouter pour protéger les favoris du filtre « Favoris » : la
+        // carte les porte, `grouped` est vide dans ce cas, donc la colonne l'est
+        // aussi et n'offre aucun emplacement. Une garde explicite a été écrite
+        // ici puis retirée — elle passait le test en le rendant creux, et le
+        // test passait aussi sans elle.
         adPositions = InlineAdPlacement.positions(itemCount: displayedCheats.count)
     }
 
