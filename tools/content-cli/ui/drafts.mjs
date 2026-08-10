@@ -20,6 +20,7 @@ import { existsSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileS
 import { join } from 'node:path';
 import { CONTENT, rawSchemas, schemaProblemsFor } from '../schemas.mjs';
 import { problemsFor, problemsIfPublished } from '../publishable.mjs';
+import { CHEMIN_REFUS, inscrireRefus } from '../refus.mjs';
 import { ID_PATTERN } from './actions.mjs';
 
 /** Les seuls kinds que l'atelier ouvre. Les POI n'y sont pas : leur schéma
@@ -338,7 +339,18 @@ export function writeDraft(kind, id, { data, fingerprint }) {
  * `git status`, donc dans le panneau Livraison, donc dans une PR relue. Rien ne
  * disparaît du dépôt sans passer par là.
  */
-export function deleteDraft(kind, id, { fingerprint } = {}) {
+/**
+ * Écarte un brouillon : inscrit le refus, PUIS supprime le fichier.
+ *
+ * L'ordre n'est pas un détail. L'inverse laisserait, si l'écriture du registre
+ * échouait, un fichier supprimé sans refus enregistré — c'est-à-dire exactement
+ * la panne que ce registre corrige, reproduite par son propre correctif.
+ *
+ * Le motif est obligatoire parce qu'il est la seule chose que le geste du
+ * 2026-08-09 avait perdue : la phrase existait, mais dans un message de commit,
+ * donc invisible à `pull-news` qui a voulu recréer l'entrée le lendemain.
+ */
+export function deleteDraft(kind, id, { fingerprint, motif, cheminRefus = CHEMIN_REFUS } = {}) {
   const path = resolvePath(kind, id);
   const data = JSON.parse(readFileSync(path, 'utf8'));
 
@@ -355,9 +367,33 @@ export function deleteDraft(kind, id, { fingerprint } = {}) {
       409,
     );
   }
+  // Le motif EN DERNIER des trois contrôles, et ce n'est pas arbitraire :
+  // `drafts.test.mjs:420` assert qu'un appel sans options échoue en 409 sur
+  // l'empreinte. Le passer devant ferait basculer ce test en 400.
+  if (!String(motif ?? '').trim()) {
+    throw new RefusedError(
+      'écarter demande un motif : c’est lui qui empêchera le prochain `pull-news` de recréer l’entrée',
+      400,
+    );
+  }
+
+  const registre = inscrireRefus(cheminRefus, {
+    kind,
+    sources: data.sources ?? [],
+    motif: String(motif).trim(),
+    entree: data.id,
+    confiance: data.confidence ?? null,
+    le: new Date().toISOString().slice(0, 10),
+  });
 
   unlinkSync(path);
-  return { kind, id, ecarte: true, titre: data.title?.fr ?? data.title?.en ?? id };
+  return {
+    kind,
+    id,
+    ecarte: true,
+    titre: data.title?.fr ?? data.title?.en ?? id,
+    refus: Object.keys(registre).length,
+  };
 }
 
 export { RefusedError };
