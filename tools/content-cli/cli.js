@@ -687,6 +687,7 @@ switch (cmd) {
 
       console.log(
         `pull-news: ${result.writes.length} squelette(s) écrit(s), ` +
+          `${result.ecartes.length} écarté(s), ` +
           `${result.alreadyMaterialized.length} déjà présent(s), ${marked} fait(s) marqué(s) — à rédiger puis committer`,
       );
       ok = true;
