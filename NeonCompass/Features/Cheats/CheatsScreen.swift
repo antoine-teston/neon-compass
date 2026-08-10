@@ -35,9 +35,9 @@ struct CheatsScreen: View {
     private func cheatsContent(model: CheatsModel) -> some View {
         Group {
             if model.isAwaitingContent {
-                // La bascule vit dans la barre de recherche de la liste, qui n'est
-                // pas là dans cet état : sans elle ici, on partirait sur GTA VI
-                // sans pouvoir revenir.
+                // La bascule vit en tête de la liste, qui n'est pas là dans cet
+                // état : sans elle ici, on partirait sur le jeu à venir sans
+                // pouvoir revenir.
                 CheatsEmptyGameView(game: Binding(
                     get: { model.activeGame },
                     set: { model.activeGame = $0 }
@@ -72,8 +72,8 @@ struct CheatsScreen: View {
     // de navigation. `RootView` empile ses écrans dans un `ZStack` avec une barre
     // d'onglets maison en compact, et un `TabView` en régulier — un
     // `ToolbarItem(placement: .topBarTrailing)` n'y a nulle part où se rendre, et
-    // disparaissait sans la moindre erreur. Elle partage donc la ligne de
-    // recherche de la liste.
+    // disparaissait sans la moindre erreur. Elle ouvre donc la liste, centrée en
+    // tête, où elle tient lieu du titre que cet écran n'a pas.
 
     private func loadCheatsModel() async {
         guard model == nil else { return }
