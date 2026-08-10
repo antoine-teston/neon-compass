@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le trimestre qui précède la sortie s'annonce en retrait",
-    "en": "The quarter before launch is guided lower"
+    "en": "The quarter before launch is guided lower",
+    "es": "El trimestre previo al lanzamiento apunta a la baja",
+    "it": "Il trimestre che precede l'uscita si annuncia in calo",
+    "de": "Das Quartal vor dem Start fällt schwächer aus"
   },
   "body": {
     "fr": "L'éditeur du jeu prévoit entre 1,62 et 1,67 milliard de dollars de revenus nets pour son trimestre juillet-septembre, contre 1,96 milliard un an plus tôt. Le calendrier fiscal explique ce recul : ce trimestre se termine quelques semaines avant le lancement du 19 novembre, sans changer la prévision annuelle.",
-    "en": "The game's publisher expects $1.62-1.67 billion in net bookings for its July-September quarter, down from $1.96 billion a year earlier. The fiscal calendar explains the dip: the quarter ends weeks before the November 19 launch, and the annual forecast is unchanged."
+    "en": "The game's publisher expects $1.62-1.67 billion in net bookings for its July-September quarter, down from $1.96 billion a year earlier. The fiscal calendar explains the dip: the quarter ends weeks before the November 19 launch, and the annual forecast is unchanged.",
+    "es": "La editora del juego prevé entre 1,62 y 1,67 mil millones de dólares de ingresos netos para su trimestre julio-septiembre, frente a 1,96 mil millones un año antes. El calendario fiscal explica ese retroceso: el trimestre termina unas semanas antes del lanzamiento del 19 de noviembre, sin cambiar la previsión anual.",
+    "it": "L'editore del gioco prevede 1,62-1,67 miliardi di dollari di ricavi netti per il trimestre luglio-settembre, contro 1,96 miliardi un anno prima. Il calendario fiscale spiega il calo: il trimestre si chiude alcune settimane prima del lancio del 19 novembre, senza modificare la previsione annuale.",
+    "de": "Der Publisher des Spiels erwartet für das Quartal Juli bis September einen Nettoumsatz von 1,62 bis 1,67 Milliarden Dollar, nach 1,96 Milliarden ein Jahr zuvor. Der Geschäftsjahreskalender erklärt den Rückgang: Das Quartal endet einige Wochen vor dem Start am 19. November, an der Jahresprognose ändert das nichts."
   },
   "publishedAt": "2026-08-07",
   "status": "published",

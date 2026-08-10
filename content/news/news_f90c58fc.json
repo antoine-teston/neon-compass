@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un seul jeu du studio reste jouable sur le service de jeux Netflix",
-    "en": "Only one studio game is still playable on Netflix's game service"
+    "en": "Only one studio game is still playable on Netflix's game service",
+    "es": "Solo queda un juego del estudio jugable en el servicio de juegos de Netflix",
+    "it": "Resta un solo gioco dello studio giocabile sul servizio giochi di Netflix",
+    "de": "Nur noch ein Studiospiel im Spieledienst von Netflix"
   },
   "body": {
     "fr": "À la mi-2026, le service de jeux mobiles de Netflix ne propose plus qu'un seul titre du studio à l'origine du jeu à venir : un western en monde ouvert de 2010, ajouté en décembre 2025. Les trois volets remasterisés d'une autre de ses séries avaient quitté le catalogue fin 2025, malgré le rapprochement affiché avec la plateforme autour de la diffusion du 27 août.",
-    "en": "As of mid-2026, Netflix's mobile game service carries just one title from the studio behind the upcoming game: a 2010 open-world western, added in December 2025. Three remastered entries from another of its series had left the catalogue by the end of 2025, despite the studio's newly announced partnership with the platform around the August 27 broadcast."
+    "en": "As of mid-2026, Netflix's mobile game service carries just one title from the studio behind the upcoming game: a 2010 open-world western, added in December 2025. Three remastered entries from another of its series had left the catalogue by the end of 2025, despite the studio's newly announced partnership with the platform around the August 27 broadcast.",
+    "es": "A mediados de 2026, el servicio de juegos móviles de Netflix solo ofrece un título del estudio del que procede el juego por venir: un wéstern de mundo abierto de 2010, añadido en diciembre de 2025. Las tres entregas remasterizadas de otra de sus series habían salido del catálogo a finales de 2025, pese al acercamiento visible con la plataforma en torno a la emisión del 27 de agosto.",
+    "it": "A metà 2026, il servizio di giochi mobili di Netflix propone un solo titolo dello studio da cui proviene il gioco in arrivo: un western open world del 2010, aggiunto a dicembre 2025. I tre capitoli rimasterizzati di un'altra sua serie avevano lasciato il catalogo a fine 2025, nonostante l'avvicinamento dichiarato alla piattaforma attorno alla trasmissione del 27 agosto.",
+    "de": "Mitte 2026 bietet der Mobile-Spieledienst von Netflix nur noch einen Titel des Studios hinter dem kommenden Spiel: einen Open-World-Western von 2010, ergänzt im Dezember 2025. Die drei remasterten Teile einer anderen Reihe hatten den Katalog Ende 2025 verlassen — trotz der sichtbaren Annäherung an die Plattform rund um die Ausstrahlung am 27. August."
   },
   "publishedAt": "2026-08-07",
   "status": "published",

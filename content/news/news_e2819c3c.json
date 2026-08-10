@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "L'édition la plus chère domine les précommandes dans neuf marchés",
-    "en": "The pricier edition leads pre-orders in nine markets"
+    "en": "The pricier edition leads pre-orders in nine markets",
+    "es": "La edición más cara domina las reservas en nueve mercados",
+    "it": "L'edizione più cara domina i preordini in nove mercati",
+    "de": "Die teuerste Edition führt die Vorbestellungen in neun Märkten an"
   },
   "body": {
     "fr": "Au 21 juillet, l'édition ultime est première des classements de précommande du store PlayStation dans neuf marchés suivis, dont la France, le Japon et la Corée du Sud. Ce sont des classements de plateforme, pas des chiffres de ventes.",
-    "en": "As of July 21, the ultimate edition tops PlayStation Store pre-order charts across nine tracked markets, including France, Japan and South Korea. These are platform charts, not sales figures."
+    "en": "As of July 21, the ultimate edition tops PlayStation Store pre-order charts across nine tracked markets, including France, Japan and South Korea. These are platform charts, not sales figures.",
+    "es": "A 21 de julio, la edición definitiva encabeza las listas de reservas de la tienda PlayStation en nueve mercados seguidos, entre ellos Francia, Japón y Corea del Sur. Son clasificaciones de plataforma, no cifras de ventas.",
+    "it": "Al 21 luglio l'edizione definitiva è prima nelle classifiche di preordine dello store PlayStation in nove mercati monitorati, tra cui Francia, Giappone e Corea del Sud. Sono classifiche di piattaforma, non cifre di vendita.",
+    "de": "Zum 21. Juli führt die Ultimate-Edition die Vorbestellungslisten des PlayStation Store in neun beobachteten Märkten an, darunter Frankreich, Japan und Südkorea. Das sind Plattformranglisten, keine Verkaufszahlen."
   },
   "publishedAt": "2026-07-21",
   "status": "published",

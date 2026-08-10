@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Lazlow existe, et son personnage a empiré exprès",
-    "en": "Lazlow is real, and his character got worse on purpose"
+    "en": "Lazlow is real, and his character got worse on purpose",
+    "es": "Lazlow existe, y su personaje empeoró a propósito",
+    "it": "Lazlow esiste, e il suo personaggio è peggiorato apposta",
+    "de": "Lazlow gibt es wirklich — und seine Figur wurde absichtlich schlimmer"
   },
   "body": {
     "fr": "Jeffrey Jones, l’animateur radio le plus reconnaissable de la série, explique lui-même que le studio a délibérément rendu son personnage plus pathétique d’un épisode à l’autre, comme objectif d’écriture assumé. Propos tenus à IGN au Comic-Con de San Diego.",
-    "en": "Jeffrey Jones, the series' most recognisable radio host, explains it himself: the studio deliberately made his character more pathetic with each entry, as a stated writing goal. Said to IGN at San Diego Comic-Con."
+    "en": "Jeffrey Jones, the series' most recognisable radio host, explains it himself: the studio deliberately made his character more pathetic with each entry, as a stated writing goal. Said to IGN at San Diego Comic-Con.",
+    "es": "Jeffrey Jones, el locutor de radio más reconocible de la serie, explica él mismo que el estudio hizo deliberadamente más patético a su personaje de una entrega a otra, como objetivo de escritura asumido. Declaraciones hechas a IGN en la Comic-Con de San Diego.",
+    "it": "Jeffrey Jones, il conduttore radiofonico più riconoscibile della serie, spiega lui stesso che lo studio ha reso deliberatamente più patetico il suo personaggio da un capitolo all'altro, come obiettivo di scrittura dichiarato. Dichiarazioni rilasciate a IGN al Comic-Con di San Diego.",
+    "de": "Jeffrey Jones, der markanteste Radiomoderator der Reihe, erklärt selbst, das Studio habe seine Figur von Teil zu Teil bewusst erbärmlicher gemacht — als erklärtes Erzählziel. Geäußert gegenüber IGN auf der Comic-Con in San Diego."
   },
   "publishedAt": "2026-07-28",
   "status": "published",

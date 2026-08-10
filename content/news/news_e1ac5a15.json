@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Il n'existe pas d'édition collector",
-    "en": "There is no collector's edition"
+    "en": "There is no collector's edition",
+    "es": "No existe una edición coleccionista",
+    "it": "Non esiste un'edizione da collezione",
+    "de": "Eine Sammleredition gibt es nicht"
   },
   "body": {
     "fr": "Deux éditions seulement ont été mises en vente le 25 juin : standard et ultime. Aucun coffret, aucune statuette, aucun artbook — contrairement à de précédents titres du studio. Les annonces qui prétendent en vendre une sont non officielles.",
-    "en": "Only two editions went on sale on June 25: standard and ultimate. No box set, no statue, no art book — unlike earlier titles from the studio. Any listing claiming to sell one is unofficial."
+    "en": "Only two editions went on sale on June 25: standard and ultimate. No box set, no statue, no art book — unlike earlier titles from the studio. Any listing claiming to sell one is unofficial.",
+    "es": "Solo se pusieron a la venta dos ediciones el 25 de junio: estándar y definitiva. Ni caja especial, ni figura, ni libro de arte — a diferencia de títulos anteriores del estudio. Los anuncios que dicen vender una no son oficiales.",
+    "it": "Il 25 giugno sono state messe in vendita solo due edizioni: standard e definitiva. Nessun cofanetto, nessuna statuetta, nessun artbook — a differenza di precedenti titoli dello studio. Gli annunci che sostengono di venderne una non sono ufficiali.",
+    "de": "Am 25. Juni kamen nur zwei Editionen in den Handel: Standard und Ultimate. Keine Box, keine Figur, kein Artbook — anders als bei früheren Titeln des Studios. Angebote, die eine solche Edition versprechen, sind nicht offiziell."
   },
   "publishedAt": "2026-07-26",
   "status": "published",

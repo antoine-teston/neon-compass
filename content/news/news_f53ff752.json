@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Dan Houser et la fin du disque : ce qu’il a vraiment dit",
-    "en": "Dan Houser on the end of discs: what he actually said"
+    "en": "Dan Houser on the end of discs: what he actually said",
+    "es": "Dan Houser y el fin del disco: lo que dijo realmente",
+    "it": "Dan Houser e la fine del disco: cosa ha detto davvero",
+    "de": "Dan Houser und das Ende der Disc: was er wirklich sagte"
   },
   "body": {
     "fr": "Ses propos à IGN ont été repris comme une charge contre Sony, qui abandonne les disques. L’entretien complet est plus nuancé — son argument peut tout aussi bien être lu comme allant dans le sens de cette décision.",
-    "en": "His remarks to IGN were retold as an attack on Sony for dropping discs. The full interview is more nuanced — his argument can just as easily be read as supporting that decision."
+    "en": "His remarks to IGN were retold as an attack on Sony for dropping discs. The full interview is more nuanced — his argument can just as easily be read as supporting that decision.",
+    "es": "Sus declaraciones a IGN se tomaron como una carga contra Sony, que abandona los discos. La entrevista completa es más matizada — su argumento también puede leerse como favorable a esa decisión.",
+    "it": "Le sue dichiarazioni a IGN sono state riprese come un attacco a Sony, che abbandona i dischi. L'intervista completa è più sfumata — il suo argomento può anche essere letto come favorevole a quella scelta.",
+    "de": "Seine Äußerungen gegenüber IGN wurden als Angriff auf Sony gelesen, das die Disc aufgibt. Das vollständige Interview ist differenzierter — sein Argument lässt sich ebenso gut als Zustimmung zu dieser Entscheidung verstehen."
   },
   "publishedAt": "2026-07-25",
   "status": "published",

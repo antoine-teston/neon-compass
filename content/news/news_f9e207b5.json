@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Mise à jour hebdomadaire : une supercar aux couleurs de la police",
-    "en": "Weekly update: a police-liveried supercar"
+    "en": "Weekly update: a police-liveried supercar",
+    "es": "Actualización semanal: un superdeportivo con los colores de la policía",
+    "it": "Aggiornamento settimanale: una supercar nei colori della polizia",
+    "de": "Wöchentliches Update: ein Supersportwagen in Polizeilackierung"
   },
   "body": {
     "fr": "Du 23 au 29 juillet : mise en vente d'une supercar en livrée policière, passage d'un autre véhicule d'une exclusivité d'abonnement à la vente générale, et une série de bonus sur les véhicules.",
-    "en": "From July 23 to 29: a police-liveried supercar goes on sale, another vehicle moves from a subscription exclusive to general sale, and a run of vehicle bonuses is live."
+    "en": "From July 23 to 29: a police-liveried supercar goes on sale, another vehicle moves from a subscription exclusive to general sale, and a run of vehicle bonuses is live.",
+    "es": "Del 23 al 29 de julio: puesta a la venta de un superdeportivo con librea policial, paso de otro vehículo de exclusiva de suscripción a la venta general, y una serie de bonificaciones sobre vehículos.",
+    "it": "Dal 23 al 29 luglio: messa in vendita di una supercar in livrea della polizia, passaggio di un altro veicolo da esclusiva in abbonamento alla vendita generale, e una serie di bonus sui veicoli.",
+    "de": "Vom 23. bis 29. Juli: ein Supersportwagen in Polizeilackierung im Angebot, ein weiteres Fahrzeug wechselt von der Abo-Exklusivität in den freien Verkauf, dazu eine Reihe von Fahrzeug-Boni."
   },
   "publishedAt": "2026-07-23",
   "status": "published",

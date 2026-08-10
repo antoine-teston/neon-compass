@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Les paris du casino coupés pour les joueurs australiens",
-    "en": "Casino betting switched off for Australian players"
+    "en": "Casino betting switched off for Australian players",
+    "es": "Las apuestas del casino, cortadas para los jugadores australianos",
+    "it": "Le scommesse del casinò disattivate per i giocatori australiani",
+    "de": "Casino-Wetten für australische Spieler abgeschaltet"
   },
   "body": {
     "fr": "La fonction a été désactivée sans annonce, et l'éditeur n'a donné aucune explication. Le rapprochement est fait avec les obligations locales de vérification d'âge.",
-    "en": "The feature was disabled without notice and the publisher has given no explanation. The link being drawn is to local age-assurance rules."
+    "en": "The feature was disabled without notice and the publisher has given no explanation. The link being drawn is to local age-assurance rules.",
+    "es": "La función se desactivó sin aviso, y la editora no ha dado ninguna explicación. Se relaciona con las obligaciones locales de verificación de edad.",
+    "it": "La funzione è stata disattivata senza annuncio, e l'editore non ha fornito alcuna spiegazione. Il collegamento viene fatto con gli obblighi locali di verifica dell'età.",
+    "de": "Die Funktion wurde ohne Ankündigung deaktiviert, eine Erklärung des Publishers gibt es nicht. Der Zusammenhang wird mit den örtlichen Pflichten zur Altersprüfung hergestellt."
   },
   "publishedAt": "2026-07-28",
   "status": "published",

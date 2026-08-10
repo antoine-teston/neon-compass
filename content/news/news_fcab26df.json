@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Microsoft relève les prix des consoles Xbox avant la sortie",
-    "en": "Microsoft raises Xbox console prices ahead of launch"
+    "en": "Microsoft raises Xbox console prices ahead of launch",
+    "es": "Microsoft sube los precios de las consolas Xbox antes del lanzamiento",
+    "it": "Microsoft alza i prezzi delle console Xbox prima dell'uscita",
+    "de": "Microsoft erhöht die Xbox-Preise vor dem Spielstart"
   },
   "body": {
     "fr": "À compter du 1er août, la console phare coûte jusqu'à 200 € de plus en Europe et jusqu'à 170 £ de plus au Royaume-Uni. Le fabricant invoque le renchérissement mondial des composants mémoire, à quelques mois de la sortie du jeu le 19 novembre.",
-    "en": "As of August 1, the flagship console costs up to €200 more in Europe and up to £170 more in the UK. The maker points to a global rise in memory component prices, just months before the game's November 19 launch."
+    "en": "As of August 1, the flagship console costs up to €200 more in Europe and up to £170 more in the UK. The maker points to a global rise in memory component prices, just months before the game's November 19 launch.",
+    "es": "A partir del 1 de agosto, la consola insignia cuesta hasta 200 € más en Europa y hasta 170 £ más en el Reino Unido. El fabricante alega el encarecimiento mundial de los componentes de memoria, a pocos meses del lanzamiento del juego el 19 de noviembre.",
+    "it": "Dal 1° agosto la console di punta costa fino a 200 € in più in Europa e fino a 170 £ in più nel Regno Unito. Il produttore invoca il rincaro mondiale dei componenti di memoria, a pochi mesi dall'uscita del gioco il 19 novembre.",
+    "de": "Ab dem 1. August kostet die Vorzeigekonsole in Europa bis zu 200 € und im Vereinigten Königreich bis zu 170 £ mehr. Der Hersteller verweist auf die weltweit gestiegenen Preise für Speicherbausteine — wenige Monate vor dem Spielstart am 19. November."
   },
   "publishedAt": "2026-08-03",
   "status": "published",

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Assez de consoles pour novembre, mais pas de promesse sur le prix",
-    "en": "Enough consoles for November, but no promise on the price"
+    "en": "Enough consoles for November, but no promise on the price",
+    "es": "Consolas suficientes para noviembre, pero sin promesa sobre el precio",
+    "it": "Console a sufficienza per novembre, ma nessuna promessa sul prezzo",
+    "de": "Genug Konsolen für November, aber kein Preisversprechen"
   },
   "body": {
     "fr": "Le constructeur indique dans ses résultats trimestriels avoir sécurisé la mémoire nécessaire à ses volumes de production jusqu'à la fin de son exercice, ce qui couvre le lancement du 19 novembre et les fêtes qui suivent. L'engagement porte sur les quantités seulement : l'entreprise dit chercher à limiter l'effet du renchérissement des composants, sans écarter une hausse. Trouver une machine ne devrait donc pas poser de problème ; son tarif, lui, n'est pas garanti.",
-    "en": "In its quarterly results the manufacturer says it has secured the memory needed for its planned production through the end of its fiscal year, which covers the November 19 launch and the holidays that follow. The commitment covers volume only: the company says it will work to limit the effect of rising component costs, without ruling out an increase. Finding a machine should not be the problem; what it costs might be."
+    "en": "In its quarterly results the manufacturer says it has secured the memory needed for its planned production through the end of its fiscal year, which covers the November 19 launch and the holidays that follow. The commitment covers volume only: the company says it will work to limit the effect of rising component costs, without ruling out an increase. Finding a machine should not be the problem; what it costs might be.",
+    "es": "El fabricante indica en sus resultados trimestrales haber asegurado la memoria necesaria para sus volúmenes de producción hasta el cierre de su ejercicio, lo que cubre el lanzamiento del 19 de noviembre y las fiestas siguientes. El compromiso es solo sobre cantidades: la empresa dice buscar limitar el efecto del encarecimiento de los componentes, sin descartar una subida. Encontrar una máquina no debería ser problema; su precio, en cambio, no está garantizado.",
+    "it": "Il produttore indica nei risultati trimestrali di aver assicurato la memoria necessaria ai propri volumi di produzione fino alla chiusura dell'esercizio, il che copre il lancio del 19 novembre e le feste successive. L'impegno riguarda solo le quantità: l'azienda dice di voler limitare l'effetto del rincaro dei componenti, senza escludere un aumento. Trovare una macchina non dovrebbe essere un problema; il suo prezzo, invece, non è garantito.",
+    "de": "Der Hersteller gibt in seinen Quartalszahlen an, den Speicher für seine Produktionsmengen bis zum Geschäftsjahresende gesichert zu haben — das deckt den Start am 19. November und das folgende Weihnachtsgeschäft ab. Die Zusage betrifft nur die Stückzahlen: Das Unternehmen will die Wirkung teurerer Bauteile begrenzen, schließt eine Erhöhung aber nicht aus. Ein Gerät zu finden dürfte also kein Problem sein; der Preis ist es nicht garantiert."
   },
   "publishedAt": "2026-08-03",
   "status": "published",
