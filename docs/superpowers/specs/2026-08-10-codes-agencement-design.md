@@ -51,13 +51,27 @@ pour un réglage qu'on touche une fois par session, ne se paient pas.
 `CheatsFilterBar` n'apparaît qu'au tap, sous la ligne de recherche, en **colonne
 alignée à droite** — le panneau de la carte, pas la rangée de l'Actu. L'alignement
 fait le travail : la colonne descend du bouton qui l'a ouverte et pointe vers lui.
-Elle coûte la hauteur de six puces, ce qu'on ne consent que parce qu'elle est
-transitoire.
 
-Un seul `GlassEffectContainer` englobe la ligne de recherche ET la colonne. Un
-seul, et c'est tout l'intérêt : le verre ne se fond qu'entre éléments d'un même
-conteneur, donc les puces naissent du bouton au lieu d'apparaître à côté. La carte
-en emploie deux et n'obtient pour cette raison qu'un fondu, jamais la fusion.
+**Elle se pose SUR l'écran, elle ne l'écarte pas.** Le panneau vit dans un `ZStack`
+et non dans la liste : inséré dans le flux, il poussait toutes les cartes de deux
+cent cinquante points vers le bas, ce qui n'est pas un menu mais un tiroir. Pendant
+qu'il est ouvert, la liste **se floute légèrement** (rayon 3 — le contenu recule
+d'un plan, il ne disparaît pas) et cesse de recevoir les taps ; une couche
+transparente referme au premier tap à côté.
+
+Le point d'ancrage n'est pas fixe : la ligne de recherche se mesure
+(`onGeometryChange` dans un repère nommé) et le panneau se cale dessous. C'est ce
+qui permet de **garder l'en-tête dans le flux**. L'ancrer au haut de l'écran aurait
+obligé à épingler l'en-tête — et à payer sa hauteur en permanence, ce que la section
+précédente refuse.
+
+**Choisir referme** : c'est un menu, et un menu se ferme sur son choix. Les deux
+mutations ne portent alors pas la même animation, et c'est tout le sujet — le repli
+s'anime, le refiltrage de la liste non. Sans `Transaction.disablesAnimations` sur la
+sélection, l'animation du repli emporterait le remplacement de la liste dans le même
+passage, soit les douze images perdues de `FeedFilterBar`. Mesuré : cinq cycles
+ouverture + choix + repli coûtent 6 images perdues au total, là où un refiltrage
+animé en coûterait une soixantaine.
 
 L'état d'ouverture est un `@State` de `CheatsListView`. Il survit donc à un
 changement d'onglet — `RootView` garde ses écrans vivants dans un `ZStack` — et pas
@@ -71,9 +85,11 @@ contenu de la liste, donc SwiftUI anime l'apparition et la disparition de dizain
 de cartes en verre — douze images perdues par tap. Le dépliage du PANNEAU ne crée ni
 ne détruit aucune carte, il les décale.
 
-Sonde `CADisplayLink`, iPhone 17, trois tours de six allers-retours : **une à deux
-images perdues par tour, pire intervalle 33 à 47 ms**, contre zéro perdue et 17 ms
-sur la fenêtre de repos. Le déploiement sec ne fait pas mieux.
+Sonde `CADisplayLink`, iPhone 17, flou compris, trois tours de six ouvertures :
+**une à deux images perdues par tour, pire intervalle 33 à 34 ms**, contre zéro
+perdue et 17 ms sur la fenêtre de repos. Le déploiement sec ne fait pas mieux.
+Animer un flou plein écran par-dessus une pile de verre ne coûte donc rien de
+mesurable ici — ce qui ne se devinait pas, d'où la mesure.
 
 Un piège à ne pas réapprendre : la **première** fenêtre mesurée paie un coût de
 premier passage de 127 à 172 ms, quelle que soit la variante qu'on y place. La

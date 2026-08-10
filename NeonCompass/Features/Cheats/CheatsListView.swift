@@ -13,7 +13,38 @@ struct CheatsListView: View {
     /// d'onglet, `RootView` gardant ses écrans vivants dans un `ZStack`.
     @State private var showCategories = false
 
+    /// Le bas de la ligne de recherche, dans le repère de l'écran.
+    ///
+    /// C'est ce qui permet au panneau de SUIVRE cette ligne alors qu'il n'est plus
+    /// dans le flux. Sans cette mesure, il faudrait épingler l'en-tête pour lui
+    /// donner un point d'ancrage fixe — et payer sa hauteur en permanence.
+    @State private var searchRowBottom: CGFloat = 0
+
+    private static let screenSpace = "cheatsScreen"
+
     var body: some View {
+        ZStack(alignment: .topTrailing) {
+            // Le fond est HORS du flou, sans quoi le flou irait chercher du vide
+            // au ras des bords de l'écran et y laisserait un liseré.
+            NCColor.nightSky.ignoresSafeArea()
+
+            list
+                // Le flou porte sur l'écran ENTIER, entonnoir compris : c'est un
+                // menu qui s'ouvre par-dessus, pas un tiroir qui pousse. Léger —
+                // il doit reculer le contenu d'un plan, pas le rendre illisible.
+                .blur(radius: showCategories ? 3 : 0)
+                // Sans quoi on pourrait taper une carte à travers le flou.
+                .allowsHitTesting(!showCategories)
+
+            if showCategories {
+                dismissLayer
+                categoryPanel
+            }
+        }
+        .coordinateSpace(.named(Self.screenSpace))
+    }
+
+    private var list: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 12) {
                 // Les trois commandes suivent l'entonnoir : quel jeu, comment on
@@ -23,7 +54,7 @@ struct CheatsListView: View {
                 // recherche sans hiérarchie qui dise lequel des deux compte.
                 gameRow
                 inputModePicker
-                searchAndCategories
+                searchRow
 
                 let flatIndex = model.flatIndexByID
                 ForEach(model.sections, id: \.category) { section in
@@ -66,7 +97,6 @@ struct CheatsListView: View {
             // Pro — la barre est là pour tout le monde.
             .padding(.bottom, sizeClass == .compact ? NCLayout.compactTabBarClearance : 16)
         }
-        .background(NCColor.nightSky.ignoresSafeArea())
     }
 
     /// La bascule de jeu, seule et centrée.
@@ -81,40 +111,75 @@ struct CheatsListView: View {
             .frame(maxWidth: .infinity, alignment: .center)
     }
 
-    /// La recherche, l'entonnoir, et la colonne qu'il déplie — dans UN SEUL
-    /// `GlassEffectContainer`.
-    ///
-    /// Un seul, et c'est tout l'intérêt : le verre ne se fond qu'entre éléments
-    /// d'un même conteneur. Les puces naissent donc du bouton et s'y résorbent,
-    /// au lieu d'apparaître à côté de lui. La carte en emploie deux — un pour sa
-    /// rangée haute, un pour ses puces — et n'obtient pour cette raison qu'un
-    /// fondu, jamais la fusion.
-    private var searchAndCategories: some View {
+    /// La recherche et l'entonnoir. Elle se mesure : c'est elle que le panneau
+    /// suit, depuis l'extérieur du flux.
+    private var searchRow: some View {
         GlassEffectContainer(spacing: 10) {
-            VStack(alignment: .trailing, spacing: 10) {
-                HStack(spacing: 10) {
-                    TextField("cheats.search.placeholder", text: $model.searchQuery)
-                        .textFieldStyle(.plain)
-                        .padding(12)
-                        .glassEffect(.regular, in: .capsule)
-                    categoryToggleButton
-                }
-                if showCategories {
-                    CheatsFilterBar(
-                        categories: model.availableCategories,
-                        selectedCategory: model.selectedCategory,
-                        onSelect: { model.selectCategory($0) }
-                    )
-                    // Le point d'ancrage EST le message : la colonne se déploie
-                    // depuis le coin où se trouve le bouton, et s'y replie. Une
-                    // simple opacité la ferait apparaître de nulle part.
-                    .transition(
-                        .scale(scale: 0.85, anchor: .topTrailing)
-                            .combined(with: .opacity)
-                    )
-                }
+            HStack(spacing: 10) {
+                TextField("cheats.search.placeholder", text: $model.searchQuery)
+                    .textFieldStyle(.plain)
+                    .padding(12)
+                    .glassEffect(.regular, in: .capsule)
+                categoryToggleButton
             }
         }
+        .onGeometryChange(for: CGFloat.self) {
+            $0.frame(in: .named(Self.screenSpace)).maxY
+        } action: {
+            searchRowBottom = $0
+        }
+    }
+
+    /// Le panneau, POSÉ SUR l'écran et non inséré dedans.
+    ///
+    /// Il vit dans le `ZStack` et non dans la liste : inséré dans le flux, il
+    /// poussait toutes les cartes vers le bas. Il se cale sous la ligne de
+    /// recherche par la mesure de celle-ci, ce qui lui permet de la suivre quand
+    /// on a déjà défilé — un panneau ancré au haut de l'écran flotterait au milieu
+    /// de nulle part dans ce cas.
+    private var categoryPanel: some View {
+        CheatsFilterBar(
+            categories: model.availableCategories,
+            selectedCategory: model.selectedCategory,
+            onSelect: { select($0) }
+        )
+        .padding(.horizontal, 16)
+        .offset(y: searchRowBottom + 10)
+        // Le point d'ancrage EST le message : la colonne se déploie depuis le coin
+        // où se trouve le bouton, et s'y replie. Une simple opacité la ferait
+        // apparaître de nulle part.
+        .transition(
+            .scale(scale: 0.85, anchor: .topTrailing).combined(with: .opacity)
+        )
+    }
+
+    /// Taper à côté referme. Transparent et non un voile sombre : le flou dit déjà
+    /// que le contenu est en retrait, et l'assombrir en plus écraserait le verre
+    /// des puces, qui n'a plus rien à réfracter sur du noir.
+    private var dismissLayer: some View {
+        Color.clear
+            .contentShape(.rect)
+            .ignoresSafeArea()
+            .onTapGesture { close() }
+            .accessibilityHidden(true)
+    }
+
+    /// Choisir referme — c'est un menu, et un menu se ferme sur son choix.
+    ///
+    /// Les deux mutations ne portent PAS la même animation, et c'est tout le sujet.
+    /// Le repli du panneau s'anime ; le refiltrage de la liste, non. Sans la
+    /// transaction muette, l'animation du repli emporterait le remplacement de la
+    /// liste dans le même passage — ce sont les douze images perdues par tap
+    /// mesurées sur `FeedFilterBar`.
+    private func select(_ category: CheatCategory?) {
+        var silent = Transaction()
+        silent.disablesAnimations = true
+        withTransaction(silent) { model.selectCategory(category) }
+        close()
+    }
+
+    private func close() {
+        withAnimation(.snappy) { showCategories = false }
     }
 
     /// L'entonnoir — même bouton que sur la carte, à une charge près qu'il n'y a
@@ -131,10 +196,13 @@ struct CheatsListView: View {
             // La distinction est nette : l'action d'une PUCE remplace le contenu
             // de la liste, donc SwiftUI anime l'apparition et la disparition de
             // dizaines de cartes en verre — douze images perdues par tap. Le
-            // dépliage du PANNEAU, lui, ne crée ni ne détruit aucune carte : il
-            // les décale. Sonde `CADisplayLink`, iPhone 17, trois tours de six
-            // allers-retours : une à deux images perdues par tour, pire
-            // intervalle 33 à 47 ms, contre zéro perdue et 17 ms au repos.
+            // panneau, lui, ne touche à aucune carte : il se pose PAR-DESSUS.
+            //
+            // Sonde `CADisplayLink`, iPhone 17, flou compris, trois tours de six
+            // ouvertures : une à deux images perdues par tour, pire intervalle 33
+            // à 34 ms, contre zéro perdue et 17 ms au repos. Animer un flou plein
+            // écran par-dessus une pile de verre ne coûte donc rien de mesurable
+            // ici — ce qui ne se devinait pas, d'où la mesure.
             //
             // Le premier tour d'une mesure paie un coût de premier passage
             // — 127 à 172 ms — quelle que soit la variante placée en tête. Ne pas
