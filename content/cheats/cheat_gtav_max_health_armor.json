@@ -6,6 +6,13 @@
     "en": "Refills your health and armour to full.",
     "fr": "Remet votre santé et votre gilet au maximum."
   },
+  "shortEffect": {
+    "en": "Max Health & Armor",
+    "fr": "Santé et gilet max",
+    "es": "Salud y chaleco al máx.",
+    "it": "Salute e armatura max",
+    "de": "Max. Gesundheit/Rüstung"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

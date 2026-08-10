@@ -18,7 +18,7 @@ import {
 
 // Champs affichés dans l'UI : jamais de marque déposée (CLAUDE.md, spec §1).
 export const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
-export const UI_FIELDS = ['title', 'note', 'effect', 'body'];
+export const UI_FIELDS = ['title', 'note', 'effect', 'shortEffect', 'body'];
 
 /**
  * Les raisons pour lesquelles cet item ne peut pas être publié. Tableau vide =

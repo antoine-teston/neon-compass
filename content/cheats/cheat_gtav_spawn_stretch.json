@@ -6,6 +6,13 @@
     "en": "Drops a Stretch limousine next to you.",
     "fr": "Fait apparaître une limousine Stretch à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Stretch",
+    "fr": "Invoquer Stretch",
+    "es": "Invocar Stretch",
+    "it": "Evoca Stretch",
+    "de": "Stretch spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

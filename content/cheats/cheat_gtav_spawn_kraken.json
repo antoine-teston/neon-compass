@@ -6,6 +6,13 @@
     "en": "Drops a Kraken submarine next to you.",
     "fr": "Fait apparaître un sous-marin Kraken à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Kraken",
+    "fr": "Invoquer Kraken",
+    "es": "Invocar Kraken",
+    "it": "Evoca Kraken",
+    "de": "Kraken spawnen"
+  },
   "codes": {
     "pc": {
       "kind": "keyword",

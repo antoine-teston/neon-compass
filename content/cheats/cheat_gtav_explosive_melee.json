@@ -6,6 +6,13 @@
     "en": "Your punches blow away whatever they land on.",
     "fr": "Vos coups de poing font exploser ce qu’ils atteignent."
   },
+  "shortEffect": {
+    "en": "Explosive Melee",
+    "fr": "Coups explosifs",
+    "es": "Golpes explosivos",
+    "it": "Pugni esplosivi",
+    "de": "Explosiver Nahkampf"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

@@ -25,11 +25,12 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
     let game: Game
     let category: CheatCategory
     let effect: LocalizedText
+    let shortEffect: LocalizedText?
     let codes: [CheatInputMode: CheatCode]
     let blocksTrophies: Bool
 
     enum CodingKeys: String, CodingKey {
-        case id, game, category, effect, codes, blocksTrophies
+        case id, game, category, effect, shortEffect, codes, blocksTrophies
     }
 
     init(
@@ -37,6 +38,7 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
         game: Game,
         category: CheatCategory,
         effect: LocalizedText,
+        shortEffect: LocalizedText? = nil,
         codes: [CheatInputMode: CheatCode],
         blocksTrophies: Bool
     ) {
@@ -44,6 +46,7 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
         self.game = game
         self.category = category
         self.effect = effect
+        self.shortEffect = shortEffect
         self.codes = codes
         self.blocksTrophies = blocksTrophies
     }
@@ -54,6 +57,7 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
         self.game = try container.decode(Game.self, forKey: .game)
         self.category = try container.decode(CheatCategory.self, forKey: .category)
         self.effect = try container.decode(LocalizedText.self, forKey: .effect)
+        self.shortEffect = try container.decodeIfPresent(LocalizedText.self, forKey: .shortEffect)
         self.blocksTrophies = try container.decode(Bool.self, forKey: .blocksTrophies)
 
         let raw = try container.decode([String: CheatCode].self, forKey: .codes)
@@ -88,11 +92,18 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
         try container.encode(game, forKey: .game)
         try container.encode(category, forKey: .category)
         try container.encode(effect, forKey: .effect)
+        try container.encodeIfPresent(shortEffect, forKey: .shortEffect)
         try container.encode(blocksTrophies, forKey: .blocksTrophies)
 
         var raw: [String: CheatCode] = [:]
         for (mode, code) in codes { raw[mode.rawValue] = code }
         try container.encode(raw, forKey: .codes)
+    }
+}
+
+extension Cheat {
+    func resolvedShortEffect(for languageCode: String) -> String {
+        shortEffect?.resolved(for: languageCode) ?? effect.resolved(for: languageCode)
     }
 }
 

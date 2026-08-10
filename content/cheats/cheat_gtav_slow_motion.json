@@ -6,6 +6,13 @@
     "en": "Slows the whole world down. Stacks up to three times; a fourth entry turns it off.",
     "fr": "Ralentit le monde entier. Cumulable trois fois ; une quatrième saisie désactive."
   },
+  "shortEffect": {
+    "en": "Slow Motion",
+    "fr": "Ralenti",
+    "es": "Cámara lenta",
+    "it": "Rallentatore",
+    "de": "Zeitlupe"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

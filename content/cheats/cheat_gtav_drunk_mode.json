@@ -6,6 +6,13 @@
     "en": "Blurs the picture and makes your character stagger.",
     "fr": "Trouble l’image et fait tituber votre personnage."
   },
+  "shortEffect": {
+    "en": "Drunk Mode",
+    "fr": "Ivresse",
+    "es": "Modo ebrio",
+    "it": "Ubriachezza",
+    "de": "Betrunken"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

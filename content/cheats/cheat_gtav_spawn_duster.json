@@ -6,6 +6,13 @@
     "en": "Drops a Duster crop-dusting plane next to you.",
     "fr": "Fait apparaître un avion d’épandage Duster à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Duster",
+    "fr": "Invoquer Duster",
+    "es": "Invocar Duster",
+    "it": "Evoca Duster",
+    "de": "Duster spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

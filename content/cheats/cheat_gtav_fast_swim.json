@@ -6,6 +6,13 @@
     "en": "Doubles how fast you swim.",
     "fr": "Double votre vitesse de nage."
   },
+  "shortEffect": {
+    "en": "Fast Swim",
+    "fr": "Nage rapide",
+    "es": "Nadar rápido",
+    "it": "Nuoto veloce",
+    "de": "Schnell schwimmen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

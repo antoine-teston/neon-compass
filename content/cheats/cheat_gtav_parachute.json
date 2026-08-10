@@ -6,6 +6,13 @@
     "en": "Puts a parachute in your inventory.",
     "fr": "Ajoute un parachute à votre inventaire."
   },
+  "shortEffect": {
+    "en": "Give Parachute",
+    "fr": "Parachute",
+    "es": "Dar paracaídas",
+    "it": "Paracadute",
+    "de": "Fallschirm geben"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

@@ -38,7 +38,7 @@ struct CheatsUnavailableGroup: View {
             if isExpanded {
                 ForEach(cheats) { cheat in
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(cheat.effect.resolved(for: currentLanguageCode))
+                        Text(cheat.resolvedShortEffect(for: currentLanguageCode))
                             .font(NCTypography.body)
                             .foregroundStyle(.white.opacity(0.75))
                             .multilineTextAlignment(.leading)

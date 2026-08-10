@@ -3,7 +3,7 @@
   "$id": "cheat.schema.json",
   "title": "Neon Compass Cheat",
   "type": "object",
-  "required": ["id", "game", "category", "effect", "codes", "blocksTrophies", "status", "verifiedBy"],
+  "required": ["id", "game", "category", "effect", "shortEffect", "codes", "blocksTrophies", "status", "verifiedBy"],
   "additionalProperties": false,
   "properties": {
     "id": { "type": "string", "pattern": "^cheat_(gtav|leonida)_[a-z0-9_]+$" },
@@ -21,6 +21,18 @@
         "es": { "type": "string" },
         "it": { "type": "string" },
         "de": { "type": "string" }
+      }
+    },
+    "shortEffect": {
+      "type": "object",
+      "required": ["en"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "fr": { "type": "string", "maxLength": 30 },
+        "es": { "type": "string", "maxLength": 30 },
+        "it": { "type": "string", "maxLength": 30 },
+        "de": { "type": "string", "maxLength": 30 }
       }
     },
     "codes": {

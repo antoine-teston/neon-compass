@@ -6,6 +6,13 @@
     "en": "Removes one star from your wanted level.",
     "fr": "Retire une étoile à votre niveau de recherche."
   },
+  "shortEffect": {
+    "en": "Lower Wanted Level",
+    "fr": "Réduire les étoiles",
+    "es": "Reducir búsqueda",
+    "it": "Ridurre ricercatezza",
+    "de": "Fahndung senken"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

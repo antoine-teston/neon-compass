@@ -6,6 +6,13 @@
     "en": "Drops an armed Buzzard helicopter next to you.",
     "fr": "Fait apparaître un hélicoptère armé Buzzard à côté de vous."
   },
+  "shortEffect": {
+    "en": "Spawn Buzzard",
+    "fr": "Invoquer Buzzard",
+    "es": "Invocar Buzzard",
+    "it": "Evoca Buzzard",
+    "de": "Buzzard spawnen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",

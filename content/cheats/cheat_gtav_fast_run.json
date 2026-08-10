@@ -6,6 +6,13 @@
     "en": "Doubles how fast you run.",
     "fr": "Double votre vitesse de course."
   },
+  "shortEffect": {
+    "en": "Fast Run",
+    "fr": "Course rapide",
+    "es": "Correr rápido",
+    "it": "Corsa veloce",
+    "de": "Schnell rennen"
+  },
   "codes": {
     "playstation": {
       "kind": "buttons",
