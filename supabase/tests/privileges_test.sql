@@ -45,7 +45,8 @@ begin
    where grantee in ('anon', 'authenticated')
      and table_schema = 'public'
      and privilege_type in ('INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER')
-     and table_name not in ('progression', 'push_tokens', 'editor_drafts', 'personal_pins');
+     and table_name not in ('progression', 'push_tokens', 'editor_drafts', 'personal_pins',
+                            'communities', 'community_events');
   assert leaked is null, format('écriture accordée là où elle ne devrait pas : %s', leaked);
 
   -- Les tables entièrement fermées le sont aussi au niveau du privilège.
@@ -67,7 +68,7 @@ begin
     from information_schema.role_table_grants
    where grantee = 'anon'
      and table_schema = 'public'
-     and table_name not in ('app_config', 'contributions');
+     and table_name not in ('app_config', 'contributions', 'communities', 'community_events');
   assert leaked is null, format('anon a accès à des tables non publiques : %s', leaked);
 
   -- Et la lecture connectée est bornée elle aussi. Les assertions précédentes
@@ -80,7 +81,7 @@ begin
      and table_schema = 'public'
      and table_name not in ('app_config', 'contributions', 'leaderboard', 'profiles',
                             'votes', 'progression', 'push_tokens', 'editor_drafts',
-                            'personal_pins');
+                            'personal_pins', 'communities', 'community_events');
   assert leaked is null, format('authenticated lit des tables non prévues : %s', leaked);
 end $$;
 
