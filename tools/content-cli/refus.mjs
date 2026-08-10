@@ -12,7 +12,8 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { CONFIANCE_ORDRE, CONTENT } from './schemas.mjs';
+import { CONTENT } from './schemas.mjs';
+import { CONFIANCE_ORDRE } from './vocabulaire.mjs';
 
 /** Le chemin réel, absolu, construit depuis `CONTENT` comme tout le reste du
  *  dossier. Absolu et non relatif : deux appelants qui le résoudraient chacun

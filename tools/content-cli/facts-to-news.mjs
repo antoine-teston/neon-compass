@@ -11,7 +11,7 @@
 
 import { createHash } from 'node:crypto';
 import { identityKey } from '../basemap/gtav-poi-ids.mjs';
-import { CARDINALITE } from './schemas.mjs';
+import { CARDINALITE } from './vocabulaire.mjs';
 
 /** Source d'identité des items nés de la veille — partie stable de la clé
  *  écrite dans `processedFrom`, et ce sur quoi le run suivant se réapparie. */

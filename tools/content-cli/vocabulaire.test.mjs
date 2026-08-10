@@ -1,4 +1,4 @@
-// node --test schemas.test.mjs
+// node --test vocabulaire.test.mjs
 //
 // Ces tables décident si un contrôle s'applique à un kind. Une table qui prend
 // du retard sur `KINDS` ne se voit pas : le kind neuf tombe dans un défaut
@@ -9,7 +9,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CARDINALITE, CONFIANCE_ORDRE, HORS_CONTROLE, KINDS } from './schemas.mjs';
+import { KINDS } from './schemas.mjs';
+import { CARDINALITE, CONFIANCE_ORDRE, HORS_CONTROLE } from './vocabulaire.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 
