@@ -11,7 +11,7 @@
 
 import { createHash } from 'node:crypto';
 import { identityKey } from '../basemap/gtav-poi-ids.mjs';
-import { CARDINALITE } from './vocabulaire.mjs';
+import { CARDINALITE, cleDeRefus, confianceSuperieure } from './vocabulaire.mjs';
 
 /** Source d'identité des items nés de la veille — partie stable de la clé
  *  écrite dans `processedFrom`, et ce sur quoi le run suivant se réapparie. */
@@ -78,16 +78,19 @@ function invalidReason(fact) {
  * @param facts     faits d'inbox, tous kinds confondus, aplatis depuis les
  *                  fichiers `.facts.json`
  * @param existing  [{ path, data }] — les fichiers actuels de content/news
+ * @param refus     le registre des refus, LU PAR L'APPELANT — ce module reste
+ *                  pur. `{}` par défaut : sans registre, rien ne change.
  * @returns {{
  *   writes: Array<{path: string, data: object}>,        squelettes à écrire
  *   alreadyMaterialized: Array<{key: string, id: string}>, déjà couverts
  *   covered: Array<{fact: object, key: string, id: string}>, à marquer dans l'inbox
  *   skipped: Array<{claim: string, reason: string}>,    écartés, mais classés
  *   ecartes: Array<{url, claim, raison, par}>,          jetés, et pourquoi
+ *   leves: Array<{url, de, a, le}>,                     refus levés, et par quoi
  *   conflicts: Array<{claim: string, reason: string}>   si non vide, N'ÉCRIRE RIEN
  * }}
  */
-export function materializeNews(facts, existing) {
+export function materializeNews(facts, existing, refus = {}) {
   const byID = new Map(existing.map((entry) => [entry.data.id, entry]));
   const byProcessedFrom = new Map(
     existing.filter((entry) => entry.data.processedFrom).map((entry) => [entry.data.processedFrom, entry]),
@@ -107,6 +110,7 @@ export function materializeNews(facts, existing) {
   const covered = [];
   const skipped = [];
   const ecartes = [];
+  const leves = [];
   const conflicts = [];
 
   for (const fact of facts) {
@@ -157,6 +161,25 @@ export function materializeNews(facts, existing) {
       }
     }
 
+    // Le refus, et sa levée.
+    //
+    // Après le contrôle d'URL : si une entrée porte déjà cette URL, le refus
+    // est sans objet — un item écarté a été supprimé, donc rien ne la porte.
+    const refuse = refus[cleDeRefus(KIND, fact.source_url)];
+    if (refuse) {
+      if (!confianceSuperieure(fact.confidence, refuse.confiance)) {
+        ecartes.push({
+          url: fact.source_url,
+          claim: fact.claim,
+          raison: `refus du ${refuse.le} — ${refuse.motif}`,
+          par: refuse.entree,
+        });
+        continue;
+      }
+      // Le 2026-08-09 n'a pas écarté un sujet, il a écarté une rumeur.
+      leves.push({ url: fact.source_url, de: refuse.confiance, a: fact.confidence, le: refuse.le });
+    }
+
     const id = mintNewsId(key);
     if (byID.has(id)) {
       conflicts.push({ claim: fact.claim, reason: `l'id frappé ${id} existe déjà avec un autre processedFrom` });
@@ -195,8 +218,8 @@ export function materializeNews(facts, existing) {
   // laisserait l'inbox à moitié marquée, et le fait fautif reviendrait au run
   // suivant sans qu'on sache ce qui a déjà été fait.
   if (conflicts.length) {
-    return { writes: [], alreadyMaterialized: [], covered: [], skipped: [], ecartes: [], conflicts };
+    return { writes: [], alreadyMaterialized: [], covered: [], skipped: [], ecartes: [], leves: [], conflicts };
   }
 
-  return { writes, alreadyMaterialized, covered, skipped, ecartes, conflicts };
+  return { writes, alreadyMaterialized, covered, skipped, ecartes, leves, conflicts };
 }

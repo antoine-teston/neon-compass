@@ -314,3 +314,47 @@ test('rejeu du réel : aucune URL n’est matérialisée deux fois', () => {
   const urls = writes.map((w) => w.data.sources[0]);
   assert.equal(new Set(urls).size, urls.length, 'deux entrées produites pour une même URL');
 });
+
+// ---------------------------------------------------------------------------
+// Le registre des refus, vu du matérialiseur
+// ---------------------------------------------------------------------------
+
+const registreRefusant = (confiance = 'rumor') => ({
+  'news|https://example.test/article-a': {
+    motif: 'ne tient qu’à un message du support client',
+    entree: 'news_9bd3ef15',
+    confiance,
+    le: '2026-08-09',
+  },
+});
+
+test('un fait refusé ne produit rien', () => {
+  const { writes, ecartes } = materializeNews([newsFact({ confidence: 'rumor' })], [], registreRefusant());
+
+  assert.equal(writes.length, 0);
+  assert.match(ecartes[0].raison, /refus du 2026-08-09/);
+  assert.equal(ecartes[0].par, 'news_9bd3ef15');
+});
+
+test('le refus tient à confiance ÉGALE', () => {
+  const { writes } = materializeNews([newsFact({ confidence: 'rumor' })], [], registreRefusant('rumor'));
+  assert.equal(writes.length, 0);
+});
+
+test('une confiance STRICTEMENT supérieure lève le refus', () => {
+  const { writes, leves, ecartes } = materializeNews(
+    [newsFact({ confidence: 'multi-source' })],
+    [],
+    registreRefusant('rumor'),
+  );
+
+  assert.equal(writes.length, 1, 'le sujet revient quand il se confirme');
+  assert.equal(ecartes.length, 0);
+  assert.deepEqual(leves, [{ url: 'https://example.test/article-a', de: 'rumor', a: 'multi-source', le: '2026-08-09' }]);
+});
+
+test('sans registre, rien ne change', () => {
+  const { writes, leves } = materializeNews([newsFact()], []);
+  assert.equal(writes.length, 1);
+  assert.deepEqual(leves, []);
+});

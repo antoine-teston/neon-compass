@@ -9,7 +9,8 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { cleDeRefus, confianceSuperieure, inscrireRefus, lireRefus } from './refus.mjs';
+import { inscrireRefus, lireRefus } from './refus.mjs';
+import { cleDeRefus, confianceSuperieure } from './vocabulaire.mjs';
 
 const tmp = () => join(mkdtempSync(join(tmpdir(), 'refus-')), 'refus.json');
 

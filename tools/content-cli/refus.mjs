@@ -13,7 +13,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CONTENT } from './schemas.mjs';
-import { CONFIANCE_ORDRE } from './vocabulaire.mjs';
+import { cleDeRefus } from './vocabulaire.mjs';
 
 /** Le chemin réel, absolu, construit depuis `CONTENT` comme tout le reste du
  *  dossier. Absolu et non relatif : deux appelants qui le résoudraient chacun
@@ -23,25 +23,6 @@ import { CONFIANCE_ORDRE } from './vocabulaire.mjs';
  *  Les fonctions prennent malgré tout le chemin en PARAMÈTRE : sans ça, les
  *  tests écriraient dans le vrai registre du dépôt à chaque exécution. */
 export const CHEMIN_REFUS = join(CONTENT, 'inbox', 'refus.json');
-
-/** La clé d'un refus : `kind` et URL.
- *
- *  Alignée sur celle du contrôle de convergence, et NON sur `processedFrom` —
- *  ce discriminant contient le claim rédigé, donc une simple reformulation
- *  aurait suffi à ressusciter l'entrée écartée. */
-export const cleDeRefus = (kind, url) => `${kind}|${url}`;
-
-/** Vrai si `candidate` est STRICTEMENT plus forte que `reference`.
- *
- *  C'est la levée automatique : le 2026-08-09 n'a pas écarté un sujet, il a
- *  écarté une rumeur. Une confiance inconnue ne lève jamais — dans le doute, le
- *  refus tient. */
-export function confianceSuperieure(candidate, reference) {
-  const a = CONFIANCE_ORDRE.indexOf(candidate);
-  const b = CONFIANCE_ORDRE.indexOf(reference);
-  if (a === -1 || b === -1) return false;
-  return a > b;
-}
 
 /** Lit le registre.
  *
