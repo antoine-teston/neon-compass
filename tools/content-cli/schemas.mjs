@@ -56,18 +56,18 @@ export const KINDS = {
   'online-events': { schema: 'online-events', collection: 'online_events' },
 };
 
-/** L'echelle de confiance, du plus FAIBLE au plus FORT.
+/** L'échelle de confiance, du plus FAIBLE au plus FORT.
  *
- *  L'enumeration de `news.schema.json` la donne dans l'ordre inverse ; un test
- *  compare les deux ENSEMBLES, pour qu'ajouter un niveau au schema fasse tomber
- *  la suite au lieu de creer une comparaison muette. */
+ *  L'énumération de `news.schema.json` la donne dans l'ordre inverse ; un test
+ *  compare les deux ENSEMBLES, pour qu'ajouter un niveau au schéma fasse tomber
+ *  la suite au lieu de créer une comparaison muette. */
 export const CONFIANCE_ORDRE = ['rumor', 'single-source', 'multi-source', 'confirmed-official'];
 
-/** Combien d'entrees une meme URL source a le droit de produire, par kind.
+/** Combien d'entrées une même URL source a le droit de produire, par kind.
  *
- *  `une` declenche le controle de convergence ; `multiple` l'eteint. Les POI le
- *  sont parce qu'un article « toutes les localisations confirmees » en donne
- *  legitimement trois — c'est ainsi que les 537 POI sont arrives. */
+ *  `une` déclenche le contrôle de convergence ; `multiple` l'éteint. Les POI le
+ *  sont parce qu'un article « toutes les localisations confirmées » en donne
+ *  légitimement trois — c'est ainsi que les 537 POI sont arrivés. */
 export const CARDINALITE = {
   news: 'une',
   poi: 'multiple',
@@ -76,14 +76,14 @@ export const CARDINALITE = {
   collections: 'multiple',
 };
 
-/** Les kinds que le controle d'URL ne juge PAS, et pourquoi.
+/** Les kinds que le contrôle d'URL ne juge PAS, et pourquoi.
  *
- *  Deux tables plutot qu'un defaut : inscrire `online-events` dans
- *  `CARDINALITE` suggererait qu'il est couvert par ce controle-ci alors qu'il
- *  l'est par le sien ; le taire laisserait croire a un oubli. */
+ *  Deux tables plutôt qu'un défaut : inscrire `online-events` dans
+ *  `CARDINALITE` suggérerait qu'il est couvert par ce contrôle-ci alors qu'il
+ *  l'est par le sien ; le taire laisserait croire à un oubli. */
 export const HORS_CONTROLE = {
   'online-events':
-    'identite portee par windowDiscriminant (debut de fenetre), deja insensible au claim',
+    'identité portée par windowDiscriminant (début de fenêtre), déjà insensible au claim',
 };
 
 export const schemas = Object.fromEntries(
