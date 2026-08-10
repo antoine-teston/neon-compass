@@ -1243,15 +1243,63 @@ sujet, il attend qu'il se confirme."
 
 **Files:** aucun — vérification de bout en bout.
 
-- [ ] **Step 1: Reproduire l'état du jour**
+**Cette tâche a été réécrite le 2026-08-10, après l'exécution de la Task 5.** La version d'origine partait d'un fait faux — que `pull-news` voulait encore écrire `news_9bd3ef15` et que le registre serait ce qui l'en empêcherait. En réalité c'est le contrôle de convergence qui l'intercepte : l'article Netflix a produit DEUX sujets distincts, et le second (`news_285eebb3`, « l'accord Netflix comme une première ») survit sur `main` et couvre l'URL. Le registre n'est donc jamais consulté pour elle, et la levée y est inatteignable.
+
+Conséquence directe : **on n'inscrit AUCUN refus au dépôt.** La clé étant `kind|url`, inscrire le refus du 09/08 condamnerait aussi `news_285eebb3`, qui est un brouillon légitime. Le registre se remplira par le geste « Écarter », au cas par cas.
+
+- [ ] **Step 1: Constater que l'objectif est atteint**
 
 ```bash
-cd tools/content-cli && node cli.js pull-news --dry-run | grep news_9bd3ef15
+cd tools/content-cli && node cli.js pull-news --dry-run
 ```
 
-Attendu : la ligne `écrirait content/news/news_9bd3ef15.json  [rumor] 2026-08-07` — le symptôme d'origine, registre encore vide.
+Attendu, mot pour mot :
 
-- [ ] **Step 2: Inscrire le refus réellement prononcé le 2026-08-09**
+```
+  écarté  https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7
+          URL déjà couverte, déjà porté par news_285eebb3
+          « Un message du support client de Netflix, relayé sans confirmation officielle par la presse spécialis… »
+pull-news --dry-run: 0 squelette(s), 1 écarté(s), 78 déjà matérialisé(s), aucune écriture
+```
+
+C'est le but du chantier, vérifié sur les données réelles : le fait que l'humain avait écarté le 09/08 n'est plus matérialisé, et l'écart NOMME ce qu'il jette. Aucun fichier n'a été touché pour l'obtenir.
+
+- [ ] **Step 2: Prouver le registre et la levée, là où ils sont atteignables**
+
+Le registre ne peut se démontrer que sur un article rejeté EN ENTIER. On en fabrique un, en scratch, entièrement réversible. **Aucune de ces modifications n'est commitée.**
+
+Retirer temporairement l'entrée qui couvre l'URL, pour que l'article redevienne non couvert :
+
+```bash
+cd /Users/antoine/gta_project/.claude/worktrees/fusion-depuis-la-console
+rm content/news/news_285eebb3.json
+cd tools/content-cli && node cli.js pull-news --dry-run | tail -4
+```
+
+Attendu : l'URL n'étant plus couverte, `pull-news` veut désormais écrire un squelette pour le fait des vingt minutes — le compte de squelettes passe à un au moins, et plus aucun écart pour cette URL.
+
+- [ ] **Step 3: Le refus bloque**
+
+Créer `content/inbox/refus.json`, avec le motif réellement prononcé le 09/08 (repris du commit `8da9ccb`) :
+
+```json
+{
+  "news|https://www.gtaboom.com/what-to-expect-when-gta-6-hits-netflix-on-august-27-c2f7": {
+    "motif": "ne tient qu'à un message du support client relayé sans confirmation",
+    "entree": "news_9bd3ef15",
+    "confiance": "rumor",
+    "le": "2026-08-09"
+  }
+}
+```
+
+```bash
+cd tools/content-cli && node cli.js pull-news --dry-run | tail -4
+```
+
+Attendu : le squelette disparaît à nouveau, cette fois avec une ligne `refus du 2026-08-09 — ne tient qu'à un message du support client relayé sans confirmation`.
+
+- [ ] **Step 4: La levée par confiance**
 
 Créer `content/inbox/refus.json` avec le motif d'origine, repris du commit `8da9ccb` :
 
@@ -1276,40 +1324,34 @@ Attendu : plus aucune ligne `écrirait … news_9bd3ef15`, et une ligne `refus d
 
 - [ ] **Step 4: Vérifier que la levée fonctionne**
 
-Passer temporairement `"confiance": "rumor"` à `"confiance": "single-source"` dans le registre — non : modifier plutôt la confiance du FAIT, dans `content/inbox/2026-08-08-gta6-veille.facts.json`, en passant le fait de cette URL de `rumor` à `multi-source`. Relancer :
+Le refus a été enregistré à `rumor`. Faire monter la confiance du FAIT — pas celle du registre, qui doit rester le souvenir de la décision : dans `content/inbox/2026-08-08-gta6-veille.facts.json`, passer le fait de cette URL de `rumor` à `multi-source`. Relancer :
 
 ```bash
-cd tools/content-cli && node cli.js pull-news --dry-run | grep -E "9bd3ef15|levé"
+cd tools/content-cli && node cli.js pull-news --dry-run | tail -5
 ```
 
-Attendu : une ligne `refus du 2026-08-09 levé — confiance passée de rumor à multi-source`, et l'entrée revient dans les squelettes.
+Attendu : une ligne `refus du 2026-08-09 levé — confiance passée de rumor à multi-source`, et le squelette revient. C'est la promesse tenue : on n'avait pas écarté le sujet, on avait écarté une rumeur.
 
-**Restaurer le fait** :
+- [ ] **Step 5: Tout restaurer, et le vérifier**
 
 ```bash
-git checkout -- ../../content/inbox/2026-08-08-gta6-veille.facts.json
+cd /Users/antoine/gta_project/.claude/worktrees/fusion-depuis-la-console
+rm -f content/inbox/refus.json
+git checkout -- content/inbox/2026-08-08-gta6-veille.facts.json content/news/news_285eebb3.json
+git status --porcelain
 ```
 
-- [ ] **Step 5: Lancer la suite complète une dernière fois**
+Attendu : **sortie vide.** Le dépôt doit être exactement dans l'état d'avant la démonstration — aucun registre commité, aucune entrée perdue, aucun fait modifié. Si `git status` n'est pas vide, ne pas continuer : dire ce qui reste et pourquoi.
+
+- [ ] **Step 6: Reconstater l'état de départ, et lancer la suite**
 
 ```bash
-cd tools/content-cli && npm test
+cd tools/content-cli && node cli.js pull-news --dry-run | tail -1 && npm test
 ```
 
-Attendu : `# fail 0`, `validate` et `check-publishable` verts.
+Attendu : la ligne `0 squelette(s), 1 écarté(s), 78 déjà matérialisé(s)` du Step 1 à l'identique, puis `# fail 0` et la chaîne `check` verte.
 
-- [ ] **Step 6: Commit du registre**
-
-```bash
-git add content/inbox/refus.json
-git commit -m "content(veille): inscrire au registre le refus du 2026-08-09
-
-Le motif est repris mot pour mot du commit 8da9ccb, qui l'avait écrit là
-où aucune machine ne pouvait le lire.
-
-Vérifié de bout en bout : pull-news ne veut plus recréer news_9bd3ef15,
-et le veut à nouveau si la confiance du fait monte à multi-source."
-```
+**Aucun commit dans cette tâche.** Elle ne produit pas de code : elle produit une preuve, qui vit dans son rapport.
 
 ---
 

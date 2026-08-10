@@ -209,6 +209,32 @@ second média le reprend, et il faudra le réécarter. Au pire trois fois, chaqu
 refus réenregistrant la confiance atteinte. C'est préférable à un sujet
 définitivement invisible parce qu'il a été jugé une fois.
 
+**La portée réelle de la levée, constatée en exécutant — 2026-08-10.** Elle ne
+joue que si l'article a été rejeté EN ENTIER. Le contrôle de convergence tourne
+avant le registre ; si un frère de même URL a survécu, il couvre l'URL et le
+fait est écarté sans que le registre soit jamais consulté. La levée est alors
+inatteignable pour cette URL, quelle que soit la confiance qui monte.
+
+Ce n'est pas une hypothèse : c'est le cas de l'article même qui a motivé ce
+chantier. `what-to-expect-when-gta-6-hits-netflix-…` a produit deux entrées de
+sujets distincts — la durée de vingt minutes (`news_9bd3ef15`, `rumor`, écartée
+le 09/08) et l'accord Netflix présenté comme une première (`news_285eebb3`,
+`single-source`, toujours en `draft` sur `main`). La seconde couvre l'URL, donc
+la première ne reviendra jamais par la levée.
+
+C'est le comportement voulu et non un défaut à corriger : la déduplication est
+le contrôle qui protège le fil, la levée est un confort. Quand les deux
+s'opposent, la déduplication prime. Et le cas majoritaire lui échappe — 59 des
+78 URLs de l'inbox ne portent qu'un seul fait, donc rejeter leur entrée rejette
+l'article entier et rend la levée atteignable.
+
+**Conséquence sur ce qu'on inscrit au registre.** La clé étant `kind|url`, un
+refus couvre TOUS les sujets de l'article. Inscrire le refus du 09/08
+condamnerait donc aussi `news_285eebb3`, qui est un brouillon légitime. Le
+registre ne doit donc PAS être pré-rempli avec cette décision : il se remplira
+par le geste « Écarter », au cas par cas, quand un article aura été jugé en
+entier.
+
 **Pas de geste de levée manuelle.** Le fichier est versionné et lisible : retirer
 la ligne EST la levée.
 
@@ -283,10 +309,20 @@ tout ce qui a été écarté.
 - **Le registre s'écrit avant la suppression** : une écriture qui échoue laisse
   le brouillon en place, prouvé en la faisant échouer.
 
-**Critère d'acceptation vivant.** Aujourd'hui, `pull-news --dry-run` sur `main`
-veut écrire `news_9bd3ef15`. Après ce chantier il ne le veut plus, sans qu'on ait
-touché à l'inbox — et il le voudra à nouveau si un article confirme les vingt
-minutes.
+**Critère d'acceptation vivant, corrigé le 2026-08-10 après exécution.** La
+formulation d'origine — « il le voudra à nouveau si un article confirme les
+vingt minutes » — était fausse, pour la raison exposée plus haut : un frère
+survit sur cette URL, donc la levée n'y est pas atteignable.
+
+Ce qui se vérifie réellement, et qui reste le but du chantier :
+
+- Avant : `pull-news --dry-run` voulait écrire `news_9bd3ef15`, l'entrée écartée
+  la veille par un humain.
+- Après : `0 squelette(s), 1 écarté(s), 78 déjà matérialisé(s)` — et l'écart
+  nomme le fait jeté ainsi que l'entrée qui couvrait déjà son URL.
+
+Le registre et sa levée se prouvent séparément, sur un article rejeté en entier
+— seul cas où ils sont atteignables.
 
 ## Hors périmètre
 
