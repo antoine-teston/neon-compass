@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Hidden Package #3",
-    "fr": "Magot caché n°3"
+    "fr": "Magot caché n°3",
+    "es": "Paquete oculto #3",
+    "it": "Pacco nascosto #3",
+    "de": "Verstecktes Paket #3"
   },
   "status": "published",
   "sources": [

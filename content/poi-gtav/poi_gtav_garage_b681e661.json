@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Garage — Lockup_CMS_01",
-    "fr": "Garage — Lockup_CMS_01"
+    "fr": "Garage — Lockup_CMS_01",
+    "es": "Garage — Lockup_CMS_01",
+    "it": "Garage — Lockup_CMS_01",
+    "de": "Garage — Lockup_CMS_01"
   },
   "status": "published",
   "sources": [
