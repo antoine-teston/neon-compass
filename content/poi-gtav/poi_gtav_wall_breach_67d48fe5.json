@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Shrub near Eclipse tower",
-    "fr": "Buisson près de l'Eclipse Tower"
+    "fr": "Buisson près de l'Eclipse Tower",
+    "es": "Arbusto junto a la Eclipse Tower",
+    "it": "Cespuglio vicino all'Eclipse Tower",
+    "de": "Busch nahe dem Eclipse Tower"
   },
   "note": {
     "en": "Go to the location as seen below. Walk to the pillar and jump to get into the shrub.",
-    "fr": "Rendez-vous à l'endroit indiqué. Approchez-vous du pilier et sautez pour vous glisser dans le buisson."
+    "fr": "Rendez-vous à l'endroit indiqué. Approchez-vous du pilier et sautez pour vous glisser dans le buisson.",
+    "es": "Ve al lugar indicado. Acércate al pilar y salta para colarte en el arbusto.",
+    "it": "Recati nel luogo indicato. Avvicinati al pilastro e salta per infilarti nel cespuglio.",
+    "de": "Geh an den angegebenen Ort. Geh zur Säule und spring, um dich in den Busch zu schieben."
   },
   "status": "published",
   "sources": [

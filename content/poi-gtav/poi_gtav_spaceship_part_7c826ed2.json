@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This Part is located inside a cavern, so you will need to either swim or use a boat/jetski to get inside. Once inside, dive down underwater and you will easily see the Part glowing.",
-    "fr": "Cette pièce est dans une grotte : il faut nager, ou prendre un bateau ou un jet-ski, pour y accéder. Une fois dedans, plongez : la pièce brille et se repère sans peine."
+    "fr": "Cette pièce est dans une grotte : il faut nager, ou prendre un bateau ou un jet-ski, pour y accéder. Une fois dedans, plongez : la pièce brille et se repère sans peine.",
+    "es": "Esta pieza está en una cueva: hay que nadar, o ir en barco o moto acuática, para llegar. Una vez dentro, bucea: la pieza brilla y se localiza sin esfuerzo.",
+    "it": "Questo pezzo è in una grotta: bisogna nuotare, o prendere una barca o una moto d'acqua, per arrivarci. Una volta dentro, immergiti: il pezzo brilla e si individua senza fatica.",
+    "de": "Dieses Teil liegt in einer Höhle: Man muss schwimmen oder ein Boot bzw. einen Jetski nehmen. Drinnen tauchst du hinab: Das Teil leuchtet und ist mühelos zu finden."
   },
   "status": "published",
   "sources": [

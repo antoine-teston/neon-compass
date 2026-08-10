@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "[Helicopter Required] This Letter is on top of a small rock that can only be accessed by a helicopter. Once you’re up there, it’s very easy to spot.",
-    "fr": "[Hélicoptère nécessaire] Ce fragment est au sommet d'un petit rocher accessible uniquement par les airs. Une fois là-haut, il se repère sans peine."
+    "fr": "[Hélicoptère nécessaire] Ce fragment est au sommet d'un petit rocher accessible uniquement par les airs. Une fois là-haut, il se repère sans peine.",
+    "es": "[Se necesita helicóptero] Este fragmento está en lo alto de una pequeña roca accesible solo por aire. Una vez arriba, se localiza sin dificultad.",
+    "it": "[Elicottero necessario] Questo frammento è in cima a una piccola roccia raggiungibile solo dall'alto. Una volta lassù, si individua senza difficoltà.",
+    "de": "[Helikopter nötig] Dieser Fetzen liegt auf einem kleinen Felsen, der nur aus der Luft erreichbar ist. Oben ist er leicht zu finden."
   },
   "status": "published",
   "sources": [

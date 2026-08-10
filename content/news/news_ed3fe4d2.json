@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "L'éditeur promet un aperçu qui se regardera comme une émission",
-    "en": "Publisher promises a preview that will feel like a show"
+    "en": "Publisher promises a preview that will feel like a show",
+    "es": "La editora promete un avance que se verá como un programa",
+    "it": "L'editore promette un'anteprima che si guarderà come uno show",
+    "de": "Publisher verspricht einen Ausblick, der sich wie eine Show anfühlt"
   },
   "body": {
     "fr": "Interrogé par un journaliste spécialisé, le PDG de l'éditeur a qualifié l'aperçu étendu du 27 août d'événement incontournable, sans en préciser le format ni la durée. La diffusion démarrera en exclusivité sur Netflix à 15h (heure de New York), avant une mise en ligne gratuite six heures plus tard sur YouTube et le site du studio. Le mode en ligne ne devrait, lui, pas être abordé.",
-    "en": "Speaking to a specialist journalist, the publisher's CEO described the August 27 extended preview as a must-see event, without detailing its format or length. The broadcast starts exclusively on Netflix at 3pm New York time, before going free on YouTube and the studio's site six hours later. The online mode is not expected to be covered."
+    "en": "Speaking to a specialist journalist, the publisher's CEO described the August 27 extended preview as a must-see event, without detailing its format or length. The broadcast starts exclusively on Netflix at 3pm New York time, before going free on YouTube and the studio's site six hours later. The online mode is not expected to be covered.",
+    "es": "Preguntado por un periodista especializado, el consejero delegado de la editora calificó el avance ampliado del 27 de agosto de acontecimiento ineludible, sin precisar formato ni duración. La emisión arrancará en exclusiva en Netflix a las 15:00 (hora de Nueva York), antes de una publicación gratuita seis horas después en YouTube y en la web del estudio. El modo en línea, en cambio, no debería abordarse.",
+    "it": "Interpellato da un giornalista specializzato, l'amministratore delegato dell'editore ha definito l'anteprima estesa del 27 agosto un evento imperdibile, senza precisarne formato né durata. La trasmissione partirà in esclusiva su Netflix alle 15 (ora di New York), prima della pubblicazione gratuita sei ore dopo su YouTube e sul sito dello studio. La modalità online, invece, non dovrebbe essere toccata.",
+    "de": "Auf Nachfrage eines Fachjournalisten nannte der Vorstandschef des Publishers den erweiterten Ausblick vom 27. August ein unverzichtbares Ereignis, ohne Format oder Länge zu nennen. Die Ausstrahlung startet exklusiv bei Netflix um 15 Uhr New Yorker Zeit, bevor sie sechs Stunden später kostenlos auf YouTube und der Studio-Website erscheint. Der Online-Modus dürfte dabei kein Thema sein."
   },
   "publishedAt": "2026-08-09",
   "status": "published",

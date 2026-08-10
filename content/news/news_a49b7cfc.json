@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "La première Netflix restera inaccessible dans cinq pays",
-    "en": "The Netflix premiere will be unreachable in five countries"
+    "en": "The Netflix premiere will be unreachable in five countries",
+    "es": "El estreno en Netflix seguirá siendo inaccesible en cinco países",
+    "it": "L'anteprima Netflix resterà inaccessibile in cinque paesi",
+    "de": "Die Netflix-Premiere bleibt in fünf Ländern unerreichbar"
   },
   "body": {
     "fr": "Netflix n'étant pas disponible en Chine, en Corée du Nord, en Russie, en Syrie ni en Crimée, les joueurs de ces zones ne pourront pas suivre la diffusion du 27 août. Dans quatre de ces cinq régions, le repli gratuit prévu six heures plus tard est lui aussi hors de portée, YouTube y étant bloqué ou fortement restreint.",
-    "en": "Netflix isn't available in China, North Korea, Russia, Syria, or Crimea, so players in those regions won't be able to watch the August 27 broadcast. In four of those five places, the free fallback six hours later is out of reach too, since YouTube is blocked or heavily restricted there."
+    "en": "Netflix isn't available in China, North Korea, Russia, Syria, or Crimea, so players in those regions won't be able to watch the August 27 broadcast. In four of those five places, the free fallback six hours later is out of reach too, since YouTube is blocked or heavily restricted there.",
+    "es": "Como Netflix no está disponible en China, Corea del Norte, Rusia, Siria ni Crimea, los jugadores de esas zonas no podrán seguir la emisión del 27 de agosto. En cuatro de esas cinco regiones, la alternativa gratuita prevista seis horas más tarde también queda fuera de alcance, ya que YouTube está bloqueado o muy restringido.",
+    "it": "Poiché Netflix non è disponibile in Cina, Corea del Nord, Russia, Siria e Crimea, i giocatori di quelle aree non potranno seguire la trasmissione del 27 agosto. In quattro di queste cinque regioni anche il ripiego gratuito previsto sei ore dopo è fuori portata, dato che YouTube è bloccato o fortemente limitato.",
+    "de": "Da Netflix in China, Nordkorea, Russland, Syrien und auf der Krim nicht verfügbar ist, können Spieler dort die Ausstrahlung am 27. August nicht verfolgen. In vier dieser fünf Regionen ist auch die sechs Stunden später geplante kostenlose Alternative unerreichbar, weil YouTube gesperrt oder stark eingeschränkt ist."
   },
   "publishedAt": "2026-08-07",
   "status": "draft",

@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Michaels mansion (via garage)",
-    "fr": "Villa de Michael (par le garage)"
+    "fr": "Villa de Michael (par le garage)",
+    "es": "Mansión de Michael (por el garaje)",
+    "it": "Villa di Michael (dal garage)",
+    "de": "Michaels Villa (über die Garage)"
   },
   "note": {
     "en": "Go to the location as seen below, drive your car next to the garage and hop onto it. Climb ontop the garage roof and walk to the little balcony of the main house. Run across the wall towards the balcony and jump to climb it up. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside Michaels mansion.",
-    "fr": "Rendez-vous à l'endroit indiqué, garez la voiture contre le garage et montez dessus. Grimpez sur le toit du garage, puis rejoignez le petit balcon de la maison principale. Longez le mur en courant vers le balcon et sautez pour vous y hisser. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans la villa de Michael."
+    "fr": "Rendez-vous à l'endroit indiqué, garez la voiture contre le garage et montez dessus. Grimpez sur le toit du garage, puis rejoignez le petit balcon de la maison principale. Longez le mur en courant vers le balcon et sautez pour vous y hisser. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans la villa de Michael.",
+    "es": "Ve al lugar indicado, aparca el coche contra el garaje y súbete encima. Trepa al tejado del garaje y luego llega al pequeño balcón de la casa principal. Recorre el muro corriendo hacia el balcón y salta para izarte. Saca el teléfono, acepta una invitación de misión pendiente y cancela enseguida: reapareces en la mansión de Michael.",
+    "it": "Recati nel luogo indicato, parcheggia l'auto contro il garage e salici sopra. Arrampicati sul tetto del garage, poi raggiungi il balconcino della casa principale. Costeggia il muro di corsa verso il balcone e salta per issarti. Tira fuori il telefono, accetta un invito a una missione in attesa, poi annulla subito: riapparirai nella villa di Michael.",
+    "de": "Geh an den angegebenen Ort, parke das Auto an der Garage und steig darauf. Kletter aufs Garagendach und dann zum kleinen Balkon des Haupthauses. Lauf an der Wand entlang zum Balkon und spring, um dich hochzuziehen. Nimm dein Telefon, nimm eine wartende Missionseinladung an und brich sofort ab: Du erscheinst in Michaels Villa."
   },
   "status": "published",
   "sources": [

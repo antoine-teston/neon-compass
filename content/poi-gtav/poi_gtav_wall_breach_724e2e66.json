@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Parking Garage Under Tennis Courts in La Puerta",
-    "fr": "Parking sous les courts de tennis de La Puerta"
+    "fr": "Parking sous les courts de tennis de La Puerta",
+    "es": "Aparcamiento bajo las pistas de tenis de La Puerta",
+    "it": "Parcheggio sotto i campi da tennis di La Puerta",
+    "de": "Parkhaus unter den Tennisplätzen in La Puerta"
   },
   "note": {
     "en": "Go to location indicated and locate the bushes to the right of the fenced-off entrance of the parking garage. Stand between the two bushes shown and press Box to climb in.",
-    "fr": "Rendez-vous à l'endroit indiqué et repérez les buissons à droite de l'entrée grillagée du parking. Placez-vous entre les deux buissons et appuyez sur Carré pour vous glisser à l'intérieur."
+    "fr": "Rendez-vous à l'endroit indiqué et repérez les buissons à droite de l'entrée grillagée du parking. Placez-vous entre les deux buissons et appuyez sur Carré pour vous glisser à l'intérieur.",
+    "es": "Ve al lugar indicado y localiza los arbustos a la derecha de la entrada enrejada del aparcamiento. Colócate entre los dos arbustos y pulsa Cuadrado para colarte dentro.",
+    "it": "Recati nel luogo indicato e individua i cespugli a destra dell'ingresso recintato del parcheggio. Mettiti tra i due cespugli e premi Quadrato per infilarti dentro.",
+    "de": "Geh an den angegebenen Ort und such die Büsche rechts der vergitterten Parkhauseinfahrt. Stell dich zwischen die beiden Büsche und drück Viereck, um hineinzuschlüpfen."
   },
   "status": "published",
   "sources": [

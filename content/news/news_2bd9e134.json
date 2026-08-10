@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "L'aperçu du 27 août restera inaccessible dans cinq pays",
-    "en": "The August 27 preview will stay unreachable in five countries"
+    "en": "The August 27 preview will stay unreachable in five countries",
+    "es": "El avance del 27 de agosto seguirá siendo inaccesible en cinco países",
+    "it": "L'anteprima del 27 agosto resterà inaccessibile in cinque paesi",
+    "de": "Der Ausblick vom 27. August bleibt in fünf Ländern unerreichbar"
   },
   "body": {
     "fr": "La diffusion en avant-première de l'aperçu étendu du jeu, prévue le 27 août sur Netflix, restera hors d'atteinte des joueurs de cinq pays ou territoires où le service n'opère pas. Le repli gratuit prévu six heures plus tard sur YouTube n'y change rien, cette plateforme étant elle aussi bloquée ou fortement restreinte dans la plupart de ces zones.",
-    "en": "The premiere of the game's extended preview, set for August 27 on Netflix, will remain out of reach for players in five countries or territories where the service doesn't operate. The free fallback planned six hours later on YouTube doesn't help, since that platform is also blocked or heavily restricted across most of those regions."
+    "en": "The premiere of the game's extended preview, set for August 27 on Netflix, will remain out of reach for players in five countries or territories where the service doesn't operate. The free fallback planned six hours later on YouTube doesn't help, since that platform is also blocked or heavily restricted across most of those regions.",
+    "es": "La emisión en primicia del avance ampliado del juego, prevista el 27 de agosto en Netflix, quedará fuera del alcance de los jugadores de cinco países o territorios donde el servicio no opera. La alternativa gratuita prevista seis horas más tarde en YouTube no cambia nada, ya que esa plataforma también está bloqueada o muy restringida en la mayoría de esas zonas.",
+    "it": "La messa in onda in anteprima dell'anteprima estesa del gioco, prevista il 27 agosto su Netflix, resterà fuori portata per i giocatori di cinque paesi o territori in cui il servizio non opera. Il ripiego gratuito previsto sei ore dopo su YouTube non cambia nulla, dato che anche quella piattaforma è bloccata o fortemente limitata nella maggior parte di quelle aree.",
+    "de": "Die Erstausstrahlung des erweiterten Ausblicks am 27. August auf Netflix bleibt für Spieler in fünf Ländern und Gebieten unerreichbar, in denen der Dienst nicht verfügbar ist. Die sechs Stunden später geplante kostenlose Ausweichlösung auf YouTube ändert daran nichts, da auch diese Plattform in den meisten dieser Regionen gesperrt oder stark eingeschränkt ist."
   },
   "publishedAt": "2026-08-07",
   "status": "draft",

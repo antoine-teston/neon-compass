@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "L'éditeur exclut toute IA générative dans le jeu à venir",
-    "en": "Publisher rules out generative AI in the upcoming game"
+    "en": "Publisher rules out generative AI in the upcoming game",
+    "es": "La editora descarta toda IA generativa en el juego por venir",
+    "it": "L'editore esclude qualsiasi IA generativa nel gioco in arrivo",
+    "de": "Publisher schließt generative KI im kommenden Spiel aus"
   },
   "body": {
     "fr": "Le patron de l'éditeur aurait réaffirmé, plus tôt cette année, qu'aucune intelligence artificielle générative ni personnage à dialogue généré ne figurera dans le jeu à venir : chaque réplique reste écrite et interprétée par des équipes humaines. La date exacte de cette déclaration n'est pas précisée par la source, qui la rapporte de seconde main.",
-    "en": "The publisher's chief reportedly reaffirmed earlier this year that no generative AI or AI-driven dialogue characters will appear in the upcoming game — every line stays written and performed by human teams. The exact date of that statement isn't specified by the source, which reports it secondhand."
+    "en": "The publisher's chief reportedly reaffirmed earlier this year that no generative AI or AI-driven dialogue characters will appear in the upcoming game — every line stays written and performed by human teams. The exact date of that statement isn't specified by the source, which reports it secondhand.",
+    "es": "El máximo responsable de la editora habría reiterado, a principios de este año, que no habrá inteligencia artificial generativa ni personajes con diálogo generado en el juego por venir: cada réplica seguirá escrita e interpretada por equipos humanos. La fuente no precisa la fecha exacta de esa declaración, que recoge de segunda mano.",
+    "it": "Il vertice dell'editore avrebbe ribadito, all'inizio di quest'anno, che nel gioco in arrivo non ci sarà alcuna intelligenza artificiale generativa né personaggi con dialoghi generati: ogni battuta resta scritta e interpretata da team umani. La fonte non precisa la data esatta della dichiarazione, che riporta di seconda mano.",
+    "de": "Der Chef des Publishers soll Anfang des Jahres bekräftigt haben, dass es im kommenden Spiel weder generative künstliche Intelligenz noch Figuren mit generierten Dialogen geben wird: Jede Zeile bleibt von Menschen geschrieben und gesprochen. Die Quelle nennt kein genaues Datum und gibt die Aussage aus zweiter Hand wieder."
   },
   "publishedAt": "2026-08-08",
   "status": "draft",

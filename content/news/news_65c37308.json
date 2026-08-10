@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Le nouveau braquage sert-il de test pour le prochain mode en ligne ?",
-    "en": "Is the new heist a test run for the next online mode?"
+    "en": "Is the new heist a test run for the next online mode?",
+    "es": "¿Sirve el nuevo golpe de ensayo para el próximo modo en línea?",
+    "it": "Il nuovo colpo fa da banco di prova per la prossima modalità online?",
+    "de": "Ist der neue Raubzug ein Test für den kommenden Online-Modus?"
   },
   "body": {
     "fr": "Il arrive quatre mois avant la sortie du volet suivant et introduit plusieurs mécaniques inédites. La presse s'interroge, sans confirmation : banc d'essai, ou simple apport de contenu pour patienter jusqu'en novembre ?",
-    "en": "It landed four months before the next game and brings several new mechanics. The press wonders, with no confirmation: a testbed, or just content to fill the wait until November?"
+    "en": "It landed four months before the next game and brings several new mechanics. The press wonders, with no confirmation: a testbed, or just content to fill the wait until November?",
+    "es": "Llega cuatro meses antes del lanzamiento de la siguiente entrega e introduce varias mecánicas inéditas. La prensa se lo pregunta, sin confirmación: ¿banco de pruebas, o simple aporte de contenido para esperar hasta noviembre?",
+    "it": "Arriva quattro mesi prima dell'uscita del capitolo successivo e introduce diverse meccaniche inedite. La stampa se lo chiede, senza conferme: banco di prova, o semplice contenuto per arrivare a novembre?",
+    "de": "Er erscheint vier Monate vor dem nächsten Teil und führt mehrere neue Mechaniken ein. Die Presse fragt sich ohne Bestätigung: Testlauf oder schlicht Inhalt zur Überbrückung bis November?"
   },
   "publishedAt": "2026-07-29",
   "status": "draft",

@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Below Airport",
-    "fr": "Sous l'aéroport"
+    "fr": "Sous l'aéroport",
+    "es": "Bajo el aeropuerto",
+    "it": "Sotto l'aeroporto",
+    "de": "Unter dem Flughafen"
   },
   "note": {
     "en": "Go to the location as seen below. Walk to the stack of greenish pillars, make your way to the top of them. Walk straight ahead to the little space between them, get in there and run straight into the grey pillars until you glitch into them.",
-    "fr": "Rendez-vous à l'endroit indiqué. Rejoignez la pile de piliers verdâtres et montez au sommet. Avancez tout droit vers l'interstice, glissez-vous dedans et courez contre les piliers gris jusqu'à passer au travers."
+    "fr": "Rendez-vous à l'endroit indiqué. Rejoignez la pile de piliers verdâtres et montez au sommet. Avancez tout droit vers l'interstice, glissez-vous dedans et courez contre les piliers gris jusqu'à passer au travers.",
+    "es": "Ve al lugar indicado. Llega a la pila de pilares verdosos y sube a lo alto. Avanza recto hacia el hueco, cuélate dentro y corre contra los pilares grises hasta atravesarlos.",
+    "it": "Recati nel luogo indicato. Raggiungi la pila di pilastri verdastri e sali in cima. Avanza dritto verso la fessura, infilati dentro e corri contro i pilastri grigi fino ad attraversarli.",
+    "de": "Geh an den angegebenen Ort. Erreiche den Stapel grünlicher Pfeiler und steig hinauf. Geh geradeaus zum Spalt, schlüpf hinein und lauf gegen die grauen Pfeiler, bis du hindurchkommst."
   },
   "status": "published",
   "sources": [

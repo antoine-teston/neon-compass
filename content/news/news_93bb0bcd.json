@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un outil de missions communautaires mis en avant devant les investisseurs",
-    "en": "A community mission tool gets investor spotlight"
+    "en": "A community mission tool gets investor spotlight",
+    "es": "Una herramienta de misiones comunitarias, destacada ante los inversores",
+    "it": "Uno strumento di missioni della community messo in luce davanti agli investitori",
+    "de": "Ein Community-Missionswerkzeug vor Investoren hervorgehoben"
   },
   "body": {
     "fr": "Dans ses derniers documents pour les investisseurs, l'éditeur a mis en avant un outil de création de missions du mode en ligne actuel, ajouté en décembre 2025, comme preuve que le contenu créé par les joueurs compte dans sa stratégie. Aucune promesse n'est faite pour le jeu à venir : l'éditeur ne parle que du mode en ligne existant.",
-    "en": "In its latest investor materials, the publisher spotlighted a mission-creation tool added to the current online mode back in December 2025, citing it as proof that player-made content matters to its strategy. No promise was made about the upcoming game — the publisher only referenced the existing online mode."
+    "en": "In its latest investor materials, the publisher spotlighted a mission-creation tool added to the current online mode back in December 2025, citing it as proof that player-made content matters to its strategy. No promise was made about the upcoming game — the publisher only referenced the existing online mode.",
+    "es": "En sus últimos documentos para inversores, la editora destacó una herramienta de creación de misiones del modo en línea actual, añadida en diciembre de 2025, como prueba de que el contenido creado por los jugadores cuenta en su estrategia. No se hace ninguna promesa para el juego por venir: la editora solo habla del modo en línea existente.",
+    "it": "Nei suoi ultimi documenti per gli investitori, l'editore ha messo in evidenza uno strumento di creazione missioni dell'attuale modalità online, aggiunto a dicembre 2025, come prova che i contenuti creati dai giocatori contano nella sua strategia. Nessuna promessa per il gioco in arrivo: l'editore parla solo della modalità online esistente.",
+    "de": "In seinen jüngsten Investorenunterlagen hob der Publisher einen im Dezember 2025 ergänzten Missionseditor des aktuellen Online-Modus hervor — als Beleg dafür, dass von Spielern erstellte Inhalte in seiner Strategie zählen. Für das kommende Spiel wird nichts versprochen: Der Publisher spricht nur über den bestehenden Online-Modus."
   },
   "publishedAt": "2026-08-08",
   "status": "published",

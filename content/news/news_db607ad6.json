@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Aperçu étendu diffusé sur Netflix le 27 août",
-    "en": "Extended preview to premiere on Netflix August 27"
+    "en": "Extended preview to premiere on Netflix August 27",
+    "es": "Avance ampliado emitido en Netflix el 27 de agosto",
+    "it": "Anteprima estesa trasmessa su Netflix il 27 agosto",
+    "de": "Erweiterter Ausblick am 27. August bei Netflix"
   },
   "body": {
     "fr": "Le studio a confirmé qu'un aperçu étendu du jeu sera diffusé en avant-première sur Netflix le 27 août à 15h (heure de l'Est américain). La même vidéo arrivera ensuite sur les canaux officiels du studio six heures plus tard, dans la soirée.",
-    "en": "The studio confirmed an extended preview of the game will premiere on Netflix on August 27 at 3pm Eastern Time. The same footage will then land on the studio's own channels six hours later that evening."
+    "en": "The studio confirmed an extended preview of the game will premiere on Netflix on August 27 at 3pm Eastern Time. The same footage will then land on the studio's own channels six hours later that evening.",
+    "es": "El estudio ha confirmado que un avance ampliado del juego se emitirá en primicia en Netflix el 27 de agosto a las 15:00 (hora del Este de EE. UU.). El mismo vídeo llegará después a los canales oficiales del estudio seis horas más tarde, por la noche.",
+    "it": "Lo studio ha confermato che un'anteprima estesa del gioco sarà trasmessa in anteprima su Netflix il 27 agosto alle 15 (ora della costa Est statunitense). Lo stesso video arriverà poi sui canali ufficiali dello studio sei ore dopo, in serata.",
+    "de": "Das Studio hat bestätigt, dass ein erweiterter Ausblick auf das Spiel am 27. August um 15 Uhr US-Ostküstenzeit exklusiv bei Netflix läuft. Dasselbe Video erscheint sechs Stunden später am Abend auf den offiziellen Kanälen des Studios."
   },
   "publishedAt": "2026-08-06",
   "status": "published",

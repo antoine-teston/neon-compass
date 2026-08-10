@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Une vieille citation sur le jeu redevient virale",
-    "en": "An old quote about the game goes viral again"
+    "en": "An old quote about the game goes viral again",
+    "es": "Una vieja declaración sobre el juego vuelve a hacerse viral",
+    "it": "Una vecchia dichiarazione sul gioco torna virale",
+    "de": "Ein altes Zitat zum Spiel geht wieder viral"
   },
   "body": {
     "fr": "Un pilote de F1 promettant d'annuler tout son travail à la sortie du jeu refait le tour des réseaux — mais le clip date en réalité de l'été 2025, avant le dernier report. Il revient faute d'actualité fraîche sur le jeu. L'article note au passage que plusieurs entreprises ont déjà prévu de fermer ou de tourner en effectif réduit le jour de la sortie, le 19 novembre.",
-    "en": "A clip of an F1 driver vowing to cancel all his work when the game launches is making the rounds again — except it dates back to summer 2025, before the latest delay. It's resurfacing simply because fresh news about the game is scarce. The article also notes a few businesses have already confirmed they'll close or run with a skeleton crew on launch day, November 19."
+    "en": "A clip of an F1 driver vowing to cancel all his work when the game launches is making the rounds again — except it dates back to summer 2025, before the latest delay. It's resurfacing simply because fresh news about the game is scarce. The article also notes a few businesses have already confirmed they'll close or run with a skeleton crew on launch day, November 19.",
+    "es": "Un piloto de F1 que prometía cancelar todo su trabajo el día del lanzamiento vuelve a circular por las redes — pero el clip es en realidad del verano de 2025, anterior al último retraso. Reaparece a falta de novedades sobre el juego. El artículo señala de paso que varias empresas ya han previsto cerrar o trabajar con plantilla reducida el día del lanzamiento, el 19 de noviembre.",
+    "it": "Un pilota di F1 che prometteva di annullare tutti i suoi impegni all'uscita del gioco torna a circolare sui social — ma il video risale in realtà all'estate 2025, prima dell'ultimo rinvio. Riemerge in mancanza di notizie fresche sul gioco. L'articolo nota di sfuggita che diverse aziende hanno già previsto di chiudere o di lavorare a organico ridotto il giorno dell'uscita, il 19 novembre.",
+    "de": "Ein Formel-1-Fahrer, der versprach, am Erscheinungstag alle Termine abzusagen, kursiert wieder in den Netzwerken — der Clip stammt allerdings aus dem Sommer 2025, vor der letzten Verschiebung. Er kehrt mangels frischer Nachrichten zurück. Der Artikel merkt nebenbei an, dass mehrere Unternehmen bereits planen, am 19. November zu schließen oder mit reduzierter Belegschaft zu arbeiten."
   },
   "publishedAt": "2026-08-04",
   "status": "draft",

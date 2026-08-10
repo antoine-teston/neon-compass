@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Annuler et repasser sa précommande ne cumule pas les mois offerts",
-    "en": "Cancelling and re-ordering does not stack the free months"
+    "en": "Cancelling and re-ordering does not stack the free months",
+    "es": "Cancelar y rehacer la reserva no acumula los meses de regalo",
+    "it": "Annullare e rifare il preordine non cumula i mesi omaggio",
+    "de": "Vorbestellung stornieren und neu abschließen häuft keine Gratismonate an"
   },
   "body": {
     "fr": "Une astuce très partagée promettait d'empiler jusqu'à quatre mois gratuits d'abonnement au mode en ligne en annulant puis en repassant sa précommande numérique. Les conditions de l'offre l'excluent : le mois offert est attaché au compte et ne se réclame qu'une fois, quel que soit le nombre d'achats. L'économie annoncée, une trentaine d'euros, ne tient donc pas.",
-    "en": "A widely shared trick promised up to four free months of the online subscription by cancelling and re-placing a digital pre-order. The offer terms rule it out: the free month is attached to the account and can be claimed once, however many purchases follow. The saving being quoted, around thirty euros, does not hold up."
+    "en": "A widely shared trick promised up to four free months of the online subscription by cancelling and re-placing a digital pre-order. The offer terms rule it out: the free month is attached to the account and can be claimed once, however many purchases follow. The saving being quoted, around thirty euros, does not hold up.",
+    "es": "Un truco muy compartido prometía acumular hasta cuatro meses gratis de suscripción al modo en línea cancelando y volviendo a hacer la reserva digital. Las condiciones de la oferta lo excluyen: el mes de regalo va ligado a la cuenta y solo se reclama una vez, sea cual sea el número de compras. El ahorro anunciado, unos treinta euros, no se sostiene.",
+    "it": "Un trucco molto condiviso prometteva di accumulare fino a quattro mesi gratuiti di abbonamento alla modalità online annullando e rifacendo il preordine digitale. Le condizioni dell'offerta lo escludono: il mese omaggio è legato all'account e si riscuote una sola volta, qualunque sia il numero di acquisti. Il risparmio annunciato, una trentina di euro, non regge.",
+    "de": "Ein vielgeteilter Trick versprach, durch Stornieren und erneutes Vorbestellen bis zu vier Gratismonate für den Online-Modus zu sammeln. Die Aktionsbedingungen schließen das aus: Der Gratismonat hängt am Konto und lässt sich unabhängig von der Zahl der Käufe nur einmal einlösen. Die versprochene Ersparnis von rund dreißig Euro hält also nicht."
   },
   "publishedAt": "2026-07-30",
   "status": "published",

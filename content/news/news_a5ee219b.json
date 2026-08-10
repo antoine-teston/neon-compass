@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un réalisateur de jeux narratifs interroge la profondeur du jeu",
-    "en": "A narrative game director questions the game's depth"
+    "en": "A narrative game director questions the game's depth",
+    "es": "Un director de juegos narrativos cuestiona la profundidad del juego",
+    "it": "Un regista di giochi narrativi interroga la profondità del gioco",
+    "de": "Ein Regisseur erzählerischer Spiele fragt nach der Spieltiefe"
   },
   "body": {
     "fr": "Un réalisateur reconnu pour ses productions narratives chez un studio concurrent estime en ligne que la richesse des systèmes de jeu compte davantage que la seule qualité visuelle d'un monde ouvert. Il précise ne pas viser le studio en particulier, mais souhaiter que l'ensemble des grosses productions en monde ouvert élève ses standards de gameplay.",
-    "en": "A director known for narrative-driven games at a rival studio said online that how deep a game's systems are matters more than how good an open world looks. He was clear he wasn't singling out this particular studio, but wants big-budget open-world games in general to raise their gameplay standards."
+    "en": "A director known for narrative-driven games at a rival studio said online that how deep a game's systems are matters more than how good an open world looks. He was clear he wasn't singling out this particular studio, but wants big-budget open-world games in general to raise their gameplay standards.",
+    "es": "Un director reconocido por sus producciones narrativas en un estudio rival sostiene en internet que la riqueza de los sistemas de juego pesa más que la sola calidad visual de un mundo abierto. Precisa que no apunta a ese estudio en particular, sino que desea que el conjunto de las grandes producciones de mundo abierto eleve sus estándares de jugabilidad.",
+    "it": "Un regista noto per le sue produzioni narrative presso uno studio concorrente sostiene online che la ricchezza dei sistemi di gioco conta più della sola qualità visiva di un mondo aperto. Precisa di non riferirsi a quello studio in particolare, ma di auspicare che tutte le grandi produzioni open world alzino i propri standard di gameplay.",
+    "de": "Ein für seine erzählerischen Produktionen bekannter Regisseur eines Konkurrenzstudios meint online, die Tiefe der Spielsysteme wiege schwerer als die reine Optik einer offenen Welt. Er stellt klar, dass er nicht dieses Studio meint, sondern sich wünscht, dass alle großen Open-World-Produktionen ihre Gameplay-Standards anheben."
   },
   "publishedAt": "2026-08-03",
   "status": "draft",

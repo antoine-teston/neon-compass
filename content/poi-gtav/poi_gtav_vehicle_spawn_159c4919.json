@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "In-game version of the Bugatti",
-    "fr": "Version du jeu de la Bugatti."
+    "fr": "Version du jeu de la Bugatti.",
+    "es": "La versión del juego del Bugatti.",
+    "it": "La versione del gioco della Bugatti.",
+    "de": "Die Spielversion des Bugatti."
   },
   "status": "published",
   "sources": [

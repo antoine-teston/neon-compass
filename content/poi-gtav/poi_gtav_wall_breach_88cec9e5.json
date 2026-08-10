@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Parking Garage in Rockford Hills",
-    "fr": "Parking de Rockford Hills"
+    "fr": "Parking de Rockford Hills",
+    "es": "Aparcamiento de Rockford Hills",
+    "it": "Parcheggio di Rockford Hills",
+    "de": "Parkhaus in Rockford Hills"
   },
   "note": {
     "en": "Go to the location as seen on the interactive map--a parking garage across from the east-side Ammunation--enter the second level of the parking garage and walk to the red-brick structure as seen in the pictures. Walk to, and face, the western wall of this structure. Simply walk through the rightmost side of this wall to breach.",
-    "fr": "Rendez-vous à l'endroit indiqué sur la carte interactive — le parking situé en face de l'Ammu-Nation est. Montez au deuxième niveau et rejoignez la structure en brique rouge visible sur les images. Placez-vous face à son mur ouest et traversez simplement par l'extrémité droite."
+    "fr": "Rendez-vous à l'endroit indiqué sur la carte interactive — le parking situé en face de l'Ammu-Nation est. Montez au deuxième niveau et rejoignez la structure en brique rouge visible sur les images. Placez-vous face à son mur ouest et traversez simplement par l'extrémité droite.",
+    "es": "Ve al lugar indicado en el mapa interactivo — el aparcamiento situado frente al Ammu-Nation este. Sube al segundo nivel y llega a la estructura de ladrillo rojo visible en las imágenes. Colócate frente a su muro oeste y atraviésalo simplemente por el extremo derecho.",
+    "it": "Recati nel luogo indicato sulla mappa interattiva — il parcheggio di fronte all'Ammu-Nation est. Sali al secondo livello e raggiungi la struttura in mattoni rossi visibile nelle immagini. Mettiti di fronte al suo muro ovest e attraversalo semplicemente dall'estremità destra.",
+    "de": "Geh an den auf der interaktiven Karte markierten Ort — das Parkhaus gegenüber dem östlichen Ammu-Nation. Fahr auf die zweite Ebene und geh zum roten Backsteinbau, der auf den Bildern zu sehen ist. Stell dich vor seine Westwand und geh am rechten Ende einfach hindurch."
   },
   "status": "published",
   "sources": [

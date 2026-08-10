@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Meth lab",
-    "fr": "Labo de méthamphétamine"
+    "fr": "Labo de méthamphétamine",
+    "es": "Laboratorio de metanfetamina",
+    "it": "Laboratorio di metanfetamina",
+    "de": "Meth-Labor"
   },
   "note": {
     "en": "Go to the location as seen below. Back up your car to the wall where the generators are. Hop on your car and shoot out the window on the second floor. Climb up the fan and then climb up inside the window.",
-    "fr": "Rendez-vous à l'endroit indiqué. Reculez votre voiture contre le mur, au niveau des générateurs. Montez dessus et brisez la fenêtre du premier étage. Grimpez sur le ventilateur, puis passez par la fenêtre."
+    "fr": "Rendez-vous à l'endroit indiqué. Reculez votre voiture contre le mur, au niveau des générateurs. Montez dessus et brisez la fenêtre du premier étage. Grimpez sur le ventilateur, puis passez par la fenêtre.",
+    "es": "Ve al lugar indicado. Da marcha atrás con el coche contra el muro, a la altura de los generadores. Súbete encima y rompe la ventana de la primera planta. Trepa al ventilador y luego pasa por la ventana.",
+    "it": "Recati nel luogo indicato. Metti l'auto in retromarcia contro il muro, all'altezza dei generatori. Salici sopra e rompi la finestra del primo piano. Arrampicati sul ventilatore, poi passa dalla finestra.",
+    "de": "Geh an den angegebenen Ort. Setz dein Auto rückwärts an die Wand auf Höhe der Generatoren. Steig darauf und schlag das Fenster im ersten Stock ein. Kletter auf den Lüfter und steig dann durchs Fenster."
   },
   "status": "published",
   "sources": [

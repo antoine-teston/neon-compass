@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Ship at Merryweather docks",
-    "fr": "Navire des docks Merryweather"
+    "fr": "Navire des docks Merryweather",
+    "es": "Barco de los muelles de Merryweather",
+    "it": "Nave dei moli Merryweather",
+    "de": "Schiff an den Merryweather-Docks"
   },
   "note": {
     "en": "Go to the location as seen on the interactive map, get aboard the ship and walk towards the back of the ship where there's an overhang. Wace the wall and just jump.",
-    "fr": "Rendez-vous à l'endroit indiqué sur la carte interactive, montez à bord du navire et gagnez la poupe, sous l'avancée. Faites face au mur et sautez."
+    "fr": "Rendez-vous à l'endroit indiqué sur la carte interactive, montez à bord du navire et gagnez la poupe, sous l'avancée. Faites face au mur et sautez.",
+    "es": "Ve al lugar indicado en el mapa interactivo, sube a bordo del barco y llega a la popa, bajo el saliente. Ponte de cara al muro y salta.",
+    "it": "Recati nel luogo indicato sulla mappa interattiva, sali a bordo della nave e raggiungi la poppa, sotto la sporgenza. Mettiti di fronte al muro e salta.",
+    "de": "Geh an den auf der interaktiven Karte markierten Ort, geh an Bord des Schiffs und zum Heck unter den Überhang. Stell dich zur Wand und spring."
   },
   "status": "published",
   "sources": [

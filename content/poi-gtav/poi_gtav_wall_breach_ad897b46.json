@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Bridge in Tataviam Mountains",
-    "fr": "Pont des monts Tataviam"
+    "fr": "Pont des monts Tataviam",
+    "es": "Puente de los montes Tataviam",
+    "it": "Ponte dei monti Tataviam",
+    "de": "Brücke in den Tataviam Mountains"
   },
   "note": {
     "en": "Go to the location as seen below. Walk towards the bridge wall. Turn right and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge.",
-    "fr": "Rendez-vous à l'endroit indiqué. Approchez-vous du parapet du pont. Tournez à droite et longez-le jusqu'à vous retrouver à l'intérieur du tablier. Faites demi-tour et repartez dans l'autre sens jusqu'à être complètement dedans."
+    "fr": "Rendez-vous à l'endroit indiqué. Approchez-vous du parapet du pont. Tournez à droite et longez-le jusqu'à vous retrouver à l'intérieur du tablier. Faites demi-tour et repartez dans l'autre sens jusqu'à être complètement dedans.",
+    "es": "Ve al lugar indicado. Acércate al pretil del puente. Gira a la derecha y recórrelo hasta acabar dentro del tablero. Da media vuelta y vuelve en sentido contrario hasta estar completamente dentro.",
+    "it": "Recati nel luogo indicato. Avvicinati al parapetto del ponte. Gira a destra e costeggialo fino a ritrovarti dentro l'impalcato. Fai dietrofront e riparti nell'altro senso fino a essere completamente dentro.",
+    "de": "Geh an den angegebenen Ort. Geh zur Brüstung der Brücke. Wende dich rechts und folge ihr, bis du im Brückenkörper landest. Dreh um und lauf zurück, bis du ganz drin bist."
   },
   "status": "published",
   "sources": [

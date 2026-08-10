@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Un montage de fans transpose un film de 2026 dans un jeu de 2004",
-    "en": "A fan edit retells a 2026 film inside a 2004 game"
+    "en": "A fan edit retells a 2026 film inside a 2004 game",
+    "es": "Un montaje de fans traslada una película de 2026 a un juego de 2004",
+    "it": "Un montaggio di fan trasporta un film del 2026 in un gioco del 2004",
+    "de": "Ein Fan-Zusammenschnitt versetzt einen Film von 2026 in ein Spiel von 2004"
   },
   "body": {
     "fr": "Répliques et personnages du volet de 2004 réassemblés pour raconter l'intrigue d'une épopée sortie cette année. Ça marche parce que, vingt et un ans après, tout le monde reconnaît encore chaque ligne.",
-    "en": "Lines and characters from the 2004 entry recut to tell the plot of this year’s epic. It works because, twenty-one years on, everyone still recognises every line."
+    "en": "Lines and characters from the 2004 entry recut to tell the plot of this year’s epic. It works because, twenty-one years on, everyone still recognises every line.",
+    "es": "Frases y personajes de la entrega de 2004 reensamblados para contar la trama de una epopeya estrenada este año. Funciona porque, veintiún años después, todo el mundo sigue reconociendo cada línea.",
+    "it": "Battute e personaggi del capitolo del 2004 rimontati per raccontare la trama di un'epopea uscita quest'anno. Funziona perché, ventun anni dopo, tutti riconoscono ancora ogni riga.",
+    "de": "Sprüche und Figuren aus dem Teil von 2004, neu zusammengesetzt, um die Handlung eines dieses Jahr erschienenen Epos zu erzählen. Es funktioniert, weil einundzwanzig Jahre später noch immer jeder jede Zeile erkennt."
   },
   "publishedAt": "2026-07-29",
   "status": "published",

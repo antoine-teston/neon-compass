@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Martins mansion",
-    "fr": "Villa de Martin"
+    "fr": "Villa de Martin",
+    "es": "Mansión de Martin",
+    "it": "Villa di Martin",
+    "de": "Martins Villa"
   },
   "note": {
     "en": "Go to the location as seen below. Get the free van from the beach bum DLC and let your friend pick you up with a Cargobob. Once inside tell your friend to drop you on the balcony deck thingy. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside the building.",
-    "fr": "Rendez-vous à l'endroit indiqué. Prenez le van gratuit du contenu Beach Bum et demandez à un ami de vous héliporter en Cargobob jusqu'à la terrasse. Installez-vous à l'arrière du van et laissez-le reculer contre le mur. Une fois plaqué, éjectez-vous pour traverser dans le bâtiment."
+    "fr": "Rendez-vous à l'endroit indiqué. Prenez le van gratuit du contenu Beach Bum et demandez à un ami de vous héliporter en Cargobob jusqu'à la terrasse. Installez-vous à l'arrière du van et laissez-le reculer contre le mur. Une fois plaqué, éjectez-vous pour traverser dans le bâtiment.",
+    "es": "Ve al lugar indicado. Coge la furgoneta gratuita del contenido Beach Bum y pide a un amigo que te transporte en Cargobob hasta la terraza. Colócate en la parte trasera de la furgoneta y deja que dé marcha atrás contra el muro. Una vez pegado, sal despedido para atravesar hacia el edificio.",
+    "it": "Recati nel luogo indicato. Prendi il furgone gratuito del contenuto Beach Bum e chiedi a un amico di trasportarti in Cargobob fino alla terrazza. Mettiti nel retro del furgone e lascia che faccia retromarcia contro il muro. Una volta schiacciato, eiettati per attraversare nell'edificio.",
+    "de": "Geh an den angegebenen Ort. Nimm den kostenlosen Van aus dem Beach-Bum-Inhalt und lass dich von einem Freund per Cargobob auf die Terrasse fliegen. Setz dich nach hinten in den Van und lass ihn rückwärts an die Wand fahren. Sobald du eingeklemmt bist, spring hinaus, um ins Gebäude zu gelangen."
   },
   "status": "published",
   "sources": [

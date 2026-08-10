@@ -64,29 +64,23 @@ test('un titre dont le FR ne se reproduit pas est ÉCARTÉ, jamais composé', ()
   // droit de ne pas décrire un titre. Elle n'a pas le droit d'écrire trois
   // langues pour un titre qu'elle décrit MAL.
   //
-  // Le cas réel qui l'a motivé : `Hidden Package #9 - $25,000`, dont un humain a
-  // francisé le montant à la main — « — 25 000 $ » plutôt que « - $25,000 ».
-  // La composition ne redonne donc pas ce FR, et l'item part à la rédaction au
-  // lieu d'être écrasé.
-  const { composables, ignores } = titresComposables(poiReels());
-  const composesParFile = new Set(composables.map((c) => c.file));
+  // Sur FIXTURE et non sur le contenu réel, délibérément : une fois le
+  // rattrapage passé, plus aucun item réel n'est en attente, et le test
+  // deviendrait vide sans rien dire. Ce qu'on veut garder vivant est la RÈGLE,
+  // pas l'état du dépôt un jour donné.
+  //
+  // Le cas encodé ici est réel : `Hidden Package #9 - $25,000`, dont un humain
+  // avait francisé le montant — « — 25 000 $ » plutôt que « - $25,000 ». La
+  // composition ne redonne pas ce FR, donc elle n'y touche pas.
+  const devie = [{
+    file: 'poi-gtav/devie.json',
+    data: { title: { en: 'Hidden Package #9 - $25,000', fr: 'Magot caché n°9 — 25 000 $' } },
+  }];
+  const { composables, ignores } = titresComposables(devie);
 
-  const devies = [];
-  for (const { file, data } of poiReels()) {
-    const { en, fr } = data.title ?? {};
-    if (!en || !fr || en === fr) continue;
-    const compose = composer(en, 'fr');
-    if (compose === null || compose === fr) continue;
-
-    devies.push(en);
-    assert.ok(!composesParFile.has(file), `${en} est déformé par la table et pourtant composé`);
-    const ignore = ignores.find((i) => i.file === file);
-    assert.match(ignore.raison, /ne redonne pas le FR/, 'un écart doit DIRE pourquoi');
-  }
-
-  // Un nombre qui grimpe voudrait dire que la table décrit de moins en moins
-  // bien les données — le seuil est là pour qu'on le voie.
-  assert.ok(devies.length <= 3, `${devies.length} titres déviants, la table décrit mal : ${devies.join(' | ')}`);
+  assert.equal(composables.length, 0, 'un titre déformé ne doit jamais être composé');
+  assert.equal(ignores.length, 1);
+  assert.match(ignores[0].raison, /ne redonne pas le FR/, 'un écart doit DIRE pourquoi');
 });
 
 // Ces deux tests portent sur l'ÉTAT du contenu, pas sur ce qu'il resterait à
@@ -95,10 +89,15 @@ test('un titre dont le FR ne se reproduit pas est ÉCARTÉ, jamais composé', ()
 // qui cesse d'être vrai parce que le travail a été fait ne testait pas le
 // travail, il testait son absence.
 
-test('un titre déjà traduit est celui que la table aurait composé', () => {
-  // La garantie qui survit à tout : rien dans `poi-gtav` ne porte une traduction
-  // que la table contredirait. Elle attrape aussi bien une table modifiée après
-  // coup qu'un ES écrit à la main de travers.
+test('un titre que la table SAIT décrire n’est jamais traduit autrement', () => {
+  // La garantie qui survit à tout : là où la table fait autorité, rien ne la
+  // contredit. Elle attrape aussi bien une table modifiée après coup qu'un ES
+  // écrit à la main de travers sur un titre gabarité.
+  //
+  // Un titre que la table ne sait PAS décrire en est exempt, et c'est le
+  // pendant du test précédent : ces titres-là partent à la rédaction, et un
+  // humain a le droit d'y faire mieux qu'un gabarit — le montant localisé de
+  // `Hidden Package #9` en est l'exemple.
   const fautifs = [];
   for (const { data } of poiReels()) {
     const t = data.title ?? {};
@@ -107,8 +106,9 @@ test('un titre déjà traduit est celui que la table aurait composé', () => {
       if (t.es !== t.en) fautifs.push(`${t.en} : nom propre traduit en « ${t.es} »`);
       continue;
     }
+    if (composer(t.en, 'fr') !== t.fr) continue; // hors du domaine de la table
     const attendu = composer(t.en, 'es');
-    if (attendu !== null && attendu !== t.es) fautifs.push(`${t.en} : ${t.es} ≠ ${attendu}`);
+    if (attendu !== t.es) fautifs.push(`${t.en} : ${t.es} ≠ ${attendu}`);
   }
   assert.deepEqual(fautifs, [], `${fautifs.length} titre(s) incohérent(s) avec la table`);
 });

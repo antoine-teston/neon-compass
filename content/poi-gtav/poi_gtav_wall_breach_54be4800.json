@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Bridge in Del Perro",
-    "fr": "Pont de Del Perro"
+    "fr": "Pont de Del Perro",
+    "es": "Puente de Del Perro",
+    "it": "Ponte di Del Perro",
+    "de": "Brücke in Del Perro"
   },
   "note": {
     "en": "Go to the location as seen below. Swim under the bridge and hop up the rail on the left side. Turn left and straight run through the wall.",
-    "fr": "Rendez-vous à l'endroit indiqué. Nagez sous le pont et hissez-vous sur la rambarde, côté gauche. Tournez à gauche et traversez le mur en courant."
+    "fr": "Rendez-vous à l'endroit indiqué. Nagez sous le pont et hissez-vous sur la rambarde, côté gauche. Tournez à gauche et traversez le mur en courant.",
+    "es": "Ve al lugar indicado. Nada bajo el puente e ízate a la barandilla, por el lado izquierdo. Gira a la izquierda y atraviesa el muro corriendo.",
+    "it": "Recati nel luogo indicato. Nuota sotto il ponte e issati sulla ringhiera, sul lato sinistro. Gira a sinistra e attraversa il muro di corsa.",
+    "de": "Geh an den angegebenen Ort. Schwimm unter die Brücke und zieh dich links am Geländer hoch. Wende dich links und lauf durch die Wand."
   },
   "status": "published",
   "sources": [

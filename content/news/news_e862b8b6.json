@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le syndicat du studio rencontre la direction pour la première fois",
-    "en": "The studio's union meets management for the first time"
+    "en": "The studio's union meets management for the first time",
+    "es": "El sindicato del estudio se reúne con la dirección por primera vez",
+    "it": "Il sindacato dello studio incontra la direzione per la prima volta",
+    "de": "Die Gewerkschaft des Studios trifft erstmals die Geschäftsführung"
   },
   "body": {
     "fr": "Le syndicat des salariés annonce une première réunion formelle, qualifie l'issue de pas dans la bonne direction, et dit avoir obtenu une feuille de route vers une négociation plus rapide. À quatre mois de la sortie.",
-    "en": "The workers' union reports a first formal meeting, calls the outcome a step in the right direction, and says it secured a roadmap toward faster negotiation. Four months before launch."
+    "en": "The workers' union reports a first formal meeting, calls the outcome a step in the right direction, and says it secured a roadmap toward faster negotiation. Four months before launch.",
+    "es": "El sindicato de trabajadores anuncia una primera reunión formal, califica el resultado de paso en la buena dirección y dice haber obtenido una hoja de ruta hacia una negociación más rápida. A cuatro meses del lanzamiento.",
+    "it": "Il sindacato dei dipendenti annuncia un primo incontro formale, definisce l'esito un passo nella giusta direzione e dice di aver ottenuto una tabella di marcia verso una trattativa più rapida. A quattro mesi dall'uscita.",
+    "de": "Die Beschäftigtengewerkschaft meldet ein erstes formelles Treffen, nennt das Ergebnis einen Schritt in die richtige Richtung und spricht von einem Fahrplan zu schnelleren Verhandlungen. Vier Monate vor dem Erscheinen."
   },
   "publishedAt": "2026-07-22",
   "status": "published",

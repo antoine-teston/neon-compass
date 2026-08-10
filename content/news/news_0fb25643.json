@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un ancien animateur du studio estime le jeu achevé à 80-90 %",
-    "en": "A former studio animator puts the game at 80 to 90 percent done"
+    "en": "A former studio animator puts the game at 80 to 90 percent done",
+    "es": "Un antiguo animador del estudio cree el juego terminado al 80-90 %",
+    "it": "Un ex animatore dello studio stima il gioco completo all'80-90 %",
+    "de": "Ein früherer Studio-Animator hält das Spiel für zu 80-90 % fertig"
   },
   "body": {
     "fr": "Il y a travaillé de 2012 à 2017 et pense que l'équipe n'ajoute plus de contenu, pour se consacrer aux tests et à la finition — une phase qui prend souvent plus de temps que la fabrication elle-même. Il précise n'avoir aucune visibilité sur le projet et raisonner d'après son expérience passée. C'est donc une estimation extérieure, pas une information venue du studio.",
-    "en": "He worked there from 2012 to 2017 and believes the team has stopped adding content and moved on to testing and polish — a phase that often takes longer than building the game. He is explicit that he has no visibility into the project and is reasoning from past experience. It is an outside estimate, not word from the studio."
+    "en": "He worked there from 2012 to 2017 and believes the team has stopped adding content and moved on to testing and polish — a phase that often takes longer than building the game. He is explicit that he has no visibility into the project and is reasoning from past experience. It is an outside estimate, not word from the studio.",
+    "es": "Trabajó allí de 2012 a 2017 y cree que el equipo ya no añade contenido, para centrarse en las pruebas y el acabado: una fase que a menudo lleva más tiempo que la producción en sí. Precisa que no tiene visibilidad alguna sobre el proyecto y que razona a partir de su experiencia pasada. Es, por tanto, una estimación externa, no información procedente del estudio.",
+    "it": "Ci ha lavorato dal 2012 al 2017 e ritiene che il team non aggiunga più contenuti, per dedicarsi ai test e alla rifinitura — una fase che spesso richiede più tempo della produzione stessa. Precisa di non avere alcuna visibilità sul progetto e di ragionare in base alla propria esperienza passata. È dunque una stima esterna, non un'informazione che viene dallo studio.",
+    "de": "Er arbeitete dort von 2012 bis 2017 und glaubt, dass das Team keine Inhalte mehr hinzufügt, sondern sich auf Tests und Feinschliff konzentriert — eine Phase, die oft länger dauert als die Produktion selbst. Er betont, keinerlei Einblick in das Projekt zu haben und aus seiner früheren Erfahrung zu schließen. Es ist also eine Einschätzung von außen, keine Information aus dem Studio."
   },
   "publishedAt": "2026-07-30",
   "status": "published",

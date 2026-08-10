@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Trevors torture room",
-    "fr": "Salle de torture de Trevor"
+    "fr": "Salle de torture de Trevor",
+    "es": "Sala de tortura de Trevor",
+    "it": "Stanza delle torture di Trevor",
+    "de": "Trevors Folterraum"
   },
   "note": {
     "en": "Go to the location as seen below. Climb up the ladder and face wall on the left jump on top the second roof. Walk in the middle of the roof and pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the room.",
-    "fr": "Rendez-vous à l'endroit indiqué. Montez à l'échelle, faites face au mur de gauche et sautez sur le second toit. Placez-vous au milieu du toit, sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans la pièce."
+    "fr": "Rendez-vous à l'endroit indiqué. Montez à l'échelle, faites face au mur de gauche et sautez sur le second toit. Placez-vous au milieu du toit, sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans la pièce.",
+    "es": "Ve al lugar indicado. Sube la escalera, ponte de cara al muro de la izquierda y salta al segundo tejado. Colócate en el centro del tejado, saca el teléfono, acepta una invitación de misión pendiente y cancela enseguida: reapareces en la sala.",
+    "it": "Recati nel luogo indicato. Sali la scala, mettiti di fronte al muro di sinistra e salta sul secondo tetto. Mettiti al centro del tetto, tira fuori il telefono, accetta un invito a una missione in attesa, poi annulla subito: riapparirai nella stanza.",
+    "de": "Geh an den angegebenen Ort. Steig die Leiter hinauf, stell dich zur linken Wand und spring auf das zweite Dach. Stell dich in die Dachmitte, nimm dein Telefon, nimm eine wartende Missionseinladung an und brich sofort ab: Du erscheinst in dem Raum."
   },
   "status": "published",
   "sources": [

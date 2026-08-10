@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This Letter is in a hole on the construction site. You should easily be able to spot it by the number of red bollards around the hole.",
-    "fr": "Ce fragment est au fond d'un trou, sur le chantier. Les nombreuses balises rouges qui l'entourent le rendent facile à repérer."
+    "fr": "Ce fragment est au fond d'un trou, sur le chantier. Les nombreuses balises rouges qui l'entourent le rendent facile à repérer.",
+    "es": "Este fragmento está en el fondo de un hoyo, en la obra. Las numerosas balizas rojas que lo rodean lo hacen fácil de localizar.",
+    "it": "Questo frammento è in fondo a una buca, nel cantiere. Le numerose segnalazioni rosse attorno lo rendono facile da individuare.",
+    "de": "Dieser Fetzen liegt am Grund einer Grube auf der Baustelle. Die vielen roten Markierungen ringsum machen ihn leicht auffindbar."
   },
   "status": "published",
   "sources": [

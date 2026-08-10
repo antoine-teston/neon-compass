@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Prévisions de revenus déposées : 8 à 8,2 milliards de dollars",
-    "en": "Revenue guidance filed: $8 to $8.2 billion"
+    "en": "Revenue guidance filed: $8 to $8.2 billion",
+    "es": "Previsión de ingresos presentada: de 8 a 8,2 mil millones de dólares",
+    "it": "Previsione di ricavi depositata: 8-8,2 miliardi di dollari",
+    "de": "Eingereichte Umsatzprognose: 8 bis 8,2 Milliarden Dollar"
   },
   "body": {
     "fr": "L'éditeur a déposé auprès du régulateur boursier américain une prévision de revenus nets de 8 à 8,2 milliards de dollars pour son exercice 2027. La presse spécialisée y lit un engagement financier qui renforce la crédibilité de la date du 19 novembre.",
-    "en": "The publisher filed net revenue guidance of $8 to $8.2 billion for fiscal 2027 with the US securities regulator. Specialist press reads it as a financial commitment that strengthens the credibility of the November 19 date."
+    "en": "The publisher filed net revenue guidance of $8 to $8.2 billion for fiscal 2027 with the US securities regulator. Specialist press reads it as a financial commitment that strengthens the credibility of the November 19 date.",
+    "es": "La editora ha presentado ante el regulador bursátil estadounidense una previsión de ingresos netos de 8 a 8,2 mil millones de dólares para su ejercicio 2027. La prensa especializada lo lee como un compromiso financiero que refuerza la credibilidad de la fecha del 19 de noviembre.",
+    "it": "L'editore ha depositato presso l'autorità di borsa statunitense una previsione di ricavi netti di 8-8,2 miliardi di dollari per l'esercizio 2027. La stampa specializzata vi legge un impegno finanziario che rafforza la credibilità della data del 19 novembre.",
+    "de": "Der Publisher hat bei der US-Börsenaufsicht eine Nettoumsatzprognose von 8 bis 8,2 Milliarden Dollar für das Geschäftsjahr 2027 eingereicht. Die Fachpresse liest darin eine finanzielle Festlegung, die den 19. November glaubwürdiger macht."
   },
   "publishedAt": "2026-07-27",
   "status": "published",

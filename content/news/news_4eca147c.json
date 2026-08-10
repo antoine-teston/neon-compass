@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Résultats trimestriels de l'éditeur attendus le 7 août",
-    "en": "Publisher's quarterly results due August 7"
+    "en": "Publisher's quarterly results due August 7",
+    "es": "Resultados trimestrales de la editora previstos para el 7 de agosto",
+    "it": "Risultati trimestrali dell'editore attesi il 7 agosto",
+    "de": "Quartalszahlen des Publishers für den 7. August erwartet"
   },
   "body": {
     "fr": "L'éditeur publie le 7 août les résultats de son premier trimestre d'exercice 2027. Ce sera son premier rapport financier couvrant une partie de la période de précommandes, ouverte depuis le 25 juin.",
-    "en": "The publisher reports its first-quarter fiscal 2027 results on August 7. It will be the first financial report covering part of the pre-order window, open since June 25."
+    "en": "The publisher reports its first-quarter fiscal 2027 results on August 7. It will be the first financial report covering part of the pre-order window, open since June 25.",
+    "es": "La editora publica el 7 de agosto los resultados de su primer trimestre del ejercicio 2027. Será su primer informe financiero que cubre parte del periodo de reservas, abierto desde el 25 de junio.",
+    "it": "L'editore pubblica il 7 agosto i risultati del primo trimestre dell'esercizio 2027. Sarà il suo primo rapporto finanziario a coprire una parte del periodo di preordini, aperto dal 25 giugno.",
+    "de": "Der Publisher veröffentlicht am 7. August die Zahlen seines ersten Quartals im Geschäftsjahr 2027. Es ist der erste Finanzbericht, der einen Teil des seit dem 25. Juni laufenden Vorbestellzeitraums abdeckt."
   },
   "publishedAt": "2026-07-27",
   "status": "published",

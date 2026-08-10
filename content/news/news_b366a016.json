@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Des PNJ à dialogue généré débarquent sur un serveur de jeu de rôle",
-    "en": "AI-voiced NPCs land on a roleplay server"
+    "en": "AI-voiced NPCs land on a roleplay server",
+    "es": "PNJ con diálogo generado llegan a un servidor de rol",
+    "it": "PNG con dialoghi generati arrivano su un server di ruolo",
+    "de": "NPCs mit generierten Dialogen kommen auf einen Rollenspiel-Server"
   },
   "body": {
     "fr": "Une société tierce affirme avoir doté les personnages non joueurs d'un grand serveur de jeu de rôle communautaire, bâti sur le mode en ligne actuel, de dialogues générés et d'une mémoire des actions du joueur, partagée de personnage à personnage. Il s'agit d'une modification indépendante, sans lien avec le studio à l'origine du jeu — l'information vient d'une seule source et reste à confirmer.",
-    "en": "A third-party company says it has given non-player characters on a major community roleplay server, built on the current online mode, generated dialogue and memory of player actions that spreads between characters. This is an independent mod with no ties to the game's studio — the claim comes from a single source and remains unconfirmed."
+    "en": "A third-party company says it has given non-player characters on a major community roleplay server, built on the current online mode, generated dialogue and memory of player actions that spreads between characters. This is an independent mod with no ties to the game's studio — the claim comes from a single source and remains unconfirmed.",
+    "es": "Una empresa externa afirma haber dotado a los personajes no jugadores de un gran servidor de rol comunitario, levantado sobre el modo en línea actual, de diálogos generados y de una memoria de las acciones del jugador, compartida de un personaje a otro. Se trata de una modificación independiente, sin vínculo con el estudio del que procede el juego — la información viene de una sola fuente y está por confirmar.",
+    "it": "Una società esterna afferma di aver dotato i personaggi non giocanti di un grande server di ruolo della community, costruito sull'attuale modalità online, di dialoghi generati e di una memoria delle azioni del giocatore, condivisa da un personaggio all'altro. Si tratta di una modifica indipendente, senza legami con lo studio da cui proviene il gioco — l'informazione viene da una sola fonte e resta da confermare.",
+    "de": "Ein externes Unternehmen gibt an, die Nichtspielerfiguren eines großen Community-Rollenspielservers auf Basis des aktuellen Online-Modus mit generierten Dialogen und einem Gedächtnis für die Handlungen der Spieler ausgestattet zu haben, das von Figur zu Figur geteilt wird. Es handelt sich um eine unabhängige Modifikation ohne Verbindung zum Studio hinter dem Spiel — die Angabe stammt aus einer einzigen Quelle und ist unbestätigt."
   },
   "publishedAt": "2026-08-08",
   "status": "draft",

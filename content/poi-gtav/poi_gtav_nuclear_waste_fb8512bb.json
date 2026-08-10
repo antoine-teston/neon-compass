@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Depth: 55",
-    "fr": "Profondeur : 55"
+    "fr": "Profondeur : 55",
+    "es": "Profundidad: 55",
+    "it": "Profondità: 55",
+    "de": "Tiefe: 55"
   },
   "status": "published",
   "sources": [

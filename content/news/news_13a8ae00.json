@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Les créateurs autorisés à réagir à l'aperçu dès sa diffusion",
-    "en": "Creators cleared to react to the preview as soon as it airs"
+    "en": "Creators cleared to react to the preview as soon as it airs",
+    "es": "Los creadores podrán reaccionar al avance desde su emisión",
+    "it": "I creator autorizzati a reagire all'anteprima fin dalla messa in onda",
+    "de": "Creator dürfen den Ausblick ab Ausstrahlung kommentieren"
   },
   "body": {
     "fr": "Selon un porte-parole de la plateforme de streaming, les créateurs pourront réagir, découper et commenter l'aperçu étendu du jeu dès sa mise en ligne, sans risquer de retrait pour droit d'auteur. La précision lève une incertitude, la plateforme étant réputée stricte sur la gestion des droits de son contenu, mais elle ne provient pour l'instant que d'une déclaration rapportée par un journaliste, pas d'un communiqué public.",
-    "en": "According to a representative of the streaming platform, creators will be free to react to, clip, and discuss the game's extended preview as soon as it goes live, without risking a copyright takedown. The clarification eases a real concern given the platform's reputation for tightly managing rights to its content, but for now it comes from a statement relayed by a journalist rather than a public announcement."
+    "en": "According to a representative of the streaming platform, creators will be free to react to, clip, and discuss the game's extended preview as soon as it goes live, without risking a copyright takedown. The clarification eases a real concern given the platform's reputation for tightly managing rights to its content, but for now it comes from a statement relayed by a journalist rather than a public announcement.",
+    "es": "Según un portavoz de la plataforma de streaming, los creadores podrán reaccionar, recortar y comentar el avance ampliado del juego en cuanto se publique, sin arriesgarse a una retirada por derechos de autor. La precisión despeja una incertidumbre, ya que la plataforma tiene fama de estricta con los derechos de su contenido, pero por ahora procede solo de una declaración recogida por un periodista, no de un comunicado público.",
+    "it": "Secondo un portavoce della piattaforma di streaming, i creator potranno reagire, tagliare e commentare l'anteprima estesa del gioco fin dalla pubblicazione, senza rischiare rimozioni per diritto d'autore. La precisazione toglie un'incertezza, dato che la piattaforma è nota per la severità sui diritti dei propri contenuti, ma per ora viene solo da una dichiarazione riportata da un giornalista, non da un comunicato pubblico.",
+    "de": "Laut einem Sprecher der Streaming-Plattform dürfen Creator den erweiterten Ausblick ab Veröffentlichung kommentieren, schneiden und darauf reagieren, ohne eine Sperrung wegen Urheberrechts zu riskieren. Das räumt eine Unsicherheit aus, denn die Plattform gilt bei den Rechten an ihren Inhalten als streng — bislang stammt es allerdings nur aus einer von einem Journalisten wiedergegebenen Aussage, nicht aus einer offiziellen Mitteilung."
   },
   "publishedAt": "2026-08-06",
   "status": "published",

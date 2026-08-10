@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Sandy Shores Store",
-    "fr": "Boutique de Sandy Shores"
+    "fr": "Boutique de Sandy Shores",
+    "es": "Tienda de Sandy Shores",
+    "it": "Negozio di Sandy Shores",
+    "de": "Laden in Sandy Shores"
   },
   "note": {
     "en": "Go to the location as seen below. Walk towards the store right beside the entrance. Jump to get inside the building.",
-    "fr": "Rendez-vous à l'endroit indiqué. Avancez vers la boutique, juste à côté de l'entrée, et sautez pour entrer dans le bâtiment."
+    "fr": "Rendez-vous à l'endroit indiqué. Avancez vers la boutique, juste à côté de l'entrée, et sautez pour entrer dans le bâtiment.",
+    "es": "Ve al lugar indicado. Avanza hacia la tienda, justo al lado de la entrada, y salta para entrar en el edificio.",
+    "it": "Recati nel luogo indicato. Avanza verso il negozio, proprio accanto all'ingresso, e salta per entrare nell'edificio.",
+    "de": "Geh an den angegebenen Ort. Geh zum Laden direkt neben dem Eingang und spring, um ins Gebäude zu gelangen."
   },
   "status": "published",
   "sources": [

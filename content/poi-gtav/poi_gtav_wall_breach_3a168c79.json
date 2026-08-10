@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Military base tower (easy)",
-    "fr": "Tour de la base militaire (facile)"
+    "fr": "Tour de la base militaire (facile)",
+    "es": "Torre de la base militar (fácil)",
+    "it": "Torre della base militare (facile)",
+    "de": "Turm der Militärbasis (leicht)"
   },
   "note": {
     "en": "Call Lester for blind eye. Walk up to the right side of the wall by the green door. Keep jumping/ punching the air.",
-    "fr": "Appelez Lester pour faire disparaître votre indice de recherche. Placez-vous à droite du mur, près de la porte verte, puis enchaînez sauts et coups de poing dans le vide."
+    "fr": "Appelez Lester pour faire disparaître votre indice de recherche. Placez-vous à droite du mur, près de la porte verte, puis enchaînez sauts et coups de poing dans le vide.",
+    "es": "Llama a Lester para que desaparezca tu nivel de búsqueda. Colócate a la derecha del muro, junto a la puerta verde, y luego encadena saltos y puñetazos al vacío.",
+    "it": "Chiama Lester per far sparire il tuo livello di sospetto. Mettiti a destra del muro, vicino alla porta verde, poi alterna salti e pugni a vuoto.",
+    "de": "Ruf Lester an, um dein Fahndungslevel zu löschen. Stell dich rechts der Wand nahe der grünen Tür und wechsle dann zwischen Sprüngen und Faustschlägen ins Leere."
   },
   "status": "published",
   "sources": [

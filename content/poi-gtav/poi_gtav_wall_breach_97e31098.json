@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Dollar Pills",
-    "fr": "Pharmacie Dollar Pills"
+    "fr": "Pharmacie Dollar Pills",
+    "es": "Farmacia Dollar Pills",
+    "it": "Farmacia Dollar Pills",
+    "de": "Dollar-Pills-Apotheke"
   },
   "note": {
     "en": "Go to the location as seen below. Climb on top of the yellow cloth bin and jump again to get inside the building.",
-    "fr": "Rendez-vous à l'endroit indiqué. Montez sur le bac à linge jaune, puis sautez à nouveau pour entrer dans le bâtiment."
+    "fr": "Rendez-vous à l'endroit indiqué. Montez sur le bac à linge jaune, puis sautez à nouveau pour entrer dans le bâtiment.",
+    "es": "Ve al lugar indicado. Súbete al contenedor amarillo de la ropa y luego salta de nuevo para entrar en el edificio.",
+    "it": "Recati nel luogo indicato. Sali sul cassone giallo della biancheria, poi salta di nuovo per entrare nell'edificio.",
+    "de": "Geh an den angegebenen Ort. Steig auf den gelben Wäschecontainer und spring dann erneut, um ins Gebäude zu gelangen."
   },
   "status": "published",
   "sources": [

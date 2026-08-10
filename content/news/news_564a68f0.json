@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Les créateurs pourront librement commenter la vidéo Netflix",
-    "en": "Creators cleared to freely cover the Netflix video"
+    "en": "Creators cleared to freely cover the Netflix video",
+    "es": "Los creadores podrán comentar libremente el vídeo de Netflix",
+    "it": "I creator potranno commentare liberamente il video Netflix",
+    "de": "Creator dürfen das Netflix-Video frei kommentieren"
   },
   "body": {
     "fr": "Netflix a confirmé que les créateurs de contenu pourront réagir, découper en extraits et commenter librement la prochaine vidéo de présentation du jeu dès sa diffusion en avant-première sur la plateforme, sans risquer de retrait pour droit d'auteur. La question se posait depuis l'annonce du partenariat, la plateforme étant réputée stricte sur l'usage de ses contenus.",
-    "en": "Netflix has confirmed that creators will be free to react to, clip, and cover the game's next preview video the moment it premieres on the platform, without risking copyright takedowns. The question had been open since the partnership was announced, given the platform's usual strictness about reuse of its content."
+    "en": "Netflix has confirmed that creators will be free to react to, clip, and cover the game's next preview video the moment it premieres on the platform, without risking copyright takedowns. The question had been open since the partnership was announced, given the platform's usual strictness about reuse of its content.",
+    "es": "Netflix ha confirmado que los creadores de contenido podrán reaccionar, recortar en extractos y comentar libremente el próximo vídeo de presentación del juego desde su estreno en la plataforma, sin arriesgarse a una retirada por derechos de autor. La duda existía desde el anuncio de la alianza, ya que la plataforma tiene fama de estricta con el uso de sus contenidos.",
+    "it": "Netflix ha confermato che i creator potranno reagire, tagliare in estratti e commentare liberamente il prossimo video di presentazione del gioco fin dalla messa in onda in anteprima sulla piattaforma, senza rischiare rimozioni per diritto d'autore. La questione si poneva dall'annuncio della partnership, dato che la piattaforma è nota per la severità sull'uso dei propri contenuti.",
+    "de": "Netflix hat bestätigt, dass Creator das kommende Präsentationsvideo des Spiels ab der Erstausstrahlung auf der Plattform frei kommentieren, in Ausschnitte schneiden und darauf reagieren dürfen, ohne eine Sperrung wegen Urheberrechts zu riskieren. Die Frage stand seit Bekanntgabe der Partnerschaft im Raum, da die Plattform beim Umgang mit ihren Inhalten als streng gilt."
   },
   "publishedAt": "2026-08-06",
   "status": "published",

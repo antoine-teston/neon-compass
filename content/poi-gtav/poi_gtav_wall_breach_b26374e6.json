@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Central LSC",
-    "fr": "LSC du centre"
+    "fr": "LSC du centre",
+    "es": "LSC del centro",
+    "it": "LSC del centro",
+    "de": "LSC im Zentrum"
   },
   "note": {
     "en": "Go to the location as seen below. Get in a vehicle than can hold you in the back like the van in the video. Get in the back and let your friend drive backwards against it. Once you are against the wall, hit eject to get out of the van and breach inside of the LSC building.",
-    "fr": "Rendez-vous à l'endroit indiqué. Prenez un véhicule où l'on peut monter à l'arrière, un van par exemple. Installez-vous à l'arrière et demandez à un ami de reculer contre le mur. Une fois plaqué, éjectez-vous du van pour traverser dans le bâtiment du Los Santos Customs."
+    "fr": "Rendez-vous à l'endroit indiqué. Prenez un véhicule où l'on peut monter à l'arrière, un van par exemple. Installez-vous à l'arrière et demandez à un ami de reculer contre le mur. Une fois plaqué, éjectez-vous du van pour traverser dans le bâtiment du Los Santos Customs.",
+    "es": "Ve al lugar indicado. Coge un vehículo en el que se pueda montar detrás, una furgoneta por ejemplo. Colócate atrás y pide a un amigo que dé marcha atrás contra el muro. Una vez pegado, sal despedido de la furgoneta para atravesar hacia el edificio del Los Santos Customs.",
+    "it": "Recati nel luogo indicato. Prendi un veicolo in cui si possa salire dietro, un furgone per esempio. Mettiti dietro e chiedi a un amico di fare retromarcia contro il muro. Una volta schiacciato, eiettati dal furgone per attraversare nell'edificio del Los Santos Customs.",
+    "de": "Geh an den angegebenen Ort. Nimm ein Fahrzeug, in dem man hinten mitfahren kann, etwa einen Van. Setz dich nach hinten und lass einen Freund rückwärts an die Wand fahren. Sobald du eingeklemmt bist, spring aus dem Van, um ins Gebäude des Los Santos Customs zu gelangen."
   },
   "status": "published",
   "sources": [

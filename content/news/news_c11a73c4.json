@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le rachat d'EA redessine le paysage des éditeurs cotés en bourse",
-    "en": "EA's buyout reshapes the landscape of publicly listed publishers"
+    "en": "EA's buyout reshapes the landscape of publicly listed publishers",
+    "es": "La compra de EA redibuja el panorama de las editoras cotizadas",
+    "it": "L'acquisizione di EA ridisegna il panorama degli editori quotati",
+    "de": "Die EA-Übernahme zeichnet die Landschaft börsennotierter Publisher neu"
   },
   "body": {
     "fr": "Electronic Arts est passé le 4 août 2026 sous le contrôle d'un consortium mené par le fonds souverain saoudien PIF, dans un rachat d'environ 55 milliards de dollars qui le retire de la bourse. Par contrecoup, l'éditeur du studio devient le plus grand groupe encore coté à ne publier que des jeux vidéo — un retournement de situation dix-huit ans après une offre de rachat avortée entre les deux entreprises, rejetée juste avant la sortie d'un jeu précédent du studio.",
-    "en": "Electronic Arts went private on August 4, 2026, acquired by a consortium led by Saudi Arabia's sovereign wealth fund PIF in a roughly $55 billion buyout. As a result, the studio's publisher becomes the largest still-listed company that publishes only video games — a reversal eighteen years after a failed takeover bid between the two companies, rejected just before an earlier game from the studio shipped."
+    "en": "Electronic Arts went private on August 4, 2026, acquired by a consortium led by Saudi Arabia's sovereign wealth fund PIF in a roughly $55 billion buyout. As a result, the studio's publisher becomes the largest still-listed company that publishes only video games — a reversal eighteen years after a failed takeover bid between the two companies, rejected just before an earlier game from the studio shipped.",
+    "es": "Electronic Arts pasó el 4 de agosto de 2026 a manos de un consorcio liderado por el fondo soberano saudí PIF, en una compra de unos 55 mil millones de dólares que la saca de bolsa. Por efecto rebote, la editora del estudio se convierte en el mayor grupo aún cotizado que solo publica videojuegos — un giro dieciocho años después de una oferta de compra frustrada entre ambas empresas, rechazada justo antes del lanzamiento de un juego anterior del estudio.",
+    "it": "Electronic Arts è passata il 4 agosto 2026 sotto il controllo di un consorzio guidato dal fondo sovrano saudita PIF, in un'acquisizione da circa 55 miliardi di dollari che la toglie dalla borsa. Di conseguenza, l'editore dello studio diventa il maggiore gruppo ancora quotato a pubblicare solo videogiochi — un ribaltamento diciotto anni dopo un'offerta d'acquisto fallita tra le due aziende, respinta poco prima dell'uscita di un precedente gioco dello studio.",
+    "de": "Electronic Arts ging am 4. August 2026 an ein Konsortium unter Führung des saudischen Staatsfonds PIF — eine Übernahme über rund 55 Milliarden Dollar, die das Unternehmen von der Börse nimmt. In der Folge wird der Publisher des Studios zum größten noch notierten Konzern, der ausschließlich Videospiele veröffentlicht — eine Wende achtzehn Jahre nach einem gescheiterten Übernahmeangebot zwischen beiden Firmen, das kurz vor dem Erscheinen eines früheren Studiospiels abgelehnt wurde."
   },
   "publishedAt": "2026-08-05",
   "status": "draft",

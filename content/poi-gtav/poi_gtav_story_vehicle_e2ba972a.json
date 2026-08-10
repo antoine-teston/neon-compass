@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "You can find Michaels story car (Audi A6/A8) on the parking lot of the golf course.",
-    "fr": "La voiture de Michael, une Audi A6/A8, est garée sur le parking du golf."
+    "fr": "La voiture de Michael, une Audi A6/A8, est garée sur le parking du golf.",
+    "es": "El coche de Michael, un Audi A6/A8, está aparcado en el aparcamiento del campo de golf.",
+    "it": "L'auto di Michael, un'Audi A6/A8, è parcheggiata nel parcheggio del golf.",
+    "de": "Michaels Wagen, ein Audi A6/A8, steht auf dem Parkplatz des Golfplatzes."
   },
   "status": "published",
   "sources": [

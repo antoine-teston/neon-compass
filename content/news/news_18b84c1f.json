@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Des analystes projettent 37 à 51 millions d'exemplaires la première semaine",
-    "en": "Analysts project 37 to 51 million copies in week one"
+    "en": "Analysts project 37 to 51 million copies in week one",
+    "es": "Analistas proyectan de 37 a 51 millones de copias la primera semana",
+    "it": "Gli analisti proiettano 37-51 milioni di copie nella prima settimana",
+    "de": "Analysten erwarten 37 bis 51 Millionen Exemplare in der ersten Woche"
   },
   "body": {
     "fr": "Un cabinet d'analyse cité par la presse spécialisée projette des précommandes environ six fois supérieures à celles de deux des plus grosses franchises annuelles réunies, et 37 à 51 millions d'exemplaires vendus la première semaine. Ce sont des estimations d'analystes, pas des chiffres de l'éditeur.",
-    "en": "An analyst firm cited by specialist press projects pre-orders around six times those of two of the biggest annual franchises combined, and 37 to 51 million copies sold in the first week. These are analyst estimates, not publisher figures."
+    "en": "An analyst firm cited by specialist press projects pre-orders around six times those of two of the biggest annual franchises combined, and 37 to 51 million copies sold in the first week. These are analyst estimates, not publisher figures.",
+    "es": "Una consultora citada por la prensa especializada proyecta unas reservas alrededor de seis veces superiores a las de dos de las mayores franquicias anuales juntas, y entre 37 y 51 millones de copias vendidas la primera semana. Son estimaciones de analistas, no cifras de la editora.",
+    "it": "Una società di analisi citata dalla stampa specializzata proietta preordini circa sei volte superiori a quelli di due delle maggiori serie annuali messe insieme, e 37-51 milioni di copie vendute nella prima settimana. Sono stime di analisti, non cifre dell'editore.",
+    "de": "Ein von der Fachpresse zitiertes Analysehaus rechnet mit rund sechsmal so vielen Vorbestellungen wie bei zwei der größten Jahresreihen zusammen und mit 37 bis 51 Millionen verkauften Exemplaren in der ersten Woche. Das sind Analystenschätzungen, keine Zahlen des Publishers."
   },
   "publishedAt": "2026-07-27",
   "status": "draft",

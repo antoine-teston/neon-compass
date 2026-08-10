@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Helicopter under map",
-    "fr": "Hélicoptère sous la carte"
+    "fr": "Hélicoptère sous la carte",
+    "es": "Helicóptero bajo el mapa",
+    "it": "Elicottero sotto la mappa",
+    "de": "Helikopter unter der Karte"
   },
   "note": {
     "en": "Go to the location as seen below. Get into a helicopter and fly towards the green and white building. Fly low enought to get between the gab on the white side of the building. Once you are there, fly straight up to get into the second part of the building. Fly towards the middle and then down the ground below the map.",
-    "fr": "Rendez-vous à l'endroit indiqué. En hélicoptère, approchez du bâtiment vert et blanc. Volez assez bas pour vous glisser dans l'interstice, côté blanc. Une fois dedans, montez à la verticale pour atteindre la seconde partie du bâtiment. Rejoignez le centre, puis descendez sous la carte."
+    "fr": "Rendez-vous à l'endroit indiqué. En hélicoptère, approchez du bâtiment vert et blanc. Volez assez bas pour vous glisser dans l'interstice, côté blanc. Une fois dedans, montez à la verticale pour atteindre la seconde partie du bâtiment. Rejoignez le centre, puis descendez sous la carte.",
+    "es": "Ve al lugar indicado. En helicóptero, acércate al edificio verde y blanco. Vuela lo bastante bajo para colarte en el hueco, por el lado blanco. Una vez dentro, sube en vertical para alcanzar la segunda parte del edificio. Llega al centro y luego desciende bajo el mapa.",
+    "it": "Recati nel luogo indicato. In elicottero, avvicinati all'edificio verde e bianco. Vola abbastanza basso da infilarti nella fessura, dal lato bianco. Una volta dentro, sali in verticale per raggiungere la seconda parte dell'edificio. Raggiungi il centro, poi scendi sotto la mappa.",
+    "de": "Geh an den angegebenen Ort. Nähere dich mit dem Helikopter dem grün-weißen Gebäude. Flieg tief genug, um dich auf der weißen Seite in den Spalt zu schieben. Drinnen steig senkrecht auf, um den zweiten Gebäudeteil zu erreichen. Geh zur Mitte und sink dann unter die Karte."
   },
   "status": "published",
   "sources": [

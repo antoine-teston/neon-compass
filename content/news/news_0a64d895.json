@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un fan recrée la carte estimée du jeu dans Cities: Skylines II",
-    "en": "A fan rebuilt the game's estimated map in Cities: Skylines II"
+    "en": "A fan rebuilt the game's estimated map in Cities: Skylines II",
+    "es": "Un fan recrea el mapa estimado del juego en Cities: Skylines II",
+    "it": "Un fan ricrea la mappa stimata del gioco in Cities: Skylines II",
+    "de": "Ein Fan baut die geschätzte Spielkarte in Cities: Skylines II nach"
   },
   "body": {
     "fr": "Après environ 145 heures de travail, un joueur affirme avoir recréé à l'échelle 1:1 la carte estimée du jeu dans le city-builder Cities: Skylines II, avec trafic et habitants simulés. La carte, partageable via un identifiant public, reste fondée sur des estimations communautaires et non sur des données confirmées par le studio.",
-    "en": "After roughly 145 hours of work, a player says they recreated the game's estimated map at a 1:1 scale inside the city-builder Cities: Skylines II, complete with simulated traffic and citizens. The map, shareable via a public ID, is still based on community estimates rather than anything the studio has confirmed."
+    "en": "After roughly 145 hours of work, a player says they recreated the game's estimated map at a 1:1 scale inside the city-builder Cities: Skylines II, complete with simulated traffic and citizens. The map, shareable via a public ID, is still based on community estimates rather than anything the studio has confirmed.",
+    "es": "Tras unas 145 horas de trabajo, un jugador afirma haber recreado a escala 1:1 el mapa estimado del juego en el city-builder Cities: Skylines II, con tráfico y habitantes simulados. El mapa, compartible mediante un identificador público, sigue basándose en estimaciones de la comunidad y no en datos confirmados por el estudio.",
+    "it": "Dopo circa 145 ore di lavoro, un giocatore afferma di aver ricreato in scala 1:1 la mappa stimata del gioco nel city-builder Cities: Skylines II, con traffico e abitanti simulati. La mappa, condivisibile tramite un identificativo pubblico, resta fondata su stime della comunità e non su dati confermati dallo studio.",
+    "de": "Nach rund 145 Arbeitsstunden gibt ein Spieler an, die geschätzte Karte des Spiels im Städtebauspiel Cities: Skylines II maßstabsgetreu nachgebaut zu haben, samt simuliertem Verkehr und Einwohnern. Die über eine öffentliche Kennung teilbare Karte beruht weiterhin auf Schätzungen der Community und nicht auf vom Studio bestätigten Daten."
   },
   "publishedAt": "2026-08-03",
   "status": "draft",

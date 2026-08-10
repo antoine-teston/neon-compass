@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Next to the off-road trail is a rock formation. Up the small hill underneath the face of the rock is this Part.",
-    "fr": "Une formation rocheuse borde la piste tout-terrain. La pièce est en haut de la petite butte, sous la paroi."
+    "fr": "Une formation rocheuse borde la piste tout-terrain. La pièce est en haut de la petite butte, sous la paroi.",
+    "es": "Una formación rocosa bordea la pista todoterreno. La pieza está en lo alto del pequeño montículo, bajo la pared.",
+    "it": "Una formazione rocciosa costeggia la pista fuoristrada. Il pezzo è in cima al poggio, sotto la parete.",
+    "de": "Eine Felsformation säumt die Geländepiste. Das Teil liegt oben auf dem kleinen Hügel, unter der Wand."
   },
   "status": "published",
   "sources": [

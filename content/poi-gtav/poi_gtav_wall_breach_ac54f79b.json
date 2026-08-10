@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Flecca Bank",
-    "fr": "Banque Flecca"
+    "fr": "Banque Flecca",
+    "es": "Banco Flecca",
+    "it": "Banca Flecca",
+    "de": "Flecca-Bank"
   },
   "note": {
     "en": "Go to the location as seen below. Get a decent sized vehicle and park it infront of the bank. Hop on it and climb up the roof of the bank. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the bank.",
-    "fr": "Rendez-vous à l'endroit indiqué. Garez un véhicule assez volumineux devant la banque, montez dessus et grimpez sur le toit. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans la banque."
+    "fr": "Rendez-vous à l'endroit indiqué. Garez un véhicule assez volumineux devant la banque, montez dessus et grimpez sur le toit. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans la banque.",
+    "es": "Ve al lugar indicado. Aparca un vehículo bastante voluminoso delante del banco, súbete encima y trepa al tejado. Saca el teléfono, acepta una invitación de misión pendiente y cancela enseguida: reapareces en el banco.",
+    "it": "Recati nel luogo indicato. Parcheggia un veicolo abbastanza voluminoso davanti alla banca, salici sopra e arrampicati sul tetto. Tira fuori il telefono, accetta un invito a una missione in attesa, poi annulla subito: riapparirai nella banca.",
+    "de": "Geh an den angegebenen Ort. Parke ein ausreichend großes Fahrzeug vor der Bank, steig darauf und kletter aufs Dach. Nimm dein Telefon, nimm eine wartende Missionseinladung an und brich sofort ab: Du erscheinst in der Bank."
   },
   "status": "published",
   "sources": [

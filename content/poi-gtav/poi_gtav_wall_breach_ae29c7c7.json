@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "FIB Tower",
-    "fr": "Tour du FIB"
+    "fr": "Tour du FIB",
+    "es": "Torre del FIB",
+    "it": "Torre del FIB",
+    "de": "FIB-Turm"
   },
   "note": {
     "en": "Go to the location as seen below. Get a helicopter and fly on top of the building. Get out and walk to the side of the building. Walk downstairs the ladder and turn right. At the end of that platform turn left and walk straight into the wall/border (not on the side with the big FIB logo). You should fall and end up on the next floor. After some seconds the textures should load and you should be inside the FIB building.",
-    "fr": "Rendez-vous à l'endroit indiqué. Posez un hélicoptère sur le toit du bâtiment. Descendez et rejoignez le bord. Empruntez l'échelle vers le bas, tournez à droite, puis à gauche au bout de la plateforme, et marchez droit dans le mur — pas du côté du grand logo FIB. Vous tomberez à l'étage inférieur ; les textures se chargent après quelques secondes et vous voilà dans la tour du FIB."
+    "fr": "Rendez-vous à l'endroit indiqué. Posez un hélicoptère sur le toit du bâtiment. Descendez et rejoignez le bord. Empruntez l'échelle vers le bas, tournez à droite, puis à gauche au bout de la plateforme, et marchez droit dans le mur — pas du côté du grand logo FIB. Vous tomberez à l'étage inférieur ; les textures se chargent après quelques secondes et vous voilà dans la tour du FIB.",
+    "es": "Ve al lugar indicado. Posa un helicóptero en el tejado del edificio. Baja y llega al borde. Toma la escalera hacia abajo, gira a la derecha y luego a la izquierda al final de la plataforma, y camina recto contra el muro — no por el lado del gran logotipo del FIB. Caerás al piso inferior; las texturas se cargan tras unos segundos y ya estás en la torre del FIB.",
+    "it": "Recati nel luogo indicato. Posa un elicottero sul tetto dell'edificio. Scendi e raggiungi il bordo. Prendi la scala verso il basso, gira a destra, poi a sinistra in fondo alla piattaforma, e cammina dritto nel muro — non dal lato del grande logo FIB. Cadrai al piano inferiore; le texture si caricano dopo qualche secondo ed eccoti nella torre del FIB.",
+    "de": "Geh an den angegebenen Ort. Lande einen Helikopter auf dem Dach. Steig aus und geh zur Kante. Nimm die Leiter nach unten, wende dich rechts, dann am Ende der Plattform links, und lauf geradewegs in die Wand — nicht auf der Seite des großen FIB-Logos. Du fällst in das Stockwerk darunter; nach ein paar Sekunden laden die Texturen und du bist im FIB-Turm."
   },
   "status": "published",
   "sources": [

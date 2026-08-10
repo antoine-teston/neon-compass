@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This is located in the maze. From the entrance, follow the path to the first fork. Then take a right, then the first left, then left again twice to come across this Letter.",
-    "fr": "Dans le labyrinthe. Depuis l'entrée, suivez le chemin jusqu'au premier embranchement, prenez à droite, puis la première à gauche, puis deux fois à gauche : le fragment est là."
+    "fr": "Dans le labyrinthe. Depuis l'entrée, suivez le chemin jusqu'au premier embranchement, prenez à droite, puis la première à gauche, puis deux fois à gauche : le fragment est là.",
+    "es": "En el laberinto. Desde la entrada, sigue el camino hasta la primera bifurcación, gira a la derecha, luego la primera a la izquierda y después dos veces a la izquierda: ahí está el fragmento.",
+    "it": "Nel labirinto. Dall'ingresso, segui il percorso fino al primo bivio, gira a destra, poi la prima a sinistra e quindi due volte a sinistra: il frammento è lì.",
+    "de": "Im Labyrinth. Folge vom Eingang dem Weg bis zur ersten Gabelung, geh rechts, dann die erste links und danach zweimal links: Dort liegt der Fetzen."
   },
   "status": "published",
   "sources": [

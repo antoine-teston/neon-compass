@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un ancien animateur du studio n'exclut pas un nouveau report",
-    "en": "A former studio animator doesn't rule out another delay"
+    "en": "A former studio animator doesn't rule out another delay",
+    "es": "Un antiguo animador del estudio no descarta un nuevo retraso",
+    "it": "Un ex animatore dello studio non esclude un altro rinvio",
+    "de": "Ein früherer Studio-Animator schließt eine weitere Verschiebung nicht aus"
   },
   "body": {
     "fr": "Mike York, qui a travaillé comme animateur pour le studio et estimait fin juillet 2026 le jeu achevé à 80-90 %, précise dans le même entretien qu'il ne serait « pas du tout choqué » par un report supplémentaire d'environ six mois si la mission finale n'est pas prête pour novembre. C'est l'avis d'un ancien salarié, pas une déclaration du studio.",
-    "en": "Mike York, who worked as an animator for the studio and estimated in late July 2026 that the game was 80-90% finished, adds in the same interview that he wouldn't be \"at all shocked\" by another roughly six-month delay if the final mission isn't ready by November. That's a former employee's opinion, not a statement from the studio."
+    "en": "Mike York, who worked as an animator for the studio and estimated in late July 2026 that the game was 80-90% finished, adds in the same interview that he wouldn't be \"at all shocked\" by another roughly six-month delay if the final mission isn't ready by November. That's a former employee's opinion, not a statement from the studio.",
+    "es": "Mike York, que trabajó como animador para el estudio y a finales de julio de 2026 estimaba el juego terminado al 80-90 %, precisa en la misma entrevista que no le sorprendería «en absoluto» un retraso adicional de unos seis meses si la misión final no está lista para noviembre. Es la opinión de un antiguo empleado, no una declaración del estudio.",
+    "it": "Mike York, che ha lavorato come animatore per lo studio e a fine luglio 2026 stimava il gioco completo all'80-90 %, precisa nella stessa intervista che non sarebbe «per nulla sorpreso» da un ulteriore rinvio di circa sei mesi se la missione finale non fosse pronta per novembre. È il parere di un ex dipendente, non una dichiarazione dello studio.",
+    "de": "Mike York, der als Animator für das Studio gearbeitet hat und das Spiel Ende Juli 2026 zu 80-90 % für fertig hielt, sagt im selben Interview, ihn würde eine weitere Verschiebung um etwa ein halbes Jahr „überhaupt nicht schockieren“, falls die letzte Mission bis November nicht steht. Das ist die Einschätzung eines Ehemaligen, keine Aussage des Studios."
   },
   "publishedAt": "2026-08-05",
   "status": "draft",

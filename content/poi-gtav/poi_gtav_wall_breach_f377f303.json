@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Car park",
-    "fr": "Parking"
+    "fr": "Parking",
+    "es": "Aparcamiento",
+    "it": "Parcheggio",
+    "de": "Parkplatz"
   },
   "note": {
     "en": "Go to the location as seen below. Drive into the wall about one meter besides the electricity box.",
-    "fr": "Rendez-vous à l'endroit indiqué. Roulez dans le mur, à environ un mètre du coffret électrique."
+    "fr": "Rendez-vous à l'endroit indiqué. Roulez dans le mur, à environ un mètre du coffret électrique.",
+    "es": "Ve al lugar indicado. Conduce contra el muro, a un metro aproximadamente de la caja eléctrica.",
+    "it": "Recati nel luogo indicato. Guida contro il muro, a circa un metro dalla cassetta elettrica.",
+    "de": "Geh an den angegebenen Ort. Fahr in die Wand, etwa einen Meter vom Stromkasten entfernt."
   },
   "status": "published",
   "sources": [

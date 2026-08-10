@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This one is inside the skate park, on the floor in the middle of the ramp.",
-    "fr": "Celui-ci est dans le skatepark, au sol, au milieu de la rampe."
+    "fr": "Celui-ci est dans le skatepark, au sol, au milieu de la rampe.",
+    "es": "Este está en el skatepark, en el suelo, en medio de la rampa.",
+    "it": "Questo è nello skatepark, a terra, in mezzo alla rampa.",
+    "de": "Dieser liegt im Skatepark am Boden, mitten in der Rampe."
   },
   "status": "published",
   "sources": [

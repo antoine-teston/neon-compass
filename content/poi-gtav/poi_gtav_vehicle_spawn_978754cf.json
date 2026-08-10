@@ -8,7 +8,10 @@
   },
   "title": {
     "en": "Unmarked FIB Car",
-    "fr": "Voiture banalisée du FIB"
+    "fr": "Voiture banalisée du FIB",
+    "es": "Coche camuflado del FIB",
+    "it": "Auto civetta del FIB",
+    "de": "Ziviles FIB-Fahrzeug"
   },
   "status": "published",
   "sources": [

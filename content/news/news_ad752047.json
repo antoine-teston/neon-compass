@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Ce que les propriétés changent vraiment sur le nouveau braquage",
-    "en": "What properties actually change on the new heist"
+    "en": "What properties actually change on the new heist",
+    "es": "Lo que las propiedades cambian de verdad en el nuevo golpe",
+    "it": "Cosa cambiano davvero le proprietà nel nuovo colpo",
+    "de": "Was Immobilien beim neuen Raubzug wirklich ändern"
   },
   "body": {
     "fr": "Un comparatif testé en jeu détaille l'effet des propriétés et des améliorations de résidence sur les tentatives en solo. Les mesures ne sont pas contrôlées pour chaque élément : à prendre comme un repère, pas comme un chiffrage.",
-    "en": "An in-game comparison details how properties and residence upgrades affect solo runs. The measurements aren't controlled for every item: treat it as a guide, not a quantification."
+    "en": "An in-game comparison details how properties and residence upgrades affect solo runs. The measurements aren't controlled for every item: treat it as a guide, not a quantification.",
+    "es": "Una comparativa probada en el juego detalla el efecto de las propiedades y de las mejoras de residencia en los intentos en solitario. Las mediciones no están controladas elemento por elemento: tómalas como referencia, no como una cifra exacta.",
+    "it": "Un confronto testato in gioco dettaglia l'effetto delle proprietà e dei miglioramenti dell'abitazione sui tentativi in solitaria. Le misurazioni non sono controllate per ogni singolo elemento: da prendere come riferimento, non come dato preciso.",
+    "de": "Ein im Spiel getesteter Vergleich zeigt, wie Immobilien und Wohnungs-Upgrades Solo-Versuche beeinflussen. Die Messungen sind nicht für jedes Element einzeln kontrolliert: als Anhaltspunkt zu verstehen, nicht als exakte Zahl."
   },
   "publishedAt": "2026-07-25",
   "status": "published",

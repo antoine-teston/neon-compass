@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Préchargement le 12 novembre, sortie le 19",
-    "en": "Pre-load opens November 12, launch is the 19th"
+    "en": "Pre-load opens November 12, launch is the 19th",
+    "es": "Precarga el 12 de noviembre, lanzamiento el 19",
+    "it": "Precaricamento il 12 novembre, uscita il 19",
+    "de": "Vorabdownload am 12. November, Start am 19."
   },
   "body": {
     "fr": "Une semaine pour télécharger avant le déverrouillage, si tu veux jouer dès la première minute. Les acheteurs de boîtes physiques attendront plus longtemps : leur code n'est utilisable qu'à réception.",
-    "en": "A week to download before the game unlocks, if you want to play from the first minute. Boxed buyers wait longest: their code only works once the package arrives."
+    "en": "A week to download before the game unlocks, if you want to play from the first minute. Boxed buyers wait longest: their code only works once the package arrives.",
+    "es": "Una semana para descargar antes del desbloqueo, si quieres jugar desde el primer minuto. Quienes compren en formato físico esperarán más: su código solo sirve al recibirlo.",
+    "it": "Una settimana per scaricare prima dello sblocco, se vuoi giocare dal primo minuto. Chi compra in versione fisica aspetterà di più: il codice è utilizzabile solo alla consegna.",
+    "de": "Eine Woche zum Herunterladen vor der Freischaltung, wenn du ab der ersten Minute spielen willst. Wer die Box kauft, wartet länger: Der Code lässt sich erst bei Erhalt nutzen."
   },
   "publishedAt": "2026-07-21",
   "status": "published",

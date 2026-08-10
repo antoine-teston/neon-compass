@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un dépôt de marque évoquant une ville du jeu n'a aucun lien avec lui",
-    "en": "A trademark filing echoing one of the game's cities isn't related to it"
+    "en": "A trademark filing echoing one of the game's cities isn't related to it",
+    "es": "Un registro de marca que evoca una ciudad del juego no guarda relación con él",
+    "it": "Un deposito di marchio che evoca una città del gioco non ha legami con esso",
+    "de": "Eine Markenanmeldung mit dem Namen einer Spielstadt hat nichts damit zu tun"
   },
   "body": {
     "fr": "Une organisation de catch a déposé début août une demande de marque reprenant le nom d'une ville fictive associée au jeu à venir, mais ce dépôt concerne en réalité l'image d'une catcheuse pour des usages de spectacle vivant. Les deux dépôts couvrent des secteurs distincts et peuvent coexister sans conflit.",
-    "en": "A wrestling organization filed a trademark application in early August reusing the name of a fictional city tied to the upcoming game, but the filing actually covers a wrestler's persona for live-event use. The two filings cover distinct categories and can coexist without conflict."
+    "en": "A wrestling organization filed a trademark application in early August reusing the name of a fictional city tied to the upcoming game, but the filing actually covers a wrestler's persona for live-event use. The two filings cover distinct categories and can coexist without conflict.",
+    "es": "Una organización de lucha libre presentó a principios de agosto una solicitud de marca que retoma el nombre de una ciudad ficticia asociada al juego por venir, pero ese registro se refiere en realidad a la imagen de una luchadora para usos de espectáculo en directo. Ambos registros cubren sectores distintos y pueden convivir sin conflicto.",
+    "it": "Un'organizzazione di wrestling ha depositato a inizio agosto una domanda di marchio che riprende il nome di una città immaginaria associata al gioco in arrivo, ma il deposito riguarda in realtà l'immagine di una lottatrice per usi di spettacolo dal vivo. I due depositi coprono settori distinti e possono coesistere senza conflitto.",
+    "de": "Eine Wrestling-Organisation meldete Anfang August eine Marke an, die den Namen einer fiktiven Stadt aus dem kommenden Spiel aufgreift — tatsächlich geht es um das Bild einer Wrestlerin für Live-Unterhaltung. Beide Anmeldungen betreffen verschiedene Bereiche und können konfliktfrei nebeneinander bestehen."
   },
   "publishedAt": "2026-08-07",
   "status": "draft",

@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Road Near Airport LSC",
-    "fr": "Route près du LSC de l'aéroport"
+    "fr": "Route près du LSC de l'aéroport",
+    "es": "Carretera junto al LSC del aeropuerto",
+    "it": "Strada vicino al LSC dell'aeroporto",
+    "de": "Straße nahe dem Flughafen-LSC"
   },
   "note": {
     "en": "Go to location indicated and find the group of trees shown as a guide. Locate the second support beam, that is jutting from the road, to the left of the group of trees and stand to the right of this beam. Run or jump such that you character falls into the small space to the right of the support beam. If done correctly your character will breach the wall after erecting him/herself.",
-    "fr": "Rendez-vous à l'endroit indiqué et repérez le bosquet qui sert de repère. Trouvez le deuxième pilier de soutènement qui dépasse de la chaussée, à gauche du bosquet, et placez-vous à sa droite. Courez ou sautez de façon à tomber dans l'interstice à droite du pilier : en se relevant, votre personnage traversera le mur."
+    "fr": "Rendez-vous à l'endroit indiqué et repérez le bosquet qui sert de repère. Trouvez le deuxième pilier de soutènement qui dépasse de la chaussée, à gauche du bosquet, et placez-vous à sa droite. Courez ou sautez de façon à tomber dans l'interstice à droite du pilier : en se relevant, votre personnage traversera le mur.",
+    "es": "Ve al lugar indicado y localiza el bosquecillo que sirve de referencia. Encuentra el segundo pilar de contención que sobresale de la calzada, a la izquierda del bosquecillo, y colócate a su derecha. Corre o salta de modo que caigas en el hueco a la derecha del pilar: al levantarse, tu personaje atravesará el muro.",
+    "it": "Recati nel luogo indicato e individua il boschetto che fa da riferimento. Trova il secondo pilastro di sostegno che sporge dalla carreggiata, a sinistra del boschetto, e mettiti alla sua destra. Corri o salta in modo da cadere nella fessura a destra del pilastro: rialzandosi, il tuo personaggio attraverserà il muro.",
+    "de": "Geh an den angegebenen Ort und such das Wäldchen als Anhaltspunkt. Finde den zweiten Stützpfeiler, der aus der Fahrbahn ragt, links des Wäldchens, und stell dich rechts davon. Lauf oder spring so, dass du in den Spalt rechts des Pfeilers fällst: Beim Aufstehen geht deine Figur durch die Wand."
   },
   "status": "published",
   "sources": [

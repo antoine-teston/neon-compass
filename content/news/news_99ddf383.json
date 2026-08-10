@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Prochaine vidéo de présentation : avant-première sur Netflix",
-    "en": "Next preview video gets a Netflix premiere"
+    "en": "Next preview video gets a Netflix premiere",
+    "es": "Próximo vídeo de presentación: estreno en Netflix",
+    "it": "Prossimo video di presentazione: anteprima su Netflix",
+    "de": "Nächstes Präsentationsvideo: Premiere bei Netflix"
   },
   "body": {
     "fr": "Le studio a annoncé que sa prochaine vidéo de présentation du jeu sera diffusée en exclusivité sur Netflix le 27 août 2026, avant d'arriver sur ses propres canaux six heures plus tard. C'est la première fois qu'il confie une avant-première à une plateforme extérieure plutôt que de la diffuser d'emblée sur ses propres canaux.",
-    "en": "The studio announced that its next preview video for the game will premiere exclusively on Netflix on August 27, 2026, reaching its own channels six hours later. It's the first time it has handed an early premiere to an outside platform rather than releasing on its own channels first."
+    "en": "The studio announced that its next preview video for the game will premiere exclusively on Netflix on August 27, 2026, reaching its own channels six hours later. It's the first time it has handed an early premiere to an outside platform rather than releasing on its own channels first.",
+    "es": "El estudio ha anunciado que su próximo vídeo de presentación del juego se emitirá en exclusiva en Netflix el 27 de agosto de 2026, antes de llegar a sus propios canales seis horas después. Es la primera vez que confía un estreno a una plataforma externa en lugar de difundirlo directamente en sus canales.",
+    "it": "Lo studio ha annunciato che il prossimo video di presentazione del gioco sarà trasmesso in esclusiva su Netflix il 27 agosto 2026, prima di arrivare sui propri canali sei ore dopo. È la prima volta che affida un'anteprima a una piattaforma esterna anziché diffonderla subito sui propri canali.",
+    "de": "Das Studio hat angekündigt, sein nächstes Präsentationsvideo am 27. August 2026 exklusiv bei Netflix zu zeigen, bevor es sechs Stunden später auf die eigenen Kanäle kommt. Erstmals vertraut es eine Premiere einer externen Plattform an, statt sie sofort selbst auszuspielen."
   },
   "publishedAt": "2026-08-06",
   "status": "published",

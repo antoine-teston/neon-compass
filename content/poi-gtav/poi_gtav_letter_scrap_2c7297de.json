@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This Letter is on the roof of the house. Use the steps to get up there and it’ll be on the floor near a table with an umbrella over it.",
-    "fr": "Ce fragment est sur le toit de la maison. Montez par les marches : il est au sol, près d'une table et de son parasol."
+    "fr": "Ce fragment est sur le toit de la maison. Montez par les marches : il est au sol, près d'une table et de son parasol.",
+    "es": "Este fragmento está en el tejado de la casa. Sube por los escalones: está en el suelo, junto a una mesa y su sombrilla.",
+    "it": "Questo frammento è sul tetto della casa. Sali dai gradini: è a terra, vicino a un tavolo e al suo ombrellone.",
+    "de": "Dieser Fetzen liegt auf dem Hausdach. Steig die Stufen hinauf: Er liegt am Boden, neben einem Tisch mit Sonnenschirm."
   },
   "status": "published",
   "sources": [

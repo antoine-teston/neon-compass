@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le jeu réapparaît sur la liste des titres les plus attendus de Sony",
-    "en": "The game reappears on Sony's most-anticipated list"
+    "en": "The game reappears on Sony's most-anticipated list",
+    "es": "El juego reaparece en la lista de títulos más esperados de Sony",
+    "it": "Il gioco riappare nell'elenco dei titoli più attesi di Sony",
+    "de": "Das Spiel steht wieder auf Sonys Liste der meisterwarteten Titel"
   },
   "body": {
     "fr": "La page éditoriale de Sony consacrée aux jeux les plus attendus de l'année a de nouveau inclus le jeu à venir début août 2026, après l'en avoir exclu en janvier. La presse spécialisée y lit un signe de confiance sur le maintien de la date de sortie de novembre, alors que des rumeurs de report ressurgissent régulièrement.",
-    "en": "Sony's editorial page for the year's most-anticipated games included the upcoming title again in early August 2026, after leaving it off back in January. Specialist outlets read it as a confidence signal that the November release date will hold, even as delay rumors keep resurfacing."
+    "en": "Sony's editorial page for the year's most-anticipated games included the upcoming title again in early August 2026, after leaving it off back in January. Specialist outlets read it as a confidence signal that the November release date will hold, even as delay rumors keep resurfacing.",
+    "es": "La página editorial de Sony dedicada a los juegos más esperados del año volvió a incluir el juego por venir a principios de agosto de 2026, tras haberlo excluido en enero. La prensa especializada lo lee como señal de confianza en que se mantenga la fecha de noviembre, mientras los rumores de retraso resurgen con regularidad.",
+    "it": "La pagina editoriale di Sony dedicata ai giochi più attesi dell'anno ha nuovamente incluso il gioco in arrivo a inizio agosto 2026, dopo averlo escluso a gennaio. La stampa specializzata vi legge un segnale di fiducia sul mantenimento della data di novembre, mentre le voci di rinvio riemergono regolarmente.",
+    "de": "Sonys redaktionelle Seite zu den meisterwarteten Spielen des Jahres führt das kommende Spiel seit Anfang August 2026 wieder auf, nachdem es im Januar gestrichen worden war. Die Fachpresse liest darin ein Zeichen des Vertrauens in den November-Termin, während Verschiebungsgerüchte regelmäßig wiederkehren."
   },
   "publishedAt": "2026-08-05",
   "status": "draft",

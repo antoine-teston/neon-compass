@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "FIB tower",
-    "fr": "Tour du FIB"
+    "fr": "Tour du FIB",
+    "es": "Torre del FIB",
+    "it": "Torre del FIB",
+    "de": "FIB-Turm"
   },
   "note": {
     "en": "Go to the location as seen below. Walk to the entrance door and trun to the wall. Jump to get inside the building.",
-    "fr": "Rendez-vous à l'endroit indiqué. Avancez jusqu'à la porte d'entrée, tournez-vous vers le mur et sautez pour entrer dans le bâtiment."
+    "fr": "Rendez-vous à l'endroit indiqué. Avancez jusqu'à la porte d'entrée, tournez-vous vers le mur et sautez pour entrer dans le bâtiment.",
+    "es": "Ve al lugar indicado. Avanza hasta la puerta de entrada, vuélvete hacia el muro y salta para entrar en el edificio.",
+    "it": "Recati nel luogo indicato. Avanza fino alla porta d'ingresso, voltati verso il muro e salta per entrare nell'edificio.",
+    "de": "Geh an den angegebenen Ort. Geh zur Eingangstür, dreh dich zur Wand und spring, um ins Gebäude zu gelangen."
   },
   "status": "published",
   "sources": [

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "À quatre mois de la sortie, toujours aucune séquence de jeu",
-    "en": "Four months out, still no gameplay shown"
+    "en": "Four months out, still no gameplay shown",
+    "es": "A cuatro meses del lanzamiento, sigue sin haber secuencias de juego",
+    "it": "A quattro mesi dall'uscita, ancora nessuna sequenza di gioco",
+    "de": "Vier Monate vor Erscheinen weiterhin keine Spielszenen"
   },
   "body": {
     "fr": "Le public a deux bandes-annonces, une soixantaine de captures, la pochette, un site et les prix de tous les marchés. Ni séquence de jeu, ni taille de carte, ni détail sur le mode en ligne.",
-    "en": "The public has two trailers, around sixty screenshots, the cover art, a website and pricing in every market. No gameplay footage, no map size, no online details."
+    "en": "The public has two trailers, around sixty screenshots, the cover art, a website and pricing in every market. No gameplay footage, no map size, no online details.",
+    "es": "El público tiene dos tráileres, unas sesenta capturas, la carátula, una web y los precios de todos los mercados. Ni secuencias de juego, ni tamaño del mapa, ni detalles sobre el modo en línea.",
+    "it": "Il pubblico ha due trailer, una sessantina di immagini, la copertina, un sito e i prezzi di tutti i mercati. Nessuna sequenza di gioco, nessuna dimensione della mappa, nessun dettaglio sulla modalità online.",
+    "de": "Das Publikum hat zwei Trailer, rund sechzig Screenshots, das Cover, eine Website und die Preise aller Märkte. Keine Spielszenen, keine Kartengröße, keine Details zum Online-Modus."
   },
   "publishedAt": "2026-07-26",
   "status": "published",

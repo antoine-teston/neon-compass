@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Youga Van",
-    "fr": "Van Youga"
+    "fr": "Van Youga",
+    "es": "Furgoneta Youga",
+    "it": "Furgone Youga",
+    "de": "Youga-Van"
   },
   "note": {
     "en": "Go to the location as seen below. With a bit of luck it will spawn there.",
-    "fr": "Rendez-vous à l'endroit indiqué. Avec un peu de chance, le véhicule y apparaîtra."
+    "fr": "Rendez-vous à l'endroit indiqué. Avec un peu de chance, le véhicule y apparaîtra.",
+    "es": "Ve al lugar indicado. Con un poco de suerte, el vehículo aparecerá ahí.",
+    "it": "Recati nel luogo indicato. Con un po' di fortuna, il veicolo comparirà lì.",
+    "de": "Begib dich an den angegebenen Ort. Mit etwas Glück erscheint das Fahrzeug dort."
   },
   "status": "published",
   "sources": [

@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Précommandes en forte hausse, mais aucun chiffre communiqué",
-    "en": "Pre-orders surge, but no numbers shared"
+    "en": "Pre-orders surge, but no numbers shared",
+    "es": "Reservas al alza, pero sin cifras comunicadas",
+    "it": "Preordini in forte crescita, ma nessuna cifra comunicata",
+    "de": "Vorbestellungen stark gestiegen, aber keine Zahlen genannt"
   },
   "body": {
     "fr": "Lors de son dernier point avec les investisseurs, le PDG de l'éditeur a assuré que les précommandes du jeu à venir dépassaient très largement les prévisions internes, sans donner ni chiffre ni pourcentage. Il justifie ce silence par l'impossibilité de distinguer, à ce stade, les ventes anticipées d'une hausse réelle de la demande. La société a maintenu inchangée sa prévision annuelle de revenus nets (8,0 à 8,2 milliards de dollars), en retrait par rapport aux attentes des marchés financiers.",
-    "en": "At its latest investor call, the publisher's CEO said pre-orders for the upcoming game were vastly beating internal forecasts, without giving a number or percentage. He attributed the silence to the difficulty of telling, at this stage, pulled-forward sales from a genuine rise in demand. The company kept its annual net revenue guidance unchanged at $8.0 to $8.2 billion, below what financial markets had been hoping for."
+    "en": "At its latest investor call, the publisher's CEO said pre-orders for the upcoming game were vastly beating internal forecasts, without giving a number or percentage. He attributed the silence to the difficulty of telling, at this stage, pulled-forward sales from a genuine rise in demand. The company kept its annual net revenue guidance unchanged at $8.0 to $8.2 billion, below what financial markets had been hoping for.",
+    "es": "En su última cita con los inversores, el consejero delegado de la editora aseguró que las reservas del juego por venir superan con creces las previsiones internas, sin dar cifra ni porcentaje. Justifica ese silencio por la imposibilidad de distinguir, a estas alturas, las ventas anticipadas de un aumento real de la demanda. La compañía mantuvo sin cambios su previsión anual de ingresos netos (de 8,0 a 8,2 mil millones de dólares), por debajo de lo que esperaban los mercados financieros.",
+    "it": "Nell'ultimo incontro con gli investitori, l'amministratore delegato dell'editore ha assicurato che i preordini del gioco in arrivo superano ampiamente le previsioni interne, senza fornire cifre né percentuali. Giustifica il silenzio con l'impossibilità di distinguere, a questo stadio, le vendite anticipate da un reale aumento della domanda. La società ha confermato la previsione annuale di ricavi netti (8,0-8,2 miliardi di dollari), sotto le attese dei mercati finanziari.",
+    "de": "Bei seinem jüngsten Investorentermin versicherte der Vorstandschef des Publishers, die Vorbestellungen des kommenden Spiels lägen weit über den internen Prognosen — ohne Zahl oder Prozentwert zu nennen. Er begründet das Schweigen damit, dass sich vorgezogene Käufe derzeit nicht von einer echten Nachfragesteigerung trennen ließen. Die Jahresprognose für den Nettoumsatz (8,0 bis 8,2 Milliarden Dollar) blieb unverändert und damit unter den Erwartungen der Finanzmärkte."
   },
   "publishedAt": "2026-08-09",
   "status": "published",

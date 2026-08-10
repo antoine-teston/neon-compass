@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Highway",
-    "fr": "Autoroute"
+    "fr": "Autoroute",
+    "es": "Autopista",
+    "it": "Autostrada",
+    "de": "Autobahn"
   },
   "note": {
     "en": "Works the same like \"Bridge in Tataviam Mountains\". Go to the location as seen below. Walk towards the bridge wall. Turn left and walk straight along the wall until you are inside the bridge. Turn around and walk in the other direction until you are fully breached inside the bridge.",
-    "fr": "Même principe que pour le pont des monts Tataviam. Rendez-vous à l'endroit indiqué. Approchez-vous du parapet, tournez à gauche et longez-le jusqu'à vous retrouver à l'intérieur du tablier. Faites demi-tour et repartez dans l'autre sens jusqu'à être complètement dedans."
+    "fr": "Même principe que pour le pont des monts Tataviam. Rendez-vous à l'endroit indiqué. Approchez-vous du parapet, tournez à gauche et longez-le jusqu'à vous retrouver à l'intérieur du tablier. Faites demi-tour et repartez dans l'autre sens jusqu'à être complètement dedans.",
+    "es": "Mismo principio que en el puente de los montes Tataviam. Ve al lugar indicado. Acércate al pretil, gira a la izquierda y recórrelo hasta acabar dentro del tablero. Da media vuelta y vuelve en sentido contrario hasta estar completamente dentro.",
+    "it": "Stesso principio del ponte dei monti Tataviam. Recati nel luogo indicato. Avvicinati al parapetto, gira a sinistra e costeggialo fino a ritrovarti dentro l'impalcato. Fai dietrofront e riparti nell'altro senso fino a essere completamente dentro.",
+    "de": "Dasselbe Prinzip wie bei der Brücke in den Tataviam Mountains. Geh an den angegebenen Ort. Geh zur Brüstung, wende dich links und folge ihr, bis du im Brückenkörper landest. Dreh um und lauf zurück, bis du ganz drin bist."
   },
   "status": "published",
   "sources": [

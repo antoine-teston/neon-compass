@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "The Buzzard helicopter is the easiest vehicle for all bridges - the blades are slightly shorter than the Maverick",
-    "fr": "Le Buzzard est l'hélicoptère le plus commode pour tous les ponts : ses pales sont un peu plus courtes que celles du Maverick."
+    "fr": "Le Buzzard est l'hélicoptère le plus commode pour tous les ponts : ses pales sont un peu plus courtes que celles du Maverick.",
+    "es": "El Buzzard es el helicóptero más cómodo para todos los puentes: sus palas son algo más cortas que las del Maverick.",
+    "it": "Il Buzzard è l'elicottero più comodo per tutti i ponti: le sue pale sono un po' più corte di quelle del Maverick.",
+    "de": "Der Buzzard ist der bequemste Helikopter für alle Brücken: Seine Rotorblätter sind etwas kürzer als die des Maverick."
   },
   "status": "published",
   "sources": [

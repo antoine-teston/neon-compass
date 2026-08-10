@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This one is located in a small alcove in the rocks on the river bank. The alcove will be on the left if you are looking at the bridge ahead of you in the distance.",
-    "fr": "Celui-ci est dans un petit renfoncement rocheux, sur la berge. Le pont au loin devant vous, le renfoncement est à gauche."
+    "fr": "Celui-ci est dans un petit renfoncement rocheux, sur la berge. Le pont au loin devant vous, le renfoncement est à gauche.",
+    "es": "Este está en un pequeño hueco rocoso, en la orilla. Con el puente a lo lejos frente a ti, el hueco queda a la izquierda.",
+    "it": "Questo è in una piccola rientranza rocciosa, sulla riva. Con il ponte in lontananza davanti a te, la rientranza è a sinistra.",
+    "de": "Dieses liegt in einer kleinen Felsnische am Ufer. Mit der Brücke in der Ferne vor dir liegt die Nische links."
   },
   "status": "published",
   "sources": [

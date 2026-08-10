@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Silence sur le futur mode en ligne : rien d'inquiétant, selon un journaliste",
-    "en": "Silence on the next online mode isn't a red flag, reporter says"
+    "en": "Silence on the next online mode isn't a red flag, reporter says",
+    "es": "Silencio sobre el futuro modo en línea: nada preocupante, según un periodista",
+    "it": "Silenzio sulla futura modalità online: nulla di preoccupante, secondo un giornalista",
+    "de": "Schweigen zum künftigen Online-Modus: laut einem Journalisten kein Grund zur Sorge"
   },
   "body": {
     "fr": "Un journaliste spécialisé rapporte, moins de 24 heures après le dernier point financier de l'éditeur, que le jeu à venir n'est pas retardé et reste prévu pour le 19 novembre 2026. L'éditeur ne s'exprime pour l'instant que sur le mode solo, sans date ni annonce de retard pour le prochain mode en ligne — un silence comparable à celui observé en 2013, où le mode en ligne de l'épisode précédent était arrivé environ deux semaines après le jeu principal.",
-    "en": "A gaming reporter notes, less than 24 hours after the publisher's latest earnings call, that the upcoming game isn't delayed and remains on track for November 19, 2026. The publisher is currently only discussing the single-player mode, with no date or delay announced for the next online mode — a silence similar to 2013, when the previous game's online mode arrived about two weeks after the main game."
+    "en": "A gaming reporter notes, less than 24 hours after the publisher's latest earnings call, that the upcoming game isn't delayed and remains on track for November 19, 2026. The publisher is currently only discussing the single-player mode, with no date or delay announced for the next online mode — a silence similar to 2013, when the previous game's online mode arrived about two weeks after the main game.",
+    "es": "Un periodista especializado informa, menos de 24 horas después del último informe financiero de la editora, de que el juego no se retrasa y sigue previsto para el 19 de noviembre de 2026. Por ahora la editora solo se pronuncia sobre el modo para un jugador, sin fecha ni anuncio de retraso para el próximo modo en línea — un silencio comparable al de 2013, cuando el modo en línea de la entrega anterior llegó unas dos semanas después del juego principal.",
+    "it": "Un giornalista specializzato riferisce, a meno di 24 ore dall'ultimo punto finanziario dell'editore, che il gioco non è rinviato e resta previsto per il 19 novembre 2026. L'editore per ora si esprime solo sulla modalità in singolo, senza data né annunci di rinvio per la prossima modalità online — un silenzio simile a quello del 2013, quando la modalità online del capitolo precedente arrivò circa due settimane dopo il gioco principale.",
+    "de": "Ein Fachjournalist berichtet weniger als 24 Stunden nach dem letzten Finanzbericht des Publishers, dass sich das Spiel nicht verzögert und weiterhin für den 19. November 2026 geplant ist. Der Publisher äußert sich bislang nur zum Einzelspielermodus, ohne Datum oder Verschiebung für den kommenden Online-Modus — ein Schweigen wie 2013, als der Online-Modus des Vorgängers rund zwei Wochen nach dem Hauptspiel erschien."
   },
   "publishedAt": "2026-08-08",
   "status": "draft",

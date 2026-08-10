@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un jeu tiers annulé coûte 43 millions de dollars à l'éditeur",
-    "en": "A cancelled third-party game costs the publisher $43 million"
+    "en": "A cancelled third-party game costs the publisher $43 million",
+    "es": "Un juego de terceros cancelado cuesta 43 millones de dólares a la editora",
+    "it": "Un gioco di terze parti annullato costa 43 milioni di dollari all'editore",
+    "de": "Ein gestrichenes Fremdprojekt kostet den Publisher 43 Millionen Dollar"
   },
   "body": {
     "fr": "L'éditeur du jeu a comptabilisé une charge de 43,4 millions de dollars après avoir annulé un projet tiers non annoncé qu'il devait publier. Ni le nom ni la nature du jeu n'ont été précisés, mais l'éditeur indique que l'annulation ne concerne ni le studio à l'origine du jeu à venir ni sa licence phare.",
-    "en": "The game's publisher booked a $43.4 million impairment charge after cancelling an unannounced third-party title it was set to publish. Neither the game's name nor its nature was disclosed, but the publisher says the cancellation has nothing to do with the studio behind the upcoming game or its flagship series."
+    "en": "The game's publisher booked a $43.4 million impairment charge after cancelling an unannounced third-party title it was set to publish. Neither the game's name nor its nature was disclosed, but the publisher says the cancellation has nothing to do with the studio behind the upcoming game or its flagship series.",
+    "es": "La editora del juego ha registrado un cargo de 43,4 millones de dólares tras cancelar un proyecto de terceros no anunciado que debía publicar. No se han precisado ni el nombre ni la naturaleza del juego, pero la editora indica que la cancelación no afecta ni al estudio del que procede el juego por venir ni a su licencia insignia.",
+    "it": "L'editore del gioco ha iscritto un onere di 43,4 milioni di dollari dopo aver annullato un progetto di terze parti mai annunciato che avrebbe dovuto pubblicare. Non sono stati precisati né il nome né la natura del gioco, ma l'editore indica che l'annullamento non riguarda né lo studio da cui proviene il gioco in arrivo né la sua licenza di punta.",
+    "de": "Der Publisher des Spiels hat nach der Streichung eines nicht angekündigten Fremdprojekts, das er veröffentlichen sollte, eine Belastung von 43,4 Millionen Dollar verbucht. Weder Name noch Art des Spiels wurden genannt, doch der Publisher stellt klar, dass die Absage weder das Studio hinter dem kommenden Spiel noch dessen Vorzeigemarke betrifft."
   },
   "publishedAt": "2026-08-07",
   "status": "published",

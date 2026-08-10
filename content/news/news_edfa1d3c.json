@@ -4,11 +4,17 @@
   "game": "gtav",
   "title": {
     "fr": "Dryxio relie toute la trilogie par des portails",
-    "en": "Dryxio links the whole trilogy through portals"
+    "en": "Dryxio links the whole trilogy through portals",
+    "es": "Dryxio conecta toda la trilogía mediante portales",
+    "it": "Dryxio collega l'intera trilogia con dei portali",
+    "de": "Dryxio verbindet die ganze Trilogie über Portale"
   },
   "body": {
     "fr": "Des portails posés dans une rue emblématique du volet de 2004 font passer le personnage d'un jeu à l'autre. Le même moddeur n'était auparavant parvenu qu'à faire tourner un jeu sur un téléviseur dans l'autre.",
-    "en": "Portals placed on a landmark street in the 2004 entry now move the character between games. The same modder had previously only managed to run one game on a TV set inside another."
+    "en": "Portals placed on a landmark street in the 2004 entry now move the character between games. The same modder had previously only managed to run one game on a TV set inside another.",
+    "es": "Unos portales colocados en una calle emblemática de la entrega de 2004 hacen pasar al personaje de un juego a otro. El mismo modder solo había conseguido antes hacer funcionar un juego en un televisor dentro del otro.",
+    "it": "Alcuni portali piazzati in una via emblematica del capitolo del 2004 fanno passare il personaggio da un gioco all'altro. Lo stesso modder in precedenza era riuscito soltanto a far girare un gioco su un televisore dentro l'altro.",
+    "de": "Portale in einer bekannten Straße des 2004er Teils lassen die Figur von einem Spiel ins andere wechseln. Zuvor hatte derselbe Modder es nur geschafft, ein Spiel auf einem Fernseher im anderen laufen zu lassen."
   },
   "publishedAt": "2026-07-22",
   "status": "published",

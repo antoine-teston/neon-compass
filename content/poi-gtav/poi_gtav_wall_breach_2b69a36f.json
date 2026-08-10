@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Airport LSC Wall-breach",
-    "fr": "Passage de mur du LSC de l'aéroport"
+    "fr": "Passage de mur du LSC de l'aéroport",
+    "es": "Brecha del LSC del aeropuerto",
+    "it": "Varco del LSC dell'aeroporto",
+    "de": "Wanddurchbruch am Flughafen-LSC"
   },
   "note": {
     "en": "Go to the location as noted and stand behind the LSC. Park a car between the two shutter-doors that are directly right of the small crane. Climb onto the car you parked, face the wall and press Box to breach the wall.",
-    "fr": "Rendez-vous à l'endroit indiqué et placez-vous derrière le Los Santos Customs. Garez une voiture entre les deux rideaux métalliques situés juste à droite de la petite grue. Montez sur le toit du véhicule, faites face au mur et appuyez sur Carré pour le traverser."
+    "fr": "Rendez-vous à l'endroit indiqué et placez-vous derrière le Los Santos Customs. Garez une voiture entre les deux rideaux métalliques situés juste à droite de la petite grue. Montez sur le toit du véhicule, faites face au mur et appuyez sur Carré pour le traverser.",
+    "es": "Ve al lugar indicado y colócate detrás del Los Santos Customs. Aparca un coche entre las dos persianas metálicas situadas justo a la derecha de la pequeña grúa. Súbete al techo del vehículo, ponte de cara al muro y pulsa Cuadrado para atravesarlo.",
+    "it": "Recati nel luogo indicato e mettiti dietro il Los Santos Customs. Parcheggia un'auto tra le due serrande metalliche subito a destra della piccola gru. Sali sul tetto del veicolo, mettiti di fronte al muro e premi Quadrato per attraversarlo.",
+    "de": "Geh an den angegebenen Ort und stell dich hinter das Los Santos Customs. Parke ein Auto zwischen den beiden Metallrolltoren direkt rechts des kleinen Krans. Steig aufs Fahrzeugdach, stell dich zur Wand und drück Viereck, um hindurchzugehen."
   },
   "status": "published",
   "sources": [

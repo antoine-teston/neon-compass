@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Mariachi",
-    "fr": "Van des mariachis"
+    "fr": "Van des mariachis",
+    "es": "Furgoneta de los mariachis",
+    "it": "Furgone dei mariachi",
+    "de": "Mariachi-Van"
   },
   "note": {
     "en": "Go to the location as seen below _at 19:00_. Drive down the hill and with a bit of luck you can catch the car.",
-    "fr": "Rendez-vous à l'endroit indiqué à 19 h. Descendez la colline en voiture : avec un peu de chance, vous rattraperez le véhicule."
+    "fr": "Rendez-vous à l'endroit indiqué à 19 h. Descendez la colline en voiture : avec un peu de chance, vous rattraperez le véhicule.",
+    "es": "Ve al lugar indicado a las 19:00. Baja la colina en coche: con un poco de suerte, alcanzarás el vehículo.",
+    "it": "Recati nel luogo indicato alle 19. Scendi la collina in auto: con un po' di fortuna raggiungerai il veicolo.",
+    "de": "Geh um 19 Uhr an den angegebenen Ort. Fahr den Hügel hinunter: Mit etwas Glück holst du das Fahrzeug ein."
   },
   "status": "published",
   "sources": [

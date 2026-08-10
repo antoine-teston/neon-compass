@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Hidden Package #9 - $25,000",
-    "fr": "Magot caché n°9 — 25 000 $"
+    "fr": "Magot caché n°9 — 25 000 $",
+    "es": "Paquete oculto #9 — 25 000 $",
+    "it": "Pacco nascosto #9 — 25.000 $",
+    "de": "Verstecktes Paket #9 — 25.000 $"
   },
   "note": {
     "en": "This briefcase is exploitable for unlimited money",
-    "fr": "Cette mallette peut être ramassée en boucle, pour de l'argent illimité."
+    "fr": "Cette mallette peut être ramassée en boucle, pour de l'argent illimité.",
+    "es": "Este maletín puede recogerse en bucle, para dinero ilimitado.",
+    "it": "Questa valigetta può essere raccolta in loop, per denaro illimitato.",
+    "de": "Dieser Koffer lässt sich immer wieder aufnehmen — für unbegrenztes Geld."
   },
   "status": "published",
   "sources": [

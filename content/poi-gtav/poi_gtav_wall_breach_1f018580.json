@@ -8,11 +8,17 @@
   },
   "title": {
     "en": "Recycling Plant",
-    "fr": "Centre de recyclage"
+    "fr": "Centre de recyclage",
+    "es": "Planta de reciclaje",
+    "it": "Centro di riciclaggio",
+    "de": "Recyclinganlage"
   },
   "note": {
     "en": "Go to the location as seen below. Climb up the ladders and walk in the middle of the roof. Pull out your phone and accept any pending job invite. Back out immedietly and you should spawn inside the Space Docker garage.",
-    "fr": "Rendez-vous à l'endroit indiqué. Montez les échelles et placez-vous au milieu du toit. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans le garage du Space Docker."
+    "fr": "Rendez-vous à l'endroit indiqué. Montez les échelles et placez-vous au milieu du toit. Sortez votre téléphone, acceptez une invitation de mission en attente, puis annulez aussitôt : vous réapparaissez dans le garage du Space Docker.",
+    "es": "Ve al lugar indicado. Sube las escaleras y colócate en el centro del tejado. Saca el teléfono, acepta una invitación de misión pendiente y cancela enseguida: reapareces en el garaje del Space Docker.",
+    "it": "Recati nel luogo indicato. Sali le scale e mettiti al centro del tetto. Tira fuori il telefono, accetta un invito a una missione in attesa, poi annulla subito: riapparirai nel garage dello Space Docker.",
+    "de": "Geh an den angegebenen Ort. Steig die Leitern hinauf und stell dich in die Dachmitte. Nimm dein Telefon, nimm eine wartende Missionseinladung an und brich sofort ab: Du erscheinst in der Space-Docker-Garage."
   },
   "status": "published",
   "sources": [
