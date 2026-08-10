@@ -157,8 +157,16 @@ const ROUTE_PULL = /^\/api\/pulls\/(\d{1,6})$/;
  */
 const PRECONDITIONS = {
   'pr-fusionnable': async ({ numero }) => {
+    // On LIT le refus, on ne le recalcule pas. `pullRequestOuverte` rappelle
+    // `gh` à chaque geste : la valeur qu'elle porte est datée de maintenant,
+    // ce qui est tout ce que ce contrôle demandait.
+    //
+    // Le rejuger ici, c'était le rejuger sur la vue publique — qui ne porte ni
+    // `files` ni `statusCheckRollup`. Toute PR partait alors en « ne change
+    // aucun fichier », et aucune n'était fusionnable depuis la console.
     const { pullRequestOuverte, refusDeFusion } = await import('./pulls.mjs');
-    return refusDeFusion(await pullRequestOuverte(numero));
+    const pr = await pullRequestOuverte(numero);
+    return pr ? pr.refus : refusDeFusion(null); // le 404 garde une seule source
   },
 };
 

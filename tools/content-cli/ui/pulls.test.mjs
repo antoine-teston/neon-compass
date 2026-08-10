@@ -18,6 +18,7 @@ import {
   refusDeFusion,
   verdictDePublication,
   verdictDesControles,
+  vueDeLaPR,
 } from './pulls.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
@@ -183,6 +184,46 @@ test('une PR sans contrôle du tout est refusée', () => {
 test('une PR absente et une PR vide sont refusées', () => {
   assert.equal(refusDeFusion(null).code, 404);
   assert.equal(refusDeFusion(prVerte([])).code, 422);
+});
+
+// ---------------------------------------------------------------------------
+// La couture entre les deux formes
+//
+// `refusDeFusion` lit la forme BRUTE de `gh` (`files`, `statusCheckRollup`).
+// `pullRequestsOuvertes` rend une forme PUBLIQUE (`nbFichiers`, `controles`,
+// `refus`) qui ne porte NI l'un NI l'autre. Passer la seconde à la première,
+// c'est ce que faisait `server.mjs` : `pr.files` valait `undefined`, donc zéro
+// fichier, donc « cette PR ne change aucun fichier » sur une PR de huit ajouts.
+// Aucune PR n'était fusionnable depuis la console.
+//
+// Rien ne l'a vu parce que tous les tests ci-dessus construisent la forme brute
+// à la main. C'est la couture, et non chaque bout, qui manquait de test.
+// ---------------------------------------------------------------------------
+
+test('la vue publique porte le refus calculé sur les données brutes', () => {
+  const vue = vueDeLaPR({ number: 83, title: 'Veille', ...prVerte(['content/news/a.json']) });
+  assert.equal(vue.refus, null, 'une PR de contenu à CI verte est fusionnable');
+  assert.equal(vue.nbFichiers, 1);
+  assert.equal(vue.controles.etat, 'vert');
+});
+
+test('la vue publique ne se fait jamais juger « sans fichier »', () => {
+  // La régression exacte. Le message importe autant que le refus : « ne change
+  // aucun fichier » envoie chercher une PR vide qui n'existe pas.
+  const refus = refusDeFusion(vueDeLaPR(prVerte(['content/news/a.json'])));
+  assert.doesNotMatch(
+    refus?.message ?? '',
+    /ne change aucun fichier/,
+    'une forme injugeable ne doit pas être maquillée en PR vide',
+  );
+  assert.equal(refus.code, 500, 'une forme qu’on ne sait pas juger est une panne, pas un verdict');
+});
+
+test('« aucun fichier » reste réservé à une PR réellement vide', () => {
+  // Le pendant du test précédent : le garde-fou ne doit pas avaler le vrai cas.
+  const refus = refusDeFusion(prVerte([]));
+  assert.equal(refus.code, 422);
+  assert.match(refus.message, /ne change aucun fichier/);
 });
 
 // ---------------------------------------------------------------------------
