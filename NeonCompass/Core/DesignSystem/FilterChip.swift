@@ -134,13 +134,24 @@ struct FilterChipColumn<Content: View>: View {
     }
 }
 
-/// Le séparateur entre deux groupes de puces d'une même rangée.
+/// Le séparateur entre deux groupes de puces.
+///
+/// Il coupe EN TRAVERS de l'axe où les puces s'enchaînent : un trait vertical
+/// dans une rangée, horizontal dans une colonne. Le même trait dans les deux
+/// sens ne séparerait rien dans l'un des deux.
 struct FilterChipDivider: View {
+    /// L'axe le long duquel les PUCES s'enchaînent, pas celui du trait — le
+    /// trait, lui, est toujours perpendiculaire.
+    var axis: Axis = .horizontal
+
     var body: some View {
         Rectangle()
             .fill(.white.opacity(0.15))
-            .frame(width: 1, height: 20)
-            .padding(.horizontal, 2)
+            .frame(
+                width: axis == .horizontal ? 1 : 40,
+                height: axis == .horizontal ? 20 : 1
+            )
+            .padding(axis == .horizontal ? .horizontal : .vertical, 2)
             .accessibilityHidden(true)
     }
 }

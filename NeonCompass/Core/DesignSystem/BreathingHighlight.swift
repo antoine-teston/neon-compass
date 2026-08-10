@@ -23,6 +23,14 @@ struct BreathingHighlight: ViewModifier {
     /// Coupe l'effet là où le contenu ne parle pas du jeu à venir.
     var isActive: Bool = true
 
+    /// La teinte de la lueur. Le violet par défaut, et il reste RÉSERVÉ au jeu à
+    /// venir : c'est ce qui fait de cette respiration un signal et non une
+    /// décoration. Le second usage, l'orange des favoris, est admis pour deux
+    /// raisons — il ne nomme aucun jeu, donc il n'entre pas en concurrence de
+    /// sens ; et il défile avec la liste, donc il ne consomme pas en permanence
+    /// l'un des trois accents lumineux que `CLAUDE.md` autorise par écran.
+    var tint: Color = NCColor.sunsetViolet
+
     /// Une animation qui ne s'arrête jamais est exactement ce que ce réglage
     /// vise. Coupée, la vue garde son état haut plutôt que de retomber au creux
     /// de la respiration — sinon l'élément paraîtrait éteint.
@@ -47,9 +55,9 @@ struct BreathingHighlight: ViewModifier {
             // forcer l'opacité d'un halo unique — poussée seule, celle-ci grise
             // le fond au lieu de l'éclairer, et devient sale bien avant d'être
             // lumineuse.
-            .shadow(color: NCColor.sunsetViolet.opacity(coreGlow), radius: breathes && isLit ? 4 : 2)
-            .shadow(color: NCColor.sunsetViolet.opacity(coreGlow), radius: breathes && isLit ? 10 : 4)
-            .shadow(color: NCColor.sunsetViolet.opacity(haloGlow), radius: breathes && isLit ? 22 : 6)
+            .shadow(color: tint.opacity(coreGlow), radius: breathes && isLit ? 4 : 2)
+            .shadow(color: tint.opacity(coreGlow), radius: breathes && isLit ? 10 : 4)
+            .shadow(color: tint.opacity(haloGlow), radius: breathes && isLit ? 22 : 6)
             .onAppear {
                 guard breathes else { return }
                 withAnimation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true)) {
@@ -76,7 +84,10 @@ extension View {
     ///
     /// À poser APRÈS le fond de l'élément — capsule, cercle — pour que la lueur
     /// entoure la pastille entière et non le seul tracé des lettres.
-    func breathingHighlight(_ isActive: Bool = true) -> some View {
-        modifier(BreathingHighlight(isActive: isActive))
+    func breathingHighlight(
+        _ isActive: Bool = true,
+        tint: Color = NCColor.sunsetViolet
+    ) -> some View {
+        modifier(BreathingHighlight(isActive: isActive, tint: tint))
     }
 }

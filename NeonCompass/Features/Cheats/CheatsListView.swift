@@ -20,6 +20,10 @@ struct CheatsListView: View {
     /// donner un point d'ancrage fixe — et payer sa hauteur en permanence.
     @State private var searchRowBottom: CGFloat = 0
 
+    /// Ouverte quand le plafond a refusé un favori. Le refus lui-même vit dans
+    /// le modèle ; la vue ne fait qu'en montrer la conséquence.
+    @State private var showPaywall = false
+
     private static let screenSpace = "cheatsScreen"
 
     var body: some View {
@@ -42,6 +46,27 @@ struct CheatsListView: View {
             }
         }
         .coordinateSpace(.named(Self.screenSpace))
+        .sheet(isPresented: $showPaywall) { PaywallView() }
+    }
+
+    /// Une carte, et le seul endroit de cette liste où l'on étoile.
+    ///
+    /// Le plafond refuse en rendant `false` ; la vue ouvre alors Pro plutôt que
+    /// de laisser le tap sans effet. Une étoile qui ne s'allume pas et n'explique
+    /// rien serait lue comme une panne.
+    private func card(_ cheat: Cheat, code: CheatCode) -> some View {
+        CheatCard(
+            cheat: cheat,
+            code: code,
+            isFavorite: model.isFavorite(cheat),
+            onTap: { onSelect(cheat) },
+            onToggleFavorite: {
+                let accepted = model.toggleFavorite(
+                    cheat, isProEntitled: proEntitlementModel.isProEntitled
+                )
+                if !accepted { showPaywall = true }
+            }
+        )
     }
 
     private var list: some View {
@@ -55,6 +80,17 @@ struct CheatsListView: View {
                 searchRow
 
                 let flatIndex = model.flatIndexByID
+                if !model.favoriteSection.isEmpty {
+                    favoritesHeader
+                    ForEach(model.favoriteSection) { cheat in
+                        if let code = cheat.codes[model.activeInputMode] {
+                            card(cheat, code: code)
+                        }
+                        if showsInlineAd(after: flatIndex[cheat.id]) {
+                            inlineAd
+                        }
+                    }
+                }
                 ForEach(model.sections, id: \.category) { section in
                     // L'en-tête s'effaçait sous filtre, au motif que la puce
                     // allumée disait déjà laquelle. La puce vit désormais derrière
@@ -65,13 +101,7 @@ struct CheatsListView: View {
                     sectionHeader(section.category)
                     ForEach(section.cheats) { cheat in
                         if let code = cheat.codes[model.activeInputMode] {
-                            CheatCard(
-                                cheat: cheat,
-                                code: code,
-                                isFavorite: model.isFavorite(cheat),
-                                onTap: { onSelect(cheat) },
-                                onToggleFavorite: { model.toggleFavorite(cheat) }
-                            )
+                            card(cheat, code: code)
                         }
                         if showsInlineAd(after: flatIndex[cheat.id]) {
                             inlineAd
@@ -126,7 +156,8 @@ struct CheatsListView: View {
     private var categoryPanel: some View {
         CheatsFilterBar(
             categories: model.availableCategories,
-            selectedCategory: model.selectedCategory,
+            filter: model.filter,
+            hasFavorites: model.favoriteCount > 0,
             onSelect: { select($0) }
         )
         .padding(.horizontal, 16)
@@ -157,10 +188,10 @@ struct CheatsListView: View {
     /// transaction muette, l'animation du repli emporterait le remplacement de la
     /// liste dans le même passage — ce sont les douze images perdues par tap
     /// mesurées sur `FeedFilterBar`.
-    private func select(_ category: CheatCategory?) {
+    private func select(_ filter: CheatFilter) {
         var silent = Transaction()
         silent.disablesAnimations = true
-        withTransaction(silent) { model.selectCategory(category) }
+        withTransaction(silent) { model.select(filter) }
         close()
     }
 
@@ -227,6 +258,46 @@ struct CheatsListView: View {
             .frame(maxWidth: .infinity)
             .padding(14)
             .glassEffect(.regular, in: .rect(cornerRadius: 14))
+    }
+
+    /// L'en-tête des favoris, et ce qui le distingue des autres.
+    ///
+    /// TOUS les en-têtes de rubrique sont déjà en `sunsetOrange` : un « FAVORIS »
+    /// orange de plus serait indistinguable de « PERSONNAGE ». Ce qui le sépare
+    /// est donc structurel — l'étoile, et le décompte à droite — et l'étoile
+    /// SEULE respire. Elle défile avec la liste, donc cette lueur n'est jamais un
+    /// accent permanent.
+    private var favoritesHeader: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "star.fill")
+                .font(.system(size: 11, weight: .bold))
+                .foregroundStyle(NCColor.sunsetOrange)
+                .breathingHighlight(tint: NCColor.sunsetOrange)
+            Text("cheats.favorites.title")
+                .textCase(.uppercase)
+            Spacer()
+            // Masqué en Pro, où il n'y a pas de plafond : un dénominateur ne
+            // dirait rien. Même règle que le carnet d'épingles.
+            if !proEntitlementModel.isProEntitled {
+                Text(verbatim: "\(model.favoriteCount)/\(CheatsModel.freeFavoriteCap)")
+                    .monospacedDigit()
+                    // Magenta au plafond, comme le carnet d'épingles. Il reste
+                    // magenta au-delà — quelqu'un peut avoir plus de cinq favoris
+                    // d'avant le plafond, et afficher « 8/5 » est honnête là où
+                    // truquer le nombre ne le serait pas.
+                    .foregroundStyle(
+                        model.isAtFavoriteCap(isProEntitled: false)
+                            ? NCColor.sunsetMagenta : .secondary
+                    )
+                    .accessibilityLabel(
+                        Text("cheats.favorites.countAccessibility \(model.favoriteCount) \(CheatsModel.freeFavoriteCap)")
+                    )
+            }
+        }
+        .font(NCTypography.cardMeta)
+        .foregroundStyle(NCColor.sunsetOrange)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, 8)
     }
 
     private func sectionHeader(_ category: CheatCategory) -> some View {

@@ -151,6 +151,63 @@ palette : l'Actu et les Codes emploient le même `FilterChip`, et les faire dive
 sur la couleur obligerait un lecteur à réapprendre d'un écran à l'autre ce que
 signifie une capsule allumée.
 
+### 4. Les favoris mènent quelque part, et se plafonnent
+
+Ils existaient déjà — l'étoile orange sur chaque carte, `FavoriteCheat` en
+SwiftData, et le premier alimente le widget — mais nulle part où les voir.
+
+**Une section en tête de liste.** `FAVORIS` ouvre la colonne, au-dessus des
+rubriques, et défile avec elle. Elle ne s'affiche que s'il y a au moins un favori
+pour le jeu ET le mode actifs : un en-tête vide n'apprend rien.
+
+Tous les en-têtes de rubrique étant déjà en `sunsetOrange`, un « FAVORIS » orange
+de plus serait indistinguable de « PERSONNAGE ». Ce qui le sépare est donc
+structurel — une étoile à gauche, le décompte à droite — et **l'étoile seule
+respire**, en orange. Elle défile avec la liste, donc cette lueur n'est jamais un
+accent permanent, ce qui est la condition pour qu'elle ne compte pas dans les trois
+que `CLAUDE.md` autorise par écran. Le violet de `BreathingHighlight` reste réservé
+au jeu à venir : l'orange ne nomme aucun jeu, il n'entre donc pas en concurrence de
+sens.
+
+**Une carte, un endroit.** Sans filtre, un favori QUITTE sa rubrique pour la
+section — l'afficher aux deux endroits serait du bruit. Le tri « favoris d'abord »
+à l'intérieur des rubriques disparaît donc du cas sans filtre, où il n'a plus rien
+à remonter, et **subsiste sous filtre de rubrique** : là, c'est cette rubrique
+qu'on regarde, le favori y reste et mène.
+
+La section est **en tête de la même colonne** que les rubriques, donc elle compte
+dans `displayedCheats` : l'oublier décalerait toutes les positions d'encarts
+publicitaires. Un test le fige.
+
+**Une puce `★ Favoris`**, en bas du panneau et séparée par un `FilterChipDivider`
+horizontal. En bas parce que la colonne descend du bouton, donc son dernier élément
+est le plus loin de lui ; séparée parce que ce n'est pas une rubrique de plus mais
+une restriction d'un autre ordre. Elle ne s'affiche pas s'il n'y a aucun favori —
+une commande qui ne peut rien faire est pire qu'absente.
+
+Le modèle passe de `selectedCategory: CheatCategory?` à un **`CheatFilter`** à trois
+cas — `.none`, `.favorites`, `.category(x)`. Un booléen « favoris » à côté de la
+rubrique aurait été un second état à tenir en accord, ce que ce fichier refuse déjà
+pour `activeCategories`. `selectCategory(_:)` survit en façade.
+
+**Le plafond : cinq en gratuit, sans limite en Pro.**
+`toggleFavorite(_:isProEntitled:)` rend `false` quand il refuse un ajout, jamais
+pour un retrait ; la vue ouvre `PaywallView` sur ce `false`. La règle vit dans le
+modèle et pas dans la vue — une vue ne se teste pas. Le décompte `n/5` est masqué en
+Pro, où un dénominateur ne dirait rien, et passe en magenta au plafond : les deux
+règles du carnet d'épingles.
+
+**Personne ne perd de favori.** Le plafond n'existait pas : quelqu'un peut en avoir
+dix. Il bloque l'**ajout**, ne supprime rien, et le décompte affiche `10/5` en
+magenta jusqu'à ce qu'on repasse sous la barre. Truquer le nombre serait pire que
+l'afficher.
+
+**Un cas connu, laissé ouvert.** Les favoris sont des identifiants globaux, la liste
+est filtrée par jeu. Quelqu'un dont les cinq favoris seraient sur un jeu verrait, sur
+l'autre, un plafond atteint sans aucune carte à l'écran pour l'expliquer. C'est
+inatteignable tant que le jeu à venir n'a aucun code — rien n'est construit contre,
+et c'est à rouvrir le jour où il en publie.
+
 ## Ce qu'on ne fait pas
 
 **Aucun renommage vers « plateforme ».** Le type s'appelle `CheatInputMode` et c'est

@@ -95,3 +95,15 @@ struct Cheat: Codable, Equatable, Identifiable, Sendable {
         try container.encode(raw, forKey: .codes)
     }
 }
+
+/// Ce que la liste des codes montre.
+///
+/// Trois cas exclusifs par construction, et c'est le but : « une rubrique » et
+/// « les favoris » sont deux restrictions du même ordre, qui ne peuvent pas être
+/// posées ensemble. Les tenir dans deux propriétés côte à côte reviendrait à
+/// devoir les garder d'accord à la main.
+enum CheatFilter: Equatable, Sendable {
+    case none
+    case favorites
+    case category(CheatCategory)
+}
