@@ -139,6 +139,23 @@ test('toute commande du CLI citée par la Routine existe', () => {
   assert.deepEqual(inventees, [], `citées par la Routine mais inexistantes : ${inventees.join(', ')}`);
 });
 
+test('les dépendances sont installées avant le premier appel au CLI', () => {
+  // `node_modules` est gitignoré : dans le dépôt cloné par l'ordonnanceur, il
+  // n'existe pas. `schemas.mjs` important `ajv`, tout appel au CLI meurt avant
+  // d'avoir rien fait. Le contrat appelait le CLI à l'étape 5 et n'installait
+  // qu'à l'étape 7 — depuis le 2026-08-03, chaque run s'en tirait par une
+  // réinstallation improvisée que le contrat ne demandait nulle part.
+  const contrat = lire(ROUTINE);
+  const installation = contrat.indexOf('npm ci');
+  const premierAppel = contrat.search(/node \S*cli\.js/);
+  assert.notEqual(installation, -1, 'le contrat n’installe jamais les dépendances');
+  assert.notEqual(premierAppel, -1, 'le contrat n’appelle plus le CLI — le motif a dérivé');
+  assert.ok(
+    installation < premierAppel,
+    'le contrat appelle le CLI avant d’avoir installé ses dépendances : le premier appel mourra sur ERR_MODULE_NOT_FOUND',
+  );
+});
+
 test('la branche roulante est resynchronisée sur main', () => {
   // Trouvé le 2026-08-10 au soir, une heure avant le run suivant : `veille/courante`
   // traînait sur origin avec 81 commits de retard, et l'étape 1 s'y plaçait sans
