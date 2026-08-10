@@ -81,15 +81,24 @@ struct CheatsListView: View {
 
                 let flatIndex = model.flatIndexByID
                 if !model.favoriteSection.isEmpty {
-                    favoritesHeader
-                    ForEach(model.favoriteSection) { cheat in
-                        if let code = cheat.codes[model.activeInputMode] {
-                            card(cheat, code: code)
+                    FavoritesCard(
+                        cheats: model.favoriteSection,
+                        inputMode: model.activeInputMode,
+                        favoriteCount: model.favoriteCount,
+                        showsCount: !proEntitlementModel.isProEntitled,
+                        isAtCap: model.isAtFavoriteCap(
+                            isProEntitled: proEntitlementModel.isProEntitled
+                        ),
+                        onSelect: onSelect,
+                        onRemove: { cheat in
+                            // Un retrait n'est jamais refusé : le plafond ne
+                            // porte que sur l'ajout. Le résultat est donc ignoré
+                            // ici en connaissance de cause.
+                            model.toggleFavorite(
+                                cheat, isProEntitled: proEntitlementModel.isProEntitled
+                            )
                         }
-                        if showsInlineAd(after: flatIndex[cheat.id]) {
-                            inlineAd
-                        }
-                    }
+                    )
                 }
                 ForEach(model.sections, id: \.category) { section in
                     // L'en-tête s'effaçait sous filtre, au motif que la puce
@@ -258,46 +267,6 @@ struct CheatsListView: View {
             .frame(maxWidth: .infinity)
             .padding(14)
             .glassEffect(.regular, in: .rect(cornerRadius: 14))
-    }
-
-    /// L'en-tête des favoris, et ce qui le distingue des autres.
-    ///
-    /// TOUS les en-têtes de rubrique sont déjà en `sunsetOrange` : un « FAVORIS »
-    /// orange de plus serait indistinguable de « PERSONNAGE ». Ce qui le sépare
-    /// est donc structurel — l'étoile, et le décompte à droite — et l'étoile
-    /// SEULE respire. Elle défile avec la liste, donc cette lueur n'est jamais un
-    /// accent permanent.
-    private var favoritesHeader: some View {
-        HStack(spacing: 6) {
-            Image(systemName: "star.fill")
-                .font(.system(size: 11, weight: .bold))
-                .foregroundStyle(NCColor.sunsetOrange)
-                .breathingHighlight(tint: NCColor.sunsetOrange)
-            Text("cheats.favorites.title")
-                .textCase(.uppercase)
-            Spacer()
-            // Masqué en Pro, où il n'y a pas de plafond : un dénominateur ne
-            // dirait rien. Même règle que le carnet d'épingles.
-            if !proEntitlementModel.isProEntitled {
-                Text(verbatim: "\(model.favoriteCount)/\(CheatsModel.freeFavoriteCap)")
-                    .monospacedDigit()
-                    // Magenta au plafond, comme le carnet d'épingles. Il reste
-                    // magenta au-delà — quelqu'un peut avoir plus de cinq favoris
-                    // d'avant le plafond, et afficher « 8/5 » est honnête là où
-                    // truquer le nombre ne le serait pas.
-                    .foregroundStyle(
-                        model.isAtFavoriteCap(isProEntitled: false)
-                            ? NCColor.sunsetMagenta : .secondary
-                    )
-                    .accessibilityLabel(
-                        Text("cheats.favorites.countAccessibility \(model.favoriteCount) \(CheatsModel.freeFavoriteCap)")
-                    )
-            }
-        }
-        .font(NCTypography.cardMeta)
-        .foregroundStyle(NCColor.sunsetOrange)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 8)
     }
 
     private func sectionHeader(_ category: CheatCategory) -> some View {

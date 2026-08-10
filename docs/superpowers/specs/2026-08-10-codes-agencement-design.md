@@ -156,31 +156,47 @@ signifie une capsule allumée.
 Ils existaient déjà — l'étoile orange sur chaque carte, `FavoriteCheat` en
 SwiftData, et le premier alimente le widget — mais nulle part où les voir.
 
-**Une section en tête de liste.** `FAVORIS` ouvre la colonne, au-dessus des
-rubriques, et défile avec elle. Elle ne s'affiche que s'il y a au moins un favori
-pour le jeu ET le mode actifs : un en-tête vide n'apprend rien.
+**UNE carte, pas une section de cartes — et la raison n'est pas d'apparence.**
+Une section occupe des places dans la colonne de la liste, et `InlineAdPlacement`
+distribue ses encarts sur cette colonne : des favoris en section, ce sont des
+bannières entre eux. Un seul bloc n'offre aucun emplacement. **Le raccourci qu'on
+se garde vers ses cinq codes ne se paie pas d'une publicité au milieu.** C'est la
+raison d'être de cette forme, et ce qu'il ne faut pas défaire en la « simplifiant »
+en `ForEach` de `CheatCard`.
 
-Tous les en-têtes de rubrique étant déjà en `sunsetOrange`, un « FAVORIS » orange
-de plus serait indistinguable de « PERSONNAGE ». Ce qui le sépare est donc
-structurel — une étoile à gauche, le décompte à droite — et **l'étoile seule
-respire**, en orange. Elle défile avec la liste, donc cette lueur n'est jamais un
-accent permanent, ce qui est la condition pour qu'elle ne compte pas dans les trois
-que `CLAUDE.md` autorise par écran. Le violet de `BreathingHighlight` reste réservé
-au jeu à venir : l'orange ne nomme aucun jeu, il n'entre donc pas en concurrence de
-sens.
+Les favoris sont donc RETIRÉS de `displayedCheats` — un test le fige, et un second
+vérifie que le filtre « Favoris » ne les rouvre pas aux annonces par la porte de
+derrière.
 
-**Une carte, un endroit.** Sans filtre, un favori QUITTE sa rubrique pour la
-section — l'afficher aux deux endroits serait du bruit. Le tri « favoris d'abord »
-à l'intérieur des rubriques disparaît donc du cas sans filtre, où il n'a plus rien
-à remonter, et **subsiste sous filtre de rubrique** : là, c'est cette rubrique
-qu'on regarde, le favori y reste et mène.
+La carte ouvre la liste, au-dessus des rubriques, et défile avec elle. Elle ne
+paraît que s'il y a au moins un favori pour le jeu ET le mode actifs. Chaque ligne
+tient l'effet sur une ligne coupée et son code en glyphes de quatorze points —
+contre dix-huit sur une carte de liste — ce qui fait tenir cinq codes dans un bloc
+sans qu'il occupe l'écran entier ; l'effet complet est à un tap dans le lecteur.
 
-La section est **en tête de la même colonne** que les rubriques, donc elle compte
-dans `displayedCheats` : l'oublier décalerait toutes les positions d'encarts
-publicitaires. Un test le fige.
+**La lueur se répartit en deux, et c'est un constat, pas une esthétique.** Une
+ombre FIXE sur la carte, une respiration sur la seule étoile de l'en-tête.
+`BreathingHighlight` posé sur la carte entière a rendu **l'écran entièrement noir** :
+l'app vivante à 13 % de CPU, sans jamais présenter une image, bissecté à variable
+unique jusqu'à ce seul modificateur. La cause tient à ce pour quoi il a été écrit —
+il empile trois ombres dont une de rayon 22, et son coût a été mesuré sur des
+pastilles de trente points, pas sur une carte pleine largeur de plusieurs centaines.
+
+Le violet de `BreathingHighlight` reste réservé au jeu à venir ; l'orange ne nomme
+aucun jeu, il n'entre donc pas en concurrence de sens, et il défile avec la liste,
+donc il ne consomme pas en permanence l'un des trois accents lumineux que
+`CLAUDE.md` autorise par écran.
+
+**Une carte, un endroit.** Sans filtre, un favori QUITTE sa rubrique pour la carte —
+l'afficher aux deux endroits serait du bruit. Le tri « favoris d'abord » à
+l'intérieur des rubriques disparaît donc du cas sans filtre, où il n'a plus rien à
+remonter, et **subsiste sous filtre de rubrique** : là, c'est cette rubrique qu'on
+regarde, le favori y reste et mène. Sous « Favoris », la carte porte tout et les
+rubriques ne rendent rien.
 
 **Une puce `★ Favoris`**, en bas du panneau et séparée par un `FilterChipDivider`
-horizontal. En bas parce que la colonne descend du bouton, donc son dernier élément
+horizontal — le séparateur a gagné un axe, le même trait dans les deux sens ne
+séparant rien dans l'un des deux. En bas parce que la colonne descend du bouton, donc son dernier élément
 est le plus loin de lui ; séparée parce que ce n'est pas une rubrique de plus mais
 une restriction d'un autre ordre. Elle ne s'affiche pas s'il n'y a aucun favori —
 une commande qui ne peut rien faire est pire qu'absente.
