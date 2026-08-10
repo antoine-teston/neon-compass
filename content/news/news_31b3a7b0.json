@@ -1,0 +1,21 @@
+{
+  "id": "news_31b3a7b0",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Précommandes en forte hausse, mais aucun chiffre communiqué",
+    "en": "Pre-orders surge, but no numbers shared"
+  },
+  "body": {
+    "fr": "Lors de son dernier point avec les investisseurs, le PDG de l'éditeur a assuré que les précommandes du jeu à venir dépassaient très largement les prévisions internes, sans donner ni chiffre ni pourcentage. Il justifie ce silence par l'impossibilité de distinguer, à ce stade, les ventes anticipées d'une hausse réelle de la demande. La société a maintenu inchangée sa prévision annuelle de revenus nets (8,0 à 8,2 milliards de dollars), en retrait par rapport aux attentes des marchés financiers.",
+    "en": "At its latest investor call, the publisher's CEO said pre-orders for the upcoming game were vastly beating internal forecasts, without giving a number or percentage. He attributed the silence to the difficulty of telling, at this stage, pulled-forward sales from a genuine rise in demand. The company kept its annual net revenue guidance unchanged at $8.0 to $8.2 billion, below what financial markets had been hoping for."
+  },
+  "publishedAt": "2026-08-09",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/take-two-says-gta-6-pre-orders-vastly-beat-its-forecasts-ace9"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:ebc02b429b3c",
+  "sourceClaim": "Lors de son dernier point avec les investisseurs, le PDG de l'éditeur a déclaré que les précommandes du jeu à venir dépassaient très largement les prévisions internes de la société, sans donner ni chiffre ni pourcentage ; il a justifié ce silence par l'impossibilité d'évaluer à ce stade la part de ventes anticipées qui auraient de toute façon eu lieu plus tard, et la société a maintenu inchangée sa prévision de revenus nets pour l'exercice en cours (8,0 à 8,2 milliards de dollars), un chiffre resté en deçà des attentes des marchés financiers."
+}
