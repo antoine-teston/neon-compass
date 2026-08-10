@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Go to the location as noted. Let your friend lean against the wall like you saw in the video. Now drive slowly into the gate.",
-    "fr": "Rendez-vous à l'endroit indiqué. Demandez à un ami de s'adosser au mur, puis avancez lentement en voiture contre le portail."
+    "fr": "Rendez-vous à l'endroit indiqué. Demandez à un ami de s'adosser au mur, puis avancez lentement en voiture contre le portail.",
+    "es": "Ve al lugar indicado. Pide a un amigo que se apoye en el muro y luego avanza despacio en coche contra la verja.",
+    "it": "Recati nel luogo indicato. Chiedi a un amico di appoggiarsi al muro, poi avanza lentamente in auto contro il cancello.",
+    "de": "Geh an den angegebenen Ort. Lass einen Freund sich an die Mauer lehnen und fahre dann langsam mit dem Auto gegen das Tor."
   },
   "status": "published",
   "sources": [

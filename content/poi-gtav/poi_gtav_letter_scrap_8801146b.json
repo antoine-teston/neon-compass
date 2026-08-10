@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "[Helicopter Required] You will need a helicopter to fly onto the circular structure inside the airport. In front of a door in the circular blue column is the Letter.",
-    "fr": "[Hélicoptère nécessaire] Un hélicoptère est indispensable pour se poser sur la structure circulaire de l'aéroport. Le fragment est devant une porte, dans la colonne bleue circulaire."
+    "fr": "[Hélicoptère nécessaire] Un hélicoptère est indispensable pour se poser sur la structure circulaire de l'aéroport. Le fragment est devant une porte, dans la colonne bleue circulaire.",
+    "es": "[Se necesita helicóptero] Hace falta un helicóptero para posarse en la estructura circular del aeropuerto. El fragmento está delante de una puerta, en la columna azul circular.",
+    "it": "[Elicottero necessario] Serve un elicottero per posarsi sulla struttura circolare dell'aeroporto. Il frammento è davanti a una porta, nella colonna blu circolare.",
+    "de": "[Helikopter nötig] Für die Landung auf dem runden Flughafenbauwerk braucht es einen Helikopter. Der Fetzen liegt vor einer Tür in der runden blauen Säule."
   },
   "status": "published",
   "sources": [

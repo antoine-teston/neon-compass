@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Go to Rollercoaster. Choose a seat on the Rollercoaster. Someone can choose the same seat as you and will sit \"inside\" of you. (More people can also sit in the same exact seat)",
-    "fr": "Rendez-vous aux montagnes russes et choisissez un siège. Un autre joueur peut choisir exactement le même et se retrouver « à l'intérieur » de vous — plusieurs personnes peuvent d'ailleurs occuper le même siège."
+    "fr": "Rendez-vous aux montagnes russes et choisissez un siège. Un autre joueur peut choisir exactement le même et se retrouver « à l'intérieur » de vous — plusieurs personnes peuvent d'ailleurs occuper le même siège.",
+    "es": "Ve a la montaña rusa y elige un asiento. Otro jugador puede elegir exactamente el mismo y acabar «dentro» de ti — de hecho, varias personas pueden ocupar el mismo asiento.",
+    "it": "Recati alle montagne russe e scegli un sedile. Un altro giocatore può scegliere esattamente lo stesso e ritrovarsi «dentro» di te — più persone possono peraltro occupare lo stesso sedile.",
+    "de": "Geh zur Achterbahn und wähle einen Sitz. Ein anderer Spieler kann genau denselben wählen und landet dann „in“ dir — mehrere Personen können sogar denselben Sitz belegen."
   },
   "status": "published",
   "sources": [

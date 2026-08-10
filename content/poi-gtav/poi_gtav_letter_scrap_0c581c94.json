@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This one is inside the room next to the swimming pool, in front of a table tennis table.",
-    "fr": "Celui-ci est dans la pièce voisine de la piscine, devant une table de ping-pong."
+    "fr": "Celui-ci est dans la pièce voisine de la piscine, devant une table de ping-pong.",
+    "es": "Este está en la sala contigua a la piscina, delante de una mesa de ping-pong.",
+    "it": "Questo è nella stanza accanto alla piscina, davanti a un tavolo da ping-pong.",
+    "de": "Dieser liegt im Raum neben dem Pool, vor einer Tischtennisplatte."
   },
   "status": "published",
   "sources": [

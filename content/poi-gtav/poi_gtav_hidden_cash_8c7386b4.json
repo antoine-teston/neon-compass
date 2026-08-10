@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This briefcase is exploitable for unlimited money",
-    "fr": "Cette mallette peut être ramassée en boucle, pour de l'argent illimité."
+    "fr": "Cette mallette peut être ramassée en boucle, pour de l'argent illimité.",
+    "es": "Este maletín puede recogerse en bucle, para dinero ilimitado.",
+    "it": "Questa valigetta può essere raccolta in loop, per denaro illimitato.",
+    "de": "Dieser Koffer lässt sich immer wieder aufnehmen — für unbegrenztes Geld."
   },
   "status": "published",
   "sources": [

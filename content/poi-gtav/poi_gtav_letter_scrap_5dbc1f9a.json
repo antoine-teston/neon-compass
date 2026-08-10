@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "This is located in a green container filled with rubbish outside the blue “Mega Mall” building.",
-    "fr": "Dans une benne verte remplie de détritus, devant le bâtiment bleu « Mega Mall »."
+    "fr": "Dans une benne verte remplie de détritus, devant le bâtiment bleu « Mega Mall ».",
+    "es": "En un contenedor verde lleno de desperdicios, delante del edificio azul «Mega Mall».",
+    "it": "In un cassonetto verde pieno di rifiuti, davanti all'edificio blu «Mega Mall».",
+    "de": "In einem grünen Müllcontainer voller Abfall, vor dem blauen Gebäude „Mega Mall“."
   },
   "status": "published",
   "sources": [

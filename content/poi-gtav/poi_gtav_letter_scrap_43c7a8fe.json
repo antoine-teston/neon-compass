@@ -15,7 +15,10 @@
   },
   "note": {
     "en": "Underneath the bridge is a tunnel. Jump into the water and swim under the bridge. The Letter is on the platform in the centre of the tunnel.",
-    "fr": "Un tunnel passe sous le pont. Sautez à l'eau et nagez dessous : le fragment est sur la plateforme, au centre du tunnel."
+    "fr": "Un tunnel passe sous le pont. Sautez à l'eau et nagez dessous : le fragment est sur la plateforme, au centre du tunnel.",
+    "es": "Un túnel pasa bajo el puente. Salta al agua y nada por debajo: el fragmento está en la plataforma, en el centro del túnel.",
+    "it": "Un tunnel passa sotto il ponte. Tuffati e nuota sotto: il frammento è sulla piattaforma, al centro del tunnel.",
+    "de": "Ein Tunnel führt unter der Brücke hindurch. Spring ins Wasser und schwimm darunter: Der Fetzen liegt auf der Plattform in der Tunnelmitte."
   },
   "status": "published",
   "sources": [
