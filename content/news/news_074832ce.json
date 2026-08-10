@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Telia offre le jeu avec certains forfaits en Norvège",
-    "en": "Telia is bundling the game with some Norwegian plans"
+    "en": "Telia is bundling the game with some Norwegian plans",
+    "es": "Telia regala el juego con algunas tarifas en Noruega",
+    "it": "Telia regala il gioco con alcune tariffe in Norvegia",
+    "de": "Telia legt das Spiel bestimmten Tarifen in Norwegen bei"
   },
   "body": {
     "fr": "L'opérateur nordique donne un code de téléchargement aux clients qui souscrivent ou passent à certains forfaits mobiles. Dans le même pays, un détaillant annonce en offrir aux parents dont l'enfant naît le jour de la sortie.",
-    "en": "The Nordic carrier is giving a download code to customers who sign up for or upgrade to certain mobile plans. In the same country, a retailer says it will give copies to parents whose child is born on launch day."
+    "en": "The Nordic carrier is giving a download code to customers who sign up for or upgrade to certain mobile plans. In the same country, a retailer says it will give copies to parents whose child is born on launch day.",
+    "es": "El operador nórdico entrega un código de descarga a los clientes que contratan o mejoran ciertas tarifas móviles. En el mismo país, un minorista anuncia que lo regalará a los padres cuyo hijo nazca el día del lanzamiento.",
+    "it": "L'operatore nordico consegna un codice di download ai clienti che sottoscrivono o passano a determinate tariffe mobili. Nello stesso paese, un rivenditore annuncia di volerlo regalare ai genitori il cui figlio nasce il giorno dell'uscita.",
+    "de": "Der nordische Anbieter gibt Kunden, die bestimmte Mobilfunktarife abschließen oder wechseln, einen Download-Code. Im selben Land kündigt ein Händler an, es Eltern zu schenken, deren Kind am Erscheinungstag zur Welt kommt."
   },
   "publishedAt": "2026-07-22",
   "status": "published",

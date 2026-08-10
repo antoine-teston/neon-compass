@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Le 7 août, dernier point financier de l'éditeur avant la sortie",
-    "en": "August 7 is the publisher's last earnings call before launch"
+    "en": "August 7 is the publisher's last earnings call before launch",
+    "es": "El 7 de agosto, último informe financiero de la editora antes del lanzamiento",
+    "it": "Il 7 agosto, ultimo punto finanziario dell'editore prima dell'uscita",
+    "de": "7. August: letzter Finanzbericht des Publishers vor dem Erscheinen"
   },
   "body": {
     "fr": "La conférence trimestrielle se tient à 8 h, heure de New York, avant l'ouverture des marchés américains. C'est le dernier rendez-vous de ce type avant le 19 novembre : le suivant aura lieu une fois le jeu en vente. Les précommandes étant ouvertes depuis fin juin, c'est la première occasion pour l'éditeur d'en commenter l'accueil.",
-    "en": "The quarterly call is set for 8 a.m. New York time, ahead of the US market open. It is the last of its kind before November 19 — the next one lands after the game is on sale. With pre-orders open since late June, it is the publisher's first chance to say how they have gone."
+    "en": "The quarterly call is set for 8 a.m. New York time, ahead of the US market open. It is the last of its kind before November 19 — the next one lands after the game is on sale. With pre-orders open since late June, it is the publisher's first chance to say how they have gone.",
+    "es": "La conferencia trimestral se celebra a las 8:00, hora de Nueva York, antes de la apertura de los mercados estadounidenses. Es la última cita de este tipo antes del 19 de noviembre: la siguiente tendrá lugar con el juego ya a la venta. Como las reservas están abiertas desde finales de junio, es la primera ocasión de la editora para comentar su acogida.",
+    "it": "La conferenza trimestrale si tiene alle 8, ora di New York, prima dell'apertura dei mercati statunitensi. È l'ultimo appuntamento del genere prima del 19 novembre: il successivo avverrà a gioco già in vendita. Poiché i preordini sono aperti da fine giugno, è la prima occasione per l'editore di commentarne l'accoglienza.",
+    "de": "Die Quartalskonferenz findet um 8 Uhr New Yorker Zeit statt, vor Öffnung der US-Märkte. Es ist der letzte Termin dieser Art vor dem 19. November: Der nächste folgt, wenn das Spiel bereits im Handel ist. Da die Vorbestellungen seit Ende Juni laufen, ist es für den Publisher die erste Gelegenheit, sich zu deren Resonanz zu äußern."
   },
   "publishedAt": "2026-08-02",
   "status": "published",

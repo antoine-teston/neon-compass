@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Un site fan évoque du gameplay dans l'aperçu du 27 août, la presse reste prudente",
-    "en": "Fan site says the August 27 preview includes gameplay, press stays cautious"
+    "en": "Fan site says the August 27 preview includes gameplay, press stays cautious",
+    "es": "Un sitio de fans habla de gameplay en el avance del 27 de agosto; la prensa es prudente",
+    "it": "Un sito di fan parla di gameplay nell'anteprima del 27 agosto, la stampa resta prudente",
+    "de": "Eine Fanseite spricht von Gameplay im Ausblick vom 27. August, die Presse bleibt vorsichtig"
   },
   "body": {
     "fr": "Le site communautaire Leonidaverse décrit le format de l'aperçu étendu du 27 août comme allant au-delà d'une simple bande-annonce et incluant des séquences de gameplay, en citant des sources qu'il attribue à l'éditeur du jeu et à Netflix. Cette présentation est plus affirmative que celle de la presse spécialisée anglophone, qui considère encore la présence de gameplay comme non confirmée.",
-    "en": "Fan site Leonidaverse describes the format of the August 27 extended preview as going beyond a standard trailer to include gameplay footage, citing sources it attributes to the game's publisher and to Netflix. That framing is more assertive than English-language specialist outlets, which still treat the presence of gameplay as unconfirmed."
+    "en": "Fan site Leonidaverse describes the format of the August 27 extended preview as going beyond a standard trailer to include gameplay footage, citing sources it attributes to the game's publisher and to Netflix. That framing is more assertive than English-language specialist outlets, which still treat the presence of gameplay as unconfirmed.",
+    "es": "El sitio comunitario Leonidaverse describe el formato del avance ampliado del 27 de agosto como algo que va más allá de un simple tráiler e incluye secuencias de gameplay, citando fuentes que atribuye a la editora del juego y a Netflix. Esta presentación es más rotunda que la de la prensa especializada anglófona, que sigue considerando la presencia de gameplay como no confirmada.",
+    "it": "Il sito della community Leonidaverse descrive il formato dell'anteprima estesa del 27 agosto come qualcosa che va oltre un semplice trailer e include sequenze di gameplay, citando fonti che attribuisce all'editore del gioco e a Netflix. Questa presentazione è più netta di quella della stampa specializzata anglofona, che considera ancora non confermata la presenza di gameplay.",
+    "de": "Die Community-Seite Leonidaverse beschreibt das Format des erweiterten Ausblicks vom 27. August als mehr als einen bloßen Trailer und mit Gameplay-Sequenzen, unter Berufung auf Quellen, die sie dem Publisher des Spiels und Netflix zuschreibt. Diese Darstellung ist bestimmter als die der englischsprachigen Fachpresse, die Gameplay weiterhin als unbestätigt einstuft."
   },
   "publishedAt": "2026-08-06",
   "status": "draft",

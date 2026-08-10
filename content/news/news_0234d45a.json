@@ -4,11 +4,17 @@
   "game": "leonida",
   "title": {
     "fr": "Troisième bande-annonce : une fenêtre avancée autour du 6 août",
-    "en": "Third trailer: a window floated around August 6"
+    "en": "Third trailer: a window floated around August 6",
+    "es": "Tercer tráiler: una ventana adelantada en torno al 6 de agosto",
+    "it": "Terzo trailer: una finestra anticipata attorno al 6 agosto",
+    "de": "Dritter Trailer: ein vorgezogenes Zeitfenster um den 6. August"
   },
   "body": {
     "fr": "Au 27 juillet, toujours pas de troisième bande-annonce. Un initié reconnu du secteur évoque le 6 août, veille de la publication des résultats trimestriels de l'éditeur. Le studio n'a rien confirmé à ce jour.",
-    "en": "As of July 27, still no third trailer. A well-known industry insider points to August 6, the day before the publisher's quarterly results. The studio has confirmed nothing so far."
+    "en": "As of July 27, still no third trailer. A well-known industry insider points to August 6, the day before the publisher's quarterly results. The studio has confirmed nothing so far.",
+    "es": "A 27 de julio seguía sin haber tercer tráiler. Un informante reconocido del sector apunta al 6 de agosto, víspera de la publicación de los resultados trimestrales de la editora. El estudio no ha confirmado nada hasta la fecha.",
+    "it": "Al 27 luglio non c'era ancora un terzo trailer. Un insider riconosciuto del settore indica il 6 agosto, vigilia della pubblicazione dei risultati trimestrali dell'editore. Lo studio non ha confermato nulla finora.",
+    "de": "Am 27. Juli gab es noch immer keinen dritten Trailer. Ein anerkannter Brancheninsider nennt den 6. August, den Vorabend der Quartalszahlen des Publishers. Das Studio hat bislang nichts bestätigt."
   },
   "publishedAt": "2026-07-27",
   "status": "draft",
