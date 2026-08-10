@@ -46,7 +46,9 @@ struct CheatsListView: View {
             }
         }
         .coordinateSpace(.named(Self.screenSpace))
-        .sheet(isPresented: $showPaywall) { PaywallView() }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(reason: "cheats.favorites.capReached")
+        }
     }
 
     /// Une carte, et le seul endroit de cette liste où l'on étoile.
@@ -89,6 +91,7 @@ struct CheatsListView: View {
                         isAtCap: model.isAtFavoriteCap(
                             isProEntitled: proEntitlementModel.isProEntitled
                         ),
+                        showsAll: model.filter == .favorites,
                         onSelect: onSelect,
                         onRemove: { cheat in
                             // Un retrait n'est jamais refusé : le plafond ne
@@ -97,7 +100,8 @@ struct CheatsListView: View {
                             model.toggleFavorite(
                                 cheat, isProEntitled: proEntitlementModel.isProEntitled
                             )
-                        }
+                        },
+                        onShowAll: { select(.favorites) }
                     )
                 }
                 ForEach(model.sections, id: \.category) { section in
@@ -166,7 +170,10 @@ struct CheatsListView: View {
         CheatsFilterBar(
             categories: model.availableCategories,
             filter: model.filter,
-            hasFavorites: model.favoriteCount > 0,
+            // Ce que le jeu ET le mode actifs sauraient afficher, pas le compte
+            // du plafond : celui-ci porte aussi sur l'autre jeu, et la puce
+            // n'aurait alors qu'une liste vide à rendre.
+            hasFavorites: model.hasDisplayableFavorites,
             onSelect: { select($0) }
         )
         .padding(.horizontal, 16)
@@ -214,7 +221,11 @@ struct CheatsListView: View {
     /// dans la seule catégorie que `CLAUDE.md` laisse à cette teinte sans
     /// discuter — « l'unique chose qu'un écran veut faire remarquer ».
     private var categoryToggleButton: some View {
-        let isFiltering = model.selectedCategory != nil
+        // `model.filter != .none` et NON `selectedCategory != nil` : celui-ci ne
+        // déballe que le cas `.category`, donc l'entonnoir restait éteint sous
+        // « Favoris » — alors qu'il est le seul élément à pouvoir dire qu'une
+        // restriction est posée, les puces étant invisibles au repos.
+        let isFiltering = model.filter != .none
         return Button {
             // `withAnimation` ICI, et c'est mesuré — contrairement à ce que
             // l'interdiction posée sur `FilterChip` laissait craindre.

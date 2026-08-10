@@ -589,6 +589,40 @@
         }
       }
     },
+    "cheats.favorites.capReached": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fünf Favoriten pro Eingabeart in der Gratisversion."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Five favorites per input method on the free plan."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cinco favoritos por método de entrada en la versión gratuita."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cinq favoris par mode de saisie dans la version gratuite."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cinque preferiti per modalità di inserimento nella versione gratuita."
+          }
+        }
+      }
+    },
     "cheats.favorites.countAccessibility %lld %lld": {
       "localizations": {
         "de": {
@@ -619,6 +653,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld preferiti su %2$lld usati"
+          }
+        }
+      }
+    },
+    "cheats.favorites.more %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld weitere anzeigen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show %lld more"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver %lld más"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir les %lld autres"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra altri %lld"
           }
         }
       }

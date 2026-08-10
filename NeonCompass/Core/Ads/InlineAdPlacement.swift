@@ -41,7 +41,22 @@ enum InlineAdPlacement {
     /// Une graine tirée du nombre d'éléments affichés donne la stabilité sans
     /// l'état : même liste, mêmes positions, à chaque évaluation.
     static func positions(itemCount: Int) -> Set<Int> {
-        var generator = SplitMix64(seed: UInt64(max(0, itemCount)))
+        positions(itemCount: itemCount, seededBy: itemCount)
+    }
+
+    /// Même chose, mais en semant sur AUTRE CHOSE que la longueur.
+    ///
+    /// Utile quand la colonne se raccourcit sans que la liste change vraiment —
+    /// l'écran Codes en retire ses favoris, qui partent dans leur propre carte.
+    /// Semer sur la longueur y déplaçait toutes les bannières à chaque étoile
+    /// posée : nouvelle graine, nouvelles positions, chaque `BannerAdView`
+    /// détruite et recréée, donc une requête AdMob dans le chemin du tap.
+    ///
+    /// Avec une graine stable, la SUITE d'écarts ne change pas ; retirer un
+    /// élément ne fait que tronquer la fin. Les encarts restants gardent leur
+    /// place.
+    static func positions(itemCount: Int, seededBy seed: Int) -> Set<Int> {
+        var generator = SplitMix64(seed: UInt64(max(0, seed)))
         return positions(itemCount: itemCount, using: &generator)
     }
 }

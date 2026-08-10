@@ -234,6 +234,67 @@ l'autre, un plafond atteint sans aucune carte à l'écran pour l'expliquer. C'es
 inatteignable tant que le jeu à venir n'a aucun code — rien n'est construit contre,
 et c'est à rouvrir le jour où il en publie.
 
+### 5. Un favori appartient à son mode de saisie
+
+**Le défaut que ça ferme, et il est atteignable.** Cinq des trente-six codes de
+GTA V n'ont pas d'équivalent manette, un n'en a pas au clavier. Tant qu'un favori
+valait pour tous les modes, en poser cinq au téléphone puis passer sur manette
+donnait une carte **vide**, un compteur à `5/5`, et tout ajout refusé — le plafond
+se consommait sur des favoris devenus invisibles, donc irretirables.
+
+`FavoriteCheat` porte donc le mode, et l'unicité passe au **couple**.
+
+**Le plafond compte les favoris du MODE ACTIF, tous jeux confondus** (décision du
+2026-08-10). Il ignore aussi les identifiants que le catalogue ne connaît plus :
+une publication qui renomme une triche laisserait sinon une place consommée pour
+toujours. Rien n'est supprimé pour autant — l'identifiant peut revenir.
+
+Reste ouvert, sciemment : les deux jeux partagent le compte. Le compteur pourra
+donc annoncer cinq au-dessus d'une carte qui en montre trois, le jour où le jeu à
+venir publiera ses codes.
+
+**La migration a été éprouvée, pas supposée.** Un attribut obligatoire ajouté à une
+entité existante n'a rien à mettre dans les lignes déjà écrites : la migration
+légère refuse, et comme `NeonCompassApp` construit son `ModelContainer` avec `try!`,
+c'est un **plantage au lancement** pour quiconque avait un favori. Constaté à
+l'exécution avant d'être corrigé par une valeur par défaut. Vérifié ensuite sur un
+vrai magasin ancien — trois favoris hérités écrits au schéma précédent, puis mise à
+jour : ils survivent et sont adoptés dans le mode mémorisé, celui sur lequel ils ont
+été posés.
+
+### 6. Ce que la relecture a rattrapé
+
+Quatre défauts livrés puis corrigés, tous de la même famille — un ensemble de
+favoris global confronté à un affichage qui, lui, est toujours restreint :
+
+- **L'entonnoir restait éteint sous « Favoris ».** Son indicateur testait
+  `selectedCategory != nil`, faux pour ce cas. Il est le seul élément à pouvoir dire
+  qu'une restriction est posée, les puces étant invisibles au repos.
+- **Retirer son dernier favori sous ce filtre laissait un écran sans issue** : plus
+  de carte, plus de liste, pas d'état vide, et la puce qui aurait permis d'en sortir
+  disparue avec le dernier favori. Le relâchement d'un filtre devenu vide vit
+  désormais à UN endroit, appelé par les trois entrées — jeu, mode, retrait.
+- **La puce s'offrait sur un compte global**, donc parfois pour ne rendre qu'une
+  liste vide — exactement ce que sa documentation dit vouloir éviter.
+- **`isProEntitled` avait une valeur par défaut permissive** sur la fonction qui
+  APPLIQUE le plafond. Retirée : un appelant distrait le contournait sans que rien
+  ne le signale.
+
+Et deux que la carte a introduits :
+
+- **Favoriter déplaçait toutes les publicités.** `InlineAdPlacement` sème sur le
+  nombre d'éléments ; depuis que les favoris quittent la colonne, poser une étoile
+  en changeait la longueur, donc la graine, donc toutes les positions — chaque
+  `BannerAdView` détruite et recréée, avec sa requête AdMob, sous le doigt. La graine
+  est maintenant le nombre d'affichables, que favoriter ne change pas.
+- **La carte n'avait pas de plafond pour Pro**, qui lève celui des favoris : trente-six
+  lignes d'un bloc, ce n'est plus un raccourci. Elle en montre cinq et renvoie au
+  filtre pour le reste — sauf sous ce filtre, où montrer tout est ce qu'on a demandé.
+
+Enfin, **le refus mène désormais à un paywall qui dit pourquoi**. Il était générique :
+l'étoile ne s'allumait pas, une page de vente surgissait, et c'était à l'utilisateur
+de faire le lien.
+
 ## Ce qu'on ne fait pas
 
 **Aucun renommage vers « plateforme ».** Le type s'appelle `CheatInputMode` et c'est
