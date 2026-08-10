@@ -139,6 +139,20 @@ test('toute commande du CLI citée par la Routine existe', () => {
   assert.deepEqual(inventees, [], `citées par la Routine mais inexistantes : ${inventees.join(', ')}`);
 });
 
+test('la branche roulante est resynchronisée sur main', () => {
+  // Trouvé le 2026-08-10 au soir, une heure avant le run suivant : `veille/courante`
+  // traînait sur origin avec 81 commits de retard, et l'étape 1 s'y plaçait sans
+  // rien y ramener. La Routine aurait donc exécuté le `cli.js` et le
+  // `rewrite-news.md` d'avant les correctifs du jour — doublons recréés,
+  // traductions retombées à deux langues — en ayant l'air de bien fonctionner.
+  const contrat = lire(ROUTINE);
+  assert.match(contrat, /git merge origin\/main/,
+    'l’étape 1 ne ramène plus `main` dans la branche roulante : elle exécutera le code du jour où la branche est née');
+  // Et la raison, sans quoi la ligne finira retirée comme une redondance.
+  assert.match(contrat, /retard/,
+    'la raison du merge a disparu de l’étape 1 — quelqu’un retirera la ligne');
+});
+
 test('les interdits irréversibles ne dépendent pas d’un fichier lu', () => {
   // L'amorçage hébergé les répète, et le contrat le justifie. Si cette
   // justification disparaît, quelqu'un finira par « simplifier » l'amorçage en

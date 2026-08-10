@@ -92,16 +92,33 @@ restent valides — ils sont seulement moins nécessaires.
   30812422696). N'insiste pas : le transport passe par l'API `contents`,
   ci-dessous.
 
-## 1. Se placer sur la branche roulante — AVANT tout le reste
+## 1. Se placer sur la branche roulante, ET la resynchroniser — AVANT tout le reste
 
 Une seule PR de veille est ouverte à la fois ; chaque jour ajoute un commit.
 
 ```sh
-git fetch origin veille/courante 2>/dev/null && git checkout -B veille/courante origin/veille/courante || git checkout -B veille/courante
+git fetch origin
+git checkout -B veille/courante origin/veille/courante 2>/dev/null || git checkout -B veille/courante origin/main
+git merge origin/main --no-edit
 ```
 
-Cet ordre n'est pas cosmétique : basé sur `main`, tu ne verrais pas les faits
-d'hier non encore fusionnés, et tu les ré-extrairais tous.
+**Les deux moitiés comptent, et pour des raisons opposées.**
+
+Partir de `veille/courante` : les faits d'hier non encore fusionnés n'y sont que
+là. Basé sur `main` seul, tu ne les verrais pas et tu les ré-extrairais tous.
+
+Y ramener `main` : la branche roulante porte aussi **le code et les contrats du
+jour où elle a été créée**. Le 2026-08-10 au soir, elle avait 81 commits de
+retard — son `cli.js` ignorait le contrôle de convergence de l'étape 5, et son
+`rewrite-news.md` demandait encore deux langues au lieu de cinq. Sans cette
+fusion tu exécuterais la chaîne d'avant-hier en croyant appliquer celle
+d'aujourd'hui, sans le moindre avertissement : les mêmes doublons reviendraient
+et les traductions repartiraient à deux. C'est la panne la plus silencieuse de
+toute cette chaîne, parce que tout y a l'air de fonctionner.
+
+Si la fusion entre en conflit : arrête-toi, rapporte le conflit dans un
+compte-rendu de run, et ne force rien. Une branche roulante qu'on ne sait plus
+resynchroniser se supprime à la main après relecture — ce n'est pas ta décision.
 
 ## 2. Récolter, puis lire la récolte
 
