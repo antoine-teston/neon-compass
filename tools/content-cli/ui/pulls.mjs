@@ -23,8 +23,13 @@
 //
 // Il lit, il classe, il refuse. La fusion elle-même passe par la porte
 // « geste » (`POST /api/run`, action `merge-pr`), comme tout ce qui lance un
-// processus dans cette console. `refusDeFusion` est ce que le serveur appelle
-// AVANT de lancer quoi que ce soit.
+// processus dans cette console. Le verdict que le serveur consulte AVANT de
+// lancer quoi que ce soit est celui que `vueDeLaPR` a posé dans `refus`.
+//
+// Deux formes circulent ici, et les confondre a déjà coûté la fonction entière :
+// la forme BRUTE de `gh` (`files`, `statusCheckRollup`), seule jugeable par
+// `refusDeFusion`, et la vue PUBLIQUE de `vueDeLaPR` (`nbFichiers`, `refus`),
+// qui porte le verdict mais plus de quoi le recalculer.
 
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -118,7 +123,22 @@ export function verdictDesControles(rollup) {
 export function refusDeFusion(pr) {
   if (!pr) return { code: 404, message: 'pull request introuvable' };
 
-  const fichiers = (pr.files ?? []).map((f) => f.path);
+  // La forme AVANT le fond. `files` absent n'est pas « zéro fichier » : c'est
+  // qu'on nous a passé la vue publique (`nbFichiers`, `controles`, `refus`) au
+  // lieu de la réponse de `gh`. Le `?? []` d'avant confondait les deux et
+  // répondait « cette PR ne change aucun fichier » à une PR de huit ajouts —
+  // un refus au motif FAUX, qui envoie chercher une PR vide qui n'existe pas.
+  //
+  // 500 et non 422 : ce n'est pas un état de la PR, c'est une panne de code.
+  if (!Array.isArray(pr.files)) {
+    return {
+      code: 500,
+      message: 'forme inattendue : cette PR ne porte pas ses fichiers bruts. '
+        + '`refusDeFusion` attend la réponse de `gh`, pas la vue rendue par `vueDeLaPR`.',
+    };
+  }
+
+  const fichiers = pr.files.map((f) => f.path);
   const horsContenu = fichiers.filter((f) => !String(f).startsWith('content/'));
   if (horsContenu.length) {
     return {
@@ -151,6 +171,34 @@ async function gh(args) {
   return stdout;
 }
 
+/**
+ * La réponse de `gh` traduite en ce que la console affiche.
+ *
+ * Pure, exportée, et surtout NOMMÉE : c'est ici que la forme brute devient la
+ * forme publique, et cette frontière est la seule chose que ce fichier avait
+ * laissée sans nom ni test. Le refus est calculé ICI, du côté où les fichiers
+ * bruts existent encore — quiconque tient la vue publique tient déjà le verdict
+ * et n'a pas à le recalculer.
+ */
+export function vueDeLaPR(pr) {
+  const fichiers = (pr.files ?? []).map((f) => f.path);
+  const effet = effetDuMerge(fichiers);
+  return {
+    numero: pr.number,
+    titre: pr.title,
+    url: pr.url,
+    creeLe: pr.createdAt,
+    branche: pr.headRefName,
+    brouillon: Boolean(pr.isDraft),
+    nbFichiers: fichiers.length,
+    controles: verdictDesControles(pr.statusCheckRollup),
+    effet: { ...effet, phrase: phraseDeLEffet(effet) },
+    // `null` = fusionnable. La page grise le bouton ; le serveur relit cette
+    // valeur-ci au moment du geste, il ne la recalcule pas.
+    refus: refusDeFusion(pr),
+  };
+}
+
 /** Les PR ouvertes, chacune avec son effet de merge et son refus éventuel.
  *
  *  Un SEUL appel : `gh pr list --json files,…` rend déjà les fichiers, ce qui
@@ -158,24 +206,7 @@ async function gh(args) {
 export async function pullRequestsOuvertes({ limite = 20 } = {}) {
   const brut = await gh(['pr', 'list', '--state', 'open', '--limit', String(limite), '--json', CHAMPS]);
   const prs = JSON.parse(brut);
-  return prs.map((pr) => {
-    const fichiers = (pr.files ?? []).map((f) => f.path);
-    const effet = effetDuMerge(fichiers);
-    const refus = refusDeFusion(pr);
-    return {
-      numero: pr.number,
-      titre: pr.title,
-      url: pr.url,
-      creeLe: pr.createdAt,
-      branche: pr.headRefName,
-      brouillon: Boolean(pr.isDraft),
-      nbFichiers: fichiers.length,
-      controles: verdictDesControles(pr.statusCheckRollup),
-      effet: { ...effet, phrase: phraseDeLEffet(effet) },
-      // `null` = fusionnable. La page grise le bouton, le serveur refait le test.
-      refus,
-    };
-  });
+  return prs.map(vueDeLaPR);
 }
 
 /** Une PR par son numéro, telle que `pullRequestsOuvertes` la rend. */
