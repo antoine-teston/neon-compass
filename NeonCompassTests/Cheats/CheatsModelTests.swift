@@ -158,17 +158,11 @@ struct CheatsModelTests {
     }
 
     // MARK: - Jeu actif
-
-    @Test func firstLaunchLandsOnTheGameThatHasCodes() throws {
-        #expect(try model([], defaults: defaults("fresh-game")).activeGame == .reference)
-    }
-
-    @Test func remembersTheChosenGame() throws {
-        let store = defaults("remember-game")
-        let sut = try model([], defaults: store)
-        sut.activeGame = .leonida
-        #expect(try model([], defaults: store).activeGame == .leonida)
-    }
+    //
+    // Le modèle REÇOIT le jeu, il ne le détient plus : la bascule vit dans la
+    // barre haute et son état dans `AppModel`. Le premier lancement et la
+    // mémoire du choix se vérifient donc dans `AppModelGameTests`. Ce qui reste
+    // ici est ce que le modèle est seul à savoir faire du jeu qu'on lui donne.
 
     @Test func keepsOnlyTheActiveGame() throws {
         let sut = try model([

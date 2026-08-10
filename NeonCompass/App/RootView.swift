@@ -327,7 +327,14 @@ struct RootView: View {
             ZStack(alignment: .top) {
                 screen(for: tab)
                     .safeAreaPadding(.top, NCLayout.headerBarClearance)
-                AppHeaderBar(onOpenSettings: { model.showsSettings = true })
+                AppHeaderBar(onOpenSettings: { model.showsSettings = true }) {
+                    // Le seul écran qui pose quelque chose dans la barre. La
+                    // bascule y tenait une ligne entière en tête de sa liste,
+                    // pour deux chiffres romains.
+                    if tab == .cheats {
+                        GameSwitch(game: $model.activeGame)
+                    }
+                }
             }
         } else {
             screen(for: tab)
@@ -339,7 +346,7 @@ struct RootView: View {
         switch tab {
         case .feed: FeedScreen()
         case .map: MapScreen()
-        case .cheats: CheatsScreen()
+        case .cheats: CheatsScreen(game: model.activeGame)
         case .social: SocialScreen()
         case .profile: ProfileScreen()
         }

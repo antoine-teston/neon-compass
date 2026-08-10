@@ -6,7 +6,6 @@ import SwiftData
 @MainActor
 final class CheatsModel {
     private static let inputModeKey = "cheatsActiveInputMode"
-    private static let gameKey = "cheatsActiveGame"
     /// Clé de l'époque où le sélecteur portait sur une plate-forme et non sur un
     /// mode de saisie. Lue une fois, jamais écrite.
     static let legacyPlatformKey = "cheatsActivePlatform"
@@ -53,9 +52,14 @@ final class CheatsModel {
         }
     }
 
+    /// Le jeu regardé — REÇU, plus détenu.
+    ///
+    /// La bascule vit dans la barre haute et son état dans `AppModel`, qui le
+    /// persiste. `CheatsScreen` pousse ici toute variation. Ce qui reste au
+    /// modèle est ce qu'il est seul à savoir faire : relâcher une rubrique que le
+    /// nouveau jeu ne propose pas, et recalculer.
     var activeGame: Game {
         didSet {
-            defaults.set(activeGame.rawValue, forKey: Self.gameKey)
             // Relâche une rubrique que le nouveau jeu ne propose pas, sans quoi
             // la liste serait vide sous une puce allumée. L'affectation déclenche
             // le recalcul par son propre `didSet` — d'où le `else`, qui évite de
@@ -99,6 +103,7 @@ final class CheatsModel {
 
     init(
         cheats: [Cheat],
+        game: Game = .reference,
         modelContext: ModelContext,
         defaults: UserDefaults = .standard,
         widgetSummaryCoordinator: WidgetSummaryCoordinator? = nil
@@ -112,8 +117,7 @@ final class CheatsModel {
             (try? modelContext.fetch(FetchDescriptor<FavoriteCheat>()))?.map(\.cheatID) ?? []
         )
         self.activeInputMode = Self.storedInputMode(in: defaults)
-        self.activeGame = defaults.string(forKey: Self.gameKey)
-            .flatMap(Game.init(rawValue:)) ?? .reference
+        self.activeGame = game
         // Les `didSet` ne se déclenchent pas pendant l'initialisation : les
         // dérivées seraient restées vides sans cet appel explicite.
         recompute()

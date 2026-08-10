@@ -2,6 +2,11 @@ import SwiftUI
 import SwiftData
 
 struct CheatsScreen: View {
+    /// Le jeu vient de `AppModel`, parce que la bascule vit dans la barre haute
+    /// que `RootView` monte au-dessus de cet écran. L'écran le reçoit et le pousse
+    /// dans son modèle ; il ne le détient pas.
+    let game: Game
+
     @Environment(\.modelContext) private var modelContext
     @Environment(WidgetSummaryCoordinator.self) private var widgetSummaryCoordinator
     @Environment(InterstitialCoordinator.self) private var interstitialCoordinator
@@ -29,19 +34,21 @@ struct CheatsScreen: View {
         // elle-même dès que `model` était assigné, et `updateCheats` n'était
         // jamais atteint.
         .task { await loadCheatsModel() }
+        // Le modèle naît avec le bon jeu ; cette liaison ne sert qu'aux
+        // changements ultérieurs. Elle porte le `didSet` du modèle, qui relâche
+        // une rubrique que le nouveau jeu ne propose pas et recalcule.
+        .onChange(of: game) { _, newGame in model?.activeGame = newGame }
     }
 
     @ViewBuilder
     private func cheatsContent(model: CheatsModel) -> some View {
         Group {
             if model.isAwaitingContent {
-                // La bascule vit en tête de la liste, qui n'est pas là dans cet
-                // état : sans elle ici, on partirait sur le jeu à venir sans
-                // pouvoir revenir.
-                CheatsEmptyGameView(game: Binding(
-                    get: { model.activeGame },
-                    set: { model.activeGame = $0 }
-                ))
+                // Plus de bascule de secours ici : elle vivait en tête de la
+                // liste, absente dans cet état, et il fallait donc la redonner
+                // pour ne pas enfermer sur le jeu à venir. La barre haute la
+                // porte maintenant, et la barre est là quoi qu'affiche l'écran.
+                CheatsEmptyGameView()
             } else {
                 CheatsListView(model: model) { cheat in
                     readerCheat = cheat
