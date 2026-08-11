@@ -1,0 +1,27 @@
+{
+  "id": "news_bdf9c883",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Une grand-mère achèterait une console pour le jeu",
+    "en": "Fan story: grandmother buys console for the game",
+    "es": "Una abuela habría comprado una consola por el juego",
+    "it": "Una nonna avrebbe comprato una console per il gioco",
+    "de": "Fangeschichte: Oma kauft Konsole für das Spiel"
+  },
+  "body": {
+    "fr": "Un message publié sur un réseau social affirme qu'une grand-mère de 78 ans a acheté une console de nouvelle génération dans le seul but de jouer au jeu à venir dès sa sortie. La presse spécialisée a relayé l'anecdote comme signe de l'ampleur de l'attente autour du jeu, mais l'histoire reste invérifiée et sans confirmation officielle.",
+    "en": "A social media post claims a 78-year-old grandmother bought a next-gen console for the sole purpose of playing the upcoming game at launch. Specialist press shared the anecdote as a sign of how wide the game's anticipation reaches, but the story is unverified and has no official confirmation.",
+    "es": "Una publicación en redes sociales asegura que una abuela de 78 años compró una consola de nueva generación con el único fin de jugar al juego en su lanzamiento. La prensa especializada difundió la anécdota como muestra de lo extendida que está la expectación por el juego, pero la historia no está verificada ni cuenta con confirmación oficial.",
+    "it": "Un post sui social afferma che una nonna di 78 anni abbia comprato una console di nuova generazione con l'unico scopo di giocare al titolo in arrivo al lancio. La stampa specializzata ha ripreso l'aneddoto come segno dell'ampiezza dell'attesa attorno al gioco, ma la storia resta non verificata e priva di conferma ufficiale.",
+    "de": "Ein Social-Media-Beitrag behauptet, eine 78-jährige Großmutter habe eine Konsole der neuen Generation allein gekauft, um das kommende Spiel zum Start zu spielen. Fachmedien griffen die Anekdote als Zeichen der breiten Vorfreude auf das Spiel auf, doch die Geschichte ist unbestätigt und ohne offizielle Bestätigung."
+  },
+  "publishedAt": "2026-08-10",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/78-year-old-grandmother-buys-xbox-series-x-for-gta-6-8dd9"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:2c32bb801e83",
+  "sourceClaim": "Un internaute affirme sur un réseau social que sa grand-mère de 78 ans a acheté une console de nouvelle génération dans le seul but de jouer au jeu à venir lors de sa sortie ; l'anecdote, relayée par la presse spécialisée comme illustration de l'ampleur de l'attente autour du jeu, reste invérifiable et n'est confirmée par aucune source officielle."
+}
