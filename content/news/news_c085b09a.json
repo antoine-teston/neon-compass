@@ -1,0 +1,27 @@
+{
+  "id": "news_c085b09a",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le compte du studio suit des streamers connus",
+    "en": "Studio's social account follows top streamers",
+    "es": "La cuenta del estudio sigue a streamers conocidos",
+    "it": "L'account dello studio segue streamer noti",
+    "de": "Studio-Account folgt bekannten Streamern"
+  },
+  "body": {
+    "fr": "La presse spécialisée a remarqué que le compte officiel du studio sur un réseau social a récemment suivi plusieurs créateurs de contenu très suivis, dont des figures connues du jeu de rôle communautaire, quelques jours avant la diffusion du 27 août. Le studio n'a fait aucune déclaration officielle, et l'article présente lui-même cette observation comme une hypothèse, pas une stratégie confirmée.",
+    "en": "Trade press noticed the studio's official social account recently followed several high-profile content creators, including well-known community role-play figures, just days before the August 27 reveal. The studio has made no official statement, and the report itself frames this as speculation, not a confirmed strategy.",
+    "es": "La prensa especializada notó que la cuenta oficial del estudio en una red social siguió recientemente a varios creadores de contenido muy populares, incluidas figuras conocidas del rol comunitario, pocos días antes de la difusión del 27 de agosto. El estudio no hizo ninguna declaración oficial, y el propio artículo presenta esto como una hipótesis, no una estrategia confirmada.",
+    "it": "La stampa di settore ha notato che l'account ufficiale dello studio su un social ha recentemente seguito diversi creator molto popolari, comprese figure note del gioco di ruolo comunitario, pochi giorni prima della diffusione del 27 agosto. Lo studio non ha rilasciato alcuna dichiarazione ufficiale, e l'articolo stesso presenta questo come un'ipotesi, non una strategia confermata.",
+    "de": "Fachmedien bemerkten, dass der offizielle Social-Media-Account des Studios kurz vor der Übertragung am 27. August mehreren bekannten Content-Erstellern folgte, darunter bekannte Figuren aus der Community-Rollenspielszene. Das Studio äußerte sich dazu nicht offiziell, und der Bericht selbst stellt dies als Vermutung dar, nicht als bestätigte Strategie."
+  },
+  "publishedAt": "2026-08-10",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-games-quietly-followed-a-small-army-of-streamers-888d"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:2aaed9d5d599",
+  "sourceClaim": "La presse spécialisée rapporte que le compte officiel du studio sur un réseau social a récemment suivi plusieurs créateurs de contenu très suivis, dont des figures connues du jeu de rôle communautaire, quelques jours avant la diffusion du 27 août ; le studio n'a fait aucune déclaration officielle à ce sujet, et l'article présente lui-même cette observation comme une simple hypothèse de stratégie marketing, pas une confirmation."
+}

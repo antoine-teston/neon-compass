@@ -1,0 +1,27 @@
+{
+  "id": "news_2d67f3be",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le PDG: la diffusion d'août n'est qu'une entrée",
+    "en": "CEO calls August reveal just an appetizer",
+    "es": "Director: la difusión de agosto es solo aperitivo",
+    "it": "L'AD definisce la diffusione di agosto un antipasto",
+    "de": "Vorstandschef nennt August-Enthüllung nur einen Vorgeschmack"
+  },
+  "body": {
+    "fr": "Interrogé par un autre média spécialisé (GamesIndustry.biz), le PDG de l'éditeur a qualifié la diffusion du 27 août de simple entrée, promettant un plat principal et un dessert marketing avant la sortie du jeu le 19 novembre. Il n'a donné aucun détail sur la forme que cela prendrait.",
+    "en": "Speaking to GamesIndustry.biz, the publisher's CEO called the August 27 streaming reveal just an appetizer, promising a main course and dessert of marketing still to come before the November 19 launch. He gave no further detail on what that would look like.",
+    "es": "En declaraciones a GamesIndustry.biz, el director general de la editora calificó la difusión del 27 de agosto de simple aperitivo, prometiendo un plato principal y un postre de marketing antes del lanzamiento del 19 de noviembre. No dio más detalles sobre qué forma tomaría eso.",
+    "it": "In un'intervista a GamesIndustry.biz, l'amministratore delegato dell'editore ha definito la diffusione del 27 agosto un semplice antipasto, promettendo un piatto principale e un dessert di marketing prima del lancio del 19 novembre. Non ha fornito ulteriori dettagli su cosa comporterà.",
+    "de": "Im Gespräch mit GamesIndustry.biz bezeichnete der Vorstandschef des Verlags die Übertragung am 27. August als bloßen Vorgeschmack und versprach vor dem Start am 19. November noch einen Haupt- und einen Nachtisch an Marketing. Details dazu nannte er nicht."
+  },
+  "publishedAt": "2026-08-10",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-netflix-reveal-only-an-appetizer-zelnick-tease-dbed"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:07f80cafcff2",
+  "sourceClaim": "Interrogé par un autre média spécialisé (GamesIndustry.biz), le PDG de l'éditeur a qualifié la diffusion du 27 août sur la plateforme de streaming de simple « entrée », promettant plusieurs autres temps forts marketing (« plat principal » et « dessert » selon ses propres mots) avant la sortie du jeu le 19 novembre, sans en préciser la nature ni le calendrier."
+}
