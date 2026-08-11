@@ -1,0 +1,27 @@
+{
+  "id": "news_4ab13ef8",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Pas de pub intégrée, mais monétisation en hausse",
+    "en": "No in-game ads, more monetization to come",
+    "es": "Sin publicidad en el juego, pero más monetización",
+    "it": "Niente pubblicità nel gioco, ma più monetizzazione",
+    "de": "Keine Werbung im Spiel, aber mehr Monetarisierung"
+  },
+  "body": {
+    "fr": "Le PDG de l'éditeur a expliqué à un média spécialisé (GamesBeat) que l'industrie n'a encore exploité qu'une fraction de son potentiel, en audience comme en revenus par joueur, et a évoqué un passage au streaming en nuage d'ici environ trois ans pour toucher des marchés peu équipés en consoles comme l'Inde, le Moyen-Orient ou la Chine. Il a exclu toute publicité intégrée au jeu à venir, tout en confirmant des essais de publicités générées par IA dans d'autres studios du groupe.",
+    "en": "The publisher's CEO told a trade outlet (GamesBeat) the industry has barely scratched the surface on audience size and per-player revenue, and floated cloud streaming becoming viable in about three years for markets with fewer consoles, like India, the Middle East, and China. He ruled out ads inside the upcoming game itself, while confirming the group is testing AI-generated ads at other studios.",
+    "es": "El director general de la editora dijo a un medio especializado (GamesBeat) que la industria apenas ha explotado su potencial, tanto en audiencia como en ingresos por jugador, y planteó que el streaming en la nube podría ser viable en unos tres años para mercados con menos consolas, como India, Oriente Medio o China. Descartó publicidad dentro del propio juego, aunque confirmó pruebas de anuncios generados por IA en otros estudios del grupo.",
+    "it": "L'amministratore delegato dell'editore ha dichiarato a una testata specializzata (GamesBeat) che il settore ha sfruttato solo una parte del suo potenziale, sia in termini di pubblico che di ricavi per giocatore, e ha ipotizzato che lo streaming in cloud diventi praticabile tra circa tre anni per mercati con meno console, come India, Medio Oriente e Cina. Ha escluso pubblicità all'interno del gioco in arrivo, pur confermando test di annunci generati dall'IA in altri studi del gruppo.",
+    "de": "Der Vorstandschef des Verlags sagte einem Fachmedium (GamesBeat), die Branche habe ihr Potenzial bei Publikumsgröße und Umsatz pro Spieler erst angekratzt, und stellte Cloud-Streaming in etwa drei Jahren als Option für Märkte mit wenigen Konsolen wie Indien, den Nahen Osten und China in Aussicht. Werbung im kommenden Spiel selbst schloss er aus, bestätigte aber Tests von KI-generierter Werbung in anderen Studios des Konzerns."
+  },
+  "publishedAt": "2026-08-10",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-is-take-twos-test-for-monetizing-everyone-9597"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:772d3a6904f4",
+  "sourceClaim": "Interrogé par un média spécialisé (GamesBeat), le PDG de l'éditeur a déclaré que l'industrie du jeu vidéo n'a encore exploité qu'une fraction de son potentiel, tant en taille d'audience qu'en revenus par joueur, et a évoqué un passage au streaming en nuage d'ici environ trois ans pour toucher des marchés peu équipés en consoles (Inde, Moyen-Orient, Chine) ; il a par ailleurs exclu toute publicité intégrée au jeu à venir lui-même, tout en confirmant que des publicités générées par IA sont testées dans d'autres studios du groupe."
+}
