@@ -70,7 +70,19 @@ struct MapScreen: View {
                 content(model: model)
             } else {
                 ProgressView()
-                    .task { loadModel() }
+                    .task {
+                        // Le décodage de l'image part AVANT le chargement des
+                        // POI, et pas après : `loadModel` est synchrone et tient
+                        // le fil principal le temps de lire son JSON, tandis que
+                        // le décodage n'en a pas besoin. Les deux se recouvrent,
+                        // et la carte est prête au moment où le moteur naît.
+                        //
+                        // Non attendu, exprès : ce qui compte est qu'il ait
+                        // commencé. Le moteur redemandera la même image et
+                        // tombera sur la tâche en cours.
+                        Task { await MapArtLoader.prepare(game: mapGame, style: mapStyle, detail: .overview) }
+                        loadModel()
+                    }
             }
         }
         .background(NCColor.nightSky.ignoresSafeArea())
