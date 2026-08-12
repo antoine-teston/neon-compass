@@ -28,6 +28,16 @@ avons fait. Il décrit l'état réel, y compris ce qui n'est pas réglé.
   recadrée, redimensionnée à 8 192 px. **Les couleurs et le dessin sont ceux de
   l'auteur d'origine.**
 
+## `island-vi-reduced.png` / `island-vi-classic-reduced.png` — étage réduit
+
+- Dérivés des deux fichiers ci-dessus, réduits à 4 096 px par
+  `reduce-mapart.mjs`. Aucune source nouvelle : un seul saut de provenance
+  depuis un fichier déjà décrit ici, et la même situation IP que son parent.
+- Existent pour la mémoire, pas pour l'image : l'app décode celui-ci au repos et
+  le natif seulement au zoom (`MapArtDetail`). À régénérer après toute
+  régénération du parent — `MapArtResourcesTests` le rappelle en échouant.
+- La carte de référence n'en a pas : ses 4 096 px SONT déjà l'étage réduit.
+
 ## Ce qui reste à trancher
 
 Les deux fichiers `*-classic.png` ne sont **pas** un travail transformatif de

@@ -2,27 +2,41 @@ import UIKit
 import ImageIO
 import CoreGraphics
 
-/// Combien de pixels on décode d'une image de carte — jamais LAQUELLE.
+/// Quelle DÉFINITION de la carte on charge — jamais quelle carte.
 ///
-/// Les quatre images de `MapArt/` sont rendues bien au-delà de l'espace de
-/// contenu de 2 048 pt pour limiter le flou au zoom maximal : 4 096 px pour la
-/// référence, 8 192 px pour Leonida. Le fichier reste la seule archive, et il ne
-/// bouge pas — c'est le décodage qui a deux régimes.
+/// Les images de `MapArt/` sont rendues bien au-delà de l'espace de contenu de
+/// 2 048 pt pour limiter le flou au zoom maximal : 4 096 px pour la référence,
+/// 8 192 px pour Leonida. Les deux étages sont **deux fichiers**, tous les deux
+/// dans le paquet ; `-reduced.png` est produit par
+/// `tools/basemap/reduce-mapart.mjs` à partir du natif.
 enum MapArtDetail: Sendable, CaseIterable {
-    /// Sous-échantillonnée par ImageIO, jamais au-delà de `overviewMaxPixels`.
+    /// Le fichier `-reduced`, quand il existe — sinon le natif, qui est déjà
+    /// sous `overviewMaxPixels` (cas des cartes de référence).
     case overview
-    /// Pixels natifs du fichier.
+    /// Le fichier natif.
     case full
 
-    /// Côté maximal de l'étage réduit.
+    /// Côté de l'étage réduit tel qu'il est LIVRÉ.
     ///
-    /// 4 096 px et non ≈2 620 — ce que l'écran montre au repos sur un
-    /// appareil 3× : la valeur doit couvrir l'iPad, dont l'échelle de repos est
-    /// ≈0,67 au lieu de ≈0,43, et rester une puissance de deux, ImageIO
-    /// sous-échantillonnant alors par décimation entière. C'est aussi, pour la
-    /// carte de référence, exactement le fichier : à 4 096 px l'étage réduit est
-    /// l'image entière, et le second n'apporte rien.
+    /// Deux choses en dépendent et doivent rester d'accord : le sélecteur
+    /// ci-dessous, qui compare cette valeur aux pixels affichables, et les
+    /// fichiers `-reduced.png`. C'est `MapArtResourcesTests` qui l'impose, sur
+    /// les octets des fichiers — pas ce commentaire.
+    ///
+    /// 4 096 px et non ≈2 620, ce que l'écran montre au repos sur un appareil
+    /// 3× : la valeur doit couvrir l'iPad, dont l'échelle de repos est ≈0,67 au
+    /// lieu de ≈0,43. C'est aussi, pour la carte de référence, exactement le
+    /// fichier : à 4 096 px l'étage réduit est l'image entière, et un second
+    /// fichier n'apporterait rien.
     static let overviewMaxPixels = 4096
+
+    /// Suffixe du fichier de l'étage réduit — `island-vi-reduced.png`.
+    ///
+    /// Partagé avec `MapArtResourcesTests`, qui contrôle les fichiers du dépôt :
+    /// sans constante commune, renommer le suffixe d'un côté laisserait le test
+    /// vert pendant que l'app se rabattrait en silence sur le natif — soit
+    /// exactement la panne muette que ce test existe pour couvrir.
+    static let reducedSuffix = "-reduced"
 }
 
 /// Choisit l'étage à partir du zoom, avec hystérésis.
@@ -105,6 +119,32 @@ struct MapArtDetailSelector {
 /// (`MapArtDetailSelector`), ce qui ramène le lancement de 319 à 127 Mo sans
 /// toucher un seul pixel affiché.
 ///
+/// **Le code livré, mesuré à son tour** (iPhone 17, Leonida, écran Carte ;
+/// l'étage forcé par patch temporaire pour que la seule variable soit lui) :
+///
+/// | régime                        | empreinte | pic      | décodage |
+/// |-------------------------------|-----------|----------|----------|
+/// | repos, étage réduit (livré)   | 125 Mo    |  431 Mo  | 121 ms   |
+/// | repos, natif verrouillé       | 318 Mo    | 1 156 Mo | 331 ms   |
+/// | zoom 2,5, sélecteur normal    | 318 Mo    |  811 Mo  | 225+268 ms |
+/// | zoom 2,5, réduit verrouillé   | 126 Mo    |  421 Mo  | 109 ms   |
+///
+/// Les deux lignes de repos retrouvent le tableau du dessus (127 et 319 Mo), les
+/// deux lignes de zoom montrent le sélecteur qui fait son travail. Et les deux
+/// contre-épreuves visuelles vont dans le sens attendu : au repos l'étage réduit
+/// est indiscernable du natif — s'il diffère, c'est en étant légèrement plus net
+/// sur les traits fins, le rehaussement étant appliqué à 4 096 px plutôt que
+/// laissé à la minification du GPU — tandis qu'au zoom maximal le natif est
+/// franchement plus propre sur les libellés (écart maximal 145/255 sur le même
+/// cadre). C'est ce dernier point qui justifie de garder les 8 192 px.
+///
+/// **Deux pièges d'instrument**, tous deux rencontrés ici. `footprint` ne compte
+/// PAS un raster produit par `CGImageSourceCreateThumbnailAtIndex` : il annonçait
+/// 62 Mo, carte à l'écran, pendant que `ps` en montrait 138 — d'où l'illusion
+/// d'une carte non dessinée. Et le RSS de `ps` retient longtemps les pages
+/// libérées : sur du code identique il a rendu 305 puis 221 Mo. Les chiffres
+/// ci-dessus sont donc des empreintes, sur des décodages ordinaires.
+///
 /// Ce que l'étage natif reste là pour couvrir : **poser une épingle.** La visée
 /// `.place` du moteur cadre à un zoom d'au moins 1,28 sur iPhone
 /// (`Coordinator.focus`), donc au-delà du seuil — soumettre un POI se fait sur
@@ -118,6 +158,18 @@ struct MapArtDetailSelector {
 /// détachée, au lieu de la laisser se déclencher au premier dessin — sans ce
 /// drapeau, sortir la lecture du fil principal ne déplacerait que l'ouverture du
 /// fichier et le gel resterait entier.
+///
+/// **Deux fichiers, et non un sous-échantillonnage à l'exécution.** C'était le
+/// premier jet, et la mesure l'a démenti : ImageIO ne décode pas un PNG
+/// partiellement, donc `kCGImageSourceThumbnailMaxPixelSize` inflate les
+/// 8 192 px puis rééchantillonne (779 à 890 ms sur l'hôte, 1 264 à 1 800 ms au
+/// simulateur) là où le décodage entier coûte 69 à 189 ms, et
+/// `kCGImageSourceSubsampleFactor` est purement ignoré pour ce format. L'étage
+/// « économique » était donc dix fois plus lent que celui qu'il remplaçait, sans
+/// même éviter le pic de 256 Mio — l'image entière étant inflatée en chemin.
+/// Réduire une fois pour toutes dans `tools/basemap/reduce-mapart.mjs` coûte
+/// 4,1 Mo de paquet et rend l'étage réduit réellement moins cher, en temps
+/// comme en mémoire.
 ///
 /// `@MainActor` parce que le cache est un état mutable partagé, lu par `body` et
 /// par le coordinateur du moteur, tous deux isolés MainActor. Seul le décodage
@@ -201,21 +253,28 @@ enum MapArtLoader {
     /// ramènerait la rastérisation sur le fil qu'on cherche précisément à
     /// libérer.
     private nonisolated static func decodedImage(name: String, detail: MapArtDetail) -> UIImage? {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "MapArt"),
-              let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
-        var options: [CFString: Any] = [kCGImageSourceShouldCacheImmediately: true]
-        let decoded: CGImage?
-        switch detail {
-        case .overview:
-            // `FromImageAlways` : un PNG ne porte pas de vignette intégrée, mais
-            // sans ce drapeau ImageIO refuse d'en fabriquer une et rend nil.
-            options[kCGImageSourceCreateThumbnailFromImageAlways] = true
-            options[kCGImageSourceThumbnailMaxPixelSize] = MapArtDetail.overviewMaxPixels
-            decoded = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary)
-        case .full:
-            decoded = CGImageSourceCreateImageAtIndex(source, 0, options as CFDictionary)
-        }
-        guard let decoded else { return nil }
+        guard let url = imageURL(name: name, detail: detail),
+              let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+              let decoded = CGImageSourceCreateImageAtIndex(
+                  source, 0, [kCGImageSourceShouldCacheImmediately: true] as CFDictionary
+              )
+        else { return nil }
         return UIImage(cgImage: decoded)
+    }
+
+    /// Le fichier de l'étage demandé.
+    ///
+    /// Se rabat sur le natif quand `-reduced` n'existe pas, ce qui n'est pas un
+    /// filet mais le cas normal des cartes de référence : elles font déjà
+    /// 4 096 px, donc leur étage réduit EST le fichier, et en livrer une copie
+    /// n'ajouterait que du poids. Le repli couvre au passage le vrai accident —
+    /// un `-reduced.png` oublié après régénération donne une carte nette et
+    /// coûteuse, jamais une carte noire.
+    private nonisolated static func imageURL(name: String, detail: MapArtDetail) -> URL? {
+        func url(_ resource: String) -> URL? {
+            Bundle.main.url(forResource: resource, withExtension: "png", subdirectory: "MapArt")
+        }
+        if detail == .overview, let reduced = url(name + MapArtDetail.reducedSuffix) { return reduced }
+        return url(name)
     }
 }
