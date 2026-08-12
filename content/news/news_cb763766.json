@@ -1,0 +1,27 @@
+{
+  "id": "news_cb763766",
+  "category": "community",
+  "game": "leonida",
+  "title": {
+    "fr": "Un streameur promet un marathon à 100%",
+    "en": "A streamer pledges a 100% completion marathon",
+    "es": "Un streamer promete un maratón al 100%",
+    "it": "Uno streamer promette una maratona al 100%",
+    "de": "Streamer verspricht 100-Prozent-Marathon"
+  },
+  "body": {
+    "fr": "Un streameur très suivi affirme qu'il diffusera en continu sa progression dans le jeu à venir dès sa sortie le 19 novembre, jusqu'à atteindre 100% de complétion. Il avait déjà formulé cette promesse en 2025, quand la date de sortie restait incertaine, et la renouvelle maintenant qu'elle est confirmée — sans dire combien de temps l'exercice pourrait prendre.",
+    "en": "A popular streamer says he'll broadcast his progress through the upcoming game non-stop from launch on November 19 until he reaches 100% completion. He first made the pledge back in 2025, when the release date was still uncertain, and has now renewed it now that it's locked in — without saying how long the run might take.",
+    "es": "Un popular streamer afirma que retransmitirá sin parar su progreso en el próximo juego desde su lanzamiento el 19 de noviembre hasta alcanzar el 100% de finalización. Ya había hecho esta promesa en 2025, cuando la fecha de salida seguía siendo incierta, y la renueva ahora que está confirmada, sin precisar cuánto podría durar el reto.",
+    "it": "Uno streamer molto seguito afferma che trasmetterà senza interruzioni i suoi progressi nel prossimo gioco dal lancio del 19 novembre fino a raggiungere il 100% di completamento. Aveva già fatto questa promessa nel 2025, quando la data di uscita era ancora incerta, e la rinnova ora che è confermata, senza precisare quanto potrebbe durare l'impresa.",
+    "de": "Ein bekannter Streamer kündigt an, seinen Fortschritt im kommenden Spiel ab dem Start am 19. November ununterbrochen zu streamen, bis er 100 % Komplettierung erreicht. Das Versprechen hatte er bereits 2025 gegeben, als der Erscheinungstermin noch unsicher war, und erneuert es nun, da dieser feststeht – wie lange der Marathon dauern könnte, sagt er nicht."
+  },
+  "publishedAt": "2026-08-11",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/kai-cenat-wants-to-100-gta-6-in-one-nonstop-marathon-d0ed"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:8a78980ea228",
+  "sourceClaim": "Un streameur très suivi a réaffirmé son intention de diffuser en continu sa progression dans le jeu à venir dès sa sortie du 19 novembre, jusqu'à atteindre 100% de complétion, une promesse qu'il avait déjà formulée en 2025 alors que la date de sortie restait incertaine et qu'il renouvelle maintenant qu'elle est confirmée."
+}
