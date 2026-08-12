@@ -1,0 +1,27 @@
+{
+  "id": "news_83783999",
+  "category": "business",
+  "game": "leonida",
+  "title": {
+    "fr": "Les précommandes penchent vers l'édition à 100$",
+    "en": "Pre-orders skew toward the $100 edition",
+    "es": "Las reservas se inclinan hacia la edición de 100$",
+    "it": "I preordini pendono verso l'edizione da 100$",
+    "de": "Vorbestellungen tendieren zur 100-Dollar-Edition"
+  },
+  "body": {
+    "fr": "Le PDG de l'éditeur affirme que les précommandes du jeu à venir penchent davantage vers l'édition premium à 100$ que vers la version standard à 80$, un signe selon lui que les acheteurs les plus motivés commandent en premier. Il refuse toujours de donner un chiffre précis, mais justifie la grille tarifaire par le succès commercial durable du précédent opus du studio, vendu à plus de 230 millions d'exemplaires en treize ans.",
+    "en": "The publisher's CEO says pre-orders for the upcoming game are skewing toward the $100 premium edition over the $80 standard one, calling it a sign that the most eager buyers order first. He still won't share a precise figure, but defends the pricing by pointing to the studio's previous title, which has sold over 230 million copies in thirteen years.",
+    "es": "El director general de la editora afirma que las reservas del próximo juego se inclinan más hacia la edición premium de 100$ que hacia la estándar de 80$, señal, según él, de que los compradores más entusiastas reservan primero. Sigue sin dar una cifra exacta, pero defiende los precios recordando que el anterior título del estudio ha vendido más de 230 millones de copias en trece años.",
+    "it": "L'amministratore delegato dell'editore afferma che i preordini del prossimo gioco pendono maggiormente verso l'edizione premium da 100$ rispetto a quella standard da 80$, un segnale, a suo dire, che gli acquirenti più entusiasti preordinano per primi. Continua a non fornire una cifra precisa, ma difende i prezzi citando il precedente titolo dello studio, venduto in oltre 230 milioni di copie in tredici anni.",
+    "de": "Der Chef des Publishers sagt, die Vorbestellungen für das kommende Spiel tendierten stärker zur 100-Dollar-Premium-Edition als zur 80-Dollar-Standardversion – ein Zeichen dafür, dass die eifrigsten Käufer zuerst bestellen. Eine genaue Zahl nennt er weiterhin nicht, verteidigt die Preisgestaltung aber mit dem Vorgängertitel des Studios, der in dreizehn Jahren über 230 Millionen Mal verkauft wurde."
+  },
+  "publishedAt": "2026-08-11",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-pre-orders-skew-toward-100-ultimate-edition-as-zelnick-defends-pricing-3bba"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:92d4246f6705",
+  "sourceClaim": "Le PDG de l'éditeur, interrogé sur une chaîne financière américaine, a affirmé que les précommandes du jeu à venir penchent davantage vers l'édition premium à 100 dollars que vers l'édition standard à 80 dollars, y voyant le signe que les acheteurs les plus enthousiastes précommandent en premier ; il a de nouveau refusé de communiquer un chiffre précis, justifiant la politique tarifaire par le succès commercial durable du précédent opus du studio (plus de 230 millions d'exemplaires vendus en treize ans)."
+}
