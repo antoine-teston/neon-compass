@@ -16,13 +16,28 @@ import UIKit
 /// Charge les images de carte plates — pas de streaming par tuiles, une seule
 /// image bornée.
 ///
-/// UNE SEULE image en cache, délibérément : les cartes sont rendues à 4 096 px
-/// pour limiter le flou au zoom maximal, ce qui fait ~67 Mo une fois
-/// décompressée en mémoire. En garder trois (les deux habillages plus le
-/// placeholder) immobiliserait 200 Mo dans une app qui héberge déjà Firebase et
-/// la régie publicitaire — jetsam assuré. Le prix payé est un redécodage à
-/// chaque bascule, c'est-à-dire sur une action volontaire et rare, jamais
-/// pendant un geste.
+/// UNE SEULE image en cache, délibérément, et c'est ce qui tient l'empreinte
+/// mémoire de l'app. Les quatre cartes (deux jeux × deux habillages) sont
+/// rendues bien au-delà de leur espace de contenu de 2 048 pt pour limiter le
+/// flou au zoom maximal : 4 096 px pour la référence, 8 192 px pour Leonida. En
+/// garder deux en même temps doublerait tout ce qui suit ; le prix payé à la
+/// place est un redécodage à chaque bascule d'habillage, sur une action
+/// volontaire et rare, jamais pendant un geste.
+///
+/// Ce que coûte le côté de 8 192 px, mesuré au simulateur sur l'écran Carte,
+/// même code et même écran de départ : **314 Mo d'empreinte en régime et
+/// 1 060 Mo de pic transitoire, contre 122 et 163 Mo avec les mêmes cartes
+/// réduites à 4 096 px.** Le pic n'est pas le bitmap seul (268 Mo en 32 bits) :
+/// s'y ajoutent le rendu de l'image dans le calque hébergé et les copies de
+/// l'étage graphique, qui suivent le même facteur 4.
+///
+/// Ce chiffre reste à 8 192 parce qu'il achète quelque chose de visible : au
+/// zoom maximal (2,5) un pixel source couvre encore moins de deux pixels
+/// d'écran sur un appareil 3×, là où 4 096 px doivent être agrandis presque
+/// quatre fois. C'est un arbitrage, pas un acquis — si le pic devient un
+/// problème sur les appareils à 4 Go, le halver est un changement de RESSOURCE,
+/// sans une ligne de code à toucher (`MapArtResourcesTests` n'impose que le
+/// carré et l'égalité des deux habillages).
 ///
 /// `@MainActor` parce que le cache est un état mutable partagé et que seul
 /// `body` (isolé MainActor) y touche.
@@ -189,11 +204,11 @@ private struct MapContentSwiftUIView: View {
             if let mapImage = MapArtLoader.image(game: game, style: style) {
                 Image(uiImage: mapImage)
                     .resizable()
-                    // L'image est plus définie que l'espace de contenu (3 072 px
-                    // pour 2 048 pt) : elle est donc RÉDUITE au repos et
-                    // agrandie seulement au fort zoom. `.high` soigne les deux
-                    // sens, là où l'interpolation par défaut crénelait la
-                    // trame viaire fine à la réduction.
+                    // L'image est bien plus définie que l'espace de contenu
+                    // (4 096 ou 8 192 px pour 2 048 pt) : elle est donc
+                    // fortement RÉDUITE au repos, et c'est ce sens-là qui
+                    // compte. `.high` s'y impose, là où l'interpolation par
+                    // défaut crénelait la trame viaire fine.
                     .interpolation(.high)
                     .frame(width: fullSize, height: fullSize)
             }

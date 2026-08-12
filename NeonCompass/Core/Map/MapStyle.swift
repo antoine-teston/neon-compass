@@ -2,11 +2,12 @@ import Foundation
 
 /// Quelle carte est affichée.
 ///
-/// L'app est une compagne du jeu à venir, mais sa carte n'existe pas encore
-/// publiquement : `leonida` n'a donc qu'un placeholder et un contenu éditorial
-/// dont les POI attendent tous leur position. `reference` est la carte du
-/// volet précédent, importée comme fixture (`tools/basemap/gtav-*.mjs`) — elle
-/// donne une carte dense et réellement explorable en attendant.
+/// Les deux cartes sont maintenant de vraies cartes explorables : `leonida` est
+/// la carte communautaire de Leonida assemblée puis restylée par
+/// `tools/basemap/gtavi-map.mjs`, `reference` celle du volet précédent
+/// (`tools/basemap/gtav-*.mjs`). Ce qui les distingue encore est la densité du
+/// contenu éditorial, pas l'illustration : sur `leonida` les POI attendent
+/// toujours leur position.
 ///
 /// Le type lui-même vit dans `Core/Game.swift` : la carte, le fil d'actu et les
 /// codes nomment la même distinction, et ce fichier en portait une copie
@@ -16,37 +17,37 @@ import Foundation
 /// d'enregistré ne dépendait de ce renommage.
 typealias MapGame = Game
 
-extension Game {
-    /// La carte de référence est la seule à exister en deux habillages : le
-    /// placeholder est déjà dessiné aux couleurs de l'app, il n'a pas de
-    /// variante « couleurs d'origine ».
-    var supportsStyleToggle: Bool { self == .reference }
-}
-
-/// Variante d'habillage de la carte de référence.
+/// Variante d'habillage de la carte affichée.
 ///
 /// `neon` est le défaut à CHAQUE ouverture, délibérément : c'est l'identité de
 /// l'app, et le choix n'est donc pas persisté — rouvrir sur les couleurs
 /// d'origine ferait perdre l'identité visuelle à quiconque a basculé une fois
 /// pour lire un détail.
 ///
-/// Les deux images sortent du même assemblage de tuiles, dans la même passe
-/// (`tools/basemap/gtav-map.mjs`), donc strictement superposables : basculer ne
-/// déplace aucun pin et n'invalide aucune coordonnée.
+/// Les deux habillages d'une même carte sortent du même assemblage de tuiles et
+/// du même recadrage, dans la même passe (`--restyle --classic`), donc
+/// strictement superposables : basculer ne déplace aucun pin et n'invalide
+/// aucune coordonnée. C'est cette garantie qui rend la bascule sûre, et elle
+/// vient du générateur — pas du code de l'app, qui ne peut que la supposer.
 enum MapStyle: String, CaseIterable, Sendable {
     /// Restylée aux couleurs Neon Compass (`NCColor`).
     case neon
-    /// Couleurs d'origine de la carte de référence — plus lisible pour
-    /// distinguer relief, végétation et zones bâties.
+    /// Couleurs d'origine de la carte source — plus lisible pour distinguer
+    /// relief, végétation et zones bâties.
     case classic
 }
 
 extension Game {
     /// Nom de la ressource image dans `MapArt/`.
+    ///
+    /// Le suffixe est le même pour les deux cartes parce que le générateur le
+    /// pose lui-même : `island[-vi][-classic].png`. Une correspondance cas par
+    /// cas se serait désynchronisée du jour où une troisième carte arrive.
     func resourceName(style: MapStyle) -> String {
-        switch self {
+        let base = switch self {
         case .leonida: "island-vi"
-        case .reference: style == .neon ? "island" : "island-classic"
+        case .reference: "island"
         }
+        return style == .neon ? base : "\(base)-classic"
     }
 }
