@@ -1,0 +1,27 @@
+{
+  "id": "news_a3b96f40",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le PDG promet que le jeu dépassera les attentes",
+    "en": "CEO promises the game will exceed expectations",
+    "es": "El director promete que el juego superará las expectativas",
+    "it": "L'AD promette che il gioco supererà le aspettative",
+    "de": "CEO verspricht: Das Spiel übertrifft die Erwartungen"
+  },
+  "body": {
+    "fr": "Le PDG de l'éditeur affirme croire que le studio dépassera les attentes entourant le jeu à venir, sans préciser s'il parle de celles des joueurs, des investisseurs ou du secteur. Il rappelle à l'appui que les deux dernières productions du studio ont chacune obtenu une note de 97 sur une plateforme d'agrégation de critiques.",
+    "en": "The publisher's CEO says he believes the studio will exceed expectations for the upcoming game, without specifying whether he means players, investors, or the industry at large. He points to the studio's last two titles, each of which scored 97 on a review-aggregation platform.",
+    "es": "El director general de la editora afirma creer que el estudio superará las expectativas puestas en el próximo juego, sin precisar si se refiere a las de los jugadores, los inversores o el sector. Recuerda que los dos últimos títulos del estudio obtuvieron cada uno una puntuación de 97 en una plataforma de agregación de críticas.",
+    "it": "L'amministratore delegato dell'editore afferma di credere che lo studio supererà le aspettative riposte nel prossimo gioco, senza precisare se si riferisca a quelle dei giocatori, degli investitori o del settore. Ricorda che gli ultimi due titoli dello studio hanno ottenuto ciascuno un punteggio di 97 su una piattaforma di aggregazione di recensioni.",
+    "de": "Der Chef des Publishers sagt, er glaube, dass das Studio die Erwartungen an das kommende Spiel übertreffen werde, ohne zu präzisieren, ob er Spieler, Investoren oder die Branche meint. Er verweist auf die letzten beiden Titel des Studios, die jeweils eine Wertung von 97 auf einer Bewertungsplattform erhielten."
+  },
+  "publishedAt": "2026-08-11",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/zelnick-says-gta-6-will-exceed-expectations-f366"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:5e53c63255bb",
+  "sourceClaim": "Le PDG de l'éditeur a déclaré sur une chaîne financière américaine croire que le studio dépassera les attentes entourant le jeu à venir, sans préciser de quelles attentes il parle (joueurs, investisseurs ou secteur), tout en rappelant que les deux dernières productions du studio ont chacune obtenu une note de 97 sur une plateforme d'agrégation de critiques."
+}

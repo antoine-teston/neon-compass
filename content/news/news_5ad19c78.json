@@ -1,0 +1,27 @@
+{
+  "id": "news_5ad19c78",
+  "category": "community",
+  "game": "leonida",
+  "title": {
+    "fr": "Une cagnotte dépasse 65 000$ pour un fan malade",
+    "en": "Fundraiser tops $65K for a sick fan",
+    "es": "Una colecta supera los 65.000$ por un fan enfermo",
+    "it": "Una raccolta supera i 65.000$ per un fan malato",
+    "de": "Spendenaktion knackt 65.000 Dollar für kranken Fan"
+  },
+  "body": {
+    "fr": "Une cagnotte en ligne ouverte par la mère d'un fan gravement malade, en attente d'une greffe pulmonaire, a dépassé 65 000 dollars après qu'une de ses vidéos, où il évoquait son espoir de tenir jusqu'à la sortie du jeu le 19 novembre, a été vue plusieurs millions de fois. Ni le studio ni l'éditeur ne se sont exprimés sur cette histoire, qui reste une initiative de fans non confirmée officiellement.",
+    "en": "An online fundraiser started by the mother of a fan awaiting a lung transplant has topped $65,000, after a video in which he talked about hoping to hold on until the game's November 19 launch racked up millions of views. Neither the studio nor the publisher has commented, and the story remains an unofficial, fan-driven one.",
+    "es": "Una colecta en línea abierta por la madre de un fan gravemente enfermo, a la espera de un trasplante de pulmón, ha superado los 65.000 dólares tras un vídeo en el que él expresaba su esperanza de resistir hasta el lanzamiento del juego el 19 de noviembre, visto varios millones de veces. Ni el estudio ni la editora se han pronunciado, y la historia sigue siendo una iniciativa de fans sin confirmación oficial.",
+    "it": "Una raccolta fondi online avviata dalla madre di un fan gravemente malato, in attesa di un trapianto di polmone, ha superato i 65.000 dollari dopo che un suo video, in cui esprimeva la speranza di resistere fino all'uscita del gioco il 19 novembre, ha totalizzato milioni di visualizzazioni. Né lo studio né l'editore si sono espressi, e la storia resta un'iniziativa di fan non confermata ufficialmente.",
+    "de": "Eine von der Mutter eines schwerkranken Fans gestartete Spendenaktion hat die 65.000-Dollar-Marke überschritten, nachdem ein Video, in dem er von seiner Hoffnung sprach, bis zum Spielstart am 19. November durchzuhalten, mehrere Millionen Aufrufe erreichte. Weder das Studio noch der Publisher haben sich dazu geäußert – die Geschichte bleibt eine unbestätigte Fan-Initiative."
+  },
+  "publishedAt": "2026-08-11",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-fans-raised-50k-so-this-man-could-live-to-november-19-9f2c"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:2e1283c577de",
+  "sourceClaim": "Une cagnotte en ligne ouverte par la mère d'un fan gravement malade en attente d'une greffe pulmonaire a dépassé 65 000 dollars, après qu'une vidéo publiée par le malade sur un réseau social, où il évoquait son espoir de survivre jusqu'à la sortie du jeu à venir le 19 novembre, a été vue plusieurs millions de fois ; ni le studio ni l'éditeur ne se sont exprimés sur cette histoire."
+}
