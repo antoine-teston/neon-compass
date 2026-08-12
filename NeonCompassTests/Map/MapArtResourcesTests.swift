@@ -54,6 +54,20 @@ struct MapArtResourcesTests {
         }
     }
 
+    /// Troisième panne muette de la même famille : un fond de carte d'origine
+    /// livré SANS crédit. Rien ne casse, rien ne se voit — et c'est exactement le
+    /// risque que le crédit existe pour couvrir, puisque ces deux cartes sont
+    /// l'œuvre de tiers (voir `tools/basemap/SOURCES.md`).
+    @Test func everyMapCreditsItsOriginalSource() {
+        for game in Game.allCases {
+            let credit = game.basemapCredit
+            #expect(
+                !credit.trimmingCharacters(in: .whitespaces).isEmpty,
+                "carte \(game.shortLabel) : habillage classic livré sans crédit de source"
+            )
+        }
+    }
+
     /// La superposabilité que promet la documentation de `MapStyle`, vérifiée
     /// plutôt que supposée : elle vient du générateur, qui recadre les deux
     /// habillages dans la même passe.

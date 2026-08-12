@@ -100,6 +100,7 @@ struct MapScreen: View {
                         showRoutePlanner: $showRoutePlanner
                     )
                     displayControls
+                    basemapCredit
                 }
                 if placement != nil {
                     placementPanel
@@ -154,6 +155,7 @@ struct MapScreen: View {
                         showRoutePlanner: $showRoutePlanner
                     )
                     displayControls
+                    basemapCredit
                 }
                 // Une seule colonne à droite, jamais deux : la carte est le sujet
                 // de l'écran. Le carnet et la fiche partagent donc la MÊME fente,
@@ -232,6 +234,43 @@ struct MapScreen: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             .padding(.trailing, 16)
             .padding(.bottom, 76)
+    }
+
+    /// Crédit du fond de carte, affiché SEULEMENT sous l'habillage d'origine.
+    ///
+    /// Il suit l'habillage et non la carte, parce que c'est l'habillage qui dit à
+    /// qui appartient ce qu'on regarde : les deux cartes `classic` sont des
+    /// cartes communautaires tierces que nous n'avons que recadrées, là où le
+    /// restylage ne conserve aucun pixel source.
+    ///
+    /// Deux éléments et non une phrase : « Fond de carte » est de nous et passe
+    /// par le catalogue, le nom de la source occupe une fente nominative
+    /// distincte en `Text(verbatim:)`. Ce n'est pas de la mise en forme —
+    /// `gtavmap` porte une marque Rockstar, et `CLAUDE.md` ne l'admet qu'à cette
+    /// position, jamais concaténée à nos mots.
+    ///
+    /// Ancré en bas à GAUCHE, en face des contrôles d'affichage : c'est la place
+    /// que la cartographie donne partout à son attribution, et la seule encore
+    /// libre en bas. Insensible aux gestes — il ne doit pas voler un panoramique
+    /// qui démarre dans ce coin.
+    @ViewBuilder
+    private var basemapCredit: some View {
+        if mapStyle == .classic {
+            HStack(spacing: 6) {
+                Text("map.credit.basemap")
+                Text(verbatim: mapGame.basemapCredit)
+                    .fontWeight(.medium)
+            }
+            .font(.caption2)
+            .foregroundStyle(.white.opacity(0.8))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .glassEffect(.regular, in: .capsule)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+            .padding(.leading, 16)
+            .padding(.bottom, 76)
+            .allowsHitTesting(false)
+        }
     }
 
     private func mapCanvas(model: MapModel) -> some View {

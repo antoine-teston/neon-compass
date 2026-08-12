@@ -50,4 +50,25 @@ extension Game {
         }
         return style == .neon ? base : "\(base)-classic"
     }
+
+    /// Source du fond de carte d'origine, à créditer à l'écran sous l'habillage
+    /// `classic`.
+    ///
+    /// Nomme le JEU DE TUILES et son hôte, jamais un auteur : c'est tout ce que
+    /// les URL de génération permettent d'affirmer, et l'auteur de ces deux
+    /// cartes communautaires n'a pas été retrouvé (voir
+    /// `tools/basemap/SOURCES.md`). Un crédit inventé serait pire qu'un crédit
+    /// imprécis.
+    ///
+    /// Destiné à un `Text(verbatim:)` dans une fente nominative, jamais à
+    /// l'intérieur d'une phrase que nous écrivons : `gtavmap` porte une marque
+    /// Rockstar, et c'est la POSITION qui la rend admissible (cf. `CLAUDE.md`).
+    /// Hors du catalogue de chaînes pour la même raison — un nom de produit est
+    /// identique dans les cinq langues.
+    var basemapCredit: String {
+        switch self {
+        case .leonida: "YANIS v14 · map.stateofleonida.net"
+        case .reference: "gtavmap · s3-eu-west-1.amazonaws.com"
+        }
+    }
 }
