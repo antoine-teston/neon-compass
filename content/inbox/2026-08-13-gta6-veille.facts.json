@@ -1,0 +1,21 @@
+{
+  "run": {
+    "date": "2026-08-13",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/zelnick-warns-gta-6-fans-not-to-wait-for-a-holiday-price-drop-b05b"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le PDG de l'éditeur a confirmé, sur une chaîne financière américaine, que le prix du jeu à venir ne baissera pas pour les fêtes de fin d'année ni au-delà, l'éditeur fixant son tarif sans intervenir sur les marges des revendeurs qui choisiraient de le solder ; il s'appuie sur le précédent des deux derniers jeux du studio, restés à leur prix plein bien plus longtemps que la moyenne du secteur.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/zelnick-warns-gta-6-fans-not-to-wait-for-a-holiday-price-drop-b05b",
+      "source_date": "2026-08-12",
+      "confidence": "confirmed-official",
+      "processed": true
+    }
+  ]
+}
