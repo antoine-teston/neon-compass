@@ -223,6 +223,18 @@ l'intention — un affichage auto-actualisé sans minuterie Combine — via
 catalogue**) rafraîchi par le `TimelineView(.everyMinute)` que l'écran pose déjà
 (tâche 9). La partie testée est le choix des unités.
 
+> **Amendé le 14/08, après revue de la tâche.** Le code ci-dessous portait un
+> défaut reproduit à l'exécution : sans `fractionalPart` explicite, le
+> formateur arrondit le reste caché dans la plus petite unité affichée, et les
+> trente dernières secondes avant la bascule du jour rendaient « 24h » — un
+> jour entier, au moment précis où la colonne des jours disparaît. Le correctif
+> livré (commit `c78b649`) : `fractionalPart: .hide(rounded: .down)`, le
+> formateur extrait dans `WeeklyCountdown.label(remaining:locale:)` pour que le
+> chemin testé et le chemin affiché soient le même, la vue réduite à
+> `Text(WeeklyCountdown.label(remaining:))` + ses modificateurs, et un
+> cinquième test de régression à locale fixée
+> (`lastMinuteNeverRoundsUpToTwentyFourHours`). Le code livré fait foi.
+
 - [ ] **Step 1 : le test qui échoue**
 
 ```swift
@@ -319,7 +331,8 @@ struct WeeklyCountdownLabel: View {
 - [ ] **Step 4 : vérifier le succès**
 
 Run : `xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:NeonCompassTests/WeeklyCountdownTests 2>&1 | grep -E "Test run|TEST"`
-Expected : `Test run with 4 tests passed`, `TEST SUCCEEDED`.
+Expected : `Test run with 5 tests passed` (les 4 ci-dessus + la régression de
+l'amendement), `TEST SUCCEEDED`.
 
 - [ ] **Step 5 : commit**
 
@@ -697,13 +710,10 @@ git commit -m "feat(social): carte héro compacte et fiche de la semaine"
 Dans `OnlineEventsModelTests.swift`, ajouter :
 
 ```swift
-    /// VI d'abord : `Game.allCases` commence par `leonida`, et `availableGames`
-    /// suit cet ordre — le pager s'appuie dessus, ce test le fige.
-    @Test func availableGamesListsLeonidaFirst() throws {
-        let vi = try event(id: "online_vi", game: .leonida, startsAt: "2026-08-13T09:00:00Z", endsAt: "2026-08-20T09:00:00Z")
-        let v = try event(id: "online_v", game: .reference, startsAt: "2026-08-13T09:00:00Z", endsAt: "2026-08-20T09:00:00Z")
-        #expect(OnlineEventsModel(events: [v, vi]).availableGames == [.leonida, .reference])
-    }
+    // Amendé le 14/08 : le test « availableGames VI d'abord » prévu ici
+    // existait déjà — `gamePickerAppearsWithBothGames` assertait déjà
+    // `availableGames == [.leonida, .reference]`. Ne pas le dupliquer ; seul
+    // le test suivant s'ajoute.
 
     /// Les variantes par-jeu ne dépendent pas de `selectedGame` : chaque page du
     /// héro interroge SON jeu, quelle que soit la page affichée.
@@ -2070,7 +2080,7 @@ git commit -m "feat(social): mosaïque iPad et panneau latéral pour les vues co
 - [ ] **Step 1 : la suite complète**
 
 Run : `xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' test 2>&1 | grep -E "Test run|TEST|failed"`
-Expected : `TEST SUCCEEDED`, aucun `failed`. Le compte total doit avoir augmenté de **28 tests** par rapport à `origin/main` (4 visibilité + 4 rebours + 4 highlights + 4 épinglage + 2 modèle + 3 aperçu du vote + 4 podium + 3 badge d'onglet).
+Expected : `TEST SUCCEEDED`, aucun `failed`. Le compte total doit avoir augmenté de **28 tests** par rapport à `origin/main` (4 visibilité + 5 rebours + 4 highlights + 4 épinglage + 1 modèle + 3 aperçu du vote + 4 podium + 3 badge d'onglet — constaté : 648 tests en 88 suites).
 
 - [ ] **Step 2 : le catalogue n'a pas été réécrit par l'extraction**
 
