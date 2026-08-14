@@ -335,6 +335,15 @@ struct RootView: View {
         let events = OnlineEventsModel(events: store.items)
         let shown = events.currentEvent(at: Date()) ?? events.latestEvent()
         model.socialCurrentWeekID = shown?.id
+        // Déjà sur l'onglet quand le calcul aboutit (il attend le réseau) : la
+        // semaine est sous les yeux, on la marque vue au lieu d'allumer un
+        // point qui ne s'éteindrait qu'au prochain aller-retour. Vu au
+        // simulateur, pas déduit.
+        if model.selectedTab == .social, let id = shown?.id {
+            weekSeenStore.markWeekSeen(id)
+            model.socialTabShowsDot = false
+            return
+        }
         model.socialTabShowsDot = SocialTabBadge.showsDot(
             currentWeekID: shown?.id,
             lastSeenID: weekSeenStore.lastSeenWeekID()
