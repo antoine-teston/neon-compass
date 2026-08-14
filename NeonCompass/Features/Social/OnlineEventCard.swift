@@ -68,46 +68,10 @@ struct OnlineEventCard: View {
 
     // MARK: - Ce qui vaut le coup
 
-    /// Calculé chez nous, jamais repris d'un « at a glance » de la source : le
-    /// meilleur multiplicateur, la meilleure remise, la première chose à réclamer.
-    private var highlights: [Highlight] {
-        var out: [Highlight] = []
-        if let best = event.bonuses.max(by: { rank($0) < rank($1) }) {
-            out.append(
-                Highlight(
-                    icon: OnlineEventFormatting.bonusesIcon,
-                    name: best.activity.resolved(for: languageCode),
-                    value: OnlineEventFormatting.label(for: best)
-                )
-            )
-        }
-        if let best = event.discounts.max(by: { $0.percent < $1.percent }) {
-            out.append(
-                Highlight(
-                    icon: OnlineEventFormatting.discountsIcon,
-                    name: best.item.resolved(for: languageCode),
-                    value: "social.event.percentOff \(best.percent)"
-                )
-            )
-        }
-        if let first = event.rewards.first {
-            out.append(
-                Highlight(
-                    icon: OnlineEventFormatting.icon(for: first.kind),
-                    name: first.item.resolved(for: languageCode),
-                    value: LocalizedStringKey(first.kind.localizationKey)
-                )
-            )
-        }
-        return out
-    }
-
-    /// Une prime en pourcentage ne se compare pas à un multiple sur la même
-    /// échelle : « +15 % » n'est pas meilleur que « 2× ». Ramenée à un facteur.
-    private func rank(_ bonus: OnlineEventBonus) -> Double {
-        if let multiplier = bonus.multiplier { return Double(multiplier) }
-        if let percent = bonus.percentBonus { return 1 + Double(percent) / 100 }
-        return 0
+    /// Calculé chez nous, jamais repris d'un « at a glance » de la source —
+    /// partagé avec le héro compact du hub, voir `OnlineEventHighlights`.
+    private var highlights: [OnlineEventHighlight] {
+        OnlineEventHighlights.compute(for: event, languageCode: languageCode)
     }
 
     private var highlightsBlock: some View {
@@ -189,13 +153,6 @@ struct OnlineEventCard: View {
                 .font(NCTypography.cardMeta)
         }
         .foregroundStyle(.white.opacity(0.5))
-    }
-
-    private struct Highlight: Identifiable {
-        let icon: String
-        let name: String
-        let value: LocalizedStringKey
-        var id: String { "\(icon)\(name)" }
     }
 }
 
