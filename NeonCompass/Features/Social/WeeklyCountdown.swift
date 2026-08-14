@@ -19,6 +19,28 @@ struct WeeklyCountdown: Equatable {
         hours = showsDays ? (total % 86_400) / 3600 : total / 3600
         minutes = (total % 3600) / 60
     }
+
+    /// Le texte du label, exposé pour être testé à locale fixée : le chemin
+    /// testé et le chemin affiché sont le même — c'est ce qui a manqué quand
+    /// l'arrondi par défaut fabriquait « 24h » à 23 h 59.
+    ///
+    /// `fractionalPart: .hide(rounded: .down)` : sans lui, le reste caché
+    /// s'arrondit dans la plus petite unité AFFICHÉE, et les trente dernières
+    /// secondes avant la bascule du jour rendaient « 24h » — un jour entier,
+    /// au moment précis où la colonne des jours disparaît.
+    static func label(remaining: TimeInterval, locale: Locale = .current) -> String {
+        let countdown = WeeklyCountdown(remaining: remaining)
+        let allowed: Set<Duration.UnitsFormatStyle.Unit> =
+            countdown.showsDays ? [.days, .hours] : [.hours, .minutes]
+        return Duration.seconds(max(0, remaining)).formatted(
+            .units(
+                allowed: allowed,
+                width: .narrow,
+                maximumUnitCount: 2,
+                fractionalPart: .hide(rounded: .down)
+            ).locale(locale)
+        )
+    }
 }
 
 /// Le texte du rebours, localisé par le système (« 2j 14h », « 2d 14h ») —
@@ -27,16 +49,10 @@ struct WeeklyCountdownLabel: View {
     let remaining: TimeInterval
 
     var body: some View {
-        let countdown = WeeklyCountdown(remaining: remaining)
-        let allowed: Set<Duration.UnitsFormatStyle.Unit> =
-            countdown.showsDays ? [.days, .hours] : [.hours, .minutes]
-        Text(
-            Duration.seconds(max(0, remaining))
-                .formatted(.units(allowed: allowed, width: .narrow, maximumUnitCount: 2))
-        )
-        .font(NCTypography.cardTitle.monospacedDigit())
-        .foregroundStyle(NCColor.neonCyan)
-        .ncNeonGlow(NCColor.neonCyan)
-        .lineLimit(1)
+        Text(WeeklyCountdown.label(remaining: remaining))
+            .font(NCTypography.cardTitle.monospacedDigit())
+            .foregroundStyle(NCColor.neonCyan)
+            .ncNeonGlow(NCColor.neonCyan)
+            .lineLimit(1)
     }
 }

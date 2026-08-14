@@ -1,4 +1,5 @@
 import Testing
+import Foundation
 @testable import NeonCompass
 
 struct WeeklyCountdownTests {
@@ -30,5 +31,15 @@ struct WeeklyCountdownTests {
         #expect(!countdown.showsDays)
         #expect(countdown.hours == 0)
         #expect(countdown.minutes == 0)
+    }
+
+    /// Le défaut trouvé en revue : à 23 h 59 min 59 s, l'arrondi par défaut du
+    /// formateur affichait « 24h » — un jour entier, au moment précis où la
+    /// colonne des jours disparaît. Locale fixée pour que l'assertion tienne
+    /// sur toute machine.
+    @Test func lastMinuteNeverRoundsUpToTwentyFourHours() {
+        let label = WeeklyCountdown.label(remaining: 86_399, locale: Locale(identifier: "en_US"))
+        #expect(!label.contains("24"))
+        #expect(label.contains("23"))
     }
 }
