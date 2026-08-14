@@ -1,3 +1,7 @@
 node_modules/
 out/
 gtav-poi-check.png
+
+# Artefacts du pavage : 6 241 tuiles source et deux images brutes de 1,2 Go.
+# Reproductibles par `node gtavi-tiles.mjs`, jamais versionnés.
+.cache/

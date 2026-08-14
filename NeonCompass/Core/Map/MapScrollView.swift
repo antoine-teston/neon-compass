@@ -62,20 +62,6 @@ struct MapRenderState: Equatable {
     /// désormais une par tuile franchie — mais chacune est bien moins chère,
     /// puisqu'elle ne bâtit plus que les pastilles visibles.
     var window: MapRenderWindow
-    /// Étage de détail de l'image de fond — quatrième fonction en escalier, et
-    /// la moins fréquente de toutes : elle ne change qu'en traversant un seuil de
-    /// zoom, à l'hystérésis près (`MapArtDetailSelector`).
-    ///
-    /// Poussé par le coordinateur et non calculé dans `init` : le choix dépend de
-    /// l'échelle d'écran ET de l'étage courant, deux choses que ce type ne
-    /// connaît pas.
-    var artDetail: MapArtDetail = .overview
-    /// Bousculé quand un décodage aboutit.
-    ///
-    /// Sans lui, l'image qui arrive après coup ne se verrait jamais : le cache a
-    /// changé mais l'état de rendu, lui, est identique — c'est précisément ce que
-    /// `Equatable` sert à constater ici, et SwiftUI sauterait le corps.
-    var artGeneration: Int = 0
 
     init(zoomScale: CGFloat, contentSize: CGFloat, window: MapRenderWindow = .whole) {
         // Contre-échelle pour garder les pins à taille écran constante, mais
@@ -174,22 +160,10 @@ private struct MapContentSwiftUIView: View {
 
     @ViewBuilder
     private func mapBody(hitSides: [String: CGFloat]) -> some View {
+        // Plus de socle ici : il est passé sous les tuiles, dans
+        // `MapTileLayerView`. La vue hébergée est donc entièrement transparente
+        // hors épingles, ce qui est la condition pour voir le pavage au travers.
         ZStack(alignment: .topLeading) {
-            // `cached` ne décode RIEN : le décodage appartient au coordinateur,
-            // qui le lance hors du fil principal. Ici, l'image est là ou elle ne
-            // l'est pas — et si l'étage demandé manque encore, `cached` rend la
-            // version précédente plutôt qu'un trou noir.
-            if let mapImage = MapArtLoader.cached(game: game, style: style, detail: zoom.artDetail) {
-                Image(uiImage: mapImage)
-                    .resizable()
-                    // L'image est bien plus définie que l'espace de contenu
-                    // (4 096 ou 8 192 px pour 2 048 pt) : elle est donc
-                    // fortement RÉDUITE au repos, et c'est ce sens-là qui
-                    // compte. `.high` s'y impose, là où l'interpolation par
-                    // défaut crénelait la trame viaire fine.
-                    .interpolation(.high)
-                    .frame(width: fullSize, height: fullSize)
-            }
             ForEach(clusters) { cluster in
                 if let poi = cluster.single, let position = poi.position {
                     poiPin(poi, at: position, hitSide: hitSides[cluster.id] ?? zoom.pinHitCap)
@@ -224,6 +198,13 @@ private struct MapContentSwiftUIView: View {
                 draftPin(pin)
             }
         }
+        // C'est l'image supprimée qui portait ce cadre et donnait donc sa
+        // taille au `ZStack` — le `.frame` du corps appartient à la vue
+        // enveloppante, pas à `mapBody`. Sans lui, le `ZStack` se dimensionne
+        // sur les seules épingles, son coin haut-gauche se déplace, et
+        // `alignment: .topLeading` ancre dans le vide : toutes les épingles
+        // seraient fausses, sans rien pour le signaler.
+        .frame(width: fullSize, height: fullSize, alignment: .topLeading)
     }
 
     /// L'épingle en cours de pose.
@@ -637,26 +618,75 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
         let hostingController = UIHostingController(rootView: makeContent(zoom: MapRenderState(zoomScale: 1, contentSize: fullSize), coordinator: context.coordinator))
         hostingController.view.backgroundColor = .clear
+        // Zone sûre neutralisée — DÉCLARÉ, et non plus subi.
+        //
+        // Les gestes lisent `gesture.location(in: contentView)`, c'est-à-dire
+        // l'espace de contenu NON réduit ; SwiftUI, lui, centre son dessin dans
+        // la région que les encarts lui laissent. Les deux ne coïncident que si
+        // ces encarts sont nuls.
+        //
+        // Ils ne l'étaient pas. Tant que cette vue était sous-vue DIRECTE de la
+        // vue de défilement, elle héritait de ses encarts (62 en haut, 34 en
+        // bas) et tout son dessin — image de fond comme épingles — descendait de
+        // (62 − 34) / 2 = 14 pt de contenu : une épingle était affichée 14 pt
+        // plus bas que le point où un appui long au même endroit l'aurait posée,
+        // soit 46 pt d'écran au zoom maximal. Imbriquée dans le conteneur, elle
+        // rapporte des encarts nuls et l'écart a disparu — mais par accident de
+        // hiérarchie, que rien n'affirmait et qu'aucun test ne couvre.
+        //
+        // Sans cette ligne, le jour où la hiérarchie rebouge, tout le dessin
+        // SwiftUI reglisserait pendant que socle et tuiles resteraient en
+        // coordonnées brutes : TOUTES les épingles décalées du même vecteur,
+        // sans une erreur ni un avertissement.
+        //
+        // ⚠️ Ce réglage ne change PAS `hostingController.view.safeAreaInsets` —
+        // mesuré, en remontant exprès l'ancienne disposition : la vue continue
+        // d'y rapporter 62 et 34. Il gouverne ce que le contrôleur d'hébergement
+        // TRANSMET à son contenu SwiftUI, pas la géométrie qu'UIKit calcule.
+        // Qui vérifierait la propriété de la vue conclurait donc à tort que
+        // cette ligne ne sert à rien : ce qu'elle neutralise est la mise en page,
+        // et c'est bien là que naissaient les 14 pt.
+        //
+        // Corollaire, et c'est ce qui la rend nécessaire ici : le résultat ne
+        // dépend plus de l'orientation. Aucune orientation n'étant restreinte,
+        // le paysage change les encarts (ils passent sur les côtés) — sans cette
+        // déclaration, il faudrait le vérifier à chaque rotation.
+        hostingController.safeAreaRegions = []
         hostingController.view.frame = CGRect(x: 0, y: 0, width: fullSize, height: fullSize)
 
-        scrollView.contentSize = hostingController.view.frame.size
-        scrollView.contentNativeSize = hostingController.view.frame.size
-        scrollView.addSubview(hostingController.view)
-        // Plus de plafond à 1 imposé par une pyramide CATiledLayer — une
-        // image directe peut être zoomée au-delà de sa résolution native
-        // avec une interpolation acceptable, ce qui rend la carte réellement
-        // explorable plutôt que statique une fois entièrement affichée.
-        scrollView.maximumZoomScale = 2.5
+        // Un conteneur, et le zoom porte sur LUI. Socle et tuiles en dessous,
+        // épingles au-dessus, dans le même espace de contenu : c'est ce qui
+        // garantit qu'elles restent solidaires au pixel près pendant un
+        // pincement, là où deux vues zoomées séparément dériveraient.
+        //
+        // L'ordre n'est correct QUE parce que `mapBody` ne dessine plus le
+        // socle : tant qu'il y est, il couvre le pavage entier et rien ne le
+        // signale. Faire les deux, ou aucune.
+        let container = UIView(frame: hostingController.view.frame)
+        container.backgroundColor = .clear
+        let tiles = MapTileLayerView(contentSize: fullSize)
+        container.addSubview(tiles)
+        container.addSubview(hostingController.view)
+
+        scrollView.contentSize = container.frame.size
+        scrollView.contentNativeSize = container.frame.size
+        scrollView.addSubview(container)
+        // Le plafond de zoom n'est PAS posé ici : il dépend de la carte, donc
+        // c'est `setArt` qui le pose — appelé plus bas dans cette même fonction,
+        // avant que quoi que ce soit ne puisse zoomer. Une seule autorité.
         scrollView.delegate = context.coordinator
-        context.coordinator.contentView = hostingController.view
+        // Le conteneur, et non la vue hébergée : c'est lui qui est zoomé, donc
+        // lui le repère des gestes (`handleLongPress` lit `location(in:)`).
+        // Les deux ont exactement la même géométrie, les coordonnées sont donc
+        // identiques.
+        context.coordinator.contentView = container
+        context.coordinator.tileLayerView = tiles
         context.coordinator.hostingController = hostingController
         context.coordinator.scrollView = scrollView
         context.coordinator.contentFullSize = fullSize
         scrollView.backgroundColor = .black
         // Le premier décodage part ici et non dans `sync` : celui-ci n'arrive
         // qu'au prochain tour de boucle, et rien ne serait dessiné d'ici là.
-        // L'étage réduit est le bon départ dans tous les cas — l'échelle de repos
-        // (≈0,43 sur iPhone, ≈0,67 sur iPad) est très en dessous du seuil.
         context.coordinator.setArt(game: game, style: style)
 
         DispatchQueue.main.async { [weak scrollView] in
@@ -803,9 +833,12 @@ struct TiledMapRepresentable: UIViewRepresentable {
         context.coordinator.displayedContent = token
         // La carte et l'habillage sont dans le jeton, donc ce chemin est le seul
         // par lequel ils changent : c'est ici que la nouvelle image se demande.
-        // Le temps qu'elle arrive, `MapArtLoader.cached` garde la précédente —
-        // les deux habillages sortent du même recadrage, donc rien ne bouge, ce
-        // sont les couleurs qui changent une fraction de seconde plus tard.
+        // Une bascule d'HABILLAGE seul laisse `MapArtLoader.cached` retomber sur
+        // l'autre style de la même carte le temps du décodage — les deux sortent
+        // du même recadrage, donc rien ne bouge, ce sont les couleurs qui
+        // changent une fraction de seconde plus tard. Un changement de CARTE n'a
+        // pas ce repli : `cached` ne rend rien pour une autre carte, donc le
+        // socle est nil le temps du décodage (~120 ms) — jamais l'autre île.
         context.coordinator.setArt(game: game, style: style)
 
         let currentZoom = context.coordinator.hostingController?.rootView.zoom ?? MapRenderState(zoomScale: viewport.zoomScale, contentSize: MapGeometry.fullSize(for: manifest))
@@ -844,6 +877,15 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
     final class Coordinator: NSObject, UIScrollViewDelegate, UIGestureRecognizerDelegate {
         weak var contentView: UIView?
+        /// La couche de tuiles, sous les épingles. Faible comme les autres : la
+        /// hiérarchie de vues la détient.
+        weak var tileLayerView: MapTileLayerView?
+        /// Manifeste de la carte affichée, ou nil pour une carte sans pyramide
+        /// (la référence GTA V, qui n'affiche que son socle).
+        private var tileManifest: MapTileManifest?
+        /// Nom de ressource dont `tileManifest` a été lu. C'est LUI qui décide
+        /// s'il faut relire le fichier — voir `setArt`.
+        private var tileMapName: String?
         weak var scrollView: UIScrollView?
         fileprivate var hostingController: UIHostingController<MapContentSwiftUIView>?
         /// Dernière carte poussée dans la vue — sert à détecter un changement
@@ -864,15 +906,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
         // MARK: - Image de fond
 
-        /// Carte et habillage dont l'image est demandée. Retenus ici parce que
-        /// `sync` — qui décide de l'étage à chaque frame — n'a accès ni à la vue
-        /// SwiftUI ni au manifeste.
+        /// Carte et habillage dont le socle est demandé. Retenus ici parce que
+        /// `requestArt` et `pushArt` en ont besoin pour comparer la demande en
+        /// cours à celle qui vient d'aboutir.
         private var artGame: MapGame?
         private var artStyle: MapStyle?
-        private var artDetailSelector = MapArtDetailSelector()
-        private var requestedDetail: MapArtDetail = .overview
-        private var artGeneration = 0
-        private var artTask: Task<Void, Never>?
 
         init(viewport: Binding<MapViewport>, onLongPress: @escaping (CGPoint) -> Void) {
             _viewport = viewport
@@ -881,45 +919,99 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
         func viewForZooming(in scrollView: UIScrollView) -> UIView? { contentView }
 
-        /// Change de carte ou d'habillage sans toucher à l'étage : celui-ci ne
-        /// dépend que du zoom, qui ne bouge pas parce qu'on repeint.
+        /// Seul chemin par lequel carte et habillage changent, donc seul endroit
+        /// où la pyramide se recharge. Un seul nom pour les deux ressources : le
+        /// générateur pose le même suffixe sur le socle et sur les tuiles.
         fileprivate func setArt(game: MapGame, style: MapStyle) {
-            requestArt(game: game, style: style, detail: requestedDetail)
+            let name = game.resourceName(style: style)
+            // La pyramide ne se relit QUE si la carte change vraiment.
+            //
+            // `updateUIView` passe ici dès que son jeton bouge, et le jeton
+            // porte `placement` : sans ce test, chaque image `.changed` d'un
+            // glisser de pose rouvrait le fichier de manifeste, redécodait ses
+            // 466 entrées `uniform` puis comparait deux manifestes entiers —
+            // sur le fil principal, pendant le geste le plus sensible de l'app.
+            if name != tileMapName {
+                tileMapName = name
+                tileManifest = MapTileManifest.load(for: name)
+                tileLayerView?.setMap(name: name, manifest: tileManifest)
+                // Le plafond de zoom dépend de la carte, parce que ce qu'il y a
+                // à VOIR en dépend.
+                //
+                // Avec pyramide : 2 048 pt × 3,3 × 3 = 20 275 px réclamés pour
+                // les 18 432 du niveau le plus fin, soit 1,10× d'agrandissement
+                // — c'est tout le but du pavage. À 2,5 on réclamait 15 360 px
+                // pour 8 192, soit 1,88×, et c'était ÇA que l'on percevait comme
+                // un manque de définition.
+                //
+                // Sans pyramide — la carte de référence, 4 096 px de socle et
+                // rien d'autre, et c'est celle sur laquelle l'app OUVRE — les
+                // mêmes 3,3 réclameraient 4,95× là où l'app d'avant le pavage
+                // s'arrêtait à 3,75× : mesuré comme visible, quand 1,0× était
+                // mesuré comme indiscernable. Les 32 % de zoom gagnés n'y
+                // montreraient que de l'interpolation.
+                //
+                // Abaisser le plafond ne recadre rien sur le seul chemin qui
+                // change de CARTE : `updateUIView` appelle `refit()` avant nous,
+                // donc le zoom est déjà revenu au repos (≈0,43) quand le plafond
+                // tombe. Une bascule d'HABILLAGE, elle, ne recadre pas — mais
+                // les deux habillages d'une même carte ont toujours la même
+                // pyramide, le générateur les produisant dans la même passe.
+                scrollView?.maximumZoomScale = tileManifest == nil ? 2.5 : 3.3
+            }
+            requestArt(game: game, style: style)
+            // Cas de l'image déjà en mémoire : `requestArt` n'a rien lancé,
+            // donc `pushArt` ne viendra pas. Sans cette ligne, revenir à un
+            // habillage déjà visité laisserait un socle vide sous les tuiles
+            // — et au repos, où aucune tuile n'est chargée, un écran noir.
+            tileLayerView?.setBase(MapArtLoader.cached(game: game, style: style)?.cgImage)
         }
 
-        /// Lance le décodage de l'étage demandé s'il manque, et repousse le
-        /// contenu quand il arrive.
-        ///
-        /// Ne pousse RIEN de synchrone, délibérément : les deux appelants
-        /// poussent déjà l'état de rendu juste après — et `sync` le fait sur
-        /// chaque frame de pincement, où une poussée de plus ferait reconstruire
-        /// toutes les pastilles pour rien.
-        private func requestArt(game: MapGame, style: MapStyle, detail: MapArtDetail) {
-            let unchanged = game == artGame && style == artStyle && detail == requestedDetail
+        private func requestArt(game: MapGame, style: MapStyle) {
             artGame = game
             artStyle = style
-            requestedDetail = detail
-            guard !unchanged, !MapArtLoader.isResident(game: game, style: style, detail: detail) else { return }
-            artTask?.cancel()
-            artTask = Task { @MainActor [weak self] in
-                await MapArtLoader.prepare(game: game, style: style, detail: detail)
-                guard let self else { return }
-                // Le décodage a pu aboutir pour un étage qu'on ne veut plus — un
-                // aller-retour de pincement suffit. L'afficher montrerait le
-                // mauvais, et le cache le libérera de lui-même au prochain rangement.
-                guard game == artGame, style == artStyle, detail == requestedDetail else { return }
-                artGeneration += 1
+            // Le garde porte sur la RÉSIDENCE, et sur elle seule. Il testait
+            // d'abord « la carte demandée n'a pas changé », et c'était une
+            // panne : `MapArtLoader` ne garde qu'UNE image, donc un décodage
+            // lancé pour l'autre carte évince celle qui est à l'écran en
+            // arrivant, sans que la carte demandée ait bougé d'un pouce. Le
+            // garde sortait alors sans rien relancer et `cached` rendait nil à
+            // chaque passage suivant : écran NOIR définitif, observé à la
+            // tâche 7 sur un aller-retour rapide entre les deux cartes, et
+            // préexistant au pavage.
+            //
+            // Ce garde-ci est plus bavard — tant que le socle n'est pas
+            // résident, chaque passage crée une tâche. Elles sont mises en
+            // commun par `inFlight` dans `prepare`, donc elles attendent le
+            // même décodage au lieu d'en lancer un chacune, et elles cessent
+            // dès qu'il arrive.
+            guard !MapArtLoader.isResident(game: game, style: style) else { return }
+            // Pas d'annulation ici, et ce n'est pas un oubli : `prepare` ne
+            // regarde jamais `Task.isCancelled`, et `Task.detached` — celle qui
+            // porte le décodage — n'hérite de toute façon pas de l'annulation
+            // de la tâche englobante. Un `.cancel()` ici ne changerait rien à ce
+            // qui s'exécute. Ce qui écarte une tâche devenue obsolète est le
+            // garde juste en dessous : `game == artGame, style == artStyle`
+            // n'est plus vrai dès qu'un appel plus récent a réécrit ces deux
+            // propriétés, et c'est ce garde-là, pas une annulation, qui décide
+            // laquelle des tâches en vol pousse effectivement l'image.
+            Task { @MainActor [weak self] in
+                await MapArtLoader.prepare(game: game, style: style)
+                guard let self, game == artGame, style == artStyle else { return }
                 pushArt()
             }
         }
 
-        /// Repousse l'état de rendu courant avec la nouvelle image. Une
-        /// évaluation complète du contenu, une seule par décodage.
+        /// Ne pousse plus RIEN vers SwiftUI : le socle est une couche, et
+        /// poser son `contents` suffit à le faire apparaître. C'est tout ce
+        /// qui reste de l'aller-retour par l'état de rendu.
         private func pushArt() {
-            guard var state = hostingController?.rootView.zoom else { return }
-            state.artDetail = requestedDetail
-            state.artGeneration = artGeneration
-            hostingController?.rootView.zoom = state
+            // Le `if let` ne retient rien en pratique : `pushArt` n'est appelée
+            // que depuis le retour d'un décodage, qui vient de comparer ces
+            // deux-là. Il évite un `!` et un repli sur une carte arbitraire.
+            if let artGame, let artStyle {
+                tileLayerView?.setBase(MapArtLoader.cached(game: artGame, style: artStyle)?.cgImage)
+            }
         }
 
         /// Zoome sur un groupe pour le délier. Une octave par tap (deux
@@ -981,33 +1073,31 @@ struct TiledMapRepresentable: UIViewRepresentable {
             // l'écran (contre-échelle) sans dépendre d'un aller-retour par
             // SwiftUI côté MapScreen.
             //
-            // L'étage de l'image se décide ici pour la même raison : c'est le
-            // seul chemin qui voit le zoom de chaque frame. Le décodage part en
-            // parallèle et la poussée ci-dessous porte déjà l'étage VISÉ, donc
-            // l'image précédente reste à l'écran jusqu'à ce que l'autre arrive.
-            let detail = artDetailSelector.update(
+            // Le pavage se décide ici pour la même raison : c'est le seul chemin
+            // qui voit le zoom de chaque frame.
+            //
+            // La fenêtre visible en coordonnées de contenu — la même que celle
+            // qui borne le dessin des épingles, ce qui garantit que les tuiles
+            // chargées sont exactement celles sous ce qu'on voit.
+            let visible = MapGeometry.visibleContentRect(
+                bounds: scrollView.bounds.size,
+                contentOffset: newViewport.contentOffset,
+                zoomScale: newViewport.zoomScale
+            )
+            tileLayerView?.update(
+                visibleContentRect: visible,
                 zoomScale: newViewport.zoomScale,
-                contentSize: contentFullSize,
                 displayScale: scrollView.traitCollection.displayScale
             )
-            if let artGame, let artStyle {
-                requestArt(game: artGame, style: artStyle, detail: detail)
-            }
-            var state = MapRenderState(
+            let state = MapRenderState(
                 zoomScale: newViewport.zoomScale,
                 contentSize: contentFullSize,
                 window: MapRenderWindow(
-                    visibleContentRect: MapGeometry.visibleContentRect(
-                        bounds: scrollView.bounds.size,
-                        contentOffset: newViewport.contentOffset,
-                        zoomScale: newViewport.zoomScale
-                    ),
+                    visibleContentRect: visible,
                     contentSize: contentFullSize,
                     zoomScale: newViewport.zoomScale
                 )
             )
-            state.artDetail = requestedDetail
-            state.artGeneration = artGeneration
             hostingController?.rootView.zoom = state
         }
 

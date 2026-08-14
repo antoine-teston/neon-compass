@@ -104,13 +104,33 @@ function target(cls, r, g, b) {
 }
 
 /**
- * @param data  buffer RGB (3 canaux, sans alpha)
+ * @param data   buffer RGB (3 canaux, sans alpha)
+ * @param scale  facteur d'échelle par rapport au z5, où il vaut 1. Les
+ *               constantes géométriques (tailles de boîte, aires) en dépendent ;
+ *               les seuils de couleur et les rapports, jamais.
+ * @param frame  place du tampon dans l'image globale : `{x, y}` son origine,
+ *               `{w, h}` les dimensions globales. Par défaut le tampon EST
+ *               l'image, ce qui rend le comportement identique à l'appel à
+ *               trois arguments. Seule la rose des vents, repérée en fraction
+ *               de l'image entière, en a besoin.
+ * @param count  fenêtre de COMPTAGE, en coordonnées du TAMPON (pas de l'image
+ *               globale). Seuls les pixels qui y tombent alimentent
+ *               `labelUnified`, `gridErased`, `oceanCleaned`, `compassBoosted`
+ *               et l'histogramme `stats` — dénominateur compris. Par défaut le
+ *               tampon entier. Un appelant fenêtré doit y passer son CŒUR :
+ *               sinon les halos se comptent deux fois et `stats` se calcule sur
+ *               un dénominateur gonflé. Le rendu, lui, ne dépend jamais de ce
+ *               paramètre.
  * @returns nouveau buffer RGB restylé + stats
  */
-export function restyle(data, width, height) {
+export function restyle(data, width, height, scale = 1,
+                        frame = { x: 0, y: 0, w: width, h: height },
+                        count = { x: 0, y: 0, w: width, h: height }) {
   const n = width * height;
   const cls = new Uint8Array(n);
   const out = Buffer.allocUnsafe(n * 3);
+  const cX1 = count.x + count.w, cY1 = count.y + count.h;
+  const inCount = (x, y) => x >= count.x && x < cX1 && y >= count.y && y < cY1;
 
   const cache = new Map();
 
@@ -154,7 +174,11 @@ export function restyle(data, width, height) {
     const s = Math.max(r, g, b) - Math.min(r, g, b);
     return l > 195 && s >= 13 && s <= 45 && g >= r && r > b ? 3 : 0;
   };
-  const AREA_MIN = 12, AREA_MAX = 12000, BOX_W = 300;
+  const AREA_MIN = Math.round(12 * scale * scale);
+  const AREA_MAX = Math.round(12000 * scale * scale);
+  const BOX_W = Math.round(300 * scale);
+  const BOX_H_GREY = Math.round(60 * scale), BOX_H_OTHER = Math.round(130 * scale);
+  const ROAD_TOUCH = Math.round(3 * scale);
   const seen = new Uint8Array(n);
   const stack = [], members = [];
   let labelUnified = 0;
@@ -185,7 +209,7 @@ export function restyle(data, width, height) {
     // Gris : hauteur d'une ligne de texte (écarte l'entrepôt hachuré) et
     // remplissage de glyphe (écarte les bâtiments pleins). Pâle/rouge : pas de
     // plafond de remplissage, les tirets de comté sont effacés en amont.
-    const boxH = fam === 1 ? 60 : 130;
+    const boxH = fam === 1 ? BOX_H_GREY : BOX_H_OTHER;
     if (bw > BOX_W || bh > boxH) continue;
     if (fam === 1 && area / (bw * bh) > 0.62) continue;
     // Un libellé gris ne touche jamais le réseau ROAD (son halo l'en
@@ -199,32 +223,46 @@ export function restyle(data, width, height) {
         const x = i % width;
         if ((x > 0 && cls[i - 1] === ROAD) || (x < width - 1 && cls[i + 1] === ROAD)
           || (i >= width && cls[i - width] === ROAD) || (i < n - width && cls[i + width] === ROAD)) {
-          if (++roadTouch > 3) break;
+          if (++roadTouch > ROAD_TOUCH) break;
         }
       }
-      if (roadTouch > 3) continue;
+      if (roadTouch > ROAD_TOUCH) continue;
     }
     for (const i of members) {
       cls[i] = LABEL;
       const o3 = i * 3;
       out[o3] = 235; out[o3 + 1] = 228; out[o3 + 2] = 255;
+      // Compté membre par membre, et non `+= area` : une composante à cheval
+      // sur le bord du cœur ne doit compter que par la part qui y tombe.
+      // Fenêtre par défaut, members.length === area, donc valeur inchangée.
+      if (inCount(i % width, (i / width) | 0)) labelUnified++;
     }
-    labelUnified += area;
   }
 
-  // Lignes de grille fines : les traits rouges fins (1-2 px) de la grille de
-  // coordonnées source classifiés ROAD → CYAN. On détecte les ROAD « minces »
-  // et on les reclasse selon le voisin dominant.
+  // Rayon de voisinage. Tous les tests de voisinage qui suivent — la mesure
+  // d'épaisseur des traits de grille, les sondes d'angle et le carré du
+  // nettoyage océan — mesurent la MÊME distance physique et doivent donc
+  // s'échelonner ensemble. Un rayon laissé à 2 alors que le trait fait 4 px de
+  // large rendrait le test d'épaisseur toujours faux, et la passe cesserait
+  // d'effacer quoi que ce soit, sans erreur.
+  const R = Math.max(1, Math.round(2 * scale));           // 2 à z5, 4 à z6
+  // 80 % du voisinage (2R+1)², et non une longueur : c'est un pourcentage
+  // déguisé, qui retombe sur 20 quand R vaut 2.
+  const OCEAN_MIN = Math.round(0.8 * (2 * R + 1) ** 2);
+
+  // Lignes de grille fines : les traits rouges fins (1-2 px à z5) de la grille
+  // de coordonnées source classifiés ROAD → CYAN. On détecte les ROAD
+  // « minces » et on les reclasse selon le voisin dominant.
   let gridErased = 0;
-  for (let y = 2; y < height - 2; y++) {
-    for (let x = 2; x < width - 2; x++) {
+  for (let y = R; y < height - R; y++) {
+    for (let x = R; x < width - R; x++) {
       const i = y * width + x;
       if (cls[i] !== ROAD) continue;
       // Rouge vif (r-g ≥ 115) = vraie route, même fine — seuls les résidus
       // ternes de la grille sont candidats à l'effacement.
       if (data[i * 3] - data[i * 3 + 1] >= 115) continue;
-      const thin = (cls[(y - 2) * width + x] !== ROAD && cls[(y + 2) * width + x] !== ROAD) ||
-                   (cls[y * width + (x - 2)] !== ROAD && cls[y * width + (x + 2)] !== ROAD);
+      const thin = (cls[(y - R) * width + x] !== ROAD && cls[(y + R) * width + x] !== ROAD) ||
+                   (cls[y * width + (x - R)] !== ROAD && cls[y * width + (x + R)] !== ROAD);
       if (!thin) continue;
       const nb = [cls[i - 1], cls[i + 1], cls[i - width], cls[i + width]].filter(c => c !== ROAD);
       const repl = nb.length > 0 ? nb[0] : LAND;
@@ -236,45 +274,48 @@ export function restyle(data, width, height) {
         const t = target(repl, data[o], data[o + 1], data[o + 2]);
         out[o] = t[0]; out[o + 1] = t[1]; out[o + 2] = t[2];
       }
-      gridErased++;
+      if (inCount(x, y)) gridErased++;
     }
   }
 
   // Nettoyage océan : résidus de grille isolés (bords AA, labels intérieurs).
-  // Seuil 80 % eau/grille dans le voisinage 5×5, une seule passe.
+  // Seuil 80 % eau/grille dans le voisinage (2R+1)², une seule passe.
   // La rose des vents est protégée.
   let oceanCleaned = 0;
-  for (let y = 2; y < height - 2; y++) {
-    for (let x = 2; x < width - 2; x++) {
+  for (let y = R; y < height - R; y++) {
+    for (let x = R; x < width - R; x++) {
       const i = y * width + x;
       if (cls[i] === WATER || cls[i] === GRID || cls[i] === LABEL) continue;
-      if (x >= width * 0.82 && y >= height * 0.79) continue;
-      const c00 = cls[(y - 2) * width + (x - 2)], c01 = cls[(y - 2) * width + (x + 2)];
-      const c10 = cls[(y + 2) * width + (x - 2)], c11 = cls[(y + 2) * width + (x + 2)];
+      if (x + frame.x >= frame.w * 0.82 && y + frame.y >= frame.h * 0.79) continue;
+      const c00 = cls[(y - R) * width + (x - R)], c01 = cls[(y - R) * width + (x + R)];
+      const c10 = cls[(y + R) * width + (x - R)], c11 = cls[(y + R) * width + (x + R)];
       const isW = c => c === WATER || c === GRID;
       if (!isW(c00) && !isW(c01) && !isW(c10) && !isW(c11)) continue;
       let w = 0;
-      for (let dy = -2; dy <= 2; dy++)
-        for (let dx = -2; dx <= 2; dx++) {
+      for (let dy = -R; dy <= R; dy++)
+        for (let dx = -R; dx <= R; dx++) {
           const nc = cls[(y + dy) * width + (x + dx)];
           if (nc === WATER || nc === GRID) w++;
         }
-      if (w < 20) continue;
+      if (w < OCEAN_MIN) continue;
       cls[i] = WATER;
       const o = i * 3;
       out[o] = NIGHT_SKY[0]; out[o + 1] = NIGHT_SKY[1]; out[o + 2] = NIGHT_SKY[2];
-      oceanCleaned++;
+      if (inCount(x, y)) oceanCleaned++;
     }
   }
 
   // Rose des vents : rehausser le contraste. On détecte les éléments de la rose
   // par comparaison avec l'océan source (tout pixel significativement différent
   // du bleu océan est un élément de la rose) et on les rend en VIOLET lumineux.
-  const compassX0 = Math.floor(width * 0.82);
-  const compassY0 = Math.floor(height * 0.79);
+  // Repérée en fraction de l'IMAGE, pas du tampon : une fenêtre ne doit pas
+  // s'en fabriquer une à elle. Les coordonnées sont celles du tampon, donc
+  // possiblement hors de lui — les boucles s'en accommodent.
+  const compassX0 = Math.floor(frame.w * 0.82) - frame.x;
+  const compassY0 = Math.floor(frame.h * 0.79) - frame.y;
   let compassBoosted = 0;
-  for (let y = compassY0; y < height; y++) {
-    for (let x = compassX0; x < width; x++) {
+  for (let y = Math.max(0, compassY0); y < height; y++) {
+    for (let x = Math.max(0, compassX0); x < width; x++) {
       const i = y * width + x;
       const so = i * 3;
       const sr = data[so], sg = data[so + 1], sb = data[so + 2];
@@ -291,16 +332,23 @@ export function restyle(data, width, height) {
       const c = mix(mix(NIGHT_SKY, VIOLET, 0.6), VIOLET, t);
       out[o] = c[0]; out[o + 1] = c[1]; out[o + 2] = c[2];
       cls[i] = URBAN; // empêche le flatten océan
-      compassBoosted++;
+      if (inCount(x, y)) compassBoosted++;
     }
   }
 
+  // Histogramme sur la fenêtre de comptage, dénominateur compris : sur une
+  // fenêtre à halo, `n` gonflerait les parts de ce que le halo contient.
   const counts = {};
-  for (let i = 0; i < n; i++) counts[cls[i]] = (counts[cls[i]] ?? 0) + 1;
+  for (let y = count.y; y < cY1; y++)
+    for (let x = count.x; x < cX1; x++) {
+      const c = cls[y * width + x];
+      counts[c] = (counts[c] ?? 0) + 1;
+    }
+  const nCount = count.w * count.h;
   const label = { [WATER]: 'eau', [ROAD]: 'axes', [URBAN]: 'bâti', [LAND]: 'terre', [GRID]: 'grille', [DARK]: 'sombre', [SAND]: 'sable', [STREET]: 'rues', [LABEL]: 'libellés' };
   const stats = Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
-    .map(([k, v]) => `${label[k] ?? k} ${(v / n * 100).toFixed(1)}%`)
+    .map(([k, v]) => `${label[k] ?? k} ${(v / nCount * 100).toFixed(1)}%`)
     .join('  ');
 
   const ocean = new Uint8Array(n);
@@ -315,5 +363,8 @@ export function restyle(data, width, height) {
     }
   }
 
-  return { data: out, ocean, stats, colors: cache.size, gridErased, oceanCleaned, compassBoosted, labelUnified };
+  // `colorsInWindow` : une taille de cache ne se ramène pas à un cœur — deux
+  // fenêtres partagent des couleurs, et les sommer compterait double. Le nom
+  // dit la portée pour que personne ne l'additionne.
+  return { data: out, ocean, stats, colorsInWindow: cache.size, gridErased, oceanCleaned, compassBoosted, labelUnified };
 }

@@ -190,14 +190,27 @@ enum MapGeometry {
     }
 
     /// The symmetric inset needed to center content of `contentSize` scaled
-    /// by `zoomScale` within `bounds` — clamped to zero on any axis where the
-    /// scaled content already fills or exceeds that axis of `bounds` (never
-    /// negative).
+    /// by `zoomScale` within `bounds`. Below the resting scale
+    /// (`coverZoomScale`), this is the natural letterbox margin — clamped to
+    /// zero on any axis where the scaled content already fills or exceeds it
+    /// (never negative). Beyond the resting scale, every axis instead floors
+    /// to `bounds/2` — see the overscroll comment below.
     static func centeringInsets(contentSize: CGSize, zoomScale: CGFloat, in bounds: CGSize) -> ContentInsets {
         let scaledWidth = contentSize.width * zoomScale
         let scaledHeight = contentSize.height * zoomScale
-        let horizontal = max((bounds.width - scaledWidth) / 2, 0)
-        let vertical = max((bounds.height - scaledHeight) / 2, 0)
+        // Plancher de débord, actif seulement au-delà de l'échelle de repos
+        // (coverZoomScale) : en-deçà, le centrage naturel doit rester
+        // inchangé (0 quand le contenu remplit déjà l'axe), sinon la carte
+        // s'ouvrirait au lancement avec une marge géante de chaque côté — la
+        // carte remplit pourtant l'écran au repos par construction (le
+        // plancher de zoom EST coverZoomScale). Au-delà du repos, sans
+        // plancher l'inset retombe à 0 dès qu'un axe dépasse la vue, le
+        // défilement bute sur le bord de l'image, et une épingle côtière ne
+        // peut jamais être amenée au centre — la précision du geste de
+        // soumission en dépend.
+        let overscrolling = zoomScale > coverZoomScale(contentSize: contentSize, in: bounds)
+        let horizontal = max((bounds.width - scaledWidth) / 2, overscrolling ? bounds.width / 2 : 0)
+        let vertical = max((bounds.height - scaledHeight) / 2, overscrolling ? bounds.height / 2 : 0)
         return ContentInsets(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
     }
 

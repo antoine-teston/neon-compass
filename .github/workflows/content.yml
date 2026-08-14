@@ -95,8 +95,16 @@ jobs:
       # C'est délibéré — ils portent l'invariant le plus coûteux du dépôt (un id
       # publié ne doit jamais désigner un autre POI), donc rien ne doit pouvoir
       # les rendre inexécutables.
+      #
+      # gtavi-transform.test.mjs les rejoint, et sans dépendance non plus (ni lui
+      # ni gtavi-restyle.mjs n'importent quoi que ce soit d'externe). C'est le
+      # SEUL filet du pavage z6 côté outil : il prouve que le découpage en
+      # quadrants avec halo rend la même image qu'un bloc entier, et que les
+      # constantes de voisinage suivent bien le facteur d'échelle. Sans lui dans
+      # la CI, une constante mal transposée ne se verrait qu'à l'œil, plusieurs
+      # mois plus tard, sur une carte déjà livrée.
       - name: Tests de frappe des identifiants
-        run: node --test tools/basemap/gtav-poi-ids.test.mjs
+        run: node --test tools/basemap/gtav-poi-ids.test.mjs tools/basemap/gtavi-transform.test.mjs
 
       # Surface d'attaque de la console web locale : liste blanche d'actions et
       # refus des identifiants hostiles. Sans dépendance non plus.

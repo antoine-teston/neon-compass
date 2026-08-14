@@ -80,7 +80,7 @@ struct MapScreen: View {
                         // Non attendu, exprès : ce qui compte est qu'il ait
                         // commencé. Le moteur redemandera la même image et
                         // tombera sur la tâche en cours.
-                        Task { await MapArtLoader.prepare(game: mapGame, style: mapStyle, detail: .overview) }
+                        Task { await MapArtLoader.prepare(game: mapGame, style: mapStyle) }
                         loadModel()
                     }
             }

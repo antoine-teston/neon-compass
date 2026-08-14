@@ -68,9 +68,16 @@ targets:
       - path: NeonCompass
         excludes:
           - "Resources/MapArt/**"
+          - "Resources/MapTiles/**"
           - "Resources/POI/**"
           - "Resources/Cheats/**"
       - path: NeonCompass/Resources/MapArt
+        type: folder
+      # Même raison que MapArt : `type: folder` préserve l'arborescence
+      # <nom>/<côté>/<x>_<y>.png, dont dépend le `subdirectory:` de
+      # MapTileManifest.load. Aplatie, elle mettrait 2 351 fichiers homonymes
+      # à la racine du paquet.
+      - path: NeonCompass/Resources/MapTiles
         type: folder
       # Référence de dossier, comme MapArt : sans `type: folder` XcodeGen
       # aplatit seed-poi.json à la racine du bundle, et le

@@ -47,15 +47,19 @@ struct MapGeometryTests {
         #expect(insets == ContentInsets(top: 100, left: 50, bottom: 100, right: 50))
     }
 
-    @Test func centeringInsetsClampToZeroWhenContentFillsOrExceedsAnAxis() {
-        // Scaled content 500x500 exceeds both axes of a 300x400 viewport —
-        // insets must clamp to 0, never go negative.
+    @Test func centeringInsetsFloorsToHalfBoundsPastRestWhenContentExceedsAnAxis() {
+        // Scaled content 500x500 exceeds both axes of a 300x400 viewport, at
+        // zoomScale 1 — past that pair's resting scale (coverZoomScale ==
+        // 0.8), so the Task 10 overscroll plancher applies: bounds/2 on each
+        // axis, not 0. Before that fix this clamped to zero, which pinned
+        // scrolling on the image's edge and made a coastal pin uncenterable
+        // once zoomed in (see overscrollAllowsCenteringAnyPoint).
         let insets = MapGeometry.centeringInsets(
             contentSize: CGSize(width: 500, height: 500),
             zoomScale: 1,
             in: CGSize(width: 300, height: 400)
         )
-        #expect(insets == ContentInsets(top: 0, left: 0, bottom: 0, right: 0))
+        #expect(insets == ContentInsets(top: 200, left: 150, bottom: 200, right: 150))
     }
 
     @Test func centeringInsetsScalesContentSizeByZoomScale() {
@@ -69,6 +73,16 @@ struct MapGeometryTests {
         )
         #expect(abs(insets.left - 195.2) < 0.01)
         #expect(abs(insets.top - 95.2) < 0.01)
+    }
+
+    @Test("Tout point de la carte peut être amené au centre, même zoomé")
+    func overscrollAllowsCenteringAnyPoint() {
+        let content = CGSize(width: 2048, height: 2048)
+        let bounds = CGSize(width: 402, height: 874)
+        let insets = MapGeometry.centeringInsets(contentSize: content, zoomScale: 3.3, in: bounds)
+        // Le coin supérieur gauche du contenu doit pouvoir atteindre le centre.
+        #expect(insets.top >= bounds.height / 2)
+        #expect(insets.left >= bounds.width / 2)
     }
 
     @Test func coverZoomScaleGrowsToFillTheLargerDimension() {
