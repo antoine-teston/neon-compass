@@ -20,6 +20,33 @@ struct SocialScreen: View {
     @State private var heroPinned = false
     @State private var showsLeaderboard = false
 
+    /// Une vue complète ouverte. En compact chaque composant présente sa
+    /// feuille ; en régulier l'écran centralise pour servir le panneau latéral.
+    private enum HubDetail: Identifiable {
+        case week(OnlineEvent)
+        case proposals
+        case leaderboard
+
+        var id: String {
+            switch self {
+            case .week(let event): "week-\(event.id)"
+            case .proposals: "proposals"
+            case .leaderboard: "leaderboard"
+            }
+        }
+
+        var titleKey: LocalizedStringKey {
+            switch self {
+            case .week: "social.hub.thisWeek"
+            case .proposals: "social.panel.proposals"
+            case .leaderboard: "social.leaderboard.title"
+            }
+        }
+    }
+
+    @State private var openedDetail: HubDetail?
+    private var isRegular: Bool { sizeClass == .regular }
+
     private let leaderboardRepository: any LeaderboardRepository = SupabaseLeaderboardRepository()
     private let notifications: any LocalNotificationScheduling = SystemLocalNotificationScheduler()
 
@@ -53,20 +80,40 @@ struct SocialScreen: View {
                 isProEntitled: proEntitlementModel.isProEntitled
             )
 
-            ScrollView {
+            HStack(spacing: 0) {
+                ScrollView {
                 VStack(spacing: 20) {
                     heroSection(model, now: now)
                     if visibility.showsVoteModule, let communityModel {
-                        VoteModule(communityModel: communityModel)
+                        if isRegular {
+                            // Mosaïque : le vote en colonne large à gauche, la
+                            // tuile à droite — fini la bande unique de 640 pt.
+                            HStack(alignment: .top, spacing: 20) {
+                                VoteModule(communityModel: communityModel, onSeeAll: { openDetail(.proposals) })
+                                if visibility.showsLeaderboardTile {
+                                    LeaderboardTile(
+                                        rows: leaderboardRows,
+                                        myRank: profileModel.profile?.rank,
+                                        onOpen: { openDetail(.leaderboard) }
+                                    )
+                                    .frame(maxWidth: 280)
+                                }
+                            }
+                        } else {
+                            VoteModule(communityModel: communityModel)
+                        }
                     }
-                    // Tuile orpheline en H1 : elle s'étire en pleine largeur.
-                    // La grille à deux colonnes arrive avec la seconde tuile (H2).
-                    if visibility.showsLeaderboardTile {
-                        LeaderboardTile(
-                            rows: leaderboardRows,
-                            myRank: profileModel.profile?.rank,
-                            onOpen: { showsLeaderboard = true }
-                        )
+                    // Tuile orpheline en compact (ou sans module de vote) :
+                    // elle s'étire en pleine largeur. La grille à deux colonnes
+                    // arrive avec la seconde tuile (H2).
+                    if !isRegular || !visibility.showsVoteModule {
+                        if visibility.showsLeaderboardTile {
+                            LeaderboardTile(
+                                rows: leaderboardRows,
+                                myRank: profileModel.profile?.rank,
+                                onOpen: { openDetail(.leaderboard) }
+                            )
+                        }
                     }
                     // Écran de liste : la bannière s'y applique (spec §5), en
                     // queue de colonne, jamais sur un état vide.
@@ -74,7 +121,7 @@ struct SocialScreen: View {
                         BannerAdView()
                     }
                 }
-                .frame(maxWidth: 640)
+                .frame(maxWidth: isRegular ? 900 : 640)
                 .frame(maxWidth: .infinity)
                 .padding(20)
                 // La barre d'onglets flotte au-dessus du contenu — même réserve
@@ -100,6 +147,16 @@ struct SocialScreen: View {
             .sheet(isPresented: $showsLeaderboard) {
                 LeaderboardSheet(rows: leaderboardRows)
             }
+
+                if isRegular, let openedDetail {
+                    HubSidePanel(
+                        titleKey: openedDetail.titleKey,
+                        onClose: { withAnimation(.snappy) { self.openedDetail = nil } }
+                    ) {
+                        detailContent(openedDetail, now: now)
+                    }
+                }
+            }
         }
     }
 
@@ -107,6 +164,36 @@ struct SocialScreen: View {
     /// la dernière terminée (dite « terminé », jamais en cours).
     private func shownEvent(_ model: OnlineEventsModel, at now: Date) -> OnlineEvent? {
         model.currentEvent(at: now) ?? model.latestEvent()
+    }
+
+    /// La commande d'ouverture d'une vue complète — animée, jamais la liste.
+    /// En compact, seule la tuile passe par ici (les composants présentent
+    /// leurs propres feuilles) ; en régulier, tout converge vers le panneau.
+    private func openDetail(_ detail: HubDetail) {
+        if isRegular {
+            withAnimation(.snappy) { openedDetail = detail }
+        } else if case .leaderboard = detail {
+            showsLeaderboard = true
+        }
+    }
+
+    @ViewBuilder
+    private func detailContent(_ detail: HubDetail, now: Date) -> some View {
+        switch detail {
+        case .week(let event):
+            OnlineEventCard(event: event, now: now)
+        case .proposals:
+            if let communityModel {
+                ContributionsPanel(communityModel: communityModel)
+            }
+        case .leaderboard:
+            VStack(spacing: 20) {
+                LeaderboardPodium(rows: leaderboardRows)
+                if leaderboardRows.count > 3 {
+                    LeaderboardSection(rows: Array(leaderboardRows.dropFirst(3)), startRank: 4)
+                }
+            }
+        }
     }
 
     @ViewBuilder
@@ -119,7 +206,11 @@ struct SocialScreen: View {
             if model.availableGames.isEmpty {
                 emptyState
             } else {
-                WeeklyHeroPager(model: model, now: now)
+                WeeklyHeroPager(
+                    model: model,
+                    now: now,
+                    onOpenDetail: isRegular ? { event in openDetail(.week(event)) } : nil
+                )
                     // Le frame du héro dans l'espace du scroll pilote
                     // l'épinglage ; le seuil est pur et testé (`HeroPinning`).
                     .onGeometryChange(for: CGRect.self) { proxy in
