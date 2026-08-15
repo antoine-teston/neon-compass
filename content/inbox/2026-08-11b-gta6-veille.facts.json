@@ -1,0 +1,51 @@
+{
+  "run": {
+    "date": "2026-08-11",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/rockstar-games-quietly-followed-a-small-army-of-streamers-888d",
+      "https://www.gtaboom.com/gta-6-netflix-reveal-only-an-appetizer-zelnick-tease-dbed",
+      "https://www.gtaboom.com/gta-6-is-take-twos-test-for-monetizing-everyone-9597",
+      "https://www.gtaboom.com/78-year-old-grandmother-buys-xbox-series-x-for-gta-6-8dd9"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le compte Instagram officiel du studio a discrètement suivi six streameurs de premier plan quelques jours avant la diffusion, le 27 août, de l'aperçu étendu du jeu à venir sur une plateforme de streaming ; la presse spécialisée y voit une préparation des réactions du lancement plutôt qu'une annonce confirmée.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-games-quietly-followed-a-small-army-of-streamers-888d",
+      "source_date": "2026-08-10",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le PDG de l'éditeur, interrogé par un média spécialisé, a qualifié la diffusion du 27 août de simple « amuse-bouche » et a promis d'autres bandes-annonces et révélations avant la sortie du jeu à venir le 19 novembre, sans en préciser le contenu.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-netflix-reveal-only-an-appetizer-zelnick-tease-dbed",
+      "source_date": "2026-08-10",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Le PDG de l'éditeur a déclaré à un média spécialisé que l'industrie du jeu vidéo n'exploite encore qu'une fraction du potentiel de son audience et de sa monétisation, citant les dépenses récurrentes du mode en ligne actuel comme modèle éprouvé, tout en réaffirmant que le jeu à venir ne contiendra pas de publicité intégrée au monde du jeu.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-is-take-twos-test-for-monetizing-everyone-9597",
+      "source_date": "2026-08-10",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un internaute affirme sur un réseau social que sa grand-mère de 78 ans a acheté une console de nouvelle génération dans le seul but de jouer au jeu à venir lors de sa sortie ; l'anecdote, relayée par la presse spécialisée comme illustration de l'ampleur de l'attente autour du jeu, reste invérifiable et n'est confirmée par aucune source officielle.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/78-year-old-grandmother-buys-xbox-series-x-for-gta-6-8dd9",
+      "source_date": "2026-08-10",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
