@@ -680,8 +680,9 @@ struct TiledMapRepresentable: UIViewRepresentable {
         // coordinateur pour chaque trait, alors qu'un seul nous concerne.
         //
         // Forme cible/action et non bloc : UIKit ne retient la cible que
-        // faiblement, là où un bloc capturant le coordinateur — qui retient le
-        // `scrollView`, qui retient l'enregistrement — fermerait un cycle.
+        // faiblement, donc rien à désinscrire et rien qui prolonge la vie du
+        // coordinateur. Pas de cycle à craindre dans un sens ni dans l'autre —
+        // le coordinateur ne retient le `scrollView` que faiblement.
         //
         // Ce n'est pas de la prévoyance pour écrans externes : à l'instant où
         // `makeUIView` s'exécute, la vue n'est dans aucune fenêtre et son
