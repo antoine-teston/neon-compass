@@ -11690,6 +11690,40 @@
         }
       }
     },
+    "social.communities.create.discordPlaceholder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://discord.gg/..."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://discord.gg/..."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://discord.gg/..."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://discord.gg/..."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://discord.gg/..."
+          }
+        }
+      }
+    },
     "social.communities.create.memberCount": {
       "localizations": {
         "en": {

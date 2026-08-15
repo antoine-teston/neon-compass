@@ -62,7 +62,7 @@ struct CreateCommunitySheet: View {
                 }
 
                 Section("social.communities.create.discord") {
-                    TextField("https://discord.gg/...", text: $discordInvite)
+                    TextField("social.communities.create.discordPlaceholder", text: $discordInvite)
                         .keyboardType(.URL)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
