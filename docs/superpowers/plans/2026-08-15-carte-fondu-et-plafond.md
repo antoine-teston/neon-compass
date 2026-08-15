@@ -338,8 +338,9 @@ Dans `makeUIView`, immédiatement après `scrollView.delegate = context.coordina
         // coordinateur pour chaque trait, alors qu'un seul nous concerne.
         //
         // Forme cible/action et non bloc : UIKit ne retient la cible que
-        // faiblement, là où un bloc capturant le coordinateur — qui retient le
-        // `scrollView`, qui retient l'enregistrement — fermerait un cycle.
+        // faiblement, donc rien à désinscrire et rien qui prolonge la vie du
+        // coordinateur. Pas de cycle à craindre dans un sens ni dans l'autre —
+        // le coordinateur ne retient le `scrollView` que faiblement.
         //
         // Ce n'est pas de la prévoyance pour écrans externes : à l'instant où
         // `makeUIView` s'exécute, la vue n'est dans aucune fenêtre et son
@@ -1257,3 +1258,4 @@ Le rapport porte, en clair : les quatre plafonds lus (`4.95` / `3.75` sur iPad, 
 - **Les PNG ne sont pas régénérés.** Le fondu est un calque, à l'exécution.
 - **Aucun réglage de coloris.** La spec en note les deux leviers — la palette du classificateur en amont, une courbe au décodage à l'exécution — et les laisse hors sujet. Un piège à retenir si la question revient : `CALayer.filters` existe dans l'API mais n'est PAS appliqué sur iOS, seulement sur macOS.
 - **L'orientation paysage n'est pas vérifiée** : `simctl` n'a pas de commande de rotation, et l'écran du Mac est verrouillé. La formule du plafond n'en dépend pas ; l'opacité du fondu, si — en paysage c'est la LARGEUR qui affleure. Le minimum sur les deux axes traite le cas sans le distinguer, mais il n'est pas mesuré.
+- **Le rabot du zoom courant n'est exercé par rien**, ni test ni recette, et il faut le dire plutôt que le laisser croire couvert. Ses deux chemins sont hors d'atteinte ici : celui du changement de CARTE est précédé de `refit()`, qui a déjà ramené le zoom au repos — le rabot y est prouvé redondant, donc l'exercer ne prouverait rien ; celui du changement d'ÉCHELLE D'AFFICHAGE demande un écran externe ou Stage Manager, qu'un simulateur piloté par `simctl` sur un Mac verrouillé ne sait pas produire. Le rabot est un filet pour un chemin qu'on ne sait pas parcourir, et c'est exactement pourquoi il est là.
