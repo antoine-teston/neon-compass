@@ -7,7 +7,7 @@ import Foundation
 ///
 /// Pourquoi une image et non quatre dégradés posés à la main : `contentsCenter`
 /// étire ces 2 px sur toute la surface du calque, donc une image de quelques
-/// centaines de kilo-octets habille une carte de 10 000 points de côté, et les
+/// centaines de kilo-octets habille une carte de 2 048 points de côté, et les
 /// quatre coins sont peints une fois pour toutes plutôt que raccordés.
 ///
 /// Pourquoi pas dans les PNG des socles : l'épaisseur est en points d'ÉCRAN.

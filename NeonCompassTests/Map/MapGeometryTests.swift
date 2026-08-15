@@ -218,14 +218,14 @@ struct MapGeometryTests {
     @Test func noFadeAtRestOnEitherDevice() {
         let phoneZoom = Self.phoneBounds.height / 2048
         let phone = MapGeometry.edgeFade(
-            band: 80, contentSize: Self.mapSize,
+            contentSize: Self.mapSize,
             visibleContentRect: Self.centred(zoom: phoneZoom, in: Self.phoneBounds),
             zoomScale: phoneZoom, displayScale: 3
         )
         #expect(phone.opacity == 0)
         let padZoom = Self.padBounds.height / 2048
         let pad = MapGeometry.edgeFade(
-            band: 80, contentSize: Self.mapSize,
+            contentSize: Self.mapSize,
             visibleContentRect: Self.centred(zoom: padZoom, in: Self.padBounds),
             zoomScale: padZoom, displayScale: 2
         )
@@ -248,7 +248,7 @@ struct MapGeometryTests {
             zoomScale: zoom
         )
         let pad = MapGeometry.edgeFade(
-            band: 80, contentSize: Self.mapSize,
+            contentSize: Self.mapSize,
             visibleContentRect: dragged, zoomScale: zoom, displayScale: 2
         )
         #expect(pad.opacity == 1)
@@ -260,24 +260,47 @@ struct MapGeometryTests {
     /// visible, donc pas de vignette.
     @Test func aMapBarelyLargerThanTheScreenStaysClean() {
         let pad = MapGeometry.edgeFade(
-            band: 80, contentSize: Self.mapSize,
+            contentSize: Self.mapSize,
             visibleContentRect: Self.centred(zoom: 0.68, in: Self.padBounds),
             zoomScale: 0.68, displayScale: 2
         )
         #expect(pad.opacity == 0)
     }
 
-    /// Entre les deux, il entre en scène exactement à la vitesse à laquelle le
-    /// fond se découvre : 40 pt de fond visible pour une bande de 80, soit la
-    /// moitié.
-    @Test func theFadeRampsWithHowMuchBackgroundShows() {
+    /// Le régime que la première rédaction laissait passer : un bord tout juste
+    /// tiré dans la fenêtre.
+    ///
+    /// Dix points de fond découvert, c'est un geste de rien du tout — et c'est
+    /// pourtant un état stable, où l'arête de la carte est à l'écran. Réglée
+    /// sur l'épaisseur de la bande, la rampe n'y opposait que 12 % d'opacité,
+    /// laissant un écart de couleur d'environ 305 là où la recette du chantier
+    /// exige moins de 12.
+    @Test func aBarelyUncoveredEdgeIsAlreadyFullyFaded() {
         let dragged = MapGeometry.visibleContentRect(
             bounds: Self.padBounds,
-            contentOffset: CGPoint(x: (2048 - Self.padBounds.width) / 2, y: -40),
+            contentOffset: CGPoint(x: (2048 - Self.padBounds.width) / 2, y: -10),
             zoomScale: 1
         )
         let pad = MapGeometry.edgeFade(
-            band: 80, contentSize: Self.mapSize,
+            contentSize: Self.mapSize,
+            visibleContentRect: dragged, zoomScale: 1, displayScale: 2
+        )
+        #expect(pad.opacity == 1)
+    }
+
+    /// La rampe existe, et elle est courte. Quatre points de fond découvert,
+    /// soit la moitié de `fadeCrossing` : à mi-chemin. Ce qu'on vérifie ici
+    /// n'est pas un effet visuel — à cette largeur il n'y a rien à voir — mais
+    /// que le franchissement de zéro est amorti plutôt que brutal, le rebond
+    /// élastique le traversant plusieurs fois par pincement.
+    @Test func theCrossingIsDampedRatherThanAbrupt() {
+        let dragged = MapGeometry.visibleContentRect(
+            bounds: Self.padBounds,
+            contentOffset: CGPoint(x: (2048 - Self.padBounds.width) / 2, y: -4),
+            zoomScale: 1
+        )
+        let pad = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
             visibleContentRect: dragged, zoomScale: 1, displayScale: 2
         )
         #expect(abs(pad.opacity - 0.5) < 0.001)
@@ -293,7 +316,7 @@ struct MapGeometryTests {
             zoomScale: 1
         )
         let pad = MapGeometry.edgeFade(
-            band: 80, contentSize: Self.mapSize,
+            contentSize: Self.mapSize,
             visibleContentRect: dragged, zoomScale: 1, displayScale: 2
         )
         #expect(pad.opacity == 1)
@@ -310,7 +333,7 @@ struct MapGeometryTests {
             let pixels = CGFloat(MapEdgeFadeImage.bandPixels(displayScale: displayScale))
             for zoom in [bounds.height / 2048, 1.0, 2.5, 3.3, 4.95] as [CGFloat] {
                 let fade = MapGeometry.edgeFade(
-                    band: MapEdgeFadeImage.band, contentSize: Self.mapSize,
+                    contentSize: Self.mapSize,
                     visibleContentRect: Self.centred(zoom: zoom, in: bounds),
                     zoomScale: zoom, displayScale: displayScale
                 )
@@ -325,7 +348,7 @@ struct MapGeometryTests {
     /// surtout pas de calque visible.
     @Test func aZeroZoomYieldsNothingVisibleRatherThanInfinity() {
         let fade = MapGeometry.edgeFade(
-            band: 80, contentSize: Self.mapSize,
+            contentSize: Self.mapSize,
             visibleContentRect: .zero, zoomScale: 0, displayScale: 2
         )
         #expect(fade.opacity == 0)

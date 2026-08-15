@@ -215,7 +215,6 @@ final class MapTileLayerView: UIView {
             }
         }
         let fade = MapGeometry.edgeFade(
-            band: MapEdgeFadeImage.band,
             contentSize: CGSize(width: contentSize, height: contentSize),
             visibleContentRect: visibleContentRect,
             zoomScale: zoomScale,

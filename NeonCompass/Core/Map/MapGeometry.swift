@@ -155,12 +155,18 @@ struct MapEdgeFade: Equatable, Sendable {
     /// quoi que ce soit.
     let contentsScale: CGFloat
 
-    /// Le fondu entre en scène à mesure que le bord quitte l'écran.
+    /// Le fondu entre en scène à mesure que du FOND se découvre à côté de la
+    /// carte — et non à mesure que le bord quitte l'écran, ce qui était le
+    /// raisonnement de la première rédaction et son défaut.
     ///
-    /// Au repos la carte affleure exactement deux des quatre bords — c'est la
-    /// définition de l'échelle de repos, qui couvre l'écran sans bande vide.
-    /// Un fondu toujours actif y poserait donc une vignette de 80 pt en haut
-    /// et en bas, alors qu'au repos il n'y a aucun bord à masquer.
+    /// Les deux se confondent tant qu'on suppose la carte centrée. Elle ne
+    /// l'est pas : au-delà du repos, les encarts valent une demi-fenêtre pour
+    /// qu'une épingle côtière puisse être amenée au centre, donc un bord peut
+    /// être tiré au milieu de l'écran alors que la carte dépasse à peine.
+    /// Mesurer le fond découvert traite les deux situations d'un seul nombre :
+    /// il est nul au repos comme au centre de n'importe quel zoom — donc pas
+    /// de vignette — et il ne devient positif que là où il y a une arête à
+    /// masquer.
     let opacity: Float
 }
 
@@ -261,10 +267,22 @@ enum MapGeometry {
         return CGPoint(x: (scaledWidth - bounds.width) / 2, y: (scaledHeight - bounds.height) / 2)
     }
 
+    /// La distance de fond découvert sur laquelle l'opacité du fondu monte de
+    /// 0 à 1.
+    ///
+    /// Ce n'est PAS l'épaisseur de la bande, et les confondre était le défaut
+    /// que cette constante corrige : la bande fait 80 pt parce que c'est
+    /// l'épaisseur du dégradé gravé dans l'image, tandis que cette rampe-ci
+    /// n'existe que pour amortir le franchissement de zéro — que le rebond
+    /// élastique traverse plusieurs fois par pincement. Sur 80 pt, un bord
+    /// découvert de 10 pt n'était voilé qu'à 12 % et l'écart de couleur y
+    /// valait encore 305, pour un critère de recette de 12. Sur 8 pt, le fondu
+    /// est entier avant que la bande de fond n'atteigne l'épaisseur d'un trait.
+    static let fadeCrossing: CGFloat = 8
+
     /// L'état du calque de fondu, pour une position, un zoom et un appareil
     /// donnés.
     ///
-    /// - Parameter band: l'épaisseur voulue, en points d'ÉCRAN.
     /// - Parameter visibleContentRect: ce que la fenêtre montre, en
     ///   coordonnées de CONTENU — celui que rend `visibleContentRect(bounds:
     ///   contentOffset:zoomScale:)`, non borné aux limites de la carte, donc
@@ -279,10 +297,15 @@ enum MapGeometry {
     /// débord valant une demi-fenêtre au-delà du repos, le second cas est
     /// atteignable dès le premier point de zoom au-dessus du repos.
     ///
+    /// L'opacité est ENTIÈRE dès qu'un bord entre dans la fenêtre — ce n'est
+    /// pas une rampe proportionnée à l'ampleur du débord. `fadeCrossing`
+    /// n'existe que pour amortir le franchissement de zéro, que le rebond
+    /// élastique traverse plusieurs fois par pincement ; passé cette distance,
+    /// l'opacité sature à 1.
+    ///
     /// Le maximum sur les quatre côtés, et non le minimum : un seul calque
     /// sert les quatre, donc c'est le côté le plus découvert qui commande.
     static func edgeFade(
-        band: CGFloat,
         contentSize: CGSize,
         visibleContentRect: CGRect,
         zoomScale: CGFloat,
@@ -293,7 +316,7 @@ enum MapGeometry {
             max(-visibleContentRect.minX, visibleContentRect.maxX - contentSize.width),
             max(-visibleContentRect.minY, visibleContentRect.maxY - contentSize.height)
         ) * zoom
-        let ramp = band > 0 ? min(max(exposure / band, 0), 1) : 0
+        let ramp = min(max(exposure / fadeCrossing, 0), 1)
         return MapEdgeFade(
             contentsScale: max(displayScale, 1) * zoom,
             opacity: Float(ramp)

@@ -6,7 +6,7 @@ import CoreGraphics
 /// L'image du fondu est un carré de neuf tranches : les quatre coins portent
 /// la retombée en deux dimensions, les quatre bandes la portent en une seule
 /// et sont constantes le long de leur longueur — condition pour que
-/// `contentsCenter` puisse les étirer sur 10 000 points sans les déformer.
+/// `contentsCenter` puisse les étirer sur 2 048 points sans les déformer.
 struct MapEdgeFadeImageTests {
     private static let band = 8
     private static let side = 2 * band + 2
