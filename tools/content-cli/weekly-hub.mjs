@@ -36,6 +36,16 @@
 // vivante n'était pas observable le jour où elle a été écrite, la source n'en
 // ayant publié aucune. Les transformations en aval (`hubToFact` et les analyses
 // d'étiquettes) sont intactes : c'est le temps 2 qui les réalimentera.
+//
+// SUITE, mesurée le 2026-08-15 (run Récolte 31859751817) : la semaine vivante
+// est arrivée… sans tableau. La page publie un RÉCIT (« Latest GTA Online
+// weekly story »), déclare elle-même que le tableau structuré n'est pas
+// disponible, et son payload RSC ne contient plus un seul horodatage. Deux runs
+// de suite sont tombés en `page-meconnaissable` — faux : la page se lisait très
+// bien, c'est une ancre de décor qui avait disparu. D'où le réancrage des
+// PAGE_ANCHORS ci-dessous et le verdict `sans-structure`. Le temps 2 complet —
+// relire un tableau vivant — reste suspendu au retour du tableau chez la
+// source ; `hubToFact` et les analyses d'étiquettes restent prêtes.
 // ─────────────────────────────────────────────────────────────────────────────
 //
 import { notANominativeName } from './nominative-fields.mjs';
@@ -50,11 +60,18 @@ import { notANominativeName } from './nominative-fields.mjs';
  *  qu'on ne peut de toute façon pas recopier. */
 export const HUB_URL = 'https://www.gtaboom.com/gta-online-weekly-updates';
 
-/** Les deux ancres qui identifient la page. Un `id` et un `aria-label` : ce qui a
- *  le plus de chances de survivre à un coup de peinture, et jamais une classe
+/** Les deux ancres qui identifient la page. Deux `id` de section : ce qui a le
+ *  plus de chances de survivre à un coup de peinture, et jamais une classe
  *  Tailwind. Les DEUX sont exigées — reconnaître à moitié, c'est ne pas
- *  reconnaître. */
-const PAGE_ANCHORS = ['id="weekly-updates-heading"', 'aria-label="Weekly event sections"'];
+ *  reconnaître.
+ *
+ *  Réancré le 2026-08-15 : le `<nav aria-label="Weekly event sections">` du
+ *  design du 06/08 a disparu de la page vivante (run Récolte 31859751817), et
+ *  la page tombait en `page-meconnaissable` deux runs de suite. Les deux `id`
+ *  retenus existent dans les DEUX générations — la fixture `sans-semaine` du
+ *  06/08 les porte déjà — ce qui confirme la doctrine : les id sémantiques
+ *  survivent aux refontes, les attributs de décor non. */
+const PAGE_ANCHORS = ['id="weekly-updates-heading"', 'id="weekly-reset"'];
 
 /** L'ancre du bandeau où la page déclare son propre état. */
 const HEADING_ANCHOR = 'id="weekly-updates-heading"';
@@ -77,6 +94,25 @@ const STATUS_WINDOW = 4_000;
  * Comparé en minuscules sur le titre ET le paragraphe qui le suit.
  */
 const PHASE_ENDED_DECLARATIONS = ['the current weekly bonus phase has ended'];
+
+/**
+ * Les déclarations qui signifient « le récit de la semaine existe, mais la
+ * source ne publie pas (ou plus) son tableau structuré ». Relevé le 2026-08-15 :
+ * « The latest weekly story is available. A structured current-phase bonus
+ * breakdown is not available yet. »
+ *
+ * Même discipline d'énumération FERMÉE que ci-dessus, et troisième état à part
+ * entière : ce n'est ni « pas de semaine » (il y en a une, en prose — la veille
+ * d'actu la couvre par les articles) ni une page qu'on ne comprend pas. Sans ce
+ * verdict, l'état tombait en `page-meconnaissable` et chaque run passait pour
+ * une panne — deux jours de suite avant que la distinction soit écrite.
+ */
+const SANS_STRUCTURE_DECLARATIONS = ['bonus breakdown is not available'];
+
+/** Le libellé du lien vers le récit de la semaine, sur la page du 2026-08-15.
+ *  Même technique que `ARTICLE_CTA` : trouver le libellé dans le payload,
+ *  remonter au `href` qui le précède. */
+const STORY_CTA = 'Read the latest story';
 
 /** Erreur porteuse d'un verdict. Le code de sortie ne distingue pas trois issues
  *  différentes ; l'appelant a besoin du verdict pour l'écrire dans sa capture. */
@@ -163,9 +199,9 @@ function objectAfterKey(flight, key) {
   return null;
 }
 
-/** Chemin de l'article de la semaine, à partir du libellé de son bouton. */
-function articlePathFrom(flight) {
-  const at = flight.indexOf(ARTICLE_CTA);
+/** Chemin d'un article, à partir du libellé de son bouton dans le payload. */
+function articlePathFrom(flight, cta = ARTICLE_CTA) {
+  const at = flight.indexOf(cta);
   if (at < 0) return null;
   const window = flight.slice(Math.max(0, at - CTA_WINDOW), at);
   const hrefs = [...window.matchAll(/"href":"(\/[^"]+)"/g)];
@@ -199,10 +235,16 @@ function declaresPhaseEnded({ heading, statement }) {
   return PHASE_ENDED_DECLARATIONS.some((declaration) => said.includes(declaration));
 }
 
+/** La page déclare-t-elle publier le récit sans le tableau structuré ? */
+function declaresSansStructure({ heading, statement }) {
+  const said = `${heading} ${statement}`.toLowerCase();
+  return SANS_STRUCTURE_DECLARATIONS.some((declaration) => said.includes(declaration));
+}
+
 /**
  * Lit une page de hub hebdomadaire et rend un VERDICT.
  *
- * Quatre issues, dans cet ordre — chacune suppose la précédente écartée, et chaque
+ * Cinq issues, dans cet ordre — chacune suppose la précédente écartée, et chaque
  * message nomme l'ancrage qui a lâché, sans quoi le diagnostic se referait à la
  * main dans 430 ko de HTML :
  *
@@ -210,17 +252,22 @@ function declaresPhaseEnded({ heading, statement }) {
  *   `page-meconnaissable`   payload présent, ancres de page absentes  → lève
  *   `declaration-inconnue`  page reconnue, déclaration hors liste     → lève
  *   `sans-semaine`          page reconnue, phase déclarée close       → rend
+ *   `sans-structure`        page reconnue, récit publié mais tableau
+ *                           déclaré absent — avec le chemin du récit  → rend
  *
- * Il n'y a PAS de branche « semaine vivante » au temps 1 : une semaine vivante
- * tombe aujourd'hui en `declaration-inconnue`, donc en échec bruyant. C'est le
+ * Il n'y a toujours PAS de branche « semaine vivante » : une semaine STRUCTURÉE
+ * vivante tombe en `declaration-inconnue`, donc en échec bruyant. C'est le
  * comportement correct tant qu'on ne sait pas la lire — mieux vaut un run rouge
- * qu'une semaine avalée en silence.
+ * qu'une semaine avalée en silence. `sans-structure` n'y déroge pas : il ne
+ * s'applique que parce que la source DÉCLARE elle-même l'absence du tableau.
  *
- * @returns {{ verdict: 'sans-semaine', declaration: string, statement: string }}
+ * @returns {{ verdict: 'sans-semaine', declaration: string, statement: string }
+ *         | { verdict: 'sans-structure', declaration: string, statement: string, storyPath: string|null }}
  * @throws  {HubVerdictError}
  */
 export function parseWeeklyHub(html) {
-  if (!rscFlight(html)) {
+  const flight = rscFlight(html);
+  if (!flight) {
     throw new HubVerdictError(
       'payload-absent',
       'payload RSC introuvable — la page n’est plus rendue par Next.js, ou son HTML n’a pas été récupéré en entier',
@@ -236,16 +283,28 @@ export function parseWeeklyHub(html) {
     );
   }
 
-  if (!declaresPhaseEnded(status)) {
-    throw new HubVerdictError(
-      'declaration-inconnue',
-      `la page se déclare « ${status.heading} », formulation hors de l’énumération connue — ` +
-        'c’est le cas d’une semaine VIVANTE, que cette version ne sait pas encore lire. ' +
-        'Ne pas la classer « pas de semaine » : ce serait avaler une semaine en silence',
-    );
+  if (declaresPhaseEnded(status)) {
+    return { verdict: 'sans-semaine', declaration: status.heading, statement: status.statement };
   }
 
-  return { verdict: 'sans-semaine', declaration: status.heading, statement: status.statement };
+  if (declaresSansStructure(status)) {
+    return {
+      verdict: 'sans-structure',
+      declaration: status.heading,
+      statement: status.statement,
+      // La seule piste exploitable que la page offre : le récit, que la veille
+      // d'actu couvre déjà par les articles du flux. Nullable — un verdict ne
+      // devient pas une erreur parce qu'un bouton a changé de libellé.
+      storyPath: articlePathFrom(flight, STORY_CTA),
+    };
+  }
+
+  throw new HubVerdictError(
+    'declaration-inconnue',
+    `la page se déclare « ${status.heading} », formulation hors de l’énumération connue — ` +
+      'c’est le cas d’une semaine VIVANTE, que cette version ne sait pas encore lire. ' +
+      'Ne pas la classer « pas de semaine » : ce serait avaler une semaine en silence',
+  );
 }
 
 /**
