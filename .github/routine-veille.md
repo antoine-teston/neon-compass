@@ -186,6 +186,13 @@ Une commande dont on ne lit pas la sortie n'est pas une garantie.
 Si la suppression échoue : rapporte-le en tête du compte-rendu de run. C'est plus
 urgent que la récolte du jour.
 
+Depuis le 2026-08-15, deux filets existent en dehors de toi : les runs PLANIFIÉS
+de `recolte.yml` ne poussent plus la branche de transport (seul un dispatch le
+fait), et `recolte-nettoyage.yml` supprime de lui-même toute branche âgée de
+plus de deux heures. Ce sont des filets, pas une permission : si tu ne PEUX pas
+supprimer — l'enveloppe des 14-15/08 n'offrait aucun outil pour le faire —
+dis-le en tête du compte-rendu au lieu de t'en remettre au balayeur en silence.
+
 ## 5. Matérialiser — ET RECUEILLIR CE QUI EST ÉCARTÉ
 
 ```sh

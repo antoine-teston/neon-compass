@@ -44,7 +44,14 @@ on:
   # Le cron n'est PAS l'ordonnanceur de la veille — la Routine l'est, et elle
   # déclenche ce workflow elle-même. Celui-ci sert de filet : si la Routine ne
   # part pas, la récolte du jour existe quand même en artefact, et le préflight
-  # aura signalé une source fermée. Décalé de quelques minutes avant la Routine.
+  # aura signalé une source fermée.
+  #
+  # Il se voulait « décalé de quelques minutes avant la Routine » ; en réalité
+  # GitHub retarde un cron de 50 à 130 minutes, donc ce run part APRÈS elle.
+  # C'est ainsi que les 13-15/08 la branche de transport a été recréée dix
+  # minutes après le nettoyage de la Routine, et y est restée la journée sur un
+  # dépôt public. D'où la règle à l'étape de dépôt : un run planifié ne pousse
+  # JAMAIS la branche de transport — l'artefact lui suffit.
   schedule:
     - cron: '47 1 * * *'
 
@@ -143,9 +150,19 @@ jobs:
       #      improbable.
       #   2. `--force`, une seule fois par jour : la récolte de la veille est
       #      écrasée, elle ne s'accumule pas.
-      #   3. La Routine supprime la branche après lecture. Si elle échoue avant,
-      #      le run du lendemain l'écrase de toute façon.
+      #   3. La Routine supprime la branche après lecture — et depuis le
+      #      2026-08-15, `recolte-nettoyage.yml` balaie ce qui séjourne plus de
+      #      deux heures, parce que la session cloud des 14-15/08 n'avait aucun
+      #      outil pour supprimer une ref et que la branche est restée exposée
+      #      une journée entière, deux jours de suite.
+      #
+      # `if:` — seul un run DÉCLENCHÉ (la chaîne de veille, ou une main humaine)
+      # dépose le transport. Laisser le run planifié pousser aussi, c'était
+      # recréer la branche APRÈS le nettoyage de la Routine (voir le commentaire
+      # du cron), pour un lecteur qui n'existe pas : la Routine ne lit que la
+      # récolte de SON dispatch.
       - name: Déposer la récolte sur la branche de transport
+        if: github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -193,7 +210,7 @@ jobs:
                   echo '```'
                   echo "$MESSAGE"
                   echo '```'
-                  echo "Le HTML du hub est dans l’artefact et sur \`veille/recolte\` (\`hub.html\`)."
+                  echo "Le HTML du hub est dans l’artefact (\`hub.html\`) — et sur \`veille/recolte\` si ce run a été déclenché à la main ou par la Routine."
                   ;;
               esac
             fi
