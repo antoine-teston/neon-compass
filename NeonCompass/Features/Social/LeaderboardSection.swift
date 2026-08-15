@@ -4,6 +4,9 @@ import SwiftUI
 /// un, ce que `submitContribution` impose déjà côté serveur.
 struct LeaderboardSection: View {
     let rows: [LeaderboardRow]
+    /// La feuille du hub numérote après le podium (4, 5, …) ; l'usage
+    /// historique garde son défaut.
+    var startRank: Int = 1
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -25,7 +28,7 @@ struct LeaderboardSection: View {
                             // `verbatim` : un rang nu n'a rien à traduire, mais sans ça
                             // SwiftUI en fait la clé `%lld` et l'extracteur la reverse
                             // dans le catalogue comme une souche vide. Cf. ProgressRing.
-                            Text(verbatim: "\(index + 1)")
+                            Text(verbatim: "\(startRank + index)")
                                 .font(NCTypography.body.bold())
                                 .foregroundStyle(.white.opacity(0.4))
                                 .frame(width: 32, alignment: .leading)

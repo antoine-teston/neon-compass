@@ -46,6 +46,8 @@ struct RootView: View {
     /// Fourni par `NeonCompassApp`, qui le construit avant le premier rendu — cet
     /// écran ne fait que le retransmettre au chemin d'amorçage du widget.
     @Environment(FoundStore.self) private var foundStore
+    /// La persistance du « vu » du point d'onglet Social.
+    private let weekSeenStore: any WeekSeenStoring = UserDefaultsWeekSeenStore()
 
     init() {
         let proEntitlementModel = ProEntitlementModel(provider: StoreKitProProvider())
@@ -141,6 +143,7 @@ struct RootView: View {
             // valeur reste nil et tout retombe sur le socle embarqué et le
             // cache.
             await ContentSourceConfigurator.configureFromAppConfig()
+            refreshSocialTabBadge()
             hydrateWidgetSummaryFromCache()
             await proEntitlementModel.refresh()
             await serverFeatures.refresh()
@@ -242,10 +245,16 @@ struct RootView: View {
                     }
                 }
             }
-            CompactTabBar(selection: $model.selectedTab)
+            CompactTabBar(selection: $model.selectedTab, showsSocialDot: model.socialTabShowsDot)
         }
         .onChange(of: model.selectedTab, initial: true) { _, tab in
             builtTabs.insert(tab)
+            // Ouvrir le Social marque la semaine courante comme vue : le point
+            // s'éteint et ne revient pas pour la même semaine.
+            if tab == .social, let id = model.socialCurrentWeekID {
+                weekSeenStore.markWeekSeen(id)
+                model.socialTabShowsDot = false
+            }
         }
     }
 
@@ -312,6 +321,32 @@ struct RootView: View {
             cheats: cheatStore.items,
             modelContext: modelContext,
             widgetSummaryCoordinator: widgetSummaryCoordinator
+        )
+    }
+
+    /// Le point de l'onglet Social, depuis le CACHE de contenu — même motif que
+    /// `hydrateWidgetSummaryFromCache` : l'onglet Social n'est construit qu'à sa
+    /// première visite, donc personne d'autre ne lirait cette collection avant.
+    private func refreshSocialTabBadge() {
+        let store = ContentStore<OnlineEvent>.live(
+            collectionName: "online_events",
+            modelContext: modelContext
+        )
+        let events = OnlineEventsModel(events: store.items)
+        let shown = events.currentEvent(at: Date()) ?? events.latestEvent()
+        model.socialCurrentWeekID = shown?.id
+        // Déjà sur l'onglet quand le calcul aboutit (il attend le réseau) : la
+        // semaine est sous les yeux, on la marque vue au lieu d'allumer un
+        // point qui ne s'éteindrait qu'au prochain aller-retour. Vu au
+        // simulateur, pas déduit.
+        if model.selectedTab == .social, let id = shown?.id {
+            weekSeenStore.markWeekSeen(id)
+            model.socialTabShowsDot = false
+            return
+        }
+        model.socialTabShowsDot = SocialTabBadge.showsDot(
+            currentWeekID: shown?.id,
+            lastSeenID: weekSeenStore.lastSeenWeekID()
         )
     }
 

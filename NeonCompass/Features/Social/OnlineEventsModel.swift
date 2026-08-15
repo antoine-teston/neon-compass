@@ -47,8 +47,14 @@ final class OnlineEventsModel {
     /// Un ordre partiel laisserait exactement le même indéterminisme un cran plus
     /// bas.
     func currentEvent(at now: Date) -> OnlineEvent? {
+        currentEvent(at: now, game: selectedGame)
+    }
+
+    /// La même fenêtre active, pour un jeu donné : chaque page du héro du hub
+    /// interroge le sien, quelle que soit la page affichée.
+    func currentEvent(at now: Date, game: Game) -> OnlineEvent? {
         events
-            .filter { $0.game == selectedGame && $0.isActive(at: now) }
+            .filter { $0.game == game && $0.isActive(at: now) }
             .max { isEarlier($0, than: $1) }
     }
 
@@ -67,7 +73,13 @@ final class OnlineEventsModel {
     /// raison que `currentEvent(at:)` : à fin égale, un ordre partiel rendait un
     /// résultat arbitraire.
     func latestEvent() -> OnlineEvent? {
-        events.filter { $0.game == selectedGame }.max { lhs, rhs in
+        latestEvent(game: selectedGame)
+    }
+
+    /// Le plus récent d'un jeu donné — même départage total que la version
+    /// `selectedGame`, qui délègue ici.
+    func latestEvent(game: Game) -> OnlineEvent? {
+        events.filter { $0.game == game }.max { lhs, rhs in
             if lhs.endsAt != rhs.endsAt { return lhs.endsAt < rhs.endsAt }
             if lhs.startsAt != rhs.startsAt { return lhs.startsAt < rhs.startsAt }
             return lhs.id < rhs.id

@@ -8,6 +8,9 @@ import SwiftUI
 /// Sur iPad, RootView utilise la TabView système (sidebarAdaptable).
 struct CompactTabBar: View {
     @Binding var selection: AppTab
+    /// Le point de nouvelle semaine sur l'onglet Social — magenta, comme le
+    /// point de nouveauté du fil actu.
+    var showsSocialDot: Bool = false
 
     var body: some View {
         GlassEffectContainer(spacing: 12) {
@@ -46,6 +49,14 @@ struct CompactTabBar: View {
             VStack(spacing: 2) {
                 Image(systemName: tab.systemImage)
                     .font(.system(size: 20))
+                    .overlay(alignment: .topTrailing) {
+                        if tab == .social && showsSocialDot {
+                            Circle()
+                                .fill(NCColor.sunsetMagenta)
+                                .frame(width: 7, height: 7)
+                                .offset(x: 4, y: -2)
+                        }
+                    }
                 Text(tab.titleKey)
                     .font(.caption2)
                     .lineLimit(1)

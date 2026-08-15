@@ -40,6 +40,15 @@ final class AppModel {
     /// d'écran ne pourrait servir que l'un des deux.
     var showsSettings = false
 
+    /// Le point de nouveauté de l'onglet Social : une semaine synchronisée que
+    /// l'utilisateur n'a pas encore vue. Calculé par `RootView` au lancement,
+    /// éteint à l'ouverture de l'onglet.
+    var socialTabShowsDot = false
+
+    /// L'identifiant de la semaine que le hub montrerait — ce que l'ouverture
+    /// de l'onglet marque comme vu.
+    var socialCurrentWeekID: String?
+
     /// La carte réclamée par une navigation venue d'un autre onglet.
     ///
     /// **Pourquoi ce détour plutôt qu'un simple changement d'onglet.**
