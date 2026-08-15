@@ -174,6 +174,20 @@ struct RootView: View {
         .onChange(of: onboarding.needsTrackingExplainer, initial: true) { _, needs in
             showsTrackingExplainer = needs
         }
+        // L'accroche vit sur le GROUPE et non dans `compactLayout`, où elle
+        // était née : les deux dispositions sélectionnent par le même
+        // `model.selectedTab`, et l'iPad doit éteindre le point « nouvelle
+        // semaine » comme l'iPhone — attachée au compact seul, le régulier
+        // n'avait ni badge ni marquage vu.
+        .onChange(of: model.selectedTab, initial: true) { _, tab in
+            builtTabs.insert(tab)
+            // Ouvrir le Social marque la semaine courante comme vue : le point
+            // s'éteint et ne revient pas pour la même semaine.
+            if tab == .social, let id = model.socialCurrentWeekID {
+                weekSeenStore.markWeekSeen(id)
+                model.socialTabShowsDot = false
+            }
+        }
         // Le profil suit le compte, pas l'onglet : voir la déclaration de
         // `profileModel`.
         .task(id: authModel.userID) {
@@ -247,15 +261,6 @@ struct RootView: View {
             }
             CompactTabBar(selection: $model.selectedTab, showsSocialDot: model.socialTabShowsDot)
         }
-        .onChange(of: model.selectedTab, initial: true) { _, tab in
-            builtTabs.insert(tab)
-            // Ouvrir le Social marque la semaine courante comme vue : le point
-            // s'éteint et ne revient pas pour la même semaine.
-            if tab == .social, let id = model.socialCurrentWeekID {
-                weekSeenStore.markWeekSeen(id)
-                model.socialTabShowsDot = false
-            }
-        }
     }
 
     private var regularLayout: some View {
@@ -266,6 +271,11 @@ struct RootView: View {
                 } label: {
                     Label(tab.titleKey, systemImage: tab.systemImage)
                 }
+                // Le pendant du point de `CompactTabBar` : le `TabView` ne
+                // prend pas de vue libre dans son libellé, le badge système
+                // est son seul signal. Un point, jamais un compte — même
+                // langage que le compact.
+                .badge(tab == .social && model.socialTabShowsDot ? Text(verbatim: "●") : nil)
             }
         }
         .tabViewStyle(.sidebarAdaptable)
