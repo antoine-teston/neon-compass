@@ -13,49 +13,9 @@ import UIKit
 /// seulement si une API l'impose, wrapped in one file" — tout le moteur
 /// (scroll view + contenu hébergé) reste dans ce seul fichier.
 
-/// Charge les images de carte plates — pas de streaming par tuiles, une seule
-/// image bornée.
-///
-/// UNE SEULE image en cache, délibérément, et c'est ce qui tient l'empreinte
-/// mémoire de l'app. Les quatre cartes (deux jeux × deux habillages) sont
-/// rendues bien au-delà de leur espace de contenu de 2 048 pt pour limiter le
-/// flou au zoom maximal : 4 096 px pour la référence, 8 192 px pour Leonida. En
-/// garder deux en même temps doublerait tout ce qui suit ; le prix payé à la
-/// place est un redécodage à chaque bascule d'habillage, sur une action
-/// volontaire et rare, jamais pendant un geste.
-///
-/// Ce que coûte le côté de 8 192 px, mesuré au simulateur sur l'écran Carte,
-/// même code et même écran de départ : **314 Mo d'empreinte en régime et
-/// 1 060 Mo de pic transitoire, contre 122 et 163 Mo avec les mêmes cartes
-/// réduites à 4 096 px.** Le pic n'est pas le bitmap seul (268 Mo en 32 bits) :
-/// s'y ajoutent le rendu de l'image dans le calque hébergé et les copies de
-/// l'étage graphique, qui suivent le même facteur 4.
-///
-/// Ce chiffre reste à 8 192 parce qu'il achète quelque chose de visible : au
-/// zoom maximal (2,5) un pixel source couvre encore moins de deux pixels
-/// d'écran sur un appareil 3×, là où 4 096 px doivent être agrandis presque
-/// quatre fois. C'est un arbitrage, pas un acquis — si le pic devient un
-/// problème sur les appareils à 4 Go, le halver est un changement de RESSOURCE,
-/// sans une ligne de code à toucher (`MapArtResourcesTests` n'impose que le
-/// carré et l'égalité des deux habillages).
-///
-/// `@MainActor` parce que le cache est un état mutable partagé et que seul
-/// `body` (isolé MainActor) y touche.
-@MainActor
-private enum MapArtLoader {
-    private static var cachedName: String?
-    private static var cachedImage: UIImage?
-
-    static func image(game: MapGame, style: MapStyle) -> UIImage? {
-        let name = game.resourceName(style: style)
-        if name == cachedName, let cachedImage { return cachedImage }
-        guard let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "MapArt"),
-              let image = UIImage(contentsOfFile: url.path) else { return nil }
-        cachedName = name
-        cachedImage = image
-        return image
-    }
-}
+/// L'image de fond, elle, vit dans `MapArtLoader` (`Core/Map/`) : c'est le seul
+/// morceau du moteur qui travaille hors du fil principal, et il n'a rien
+/// d'UIKit-spécifique.
 
 /// Tout ce que le contenu de carte retient du zoom ET du panoramique — et rien
 /// de plus.
@@ -102,6 +62,20 @@ struct MapRenderState: Equatable {
     /// désormais une par tuile franchie — mais chacune est bien moins chère,
     /// puisqu'elle ne bâtit plus que les pastilles visibles.
     var window: MapRenderWindow
+    /// Étage de détail de l'image de fond — quatrième fonction en escalier, et
+    /// la moins fréquente de toutes : elle ne change qu'en traversant un seuil de
+    /// zoom, à l'hystérésis près (`MapArtDetailSelector`).
+    ///
+    /// Poussé par le coordinateur et non calculé dans `init` : le choix dépend de
+    /// l'échelle d'écran ET de l'étage courant, deux choses que ce type ne
+    /// connaît pas.
+    var artDetail: MapArtDetail = .overview
+    /// Bousculé quand un décodage aboutit.
+    ///
+    /// Sans lui, l'image qui arrive après coup ne se verrait jamais : le cache a
+    /// changé mais l'état de rendu, lui, est identique — c'est précisément ce que
+    /// `Equatable` sert à constater ici, et SwiftUI sauterait le corps.
+    var artGeneration: Int = 0
 
     init(zoomScale: CGFloat, contentSize: CGFloat, window: MapRenderWindow = .whole) {
         // Contre-échelle pour garder les pins à taille écran constante, mais
@@ -201,7 +175,11 @@ private struct MapContentSwiftUIView: View {
     @ViewBuilder
     private func mapBody(hitSides: [String: CGFloat]) -> some View {
         ZStack(alignment: .topLeading) {
-            if let mapImage = MapArtLoader.image(game: game, style: style) {
+            // `cached` ne décode RIEN : le décodage appartient au coordinateur,
+            // qui le lance hors du fil principal. Ici, l'image est là ou elle ne
+            // l'est pas — et si l'étage demandé manque encore, `cached` rend la
+            // version précédente plutôt qu'un trou noir.
+            if let mapImage = MapArtLoader.cached(game: game, style: style, detail: zoom.artDetail) {
                 Image(uiImage: mapImage)
                     .resizable()
                     // L'image est bien plus définie que l'espace de contenu
@@ -675,6 +653,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
         context.coordinator.scrollView = scrollView
         context.coordinator.contentFullSize = fullSize
         scrollView.backgroundColor = .black
+        // Le premier décodage part ici et non dans `sync` : celui-ci n'arrive
+        // qu'au prochain tour de boucle, et rien ne serait dessiné d'ici là.
+        // L'étage réduit est le bon départ dans tous les cas — l'échelle de repos
+        // (≈0,43 sur iPhone, ≈0,67 sur iPad) est très en dessous du seuil.
+        context.coordinator.setArt(game: game, style: style)
 
         DispatchQueue.main.async { [weak scrollView] in
             guard let scrollView else { return }
@@ -818,6 +801,12 @@ struct TiledMapRepresentable: UIViewRepresentable {
         let token = contentToken
         guard context.coordinator.displayedContent != token else { return }
         context.coordinator.displayedContent = token
+        // La carte et l'habillage sont dans le jeton, donc ce chemin est le seul
+        // par lequel ils changent : c'est ici que la nouvelle image se demande.
+        // Le temps qu'elle arrive, `MapArtLoader.cached` garde la précédente —
+        // les deux habillages sortent du même recadrage, donc rien ne bouge, ce
+        // sont les couleurs qui changent une fraction de seconde plus tard.
+        context.coordinator.setArt(game: game, style: style)
 
         let currentZoom = context.coordinator.hostingController?.rootView.zoom ?? MapRenderState(zoomScale: viewport.zoomScale, contentSize: MapGeometry.fullSize(for: manifest))
         context.coordinator.hostingController?.rootView = makeContent(zoom: currentZoom, coordinator: context.coordinator)
@@ -873,12 +862,65 @@ struct TiledMapRepresentable: UIViewRepresentable {
         @Binding private var viewport: MapViewport
         private let onLongPress: (CGPoint) -> Void
 
+        // MARK: - Image de fond
+
+        /// Carte et habillage dont l'image est demandée. Retenus ici parce que
+        /// `sync` — qui décide de l'étage à chaque frame — n'a accès ni à la vue
+        /// SwiftUI ni au manifeste.
+        private var artGame: MapGame?
+        private var artStyle: MapStyle?
+        private var artDetailSelector = MapArtDetailSelector()
+        private var requestedDetail: MapArtDetail = .overview
+        private var artGeneration = 0
+        private var artTask: Task<Void, Never>?
+
         init(viewport: Binding<MapViewport>, onLongPress: @escaping (CGPoint) -> Void) {
             _viewport = viewport
             self.onLongPress = onLongPress
         }
 
         func viewForZooming(in scrollView: UIScrollView) -> UIView? { contentView }
+
+        /// Change de carte ou d'habillage sans toucher à l'étage : celui-ci ne
+        /// dépend que du zoom, qui ne bouge pas parce qu'on repeint.
+        fileprivate func setArt(game: MapGame, style: MapStyle) {
+            requestArt(game: game, style: style, detail: requestedDetail)
+        }
+
+        /// Lance le décodage de l'étage demandé s'il manque, et repousse le
+        /// contenu quand il arrive.
+        ///
+        /// Ne pousse RIEN de synchrone, délibérément : les deux appelants
+        /// poussent déjà l'état de rendu juste après — et `sync` le fait sur
+        /// chaque frame de pincement, où une poussée de plus ferait reconstruire
+        /// toutes les pastilles pour rien.
+        private func requestArt(game: MapGame, style: MapStyle, detail: MapArtDetail) {
+            let unchanged = game == artGame && style == artStyle && detail == requestedDetail
+            artGame = game
+            artStyle = style
+            requestedDetail = detail
+            guard !unchanged, !MapArtLoader.isResident(game: game, style: style, detail: detail) else { return }
+            artTask?.cancel()
+            artTask = Task { @MainActor [weak self] in
+                await MapArtLoader.prepare(game: game, style: style, detail: detail)
+                guard let self else { return }
+                // Le décodage a pu aboutir pour un étage qu'on ne veut plus — un
+                // aller-retour de pincement suffit. L'afficher montrerait le
+                // mauvais, et le cache le libérera de lui-même au prochain rangement.
+                guard game == artGame, style == artStyle, detail == requestedDetail else { return }
+                artGeneration += 1
+                pushArt()
+            }
+        }
+
+        /// Repousse l'état de rendu courant avec la nouvelle image. Une
+        /// évaluation complète du contenu, une seule par décodage.
+        private func pushArt() {
+            guard var state = hostingController?.rootView.zoom else { return }
+            state.artDetail = requestedDetail
+            state.artGeneration = artGeneration
+            hostingController?.rootView.zoom = state
+        }
 
         /// Zoome sur un groupe pour le délier. Une octave par tap (deux
         /// paliers de `POIClusterer`, qui travaille en demi-octaves) : assez
@@ -938,7 +980,20 @@ struct TiledMapRepresentable: UIViewRepresentable {
             // le moins coûteux pour garder les pins à taille constante à
             // l'écran (contre-échelle) sans dépendre d'un aller-retour par
             // SwiftUI côté MapScreen.
-            hostingController?.rootView.zoom = MapRenderState(
+            //
+            // L'étage de l'image se décide ici pour la même raison : c'est le
+            // seul chemin qui voit le zoom de chaque frame. Le décodage part en
+            // parallèle et la poussée ci-dessous porte déjà l'étage VISÉ, donc
+            // l'image précédente reste à l'écran jusqu'à ce que l'autre arrive.
+            let detail = artDetailSelector.update(
+                zoomScale: newViewport.zoomScale,
+                contentSize: contentFullSize,
+                displayScale: scrollView.traitCollection.displayScale
+            )
+            if let artGame, let artStyle {
+                requestArt(game: artGame, style: artStyle, detail: detail)
+            }
+            var state = MapRenderState(
                 zoomScale: newViewport.zoomScale,
                 contentSize: contentFullSize,
                 window: MapRenderWindow(
@@ -951,6 +1006,9 @@ struct TiledMapRepresentable: UIViewRepresentable {
                     zoomScale: newViewport.zoomScale
                 )
             )
+            state.artDetail = requestedDetail
+            state.artGeneration = artGeneration
+            hostingController?.rootView.zoom = state
         }
 
         @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
