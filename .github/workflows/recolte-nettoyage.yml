@@ -1,0 +1,67 @@
+name: Nettoyage du transport
+
+# `veille/recolte` porte le texte INTÉGRAL de pages tierces, sur un dépôt
+# public : il transite, il ne séjourne pas — c'est la contrainte IP du projet,
+# pas une préférence.
+#
+# La règle veut que la Routine supprime la branche après lecture (étape 4 de
+# `routine-veille.md`). Les 14 et 15/08, elle est pourtant restée exposée une
+# journée entière, deux jours de suite : la session cloud n'avait aucun outil
+# capable de supprimer une ref, et le cron filet de `recolte.yml` — retardé par
+# GitHub — la re-poussait dix minutes APRÈS le nettoyage. Les deux causes sont
+# traitées (le run planifié ne pousse plus le transport), mais aucune des deux
+# corrections ne protège du prochain cas imprévu.
+#
+# Ce balayeur borne donc le séjour à quelques heures, quoi qu'il arrive en
+# amont. Il ne remplace PAS l'étape 4 : la suppression immédiate après lecture
+# reste la règle, ceci est le filet.
+
+on:
+  schedule:
+    # Quatre passages par jour. Aucun ne s'approche de la fenêtre 02:00-03:00
+    # UTC où la chaîne dépose puis lit le transport — et le garde-fou d'âge
+    # ci-dessous protège de toute façon un dépôt tardif.
+    - cron: '15 5,11,17,23 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: recolte-nettoyage
+  cancel-in-progress: false
+
+# `contents: write` sert UNIQUEMENT à supprimer la ref `veille/recolte`.
+permissions:
+  contents: write
+
+jobs:
+  balayer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Supprimer veille/recolte si elle séjourne
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          REF="repos/${GITHUB_REPOSITORY}/git/refs/heads/veille/recolte"
+          if ! gh api "$REF" > ref.json 2>/dev/null; then
+            echo "aucune branche de transport — rien à balayer"
+            exit 0
+          fi
+          SHA="$(jq -r '.object.sha' ref.json)"
+          DEPOT="$(gh api "repos/${GITHUB_REPOSITORY}/commits/${SHA}" --jq '.commit.committer.date')"
+          AGE=$(( $(date -u +%s) - $(date -u -d "$DEPOT" +%s) ))
+          # Moins de deux heures : une chaîne de veille est peut-être en train
+          # de la lire. On ne casse pas une veille en cours pour gagner quelques
+          # heures de discrétion — le prochain passage la prendra.
+          if [ "$AGE" -lt 7200 ]; then
+            echo "transport déposé il y a ${AGE}s (< 2 h) — on repassera"
+            exit 0
+          fi
+          gh api -X DELETE "$REF"
+          # La suppression ne se suppose pas, elle se relit (leçon du
+          # 2026-08-10 : une commande dont on ne lit pas la sortie n'est pas
+          # une garantie).
+          if gh api "$REF" >/dev/null 2>&1; then
+            echo "ÉCHEC : le transport est toujours là après DELETE"
+            exit 1
+          fi
+          echo "transport supprimé — il séjournait depuis ${AGE}s"
