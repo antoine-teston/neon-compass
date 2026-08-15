@@ -675,6 +675,22 @@ struct TiledMapRepresentable: UIViewRepresentable {
         // c'est `setArt` qui le pose — appelé plus bas dans cette même fonction,
         // avant que quoi que ce soit ne puisse zoomer. Une seule autorité.
         scrollView.delegate = context.coordinator
+        // `registerForTraitChanges` et non `traitCollectionDidChange`, qui est
+        // déprécié depuis iOS 17 — et qui aurait en prime réveillé le
+        // coordinateur pour chaque trait, alors qu'un seul nous concerne.
+        //
+        // Forme cible/action et non bloc : UIKit ne retient la cible que
+        // faiblement, là où un bloc capturant le coordinateur — qui retient le
+        // `scrollView`, qui retient l'enregistrement — fermerait un cycle.
+        //
+        // Ce n'est pas de la prévoyance pour écrans externes : à l'instant où
+        // `makeUIView` s'exécute, la vue n'est dans aucune fenêtre et son
+        // échelle d'affichage vaut 0. La vraie valeur arrive par ici.
+        _ = scrollView.registerForTraitChanges(
+            [UITraitDisplayScale.self],
+            target: context.coordinator,
+            action: #selector(Coordinator.displayScaleDidChange)
+        )
         // Le conteneur, et non la vue hébergée : c'est lui qui est zoomé, donc
         // lui le repère des gestes (`handleLongPress` lit `location(in:)`).
         // Les deux ont exactement la même géométrie, les coordonnées sont donc
@@ -691,6 +707,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
         DispatchQueue.main.async { [weak scrollView] in
             guard let scrollView else { return }
+            // La vue est dans une fenêtre à ce tour-ci, donc son échelle
+            // d'affichage est réelle. Ceinture : si l'enregistrement de trait
+            // ne se déclenche pas pour l'entrée en fenêtre, le plafond serait
+            // resté celui d'une échelle de 0.
+            context.coordinator.applyMaximumZoomScale()
             context.coordinator.sync(scrollView)
         }
 
@@ -919,6 +940,31 @@ struct TiledMapRepresentable: UIViewRepresentable {
 
         func viewForZooming(in scrollView: UIScrollView) -> UIView? { contentView }
 
+        /// Pose le plafond pour la carte courante et l'appareil courant.
+        ///
+        /// Appelée depuis `setArt` (la carte a changé) et depuis
+        /// l'enregistrement de `UITraitDisplayScale` posé dans `makeUIView`
+        /// (l'appareil a changé — écran externe, ou simple arrivée dans une
+        /// fenêtre, où l'échelle vaut 0 avant).
+        fileprivate func applyMaximumZoomScale() {
+            guard let scrollView else { return }
+            let ceiling = MapTileSet.maximumZoomScale(
+                contentSize: contentFullSize,
+                manifest: tileManifest,
+                displayScale: scrollView.traitCollection.displayScale
+            )
+            scrollView.maximumZoomScale = ceiling
+            // `maximumZoomScale` n'est PAS rétroactif : abaisser le plafond ne
+            // ramène pas le zoom courant sous lui, et l'utilisateur reste
+            // au-delà jusqu'à ce qu'il pince. Sur le chemin « la carte
+            // change » c'était sans conséquence — `updateUIView` appelle
+            // `refit()` avant nous, donc le zoom est déjà au repos. Le chemin
+            // « l'échelle d'affichage change » n'a pas ce filet.
+            if scrollView.zoomScale > ceiling { scrollView.zoomScale = ceiling }
+        }
+
+        @objc fileprivate func displayScaleDidChange() { applyMaximumZoomScale() }
+
         /// Seul chemin par lequel carte et habillage changent, donc seul endroit
         /// où la pyramide se recharge. Un seul nom pour les deux ressources : le
         /// générateur pose le même suffixe sur le socle et sur les tuiles.
@@ -935,29 +981,12 @@ struct TiledMapRepresentable: UIViewRepresentable {
                 tileMapName = name
                 tileManifest = MapTileManifest.load(for: name)
                 tileLayerView?.setMap(name: name, manifest: tileManifest)
-                // Le plafond de zoom dépend de la carte, parce que ce qu'il y a
-                // à VOIR en dépend.
-                //
-                // Avec pyramide : 2 048 pt × 3,3 × 3 = 20 275 px réclamés pour
-                // les 18 432 du niveau le plus fin, soit 1,10× d'agrandissement
-                // — c'est tout le but du pavage. À 2,5 on réclamait 15 360 px
-                // pour 8 192, soit 1,88×, et c'était ÇA que l'on percevait comme
-                // un manque de définition.
-                //
-                // Sans pyramide — la carte de référence, 4 096 px de socle et
-                // rien d'autre, et c'est celle sur laquelle l'app OUVRE — les
-                // mêmes 3,3 réclameraient 4,95× là où l'app d'avant le pavage
-                // s'arrêtait à 3,75× : mesuré comme visible, quand 1,0× était
-                // mesuré comme indiscernable. Les 32 % de zoom gagnés n'y
-                // montreraient que de l'interpolation.
-                //
-                // Abaisser le plafond ne recadre rien sur le seul chemin qui
-                // change de CARTE : `updateUIView` appelle `refit()` avant nous,
-                // donc le zoom est déjà revenu au repos (≈0,43) quand le plafond
-                // tombe. Une bascule d'HABILLAGE, elle, ne recadre pas — mais
-                // les deux habillages d'une même carte ont toujours la même
-                // pyramide, le générateur les produisant dans la même passe.
-                scrollView?.maximumZoomScale = tileManifest == nil ? 2.5 : 3.3
+                // Le plafond dépend de la carte, parce que ce qu'il y a à VOIR
+                // en dépend — et de l'appareil, parce qu'un point d'écran ne
+                // vaut pas le même nombre de pixels partout. `MapTileSet` porte
+                // la formule et les deux tolérances ; ici on ne fait que
+                // demander.
+                applyMaximumZoomScale()
             }
             requestArt(game: game, style: style)
             // Cas de l'image déjà en mémoire : `requestArt` n'a rien lancé,
