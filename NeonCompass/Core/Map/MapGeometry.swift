@@ -261,27 +261,39 @@ enum MapGeometry {
         return CGPoint(x: (scaledWidth - bounds.width) / 2, y: (scaledHeight - bounds.height) / 2)
     }
 
-    /// L'état du calque de fondu, pour un zoom et un appareil donnés.
+    /// L'état du calque de fondu, pour une position, un zoom et un appareil
+    /// donnés.
     ///
     /// - Parameter band: l'épaisseur voulue, en points d'ÉCRAN.
+    /// - Parameter visibleContentRect: ce que la fenêtre montre, en
+    ///   coordonnées de CONTENU — celui que rend `visibleContentRect(bounds:
+    ///   contentOffset:zoomScale:)`, non borné aux limites de la carte, donc
+    ///   négatif ou débordant dès qu'on voit du fond.
     ///
-    /// L'opacité se règle sur le bord le PLUS PROCHE de l'écran, les quatre
-    /// côtés partageant un seul calque. Au repos ce minimum vaut zéro (deux
-    /// bords affleurent) et le fondu est absent ; il est entier dès que les
-    /// quatre bords ont pris au moins la largeur de la bande d'avance.
+    /// L'opacité se règle sur le FOND visible à côté de la carte, et non sur
+    /// la taille de celle-ci. C'est la seule mesure qui distingue les deux
+    /// situations que le zoom seul confond : une carte à peine plus grande que
+    /// l'écran et centrée (aucun bord visible, donc aucune coupe à cacher, et
+    /// un fondu y poserait une vignette), et la même carte dont on a tiré un
+    /// bord au milieu de l'écran (une arête franche à cacher). Les encarts de
+    /// débord valant une demi-fenêtre au-delà du repos, le second cas est
+    /// atteignable dès le premier point de zoom au-dessus du repos.
+    ///
+    /// Le maximum sur les quatre côtés, et non le minimum : un seul calque
+    /// sert les quatre, donc c'est le côté le plus découvert qui commande.
     static func edgeFade(
         band: CGFloat,
         contentSize: CGSize,
+        visibleContentRect: CGRect,
         zoomScale: CGFloat,
-        displayScale: CGFloat,
-        in bounds: CGSize
+        displayScale: CGFloat
     ) -> MapEdgeFade {
         let zoom = max(zoomScale, 0.0001)
-        let offScreen = min(
-            (contentSize.width * zoom - bounds.width) / 2,
-            (contentSize.height * zoom - bounds.height) / 2
-        )
-        let ramp = band > 0 ? min(max(offScreen / band, 0), 1) : 0
+        let exposure = max(
+            max(-visibleContentRect.minX, visibleContentRect.maxX - contentSize.width),
+            max(-visibleContentRect.minY, visibleContentRect.maxY - contentSize.height)
+        ) * zoom
+        let ramp = band > 0 ? min(max(exposure / band, 0), 1) : 0
         return MapEdgeFade(
             contentsScale: max(displayScale, 1) * zoom,
             opacity: Float(ramp)

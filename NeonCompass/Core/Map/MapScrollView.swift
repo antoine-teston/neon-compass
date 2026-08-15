@@ -1123,9 +1123,9 @@ struct TiledMapRepresentable: UIViewRepresentable {
             // suite quand la carte n'a pas de pyramide, et le fondu la concerne
             // aussi.
             tileLayerView?.updateEdgeFade(
+                visibleContentRect: visible,
                 zoomScale: newViewport.zoomScale,
-                displayScale: scrollView.traitCollection.displayScale,
-                viewportSize: scrollView.bounds.size
+                displayScale: scrollView.traitCollection.displayScale
             )
             tileLayerView?.update(
                 visibleContentRect: visible,

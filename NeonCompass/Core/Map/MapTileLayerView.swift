@@ -41,8 +41,9 @@ final class MapTileLayerView: UIView {
     private let fadeLayer = CALayer()
 
     /// L'échelle d'affichage qui a servi à graver l'image du fondu. La
-    /// regraver coûte une boucle sur ~300 000 pixels, donc on ne la refait
-    /// qu'au changement d'appareil — pas à chaque image de zoom.
+    /// regraver coûte une boucle sur 232 324 pixels à ×3 (103 684 à ×2), donc
+    /// on ne la refait qu'au changement d'appareil — pas à chaque image de
+    /// zoom.
     private var fadeImageScale: CGFloat = 0
 
     /// Les couches actuellement dans l'arbre, par tuile.
@@ -200,20 +201,25 @@ final class MapTileLayerView: UIView {
     /// sa première ligne quand la carte n'a pas de manifeste — la carte de
     /// référence, celle sur laquelle l'app ouvre — alors que le fondu la
     /// concerne autant que l'autre.
-    func updateEdgeFade(zoomScale: CGFloat, displayScale: CGFloat, viewportSize: CGSize) {
+    func updateEdgeFade(visibleContentRect: CGRect, zoomScale: CGFloat, displayScale: CGFloat) {
         let scale = max(displayScale, 1)
         if fadeImageScale != scale {
-            fadeImageScale = scale
             let pixels = MapEdgeFadeImage.bandPixels(displayScale: scale)
-            fadeLayer.contents = MapEdgeFadeImage.make(bandPixels: pixels, color: NCColor.nightSkyRGBA)
-            fadeLayer.contentsCenter = MapEdgeFadeImage.contentsCenter(bandPixels: pixels)
+            // Le drapeau ne se pose qu'une fois l'image obtenue : sinon un
+            // échec de gravure — 930 Ko sous pression mémoire — serait
+            // définitif et silencieux, aucun appel ultérieur ne retentant.
+            if let image = MapEdgeFadeImage.make(bandPixels: pixels, color: NCColor.nightSkyRGBA) {
+                fadeImageScale = scale
+                fadeLayer.contents = image
+                fadeLayer.contentsCenter = MapEdgeFadeImage.contentsCenter(bandPixels: pixels)
+            }
         }
         let fade = MapGeometry.edgeFade(
             band: MapEdgeFadeImage.band,
             contentSize: CGSize(width: contentSize, height: contentSize),
+            visibleContentRect: visibleContentRect,
             zoomScale: zoomScale,
-            displayScale: scale,
-            in: viewportSize
+            displayScale: scale
         )
         fadeLayer.contentsScale = fade.contentsScale
         fadeLayer.opacity = fade.opacity
