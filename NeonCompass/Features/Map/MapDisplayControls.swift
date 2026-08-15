@@ -18,11 +18,9 @@ struct MapDisplayControls: View {
         GlassEffectContainer(spacing: 12) {
             VStack(alignment: .trailing, spacing: 12) {
                 gameSwitch
-                // La carte du jeu à venir n'a qu'un habillage : proposer une
-                // bascule sans effet serait un bouton mort.
-                if game.supportsStyleToggle {
-                    styleButton
-                }
+                // Les deux cartes existent en deux habillages : plus de garde à
+                // poser ici, le bouton n'est jamais mort.
+                styleButton
 #if DEBUG
                 if let editorArmed {
                     editorButton(armed: editorArmed)
