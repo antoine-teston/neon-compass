@@ -1,0 +1,27 @@
+{
+  "id": "news_add1ecb7",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Les précommandes pourraient déjà couvrir le budget",
+    "en": "Pre-orders alone could cover the entire budget",
+    "es": "Las reservas podrían cubrir todo el presupuesto",
+    "it": "I preordini potrebbero coprire l'intero budget",
+    "de": "Vorbestellungen könnten das gesamte Budget decken"
+  },
+  "body": {
+    "fr": "Un analyste de Sensor Tower estime que le jeu pourrait générer environ 2 milliards de dollars rien qu'en précommandes s'il atteint 25 millions d'unités avant sa sortie — de quoi couvrir son coût de production avant que quiconque y ait joué. Le cabinet suit pour l'instant 4,3 millions de précommandes.",
+    "en": "A Sensor Tower analyst estimates the game could earn roughly $2 billion from pre-orders alone if it reaches around 25 million units before launch — enough to cover its production cost before anyone has played it. The firm currently tracks 4.3 million pre-orders.",
+    "es": "Un analista de Sensor Tower calcula que el juego podría generar unos 2000 millones de dólares solo con reservas si alcanza los 25 millones de unidades antes de su lanzamiento, suficiente para cubrir su coste de producción antes de que nadie lo haya jugado. La firma sigue actualmente 4,3 millones de reservas.",
+    "it": "Un analista di Sensor Tower stima che il gioco potrebbe generare circa 2 miliardi di dollari solo con i preordini, se raggiungesse i 25 milioni di unità prima del lancio: una cifra sufficiente a coprire i costi di produzione ancora prima che qualcuno vi abbia giocato. L'azienda segue al momento 4,3 milioni di preordini.",
+    "de": "Ein Analyst von Sensor Tower schätzt, dass das Spiel allein durch Vorbestellungen rund 2 Milliarden Dollar einspielen könnte, sollten etwa 25 Millionen Einheiten vor dem Start erreicht werden – genug, um die Produktionskosten zu decken, bevor überhaupt jemand gespielt hat. Das Unternehmen verfolgt derzeit 4,3 Millionen Vorbestellungen."
+  },
+  "publishedAt": "2026-08-14",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-could-pay-for-itself-before-anyone-even-plays-it-55bc"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:dc78e1339a45",
+  "sourceClaim": "Un analyste de Sensor Tower estime que le jeu à venir pourrait générer environ 2 milliards de dollars de recettes rien qu'en précommandes s'il atteint autour de 25 millions de précommandes avant sa sortie, un volume suffisant pour couvrir son coût de production avant même que quiconque y ait joué — un chiffre encore loin des 4,3 millions de précommandes suivies actuellement par le cabinet."
+}
