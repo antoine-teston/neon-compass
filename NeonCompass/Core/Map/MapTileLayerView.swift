@@ -31,6 +31,20 @@ final class MapTileLayerView: UIView {
     /// décodée, et sous le niveau où l'on n'en charge aucune.
     private let baseLayer = CALayer()
 
+    /// Le fondu des bords, au-dessus des tuiles.
+    ///
+    /// Les épingles restent nettes sans qu'on ait rien à faire : elles vivent
+    /// dans une AUTRE vue du même conteneur, posée au-dessus de celle-ci.
+    ///
+    /// `zPosition` et non l'ordre d'insertion : `place` ajoute des tuiles après
+    /// coup, et une couche ajoutée dans `init` passerait dessous.
+    private let fadeLayer = CALayer()
+
+    /// L'échelle d'affichage qui a servi à graver l'image du fondu. La
+    /// regraver coûte une boucle sur ~300 000 pixels, donc on ne la refait
+    /// qu'au changement d'appareil — pas à chaque image de zoom.
+    private var fadeImageScale: CGFloat = 0
+
     /// Les couches actuellement dans l'arbre, par tuile.
     private var placed: [MapTileKey: CALayer] = [:]
     /// Décodages en cours, par tuile — sert à ne pas relancer le même deux
@@ -88,6 +102,21 @@ final class MapTileLayerView: UIView {
         baseLayer.magnificationFilter = .linear
         baseLayer.actions = ["contents": NSNull(), "position": NSNull(), "bounds": NSNull()]
         layer.addSublayer(baseLayer)
+        fadeLayer.frame = bounds
+        fadeLayer.zPosition = 1
+        // Invisible tant que `updateEdgeFade` n'a rien dit : au repos c'est
+        // l'état définitif, et le premier `sync` arrive au tour de boucle
+        // suivant.
+        fadeLayer.opacity = 0
+        // `contentsCenter` n'est honoré qu'avec une gravité redimensionnante ;
+        // c'est la valeur par défaut, posée ici pour que la relecture n'ait
+        // pas à le savoir.
+        fadeLayer.contentsGravity = .resize
+        fadeLayer.actions = [
+            "contents": NSNull(), "contentsScale": NSNull(),
+            "opacity": NSNull(), "position": NSNull(), "bounds": NSNull()
+        ]
+        layer.addSublayer(fadeLayer)
         // Forme cible/action et non bloc, pour une raison de langage : le jeton
         // rendu par la forme en bloc est un `any NSObjectProtocol`, non
         // `Sendable`, donc inaccessible depuis un `deinit` nonisolated sous
@@ -163,6 +192,31 @@ final class MapTileLayerView: UIView {
         clear()
         cache.removeAll()
         cacheOrder.removeAll()
+    }
+
+    /// Pose le fondu pour l'état courant.
+    ///
+    /// Appelée hors de `update`, et c'est délibéré : `update` rend la main dès
+    /// sa première ligne quand la carte n'a pas de manifeste — la carte de
+    /// référence, celle sur laquelle l'app ouvre — alors que le fondu la
+    /// concerne autant que l'autre.
+    func updateEdgeFade(zoomScale: CGFloat, displayScale: CGFloat, viewportSize: CGSize) {
+        let scale = max(displayScale, 1)
+        if fadeImageScale != scale {
+            fadeImageScale = scale
+            let pixels = MapEdgeFadeImage.bandPixels(displayScale: scale)
+            fadeLayer.contents = MapEdgeFadeImage.make(bandPixels: pixels, color: NCColor.nightSkyRGBA)
+            fadeLayer.contentsCenter = MapEdgeFadeImage.contentsCenter(bandPixels: pixels)
+        }
+        let fade = MapGeometry.edgeFade(
+            band: MapEdgeFadeImage.band,
+            contentSize: CGSize(width: contentSize, height: contentSize),
+            zoomScale: zoomScale,
+            displayScale: scale,
+            in: viewportSize
+        )
+        fadeLayer.contentsScale = fade.contentsScale
+        fadeLayer.opacity = fade.opacity
     }
 
     /// Appelée sur CHAQUE image de défilement et de zoom. Tout ce qui est

@@ -701,7 +701,12 @@ struct TiledMapRepresentable: UIViewRepresentable {
         context.coordinator.hostingController = hostingController
         context.coordinator.scrollView = scrollView
         context.coordinator.contentFullSize = fullSize
-        scrollView.backgroundColor = .black
+        // Le fond de l'app, et non du noir : le fondu des bords éteint la
+        // carte sur cette teinte-là, donc c'est elle qui doit se trouver
+        // derrière. Le noir suffisait tant que le bord était une découpe —
+        // mesuré, il en était à 393 d'écart cumulé sur trois canaux au pire
+        // des quatre habillages.
+        scrollView.backgroundColor = UIColor(NCColor.nightSky)
         // Le premier décodage part ici et non dans `sync` : celui-ci n'arrive
         // qu'au prochain tour de boucle, et rien ne serait dessiné d'ici là.
         context.coordinator.setArt(game: game, style: style)
@@ -1113,6 +1118,14 @@ struct TiledMapRepresentable: UIViewRepresentable {
                 bounds: scrollView.bounds.size,
                 contentOffset: newViewport.contentOffset,
                 zoomScale: newViewport.zoomScale
+            )
+            // Avant `update`, et non dedans : celui-ci rend la main tout de
+            // suite quand la carte n'a pas de pyramide, et le fondu la concerne
+            // aussi.
+            tileLayerView?.updateEdgeFade(
+                zoomScale: newViewport.zoomScale,
+                displayScale: scrollView.traitCollection.displayScale,
+                viewportSize: scrollView.bounds.size
             )
             tileLayerView?.update(
                 visibleContentRect: visible,
