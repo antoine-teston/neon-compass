@@ -182,4 +182,88 @@ struct MapGeometryTests {
         #expect(abs(offset.x - 227) < 0.01)
         #expect(abs(offset.y - 0) < 0.01)
     }
+
+    // MARK: - Fondu des bords
+
+    /// Les deux appareils, à leur zoom de REPOS. Ce ne sont pas des mesures
+    /// prises sur un simulateur : ce sont les tailles logiques des deux
+    /// appareils visés, et le zoom de repos qui en découle (la carte couvre
+    /// l'écran sans bande vide, donc `bounds.height / 2 048`).
+    private static let phoneBounds = CGSize(width: 402, height: 874)
+    private static let padBounds = CGSize(width: 1032, height: 1376)
+    private static let mapSize = CGSize(width: 2048, height: 2048)
+
+    /// Au repos, aucun fondu — et ce n'est pas un réglage de confort.
+    ///
+    /// Le zoom de repos fait affleurer la carte à DEUX des quatre bords de
+    /// l'écran, exactement. Un fondu toujours actif y poserait une vignette de
+    /// 80 pt en haut et en bas, alors qu'au repos il n'y a aucun bord à
+    /// masquer : la découpe franche n'est visible qu'en débord.
+    @Test func noFadeAtRestOnEitherDevice() {
+        let phone = MapGeometry.edgeFade(
+            band: 80, contentSize: Self.mapSize,
+            zoomScale: Self.phoneBounds.height / 2048, displayScale: 3, in: Self.phoneBounds
+        )
+        #expect(phone.opacity == 0)
+        let pad = MapGeometry.edgeFade(
+            band: 80, contentSize: Self.mapSize,
+            zoomScale: Self.padBounds.height / 2048, displayScale: 2, in: Self.padBounds
+        )
+        #expect(pad.opacity == 0)
+    }
+
+    /// Et il est entier dès que les quatre bords ont quitté l'écran d'au moins
+    /// la largeur du fondu — c'est-à-dire bien avant le premier zoom où l'on
+    /// peut déborder assez pour voir un coin.
+    @Test func theFadeIsWholeAtTheCeiling() {
+        let pad = MapGeometry.edgeFade(
+            band: 80, contentSize: Self.mapSize,
+            zoomScale: 4.95, displayScale: 2, in: Self.padBounds
+        )
+        #expect(pad.opacity == 1)
+    }
+
+    /// Entre les deux, il entre en scène exactement à la vitesse à laquelle le
+    /// bord quitte l'écran. À ce zoom l'écart vertical vaut 40 pt, soit la
+    /// moitié de la bande — le calcul de l'attendu : (2 048 × 0,7109375 −
+    /// 1 376) / 2 = 40.
+    @Test func theFadeRampsWithHowFarTheEdgeHasLeftTheScreen() {
+        let pad = MapGeometry.edgeFade(
+            band: 80, contentSize: Self.mapSize,
+            zoomScale: 0.7109375, displayScale: 2, in: Self.padBounds
+        )
+        #expect(abs(pad.opacity - 0.5) < 0.001)
+    }
+
+    /// Le cœur du chantier : 80 points d'ÉCRAN, à tous les zooms et sur les
+    /// deux appareils. Le test refait le trajet dans l'autre sens — combien de
+    /// points d'écran occupe la bande gravée, sachant l'échelle rendue — plutôt
+    /// que de relire la formule qu'il vérifie. Une implémentation qui poserait
+    /// la bande en points de CONTENU passerait le zoom 1 et échouerait partout
+    /// ailleurs.
+    @Test func theBandMeasuresEightyScreenPointsAtEveryZoom() {
+        for (displayScale, bounds) in [(CGFloat(3), Self.phoneBounds), (CGFloat(2), Self.padBounds)] {
+            let pixels = CGFloat(MapEdgeFadeImage.bandPixels(displayScale: displayScale))
+            for zoom in [bounds.height / 2048, 1.0, 2.5, 3.3, 4.95] as [CGFloat] {
+                let fade = MapGeometry.edgeFade(
+                    band: MapEdgeFadeImage.band, contentSize: Self.mapSize,
+                    zoomScale: zoom, displayScale: displayScale, in: bounds
+                )
+                let onScreen = pixels / fade.contentsScale * zoom
+                #expect(abs(onScreen - 80) < 0.01, "displayScale \(displayScale), zoom \(zoom)")
+            }
+        }
+    }
+
+    /// Un zoom nul est atteignable — `contentNativeSize` vaut zéro avant le
+    /// premier `layoutSubviews`. Il ne doit produire ni infini ni NaN, et
+    /// surtout pas de calque visible.
+    @Test func aZeroZoomYieldsNothingVisibleRatherThanInfinity() {
+        let fade = MapGeometry.edgeFade(
+            band: 80, contentSize: Self.mapSize, zoomScale: 0, displayScale: 2, in: Self.padBounds
+        )
+        #expect(fade.opacity == 0)
+        #expect(fade.contentsScale > 0)
+        #expect(fade.contentsScale.isFinite)
+    }
 }
