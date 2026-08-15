@@ -252,11 +252,55 @@ export function recentEntries(items, { since, today, max }) {
   floor.setUTCDate(floor.getUTCDate() - since);
   const cutoff = floor.toISOString().slice(0, 10);
 
-  const kept = items
+  const eligible = items
     .filter((item) => item.date && item.date >= cutoff && item.link)
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+    // 0 sur égalité, pas -1 : un comparateur qui ne rend jamais 0 est
+    // incohérent, et l'ordre des ex æquo devient celui que V8 veut bien.
+    // Stable, les ex æquo gardent l'ordre des flux — donc du registre.
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
-  return { kept: kept.slice(0, max), dropped: kept.slice(max) };
+  if (eligible.length <= max) return { kept: eligible, dropped: [] };
+
+  // Le plafond reste GLOBAL, mais il se remplit à tour de rôle par hôte :
+  // trié par seule date, l'hôte qui publie plus vite que la fenêtre prend tout
+  // (le 15/08 : 30 entrées gtaboom contre 2 leonidaverse) et la récolte devient
+  // mono-source sans que rien ne le signale. Chaque hôte pioche sa plus récente
+  // à son tour ; un hôte épuisé rend ses créneaux. L'ordre RENDU reste
+  // chronologique — seule la SÉLECTION est équitable.
+  const queues = new Map();
+  for (const item of eligible) {
+    const host = hostOf(item.link);
+    if (!queues.has(host)) queues.set(host, []);
+    queues.get(host).push(item);
+  }
+  const chosen = new Set();
+  while (chosen.size < max) {
+    let progressed = false;
+    for (const queue of queues.values()) {
+      if (chosen.size >= max) break;
+      const next = queue.shift();
+      if (next) {
+        chosen.add(next);
+        progressed = true;
+      }
+    }
+    if (!progressed) break;
+  }
+
+  return {
+    kept: eligible.filter((item) => chosen.has(item)),
+    dropped: eligible.filter((item) => !chosen.has(item)),
+  };
+}
+
+/** L'hôte d'un lien, ou le lien lui-même s'il n'est pas une URL : une entrée
+ *  de flux malformée doit rester une entrée, pas une exception. */
+function hostOf(link) {
+  try {
+    return new URL(link).hostname;
+  } catch {
+    return link;
+  }
 }
 
 /**
