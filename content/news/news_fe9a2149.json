@@ -1,0 +1,27 @@
+{
+  "id": "news_fe9a2149",
+  "category": "announcement",
+  "game": "gtav",
+  "title": {
+    "fr": "L'événement Brand Wars offre un véhicule gratuit",
+    "en": "Brand Wars event hands out a free car",
+    "es": "El evento Brand Wars regala un vehículo",
+    "it": "L'evento Brand Wars regala un veicolo gratis",
+    "de": "Brand-Wars-Event verschenkt ein kostenloses Fahrzeug"
+  },
+  "body": {
+    "fr": "Le mode en ligne lance l'événement Brand Wars, qui oppose deux marques fictives, du 13 au 19 août. Les joueurs reçoivent un véhicule Hotring Sabre gratuit aux couleurs de leur équipe et peuvent cumuler jusqu'à 2 millions de dollars virtuels en suivant les diffusions partenaires, un volet prolongé jusqu'au 26 août.",
+    "en": "Online mode launches the Brand Wars event, pitting two fictional brands against each other, from August 13 to 19. Players get a free team-colored Hotring Sabre and can earn up to $2 million in virtual currency by watching partner streams, a tie-in that runs through August 26.",
+    "es": "El modo online lanza el evento Brand Wars, que enfrenta a dos marcas ficticias, del 13 al 19 de agosto. Los jugadores reciben un Hotring Sabre gratuito con los colores de su equipo y pueden ganar hasta 2 millones de dólares virtuales viendo las transmisiones asociadas, una parte que se extiende hasta el 26 de agosto.",
+    "it": "La modalità online lancia l'evento Brand Wars, che contrappone due marchi fittizi, dal 13 al 19 agosto. I giocatori ricevono una Hotring Sabre gratuita nei colori della propria squadra e possono accumulare fino a 2 milioni di dollari virtuali seguendo le dirette dei partner, un'iniziativa che si estende fino al 26 agosto.",
+    "de": "Der Online-Modus startet vom 13. bis 19. August das Event Brand Wars, bei dem zwei fiktive Marken gegeneinander antreten. Spieler erhalten einen kostenlosen Hotring Sabre in Teamfarben und können durch das Verfolgen von Partner-Streams bis zu 2 Millionen virtuelle Dollar verdienen – eine Aktion, die bis zum 26. August läuft."
+  },
+  "publishedAt": "2026-08-13",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/gta-online-brand-wars-event-august-2026"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:e578f40da63a",
+  "sourceClaim": "Le mode en ligne actuel lance l'événement Brand Wars (Sprunk contre eCola) du 13 au 19 août 2026, avec un volet Twitch prolongé jusqu'au 26 août : les joueurs reçoivent un véhicule Hotring Sabre gratuit aux couleurs de leur équipe et peuvent cumuler jusqu'à 2 millions de dollars virtuels en suivant les diffusions partenaires."
+}

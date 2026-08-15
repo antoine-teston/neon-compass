@@ -1,0 +1,79 @@
+{
+  "run": {
+    "date": "2026-08-15",
+    "sources_visited": [
+      "https://www.gtaboom.com/gta-6-could-pay-for-itself-before-anyone-even-plays-it-55bc",
+      "https://www.gtaboom.com/the-viral-gta-6-netflix-leak-just-got-debunked-fa9c",
+      "https://www.gtaboom.com/nearly-9-in-10-gta-6-preorders-picked-the-more-expensive-edition-7425",
+      "https://www.gtaboom.com/zelnick-put-himself-in-wwe-2k26-heres-why-hes-staying-out-of-gta-6-f70a",
+      "https://www.gtaboom.com/vice-city-stories-runs-natively-on-pc-now-no-emulator-needed-0148",
+      "https://www.gtaboom.com/what-gta-v-gave-you-in-2013-that-gta-6-will-never-have-7df4",
+      "https://www.gtaboom.com/gta-online-freemode-events-4x-gta-rp-august-2026",
+      "https://www.gtaboom.com/gta-online-brand-wars-event-august-2026"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Un analyste de Sensor Tower estime que le jeu à venir pourrait générer environ 2 milliards de dollars de recettes rien qu'en précommandes s'il atteint autour de 25 millions de précommandes avant sa sortie, un volume suffisant pour couvrir son coût de production avant même que quiconque y ait joué — un chiffre encore loin des 4,3 millions de précommandes suivies actuellement par le cabinet.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-could-pay-for-itself-before-anyone-even-plays-it-55bc",
+      "source_date": "2026-08-14",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Une capture d'écran virale prétendant montrer un découpage en trois épisodes de l'aperçu étendu du jeu à venir, sur la page portugaise d'une plateforme de streaming, a été démentie par la presse spécialisée : la mise en page ne correspond pas à celle des vraies pages de la plateforme, et personne d'autre n'a pu reproduire la capture pendant qu'elle était censée être en ligne.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-viral-gta-6-netflix-leak-just-got-debunked-fa9c",
+      "source_date": "2026-08-14",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Selon une analyse du cabinet Sensor Tower relayée par GamesIndustry.biz, environ 89 % des précommandes du jeu à venir portent sur son édition la plus chère à 99,99 dollars, contre une part habituelle de 10 à 20 % pour l'édition premium d'un jeu classique — une répartition quasi identique entre les deux plateformes de sortie (environ 90 % sur l'une, 88,5 % sur l'autre).",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/nearly-9-in-10-gta-6-preorders-picked-the-more-expensive-edition-7425",
+      "source_date": "2026-08-14",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le PDG de l'éditeur, interrogé par IGN, a confirmé qu'il n'apparaîtra pas comme personnage caméo dans le jeu à venir, expliquant que les figures réelles glissées dans la série y sont traditionnellement tournées en dérision plutôt que flattées, contrairement au personnage jouable qu'il vient de prêter à WWE 2K26.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/zelnick-put-himself-in-wwe-2k26-heres-why-hes-staying-out-of-gta-6-f70a",
+      "source_date": "2026-08-13",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "L'édition standard à 79,99 dollars du jeu à venir ne comprendra qu'un code de téléchargement numérique, alors que l'édition équivalente de GTA V, au même prix en 2013, incluait un disque physique, un boîtier SteelBook et une carte dépliante de la carte du jeu.",
+      "kind": "game-fact",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/what-gta-v-gave-you-in-2013-that-gta-6-will-never-have-7df4",
+      "source_date": "2026-08-13",
+      "confidence": "confirmed-official"
+    },
+    {
+      "claim": "Le mode en ligne actuel propose une mise à jour hebdomadaire du 13 au 19 août 2026 avec un bonus de 4X sur l'argent virtuel et les points d'expérience pour les défis et événements en monde ouvert ainsi que pour la série de courses Hotring, dans le cadre du nouvel événement Brand Wars opposant les marques fictives Sprunk et eCola.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/gta-online-freemode-events-4x-gta-rp-august-2026",
+      "source_date": "2026-08-13",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Le mode en ligne actuel lance l'événement Brand Wars (Sprunk contre eCola) du 13 au 19 août 2026, avec un volet Twitch prolongé jusqu'au 26 août : les joueurs reçoivent un véhicule Hotring Sabre gratuit aux couleurs de leur équipe et peuvent cumuler jusqu'à 2 millions de dollars virtuels en suivant les diffusions partenaires.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/gta-online-brand-wars-event-august-2026",
+      "source_date": "2026-08-13",
+      "confidence": "confirmed-official",
+      "processed": true
+    }
+  ]
+}
