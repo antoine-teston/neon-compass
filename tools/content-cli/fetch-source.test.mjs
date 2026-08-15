@@ -90,3 +90,54 @@ test('le plafond est GLOBAL et garde les plus récentes, le reste est rendu — 
   // « on a tout couvert » alors qu'on a coupé.
   assert.deepEqual(dropped.map((i) => i.link), ['vieux']);
 });
+
+test('le plafond ne laisse pas l’hôte le plus bavard évincer les autres', () => {
+  // Le déséquilibre réel du 15/08 : gtaboom 30 entrées, leonidaverse 2. Sous un
+  // tri purement chronologique, l'hôte qui publie plus vite que la fenêtre
+  // monopolise le plafond global et la récolte devient mono-source — c'est la
+  // concentration qu'on mesure ensuite dans les faits (89 % d'un seul hôte).
+  const items = [
+    { link: 'https://www.gtaboom.com/a1', date: '2026-08-15' },
+    { link: 'https://www.gtaboom.com/a2', date: '2026-08-15' },
+    { link: 'https://www.gtaboom.com/a3', date: '2026-08-14' },
+    { link: 'https://www.gtaboom.com/a4', date: '2026-08-14' },
+    { link: 'https://leonidaverse.com/en/news/b1', date: '2026-08-13' },
+    { link: 'https://leonidaverse.com/en/news/b2', date: '2026-08-13' },
+  ];
+
+  const { kept, dropped } = recentEntries(items, { since: 5, today: '2026-08-15', max: 4 });
+
+  // Chaque hôte obtient sa part ; l'ordre RENDU reste chronologique, pour que
+  // le compte-rendu se lise comme avant.
+  assert.deepEqual(kept.map((i) => i.link), [
+    'https://www.gtaboom.com/a1',
+    'https://www.gtaboom.com/a2',
+    'https://leonidaverse.com/en/news/b1',
+    'https://leonidaverse.com/en/news/b2',
+  ]);
+  assert.deepEqual(dropped.map((i) => i.link), [
+    'https://www.gtaboom.com/a3',
+    'https://www.gtaboom.com/a4',
+  ]);
+});
+
+test('un hôte épuisé rend ses créneaux aux autres', () => {
+  // L'équité n'est pas un quota : si l'hôte minoritaire n'a qu'une entrée, elle
+  // prend UN créneau et le reste du plafond revient à qui a de quoi le remplir.
+  const items = [
+    { link: 'https://www.gtaboom.com/a1', date: '2026-08-15' },
+    { link: 'https://www.gtaboom.com/a2', date: '2026-08-14' },
+    { link: 'https://www.gtaboom.com/a3', date: '2026-08-13' },
+    { link: 'https://www.gtaboom.com/a4', date: '2026-08-12' },
+    { link: 'https://leonidaverse.com/en/news/b1', date: '2026-08-13' },
+  ];
+
+  const { kept } = recentEntries(items, { since: 5, today: '2026-08-15', max: 4 });
+
+  assert.deepEqual(kept.map((i) => i.link), [
+    'https://www.gtaboom.com/a1',
+    'https://www.gtaboom.com/a2',
+    'https://www.gtaboom.com/a3',
+    'https://leonidaverse.com/en/news/b1',
+  ]);
+});

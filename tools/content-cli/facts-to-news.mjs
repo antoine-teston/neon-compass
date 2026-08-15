@@ -10,6 +10,7 @@
 // modèle pour savoir ce qu'il a déjà publié.
 
 import { createHash } from 'node:crypto';
+import { explicitlyForbidden } from './source-policy.mjs';
 import { identityKey } from '../basemap/gtav-poi-ids.mjs';
 import { CARDINALITE, cleDeRefus, confianceSuperieure } from './vocabulaire.mjs';
 
@@ -68,6 +69,13 @@ export function mintNewsId(key) {
 function invalidReason(fact) {
   if (!fact.claim) return 'fait sans claim';
   if (!fact.source_url) return 'fait sans source_url — un item d’actu doit pouvoir être remonté à sa source';
+  // Le registre a BANNI cet hôte : le fait cite ce que la veille n'a pas le
+  // droit de lire, la faute est en amont (scout, ou politique qui a changé).
+  // Elle passe par `conflicts` comme une date malformée — le run s'arrête, on
+  // purge l'inbox, on ne matérialise pas à côté. Trou constaté le 2026-08-15 :
+  // deux faits du 21/07 citaient rockstargames.com et gtacodes.io sans qu'aucun
+  // contrôle ne compare jamais source_url au registre.
+  if (explicitlyForbidden(fact.source_url)) return `hôte banni du registre : ${fact.source_url}`;
   if (!ISO_DATE.test(fact.source_date ?? '')) return `date de source malformée : ${fact.source_date} (attendu AAAA-MM-JJ)`;
   if (!CONFIDENCES.has(fact.confidence)) return `confiance inconnue : ${fact.confidence}`;
   if (fact.game !== undefined && !GAMES.has(fact.game)) return `jeu inconnu : ${fact.game}`;
@@ -194,7 +202,11 @@ export function materializeNews(facts, existing, refus = {}) {
       body: { ...PLACEHOLDER.body },
       publishedAt: fact.source_date,
       status: 'draft',
-      sources: [fact.source_url],
+      // La liste complète si le scout l'a fournie (même contrat que
+      // facts-to-online-event) : `check-publishable` exige >= 2 hôtes distincts
+      // pour `multi-source`, et ne garder que source_url détruirait la preuve.
+      // L'IDENTITÉ du fait, elle, reste source_url + claim.
+      sources: fact.sources?.length ? fact.sources : [fact.source_url],
       confidence: fact.confidence,
       processedFrom: key,
       sourceClaim: fact.claim,

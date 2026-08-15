@@ -1,6 +1,27 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { policyFor, assertAllowed, parseFeed, htmlToText, feedURLFor } from './source-policy.mjs';
+import { policyFor, assertAllowed, parseFeed, htmlToText, feedURLFor, explicitlyForbidden } from './source-policy.mjs';
+
+// `explicitlyForbidden` répond à une question plus ÉTROITE que `policyFor` :
+// non pas « peut-on fetcher ? » mais « le registre a-t-il BANNI cet hôte ? ».
+// La distinction porte le contrôle d'inbox : un fait ne peut pas citer un hôte
+// banni, mais un hôte simplement inconnu n'invalide pas un fait — le
+// matérialiseur refuse ce que le registre a tranché, il ne s'invente pas la
+// police de tout l'Internet.
+
+test('un hôte banni est nommé, alias compris', () => {
+  assert.ok(explicitlyForbidden('https://www.rockstargames.com/VI'));
+  // La faute réelle du 21/07 : un fait de cheats citait gtacodes.io.
+  assert.ok(explicitlyForbidden('https://gtacodes.io/community-verified'));
+  // Les alias ne contournent pas le ban par simple orthographe.
+  assert.ok(explicitlyForbidden('https://old.reddit.com/r/GTA6/x'));
+});
+
+test('un hôte inconnu n’est PAS banni — il est seulement non fetchable', () => {
+  assert.equal(explicitlyForbidden('https://example.test/article'), null);
+  // Une URL illisible n'est pas le sujet de CE contrôle.
+  assert.equal(explicitlyForbidden('pas-une-url'), null);
+});
 
 test('les domaines dont le robots.txt nous autorise passent', () => {
   for (const url of [
@@ -61,7 +82,11 @@ test('une URL malformée est refusée, pas interprétée', () => {
 test('le flux d’un domaine est connu sans avoir à le deviner', () => {
   assert.equal(feedURLFor('https://www.gtaboom.com/quoi-que-ce-soit'), 'https://www.gtaboom.com/feed.xml');
   assert.equal(feedURLFor('https://leonidaverse.com/en'), 'https://leonidaverse.com/news-sitemap.xml');
-  assert.equal(feedURLFor('https://gta6.gg/news/'), null);
+  // Depuis le 2026-08-15 le flux WordPress de gta6.gg est déclaré : il répond
+  // 200 mais était VIDE ce jour-là (0 item, lastBuildDate au 22/03). On le lit
+  // quand même — son silence devient visible dans feeds.json au lieu que la
+  // source soit simplement absente de tous les rapports.
+  assert.equal(feedURLFor('https://gta6.gg/news/'), 'https://gta6.gg/feed/');
 });
 
 test('parseFeed lit un RSS 2.0, CDATA compris', () => {

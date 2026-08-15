@@ -37,7 +37,14 @@ const POLICIES = {
   },
   'gta6.gg': {
     mode: 'allow',
-    feed: null,
+    // Sondé le 2026-08-15 : /feed/ répond 200 en rss+xml et robots.txt
+    // l'autorise, mais le canal était VIDE (0 item, lastBuildDate au
+    // 2026-03-22 — WordPress publie le canal même sans article). On le lit
+    // quand même : un flux vide coûte une requête et rend le silence de la
+    // source VISIBLE dans feeds.json, alors que `feed: null` la faisait
+    // simplement disparaître de tous les rapports. C'est la même doctrine que
+    // `skipped` dans la récolte — une source qui se tait doit se voir.
+    feed: 'https://gta6.gg/feed/',
     note: 'robots.txt : seuls des chemins WooCommerce sont exclus',
   },
   'gta.fandom.com': {
@@ -97,6 +104,22 @@ export function policyFor(url) {
   }
   const canonical = HOST_ALIASES[host] ?? host;
   return POLICIES[canonical] ?? UNKNOWN;
+}
+
+/** La raison d'un bannissement EXPLICITE du registre, ou null. Question plus
+ *  étroite que `policyFor` : un hôte INCONNU n'est pas fetchable, mais il n'est
+ *  pas non plus banni. La distinction porte le contrôle d'inbox — un fait ne
+ *  peut pas citer ce que le registre a interdit de lire, mais le matérialiseur
+ *  ne s'invente pas la police de tout l'Internet. */
+export function explicitlyForbidden(url) {
+  let host;
+  try {
+    host = new URL(url).hostname.toLowerCase();
+  } catch {
+    return null; // URL illisible : c'est le contrôle d'à côté qui la juge.
+  }
+  const policy = POLICIES[HOST_ALIASES[host] ?? host];
+  return policy?.mode === 'forbidden' ? policy.reason : null;
 }
 
 /** Lève si l'URL n'est pas fetchable. Le message porte la raison : un refus

@@ -53,6 +53,46 @@ test('un fait news produit un squelette draft à rédiger', () => {
   assert.match(data.processedFrom, new RegExp(`^${INBOX_SOURCE}:news:[0-9a-f]{12}$`));
 });
 
+test('un fait qui apporte ses corroborations les garde toutes comme sources', () => {
+  // La preuve du multi-source : `check-publishable` exige désormais >= 2 hôtes
+  // distincts dans sources[]. Le scout fournit la liste complète dans `sources`
+  // — même contrat que les faits d'événement en ligne (facts-to-online-event) —
+  // et ne garder que source_url détruisait la preuve à la matérialisation.
+  const fact = newsFact({
+    sources: ['https://example.test/article-a', 'https://autre.test/echo'],
+  });
+
+  const { writes } = materializeNews([fact], []);
+
+  assert.deepEqual(writes[0].data.sources, [
+    'https://example.test/article-a',
+    'https://autre.test/echo',
+  ]);
+});
+
+test('un fait citant un hôte banni du registre invalide le lot — bruyamment', () => {
+  // Le trou constaté le 2026-08-15 : deux faits d'inbox du 21/07 citaient
+  // rockstargames.com et gtacodes.io, et RIEN dans le pipeline ne comparait
+  // source_url au registre. Le contrôle passe par `conflicts`, comme une date
+  // malformée : un fait banni est une faute amont (scout ou politique), elle
+  // doit arrêter le run, pas être matérialisée à côté.
+  const result = materializeNews(
+    [newsFact({ source_url: 'https://www.rockstargames.com/VI' })],
+    [],
+  );
+
+  assert.equal(result.writes.length, 0);
+  assert.equal(result.conflicts.length, 1);
+  assert.match(result.conflicts[0].reason, /banni/);
+  assert.match(result.conflicts[0].reason, /rockstargames\.com/);
+});
+
+test('un tableau sources vide ne prive pas l’item de sa source primaire', () => {
+  const { writes } = materializeNews([newsFact({ sources: [] })], []);
+
+  assert.deepEqual(writes[0].data.sources, ['https://example.test/article-a']);
+});
+
 test('le squelette ne recopie JAMAIS le fait brut dans title/body', () => {
   // Le fait cite ses sources mot pour mot, marques déposées comprises.
   // check-publishable scanne title/body de TOUTES les entrées, publiées ou non :
