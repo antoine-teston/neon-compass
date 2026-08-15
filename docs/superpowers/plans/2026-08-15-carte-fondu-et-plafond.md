@@ -241,7 +241,7 @@ cd /Users/antoine/gta_project/.claude/worktrees/carte-fondu-plafond
 xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   test -only-testing:NeonCompassTests/MapTileSetTests > /tmp/t1.log 2>&1 &
 ```
-Attendu : `Test run with 15 tests` (10 existants + 5 nouveaux), zéro échec. Lire la ligne, pas seulement `TEST SUCCEEDED`. Puis `pkill -f xcodebuild`.
+Attendu : `Test run with 16 tests` (11 existants + 5 nouveaux), zéro échec. Lire la ligne, pas seulement `TEST SUCCEEDED`. Puis `pkill -f xcodebuild`.
 
 - [ ] **Step 5 : prouver que le contrôle sait échouer**
 
