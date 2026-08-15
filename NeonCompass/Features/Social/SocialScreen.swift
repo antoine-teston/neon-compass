@@ -63,6 +63,24 @@ struct SocialScreen: View {
         // ProgressView elle s'annulerait elle-même dès que `model` est assigné.
         // Cf. FeedScreen, où ce défaut avait gardé le fil vide.
         .task { await loadModel() }
+        // Le drapeau serveur arrive par le réseau, souvent APRÈS le montage de
+        // l'écran : `loadModel()` ne tourne qu'une fois, donc sans cette
+        // réaction un hub ouvert trop tôt resterait sans vote ni classement
+        // toute la session, sauf pull-to-refresh.
+        .onChange(of: serverFeatures.isEnabled) { _, enabled in
+            guard enabled else { return }
+            Task {
+                await loadLeaderboard()
+                await loadCommunity()
+            }
+        }
+        // La connexion depuis l'alerte du module doit rapatrier les votes
+        // existants : sans quoi le compte « à voter » surcompte, et un spot
+        // déjà voté se présente vierge.
+        .onChange(of: authModel.userID) { _, uid in
+            guard let uid else { return }
+            Task { await communityModel?.loadMyVotes(uid: uid) }
+        }
     }
 
     private func content(_ model: OnlineEventsModel) -> some View {
