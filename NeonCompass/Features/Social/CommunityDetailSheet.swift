@@ -39,7 +39,7 @@ struct CommunityDetailSheet: View {
                     .font(NCTypography.cardMeta)
                     .foregroundStyle(.white.opacity(0.6))
                 if community.isPromoted {
-                    Label("Spotlight", systemImage: "sparkles")
+                    Label("social.communities.spotlight", systemImage: "sparkles")
                         .font(.caption2)
                         .foregroundStyle(NCColor.neonCyan)
                 }
