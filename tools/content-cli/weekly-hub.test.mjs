@@ -75,6 +75,30 @@ test('la page qui déclare sa phase close rend « sans-semaine », pas une erreu
   assert.match(read.statement, /weekly bonus phase has ended/i);
 });
 
+// La page RÉELLE du 2026-08-15 : le hub renvoie vers le récit de la semaine et
+// déclare LUI-MÊME que le tableau structuré n'est pas publié. Ce n'est ni « pas
+// de semaine » (il y en a une, en prose) ni une page méconnaissable (on la lit
+// très bien) : c'est un troisième état, qui mérite son verdict — sans lui, la
+// page tombait en « page-meconnaissable » et le run passait pour une panne.
+const SANS_STRUCTURE = readFileSync(new URL('./fixtures/weekly-hub-sans-structure.html', import.meta.url), 'utf8');
+
+test('la page qui déclare son tableau absent rend « sans-structure », avec le chemin du récit', () => {
+  const read = parseWeeklyHub(SANS_STRUCTURE);
+  assert.equal(read.verdict, 'sans-structure');
+  assert.match(read.declaration, /weekly story/i);
+  assert.match(read.statement, /not available yet/i);
+  // Le récit est la seule piste exploitable que la page offre : le compte-rendu
+  // doit pouvoir le nommer, c'est lui que la veille d'actu couvre en parallèle.
+  assert.equal(read.storyPath, '/gta-online-brand-wars-event-august-2026');
+});
+
+test('« sans-structure » sans lien de récit reste un verdict, pas une erreur', () => {
+  const sansCTA = SANS_STRUCTURE.replaceAll('Read the latest story', 'Autre libellé');
+  const read = parseWeeklyHub(sansCTA);
+  assert.equal(read.verdict, 'sans-structure');
+  assert.equal(read.storyPath, null);
+});
+
 test('une page sans payload RSC lève en « payload-absent »', () => {
   const { verdict, message } = verdictOf('<html><body>rien</body></html>');
   assert.equal(verdict, 'payload-absent');
@@ -111,10 +135,10 @@ test('l’ancienne page lève en « page-meconnaissable », jamais en « sans-se
 });
 
 test('une page qui n’a qu’une des deux ancres n’est pas reconnue à moitié', () => {
-  const uneSeule = SANS_SEMAINE.replaceAll('aria-label="Weekly event sections"', 'aria-label="Autre chose"');
+  const uneSeule = SANS_SEMAINE.replaceAll('id="weekly-reset"', 'id="autre-chose"');
   const { verdict, message } = verdictOf(uneSeule);
   assert.equal(verdict, 'page-meconnaissable');
-  assert.match(message, /Weekly event sections/);
+  assert.match(message, /weekly-reset/);
 });
 
 // --- Horodatage et date d'article ----------------------------------------

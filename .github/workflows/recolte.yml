@@ -204,6 +204,15 @@ jobs:
                   echo
                   echo "> La page se déclare « $MESSAGE »."
                   ;;
+                sans-structure)
+                  echo "**Récit publié, tableau absent.** Ce n’est pas une panne : la source"
+                  echo "déclare elle-même ne pas publier le tableau structuré de la semaine."
+                  echo "Pas de carte d’événement possible — la veille d’actu couvre le récit."
+                  echo
+                  echo "> La page se déclare « $MESSAGE »."
+                  STORY="$(jq -r '.storyPath // ""' "$WEEKLY")"
+                  [ -n "$STORY" ] && echo "> Récit de la semaine : \`$STORY\`."
+                  ;;
                 *)
                   echo "⚠️ **Verdict \`$VERDICT\`** — la semaine du mode en ligne n’a pas été récoltée."
                   echo
