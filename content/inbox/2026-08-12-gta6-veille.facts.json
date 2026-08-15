@@ -1,0 +1,51 @@
+{
+  "run": {
+    "date": "2026-08-12",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/gta-6-pre-orders-skew-toward-100-ultimate-edition-as-zelnick-defends-pricing-3bba",
+      "https://www.gtaboom.com/zelnick-says-gta-6-will-exceed-expectations-f366",
+      "https://www.gtaboom.com/gta-6-fans-raised-50k-so-this-man-could-live-to-november-19-9f2c",
+      "https://www.gtaboom.com/kai-cenat-wants-to-100-gta-6-in-one-nonstop-marathon-d0ed"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Le PDG de l'éditeur, interrogé sur une chaîne financière américaine, a affirmé que les précommandes du jeu à venir penchent davantage vers l'édition premium à 100 dollars que vers l'édition standard à 80 dollars, y voyant le signe que les acheteurs les plus enthousiastes précommandent en premier ; il a de nouveau refusé de communiquer un chiffre précis, justifiant la politique tarifaire par le succès commercial durable du précédent opus du studio (plus de 230 millions d'exemplaires vendus en treize ans).",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-pre-orders-skew-toward-100-ultimate-edition-as-zelnick-defends-pricing-3bba",
+      "source_date": "2026-08-11",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Le PDG de l'éditeur a déclaré sur une chaîne financière américaine croire que le studio dépassera les attentes entourant le jeu à venir, sans préciser de quelles attentes il parle (joueurs, investisseurs ou secteur), tout en rappelant que les deux dernières productions du studio ont chacune obtenu une note de 97 sur une plateforme d'agrégation de critiques.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/zelnick-says-gta-6-will-exceed-expectations-f366",
+      "source_date": "2026-08-11",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Une cagnotte en ligne ouverte par la mère d'un fan gravement malade en attente d'une greffe pulmonaire a dépassé 65 000 dollars, après qu'une vidéo publiée par le malade sur un réseau social, où il évoquait son espoir de survivre jusqu'à la sortie du jeu à venir le 19 novembre, a été vue plusieurs millions de fois ; ni le studio ni l'éditeur ne se sont exprimés sur cette histoire.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-fans-raised-50k-so-this-man-could-live-to-november-19-9f2c",
+      "source_date": "2026-08-11",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un streameur très suivi a réaffirmé son intention de diffuser en continu sa progression dans le jeu à venir dès sa sortie du 19 novembre, jusqu'à atteindre 100% de complétion, une promesse qu'il avait déjà formulée en 2025 alors que la date de sortie restait incertaine et qu'il renouvelle maintenant qu'elle est confirmée.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/kai-cenat-wants-to-100-gta-6-in-one-nonstop-marathon-d0ed",
+      "source_date": "2026-08-11",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}

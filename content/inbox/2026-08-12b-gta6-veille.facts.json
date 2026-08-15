@@ -1,0 +1,33 @@
+{
+  "run": {
+    "date": "2026-08-12",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/gta-6-pre-orders-skew-toward-100-ultimate-edition-as-zelnick-defends-pricing-3bba",
+      "https://www.gtaboom.com/zelnick-says-gta-6-will-exceed-expectations-f366",
+      "https://www.gtaboom.com/gta-6-fans-raised-50k-so-this-man-could-live-to-november-19-9f2c",
+      "https://www.gtaboom.com/kai-cenat-wants-to-100-gta-6-in-one-nonstop-marathon-d0ed"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Interrogé par CNBC, le PDG de l'éditeur affirme que les précommandes du jeu à venir penchent davantage vers l'édition la plus chère (100$), y voyant le signe que les acheteurs les plus engagés précommandent en premier ; il refuse toujours de donner un chiffre précis, et justifie la structure tarifaire (80$ standard / 100$ édition supérieure) en s'appuyant sur les 230 millions d'exemplaires vendus par le précédent épisode en treize ans.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-pre-orders-skew-toward-100-ultimate-edition-as-zelnick-defends-pricing-3bba",
+      "source_date": "2026-08-11",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Toujours interrogé par CNBC, le PDG de l'éditeur affirme croire que le studio dépassera les attentes autour du jeu à venir, sans préciser lesquelles (joueurs, investisseurs ou observateurs du secteur) ; il s'appuie sur le score critique et les ventes des deux précédents jeux du studio (97/100 sur Metacritic chacun) pour justifier cette confiance.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/zelnick-says-gta-6-will-exceed-expectations-f366",
+      "source_date": "2026-08-11",
+      "confidence": "confirmed-official",
+      "processed": true
+    }
+  ]
+}

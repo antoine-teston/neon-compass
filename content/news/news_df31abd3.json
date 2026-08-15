@@ -1,0 +1,27 @@
+{
+  "id": "news_df31abd3",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "L'éditeur exclut une baisse de prix aux fêtes",
+    "en": "Publisher confirms no holiday price cut",
+    "es": "La editora descarta una rebaja navideña",
+    "it": "L'editore esclude uno sconto natalizio",
+    "de": "Verlag schließt Weihnachtsrabatt kategorisch aus"
+  },
+  "body": {
+    "fr": "Le PDG de l'éditeur a confirmé sur une chaîne financière américaine que le prix du jeu à venir ne baissera pas pour les fêtes de fin d'année, ni ensuite : l'éditeur fixe son tarif et laisse toute remise éventuelle à la marge des revendeurs. Il s'appuie sur les deux derniers jeux du studio, restés à leur prix de lancement bien plus longtemps que la moyenne du secteur.",
+    "en": "The publisher's CEO confirmed on a US financial network that the price of the upcoming game will not drop for the holidays or afterward — the publisher sets its price and leaves any discounting to retailers' own margins. He pointed to the studio's two previous titles, which held their launch price far longer than most releases in the industry.",
+    "es": "El director general de la editora confirmó en una cadena financiera estadounidense que el precio del próximo juego no bajará durante las fiestas ni después: la editora fija su precio y deja cualquier descuento al margen de las tiendas. Se apoya en los dos últimos juegos del estudio, que mantuvieron su precio de lanzamiento mucho más tiempo que la media del sector.",
+    "it": "L'amministratore delegato dell'editore ha confermato su un'emittente finanziaria statunitense che il prezzo del prossimo gioco non scenderà durante le feste né in seguito: l'editore fissa il prezzo e lascia eventuali sconti al margine dei rivenditori. Cita come esempio gli ultimi due giochi dello studio, rimasti al prezzo di lancio molto più a lungo della media del settore.",
+    "de": "Der Verlagschef bestätigte in einem US-Wirtschaftssender, dass der Preis des kommenden Spiels weder zu den Feiertagen noch danach sinken wird: Der Verlag legt seinen Preis fest und überlässt jeden Rabatt der Marge der Händler. Er verweist auf die letzten beiden Titel des Studios, die deutlich länger als im Branchendurchschnitt beim Startpreis blieben."
+  },
+  "publishedAt": "2026-08-12",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/zelnick-warns-gta-6-fans-not-to-wait-for-a-holiday-price-drop-b05b"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:3343112612b1",
+  "sourceClaim": "Le PDG de l'éditeur a confirmé, sur une chaîne financière américaine, que le prix du jeu à venir ne baissera pas pour les fêtes de fin d'année ni au-delà, l'éditeur fixant son tarif sans intervenir sur les marges des revendeurs qui choisiraient de le solder ; il s'appuie sur le précédent des deux derniers jeux du studio, restés à leur prix plein bien plus longtemps que la moyenne du secteur."
+}

@@ -150,4 +150,16 @@ struct OnlineEventsModelTests {
         #expect(model.latestEvent() == nil)
         #expect(!model.showsGamePicker)
     }
+
+    /// Les variantes par-jeu ne dépendent pas de `selectedGame` : chaque page du
+    /// héro interroge SON jeu, quelle que soit la page affichée.
+    @Test func perGameQueriesIgnoreSelectedGame() throws {
+        let vi = try event(id: "online_vi", game: .leonida, startsAt: "2026-08-13T09:00:00Z", endsAt: "2026-08-20T09:00:00Z")
+        let v = try event(id: "online_v", game: .reference, startsAt: "2026-08-06T09:00:00Z", endsAt: "2026-08-13T09:00:00Z")
+        let model = OnlineEventsModel(events: [vi, v])
+        model.selectedGame = .leonida
+        #expect(model.currentEvent(at: date("2026-08-14T00:00:00Z"), game: .reference) == nil)
+        #expect(model.latestEvent(game: .reference)?.id == "online_v")
+        #expect(model.currentEvent(at: date("2026-08-14T00:00:00Z"), game: .leonida)?.id == "online_vi")
+    }
 }

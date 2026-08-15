@@ -1,0 +1,42 @@
+{
+  "run": {
+    "date": "2026-08-11",
+    "sources_visited": [
+      "https://www.gtaboom.com/feed.xml",
+      "https://leonidaverse.com/news-sitemap.xml",
+      "https://www.gtaboom.com/78-year-old-grandmother-buys-xbox-series-x-for-gta-6-8dd9",
+      "https://www.gtaboom.com/gta-6-is-take-twos-test-for-monetizing-everyone-9597",
+      "https://www.gtaboom.com/gta-6-netflix-reveal-only-an-appetizer-zelnick-tease-dbed",
+      "https://www.gtaboom.com/rockstar-games-quietly-followed-a-small-army-of-streamers-888d"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Interrogé par un média spécialisé (GamesBeat), le PDG de l'éditeur a déclaré que l'industrie du jeu vidéo n'a encore exploité qu'une fraction de son potentiel, tant en taille d'audience qu'en revenus par joueur, et a évoqué un passage au streaming en nuage d'ici environ trois ans pour toucher des marchés peu équipés en consoles (Inde, Moyen-Orient, Chine) ; il a par ailleurs exclu toute publicité intégrée au jeu à venir lui-même, tout en confirmant que des publicités générées par IA sont testées dans d'autres studios du groupe.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-is-take-twos-test-for-monetizing-everyone-9597",
+      "source_date": "2026-08-10",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Interrogé par un autre média spécialisé (GamesIndustry.biz), le PDG de l'éditeur a qualifié la diffusion du 27 août sur la plateforme de streaming de simple « entrée », promettant plusieurs autres temps forts marketing (« plat principal » et « dessert » selon ses propres mots) avant la sortie du jeu le 19 novembre, sans en préciser la nature ni le calendrier.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-netflix-reveal-only-an-appetizer-zelnick-tease-dbed",
+      "source_date": "2026-08-10",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "La presse spécialisée rapporte que le compte officiel du studio sur un réseau social a récemment suivi plusieurs créateurs de contenu très suivis, dont des figures connues du jeu de rôle communautaire, quelques jours avant la diffusion du 27 août ; le studio n'a fait aucune déclaration officielle à ce sujet, et l'article présente lui-même cette observation comme une simple hypothèse de stratégie marketing, pas une confirmation.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-games-quietly-followed-a-small-army-of-streamers-888d",
+      "source_date": "2026-08-10",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
