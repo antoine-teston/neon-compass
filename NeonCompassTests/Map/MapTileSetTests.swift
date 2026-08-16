@@ -22,6 +22,19 @@ struct MapTileSetTests {
         ]
     )
 
+    /// Celui-ci reprend au contraire les côtés RÉELLEMENT livrés — 9 216 et
+    /// 18 432 — parce que les valeurs attendues du plafond sont ici les
+    /// valeurs réelles, 3,3 et 4,95, et qu'un test du plafond écrit sur des
+    /// puissances de deux inventées ne dirait rien de l'app.
+    private static let shippedShapedManifest = MapTileManifest(
+        tile: 512,
+        base: 4096,
+        levels: [
+            .init(side: 9216, count: 18, uniform: [:]),
+            .init(side: 18432, count: 36, uniform: [:]),
+        ]
+    )
+
     // MARK: - Pixels affichables
 
     @Test func displayablePixelsMultipliesTheThreeFactors() {
@@ -130,5 +143,76 @@ struct MapTileSetTests {
         let last = MapTileSet.frame(for: MapTileKey(level: 16384, x: 31, y: 31), contentSize: 2048, manifest: Self.manifest)
         #expect(abs(last.maxX - 2048) < 0.001)
         #expect(abs(last.maxY - 2048) < 0.001)
+    }
+
+    // MARK: - Plafond de zoom
+
+    /// Les deux valeurs iPhone d'aujourd'hui, retrouvées par la formule. C'est
+    /// la seule chose qui autorise à remplacer deux constantes par un calcul :
+    /// s'il ne les redonnait pas, il changerait le comportement en douce.
+    @Test func theCeilingReproducesTodaysIPhoneConstants() {
+        let pyramided = MapTileSet.maximumZoomScale(
+            contentSize: 2048, manifest: Self.shippedShapedManifest, displayScale: 3
+        )
+        #expect(abs(pyramided - 3.3) < 0.0001)
+        let bare = MapTileSet.maximumZoomScale(contentSize: 2048, manifest: nil, displayScale: 3)
+        #expect(abs(bare - 2.5) < 0.0001)
+    }
+
+    /// Et ce qu'elles deviennent sur un appareil ×2 : la même finesse à
+    /// l'écran demande un zoom une fois et demie plus grand. C'est tout
+    /// l'objet de ce chantier — l'iPad s'arrêtait à 73 % de ce qu'il embarque.
+    @Test func theCeilingRisesOnATwoTimesDevice() {
+        let pyramided = MapTileSet.maximumZoomScale(
+            contentSize: 2048, manifest: Self.shippedShapedManifest, displayScale: 2
+        )
+        #expect(abs(pyramided - 4.95) < 0.0001)
+        let bare = MapTileSet.maximumZoomScale(contentSize: 2048, manifest: nil, displayScale: 2)
+        #expect(abs(bare - 3.75) < 0.0001)
+    }
+
+    /// La même finesse à l'écran, littéralement : à leurs plafonds respectifs,
+    /// les deux appareils réclament le même nombre de pixels source par point
+    /// d'écran. Aucune des deux fonctions testées ne connaît l'autre appareil,
+    /// donc cette égalité n'est pas une tautologie — c'est la propriété que la
+    /// formule est censée produire.
+    @Test func bothDevicesEndOnTheSameSourcePixelDensity() {
+        let onThree = MapTileSet.displayablePixels(
+            zoomScale: MapTileSet.maximumZoomScale(contentSize: 2048, manifest: Self.shippedShapedManifest, displayScale: 3),
+            contentSize: 2048, displayScale: 3
+        )
+        let onTwo = MapTileSet.displayablePixels(
+            zoomScale: MapTileSet.maximumZoomScale(contentSize: 2048, manifest: Self.shippedShapedManifest, displayScale: 2),
+            contentSize: 2048, displayScale: 2
+        )
+        #expect(abs(onThree - onTwo) < 1)
+        #expect(abs(onThree - 18432 * 1.10) < 1)
+    }
+
+    /// Un manifeste sans niveau n'est pas une pyramide : il retombe sur le
+    /// socle, et non sur une division par un côté nul.
+    @Test func aLevellessManifestFallsBackToTheBareBase() {
+        let empty = MapTileManifest(tile: 512, base: 4096, levels: [])
+        let ceiling = MapTileSet.maximumZoomScale(contentSize: 2048, manifest: empty, displayScale: 3)
+        #expect(abs(ceiling - 2.5) < 0.0001)
+    }
+
+    /// Deux entrées dégénérées, toutes deux atteignables : une vue pas encore
+    /// posée a une échelle d'affichage de 0, et un contenu de côté nul rendrait
+    /// un plafond infini qu'`UIScrollView` accepterait sans broncher.
+    ///
+    /// La spec en listait une troisième — « tolérance nulle » — qui n'a plus
+    /// d'objet : la tolérance n'est pas un paramètre mais une constante du
+    /// type, donc aucun appelant ne peut la mettre à zéro. Le cas structurel
+    /// équivalent, un manifeste sans niveau, est couvert juste au-dessus.
+    @Test func theCeilingSurvivesDegenerateInputs() {
+        let noScale = MapTileSet.maximumZoomScale(
+            contentSize: 2048, manifest: Self.shippedShapedManifest, displayScale: 0
+        )
+        #expect(abs(noScale - 18432 * 1.10 / 2048) < 0.0001)
+        let noContent = MapTileSet.maximumZoomScale(
+            contentSize: 0, manifest: Self.shippedShapedManifest, displayScale: 3
+        )
+        #expect(noContent == 1)
     }
 }

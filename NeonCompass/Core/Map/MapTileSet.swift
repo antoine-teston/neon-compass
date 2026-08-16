@@ -74,4 +74,62 @@ enum MapTileSet {
         let step = contentSize / CGFloat(descriptor.count)
         return CGRect(x: CGFloat(key.x) * step, y: CGFloat(key.y) * step, width: step, height: step)
     }
+
+    /// Agrandissement toléré au-delà du niveau le plus fin.
+    ///
+    /// 1,10 n'est pas un arbitrage neuf : c'est exactement ce que le plafond
+    /// de 3,3 réclamait déjà sur un appareil ×3 — 2 048 pt × 3,3 × 3 font
+    /// 20 275 px demandés aux 18 432 du niveau le plus fin. La constante ne
+    /// fait que nommer ce qu'on faisait.
+    static let pyramidUpscale: CGFloat = 1.10
+
+    /// Sans pyramide, on tolère 3,75× — là encore ce que le plafond de 2,5
+    /// réclamait déjà sur ×3 : 2 048 × 2,5 × 3 font 15 360 px demandés aux
+    /// 4 096 du socle. Bien plus permissif que 1,10, et ce n'est pas une
+    /// inconséquence : la carte de référence n'a rien de plus fin à montrer,
+    /// donc son plafond arbitre entre « on voit du flou » et « on ne peut plus
+    /// s'approcher du tout », pas entre deux niveaux de netteté.
+    static let baseUpscale: CGFloat = 3.75
+
+    /// Côté du socle quand aucun manifeste ne le déclare, en pixels.
+    ///
+    /// Une carte sans pyramide n'a pas de manifeste, donc pas d'endroit où
+    /// lire ce nombre. Ce n'est pas une convention pour autant :
+    /// `MapArtResourcesTests.everyBaseImageIsShippedAtFourThousandNinetySix`
+    /// l'épingle sur les vrais fichiers, tous les quatre.
+    static let unpyramidedBaseSide: CGFloat = 4096
+
+    /// Le plafond de zoom, en géométrie plutôt qu'en constante.
+    ///
+    /// Le contenu fait `contentSize` points pour un certain nombre de pixels
+    /// d'image, et un écran en rend `zoom × displayScale` par point. Le zoom
+    /// au-delà duquel on agrandirait plus que la tolérance est donc :
+    ///
+    ///     plafond = côtéSource × tolérance ÷ (contentSize × displayScale)
+    ///
+    /// Un appareil ×2 y gagne une fois et demie le plafond d'un ×3, pour la
+    /// MÊME finesse à l'écran. C'est le défaut que ce calcul corrige : à
+    /// plafond constant, l'iPad n'affichait que 73 % de la finesse linéaire
+    /// qu'il embarque.
+    ///
+    /// Le plancher de 1 n'est pas décoratif : `UIScrollView` accepte sans
+    /// broncher un `maximumZoomScale` sous son `minimumZoomScale`, et le
+    /// résultat est une carte qu'on ne peut plus manipuler du tout.
+    static func maximumZoomScale(
+        contentSize: CGFloat,
+        manifest: MapTileManifest?,
+        displayScale: CGFloat
+    ) -> CGFloat {
+        guard contentSize > 0 else { return 1 }
+        let sourceSide: CGFloat
+        let tolerance: CGFloat
+        if let finest = manifest?.levels.last?.side, finest > 0 {
+            sourceSide = CGFloat(finest)
+            tolerance = pyramidUpscale
+        } else {
+            sourceSide = unpyramidedBaseSide
+            tolerance = baseUpscale
+        }
+        return max(sourceSide * tolerance / (contentSize * max(displayScale, 1)), 1)
+    }
 }
