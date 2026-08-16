@@ -1,0 +1,27 @@
+{
+  "id": "news_41d9939a",
+  "category": "announcement",
+  "game": "gtav",
+  "title": {
+    "fr": "Un serveur RP majeur rejoint le launcher officiel",
+    "en": "Top online roleplay server joins official game launcher",
+    "es": "Gran servidor de rol se une al launcher oficial",
+    "it": "Grande server di roleplay nel launcher ufficiale",
+    "de": "Großer Rollenspiel-Server wechselt in offiziellen Launcher"
+  },
+  "body": {
+    "fr": "La plus grande communauté de roleplay du jeu en ligne actuel rejoint le launcher officiel du studio, avec une bêta fermée prévue le 8 septembre. Elle tournait jusqu'ici sur des outils communautaires non officiels, et une bande-annonce est attendue le 1er septembre.",
+    "en": "The biggest roleplay community for the current online game is moving onto the studio's own launcher, with a closed beta opening September 8. It previously ran through unofficial community tools, and a trailer is expected September 1.",
+    "es": "La mayor comunidad de rol del juego en línea actual se traslada al launcher oficial del estudio, con una beta cerrada prevista para el 8 de septiembre. Hasta ahora funcionaba con herramientas comunitarias no oficiales, y se espera un tráiler el 1 de septiembre.",
+    "it": "La più grande comunità di roleplay del gioco online attuale si trasferisce sul launcher ufficiale dello studio, con una beta chiusa prevista per l'8 settembre. Finora girava su strumenti comunitari non ufficiali, ed è atteso un trailer per il 1° settembre.",
+    "de": "Die größte Rollenspiel-Community des aktuellen Online-Spiels zieht in den offiziellen Launcher des Studios um, mit einer geschlossenen Beta ab dem 8. September. Bisher lief sie über inoffizielle Community-Tools, ein Trailer wird für den 1. September erwartet."
+  },
+  "publishedAt": "2026-08-15",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/nopixel-v-hits-the-official-rockstar-games-launcher-on-september-8-2df1"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:21e9c2d3c59e",
+  "sourceClaim": "NoPixel V, la reconstruction complète du plus important serveur de roleplay du jeu en ligne actuel, entre en bêta fermée le 8 septembre 2026 directement via le launcher officiel de l'éditeur, avec une bande-annonce prévue le 1er septembre ; le serveur tournait jusqu'ici sur des outils communautaires non officiels."
+}
