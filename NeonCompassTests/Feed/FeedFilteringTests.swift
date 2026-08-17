@@ -6,6 +6,7 @@ struct FeedFilteringTests {
     private func item(
         id: String,
         publishedAt: String,
+        listedAt: String? = nil,
         game: Game = .leonida,
         category: NewsCategory = .announcement
     ) -> NewsItem {
@@ -15,6 +16,7 @@ struct FeedFilteringTests {
             title: LocalizedText(en: "Title \(id)", fr: nil, es: nil, it: nil, de: nil),
             body: LocalizedText(en: "Body \(id)", fr: nil, es: nil, it: nil, de: nil),
             publishedAt: publishedAt,
+            listedAt: listedAt,
             game: game
         )
     }
@@ -96,6 +98,35 @@ struct FeedFilteringTests {
         #expect(sections[0].items.map(\.id) == ["today", "sixDays"])
         #expect(sections[1].items.map(\.id) == ["tenDays"])
         #expect(sections[2].items.map(\.id) == ["twoMonths"])
+    }
+
+    /// Le groupement suit le TRI, donc la date de mise en ligne.
+    ///
+    /// Il ne peut pas en être autrement : grouper sur une date et trier sur une
+    /// autre rendrait les tranches non monotones — une carte sauterait d'une
+    /// section à l'autre au milieu de la liste. La conséquence assumée est
+    /// qu'une carte affichée « 30 juil. » peut se ranger sous « cette semaine »
+    /// si c'est cette semaine qu'elle est apparue.
+    @Test func groupsOnTheDayItWentLiveRatherThanTheDayTheNewsBroke() {
+        let now = date("2026-08-09")
+        let items = [
+            item(id: "vieilleInfoNeuveDansLeFil", publishedAt: "2026-06-09", listedAt: "2026-08-09"),
+            item(id: "infoFraicheMiseEnLigneJadis", publishedAt: "2026-08-09", listedAt: "2026-06-09")
+        ]
+        let sections = FeedFiltering.sections(from: items, now: now)
+
+        #expect(sections.map(\.period) == [.thisWeek, .earlier])
+        #expect(sections[0].items.map(\.id) == ["vieilleInfoNeuveDansLeFil"])
+        #expect(sections[1].items.map(\.id) == ["infoFraicheMiseEnLigneJadis"])
+    }
+
+    /// Sans estampille, le groupement est exactement celui d'avant le champ.
+    @Test func fallsBackToThePublicationDateWhenNothingWasStamped() {
+        let sections = FeedFiltering.sections(
+            from: [item(id: "a", publishedAt: "2026-08-09"), item(id: "b", publishedAt: "2026-06-09")],
+            now: date("2026-08-09")
+        )
+        #expect(sections.map(\.period) == [.thisWeek, .earlier])
     }
 
     @Test func omitsPeriodsThatHaveNoItems() {

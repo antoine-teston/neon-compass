@@ -154,6 +154,10 @@ final class FeedModel {
     }
 
     private static func sortedByMostRecent(_ items: [NewsItem]) -> [NewsItem] {
-        items.sorted { $0.publishedAt > $1.publishedAt }
+        // `arrivedAt` et non `publishedAt` : le fil s'ordonne sur le jour où
+        // l'entrée est APPARUE, pas sur celui où l'information est sortie. Voir
+        // `NewsItem.listedAt` — sans ça, une actu récoltée le 10 et mise en
+        // ligne le 17 naissait sous des cartes déjà lues.
+        items.sorted { $0.arrivedAt > $1.arrivedAt }
     }
 }

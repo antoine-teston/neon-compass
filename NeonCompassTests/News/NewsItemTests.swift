@@ -76,6 +76,33 @@ struct NewsItemTests {
         #expect(decoded.game == .leonida)
     }
 
+    // MARK: - Les deux dates
+
+    @Test func decodesTheListingDateAlongsideThePublicationOne() throws {
+        let decoded = try item(#""category": "patch", "listedAt": "2026-08-17""#)
+        #expect(decoded.publishedAt == "2026-07-29")
+        #expect(decoded.listedAt == "2026-08-17")
+        // C'est la SECONDE qui ordonne le fil.
+        #expect(decoded.arrivedAt == "2026-08-17")
+    }
+
+    /// Les 56 entrées publiées avant le champ, et tout client servi par un
+    /// fragment plus ancien : l'absence retombe sur la date de l'information.
+    @Test func anAbsentListingDateFallsBackToThePublicationDate() throws {
+        let decoded = try item(#""category": "patch""#)
+        #expect(decoded.listedAt == nil)
+        #expect(decoded.arrivedAt == "2026-07-29")
+    }
+
+    /// Même tolérance que sur la rubrique et le jeu : une valeur d'un type
+    /// inattendu ne doit pas faire tomber le décodage du fragment ENTIER. Le
+    /// fil retombe sur la date de l'information, comme si le champ était absent.
+    @Test func aMalformedListingDateDoesNotBringDownTheFragment() throws {
+        let decoded = try item(#""category": "patch", "listedAt": 20260817"#)
+        #expect(decoded.listedAt == nil)
+        #expect(decoded.arrivedAt == "2026-07-29")
+    }
+
     @Test func decodesEveryConfidenceLevel() throws {
         for (raw, expected): (String, NewsConfidence) in [
             ("confirmed-official", .confirmedOfficial), ("multi-source", .multiSource),
