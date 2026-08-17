@@ -1,0 +1,21 @@
+{
+  "run": {
+    "date": "2026-08-17",
+    "sources_visited": [
+      "https://www.gtaboom.com/a-gta-6-fan-is-racing-to-see-it-before-he-loses-his-sight-8e84",
+      "https://www.gtaboom.com/nopixel-v-hits-the-official-rockstar-games-launcher-on-september-8-2df1",
+      "https://www.gtaboom.com/the-first-real-bully-successor-just-crashed-and-burned-ac4c"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Un joueur légalement aveugle depuis l'enfance et dont la vue continue de se dégrader raconte, dans un témoignage relayé par la presse spécialisée, son espoir de pouvoir terminer le jeu au moins une fois avant de perdre totalement la vue.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/a-gta-6-fan-is-racing-to-see-it-before-he-loses-his-sight-8e84",
+      "source_date": "2026-08-16",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
