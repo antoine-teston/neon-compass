@@ -9,6 +9,23 @@ settings:
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
     TARGETED_DEVICE_FAMILY: "1,2"
+    # Sans ces deux clés, tout build sur appareil s'arrête avant de compiler, sur
+    # « Signing for "NeonCompass" requires a development team ». Les régler dans l'UI
+    # Xcode ne tient pas : `xcodegen generate` réécrit le projet et les efface — leur
+    # seule place durable est ici. Le simulateur n'en a jamais eu besoin (signature
+    # ad-hoc, aucun profil), ce qui explique que la CI soit restée verte : elle ne
+    # construit que pour `generic/platform=iOS Simulator`.
+    #
+    # 392Z7YMFM8 est l'équipe personnelle GRATUITE. Elle suffit à faire passer cette
+    # étape, pas à installer l'app : vérifié le 2026-08-17, elle ne provisionne ni
+    # Sign in with Apple, ni les push, ni les App Groups — soit les trois entitlements
+    # de NeonCompass.entitlements. Le build device échoue donc maintenant sur le vrai
+    # motif (« Personal development teams […] do not support ») au lieu de le masquer.
+    # LE JOUR DE L'ADHÉSION PAYANTE : remplacer cet ID par celui de l'équipe payante
+    # (Xcode → Settings → Accounts, l'inscription en crée une NOUVELLE, l'ID change).
+    # C'est le seul geste — voir docs/ops/2026-07-27-editeur-interne.md §0.
+    DEVELOPMENT_TEAM: 392Z7YMFM8
+    CODE_SIGN_STYLE: Automatic
     GENERATE_INFOPLIST_FILE: YES
     # Previously unset (relying on Xcode/xcodebuild's implicit defaults), which silently
     # produced an Info.plist with no CFBundleVersion/CFBundleShortVersionString at all.
