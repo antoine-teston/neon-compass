@@ -303,8 +303,16 @@ que les sources répondaient. Une exception : si `pull-news` a écarté quelque
 chose, le compte-rendu de run n'est jamais vide, et il se commite même sans actu
 neuve.
 
-Ne fusionne jamais toi-même : la relecture humaine de la PR est le portail
-d'approbation.
+Ne fusionne jamais toi-même. La règle ne change pas, sa raison si : depuis le
+2026-08-17, la PR ne t'attend plus, elle attend les CONTRÔLES. Le workflow
+`Fusion de la veille` la fusionne dès que « Contenu » est vert, à condition que
+son diff ne sorte pas de `content/news`, `content/online-events` et
+`content/inbox` — sinon elle attend un humain, comme avant. La relecture existe
+toujours ; elle se fait après coup, sur `main`.
+
+Ce qui te concerne, toi : ouvre la PR proprement et arrête-toi là. Ne fusionne
+pas, n'essaie pas de forcer, et si la fusion n'a pas eu lieu, ne la provoque pas
+— le résumé du run dit pourquoi, et c'est une information, pas une panne.
 
 ## Règles dures
 

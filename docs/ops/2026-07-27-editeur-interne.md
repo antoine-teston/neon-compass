@@ -10,10 +10,31 @@ Xcode. Il n'existe pas dans le binaire soumis à Apple.
 
 Écrire dans `editor_drafts` demande un compte, un compte demande Sign in with Apple, et Sign in with
 Apple demande l'**adhésion payante au programme développeur Apple** (elle seule permet de provisionner
-cette capacité, ainsi que les App Groups et les push). Vérifié le 2026-07-27 : sans elle, le build sur
-appareil s'arrête net sur `Signing for "NeonCompass" requires a development team`, et la connexion
-échoue en simulateur dans les services d'Apple eux-mêmes (`Failed to check in with IDMS`, 401 sur
-`gsas.apple.com`) — l'app n'est jamais rappelée.
+cette capacité, ainsi que les App Groups et les push). Sans elle, la connexion échoue en simulateur
+dans les services d'Apple eux-mêmes (`Failed to check in with IDMS`, 401 sur `gsas.apple.com`) —
+l'app n'est jamais rappelée.
+
+**Sur appareil, le build échoue ; ce qu'il raconte a changé le 2026-08-17.** Il s'arrêtait jusque-là
+sur `Signing for "NeonCompass" requires a development team` — un message trompeur, parce que fournir
+une équipe ne suffit pas : `project.yml` ne portait simplement aucun `DEVELOPMENT_TEAM`, et le régler
+dans l'UI Xcode ne tenait pas d'un `xcodegen generate` au suivant. La clé vit désormais dans
+`project.yml` (équipe personnelle gratuite `392Z7YMFM8`), donc le build va jusqu'au vrai motif et
+nomme les trois capacités qui manquent :
+
+```
+Provisioning profile … doesn't include the App Groups capability.
+Provisioning profile … doesn't include the Push Notifications capability.
+Provisioning profile … doesn't include the Sign In with Apple capability.
+```
+
+Mesuré le 2026-08-17, en ne changeant que les entitlements : entitlements actuels → refus ci-dessus ;
+App Groups seuls → refus ; **aucune capacité → `BUILD SUCCEEDED`**. Une équipe gratuite installe donc
+une app nue, et rien de ce dont celle-ci a besoin. La CI n'a jamais vu ce mur parce qu'elle ne
+construit que pour `generic/platform=iOS Simulator`, qui se signe en ad-hoc sans profil.
+
+**Le jour de l'adhésion, un seul geste** : remplacer l'ID d'équipe dans `project.yml` par celui de
+l'équipe payante (Xcode → Settings → Accounts ; l'inscription en crée une **nouvelle**, l'ID n'est pas
+celui de l'équipe personnelle), puis `xcodegen generate`. Rien d'autre à toucher.
 
 L'éditeur fonctionne donc **sans rien de tout ça** :
 
