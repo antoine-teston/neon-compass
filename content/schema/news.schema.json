@@ -20,7 +20,12 @@
     "publishedAt": {
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-      "description": "Date ISO courte, jamais un horodatage : FeedModel trie par comparaison de chaînes (plan 3d, tâche 1). Un format autre casserait l'ordre du fil sans lever d'erreur."
+      "description": "Date de l'INFORMATION — celle de l'article source, recopiée de `source_date` par facts-to-news. C'est elle qui s'AFFICHE sur la carte. Date ISO courte, jamais un horodatage : le fil compare des chaînes (plan 3d, tâche 1). Un format autre casserait l'ordre du fil sans lever d'erreur."
+    },
+    "listedAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date de MISE EN LIGNE — le jour où l'entrée est partie au CDN. C'est elle qui ORDONNE le fil, parce que `publishedAt` peut la précéder de plusieurs jours (récolte le 10, publication le 17) et que trier sur l'information ferait arriver une entrée neuve sous des entrées déjà lues. Posée par `stamp-listed` dans le job `publish-news`, jamais à la main, et JAMAIS deux fois : une entrée réestampillée changerait de place dans le fil. Les 56 entrées publiées avant le 2026-08-17 ont été reprises à `listedAt = publishedAt` — leur vraie date de mise en ligne n'a jamais été enregistrée, et c'est le seul substitut qui laisse l'ordre du fil inchangé. Reste optionnel : l'app retombe sur `publishedAt`, et un fragment servi à un client d'avant ne doit pas cesser de se décoder."
     },
     "status": { "enum": ["draft", "published"] },
     "sources": {

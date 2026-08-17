@@ -263,6 +263,33 @@ jobs:
         working-directory: tools/content-cli
         run: npm ci
 
+      # La date de MISE EN LIGNE, posée au seul endroit qui la connaisse.
+      #
+      # Le clic « Publier » de la console n'est PAS ce moment-là : il écrit
+      # `status: published` dans l'arbre de travail, et le contenu ne part au CDN
+      # qu'ici, au merge. Estampiller au clic n'aurait fait que déplacer le
+      # décalage qu'on corrige — au 2026-08-17, sept jours entre la récolte d'une
+      # actu et sa mise en ligne.
+      #
+      # AVANT `release`, et commitée : `release` exige un arbre propre
+      # (`requireCleanTree` dans cli.js), donc l'estampille doit être dans
+      # l'histoire avant que la publication ne parte. Effet voulu — la date vit
+      # dans git, pas seulement dans le fragment téléversé.
+      #
+      # `[skip ci]` : ce commit repart sur `main`, et se relancer dessus ferait
+      # boucler le workflow sur lui-même.
+      - name: Dater la mise en ligne des actus
+        if: steps.scope.outputs.hors-perimetre == '' && steps.scope.outputs.a-publier == 'oui' && steps.creds.outputs.presents == 'oui'
+        run: |
+          set -euo pipefail
+          node tools/content-cli/cli.js stamp-listed
+          if ! git diff --quiet content/news; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add content/news
+            git commit -m "content(veille): date de mise en ligne des actus publiées [skip ci]"
+          fi
+
       - name: Publier
         if: steps.scope.outputs.hors-perimetre == '' && steps.scope.outputs.a-publier == 'oui' && steps.creds.outputs.presents == 'oui'
         working-directory: tools/content-cli
@@ -277,7 +304,14 @@ jobs:
       #
       # `[skip ci]` : ce commit ne touche que le verrou, et se relancer dessus
       # ferait boucler le workflow sur lui-même.
-      - name: Reporter le verrou de versions
+      #
+      # Le push est SORTI de la condition depuis que l'estampille existe : les
+      # deux commits repartent ensemble, et il peut n'y en avoir qu'un. Une
+      # republication à l'identique ne bouge pas le verrou ; une publication sans
+      # actu neuve ne pose aucune estampille. Laisser le push à l'intérieur
+      # perdait l'estampille dans le second cas — sans un mot, et le fil s'en
+      # serait aperçu au merge suivant en réestampillant tout à la date du jour.
+      - name: Reporter l'estampille et le verrou de versions
         if: steps.scope.outputs.hors-perimetre == '' && steps.scope.outputs.a-publier == 'oui' && steps.creds.outputs.presents == 'oui'
         run: |
           set -euo pipefail
@@ -286,6 +320,10 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add content/cdn-versions.json
             git commit -m "chore(content): versions de collections après publication [skip ci]"
+          fi
+          # `github.sha` est le commit fusionné, celui sur lequel ce job est parti.
+          # HEAD ne s'en écarte que si l'un des deux commits ci-dessus a eu lieu.
+          if [ "$(git rev-parse HEAD)" != '${{ github.sha }}' ]; then
             git push origin HEAD:main
           fi
 
@@ -308,6 +346,23 @@ jobs:
         working-directory: tools/content-cli
         run: npm ci
 
+      # La même estampille qu'en publication automatique, et pas par symétrie :
+      # ce job est la SEULE porte de sortie quand un merge touche aussi un POI ou
+      # un cheat — `publish-news` refuse alors de partir. Sans cette étape, les
+      # actus de ce merge-là partiraient au CDN sans date de mise en ligne, et
+      # `stamp-listed` les daterait plus tard, au merge d'après, d'un jour qu'elles
+      # n'ont pas connu.
+      - name: Dater la mise en ligne des actus
+        run: |
+          set -euo pipefail
+          node tools/content-cli/cli.js stamp-listed
+          if ! git diff --quiet content/news; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add content/news
+            git commit -m "content(veille): date de mise en ligne des actus publiées"
+          fi
+
       # SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY vivent dans Settings > Secrets
       # and variables > Actions. La clé `service_role` contourne RLS : elle ne
       # doit exister QUE là — jamais dans le dépôt, jamais dans le binaire de
@@ -323,13 +378,18 @@ jobs:
       # diverger du dépôt ferait repartir TOUTES les collections à la version
       # suivante au prochain run — donc un retéléchargement complet chez tous
       # les clients, pour rien.
-      - name: Reporter le verrou de versions
+      - name: Reporter l'estampille et le verrou de versions
         run: |
+          set -euo pipefail
           if ! git diff --quiet content/cdn-versions.json; then
             git config user.name  "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add content/cdn-versions.json
             git commit -m "chore(content): versions de collections après publication"
+          fi
+          # Comme dans `publish-news` : le push couvre les deux commits, et il
+          # peut n'y en avoir qu'un.
+          if [ "$(git rev-parse HEAD)" != '${{ github.sha }}' ]; then
             git push
           fi
 

@@ -7,6 +7,7 @@ struct FeedModelTests {
     private func sampleItem(
         id: String,
         publishedAt: String,
+        listedAt: String? = nil,
         game: Game = .leonida,
         category: NewsCategory = .announcement
     ) -> NewsItem {
@@ -16,6 +17,7 @@ struct FeedModelTests {
             title: LocalizedText(en: "Title \(id)", fr: nil, es: nil, it: nil, de: nil),
             body: LocalizedText(en: "Body \(id)", fr: nil, es: nil, it: nil, de: nil),
             publishedAt: publishedAt,
+            listedAt: listedAt,
             game: game
         )
     }
@@ -39,6 +41,48 @@ struct FeedModelTests {
         let newer = sampleItem(id: "b", publishedAt: "2026-07-20")
         let model = FeedModel(newsItems: [older, newer], seenStore: FeedSeenStore(defaults: scratch.defaults))
         #expect(model.newsItems.map(\.id) == ["b", "a"])
+    }
+
+    /// LE CAS QUI MOTIVE `listedAt`.
+    ///
+    /// Une actu récoltée le 10 et mise en ligne le 17 arrive APRÈS une actu du
+    /// 14 déjà lue. Triée sur la date de l'information, elle naissait enterrée :
+    /// signalée neuve par le repère de nouveauté, mais sous des cartes que le
+    /// lecteur avait déjà vues.
+    @Test func sortsOnTheDayItWentLiveRatherThanTheDayTheNewsBroke() {
+        let scratch = ScratchDefaults()
+        let vieilleInfoMiseEnLigneAujourdhui = sampleItem(id: "retard", publishedAt: "2026-08-10", listedAt: "2026-08-17")
+        let dejaVue = sampleItem(id: "vue", publishedAt: "2026-08-14", listedAt: "2026-08-14")
+        let model = FeedModel(
+            newsItems: [dejaVue, vieilleInfoMiseEnLigneAujourdhui],
+            seenStore: FeedSeenStore(defaults: scratch.defaults)
+        )
+        #expect(model.newsItems.map(\.id) == ["retard", "vue"])
+    }
+
+    /// Le repli, et il porte les 56 entrées d'avant le champ : sans `listedAt`,
+    /// l'ordre doit rester EXACTEMENT celui d'avant.
+    @Test func fallsBackToThePublicationDateWhenNothingWasStamped() {
+        let scratch = ScratchDefaults()
+        let items = [
+            sampleItem(id: "a", publishedAt: "2026-07-01"),
+            sampleItem(id: "b", publishedAt: "2026-07-20")
+        ]
+        let model = FeedModel(newsItems: items, seenStore: FeedSeenStore(defaults: scratch.defaults))
+        #expect(model.newsItems.map(\.id) == ["b", "a"])
+    }
+
+    /// Un fil mixte — des entrées reprises et des entrées estampillées — reste
+    /// totalement ordonné. C'est l'état réel du dépôt au 2026-08-17.
+    @Test func mixesStampedAndUnstampedItemsInOneOrder() {
+        let scratch = ScratchDefaults()
+        let items = [
+            sampleItem(id: "ancienne", publishedAt: "2026-08-05"),
+            sampleItem(id: "neuve", publishedAt: "2026-08-02", listedAt: "2026-08-17"),
+            sampleItem(id: "vieille", publishedAt: "2026-07-30")
+        ]
+        let model = FeedModel(newsItems: items, seenStore: FeedSeenStore(defaults: scratch.defaults))
+        #expect(model.newsItems.map(\.id) == ["neuve", "ancienne", "vieille"])
     }
 
     @Test func updateNewsItemsReplacesContentAndResorts() {

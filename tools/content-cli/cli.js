@@ -487,6 +487,28 @@ switch (cmd) {
     ok = translateDryRun(entries);
     break;
   }
+  // La DEUXIÈME date d'une actu : celle où elle est apparue chez le lecteur.
+  //
+  // Tourne dans `publish-news` juste avant `release`, et son résultat est
+  // recommité sur `main`. L'en-tête de `listed-at.mjs` dit pourquoi la console
+  // ne serait pas le bon endroit : le clic « Publier » n'est pas le moment de la
+  // mise en ligne, le merge l'est.
+  //
+  // À poser AVANT `release` et non après : `release` exige un arbre propre, donc
+  // l'estampille doit être commitée d'abord — c'est ce qui fait que la date est
+  // aussi dans l'histoire git, et pas seulement dans le fragment téléversé.
+  case 'stamp-listed': {
+    const { aEstampiller, jourUTC } = await import('./listed-at.mjs');
+    const jour = jourUTC();
+    const aEcrire = aEstampiller(entries, jour);
+    for (const { file, data } of aEcrire) {
+      if (!dry) writeFileSync(join(CONTENT, file), `${JSON.stringify(data, null, 2)}\n`);
+      console.log(`  ${dry ? 'estampillerait' : 'estampillé'} ${file}  (information du ${data.publishedAt})`);
+    }
+    console.log(`stamp-listed${dry ? ' --dry-run' : ''}: ${aEcrire.length} actu(s) au ${jour}`);
+    ok = true;
+    break;
+  }
   case 'publish':
     if (dry) { ok = validate(entries) && checkPublishable(entries) && publishDryRun(entries); break; }
     if (!(validate(entries) && checkPublishable(entries))) { ok = false; break; }
