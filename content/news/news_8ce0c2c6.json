@@ -1,0 +1,27 @@
+{
+  "id": "news_8ce0c2c6",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un joueur malvoyant espère finir le jeu",
+    "en": "Visually impaired fan hopes to finish the game",
+    "es": "Un jugador con baja visión espera terminarlo",
+    "it": "Un giocatore ipovedente spera di finirlo",
+    "de": "Sehbehinderter Spieler hofft aufs Durchspielen"
+  },
+  "body": {
+    "fr": "Un joueur légalement aveugle depuis l'enfance raconte, dans un témoignage relayé par la presse spécialisée, que sa vue continue de se dégrader. Son seul souhait est de pouvoir terminer le jeu au moins une fois avant de perdre totalement la vue.",
+    "en": "A player who has been legally blind since childhood says, in an account relayed by specialized outlets, that his sight keeps deteriorating. His only wish is to finish the game at least once before he loses his sight completely.",
+    "es": "Un jugador legalmente ciego desde la infancia cuenta, en un testimonio recogido por la prensa especializada, que su vista sigue empeorando. Su único deseo es poder terminar el juego al menos una vez antes de perder la vista por completo.",
+    "it": "Un giocatore legalmente cieco fin dall'infanzia racconta, in una testimonianza ripresa dalla stampa specializzata, che la sua vista continua a peggiorare. Il suo unico desiderio è riuscire a finire il gioco almeno una volta prima di perdere completamente la vista.",
+    "de": "Ein seit der Kindheit gesetzlich blinder Spieler berichtet in einem von der Fachpresse aufgegriffenen Zeugnis, dass sich seine Sehkraft weiter verschlechtert. Sein einziger Wunsch ist es, das Spiel wenigstens einmal durchzuspielen, bevor er sein Augenlicht ganz verliert."
+  },
+  "publishedAt": "2026-08-16",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/a-gta-6-fan-is-racing-to-see-it-before-he-loses-his-sight-8e84"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:daf8ea5945ef",
+  "sourceClaim": "Un joueur légalement aveugle depuis l'enfance et dont la vue continue de se dégrader raconte, dans un témoignage relayé par la presse spécialisée, son espoir de pouvoir terminer le jeu au moins une fois avant de perdre totalement la vue."
+}
