@@ -1,0 +1,153 @@
+name: Fusion de la veille
+
+# La PR quotidienne de veille fusionne seule, et son contenu part au CDN dans la
+# foulée. Décidé le 2026-08-17, spec
+# docs/superpowers/specs/2026-08-17-fusion-automatique-veille-design.md.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# CE WORKFLOW LÈVE DEUX RÈGLES ÉCRITES. Les voici, pour qu'on ne les retrouve
+# pas plus tard en croyant à un oubli :
+#
+#   - `routine-veille.md` §8 : « Ne fusionne jamais toi-même : la relecture
+#     humaine de la PR est le portail d'approbation. »
+#   - `content.yml` (en-tête) : « la décision humaine existe toujours, c'est la
+#     RELECTURE DE LA PR de veille. »
+#
+# La relecture n'est pas supprimée, elle passe APRÈS : on lit `main`, et on
+# dépublie ce qui ne va pas. L'arbitrage est en faveur de la fraîcheur, qui est
+# la fonctionnalité même de ce fil.
+#
+# Ce qui protège encore, et qui n'a jamais été l'humain : `check` refuse les
+# marques déposées dans les cinq langues, les rumeurs, le texte non reformulé,
+# le `multi-source` non prouvé, les reprises littérales et les sources hors
+# registre. Ce qui n'est plus vérifié avant publication, et qu'on assume : la
+# VÉRACITÉ du claim.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# POURQUOI UN JETON PERSONNEL ET PAS `GITHUB_TOKEN`
+#
+# Un push fait avec `GITHUB_TOKEN` NE DÉCLENCHE AUCUN WORKFLOW — règle de GitHub
+# contre les boucles, sans exception hors `workflow_dispatch`. Fusionner avec lui
+# ferait donc un push sur `main` que `Contenu` ne verrait pas, donc `publish-news`
+# ne partirait pas, donc RIEN NE SERAIT PUBLIÉ. L'automatisation obtiendrait
+# l'inverse exact de son but, et en silence : le merge aurait l'air réussi.
+#
+# `VEILLE_MERGE_TOKEN` est un jeton à portée fine sur ce seul dépôt
+# (`contents: write`, `pull-requests: write`). Le merge lui est attribué comme à
+# un utilisateur, et la chaîne de publication repart normalement.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# POURQUOI `workflow_run` ET PAS `pull_request`
+#
+# Parce que la fusion ne doit pas pouvoir précéder les contrôles. `workflow_run`
+# ne part qu'une fois « Contenu » terminé, et donne sa conclusion — c'est la
+# garantie sans passer par une protection de branche, que ce dépôt n'a pas.
+
+on:
+  workflow_run:
+    workflows: ['Contenu']
+    types: [completed]
+
+# Lecture seule, et c'est suffisant : la fusion elle-même n'utilise PAS ce
+# jeton-ci (voir plus haut). `pull-requests: read` n'est pas décoratif — sans
+# lui, `gh pr list` et la lecture du diff rendent 403, et le workflow refuserait
+# toutes les PR en croyant qu'aucune n'existe.
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: veille-fusion
+  cancel-in-progress: false
+
+jobs:
+  fusionner:
+    runs-on: ubuntu-latest
+    # Un run de `Contenu` sur `main` (le push d'après-merge) n'a rien à fusionner.
+    if: github.event.workflow_run.event == 'pull_request'
+    steps:
+      # Aucun checkout : tout passe par l'API. Le dépôt n'est pas nécessaire pour
+      # lire un diff de PR, et ne pas le cloner retire une occasion de se tromper
+      # de ref.
+      - name: Décider si cette PR fusionne
+        id: decision
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPOT: ${{ github.repository }}
+          BRANCHE: ${{ github.event.workflow_run.head_branch }}
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          # La PRÉSENCE du secret, jamais sa valeur : interpoler un secret dans
+          # un bloc `run` le fait traverser le shell, où un guillemet suffirait à
+          # casser le script — et le masquage des journaux ne protège que
+          # l'affichage.
+          JETON_PRESENT: ${{ secrets.VEILLE_MERGE_TOKEN != '' }}
+        run: |
+          set -euo pipefail
+
+          # Chaque refus s'ÉCRIT et sort en 0. Une PR non éligible est un cas
+          # normal — quotidien, même — et un rouge quotidien apprend surtout à
+          # ignorer le rouge. C'est la règle de toute la chaîne de contenu.
+          refuser() {
+            {
+              echo '### Fusion automatique : non'
+              echo
+              echo "$1"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "fusionner=non" >> "$GITHUB_OUTPUT"
+            exit 0
+          }
+
+          [ "$CONCLUSION" = 'success' ] || refuser "Les contrôles ne sont pas verts (\`$CONCLUSION\`)."
+
+          # La branche de la Routine, et elle seule. Une PR de développement qui
+          # passerait les contrôles ne doit pas fusionner toute seule.
+          [ "$BRANCHE" = 'veille/courante' ] || refuser "Branche \`$BRANCHE\` : seule \`veille/courante\` fusionne automatiquement."
+
+          NUM="$(gh pr list --repo "$DEPOT" --head "$BRANCHE" --base main --state open --json number --jq '.[0].number // empty')"
+          [ -n "$NUM" ] || refuser "Aucune PR ouverte pour \`$BRANCHE\`."
+
+          # LE GARDE-FOU DE PÉRIMÈTRE, et il dit la même chose que celui de
+          # `publish-news` : la veille n'écrit que de l'actu, des événements en
+          # ligne et de la matière première d'inbox. Un POI, un cheat, un fichier
+          # Swift ou un workflow dans le diff signale qu'il s'est passé autre
+          # chose que de la veille — c'est-à-dire exactement le cas où un humain
+          # doit regarder.
+          #
+          # `gh api --paginate` et non `gh pr view --json files` : ce dernier
+          # s'arrête à 100 fichiers sans le dire. Une troncature silencieuse
+          # ferait passer pour dans-le-périmètre une PR qui en sort au 101e
+          # fichier — soit exactement le cas qu'on cherche à attraper, sur la
+          # seule PR du dépôt qui grossit tous les jours.
+          HORS="$(gh api --paginate "repos/$DEPOT/pulls/$NUM/files" --jq '.[].filename' \
+            | grep -vE '^content/(news|online-events|inbox)/' || true)"
+          if [ -n "$HORS" ]; then
+            refuser "$(printf 'Cette PR sort du périmètre de la veille :\n```\n%s\n```\nCes chemins gardent la relecture humaine.' "$HORS")"
+          fi
+
+          [ "$JETON_PRESENT" = 'true' ] || refuser "\`VEILLE_MERGE_TOKEN\` manque : la PR #$NUM est prête mais attend une fusion à la main. Voir l'en-tête de ce workflow — \`GITHUB_TOKEN\` ne peut pas la fusionner sans empêcher la publication."
+
+          echo "fusionner=oui" >> "$GITHUB_OUTPUT"
+          echo "numero=$NUM" >> "$GITHUB_OUTPUT"
+
+      # Squash, comme tout le dépôt — c'est le seul mode que GitHub y autorise.
+      #
+      # La branche N'EST PAS supprimée : la Routine repart de `veille/courante`
+      # chaque jour et y ajoute un commit. La supprimer la forcerait à la recréer,
+      # et le contrat prévoit qu'elle la retrouve.
+      - name: Fusionner
+        if: steps.decision.outputs.fusionner == 'oui'
+        env:
+          GH_TOKEN: ${{ secrets.VEILLE_MERGE_TOKEN }}
+          DEPOT: ${{ github.repository }}
+          NUM: ${{ steps.decision.outputs.numero }}
+        run: |
+          set -euo pipefail
+          gh pr merge "$NUM" --repo "$DEPOT" --squash
+          {
+            echo '### Fusion automatique : oui'
+            echo
+            echo "PR #$NUM fusionnée sur \`main\`. \`publish-news\` prend le relais et"
+            echo 'publie l’actu et les événements en ligne sur le CDN.'
+            echo
+            echo 'La relecture reste à faire — après coup, sur `main`.'
+          } >> "$GITHUB_STEP_SUMMARY"

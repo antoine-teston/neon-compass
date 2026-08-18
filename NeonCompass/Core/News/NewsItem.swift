@@ -77,7 +77,31 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
     let category: NewsCategory
     let title: LocalizedText
     let body: LocalizedText
+    /// La date de l'INFORMATION : celle de l'article source. C'est elle qui
+    /// s'affiche sur la carte et dans la vue de détail.
     let publishedAt: String
+
+    /// La date de MISE EN LIGNE : le jour où l'entrée est partie au CDN.
+    ///
+    /// Les deux ne coïncident pas, et l'écart n'est pas anecdotique : au
+    /// 2026-08-17, cinq actus datées des 10, 11 et 14 août sont parties le même
+    /// matin, dont une avec sept jours de retard. Ordonner le fil sur
+    /// `publishedAt` les faisait naître ENTERRÉES — signalées neuves par le
+    /// repère de nouveauté, mais rangées sous des cartes déjà lues.
+    ///
+    /// `nil` sur les entrées d'avant le champ, et sur tout fragment qu'un
+    /// pipeline futur servirait sans lui : `arrivedAt` retombe alors sur
+    /// `publishedAt`, ce qui redonne exactement l'ordre d'avant.
+    let listedAt: String?
+
+    /// La date sur laquelle le fil s'ORDONNE et se GROUPE — jamais celle qu'il
+    /// affiche.
+    ///
+    /// Un seul accesseur pour les deux usages, et ce n'est pas de l'économie :
+    /// grouper sur une date en triant sur une autre rendrait les tranches non
+    /// monotones, une carte sautant d'une section à l'autre au milieu de la
+    /// liste. Les deux appelants doivent lire la même chose.
+    var arrivedAt: String { listedAt ?? publishedAt }
 
     /// Absent des entrées publiées avant l'ouverture du fil aux deux jeux :
     /// elles portaient toutes sur celui à venir, d'où le défaut.
@@ -90,7 +114,7 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
     let confidence: NewsConfidence?
 
     private enum CodingKeys: String, CodingKey {
-        case id, category, title, body, publishedAt, game, confidence
+        case id, category, title, body, publishedAt, listedAt, game, confidence
     }
 
     init(from decoder: any Decoder) throws {
@@ -100,6 +124,10 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
         title = try container.decode(LocalizedText.self, forKey: .title)
         body = try container.decode(LocalizedText.self, forKey: .body)
         publishedAt = try container.decode(String.self, forKey: .publishedAt)
+        // `try?` pour la même raison que `game` et `confidence` : le champ est
+        // absent des entrées d'avant, et une valeur d'un type inattendu doit
+        // coûter un repli sur `publishedAt`, pas le fragment entier.
+        listedAt = (try? container.decodeIfPresent(String.self, forKey: .listedAt)) ?? nil
         // `try?` couvre les deux tolérances que le fil veut, et lui seul : la
         // clé absente d'une entrée écrite avant que le champ n'existe, et une
         // valeur qu'une version future du pipeline produirait sans que l'app
@@ -117,6 +145,7 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
         title: LocalizedText,
         body: LocalizedText,
         publishedAt: String,
+        listedAt: String? = nil,
         game: NewsGame = .leonida,
         confidence: NewsConfidence? = nil
     ) {
@@ -125,6 +154,7 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
         self.title = title
         self.body = body
         self.publishedAt = publishedAt
+        self.listedAt = listedAt
         self.game = game
         self.confidence = confidence
     }

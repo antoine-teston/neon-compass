@@ -20,6 +20,21 @@ import {
 export const TRADEMARKS = /\b(GTA|Grand Theft Auto|Rockstar|Vice City|Leonida|Take-Two)\b/i;
 export const UI_FIELDS = ['title', 'note', 'effect', 'shortEffect', 'body'];
 
+/** Les hôtes distincts cités par `sources[]`, `www.` replié. Une URL
+ *  imparsable compte pour elle-même plutôt que de faire planter le contrôle :
+ *  un item mal formé doit échouer sur SA règle, pas emporter la vérification. */
+function distinctSourceHosts(sources) {
+  return new Set(
+    sources.map((url) => {
+      try {
+        return new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+      } catch {
+        return url;
+      }
+    }),
+  );
+}
+
 /**
  * Les raisons pour lesquelles cet item ne peut pas être publié. Tableau vide =
  * publiable.
@@ -49,6 +64,20 @@ export function problemsFor({ kind, data }) {
   // une décision éditoriale, pas un détail de pipeline.
   if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.confidence === 'rumor') {
     problems.push('published entry cannot rest on a rumor (confidence: rumor)');
+  }
+  // La confiance se PROUVE. Jusqu'au 2026-08-15, `multi-source` était un
+  // jugement du modèle que rien ne vérifiait : les neuf items du fil qui le
+  // portaient citaient chacun UNE seule URL. Le mot n'a de valeur que si
+  // `sources[]` porte la corroboration — au moins deux hôtes distincts, parce
+  // que deux URL du même site sont la même voix (et `www.` ne fabrique pas un
+  // deuxième hôte).
+  if (
+    (kind === 'news' || kind === 'online-events') &&
+    data.status === 'published' &&
+    data.confidence === 'multi-source' &&
+    distinctSourceHosts(data.sources ?? []).size < 2
+  ) {
+    problems.push('published entry claims multi-source confidence but its sources do not span 2 distinct hosts');
   }
   for (const field of UI_FIELDS) {
     for (const [lang, text] of Object.entries(data[field] ?? {})) {

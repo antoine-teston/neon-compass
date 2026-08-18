@@ -252,11 +252,55 @@ export function recentEntries(items, { since, today, max }) {
   floor.setUTCDate(floor.getUTCDate() - since);
   const cutoff = floor.toISOString().slice(0, 10);
 
-  const kept = items
+  const eligible = items
     .filter((item) => item.date && item.date >= cutoff && item.link)
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+    // 0 sur égalité, pas -1 : un comparateur qui ne rend jamais 0 est
+    // incohérent, et l'ordre des ex æquo devient celui que V8 veut bien.
+    // Stable, les ex æquo gardent l'ordre des flux — donc du registre.
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
-  return { kept: kept.slice(0, max), dropped: kept.slice(max) };
+  if (eligible.length <= max) return { kept: eligible, dropped: [] };
+
+  // Le plafond reste GLOBAL, mais il se remplit à tour de rôle par hôte :
+  // trié par seule date, l'hôte qui publie plus vite que la fenêtre prend tout
+  // (le 15/08 : 30 entrées gtaboom contre 2 leonidaverse) et la récolte devient
+  // mono-source sans que rien ne le signale. Chaque hôte pioche sa plus récente
+  // à son tour ; un hôte épuisé rend ses créneaux. L'ordre RENDU reste
+  // chronologique — seule la SÉLECTION est équitable.
+  const queues = new Map();
+  for (const item of eligible) {
+    const host = hostOf(item.link);
+    if (!queues.has(host)) queues.set(host, []);
+    queues.get(host).push(item);
+  }
+  const chosen = new Set();
+  while (chosen.size < max) {
+    let progressed = false;
+    for (const queue of queues.values()) {
+      if (chosen.size >= max) break;
+      const next = queue.shift();
+      if (next) {
+        chosen.add(next);
+        progressed = true;
+      }
+    }
+    if (!progressed) break;
+  }
+
+  return {
+    kept: eligible.filter((item) => chosen.has(item)),
+    dropped: eligible.filter((item) => !chosen.has(item)),
+  };
+}
+
+/** L'hôte d'un lien, ou le lien lui-même s'il n'est pas une URL : une entrée
+ *  de flux malformée doit rester une entrée, pas une exception. */
+function hostOf(link) {
+  try {
+    return new URL(link).hostname;
+  } catch {
+    return link;
+  }
 }
 
 /**
@@ -452,14 +496,31 @@ async function commandWeekly({ write, capture }) {
     throw error;
   }
 
-  // TEMPS 1 : la façade ne rend que `sans-semaine`. Ce n'est PAS une erreur — la
-  // source n'a rien publié, il n'y a rien à récolter, et le run sort en 0. Le
-  // verdict voyage jusqu'à la Routine, qui le porte dans la PR : c'est ce qui
-  // remplace un échec silencieux par une absence qui se voit.
+  // Les verdicts SANS DONNÉE ne sont PAS des erreurs — la source n'a rien publié
+  // de structuré, il n'y a rien à récolter, et le run sort en 0. Le verdict
+  // voyage jusqu'à la Routine, qui le porte dans la PR : c'est ce qui remplace
+  // un échec silencieux par une absence qui se voit.
   if (read.verdict === 'sans-semaine') {
     console.error(`pas de semaine publiée — la source déclare « ${read.declaration} »`);
     if (read.statement) console.error(`  ${read.statement}`);
     await writeWeeklyCapture(capture, { verdict: read.verdict, message: read.declaration, statement: read.statement }, html);
+    return;
+  }
+
+  // Depuis le 2026-08-15 : le hub publie le récit de la semaine mais déclare
+  // lui-même ne pas (ou plus) publier son tableau structuré. Rien à normaliser
+  // en online-event — mais la semaine EXISTE, et la veille d'actu la couvre par
+  // les articles du flux. Le chemin du récit part dans la capture pour que le
+  // compte-rendu puisse le nommer.
+  if (read.verdict === 'sans-structure') {
+    console.error(`récit publié, tableau absent — la source déclare « ${read.declaration} »`);
+    if (read.statement) console.error(`  ${read.statement}`);
+    if (read.storyPath) console.error(`  récit de la semaine : ${read.storyPath}`);
+    await writeWeeklyCapture(
+      capture,
+      { verdict: read.verdict, message: read.declaration, statement: read.statement, storyPath: read.storyPath },
+      html,
+    );
     return;
   }
 

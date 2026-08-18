@@ -17,11 +17,12 @@
     "de": "Eine Woche zum Herunterladen vor der Freischaltung, wenn du ab der ersten Minute spielen willst. Wer die Box kauft, wartet länger: Der Code lässt sich erst bei Erhalt nutzen."
   },
   "publishedAt": "2026-07-21",
+  "listedAt": "2026-07-21",
   "status": "published",
   "sources": [
     "https://www.gtaboom.com/gta-6-pre-load-guide-size-speed-and-storage-prep-181f"
   ],
-  "confidence": "multi-source",
+  "confidence": "single-source",
   "processedFrom": "inbox:news:f47fd65e1063",
   "sourceClaim": "Le préchargement du jeu ouvre le 12 novembre 2026, une semaine avant le déverrouillage du 19, pour qui veut jouer dès la première minute. Les acheteurs de boîtes physiques sont les plus susceptibles d'attendre, leur code n'étant utilisable qu'à réception."
 }

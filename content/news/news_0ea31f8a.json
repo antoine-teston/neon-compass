@@ -17,11 +17,12 @@
     "de": "NBA 2K27 und EA Sports FC 27 haben in diesem Monat je eine Premium-Edition für 149,99 $ angekündigt, fünfzig Dollar darüber. Der Vergleich sagt nichts über den Wert des Spiels aus — nur, dass die Oberklasse überall teurer wird."
   },
   "publishedAt": "2026-07-24",
+  "listedAt": "2026-07-24",
   "status": "published",
   "sources": [
     "https://www.gtaboom.com/two-annual-sports-games-just-made-gta-6-look-like-a-bargain-0abb"
   ],
-  "confidence": "multi-source",
+  "confidence": "single-source",
   "processedFrom": "inbox:news:a8d09e433b15",
   "sourceClaim": "Deux jeux de sport annuels ont annoncé ce mois-ci des éditions haut de gamme à 149,99 $, soit cinquante dollars de plus que l'édition ultime du jeu à 99,99 $ — laquelle devient ainsi l'une des éditions premium les moins chères parmi les grosses sorties de la rentrée."
 }

@@ -1,0 +1,28 @@
+{
+  "id": "news_82b532d8",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Fuite virale sur trois épisodes démentie",
+    "en": "Viral three-episode leak turns out false",
+    "es": "Filtración viral de tres episodios, desmentida",
+    "it": "Fuga virale su tre episodi smentita",
+    "de": "Virale Drei-Episoden-Leak erweist sich als falsch"
+  },
+  "body": {
+    "fr": "Une capture d'écran virale prétendait montrer un découpage en trois épisodes de l'aperçu étendu du jeu, publiée sur la page régionale d'une plateforme de streaming. La presse spécialisée l'a démentie : la mise en page ne correspond à aucune vraie page du service, et personne n'a pu la reproduire pendant qu'elle était censée être en ligne.",
+    "en": "A viral screenshot claimed to show a three-episode breakdown of the game's extended preview, posted on a streaming platform's regional page. Specialist outlets debunked it: the layout doesn't match any real page from the service, and nobody else could reproduce it while it was supposedly live.",
+    "es": "Una captura viral afirmaba mostrar un desglose en tres episodios del adelanto extendido del juego, publicada en la página regional de una plataforma de streaming. La prensa especializada la desmintió: el diseño no coincide con ninguna página real del servicio y nadie más pudo reproducirla mientras supuestamente estuvo en línea.",
+    "it": "Uno screenshot virale sosteneva di mostrare una suddivisione in tre episodi dell'anteprima estesa del gioco, pubblicato sulla pagina regionale di una piattaforma di streaming. La stampa specializzata lo ha smentito: il layout non corrisponde a nessuna pagina reale del servizio e nessun altro è riuscito a riprodurlo mentre sarebbe stato online.",
+    "de": "Ein viraler Screenshot sollte angeblich eine Aufteilung des erweiterten Spiel-Previews in drei Episoden zeigen, veröffentlicht auf der Regionalseite eines Streaming-Dienstes. Fachmedien widerlegten ihn: Das Layout stimmt mit keiner echten Seite des Dienstes überein, und niemand sonst konnte ihn reproduzieren, solange er angeblich online war."
+  },
+  "publishedAt": "2026-08-14",
+  "listedAt": "2026-08-17",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/the-viral-gta-6-netflix-leak-just-got-debunked-fa9c"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:3cad0efba92f",
+  "sourceClaim": "Une capture d'écran virale prétendant montrer un découpage en trois épisodes de l'aperçu étendu du jeu à venir, sur la page portugaise d'une plateforme de streaming, a été démentie par la presse spécialisée : la mise en page ne correspond pas à celle des vraies pages de la plateforme, et personne d'autre n'a pu reproduire la capture pendant qu'elle était censée être en ligne."
+}

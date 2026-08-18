@@ -17,11 +17,12 @@
     "de": "Der Publisher hat bei der US-Börsenaufsicht eine Nettoumsatzprognose von 8 bis 8,2 Milliarden Dollar für das Geschäftsjahr 2027 eingereicht. Die Fachpresse liest darin eine finanzielle Festlegung, die den 19. November glaubwürdiger macht."
   },
   "publishedAt": "2026-07-27",
+  "listedAt": "2026-07-27",
   "status": "published",
   "sources": [
     "https://www.gtaboom.com/no-more-delays-take-two-has-filed-the-number-that-locks-gta-6-to-november-db88"
   ],
-  "confidence": "multi-source",
+  "confidence": "single-source",
   "processedFrom": "inbox:news:ed76add0d47d",
   "sourceClaim": "Take-Two a déposé auprès du régulateur boursier américain des prévisions de revenus nets compris entre 8 et 8,2 milliards de dollars pour son exercice fiscal 2027, un chiffre que la presse spécialisée interprète comme un engagement financier renforçant la crédibilité de la date de sortie du 19 novembre 2026."
 }

@@ -89,7 +89,7 @@ enum FeedFiltering {
     /// et une entrée publiée depuis un autre fuseau peut légitimement être datée
     /// de demain.
     private static func period(of item: NewsItem, now: Date, calendar: Calendar) -> FeedPeriod {
-        guard let date = item.publishedDate else { return .earlier }
+        guard let date = item.arrivalDate else { return .earlier }
         let start = calendar.startOfDay(for: date)
         let today = calendar.startOfDay(for: now)
         guard let days = calendar.dateComponents([.day], from: start, to: today).day else { return .earlier }
@@ -106,8 +106,20 @@ extension NewsItem {
     /// le `JSONDecoder` du `ContentStore` générique libre de toute stratégie de
     /// date. La conversion ne concerne que l'affichage et le groupement, et une
     /// chaîne inattendue rend `nil` plutôt que de faire tomber la carte.
+    ///
+    /// Celle-ci est la date AFFICHÉE — la carte et la vue de détail. Le
+    /// groupement, lui, passe par `arrivalDate`.
     var publishedDate: Date? {
         Self.isoFormatter.date(from: publishedAt)
+    }
+
+    /// La date d'apparition dans le fil, sur laquelle les tranches se calculent.
+    ///
+    /// Distincte de `publishedDate` par le champ qu'elle lit, identique par tout
+    /// le reste — même formateur, donc même fuseau, sans quoi les deux dates
+    /// d'une même entrée pourraient tomber de part et d'autre d'un minuit.
+    var arrivalDate: Date? {
+        Self.isoFormatter.date(from: arrivedAt)
     }
 
     private static let isoFormatter: DateFormatter = {

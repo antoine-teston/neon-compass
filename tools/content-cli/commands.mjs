@@ -162,6 +162,19 @@ export const COMMANDES = [
     notes: ['Préférer `release`, qui passe les contrôles avant.'],
   },
   {
+    nom: 'stamp-listed',
+    groupe: 'Publier',
+    resume: 'Date de mise en ligne les actus publiées qui n’en ont pas.',
+    args: '[--dry-run]',
+    notes: [
+      '`publishedAt` est la date de l’INFORMATION, `listedAt` celle de la MISE EN LIGNE. Le fil trie sur la seconde et affiche la première.',
+      'Jamais deux fois sur la même entrée : une actu réestampillée changerait de place dans le fil.',
+      'À lancer AVANT `release`, et à committer : `release` exige un arbre propre.',
+      'Tourne toute seule dans `publish-news` — la lancer à la main ne sert qu’à rattraper une publication manuelle.',
+    ],
+    exemples: ['cli.js stamp-listed --dry-run'],
+  },
+  {
     nom: 'build-cdn',
     groupe: 'Publier',
     resume: 'Construit le site statique dans dist/, sans rien téléverser.',

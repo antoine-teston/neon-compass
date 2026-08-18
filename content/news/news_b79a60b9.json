@@ -1,0 +1,28 @@
+{
+  "id": "news_b79a60b9",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Neuf précommandes sur dix visent l'édition premium",
+    "en": "Nine in ten pre-orders target the premium edition",
+    "es": "Nueve de cada diez reservas eligen premium",
+    "it": "Nove preordini su dieci scelgono l'edizione premium",
+    "de": "Neun von zehn Vorbestellungen wählen die Premium-Edition"
+  },
+  "body": {
+    "fr": "Selon une analyse de Sensor Tower relayée par la presse spécialisée, environ 89 % des précommandes du jeu portent sur son édition la plus chère, à 99,99 dollars — contre 10 à 20 % habituellement pour l'édition premium d'un jeu classique. La répartition est quasi identique sur les deux plateformes de sortie.",
+    "en": "According to a Sensor Tower analysis reported by trade press, about 89% of the game's pre-orders are for its priciest edition at $99.99 — versus the usual 10-20% share for a typical game's premium edition. The split is nearly identical across both launch platforms.",
+    "es": "Según un análisis de Sensor Tower recogido por la prensa especializada, cerca del 89 % de las reservas del juego corresponden a su edición más cara, de 99,99 dólares, frente al 10-20 % habitual en la edición premium de un juego típico. El reparto es casi idéntico en ambas plataformas de lanzamiento.",
+    "it": "Secondo un'analisi di Sensor Tower ripresa dalla stampa di settore, circa l'89% dei preordini del gioco riguarda l'edizione più costosa, a 99,99 dollari, contro il 10-20% abituale per l'edizione premium di un gioco tipico. La ripartizione è quasi identica sulle due piattaforme di lancio.",
+    "de": "Laut einer von der Fachpresse aufgegriffenen Sensor-Tower-Analyse entfallen rund 89 % der Vorbestellungen des Spiels auf die teuerste Edition für 99,99 Dollar – gegenüber den sonst üblichen 10-20 % für die Premium-Edition eines typischen Spiels. Die Verteilung ist auf beiden Startplattformen fast identisch."
+  },
+  "publishedAt": "2026-08-14",
+  "listedAt": "2026-08-17",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/nearly-9-in-10-gta-6-preorders-picked-the-more-expensive-edition-7425"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:97c7b6a3e2ae",
+  "sourceClaim": "Selon une analyse du cabinet Sensor Tower relayée par GamesIndustry.biz, environ 89 % des précommandes du jeu à venir portent sur son édition la plus chère à 99,99 dollars, contre une part habituelle de 10 à 20 % pour l'édition premium d'un jeu classique — une répartition quasi identique entre les deux plateformes de sortie (environ 90 % sur l'une, 88,5 % sur l'autre)."
+}

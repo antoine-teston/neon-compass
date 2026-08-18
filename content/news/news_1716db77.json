@@ -17,11 +17,12 @@
     "de": "Der Bloomberg-Journalist zeigte sich zu 90 % zuversichtlich, dass der 19. November hält. Die Zahl bezieht sich auf den Termin, nicht auf den Entwicklungsstand. Die virale Weitergabe machte aus einer Zuversichtsangabe einen Fertigstellungsgrad."
   },
   "publishedAt": "2026-07-24",
+  "listedAt": "2026-07-24",
   "status": "published",
   "sources": [
     "https://www.gtaboom.com/no-jason-schreier-did-not-say-gta-6-is-almost-complete-5bd4"
   ],
-  "confidence": "multi-source",
+  "confidence": "single-source",
   "processedFrom": "inbox:news:9fc66a7f9e37",
   "sourceClaim": "L'affirmation virale selon laquelle un journaliste de Bloomberg aurait déclaré le jeu terminé à 90 % est un contresens sur ses propos : il s'est dit confiant à 90 % sur la tenue de la date du 19 novembre, ce qui porte sur le calendrier et non sur l'avancement du développement."
 }

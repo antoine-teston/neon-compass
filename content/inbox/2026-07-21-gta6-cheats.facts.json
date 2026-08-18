@@ -11,13 +11,6 @@
   },
   "facts": [
     {
-      "claim": "Au 21 juillet 2026, aucun site agrégateur de cheats (GTACodes.io, Leonidaverse, GTABOOM, GTA6.gg) ne liste de code de triche réellement vérifié pour le jeu : tous précisent qu'aucun code ne pourra être confirmé avant la sortie du 19 novembre 2026.",
-      "kind": "cheat",
-      "source_url": "https://gtacodes.io/community-verified",
-      "source_date": "2026-07-21",
-      "confidence": "multi-source"
-    },
-    {
       "claim": "Ces mêmes sites anticipent, par analogie avec les épisodes précédents de la série, des catégories de triche probables (argent, armes, invincibilité, invocation de véhicules, météo, niveau de recherche policière, gravité, easter eggs) mais aucune de ces catégories n'est confirmée pour ce jeu.",
       "kind": "cheat",
       "source_url": "https://leonidaverse.com/en/codex/gta-6-cheats",

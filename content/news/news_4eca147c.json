@@ -17,11 +17,12 @@
     "de": "Der Publisher veröffentlicht am 7. August die Zahlen seines ersten Quartals im Geschäftsjahr 2027. Es ist der erste Finanzbericht, der einen Teil des seit dem 25. Juni laufenden Vorbestellzeitraums abdeckt."
   },
   "publishedAt": "2026-07-27",
+  "listedAt": "2026-07-27",
   "status": "published",
   "sources": [
     "https://www.gtaboom.com/the-take-two-august-7-earnings-call-is-when-we-finally-get-gta-6-pre-order-numbers-35ce"
   ],
-  "confidence": "multi-source",
+  "confidence": "single-source",
   "processedFrom": "inbox:news:837406112d68",
   "sourceClaim": "Take-Two Interactive doit publier le 7 août 2026 les résultats de son premier trimestre d'exercice fiscal 2027, ce qui constituera son premier rapport financier couvrant une partie de la période de précommandes du jeu ouverte depuis le 25 juin 2026."
 }

@@ -1,0 +1,20 @@
+{
+  "run": {
+    "date": "2026-08-16",
+    "sources_visited": [
+      "https://www.gtaboom.com/nopixel-v-hits-the-official-rockstar-games-launcher-on-september-8-2df1",
+      "https://www.gtaboom.com/the-first-real-bully-successor-just-crashed-and-burned-ac4c"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "NoPixel V, la reconstruction complète du plus important serveur de roleplay du jeu en ligne actuel, entre en bêta fermée le 8 septembre 2026 directement via le launcher officiel de l'éditeur, avec une bande-annonce prévue le 1er septembre ; le serveur tournait jusqu'ici sur des outils communautaires non officiels.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/nopixel-v-hits-the-official-rockstar-games-launcher-on-september-8-2df1",
+      "source_date": "2026-08-15",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}

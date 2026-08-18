@@ -1,0 +1,28 @@
+{
+  "id": "news_34b68d7a",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le PDG de l'éditeur exclut tout caméo",
+    "en": "Publisher's CEO rules out a cameo",
+    "es": "El CEO de la editora descarta un cameo",
+    "it": "Il CEO dell'editore esclude un cameo",
+    "de": "Verlags-CEO schließt eigenen Cameo-Auftritt aus"
+  },
+  "body": {
+    "fr": "Interrogé par IGN, le PDG de l'éditeur a confirmé qu'il n'apparaîtra pas en caméo dans le jeu, alors qu'il vient de prêter son propre personnage jouable à WWE 2K26. Il explique que les figures réelles glissées dans la série sont traditionnellement tournées en dérision plutôt que flattées.",
+    "en": "Speaking to IGN, the publisher's CEO confirmed he won't make a cameo appearance in the game, despite just lending his own playable character to WWE 2K26. He explained that real-life figures worked into the series are traditionally mocked rather than flattered.",
+    "es": "En declaraciones a IGN, el CEO de la editora confirmó que no aparecerá como cameo en el juego, pese a haber prestado su propio personaje jugable a WWE 2K26. Explicó que las figuras reales incluidas en la saga suelen ser objeto de burla y no de halago.",
+    "it": "In un'intervista a IGN, il CEO dell'editore ha confermato che non apparirà come cameo nel gioco, nonostante abbia appena prestato il proprio personaggio giocabile a WWE 2K26. Ha spiegato che le figure reali inserite nella serie vengono tradizionalmente prese in giro, non lusingate.",
+    "de": "Im Gespräch mit IGN bestätigte der Verlags-CEO, dass er im Spiel keinen Cameo-Auftritt haben wird – obwohl er seine eigene spielbare Figur gerade erst WWE 2K26 geliehen hat. Reale Persönlichkeiten würden in der Reihe traditionell eher verspottet als geschmeichelt dargestellt, erklärte er."
+  },
+  "publishedAt": "2026-08-13",
+  "listedAt": "2026-08-13",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/zelnick-put-himself-in-wwe-2k26-heres-why-hes-staying-out-of-gta-6-f70a"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:68dc9e93b2f7",
+  "sourceClaim": "Le PDG de l'éditeur, interrogé par IGN, a confirmé qu'il n'apparaîtra pas comme personnage caméo dans le jeu à venir, expliquant que les figures réelles glissées dans la série y sont traditionnellement tournées en dérision plutôt que flattées, contrairement au personnage jouable qu'il vient de prêter à WWE 2K26."
+}

@@ -112,6 +112,7 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
       "source_url": "…",
       "source_date": "…",
       "confidence": "confirmed-official | multi-source | single-source | rumor",
+      "sources": ["exigé pour multi-source : la liste COMPLÈTE des URL, hôtes distincts"],
       "starts_at": "AAAA-MM-JJTHH:MM:SSZ — exigé seulement pour kind: online-event",
       "ends_at": "AAAA-MM-JJTHH:MM:SSZ — exigé seulement pour kind: online-event"
     }
@@ -131,6 +132,14 @@ Un fichier `content/inbox/YYYY-MM-DD-<sujet>.facts.json` :
   un fait.
 - Les cheats sans confirmation post-lancement sont `rumor` (aucun code réel
   n'existe avant la sortie du jeu).
+- **`multi-source` se prouve, il ne se déclare pas.** Si tu l'affirmes, porte la
+  liste complète des URL dans `sources` — `source_url` compris — avec au moins
+  deux hôtes DISTINCTS : deux pages du même site sont la même voix, et `www.` ne
+  fabrique pas un deuxième hôte. Depuis le 2026-08-15, `check-publishable`
+  refuse de publier un `multi-source` dont `sources[]` ne le prouve pas — les
+  neuf items du fil qui portaient ce mot sur une seule URL ont été rétrogradés
+  `single-source` ce jour-là. Sans deuxième hôte à citer, le fait EST
+  `single-source` ; ce n'est pas une sanction, c'est son nom exact.
 - **N'émets JAMAIS de fait `kind: "online-event"`.** Ce kind a son propre
   producteur, déterministe : `node tools/content-cli/fetch-source.mjs weekly`,
   qui lit le hub hebdomadaire de la source comme le tableau qu'il est. Une

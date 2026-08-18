@@ -17,11 +17,12 @@
     "de": "Das Gerücht ging auf ein Missverständnis bei den japanischen Packungen zurück, das der Verfasser der Ursprungsmeldung richtigstellte: Der Verfallshinweis betrifft die Zusatzinhalte, nicht das Spiel. Nur das Bonuspaket, bis zum 20. November, und die Testphase des Abodienstes haben ein echtes Ablaufdatum."
   },
   "publishedAt": "2026-07-25",
+  "listedAt": "2026-07-25",
   "status": "published",
   "sources": [
     "https://www.gtaboom.com/gta-6-download-codes-do-not-expire-but-the-panic-makes-sense-0df5"
   ],
-  "confidence": "multi-source",
+  "confidence": "single-source",
   "processedFrom": "inbox:news:abac89562fdd",
   "sourceClaim": "La rumeur d'un code de téléchargement qui expirerait au bout de 170 jours au Japon est un contresens, rectifié par l'auteur du message d'origine lui-même : la mention d'expiration imprimée sur les boîtes japonaises couvre le contenu additionnel, pas le jeu. Seuls le pack de contenu bonus, jusqu'au 20 novembre, et l'essai du service par abonnement ont une date limite réelle."
 }

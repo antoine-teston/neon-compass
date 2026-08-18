@@ -1,0 +1,28 @@
+{
+  "id": "news_0cede507",
+  "category": "announcement",
+  "game": "gtav",
+  "title": {
+    "fr": "Le mode en ligne offre un bonus 4X",
+    "en": "4X bonus this week in online mode",
+    "es": "Bono 4X esta semana en el modo online",
+    "it": "Bonus 4X questa settimana in modalità online",
+    "de": "4X-Bonus diese Woche im Online-Modus"
+  },
+  "body": {
+    "fr": "Le mode en ligne propose un bonus de 4X sur l'argent virtuel et les points d'expérience du 13 au 19 août, sur les défis et événements en monde ouvert ainsi que sur la série de courses Hotring. Cette semaine s'inscrit dans le nouvel événement Brand Wars, qui oppose deux marques fictives du jeu.",
+    "en": "Online mode offers a 4X bonus on virtual money and experience points from August 13 to 19, covering open-world challenges and events as well as the Hotring race series. The week ties into the new Brand Wars event, pitting two of the game's fictional brands against each other.",
+    "es": "El modo online ofrece un bono 4X en dinero virtual y puntos de experiencia del 13 al 19 de agosto, en los desafíos y eventos de mundo abierto y en la serie de carreras Hotring. La semana se enmarca en el nuevo evento Brand Wars, que enfrenta a dos marcas ficticias del juego.",
+    "it": "La modalità online offre un bonus 4X su denaro virtuale e punti esperienza dal 13 al 19 agosto, su sfide ed eventi a mondo aperto e sulla serie di corse Hotring. La settimana si inserisce nel nuovo evento Brand Wars, che contrappone due marchi fittizi del gioco.",
+    "de": "Der Online-Modus bietet vom 13. bis 19. August einen 4X-Bonus auf virtuelles Geld und Erfahrungspunkte, sowohl bei Open-World-Herausforderungen und -Events als auch in der Hotring-Rennserie. Die Woche steht im Zeichen des neuen Events Brand Wars, bei dem zwei fiktive Marken des Spiels gegeneinander antreten."
+  },
+  "publishedAt": "2026-08-13",
+  "listedAt": "2026-08-13",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/gta-online-freemode-events-4x-gta-rp-august-2026"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:7504e3ca2048",
+  "sourceClaim": "Le mode en ligne actuel propose une mise à jour hebdomadaire du 13 au 19 août 2026 avec un bonus de 4X sur l'argent virtuel et les points d'expérience pour les défis et événements en monde ouvert ainsi que pour la série de courses Hotring, dans le cadre du nouvel événement Brand Wars opposant les marques fictives Sprunk et eCola."
+}
