@@ -4,7 +4,7 @@
   "description": "",
   "main": "tile.js",
   "scripts": {
-    "test": "node --test gtav-poi-ids.test.mjs",
+    "test": "node --test gtav-poi-ids.test.mjs gtavi-transform.test.mjs",
     "import": "node gtav-poi.mjs"
   },
   "keywords": [],

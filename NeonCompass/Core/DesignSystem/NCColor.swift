@@ -1,7 +1,12 @@
 import SwiftUI
 
 enum NCColor {
-    static let nightSky = Color(RGBA(hex: "#0A081A")!)
+    /// La forme composante, et non seulement la `Color` : Core Graphics et
+    /// Core Animation ne savent pas lire une `Color` SwiftUI, et le fondu des
+    /// bords de la carte doit peindre exactement cette teinte-là. Une seule
+    /// écriture de l'hexadécimal, dont les deux formes descendent.
+    static let nightSkyRGBA = RGBA(hex: "#0A081A")!
+    static let nightSky = Color(nightSkyRGBA)
 
     /// Les trois arrêts de la rampe, dans l'ordre. Source unique : les trois
     /// couleurs nommées, le dégradé et `ramp(_:through:)` en sortent tous, donc
