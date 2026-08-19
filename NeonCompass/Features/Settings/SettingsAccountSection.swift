@@ -13,7 +13,6 @@ struct SettingsAccountSection: View {
 
     let profileModel: ProfileModel
     @Binding var showDeleteConfirmation: Bool
-    @Binding var showHandleConfirmation: Bool
     let onSignInFailure: (any Error) -> Void
     let onAppleResult: (Result<ASAuthorization, Error>) -> Void
     let onPrepareAppleRequest: (ASAuthorizationAppleIDRequest) -> Void
@@ -53,11 +52,6 @@ struct SettingsAccountSection: View {
             // cachait ici, sur le même appareil et à la même seconde.
             if let handle = profileModel.profile?.handle {
                 LabeledContent("settings.account.handle") { Text(handle) }
-            }
-            // En CHANGER, en revanche, appelle `regenerate-handle` : sans les
-            // Edge Functions, le bouton ne mènerait nulle part.
-            if serverFeatures.isEnabled {
-                Button("profile.handle.regenerate") { showHandleConfirmation = true }
             }
         }
     }

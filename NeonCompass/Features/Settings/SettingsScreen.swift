@@ -28,7 +28,6 @@ struct SettingsScreen: View {
         notifier: APNsFollowedCategoryNotifier.shared
     )
     @State private var showDeleteConfirmation = false
-    @State private var showHandleConfirmation = false
     @State private var showPaywall = false
     @State private var currentNonce: String?
     @State private var signInError: String?
@@ -45,7 +44,6 @@ struct SettingsScreen: View {
                 SettingsAccountSection(
                     profileModel: profileModel,
                     showDeleteConfirmation: $showDeleteConfirmation,
-                    showHandleConfirmation: $showHandleConfirmation,
                     onSignInFailure: reportSignIn,
                     onAppleResult: handleSignInResult,
                     onPrepareAppleRequest: prepareAppleRequest
@@ -79,21 +77,6 @@ struct SettingsScreen: View {
         }
         .sheet(isPresented: $showPaywall) { PaywallView() }
         .onAppear { communityModel?.refreshBlockedAuthors() }
-        .alert(
-            "profile.handle.regenerate.confirmTitle",
-            isPresented: $showHandleConfirmation
-        ) {
-            Button("profile.deleteAccount.cancelButton", role: .cancel) {}
-            Button("profile.handle.regenerate.confirmButton") {
-                Task { try? await profileModel.regenerateHandle() }
-            }
-        } message: {
-            // Dit ce que l'Edge Function ne fait PAS : `regenerate-handle` ne
-            // met à jour que `profiles.handle`, et `contributions.author_handle`
-            // est dénormalisé à la soumission. Sans ce message, la surprise
-            // arrive plus tard et sans explication possible.
-            Text("profile.handle.regenerate.confirmMessage")
-        }
         .alert(
             "profile.deleteAccount.confirmTitle",
             isPresented: $showDeleteConfirmation
