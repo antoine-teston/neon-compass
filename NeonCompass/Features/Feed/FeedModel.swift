@@ -158,6 +158,15 @@ final class FeedModel {
         // l'entrée est APPARUE, pas sur celui où l'information est sortie. Voir
         // `NewsItem.listedAt` — sans ça, une actu récoltée le 10 et mise en
         // ligne le 17 naissait sous des cartes déjà lues.
-        items.sorted { $0.arrivedAt > $1.arrivedAt }
+        //
+        // Départage sur `publishedAt` depuis le 2026-08-19, et il n'est pas
+        // cosmétique : `sorted(by:)` n'est pas stable, donc des entrées de même
+        // jour de mise en ligne sortaient dans un ordre ARBITRAIRE. C'est
+        // devenu visible quand 39 brouillons du passif ont été publiés d'un
+        // coup — même `listedAt` pour tous, `publishedAt` étalé sur un mois, un
+        // mois d'actualité mélangé en tête du fil. Les dates sont en aaaa-mm-jj,
+        // donc l'ordre lexicographique EST l'ordre chronologique, et le tuple
+        // garde `arrivedAt` prioritaire : le départage n'intervient qu'à égalité.
+        items.sorted { ($0.arrivedAt, $0.publishedAt) > ($1.arrivedAt, $1.publishedAt) }
     }
 }
