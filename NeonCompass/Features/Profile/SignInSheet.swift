@@ -20,6 +20,7 @@ struct SignInSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AuthModel.self) private var authModel
     @Environment(ServerFeaturesModel.self) private var serverFeatures
+    @Environment(ThemeStore.self) private var themeStore
 
     @State private var currentNonce: String?
     @State private var signInError: String?
@@ -46,6 +47,12 @@ struct SignInSheet: View {
             }
             closeButton
         }
+        // La teinte vit ICI et pas chez le présentateur : un `.tint` posé
+        // au-dessus d'un `.sheet` ne franchit jamais la feuille (motif
+        // documenté RootView.swift:91-94), et cette feuille a trois
+        // présentateurs — la porter elle-même est le seul moyen que les
+        // trois chemins restent d'accord.
+        .tint(themeStore.selectedTheme.accent)
         .presentationDragIndicator(.visible)
         // La feuille a dit tout ce qu'elle avait à dire dès que le compte
         // existe. La laisser ouverte obligerait à la refermer à la main pour

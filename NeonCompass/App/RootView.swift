@@ -98,7 +98,6 @@ struct RootView: View {
         // qui n'est visible d'une feuille que posé PLUS BAS qu'elle.
         .sheet(isPresented: $model.showsSignIn) {
             SignInSheet()
-                .tint(themeStore.selectedTheme.accent)
         }
         .environment(authModel)
         // Pour que le Profil puisse basculer sur la Carte depuis l'invitation
