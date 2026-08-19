@@ -144,22 +144,10 @@
     "challenges.sheet.close": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fertig"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Done"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hecho"
           }
         },
         "fr": {
@@ -168,10 +156,22 @@
             "value": "Terminé"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hecho"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Fatto"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig"
           }
         }
       }
@@ -179,22 +179,10 @@
     "challenges.sheet.title": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Herausforderungen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Challenges"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desafíos"
           }
         },
         "fr": {
@@ -203,10 +191,22 @@
             "value": "Défis"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desafíos"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Sfide"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Herausforderungen"
           }
         }
       }
@@ -5782,7 +5782,7 @@
       }
     },
     "paywall.feature.route": {
-      "extractionState": "manual",
+      "extractionState": "stale",
       "localizations": {
         "de": {
           "stringUnit": {
@@ -5852,7 +5852,7 @@
       }
     },
     "paywall.feature.themes": {
-      "extractionState": "manual",
+      "extractionState": "stale",
       "localizations": {
         "de": {
           "stringUnit": {
@@ -6716,22 +6716,10 @@
     "profile.discovery.challenges %lld": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Herausforderungen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld challenges"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld desafíos"
           }
         },
         "fr": {
@@ -6740,10 +6728,22 @@
             "value": "%lld défis"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld desafíos"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld sfide"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Herausforderungen"
           }
         }
       }
@@ -6751,22 +6751,10 @@
     "profile.discovery.title": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entdeckung"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Discovery"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Descubrimiento"
           }
         },
         "fr": {
@@ -6775,10 +6763,22 @@
             "value": "Découverte"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descubrimiento"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Scoperta"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entdeckung"
           }
         }
       }
@@ -7407,22 +7407,10 @@
     "profile.signIn.email.address": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "E-Mail-Adresse"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Email address"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Correo electrónico"
           }
         },
         "fr": {
@@ -7431,10 +7419,22 @@
             "value": "Adresse e-mail"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correo electrónico"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Indirizzo e-mail"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "E-Mail-Adresse"
           }
         }
       }
@@ -7442,22 +7442,10 @@
     "profile.signIn.email.confirmationSent": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sieh in deinem Postfach nach: Ein Bestätigungslink ist unterwegs."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Check your inbox: a confirmation link is on its way."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revisa tu correo: te hemos enviado un enlace de confirmación."
           }
         },
         "fr": {
@@ -7466,10 +7454,22 @@
             "value": "Relevez vos messages : un lien de confirmation vient de partir."
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revisa tu correo: te hemos enviado un enlace de confirmación."
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Controlla la posta: è in arrivo un link di conferma."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sieh in deinem Postfach nach: Ein Bestätigungslink ist unterwegs."
           }
         }
       }
@@ -7477,22 +7477,10 @@
     "profile.signIn.email.errorEmpty": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gib eine E-Mail-Adresse ein."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Enter an email address."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Introduce una dirección de correo."
           }
         },
         "fr": {
@@ -7501,10 +7489,22 @@
             "value": "Saisissez une adresse e-mail."
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introduce una dirección de correo."
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Inserisci un indirizzo e-mail."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gib eine E-Mail-Adresse ein."
           }
         }
       }
@@ -7512,22 +7512,10 @@
     "profile.signIn.email.errorMalformed": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Diese E-Mail-Adresse sieht nicht richtig aus."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "This email address doesn't look right."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta dirección de correo no parece válida."
           }
         },
         "fr": {
@@ -7536,10 +7524,22 @@
             "value": "Cette adresse e-mail ne semble pas valide."
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta dirección de correo no parece válida."
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Questo indirizzo e-mail non sembra valido."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese E-Mail-Adresse sieht nicht richtig aus."
           }
         }
       }
@@ -7547,22 +7547,10 @@
     "profile.signIn.email.errorShort %lld": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dein Passwort muss mindestens %lld Zeichen lang sein."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Your password must be at least %lld characters."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La contraseña debe tener al menos %lld caracteres."
           }
         },
         "fr": {
@@ -7571,10 +7559,22 @@
             "value": "Votre mot de passe doit faire au moins %lld caractères."
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La contraseña debe tener al menos %lld caracteres."
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "La password deve contenere almeno %lld caratteri."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein Passwort muss mindestens %lld Zeichen lang sein."
           }
         }
       }
@@ -7582,22 +7582,10 @@
     "profile.signIn.email.hide": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "E-Mail-Anmeldung ausblenden"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Hide email sign-in"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar el inicio con correo"
           }
         },
         "fr": {
@@ -7606,10 +7594,22 @@
             "value": "Masquer la connexion par e-mail"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar el inicio con correo"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Nascondere l'accesso via e-mail"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "E-Mail-Anmeldung ausblenden"
           }
         }
       }
@@ -7617,22 +7617,10 @@
     "profile.signIn.email.password": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Passwort"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Password"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contraseña"
           }
         },
         "fr": {
@@ -7641,10 +7629,22 @@
             "value": "Mot de passe"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contraseña"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Password"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwort"
           }
         }
       }
@@ -7652,22 +7652,10 @@
     "profile.signIn.email.show": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stattdessen E-Mail-Adresse verwenden"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Use an email address instead"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usar una dirección de correo"
           }
         },
         "fr": {
@@ -7676,10 +7664,22 @@
             "value": "Utiliser plutôt une adresse e-mail"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar una dirección de correo"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Usare invece un indirizzo e-mail"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stattdessen E-Mail-Adresse verwenden"
           }
         }
       }
@@ -7687,22 +7687,10 @@
     "profile.signIn.email.signIn": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anmelden"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Sign in"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar sesión"
           }
         },
         "fr": {
@@ -7711,10 +7699,22 @@
             "value": "Se connecter"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar sesión"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Accedi"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anmelden"
           }
         }
       }
@@ -7722,22 +7722,10 @@
     "profile.signIn.email.signUp": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Konto erstellen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Create an account"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crear una cuenta"
           }
         },
         "fr": {
@@ -7746,10 +7734,22 @@
             "value": "Créer un compte"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear una cuenta"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Creare un account"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konto erstellen"
           }
         }
       }
@@ -7792,22 +7792,10 @@
     "profile.signIn.google": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit Google fortfahren"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Continue with Google"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Continuar con Google"
           }
         },
         "fr": {
@@ -7816,10 +7804,22 @@
             "value": "Continuer avec Google"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar con Google"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Continua con Google"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit Google fortfahren"
           }
         }
       }
@@ -8106,22 +8106,10 @@
     "profile.streetRank.getawayDriver": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fluchtfahrer"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Getaway Driver"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Conductor de fuga"
           }
         },
         "fr": {
@@ -8130,10 +8118,22 @@
             "value": "Chauffeur"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conductor de fuga"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Autista in fuga"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fluchtfahrer"
           }
         }
       }
@@ -8141,22 +8141,10 @@
     "profile.streetRank.heister": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Räuber"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Heister"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atracador"
           }
         },
         "fr": {
@@ -8165,10 +8153,22 @@
             "value": "Braqueur"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atracador"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Rapinatore"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Räuber"
           }
         }
       }
@@ -8176,22 +8176,10 @@
     "profile.streetRank.kingpin": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pate"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Kingpin"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Capo"
           }
         },
         "fr": {
@@ -8200,10 +8188,22 @@
             "value": "Caïd"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capo"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Boss"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pate"
           }
         }
       }
@@ -8211,13 +8211,13 @@
     "profile.streetRank.lieutenant": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unterboss"
+            "value": "Lieutenant"
           }
         },
-        "en": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Lieutenant"
@@ -8229,16 +8229,16 @@
             "value": "Lugarteniente"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lieutenant"
-          }
-        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Luogotenente"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unterboss"
           }
         }
       }
@@ -8246,22 +8246,10 @@
     "profile.streetRank.runner": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laufbursche"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Runner"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recadero"
           }
         },
         "fr": {
@@ -8270,10 +8258,22 @@
             "value": "Coursier"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recadero"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Manovale"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laufbursche"
           }
         }
       }
@@ -8281,22 +8281,10 @@
     "profile.streetRank.tourist": {
       "extractionState": "manual",
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tourist"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Tourist"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Turista"
           }
         },
         "fr": {
@@ -8305,10 +8293,22 @@
             "value": "Touriste"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turista"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Turista"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tourist"
           }
         }
       }
@@ -9051,22 +9051,10 @@
     },
     "social.communities.create.button": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Meine Community erstellen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Create my community"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crear mi comunidad"
           }
         },
         "fr": {
@@ -9075,32 +9063,32 @@
             "value": "Créer ma communauté"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear mi comunidad"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Crea la mia comunità"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meine Community erstellen"
           }
         }
       }
     },
     "social.communities.create.buttonDetail": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trage deine Crew ins Verzeichnis ein"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "List your crew in the directory"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agrega tu grupo al directorio"
           }
         },
         "fr": {
@@ -9109,32 +9097,32 @@
             "value": "Inscris ton groupe dans l’annuaire"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agrega tu grupo al directorio"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Aggiungi il tuo gruppo alla directory"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trage deine Crew ins Verzeichnis ein"
           }
         }
       }
     },
     "social.communities.create.cancel": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abbrechen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancelar"
           }
         },
         "fr": {
@@ -9143,29 +9131,29 @@
             "value": "Annuler"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Annulla"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
           }
         }
       }
     },
     "social.communities.create.discord": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Discord"
-          }
-        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Discord"
-          }
-        },
-        "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Discord"
@@ -9177,7 +9165,19 @@
             "value": "Discord"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discord"
+          }
+        },
         "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discord"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Discord"
@@ -9187,19 +9187,7 @@
     },
     "social.communities.create.discordPlaceholder": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "https://discord.gg/..."
-          }
-        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "https://discord.gg/..."
-          }
-        },
-        "es": {
           "stringUnit": {
             "state": "translated",
             "value": "https://discord.gg/..."
@@ -9211,7 +9199,19 @@
             "value": "https://discord.gg/..."
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://discord.gg/..."
+          }
+        },
         "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "https://discord.gg/..."
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "https://discord.gg/..."
@@ -9221,22 +9221,10 @@
     },
     "social.communities.create.languages": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sprachen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Languages"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Idiomas"
           }
         },
         "fr": {
@@ -9245,32 +9233,32 @@
             "value": "Langues"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Idiomas"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Lingue"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprachen"
           }
         }
       }
     },
     "social.communities.create.memberCount": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mitglieder"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Members"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Miembros"
           }
         },
         "fr": {
@@ -9279,32 +9267,32 @@
             "value": "Membres"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Miembros"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Membri"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitglieder"
           }
         }
       }
     },
     "social.communities.create.name": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Name"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre"
           }
         },
         "fr": {
@@ -9313,32 +9301,32 @@
             "value": "Nom"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Nome"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
           }
         }
       }
     },
     "social.communities.create.namePlaceholder": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "3-30 Zeichen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "3-30 characters"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "3-30 caracteres"
           }
         },
         "fr": {
@@ -9347,32 +9335,32 @@
             "value": "3-30 caractères"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3-30 caracteres"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "3-30 caratteri"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3-30 Zeichen"
           }
         }
       }
     },
     "social.communities.create.platform": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plattform"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Platform"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plataforma"
           }
         },
         "fr": {
@@ -9381,32 +9369,32 @@
             "value": "Plateforme"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plataforma"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Piattaforma"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plattform"
           }
         }
       }
     },
     "social.communities.create.playstyles": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spielstile"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Playstyles"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilos de juego"
           }
         },
         "fr": {
@@ -9415,32 +9403,32 @@
             "value": "Styles de jeu"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estilos de juego"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Stili di gioco"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spielstile"
           }
         }
       }
     },
     "social.communities.create.save": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erstellen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Create"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crear"
           }
         },
         "fr": {
@@ -9449,32 +9437,32 @@
             "value": "Créer"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Crea"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erstellen"
           }
         }
       }
     },
     "social.communities.create.title": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Neue Community"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "New Community"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nueva comunidad"
           }
         },
         "fr": {
@@ -9483,32 +9471,32 @@
             "value": "Nouvelle communauté"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nueva comunidad"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Nuova comunità"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Community"
           }
         }
       }
     },
     "social.communities.detail.close": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schließen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Close"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar"
           }
         },
         "fr": {
@@ -9517,32 +9505,32 @@
             "value": "Fermer"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Chiudi"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
           }
         }
       }
     },
     "social.communities.detail.events": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kommende Events"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Upcoming Events"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Próximos eventos"
           }
         },
         "fr": {
@@ -9551,32 +9539,32 @@
             "value": "Événements à venir"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Próximos eventos"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Prossimi eventi"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommende Events"
           }
         }
       }
     },
     "social.communities.detail.joinDiscord": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Auf Discord beitreten"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Join on Discord"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unirse en Discord"
           }
         },
         "fr": {
@@ -9585,32 +9573,32 @@
             "value": "Rejoindre sur Discord"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unirse en Discord"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Unisciti su Discord"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Discord beitreten"
           }
         }
       }
     },
     "social.communities.empty": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noch keine Communitys"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No communities yet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no hay comunidades"
           }
         },
         "fr": {
@@ -9619,32 +9607,32 @@
             "value": "Aucune communauté"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay comunidades"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Nessuna comunità"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Communitys"
           }
         }
       }
     },
     "social.communities.eventType.launch": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Launch"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lanzamiento"
           }
         },
         "fr": {
@@ -9653,32 +9641,32 @@
             "value": "Lancement"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lanzamiento"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Lancio"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
           }
         }
       }
     },
     "social.communities.eventType.other": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Event"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Event"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Evento"
           }
         },
         "fr": {
@@ -9687,32 +9675,32 @@
             "value": "Événement"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evento"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Evento"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event"
           }
         }
       }
     },
     "social.communities.eventType.recruitment": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rekrutierung"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Recruitment"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reclutamiento"
           }
         },
         "fr": {
@@ -9721,32 +9709,32 @@
             "value": "Recrutement"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reclutamiento"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Reclutamento"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rekrutierung"
           }
         }
       }
     },
     "social.communities.eventType.themed_night": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Themenabend"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Themed Night"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noche temática"
           }
         },
         "fr": {
@@ -9755,32 +9743,32 @@
             "value": "Soirée à thème"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noche temática"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Serata a tema"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themenabend"
           }
         }
       }
     },
     "social.communities.eventType.tournament": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Turnier"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Tournament"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Torneo"
           }
         },
         "fr": {
@@ -9789,32 +9777,32 @@
             "value": "Tournoi"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Torneo"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Torneo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turnier"
           }
         }
       }
     },
     "social.communities.eventType.training": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Training"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Training"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entrenamiento"
           }
         },
         "fr": {
@@ -9823,32 +9811,32 @@
             "value": "Entraînement"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entrenamiento"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Allenamento"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Training"
           }
         }
       }
     },
     "social.communities.filter.clear": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zurücksetzen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Clear"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Borrar"
           }
         },
         "fr": {
@@ -9857,32 +9845,32 @@
             "value": "Effacer"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancella"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurücksetzen"
           }
         }
       }
     },
     "social.communities.filter.platform": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plattform"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Platform"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plataforma"
           }
         },
         "fr": {
@@ -9891,32 +9879,32 @@
             "value": "Plateforme"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plataforma"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Piattaforma"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plattform"
           }
         }
       }
     },
     "social.communities.filter.playstyle": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spielstil"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Playstyle"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estilo de juego"
           }
         },
         "fr": {
@@ -9925,32 +9913,32 @@
             "value": "Style de jeu"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estilo de juego"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Stile di gioco"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spielstil"
           }
         }
       }
     },
     "social.communities.platform.cross-platform": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plattformübergreifend"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cross-platform"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Multiplataforma"
           }
         },
         "fr": {
@@ -9959,29 +9947,29 @@
             "value": "Multiplateforme"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplataforma"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Multipiattaforma"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plattformübergreifend"
           }
         }
       }
     },
     "social.communities.platform.pc": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PC"
-          }
-        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PC"
-          }
-        },
-        "es": {
           "stringUnit": {
             "state": "translated",
             "value": "PC"
@@ -9993,7 +9981,19 @@
             "value": "PC"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PC"
+          }
+        },
         "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PC"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "PC"
@@ -10003,19 +10003,7 @@
     },
     "social.communities.platform.ps5": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PS5"
-          }
-        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PS5"
-          }
-        },
-        "es": {
           "stringUnit": {
             "state": "translated",
             "value": "PS5"
@@ -10027,7 +10015,19 @@
             "value": "PS5"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PS5"
+          }
+        },
         "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PS5"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "PS5"
@@ -10037,19 +10037,7 @@
     },
     "social.communities.platform.xbox": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Xbox"
-          }
-        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Xbox"
-          }
-        },
-        "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Xbox"
@@ -10061,7 +10049,19 @@
             "value": "Xbox"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xbox"
+          }
+        },
         "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xbox"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Xbox"
@@ -10071,19 +10071,7 @@
     },
     "social.communities.playstyle.casual": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Casual"
-          }
-        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Casual"
-          }
-        },
-        "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Casual"
@@ -10095,7 +10083,19 @@
             "value": "Casual"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casual"
+          }
+        },
         "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casual"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Casual"
@@ -10105,22 +10105,10 @@
     },
     "social.communities.playstyle.competitive": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kompetitiv"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Competitive"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Competitivo"
           }
         },
         "fr": {
@@ -10129,32 +10117,32 @@
             "value": "Compétitif"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Competitivo"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Competitivo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompetitiv"
           }
         }
       }
     },
     "social.communities.playstyle.creative": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kreativ"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Creative"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Creativo"
           }
         },
         "fr": {
@@ -10163,23 +10151,35 @@
             "value": "Créatif"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creativo"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Creativo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kreativ"
           }
         }
       }
     },
     "social.communities.playstyle.exploration": {
       "localizations": {
-        "de": {
+        "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Erkundung"
+            "value": "Exploration"
           }
         },
-        "en": {
+        "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Exploration"
@@ -10191,38 +10191,26 @@
             "value": "Exploración"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Exploration"
-          }
-        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Esplorazione"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erkundung"
           }
         }
       }
     },
     "social.communities.playstyle.heists": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Raubüberfälle"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Heists"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atracos"
           }
         },
         "fr": {
@@ -10231,32 +10219,32 @@
             "value": "Braquages"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atracos"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Colpi"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raubüberfälle"
           }
         }
       }
     },
     "social.communities.playstyle.racing": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rennen"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Racing"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Carreras"
           }
         },
         "fr": {
@@ -10265,29 +10253,29 @@
             "value": "Course"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carreras"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Corse"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rennen"
           }
         }
       }
     },
     "social.communities.playstyle.rp": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Roleplay"
-          }
-        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Roleplay"
-          }
-        },
-        "es": {
           "stringUnit": {
             "state": "translated",
             "value": "Roleplay"
@@ -10299,7 +10287,19 @@
             "value": "Roleplay"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Roleplay"
+          }
+        },
         "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Roleplay"
+          }
+        },
+        "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Roleplay"
@@ -10309,22 +10309,10 @@
     },
     "social.communities.spotlight": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Im Spotlight"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Featured"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Destacados"
           }
         },
         "fr": {
@@ -10333,32 +10321,32 @@
             "value": "En vedette"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Destacados"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "In evidenza"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im Spotlight"
           }
         }
       }
     },
     "social.communities.upcomingEvents": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kommende Events"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Upcoming Events"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Próximos eventos"
           }
         },
         "fr": {
@@ -10367,10 +10355,22 @@
             "value": "Événements à venir"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Próximos eventos"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Prossimi eventi"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommende Events"
           }
         }
       }
@@ -11525,22 +11525,10 @@
     },
     "social.panel.communities": {
       "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Communitys"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Communities"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Comunidades"
           }
         },
         "fr": {
@@ -11549,10 +11537,22 @@
             "value": "Communautés"
           }
         },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comunidades"
+          }
+        },
         "it": {
           "stringUnit": {
             "state": "translated",
             "value": "Comunità"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Communitys"
           }
         }
       }
