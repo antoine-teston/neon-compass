@@ -6,7 +6,7 @@ import Supabase
 ///
 /// Les Edge Functions sont incluses dans l'offre gratuite. C'est ce qui fait
 /// disparaître le blocage documenté par `docs/ops/2026-07-27-sans-blaze.md` :
-/// ces deux fonctions étaient écrites, testées, et déployées nulle part.
+/// cette fonction était écrite, testée, et déployée nulle part.
 final class SupabaseAccountFunctions: AccountFunctionsCalling {
     private let client: SupabaseClient?
 
