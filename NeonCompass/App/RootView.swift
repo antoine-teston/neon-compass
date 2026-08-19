@@ -61,6 +61,14 @@ struct RootView: View {
         ))
     }
 
+    /// L'accent RÉELLEMENT appliqué. Il passe par `effectiveTheme` et non par
+    /// `selectedTheme` : sans ça, un abonnement expiré laisserait son habillage
+    /// payant en place, la section Apparence ayant disparu des réglages sans
+    /// que rien ne reprenne la teinte.
+    private var themeAccent: Color {
+        themeStore.effectiveTheme(isProEntitled: proEntitlementModel.isProEntitled).accent
+    }
+
     var body: some View {
         Group {
             if onboarding.needsDisclaimer {
@@ -91,7 +99,7 @@ struct RootView: View {
                 // Même motif que la feuille d'explication plus bas : le `.tint`
                 // de cette vue est posé PLUS HAUT que ce `.sheet`, donc le
                 // contenu de la feuille en sort et repart en bleu système.
-                .tint(themeStore.selectedTheme.accent)
+                .tint(themeAccent)
         }
         // Au même endroit et pour les mêmes raisons que la feuille au-dessus :
         // elle lit `AuthModel` et `ServerFeaturesModel` dans l'environnement,
@@ -112,13 +120,14 @@ struct RootView: View {
         .environment(profileModel)
         .environment(communityModel)
         .preferredColorScheme(.dark)
-        // Makes the Pro theme picker's selection a real, app-wide effect:
-        // the selected accent becomes the default tint for any control that
-        // doesn't already have a more specific, explicit `.tint(...)` override
-        // (e.g. the deliberate sunsetMagenta/neonCyan call sites elsewhere
-        // stay as-is). `ThemeStore` is `@Observable`, so this recomputes
-        // whenever `selectTheme(_:)` mutates `selectedTheme`.
-        .tint(themeStore.selectedTheme.accent)
+        // Makes the theme picker's selection a real, app-wide effect: the
+        // accent becomes the default tint for any control that doesn't already
+        // have a more specific, explicit `.tint(...)` override (e.g. the
+        // deliberate sunsetMagenta/neonCyan call sites elsewhere stay as-is).
+        // `ThemeStore` et `ProEntitlementModel` sont tous deux `@Observable`,
+        // donc ceci se recalcule aussi bien quand `selectTheme(_:)` change le
+        // choix que quand l'abonnement s'ouvre ou expire.
+        .tint(themeAccent)
         // Le SDK démarre dès que le consentement UMP est résolu, SANS attendre
         // l'ATT. Sans autorisation il n'utilise simplement pas l'IDFA et sert du
         // contextuel : servir des publicités avant l'ATT est son fonctionnement
@@ -219,7 +228,7 @@ struct RootView: View {
             // `.sheet` : le contenu de la feuille sort donc de sa portée et
             // repartait en bleu système, au milieu d'une app synthwave.
             // Constaté au simulateur, pas déduit.
-            .tint(themeStore.selectedTheme.accent)
+            .tint(themeAccent)
             // On ne referme pas d'un glissement : le choix se fait par l'un des
             // deux boutons, dont « Plus tard », qui n'engage à rien.
             .interactiveDismissDisabled()
