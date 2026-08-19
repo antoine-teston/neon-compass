@@ -5,7 +5,7 @@ struct SettingsAppearanceSection: View {
     @Environment(ThemeStore.self) private var themeStore
 
     var body: some View {
-        Section("settings.section.appearance") {
+        Section {
             Picker(selection: Binding(
                 get: { themeStore.selectedTheme },
                 set: { themeStore.selectTheme($0) }
@@ -30,6 +30,15 @@ struct SettingsAppearanceSection: View {
                     set: { themeStore.setAlternateIcon(named: $0 ? Self.neonIconName : nil) }
                 ))
             }
+        } header: {
+            // Le violet de la rampe, la seule note froide de la famille chaude :
+            // la charte n'a pas de bleu, et emprunter celui du système pour une
+            // pastille ferait entrer une sixième couleur dans la palette.
+            SettingsIconLabel(
+                "settings.section.appearance",
+                systemImage: "paintpalette.fill",
+                tint: NCColor.sunsetViolet
+            )
         }
     }
 

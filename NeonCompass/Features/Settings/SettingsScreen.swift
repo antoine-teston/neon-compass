@@ -111,7 +111,7 @@ struct SettingsScreen: View {
     /// listes finiraient par diverger. Cette section dit l'état, et renvoie.
     @ViewBuilder
     private var proSection: some View {
-        Section("settings.section.pro") {
+        Section {
             if proEntitlementModel.isProEntitled {
                 Label("settings.pro.active", systemImage: "checkmark.seal.fill")
                     .foregroundStyle(NCColor.neonCyan)
@@ -119,6 +119,12 @@ struct SettingsScreen: View {
             } else {
                 Button("profile.pro.upgradeButton") { showPaywall = true }
             }
+        } header: {
+            SettingsIconLabel(
+                "settings.section.pro",
+                systemImage: "crown.fill",
+                tint: NCColor.sunset
+            )
         }
     }
 
