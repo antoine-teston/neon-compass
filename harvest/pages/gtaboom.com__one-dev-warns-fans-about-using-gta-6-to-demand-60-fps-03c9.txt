@@ -1,0 +1,339 @@
+Developer Pushes Back on Fans Citing GTA 6 to Demand 60 FPS on Xbox Series S | GTA BOOM
+
+Search GTA BOOM Go Full search page
+
+GTA BOOM
+Search GTA BOOM
+Play today Account
+
+GTA 6 ▾
+GTA 6 News Rumors, leaks, trailers, and official GTA 6 updates.
+GTA 6 Map Explore the GTA 6 map with confirmed Leonida, Vice City, landmark, and trailer-location references.
+GTA 6 Release Date Countdown Track the launch window and key release milestones.
+Characters Meet Lucia, Jason, and the confirmed cast.
+GTA 6 Character Quiz Answer 10 GTA 6 scenarios and share your character match.
+Locations Vice City, Leonida, landmarks, and setting details.
+Vehicles Cars, boats, aircraft, and everything spotted so far.
+Businesses Criminal enterprises and business systems we expect.
+GTA 6 Cheats Cheats, codes, and what to expect after launch.
+Browse All GTA 6 Content Browse the full GTA 6 content hub.
+
+Reference
+GTA 6 Release Date and Delay History
+Grand Theft Auto VI is scheduled for November 19, 2026 on PlayStation 5 and Xbox Series X|S.
+
+GTA Online ▾
+MONEY
+Make Money in GTA Online
+Best Heists for Making Money
+Money Guides
+
+HEISTS
+Kortz Center Heist
+Cayo Perico Heist
+Diamond Casino Heist
+Original Heists
+Doomsday Heist
+Pacific Standard
+Heist Payouts
+
+MULTIPLAYER
+Server Explorer
+Matchmaking
+
+CONTENT UPDATES
+A Safehouse in The Hills
+Agents of Sabotage DLC
+DLC History
+Halloween Events
+Los Santos Drug Wars
+Los Santos Tuners
+San Andreas Mercenaries
+Money Fronts
+
+BUSINESSES
+After Hours (Nightclub)
+Bikers Update (MC Businesses)
+Bottom Dollar Bounties (Bail Office)
+Gunrunning (Bunkers)
+Smuggler's Run (Hangar)
+The Contract (Agency)
+The Chop Shop (Salvage Yard)
+
+ESSENTIALS
+Beginner Guides
+Cars & Vehicles
+CEO & VIPs
+Collectibles
+GTA Online Weekly Updates
+
+Tools ▾
+CALCULATORS
+Money Goal Planner
+Heist Payout
+Progression Calculator
+Contact Missions
+Business Profit
+
+DATABASES
+Vehicles Database
+Weapons Database
+Racing Analytics
+100% Completion Tracker
+
+MULTIPLAYER
+Server Explorer
+Matchmaking
+Arcade
+Heist Toss
+
+MAPS
+GTA 6 Map
+GTA 6 Companion App
+Los Santos Map
+
+Cheats ▾
+GTA 5 Cheats All GTA 5 Cheats
+PlayStation
+Xbox
+PC
+Phone
+Money Cheat Code
+Demo Videos
+Cheats FAQ
+
+GTA San Andreas Cheats
+GTA Vice City Cheats
+GTA 4 Cheats
+GTA 3 Cheats
+GTA 6 Cheats Cheats, codes, and what to expect after launch.
+
+News ▾
+GTA 6 News Rumors, leaks, trailers, and official GTA 6 updates.
+GTA Online Weekly Updates Current bonuses, discounts, rewards, and rotations.
+Features & Editorials Editorials, explainers, and deep-dive features.
+Rockstar Games Rockstar studio news and wider company coverage.
+
+Featured
+GTA 6 Rumors and Leaks Timeline
+A chronological look at official reveals, verified leaks and predictions that proved false or remain unverified.
+
+The Bookie ▾
+Trending Bets See which markets are moving right now.
+My Ledger Review your positions and recent ledger activity.
+How to Play Learn the rules before placing your first bet.
+
+Live
+Play The Bookie
+Follow trending bets, check your position, and learn how the game works.
+
+Games ▾
+Grand Theft Auto VI
+GTA Online
+Grand Theft Auto V
+Grand Theft Auto IV
+GTA: San Andreas
+GTA: Vice City
+Grand Theft Auto III
+GTA 5 GUIDES
+Story Mode Guides
+GTA 5 Stock Market Guide
+GTA 5 Heists (Story Mode)
+How to Make Money in GTA 5
+PC Modding
+
+Home ›
+GTA News
+Developer Pushes Back on Fans Citing GTA 6 to Demand 60 FPS on Xbox Series S
+
+By Ray Ampoloquio · Aug 18, 2026
+Updated by Matt Gibbs · Aug 18, 2026
+
+Running well on Xbox Series S isn't guaranteed for GTA 6. Analysts expect low resolution and cut ray tracing just to hold 30fps on that console.
+
+"If Grand Theft Auto VI can run on the Xbox Series S, why can't your game hit 60 frames per second on it?" is the question and argument many fans are using against developers these days, and Thomas Mahler, the founder of Moon Studios, has finally had enough.
+
+Mahler, whose studio made the Ori games and No Rest for the Wicked , fired off a blunt reply. Here's an excerpt of what he said on X :
+
+I just love comments like: "How dare your game isn't running at 60fps on Xbox Series S yet when GTA VI will run on it?!?!" 1) We don't know yet how well that thing will run. 2) Well, gee, I don't know, MAYBE it's because Rockstar literally just spent over a billion dollars and had THOUSANDS of people working on it for over a decade now?
+
+He was not much kinder about the Series S itself, describing it as a cheap machine with less usable memory than a Valve Steam Deck and writing off the loudest demands as fanboyism from people who do not understand the tech. He isn't lying. The Xbox Series S is Microsoft's cheaper current-generation console, the little white one that launched at $299 that's half the console its big brother, the Xbox Series X, is, figuratively and literally.
+
+Xbox Series X versus Series S
+Spec
+
+Xbox Series X
+
+Xbox Series S
+
+GPU power
+
+About 12.15 teraflops
+
+About 4 teraflops
+
+Total RAM
+
+16 GB
+
+10 GB
+
+RAM usable by games
+
+More headroom
+
+Roughly 8 GB after the system's share
+
+Launch price ( 2020 )
+
+$499
+
+$299
+
+Despite coming from the same console generation, the Xbox Series S and Xbox Series X are very different machines.
+
+The Series S has roughly a third of the Series X's graphics muscle and, once the system takes its cut, only about eight gigabytes of memory for the actual game. Developers have wrestled with this technical ceiling for years, especially after Microsoft required nearly every Xbox game ship on both machines.
+
+This means the weakest box in the room sets the limit for everyone and Mahler is right that pinning that responsibility on a small studio while pointing at a project with the kind of unlimited budget GTA 6 has at its disposal is not a fair fight.
+
+With that said, analysts at Digital Foundry are expecting the Series S version to drop as low as 720p with ray tracing gutted just to hold a stable 30, so very few with technical know-how are are optimistic that GTA 6 will run well on the pint-sized console. It's not just on the Series S, either: multiple experts, and a former Rockstar animator, think GTA 6 will be locked to 30 frames per second on every current-gen console , the PlayStation 5 and Series X included, because Rockstar obsesses over visual detail more than frame rates .
+
+This still doesn't change the fact that the Series S has become the anchor dragging on this console generation, the reason ambitious games keep getting clipped or delayed, and players are not wrong to express their annoyance. They're just better off pointing it at the right target. Moon Studios didn't build the Series S. Rockstar didn't, either.
+
+Microsoft did, and it's the one requiring developers to make sure every game they release this console generation also runs well on the Series S. If there's anyone who deserves all the fingers pointed to it, it's Microsoft. Ultimately, this is what's become of GTA 6 : it's a a performance yardstick for other games even though it's not even released yet. It's come to a point that it's winning performance arguments before fans can preload it .
+
+Fingers crossed, we'll get a slightly better sense of how it looks in motion when the Extended Look hits Netflix on August 27 with at least a smidge of gameplay footage .
+
+About the author
+
+Ray Ampoloquio Editor and News Writer , GTA BOOM
+
+Ray is a GTA BOOM editor and news writer covering GTA 6, Rockstar and Take-Two, GTA Online and franchise history using primary-source reporting.
+View profile and articles
+
+Community comments
+Do you expect GTA 6 to hit 60fps on Xbox Series S?
+
+Useful posts build reputation Earn MK
++ 150 MK
+First published comment
+
++ 250 MK
+Staff pick
+
++ 25 MK
+Per 3 established Helpful marks
+
+Add a comment… Comment 2 comments Pinned, staff, newest
+Ray Staff Veteran · 189 rep
+Aug 18, 2026
+
+The only honest answer to "but if GTA 6 can do it" is that we do not actually know yet that it can.
+
+Helpful 0 Reply
+Thread ea6c2f4a-7509-4a1d-bae4-3c193545852f
+
+Kratos Trusted · 99 rep
+Aug 18, 2026
+
+I don't really care much about the 30fps Vs 60fps argument. As long as it runs as smoothly as Red Dead Redemption 2 ran on the base PS4, I'll be pleased.
+
+Helpful 0 Reply
+Thread ea6c2f4a-7509-4a1d-bae4-3c193545852f
+
+Topics in this article
+GTA News GTA 6 News GTA 6 Insider Microsoft Xbox
+
+Related Stories
+GTA 6 Pre Order Data Shows Xbox Now at 23% of the 4.38 Million Total GTA News
+GTA 6 Leaker Cyberleek Picked a Fight It Cannot Win Against Take Two GTA News
+GTA 6 Leaker Cyberleek Issues Three Demands To Take Two GTA News
+
+More From GTA 6 News
+New GTA 6 Leak Pairs Likely Genuine Gameplay With Risky Crypto Links
+An Army Unit Is Reportedly Offering Days Off to Play GTA 6
+5 Things the GTA 6 Extended Look on Netflix Probably Won't Show
+Why Does GTA 6 Look Different in the New PS5 Commercial?
+
+Weekly event
+Check this week’s GTA Online bonuses, discounts, and claimables here.
+The weekly update module is loading. If it does not appear, open the weekly update hub.
+
+Open weekly hub
+
+Market odds
+See a featured GTA BOOM Bookie market here.
+The market card is loading. If it does not appear, open The Bookie for the latest odds and active questions.
+
+Open The Bookie
+
+Community poll
+Vote in the current GTA BOOM community poll here.
+The poll is loading. When it appears, you can vote and see the latest results.
+
+TikTok highlights
+Watch the latest GTA BOOM TikTok clips, quick tips, and highlights here.
+The TikTok player is loading.
+
+Server explorer
+Browse live PC-only FiveM and RedM servers from this sidebar.
+This slot previews the server explorer while the live listings and counts load.
+
+Launch Server Explorer
+
+Live matchmaking
+No recruiting lobbies right now.
+Start one and let other players join.
+
+Create lobby Public feed hides identities. Players in the same lobby can see invite IDs.
+
+About
+Standards
+Contact
+Follow
+Accessibility
+Privacy
+Terms
+Community Guidelines
+RSS
+
+Get GTA BOOM in your inbox.
+News, guides, and cheats by email. Verify once and get 500 MK for The Bookie.
+One email per week. No spam. Unsubscribe anytime.
+
+Checking your GTA BOOM options...
+One email per week. No spam. Unsubscribe anytime.
+Get GTA BOOM updates, GTA coverage, and new guides by email. The signup form is loading.
+If you want to make sure you don't miss our coverage, add GTA BOOM as a preferred source on Google .
+
+GTABOOM apps Cheat Codes · Countdown & News
+Independent Grand Theft Auto coverage since 2012. © 2026 GTA BOOM. All rights reserved. GTA BOOM is in no way affiliated with Rockstar Games or Take-Two Interactive. 'Grand Theft Auto' and the 'Grand Theft Auto' logos are trademarks of Take-Two Interactive.
+
+TikTok Highlights
+Watch the latest clips
+Quick hits from our TikTok channel. Tap to play in place.
+
+Play TikTok video
+
+Team Sprunk or Team eCola? The Brand Wars event is here 🥤
+GTA BOOM
+
+The player is loading.
+If playback does not load here, watch this clip on TikTok .
+
+More videos
+GTA V in 2013 gave you way more than GTA 6 ever will 💔
+GTA Vice City Stories now runs natively on PC with no emulator 👀🎮
+Take-Two's CEO joined WWE 2K26 but said no to a GTA 6 cameo 👀🎮
+Don't wait for a GTA 6 discount, because Take-Two just said it isn't coming
+GTA 6 pre-orders "vastly" beat forecasts, but Take-Two won't say by how much!
+
+Follow @gta_boom
+
+Server explorer
+Live GTA RP servers
+Browse active PC-only FiveM and RedM communities from the full server explorer.
+
+New to FiveM and RedM? These are PC-only community servers, not standard GTA Online console lobbies. Start with What are these kinds of servers? .
+
+Launch Server Explorer

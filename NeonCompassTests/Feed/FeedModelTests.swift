@@ -85,6 +85,39 @@ struct FeedModelTests {
         #expect(model.newsItems.map(\.id) == ["neuve", "ancienne", "vieille"])
     }
 
+    /// LE CAS QU'A CRÉÉ LA PASSE DU 2026-08-19.
+    ///
+    /// Publier 39 brouillons d'un coup leur donne à TOUS le même `listedAt`,
+    /// alors que leur `publishedAt` s'étale sur un mois. `sorted(by:)` de Swift
+    /// n'est pas stable : sans départage, ces 39 cartes s'ordonnent de façon
+    /// arbitraire en tête du fil, et un lecteur voit un mois d'actualité mélangé.
+    ///
+    /// Le départage est `publishedAt` décroissant — à jour de mise en ligne égal,
+    /// c'est l'information la plus récente qui passe devant.
+    @Test func breaksTiesOnThePublicationDateWhenListedTheSameDay() {
+        let scratch = ScratchDefaults()
+        let items = [
+            sampleItem(id: "vieille", publishedAt: "2026-07-19", listedAt: "2026-08-19"),
+            sampleItem(id: "recente", publishedAt: "2026-08-18", listedAt: "2026-08-19"),
+            sampleItem(id: "moyenne", publishedAt: "2026-08-05", listedAt: "2026-08-19")
+        ]
+        let model = FeedModel(newsItems: items, seenStore: FeedSeenStore(defaults: scratch.defaults))
+        #expect(model.newsItems.map(\.id) == ["recente", "moyenne", "vieille"])
+    }
+
+    /// Le départage ne prend JAMAIS le pas sur la mise en ligne : une info plus
+    /// récente listée hier reste sous une info plus vieille listée aujourd'hui.
+    /// C'est tout l'objet de `listedAt`, et un départage mal branché l'annulerait.
+    @Test func theTieBreakNeverOutranksTheListingDay() {
+        let scratch = ScratchDefaults()
+        let items = [
+            sampleItem(id: "listee-hier", publishedAt: "2026-08-18", listedAt: "2026-08-18"),
+            sampleItem(id: "listee-aujourdhui", publishedAt: "2026-07-19", listedAt: "2026-08-19")
+        ]
+        let model = FeedModel(newsItems: items, seenStore: FeedSeenStore(defaults: scratch.defaults))
+        #expect(model.newsItems.map(\.id) == ["listee-aujourdhui", "listee-hier"])
+    }
+
     @Test func updateNewsItemsReplacesContentAndResorts() {
         let scratch = ScratchDefaults()
         let model = FeedModel(newsItems: [], seenStore: FeedSeenStore(defaults: scratch.defaults))

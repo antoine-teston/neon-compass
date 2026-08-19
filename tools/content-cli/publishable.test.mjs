@@ -92,3 +92,31 @@ test('une URL imparsable ne fait pas planter le contrôle — elle compte comme 
 
   assert.deepEqual(problems, []);
 });
+
+// Publier une rumeur : autorisé depuis le 2026-08-19. Le blocage précédent était
+// la SEULE condition éditoriale du gardien, et il n'avait aucun test — il a été
+// retiré sur décision explicite, la confiance restant affichée item par item
+// dans l'app (`NewsDetailView`, carte « Rumeur / Non confirmé »). Ces deux tests
+// existent pour que le retrait soit un choix visible et non une régression
+// silencieuse : si quelqu'un remet le blocage, ils tombent et disent pourquoi.
+test('publier une rumeur est autorisé — la confiance est affichée, pas filtrée', () => {
+  const problems = problemsFor(
+    newsEntry({ confidence: 'rumor', sources: ['https://www.gtaboom.com/article'] }),
+  );
+
+  assert.deepEqual(problems, []);
+});
+
+test('une rumeur publiée reste soumise aux contrôles qui attrapent des bugs', () => {
+  // Alléger la condition éditoriale n'ouvre pas les deux autres : un squelette
+  // non rédigé et une marque déposée dans notre prose restent des refus, quelle
+  // que soit la confiance.
+  const squelette = problemsFor(newsEntry({ confidence: 'rumor', needsRewrite: true }));
+  assert.equal(squelette.length, 1);
+  assert.match(squelette[0], /needsRewrite/);
+
+  const marque = problemsFor(
+    newsEntry({ confidence: 'rumor', title: { en: 'GTA 6 delayed again' } }),
+  );
+  assert.match(marque.join('\n'), /trademark/);
+});
