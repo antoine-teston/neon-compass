@@ -28,7 +28,7 @@ struct NeonCompassApp: App {
     init() {
         let container = try! ModelContainer(
             for: FoundEntry.self, PersonalPin.self, FavoriteCheat.self,
-            ContentCacheEntry.self, TrophyProgress.self, BlockedContributor.self
+            ContentCacheEntry.self, BlockedContributor.self
         )
         modelContainer = container
         _foundStore = State(initialValue: FoundStore(modelContext: container.mainContext))

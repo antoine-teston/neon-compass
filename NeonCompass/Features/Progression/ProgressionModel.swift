@@ -5,15 +5,22 @@ import SwiftData
 @Observable
 @MainActor
 final class ProgressionModel {
-    private(set) var pois: [POI]
+    /// **Par jeu, et non fusionné.** `POI` n'a pas de champ `game` : le jeu se
+    /// déduit du magasin d'où le POI vient, et l'appelant construit déjà les
+    /// deux magasins séparément. Les fusionner ici perdait cette information —
+    /// et avec elle tout compte par jeu, puisqu'un POI GTA VI a
+    /// `collection: nil` par défaut et ne se rattache donc à aucun défi.
+    private(set) var poisByGame: [Game: [POI]]
     private(set) var collections: [POICollection]
-    private(set) var trophies: [Trophy]
-    private(set) var checkedTrophyIDs: Set<String>
 
     /// Recalculé quand `(pois, foundIDs)` change, jamais à la lecture.
     /// Les vues le lisent plusieurs fois par rendu ; le laisser en propriété
     /// calculée rebalayait tout le tableau de POI à chaque accès.
     private(set) var challenges: [ChallengeProgress] = []
+
+    /// Tous les POI, dans l'ordre de `Game`. Le calcul des défis n'a pas besoin
+    /// de la distinction — une collection porte déjà son jeu.
+    var pois: [POI] { Game.allCases.flatMap { poisByGame[$0] ?? [] } }
 
     /// Passe-plat vers le magasin partagé — voir `FoundStore` pour la divergence
     /// que ce partage referme.
@@ -26,22 +33,19 @@ final class ProgressionModel {
     /// `found` facultatif pour les mêmes raisons que dans `MapModel` : les tests
     /// veulent un magasin isolé, la production fournit celui de l'app.
     init(
-        pois: [POI],
+        poisByGame: [Game: [POI]],
         collections: [POICollection] = POICollectionLoader.bundled,
-        trophies: [Trophy],
         modelContext: ModelContext,
         found: FoundStore? = nil,
         sync: ProgressionSyncing? = nil,
         widgetSummaryCoordinator: WidgetSummaryCoordinator? = nil
     ) {
-        self.pois = pois
+        self.poisByGame = poisByGame
         self.collections = collections
-        self.trophies = trophies
         self.modelContext = modelContext
         self.found = found ?? FoundStore(modelContext: modelContext)
         self.sync = sync
         self.widgetSummaryCoordinator = widgetSummaryCoordinator
-        self.checkedTrophyIDs = Set((try? modelContext.fetch(FetchDescriptor<TrophyProgress>()))?.map(\.trophyID) ?? [])
         recomputeChallenges()
     }
 
@@ -56,9 +60,19 @@ final class ProgressionModel {
         recomputeChallenges()
     }
 
-    func updatePOIs(_ newPOIs: [POI]) {
-        pois = newPOIs
+    func updatePOIs(_ newPOIsByGame: [Game: [POI]]) {
+        poisByGame = newPOIsByGame
         recomputeChallenges()
+    }
+
+    /// Lieux cochés d'un jeu, comptés sur ses POI et **non sur ses défis**.
+    ///
+    /// La distinction n'est pas cosmétique : les quinze collections publiées
+    /// sont toutes GTA V, donc compter par défi rendrait le volet à venir
+    /// éternellement à zéro alors que ses POI se cochent déjà sur la carte.
+    func foundCount(for game: Game) -> Int {
+        let ids = foundPOIIDs
+        return (poisByGame[game] ?? []).count { ids.contains($0.id) }
     }
 
     /// Le catalogue arrive du canal de contenu : une collection GTA VI peut donc
@@ -85,17 +99,8 @@ final class ProgressionModel {
         challenges.filter { $0.collection.game == game }
     }
 
-    /// Jeux ayant au moins un défi à afficher, dans l'ordre de `MapGame`.
-    var gamesWithChallenges: [MapGame] {
-        MapGame.allCases.filter { game in challenges.contains { $0.collection.game == game } }
-    }
-
     private func notifyWidgetProgress() {
         widgetSummaryCoordinator?.updateProgress(overallProgress)
-    }
-
-    func updateTrophies(_ newTrophies: [Trophy]) {
-        trophies = newTrophies
     }
 
     /// Attaches sync after construction if it wasn't available yet at init
@@ -128,58 +133,23 @@ final class ProgressionModel {
         ChallengeProgressCalculator.overall(challenges(for: game))
     }
 
-    func isTrophyChecked(_ trophy: Trophy) -> Bool {
-        checkedTrophyIDs.contains(trophy.id)
-    }
-
-    func toggleTrophy(_ trophy: Trophy) {
-        let trophyID = trophy.id
-        let descriptor = FetchDescriptor<TrophyProgress>(predicate: #Predicate { $0.trophyID == trophyID })
-        let now = Date.now
-        if let existing = try? modelContext.fetch(descriptor).first {
-            modelContext.delete(existing)
-            checkedTrophyIDs.remove(trophyID)
-            try? modelContext.save()
-            Task { await sync?.upload(itemID: trophyID, kind: .trophy, found: false, updatedAt: now) }
-        } else {
-            modelContext.insert(TrophyProgress(trophyID: trophyID, updatedAt: now))
-            checkedTrophyIDs.insert(trophyID)
-            try? modelContext.save()
-            Task { await sync?.upload(itemID: trophyID, kind: .trophy, found: true, updatedAt: now) }
-        }
-    }
-
-    /// Last-write-wins-per-item reconciliation of remote progression into the
-    /// local TrophyProgress store. Pure/testable independent of Firestore —
-    /// the caller (ProgressionSection) is responsible for fetching remoteItems
-    /// and gating this on Pro + signed-in.
+    /// Réconciliation dernier-écrit-gagne des éléments distants, déléguée au
+    /// magasin partagé.
+    ///
+    /// Elle ne traitait QUE les trophées avant le 2026-08-19, ce qui laissait un
+    /// trou : la progression distante des POI n'était tirée que par le chemin de
+    /// la carte, donc ouvrir le Profil sans passer par la carte ne rapatriait
+    /// rien. Le retrait des trophées met la méthode face à ce trou plutôt que de
+    /// le masquer. `FoundStore.reconcile` est idempotent et dernier-écrit-gagne,
+    /// donc l'appeler depuis les deux chemins est sans conséquence.
+    ///
+    /// Les lignes `kind = 'trophy'` restées en base n'arrivent même pas jusqu'ici :
+    /// `SupabaseProgressionSync.fetchAll` écarte déjà toute sorte inconnue.
+    ///
+    /// Recalculer ensuite garde l'invariant « `challenges` reflète toujours
+    /// `(pois, foundPOIIDs)` » vrai à tout instant.
     func reconcile(with remoteItems: [ProgressionSyncItem]) {
-        for item in remoteItems where item.kind == .trophy {
-            let trophyID = item.itemID
-            let descriptor = FetchDescriptor<TrophyProgress>(predicate: #Predicate { $0.trophyID == trophyID })
-            let existing = try? modelContext.fetch(descriptor).first
-
-            if let existing, existing.updatedAt >= item.updatedAt {
-                continue // local is at least as recent, local wins
-            }
-
-            if item.found {
-                if let existing {
-                    existing.updatedAt = item.updatedAt
-                } else {
-                    modelContext.insert(TrophyProgress(trophyID: trophyID, updatedAt: item.updatedAt))
-                }
-                checkedTrophyIDs.insert(trophyID)
-            } else if let existing {
-                modelContext.delete(existing)
-                checkedTrophyIDs.remove(trophyID)
-            }
-        }
-        try? modelContext.save()
-        // La réconciliation ne touche que les trophées ici, mais l'appelant
-        // (ProgressionSection) enchaîne avec refreshFoundState() pour les POI ;
-        // recalculer maintenant garde l'invariant « challenges reflète toujours
-        // (pois, foundPOIIDs) » vrai à tout instant.
+        found.reconcile(with: remoteItems)
         recomputeChallenges()
     }
 }

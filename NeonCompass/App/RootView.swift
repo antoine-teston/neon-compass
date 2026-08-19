@@ -311,9 +311,8 @@ struct RootView: View {
             modelContext: modelContext
         )
         _ = ProgressionModel(
-            pois: poiStore.items + referenceStore.items,
+            poisByGame: [.leonida: poiStore.items, .reference: referenceStore.items],
             collections: collectionStore.items,
-            trophies: [],
             modelContext: modelContext,
             found: foundStore,
             widgetSummaryCoordinator: widgetSummaryCoordinator

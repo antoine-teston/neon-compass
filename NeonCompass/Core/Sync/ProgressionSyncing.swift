@@ -1,7 +1,14 @@
 import Foundation
 
+/// Une seule sorte depuis le retrait des trophées (2026-08-19).
+///
+/// L'énumération subsiste plutôt que d'être aplatie en `String` : c'est elle qui
+/// fait que `fetchAll` écarte les lignes `kind = 'trophy'` laissées en base par
+/// les versions précédentes, au lieu de les décoder puis de les ignorer plus
+/// loin. La contrainte `check (kind in ('poi','trophy'))` reste en base — ces
+/// lignes restent valides, on cesse simplement d'en écrire.
 enum ProgressionItemKind: String, Codable, Sendable {
-    case poi, trophy
+    case poi
 }
 
 struct ProgressionSyncItem: Sendable {
