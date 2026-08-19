@@ -29,19 +29,6 @@ struct ProfileModelTests {
         #expect(model.profile == nil)
     }
 
-    @Test func regenerateHandleUpdatesTheStoredProfile() async throws {
-        let repository = FakeProfileRepository()
-        repository.profileToReturn = Profile(handle: "NEON-FALCON-88", xp: 0, level: 0, isPremium: false, rank: nil)
-        let functions = FakeAccountFunctions()
-        functions.handleToReturn = "CHROME-MIRAGE-42"
-        let model = ProfileModel(repository: repository, functions: functions, localDeletion: SpyAccountDeletion())
-        await model.loadProfile(uid: "some-uid")
-
-        try await model.regenerateHandle()
-
-        #expect(model.profile?.handle == "CHROME-MIRAGE-42")
-    }
-
     @Test func deleteAccountCallsTheFunctionExactlyOnce() async throws {
         let functions = FakeAccountFunctions()
         let model = ProfileModel(repository: FakeProfileRepository(), functions: functions, localDeletion: SpyAccountDeletion())

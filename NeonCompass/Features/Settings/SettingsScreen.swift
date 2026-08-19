@@ -1,5 +1,4 @@
 import SwiftUI
-import AuthenticationServices
 
 /// Feuille de réglages, ouverte depuis l'entête du Profil.
 ///
@@ -14,6 +13,10 @@ import AuthenticationServices
 /// visuel, badge Pro compris, et « Supprimer mon compte » y voisinait la
 /// bascule d'icône. Le corps de cet écran ne porte plus que la structure, les
 /// feuilles et les alertes ; chaque section vit dans son fichier.
+///
+/// La connexion n'y est plus : elle a sa propre feuille (`SignInSheet`), et les
+/// réglages n'en gardent que l'appel. Rien ici ne parle plus à Apple, Google ou
+/// GoTrue.
 struct SettingsScreen: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AuthModel.self) private var authModel
@@ -28,10 +31,13 @@ struct SettingsScreen: View {
         notifier: APNsFollowedCategoryNotifier.shared
     )
     @State private var showDeleteConfirmation = false
-    @State private var showHandleConfirmation = false
     @State private var showPaywall = false
-    @State private var currentNonce: String?
-    @State private var signInError: String?
+    /// Présentée d'ici et non par `RootView`, qui porte pourtant la même
+    /// feuille : une vue ne présente qu'UNE feuille à la fois, et lever
+    /// `AppModel.showsSignIn` pendant que les réglages sont à l'écran ne montre
+    /// rien du tout — mesuré au simulateur le 2026-08-19. Le paywall juste à
+    /// côté suit la même règle depuis toujours.
+    @State private var showSignIn = false
 
     init(profileModel: ProfileModel, communityModel: CommunityModel?) {
         self.profileModel = profileModel
@@ -45,10 +51,7 @@ struct SettingsScreen: View {
                 SettingsAccountSection(
                     profileModel: profileModel,
                     showDeleteConfirmation: $showDeleteConfirmation,
-                    showHandleConfirmation: $showHandleConfirmation,
-                    onSignInFailure: reportSignIn,
-                    onAppleResult: handleSignInResult,
-                    onPrepareAppleRequest: prepareAppleRequest
+                    showSignIn: $showSignIn
                 )
 
                 proSection
@@ -78,22 +81,8 @@ struct SettingsScreen: View {
             }
         }
         .sheet(isPresented: $showPaywall) { PaywallView() }
+        .sheet(isPresented: $showSignIn) { SignInSheet() }
         .onAppear { communityModel?.refreshBlockedAuthors() }
-        .alert(
-            "profile.handle.regenerate.confirmTitle",
-            isPresented: $showHandleConfirmation
-        ) {
-            Button("profile.deleteAccount.cancelButton", role: .cancel) {}
-            Button("profile.handle.regenerate.confirmButton") {
-                Task { try? await profileModel.regenerateHandle() }
-            }
-        } message: {
-            // Dit ce que l'Edge Function ne fait PAS : `regenerate-handle` ne
-            // met à jour que `profiles.handle`, et `contributions.author_handle`
-            // est dénormalisé à la soumission. Sans ce message, la surprise
-            // arrive plus tard et sans explication possible.
-            Text("profile.handle.regenerate.confirmMessage")
-        }
         .alert(
             "profile.deleteAccount.confirmTitle",
             isPresented: $showDeleteConfirmation
@@ -116,23 +105,13 @@ struct SettingsScreen: View {
                 settingsModel.dismissDeletionFailure()
             }
         }
-        .alert(
-            "profile.signIn.failed",
-            isPresented: Binding(get: { signInError != nil }, set: { if !$0 { signInError = nil } })
-        ) {
-            Button("profile.deleteAccount.cancelButton", role: .cancel) { signInError = nil }
-        } message: {
-            // Le détail technique n'est pas traduit : il vient du système ou de
-            // GoTrue, et c'est lui qui permet de comprendre le blocage.
-            Text(signInError ?? "")
-        }
     }
 
     /// Ne réénumère pas les avantages : `PaywallView` les liste déjà, et deux
     /// listes finiraient par diverger. Cette section dit l'état, et renvoie.
     @ViewBuilder
     private var proSection: some View {
-        Section("settings.section.pro") {
+        Section {
             if proEntitlementModel.isProEntitled {
                 Label("settings.pro.active", systemImage: "checkmark.seal.fill")
                     .foregroundStyle(NCColor.neonCyan)
@@ -140,37 +119,13 @@ struct SettingsScreen: View {
             } else {
                 Button("profile.pro.upgradeButton") { showPaywall = true }
             }
+        } header: {
+            SettingsIconLabel(
+                "settings.section.pro",
+                systemImage: "crown.fill",
+                tint: NCColor.sunset
+            )
         }
-    }
-
-    private func prepareAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
-        let nonce = AppleSignInCoordinator.makeRawNonce()
-        currentNonce = nonce
-        request.requestedScopes = []
-        request.nonce = AppleSignInCoordinator.sha256(nonce)
-    }
-
-    /// Traduit une erreur de connexion non-Apple en message affichable.
-    ///
-    /// Les problèmes de saisie sont dits dans la langue de l'utilisateur ; tout
-    /// le reste vient du réseau ou de GoTrue, et son texte anglais est ce qui
-    /// permet de comprendre le blocage — le masquer par un message générique
-    /// rendrait le diagnostic impossible.
-    private func reportSignIn(_ error: any Error) {
-        let message: String
-        switch error as? EmailCredentialProblem {
-        case .emptyEmail: message = String(localized: "profile.signIn.email.errorEmpty")
-        case .malformedEmail: message = String(localized: "profile.signIn.email.errorMalformed")
-        case .passwordTooShort(let minimum):
-            message = String(format: String(localized: "profile.signIn.email.errorShort %lld"), minimum)
-        case nil:
-            // Une annulation est un geste volontaire, pas une panne : refermer
-            // la feuille du navigateur ne doit rien afficher.
-            if (error as NSError).code == ASWebAuthenticationSessionError.canceledLogin.rawValue { return }
-            message = error.localizedDescription
-        }
-        print("SettingsScreen: connexion refusée — \(message)")
-        signInError = message
     }
 
     private func deleteAccount() async {
@@ -178,45 +133,5 @@ struct SettingsScreen: View {
         if await settingsModel.deleteAccount(uid: userID, serverEnabled: serverFeatures.isEnabled) {
             try? await authModel.signOut()
         }
-    }
-
-    /// Chaque échec est dit. Une version antérieure les avalait tous —
-    /// `guard … else { return }` puis `try?` — donc un utilisateur bloqué
-    /// n'avait aucun moyen de savoir pourquoi, et nous non plus. C'est la seule
-    /// connexion de l'app : elle ne peut pas échouer en silence.
-    private func handleSignInResult(_ result: Result<ASAuthorization, Error>) {
-        switch result {
-        case .failure(let error):
-            report(AppleSignInCoordinator.classify(error: error))
-        case .success(let authorization):
-            let credential = authorization.credential as? ASAuthorizationAppleIDCredential
-            switch AppleSignInCoordinator.resolve(credential: credential, rawNonce: currentNonce) {
-            case .failure(let failure):
-                report(failure)
-            case .success(let value):
-                Task {
-                    do {
-                        try await authModel.signIn(idTokenString: value.idToken, nonce: value.nonce)
-                    } catch {
-                        report(.underlying(error.localizedDescription))
-                    }
-                }
-            }
-        }
-    }
-
-    private func report(_ failure: AppleSignInFailure) {
-        let message: String
-        switch failure {
-        case .canceled: return
-        case .unexpectedCredentialType: message = String(localized: "profile.signIn.unexpectedCredential")
-        case .missingIdentityToken: message = String(localized: "profile.signIn.missingToken")
-        case .missingNonce: message = String(localized: "profile.signIn.missingNonce")
-        case .underlying(let detail): message = detail
-        }
-        // Imprimé en plus de l'alerte : c'est ce qui rend le diagnostic
-        // possible depuis les journaux du simulateur.
-        print("SettingsScreen: connexion refusée — \(message)")
-        signInError = message
     }
 }

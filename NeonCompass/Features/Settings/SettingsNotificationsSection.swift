@@ -4,7 +4,7 @@ struct SettingsNotificationsSection: View {
     let store: FollowedCategoriesStore
 
     var body: some View {
-        Section("settings.section.notifications") {
+        Section {
             ForEach(POICategory.allCases, id: \.self) { category in
                 Toggle(isOn: Binding(
                     get: { store.followedCategories.contains(category) },
@@ -13,6 +13,12 @@ struct SettingsNotificationsSection: View {
                     Text(category.localizedNameKey)
                 }
             }
+        } header: {
+            SettingsIconLabel(
+                "settings.section.notifications",
+                systemImage: "bell.badge.fill",
+                tint: NCColor.sunsetMagenta
+            )
         }
     }
 }

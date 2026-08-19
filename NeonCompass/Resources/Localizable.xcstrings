@@ -1521,36 +1521,36 @@
         }
       }
     },
-    "community.signInToContribute.openProfile": {
+    "community.signInToContribute.signIn": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Profil öffnen"
+            "value": "Anmelden"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open profile"
+            "value": "Sign in"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abrir perfil"
+            "value": "Iniciar sesión"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ouvrir le profil"
+            "value": "Se connecter"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apri il profilo"
+            "value": "Accedi"
           }
         }
       }
@@ -5676,6 +5676,76 @@
         }
       }
     },
+    "paywall.feature.hideFound": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gefundene Orte auf der Karte ausblenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide found spots on the map"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar en el mapa los lugares ya encontrados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer les lieux déjà trouvés sur la carte"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nascondere sulla mappa i luoghi già trovati"
+          }
+        }
+      }
+    },
+    "paywall.feature.lockScreen": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriten auf dem Sperrbildschirm"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorite cheats on the Lock Screen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoritos en la pantalla bloqueada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoris épinglés à l'écran verrouillé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferiti nella schermata di blocco"
+          }
+        }
+      }
+    },
     "paywall.feature.notifications": {
       "extractionState": "stale",
       "localizations": {
@@ -5711,72 +5781,37 @@
         }
       }
     },
-    "paywall.feature.remaining": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kartenmodus „Was noch zu tun ist“"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "\"What's left to do\" map mode"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modo de mapa «Lo que falta por hacer»"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mode carte « Ce qu'il reste à faire »"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modalità mappa \"Cosa manca da fare\""
-          }
-        }
-      }
-    },
     "paywall.feature.route": {
       "extractionState": "stale",
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Optimierter Routenplaner für Sammelobjekte"
+            "value": "Routenplaner für Sammelobjekte"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Optimized collectible route planner"
+            "value": "Collectible route planner"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Planificador de rutas optimizado para coleccionables"
+            "value": "Planificador de ruta para coleccionables"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Planificateur d'itinéraire optimisé pour les objets à collectionner"
+            "value": "Planificateur d'itinéraire pour les objets à collectionner"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pianificatore di percorsi ottimizzato per gli oggetti da collezione"
+            "value": "Pianificatore di percorso per i collezionabili"
           }
         }
       }
@@ -5822,66 +5857,101 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Exklusive App-Icons und Designs"
+            "value": "Exklusive Designs"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Exclusive app icons & themes"
+            "value": "Exclusive themes"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Iconos y temas exclusivos"
+            "value": "Temas exclusivos"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Icônes et thèmes exclusifs"
+            "value": "Thèmes exclusifs"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Icone e temi esclusivi"
+            "value": "Temi esclusivi"
           }
         }
       }
     },
-    "paywall.feature.widgets": {
-      "extractionState": "stale",
+    "paywall.feature.unlimited": {
+      "extractionState": "manual",
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Widgets für Home- und Sperrbildschirm"
+            "value": "Unbegrenzte Markierungen und Favoriten"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Home screen & Lock Screen widgets"
+            "value": "Unlimited pins and favorites"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Widgets para la pantalla de inicio y la pantalla de bloqueo"
+            "value": "Pines y favoritos ilimitados"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Widgets pour l'écran d'accueil et l'écran verrouillé"
+            "value": "Épingles et favoris illimités"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Widget per schermata Home e schermata di blocco"
+            "value": "Segnaposti e preferiti illimitati"
+          }
+        }
+      }
+    },
+    "paywall.feature.widget": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortschritts-Widget für den Home-Bildschirm"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home Screen progress widget"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget de progreso en la pantalla de inicio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget de progression sur l'écran d'accueil"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget di avanzamento nella schermata Home"
           }
         }
       }
@@ -6815,143 +6885,6 @@
         }
       }
     },
-    "profile.handle.regenerate": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Namen neu generieren"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Regenerate handle"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Regenerar el alias"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Régénérer le pseudo"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rigenera il nome utente"
-          }
-        }
-      }
-    },
-    "profile.handle.regenerate.confirmButton": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ändern"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Change"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cambiar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Changer"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cambia"
-          }
-        }
-      }
-    },
-    "profile.handle.regenerate.confirmMessage": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ein neues Kürzel wird zufällig gezogen. Bereits veröffentlichte Orte behalten das alte."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A new handle is drawn at random. Places you have already published keep the old one."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se sortea un alias nuevo al azar. Los lugares que ya publicaste conservan el anterior."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un nouveau pseudo est tiré au hasard. Les lieux que tu as déjà publiés gardent l'ancien."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un nuovo nome utente viene estratto a caso. I luoghi già pubblicati mantengono quello precedente."
-          }
-        }
-      }
-    },
-    "profile.handle.regenerate.confirmTitle": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kürzel ändern?"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Change your handle?"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Cambiar tu alias?"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Changer de pseudo ?"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cambiare nome utente?"
-          }
-        }
-      }
-    },
     "profile.header.anonymous": {
       "extractionState": "stale",
       "localizations": {
@@ -7858,37 +7791,36 @@
         }
       }
     },
-    "profile.signIn.openSettings": {
-      "extractionState": "stale",
+    "profile.signIn.open": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Einstellungen öffnen"
+            "value": "Anmelden"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open settings"
+            "value": "Sign in"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abrir ajustes"
+            "value": "Iniciar sesión"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ouvrir les réglages"
+            "value": "Se connecter"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apri le impostazioni"
+            "value": "Accedi"
           }
         }
       }
@@ -8502,40 +8434,6 @@
         }
       }
     },
-    "settings.account.handle": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kürzel"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Handle"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alias"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pseudo"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nome utente"
-          }
-        }
-      }
-    },
     "settings.account.provider.apple": {
       "localizations": {
         "de": {
@@ -8975,6 +8873,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "Impostazioni"
+          }
+        }
+      }
+    },
+    "signIn.close": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiudi"
+          }
+        }
+      }
+    },
+    "signIn.footer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Stöbern brauchst du kein Konto. Die Anmeldung dient nur der Synchronisierung, Beiträgen und Abstimmungen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No account is required to browse. Sign in only powers sync, contributions and votes."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No necesitas una cuenta para explorar. Iniciar sesión solo sirve para la sincronización, las contribuciones y los votos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun compte n'est nécessaire pour explorer. La connexion ne sert qu'à la synchronisation, aux contributions et aux votes."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non serve un account per esplorare. L'accesso serve solo per la sincronizzazione, i contributi e i voti."
           }
         }
       }

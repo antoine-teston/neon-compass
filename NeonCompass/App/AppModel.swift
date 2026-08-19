@@ -40,6 +40,21 @@ final class AppModel {
     /// d'écran ne pourrait servir que l'un des deux.
     var showsSettings = false
 
+    /// La feuille de connexion, ouverte depuis un écran d'ONGLET.
+    ///
+    /// Distincte de `showsSettings` : se connecter n'est pas régler quelque
+    /// chose, et l'invitation du Profil doit pouvoir l'ouvrir sans passer par
+    /// les réglages.
+    ///
+    /// **Cette porte ne sert qu'aux appelants qui ne sont pas déjà dans une
+    /// feuille.** `RootView` n'en présente qu'UNE à la fois : mesuré au
+    /// simulateur le 2026-08-19, une demande faite pendant que les réglages sont
+    /// à l'écran ne montre rien du tout, et attend en silence que la première se
+    /// referme. Les appelants qui vivent déjà dans une feuille — l'appel des
+    /// réglages déconnectés, l'alerte de contribution quand `ProposalsSheet` la
+    /// porte — présentent donc `SignInSheet` eux-mêmes.
+    var showsSignIn = false
+
     /// Le point de nouveauté de l'onglet Social : une semaine synchronisée que
     /// l'utilisateur n'a pas encore vue. Calculé par `RootView` au lancement,
     /// éteint à l'ouverture de l'onglet.
