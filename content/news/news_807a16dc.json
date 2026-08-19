@@ -1,0 +1,27 @@
+{
+  "id": "news_807a16dc",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Rumeur d'une permission militaire liée à la sortie",
+    "en": "Unverified memo claims military leave tied to launch",
+    "es": "Rumor de permiso militar ligado al lanzamiento",
+    "it": "Voce su un permesso militare legato all'uscita",
+    "de": "Gerücht über Militärurlaub zum Verkaufsstart"
+  },
+  "body": {
+    "fr": "Un mémo interne qui circule en ligne affirmerait qu'une unité du génie de l'armée américaine offre quatre jours de permission aux soldats qui se réengagent avant la sortie du jeu, à prendre dès le lendemain du lancement. Ni l'unité ni l'armée n'ont confirmé l'authenticité du document, qui reste donc à prendre avec prudence.",
+    "en": "An internal memo circulating online reportedly claims a U.S. Army engineer unit is offering four days of leave to soldiers who re-enlist before the game's release, to be taken starting the day after launch. Neither the unit nor the Army has confirmed the document is genuine, so treat this as unverified for now.",
+    "es": "Un memorando interno que circula en internet afirmaría que una unidad de ingenieros del ejército estadounidense ofrece cuatro días de permiso a los soldados que se reenganchen antes del lanzamiento del juego, a disfrutar desde el día siguiente. Ni la unidad ni el ejército han confirmado la autenticidad del documento, así que conviene tomarlo con cautela.",
+    "it": "Un memo interno che circola online affermerebbe che un'unità del genio dell'esercito statunitense offre quattro giorni di licenza ai soldati che si riarruolano prima dell'uscita del gioco, da usufruire dal giorno successivo al lancio. Né l'unità né l'esercito hanno confermato l'autenticità del documento, quindi va preso con cautela.",
+    "de": "Ein online kursierendes internes Memo soll besagen, dass eine Pionier-Einheit der US-Armee Soldaten, die sich vor dem Release des Spiels erneut verpflichten, vier Tage Urlaub ab dem Tag nach dem Verkaufsstart anbietet. Weder die Einheit noch die Armee haben die Echtheit des Dokuments bestätigt – mit Vorsicht zu genießen."
+  },
+  "publishedAt": "2026-08-18",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/an-army-unit-is-reportedly-offering-days-off-to-play-gta-6-3bb9"
+  ],
+  "confidence": "rumor",
+  "processedFrom": "inbox:news:6ebfb1b3e668",
+  "sourceClaim": "Un mémo interne circulant en ligne, non authentifié par l'unité concernée ni par l'armée américaine, affirmerait qu'un bataillon du génie basé en Géorgie offrirait quatre jours de permission aux soldats qui se réengagent avant la sortie du jeu, la permission débutant le lendemain du lancement ; ni le bataillon ni l'armée n'ont confirmé le document à ce jour."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "news_a907cde2",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Une pub console recycle des images déjà vues",
+    "en": "Console ad reuses previously released footage",
+    "es": "Un anuncio de consola recicla imágenes ya vistas",
+    "it": "Uno spot console ricicla immagini già viste",
+    "de": "Konsolen-Werbespot recycelt bereits gezeigtes Material"
+  },
+  "body": {
+    "fr": "Une publicité pour une console concurrente diffusée le 17 août ne contient aucune image inédite du jeu. Elle réutilise des plans déjà vus dans une bande-annonce précédente, simplement recadrés en plein écran, éclaircis et accompagnés de nouveaux effets sonores. De quoi calmer les spéculations autour d'un supposé nouvel aperçu.",
+    "en": "A rival console's ad that aired on August 17 contains no new footage of the game. It reuses shots already seen in an earlier trailer, simply reframed to fill the screen, brightened, and layered with new sound effects. That should settle speculation about a supposed fresh look at the game.",
+    "es": "Un anuncio de una consola rival emitido el 17 de agosto no contiene ninguna imagen inédita del juego. Reutiliza planos ya vistos en un tráiler anterior, simplemente recortados a pantalla completa, más luminosos y con nuevos efectos de sonido añadidos. Suficiente para calmar la especulación sobre un supuesto adelanto nuevo.",
+    "it": "Uno spot per una console rivale, andato in onda il 17 agosto, non contiene alcuna immagine inedita del gioco. Riutilizza inquadrature già viste in un trailer precedente, semplicemente ritagliate a schermo intero, schiarite e con nuovi effetti sonori aggiunti. Abbastanza per placare le speculazioni su un presunto nuovo assaggio.",
+    "de": "Ein am 17. August ausgestrahlter Werbespot für eine Konkurrenzkonsole zeigt keine neuen Spielszenen. Er verwendet bereits aus einem früheren Trailer bekannte Einstellungen, lediglich bildschirmfüllend zugeschnitten, aufgehellt und mit neuen Soundeffekten unterlegt. Das dürfte Spekulationen über einen angeblich neuen Ausblick beenden."
+  },
+  "publishedAt": "2026-08-18",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/why-gta-6-looks-different-in-the-new-ps5-commercial-b8a9"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:f3c5b335c473",
+  "sourceClaim": "Une publicité pour une console concurrente diffusée le 17 août ne montre aucune image inédite du jeu : elle réutilise des plans déjà vus dans la deuxième bande-annonce, simplement recadrés en plein écran, éclaircis et accompagnés de nouveaux effets sonores."
+}
