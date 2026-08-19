@@ -36,9 +36,11 @@ struct PaywallView: View {
         var features: [(LocalizedStringKey, String)] = [
             ("paywall.feature.ads", "nosign"),
             ("paywall.feature.sync", "icloud"),
+            ("paywall.feature.unlimited", "pin"),
             ("paywall.feature.route", "map"),
-            ("paywall.feature.remaining", "checklist"),
-            ("paywall.feature.widgets", "square.grid.2x2"),
+            ("paywall.feature.hideFound", "eye.slash"),
+            ("paywall.feature.widget", "square.grid.2x2"),
+            ("paywall.feature.lockScreen", "lock"),
         ]
         if serverFeatures.isEnabled {
             features.append(("paywall.feature.notifications", "bell"))
