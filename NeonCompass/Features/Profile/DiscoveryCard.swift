@@ -64,14 +64,19 @@ struct DiscoveryCard: View {
         .accessibilityElement(children: .combine)
     }
 
-    /// « 412 / 604 » quand le total est connu, « 12 lieux » sinon. Même règle que
+    /// « 137 / 267 » quand le total est connu, « 12 lieux » sinon. Même règle que
     /// les lignes de défi de la feuille, et pour la même raison : un total
     /// inventé serait faux, un compte absolu reste juste.
+    ///
+    /// Le numérateur est `foundInChallenges` et non `foundCount` : c'est le seul
+    /// qui compte la même population que le dénominateur, donc le seul qui
+    /// puisse être posé sur la même barre de fraction — et le seul dont le
+    /// quotient soit le pourcentage que l'anneau affiche juste au-dessus.
     private func tally(_ game: DiscoveryGameState) -> String {
         guard let expected = game.expectedCount else {
             return String(format: String(localized: "profile.explorer.found %lld"), game.foundCount)
         }
-        return "\(game.foundCount) / \(expected)"
+        return "\(game.foundInChallenges) / \(expected)"
     }
 
     private var challengesButton: some View {

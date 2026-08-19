@@ -69,6 +69,7 @@ struct DiscoveryStateTests {
         )
         let reference = state.games.first { $0.game == .reference }
         #expect(reference?.expectedCount == 100)
+        #expect(reference?.foundInChallenges == 50)
         #expect(reference?.progress == 0.5)
     }
 
@@ -84,7 +85,40 @@ struct DiscoveryStateTests {
         )
         let reference = state.games.first { $0.game == .reference }
         #expect(reference?.expectedCount == 50)
+        // 25 et non 32 : le défi sans total est hors des deux côtés de la
+        // fraction, pas seulement du dénominateur.
+        #expect(reference?.foundInChallenges == 25)
         #expect(reference?.progress == 0.5)
+    }
+
+    // MARK: - Le compte affiché EST le pourcentage de l'anneau
+
+    /// Le défaut vu à l'écran sur iPad le 2026-08-19, et que rien ici n'attrapait :
+    /// l'anneau annonçait 51 % pendant que le compte juste dessous disait
+    /// « 204 / 267 », soit 76 %. Les deux nombres étaient justes séparément —
+    /// 204 comptait TOUS les lieux cochés du jeu, 267 seulement les défis — et
+    /// faux ensemble, posés de part et d'autre d'une barre de fraction.
+    ///
+    /// L'invariant : le quotient affiché est le pourcentage affiché.
+    @Test func theDisplayedFractionIsExactlyTheRingsPercentage() {
+        let state = DiscoveryState(
+            challenges: [
+                challenge(id: "a", game: .reference, found: 5, expected: 10),
+                challenge(id: "b", game: .reference, found: 20, expected: 50),
+                challenge(id: "sansTotal", game: .reference, found: 3, expected: nil),
+            ],
+            // Le compte d'exploration dépasse la somme des défis : c'est le cas
+            // réel — un joueur coche aussi des lieux hors défi — et c'est lui qui
+            // faisait mentir l'affichage.
+            foundCountByGame: [.reference: 204]
+        )
+        let reference = state.games.first { $0.game == .reference }
+        #expect(reference?.foundInChallenges == 25)
+        #expect(reference?.expectedCount == 60)
+        #expect(reference?.progress == 25.0 / 60.0)
+        // Le compte d'exploration survit, il n'est simplement plus posé sur la
+        // barre de fraction.
+        #expect(reference?.foundCount == 204)
     }
 
     // MARK: - Le compte vient des POI, pas des défis

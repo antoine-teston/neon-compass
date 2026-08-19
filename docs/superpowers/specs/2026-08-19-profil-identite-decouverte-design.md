@@ -203,12 +203,46 @@ Tests neufs ou étendus :
   n'existe que `profile != nil` ; `xp == 0` donne l'invitation et non « 0 XP ».
 - `DiscoveryStateTests` — les deux jeux toujours là ; total inconnu → tiret et
   compte absolu ; **le compte par jeu vient des POI du jeu et non des défis**,
-  qui est le test que le tableau fusionné faisait échouer.
+  qui est le test que le tableau fusionné faisait échouer ; et
+  `theDisplayedFractionIsExactlyTheRingsPercentage`, l'invariant né de la passe
+  à l'écran (§6).
 - `SchemaMigrationTests` — le retrait de `TrophyProgress` du `ModelContainer`,
   dans les deux sens, sur un vrai fichier. Détaillé au §4.
 - `ProgressionReconciliationTests` — les trois tests trophée sont remplacés par
   un seul, qui vérifie ce que le chemin du Profil ne faisait pas : appliquer la
   progression POI distante.
+
+## 6. Vérification à l'écran
+
+Faite le 2026-08-19 sur iPhone 17 (iOS 26.5) et iPad Pro 13 M5, en pilotant le
+simulateur. Ce que les 705 tests ne peuvent pas voir : la mise en page, et la
+cohérence de deux nombres affichés côte à côte.
+
+Confirmé sur iPhone : la pastille de palier, la jauge, les deux anneaux avec le
+tiret sur le volet à venir, la feuille Défis. Puis douze lieux cochés sur la
+carte, **sans relancer l'app** — le Profil suit en direct, le palier passe de
+Touriste à Coursier, le symbole de la pastille de marcheur à coureur, la jauge
+s'amorce, « 28 avant Chauffeur » se recalcule, l'anneau V passe à 4 %. C'est le
+chemin `onChange(of: foundStore.foundIDs)` que `DiscoverySection` documente comme
+né d'un bug, et il tient.
+
+**Un défaut trouvé, et seulement là.** Sur iPad, avec 204 lieux cochés, l'anneau
+de la carte de référence annonçait 51 % pendant que le compte juste dessous
+disait « 204 / 267 » — soit 76 %. Les deux nombres étaient justes séparément et
+faux ensemble : 204 compte **tous** les lieux cochés du jeu, 267 ne totalise que
+les défis à total connu. Posés de part et d'autre d'une barre de fraction, ils se
+contredisaient.
+
+Le numérateur devient donc `foundInChallenges`, la somme des trouvés sur les
+mêmes défis que le dénominateur — donc exactement le quotient dont l'anneau
+affiche le pourcentage : « 137 / 267 » sous 51 %. Le compte d'exploration
+(204 lieux) ne disparaît pas, il reste sur la carte Identité, où rien ne le
+divise par autre chose.
+
+`theDisplayedFractionIsExactlyTheRingsPercentage` fixe l'invariant, et il a été
+vu échouer sur l'ancien comportement (`204 == 25`) avant d'être cru. Le défaut
+n'était pas seulement absent des tests : `aTotallessChallengeDoesNotDiluteItsNeighbours` portait la contradiction dans sa propre fixture — 32 lieux cochés
+en face d'un `progress` de 25/50 — sans que rien ne l'affirme ni ne s'en plaigne.
 
 ## Hors périmètre, signalé
 
