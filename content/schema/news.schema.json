@@ -35,7 +35,7 @@
     },
     "confidence": {
       "enum": ["confirmed-official", "multi-source", "single-source", "rumor"],
-      "description": "Reprise telle quelle du fait d’inbox. Gouverne la publication (check-publishable) : une rumeur ne part pas dans le fil. Affiché dans la vue de détail depuis le 2026-07-29 — un lecteur de ce fil veut savoir ce que vaut l’information."
+      "description": "Reprise telle quelle du fait d’inbox. N’empêche plus la publication depuis le 2026-08-19 (une rumeur PEUT partir dans le fil). Affiché dans la vue de détail depuis le 2026-07-29 — un lecteur de ce fil veut savoir ce que vaut l’information."
     },
     "processedFrom": {
       "type": "string",

@@ -57,14 +57,24 @@ export function problemsFor({ kind, data }) {
   if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.needsRewrite) {
     problems.push('published news item is still an unwritten skeleton (needsRewrite)');
   }
-  // Une rumeur ne part pas dans le fil. L'app est un compagnon non officiel :
-  // sa crédibilité tient à ne jamais présenter une spéculation de presse comme
-  // une actualité. Une rumeur peut vivre en `draft` (elle garde sa trace et
-  // son id), elle ne franchit pas la publication. Assouplir cette règle est
-  // une décision éditoriale, pas un détail de pipeline.
-  if ((kind === 'news' || kind === 'online-events') && data.status === 'published' && data.confidence === 'rumor') {
-    problems.push('published entry cannot rest on a rumor (confidence: rumor)');
-  }
+  // Une rumeur PEUT être publiée, décidé le 2026-08-19. Jusque-là c'était le
+  // seul refus ÉDITORIAL de ce gardien, et il n'avait aucun test — la règle
+  // s'appuyait sur son commentaire.
+  //
+  // Ce qui l'a levée : la confiance est déjà affichée item par item dans l'app
+  // depuis le 2026-07-29 (`NewsDetailView` rend une carte « Rumeur / Non
+  // confirmé. Spéculation ou information non vérifiée. », traduite en cinq
+  // langues, avec son propre symbole et sa propre teinte). Retenir la rumeur
+  // ET l'étiqueter faisait double emploi ; entre les deux, étiqueter est ce qui
+  // respecte le lecteur, taire est ce qui appauvrit le fil. Le compagnon reste
+  // non officiel : sa crédibilité tient à DIRE ce que vaut l'information, pas à
+  // n'en publier qu'une partie.
+  //
+  // Conséquence assumée, et c'est la vraie contrepartie : la chaîne de veille
+  // étant automatique de bout en bout (récolte → PR → fusion → publish-news),
+  // une rumeur récoltée la nuit est dans le fil sans qu'un humain l'ait lue. Le
+  // badge est la seule atténuation. Si une fausse information passe un jour,
+  // c'est ici qu'il faut revenir — et remettre le refus coûte six lignes.
   // La confiance se PROUVE. Jusqu'au 2026-08-15, `multi-source` était un
   // jugement du modèle que rien ne vérifiait : les neuf items du fil qui le
   // portaient citaient chacun UNE seule URL. Le mot n'a de valeur que si

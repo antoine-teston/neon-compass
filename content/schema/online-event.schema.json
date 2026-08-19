@@ -158,7 +158,7 @@
         "single-source",
         "rumor"
       ],
-      "description": "Identique à news : check-publishable refuse déjà de publier une rumeur."
+      "description": "Identique à news : depuis le 2026-08-19, check-publishable n’oppose plus la confiance à la publication."
     },
     "processedFrom": {
       "type": "string",

@@ -325,5 +325,16 @@ pas, n'essaie pas de forcer, et si la fusion n'a pas eu lieu, ne la provoque pas
 - Ne nomme pas les franchises concurrentes.
 - `claim` TOUJOURS reformulé dans tes propres mots ; un fait sans URL de source
   est jeté.
-- `status: published` seulement si `confidence` vaut `confirmed-official` ou
-  `multi-source`. Rumeurs et `single-source` restent `draft`.
+- `status: published` dès qu'une actu ou un événement en ligne est RÉDIGÉ dans
+  les cinq langues, **quelle que soit sa `confidence`** — règle allégée le
+  2026-08-19, elle exigeait jusque-là `confirmed-official` ou `multi-source`.
+  Ce qui l'a levée : cette exigence était inatteignable (aucune actu du dépôt
+  n'a jamais porté `multi-source`, faute d'un second hôte vivant au registre) et
+  redondante, l'app affichant déjà la confiance item par item. Un squelette non
+  rédigé, lui, reste `draft` : `check-publishable` refuse un `published` qui
+  porte encore `needsRewrite`.
+- Corollaire à avoir en tête : tu n'as plus de relecture humaine en aval. La
+  chaîne va de la récolte au fil de l'app sans arrêt — récolte, PR, fusion
+  automatique, `publish-news`. Ce que tu écris est lu par des joueurs le matin
+  même. La confiance que tu déclares dans le fait est donc la seule chose qui
+  distingue une rumeur d'un fait pour le lecteur : ne la surévalue jamais.
