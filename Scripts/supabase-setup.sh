@@ -152,7 +152,7 @@ for fn in delete-account submit-contribution send-push rebuild-community-bundles
 done
 echo "→ déploiement de app-store-notification (sans vérification de JWT)"
 supabase functions deploy app-store-notification --project-ref "$PROJECT_REF" --no-verify-jwt >/dev/null
-done_ "6 Edge Functions déployées"
+done_ "5 Edge Functions déployées"
 
 echo
 echo "Reste à faire à la main, non scriptable :"
