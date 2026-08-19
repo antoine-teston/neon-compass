@@ -1521,36 +1521,36 @@
         }
       }
     },
-    "community.signInToContribute.openProfile": {
+    "community.signInToContribute.signIn": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Profil öffnen"
+            "value": "Anmelden"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open profile"
+            "value": "Sign in"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abrir perfil"
+            "value": "Iniciar sesión"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ouvrir le profil"
+            "value": "Se connecter"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apri il profilo"
+            "value": "Accedi"
           }
         }
       }
@@ -7791,37 +7791,36 @@
         }
       }
     },
-    "profile.signIn.openSettings": {
-      "extractionState": "stale",
+    "profile.signIn.open": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Einstellungen öffnen"
+            "value": "Anmelden"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open settings"
+            "value": "Sign in"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Abrir ajustes"
+            "value": "Iniciar sesión"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ouvrir les réglages"
+            "value": "Se connecter"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apri le impostazioni"
+            "value": "Accedi"
           }
         }
       }
@@ -8908,6 +8907,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "Impostazioni"
+          }
+        }
+      }
+    },
+    "signIn.close": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiudi"
+          }
+        }
+      }
+    },
+    "signIn.footer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Stöbern brauchst du kein Konto. Die Anmeldung dient nur der Synchronisierung, Beiträgen und Abstimmungen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No account is required to browse. Sign in only powers sync, contributions and votes."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No necesitas una cuenta para explorar. Iniciar sesión solo sirve para la sincronización, las contribuciones y los votos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun compte n'est nécessaire pour explorer. La connexion ne sert qu'à la synchronisation, aux contributions et aux votes."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non serve un account per esplorare. L'accesso serve solo per la sincronizzazione, i contributi e i voti."
           }
         }
       }

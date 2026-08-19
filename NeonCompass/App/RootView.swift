@@ -93,6 +93,13 @@ struct RootView: View {
                 // contenu de la feuille en sort et repart en bleu système.
                 .tint(themeStore.selectedTheme.accent)
         }
+        // Au même endroit et pour les mêmes raisons que la feuille au-dessus :
+        // elle lit `AuthModel` et `ServerFeaturesModel` dans l'environnement,
+        // qui n'est visible d'une feuille que posé PLUS BAS qu'elle.
+        .sheet(isPresented: $model.showsSignIn) {
+            SignInSheet()
+                .tint(themeStore.selectedTheme.accent)
+        }
         .environment(authModel)
         // Pour que le Profil puisse basculer sur la Carte depuis l'invitation
         // à contribuer : une contribution se pose sur la carte, pas ailleurs.

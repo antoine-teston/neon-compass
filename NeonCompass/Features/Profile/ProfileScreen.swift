@@ -60,7 +60,7 @@ struct ProfileScreen: View {
                 .font(NCTypography.body)
                 .foregroundStyle(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
-            Button("profile.signIn.openSettings") { appModel.showsSettings = true }
+            Button("profile.signIn.open") { appModel.showsSignIn = true }
         }
         .padding(20)
         .frame(maxWidth: .infinity)

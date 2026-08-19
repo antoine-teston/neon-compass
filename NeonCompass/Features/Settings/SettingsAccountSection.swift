@@ -1,25 +1,21 @@
 import SwiftUI
-import AuthenticationServices
 
 /// La section Compte : qui on est, et les deux gestes qui mettent fin à la
 /// session.
 ///
-/// Les boutons de connexion sont DÉPLACÉS depuis `SettingsScreen` sans changer
-/// d'une ligne — le protocole Sign in with Apple n'est pas retouché pendant une
-/// refonte de mise en page.
+/// Déconnecté, elle ne propose plus de se connecter SUR PLACE : Apple, Google et
+/// le repli e-mail sont partis dans `SignInSheet`, et il ne reste ici que
+/// l'appel qui l'ouvre. Une section de réglages n'est pas l'endroit où l'on
+/// choisit un fournisseur d'identité.
 struct SettingsAccountSection: View {
     @Environment(AuthModel.self) private var authModel
     @Environment(ServerFeaturesModel.self) private var serverFeatures
 
     let profileModel: ProfileModel
     @Binding var showDeleteConfirmation: Bool
-    let onSignInFailure: (any Error) -> Void
-    let onAppleResult: (Result<ASAuthorization, Error>) -> Void
-    let onPrepareAppleRequest: (ASAuthorizationAppleIDRequest) -> Void
-
-    @State private var showEmailForm = false
-    @State private var email = ""
-    @State private var password = ""
+    /// La feuille est présentée par `SettingsScreen`, qui explique pourquoi ce
+    /// n'est pas `AppModel.showsSignIn` qui l'ouvre d'ici.
+    @Binding var showSignIn: Bool
 
     var body: some View {
         if authModel.userID == nil {
@@ -74,65 +70,14 @@ struct SettingsAccountSection: View {
             Text(serverFeatures.isEnabled ? "profile.signIn.prompt" : "profile.signIn.syncOnlyPrompt")
                 .font(NCTypography.body)
 
-            // Apple en premier, et en tête : la règle App Store 4.8 l'exige dès
-            // qu'un autre fournisseur tiers est proposé.
-            SignInWithAppleButton(.signIn) { request in
-                onPrepareAppleRequest(request)
-            } onCompletion: { result in
-                onAppleResult(result)
+            Button { showSignIn = true } label: {
+                Text("profile.signIn.open")
+                    .font(NCTypography.body.bold())
+                    .frame(maxWidth: .infinity, minHeight: 44)
             }
-            .signInWithAppleButtonStyle(.white)
-            .frame(height: 44)
-
-            Button("profile.signIn.google") {
-                Task {
-                    do { try await authModel.signInWithGoogle() } catch { onSignInFailure(error) }
-                }
-            }
-
-            // L'e-mail replié par défaut : le déplier demanderait deux champs de
-            // saisie à quelqu'un qui a un bouton Apple juste au-dessus. C'est le
-            // troisième choix, présenté comme tel.
-            Button(showEmailForm ? "profile.signIn.email.hide" : "profile.signIn.email.show") {
-                withAnimation { showEmailForm.toggle() }
-            }
-
-            if showEmailForm { emailRows }
-        }
-    }
-
-    @ViewBuilder
-    private var emailRows: some View {
-        TextField("profile.signIn.email.address", text: $email)
-            .textContentType(.emailAddress)
-            .keyboardType(.emailAddress)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-
-        // `.password` et pas `.newPassword` : le même champ sert à se connecter
-        // et à s'inscrire, et `.newPassword` ferait proposer un mot de passe
-        // fort à quelqu'un qui veut simplement ressaisir le sien.
-        SecureField("profile.signIn.email.password", text: $password)
-            .textContentType(.password)
-
-        if authModel.awaitingEmailConfirmation {
-            Text("profile.signIn.email.confirmationSent")
-                .font(NCTypography.cardMeta)
-                .foregroundStyle(NCColor.neonCyan)
-        }
-
-        Button("profile.signIn.email.signIn") {
-            Task {
-                do { try await authModel.signIn(email: email, password: password) }
-                catch { onSignInFailure(error) }
-            }
-        }
-
-        Button("profile.signIn.email.signUp") {
-            Task {
-                do { try await authModel.signUp(email: email, password: password) }
-                catch { onSignInFailure(error) }
-            }
+            .buttonStyle(.borderedProminent)
+            .tint(NCColor.neonCyan)
+            .foregroundStyle(NCColor.nightSky)
         }
     }
 }
