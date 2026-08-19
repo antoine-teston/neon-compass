@@ -36,13 +36,19 @@ Style of this file: Karpathy-minimal. High signal only. If a rule doesn't change
 
 Projet `NeonCompass.xcodeproj`, scheme `NeonCompass`, généré par XcodeGen depuis `project.yml` — **relancer `xcodegen generate` après toute création ou suppression de fichier source**, sinon `xcodebuild` rapporte « 0 tests » au lieu d'un échec de compilation.
 
-**Une ressource déclarée `type: folder` n'est PAS recopiée quand son CONTENU change** — `MapArt/`, `POI/`, `Cheats/`. Xcode ne compare que l'existence du dossier de destination, pas les octets : régénérer une carte puis reconstruire donne un binaire qui embarque l'ANCIENNE image, sans un mot dans le journal de build. Effacer la destination avant de reconstruire :
+**Une ressource déclarée `type: folder` n'est PAS recopiée quand son CONTENU change** — `MapArt/`, `MapTiles/`, `POI/`, `Cheats/`. Xcode ne compare que l'existence du dossier de destination, pas les octets : régénérer une carte puis reconstruire donne un binaire qui embarque l'ANCIENNE image, sans un mot dans le journal de build. Effacer la destination avant de reconstruire :
 
 ```sh
 BUILT=$(xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
   -showBuildSettings 2>/dev/null | awk -F' = ' '/ BUILT_PRODUCTS_DIR/{print $2; exit}')
-rm -rf "$BUILT/NeonCompass.app/MapArt"
+rm -rf "$BUILT/NeonCompass.app/MapArt" "$BUILT/NeonCompass.app/MapTiles"
 ```
+
+`MapTiles/` est le plus traître des quatre : c'est un pavage de 2 351 PNG sous
+`<nom>/<côté>/<x>_<y>.png`, et une pyramide périmée ne se voit pas — la carte
+s'affiche, simplement avec les pixels d'avant. Toute vérification visuelle ou
+mesure de suite de tests menée sans cet effacement ne prouve rien sur ce que le
+générateur vient d'écrire.
 
 Corollaire : `ls ~/Library/Developer/Xcode/DerivedData/NeonCompass-*/... | head -1` ment. Plusieurs répertoires coexistent et le premier par ordre alphabétique n'est pas celui où `xcodebuild` écrit — c'est `BUILT_PRODUCTS_DIR` ci-dessus qui fait autorité, jamais un glob.
 

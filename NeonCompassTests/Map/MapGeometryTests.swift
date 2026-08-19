@@ -47,15 +47,19 @@ struct MapGeometryTests {
         #expect(insets == ContentInsets(top: 100, left: 50, bottom: 100, right: 50))
     }
 
-    @Test func centeringInsetsClampToZeroWhenContentFillsOrExceedsAnAxis() {
-        // Scaled content 500x500 exceeds both axes of a 300x400 viewport —
-        // insets must clamp to 0, never go negative.
+    @Test func centeringInsetsFloorsToHalfBoundsPastRestWhenContentExceedsAnAxis() {
+        // Scaled content 500x500 exceeds both axes of a 300x400 viewport, at
+        // zoomScale 1 — past that pair's resting scale (coverZoomScale ==
+        // 0.8), so the Task 10 overscroll plancher applies: bounds/2 on each
+        // axis, not 0. Before that fix this clamped to zero, which pinned
+        // scrolling on the image's edge and made a coastal pin uncenterable
+        // once zoomed in (see overscrollAllowsCenteringAnyPoint).
         let insets = MapGeometry.centeringInsets(
             contentSize: CGSize(width: 500, height: 500),
             zoomScale: 1,
             in: CGSize(width: 300, height: 400)
         )
-        #expect(insets == ContentInsets(top: 0, left: 0, bottom: 0, right: 0))
+        #expect(insets == ContentInsets(top: 200, left: 150, bottom: 200, right: 150))
     }
 
     @Test func centeringInsetsScalesContentSizeByZoomScale() {
@@ -69,6 +73,16 @@ struct MapGeometryTests {
         )
         #expect(abs(insets.left - 195.2) < 0.01)
         #expect(abs(insets.top - 95.2) < 0.01)
+    }
+
+    @Test("Tout point de la carte peut être amené au centre, même zoomé")
+    func overscrollAllowsCenteringAnyPoint() {
+        let content = CGSize(width: 2048, height: 2048)
+        let bounds = CGSize(width: 402, height: 874)
+        let insets = MapGeometry.centeringInsets(contentSize: content, zoomScale: 3.3, in: bounds)
+        // Le coin supérieur gauche du contenu doit pouvoir atteindre le centre.
+        #expect(insets.top >= bounds.height / 2)
+        #expect(insets.left >= bounds.width / 2)
     }
 
     @Test func coverZoomScaleGrowsToFillTheLargerDimension() {
@@ -167,5 +181,178 @@ struct MapGeometryTests {
         )
         #expect(abs(offset.x - 227) < 0.01)
         #expect(abs(offset.y - 0) < 0.01)
+    }
+
+    // MARK: - Fondu des bords
+
+    /// Les deux appareils, à leur zoom de REPOS. Ce ne sont pas des mesures
+    /// prises sur un simulateur : ce sont les tailles logiques des deux
+    /// appareils visés, et le zoom de repos qui en découle (la carte couvre
+    /// l'écran sans bande vide, donc `bounds.height / 2 048`).
+    private static let phoneBounds = CGSize(width: 402, height: 874)
+    private static let padBounds = CGSize(width: 1032, height: 1376)
+    private static let mapSize = CGSize(width: 2048, height: 2048)
+
+    /// Construit ce que la fenêtre voit quand la carte est CENTRÉE à ce zoom —
+    /// la position de repos, et celle qu'on retrouve chaque fois qu'on n'a pas
+    /// fait défiler. Passe par `visibleContentRect` plutôt que de poser un
+    /// rectangle à la main, pour que le test parle de la même géométrie que le
+    /// moteur.
+    private static func centred(zoom: CGFloat, in bounds: CGSize) -> CGRect {
+        MapGeometry.visibleContentRect(
+            bounds: bounds,
+            contentOffset: CGPoint(
+                x: (2048 * zoom - bounds.width) / 2,
+                y: (2048 * zoom - bounds.height) / 2
+            ),
+            zoomScale: zoom
+        )
+    }
+
+    /// Au repos, aucun fondu — et ce n'est pas un réglage de confort.
+    ///
+    /// Le zoom de repos fait affleurer la carte à DEUX des quatre bords de
+    /// l'écran, exactement. Un fondu toujours actif y poserait une vignette de
+    /// 80 pt en haut et en bas, alors qu'au repos aucun fond n'est visible à
+    /// côté de la carte : il n'y a rien à masquer.
+    @Test func noFadeAtRestOnEitherDevice() {
+        let phoneZoom = Self.phoneBounds.height / 2048
+        let phone = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: Self.centred(zoom: phoneZoom, in: Self.phoneBounds),
+            zoomScale: phoneZoom, displayScale: 3
+        )
+        #expect(phone.opacity == 0)
+        let padZoom = Self.padBounds.height / 2048
+        let pad = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: Self.centred(zoom: padZoom, in: Self.padBounds),
+            zoomScale: padZoom, displayScale: 2
+        )
+        #expect(pad.opacity == 0)
+    }
+
+    /// Le défaut que ce tour corrige, et le test qui l'aurait attrapé.
+    ///
+    /// z = 0,68 sur iPad, c'est-à-dire huit millièmes au-dessus du repos : la
+    /// carte ne dépasse l'écran que de 8,3 pt de chaque côté. L'ancienne
+    /// formule en concluait « presque au repos » et rendait 0,10. Mais au-delà
+    /// du repos l'encart vertical vaut une demi-fenêtre, donc le bord haut peut
+    /// descendre à 688 pt du haut de l'écran : 688 pt de fond visible, une
+    /// arête franche en travers, et un voile à 10 % pour la cacher.
+    @Test func theFadeIsWholeWhenAnEdgeIsDraggedIn() {
+        let zoom: CGFloat = 0.68
+        let dragged = MapGeometry.visibleContentRect(
+            bounds: Self.padBounds,
+            contentOffset: CGPoint(x: (2048 * zoom - Self.padBounds.width) / 2, y: -688),
+            zoomScale: zoom
+        )
+        let pad = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: dragged, zoomScale: zoom, displayScale: 2
+        )
+        #expect(pad.opacity == 1)
+    }
+
+    /// L'autre moitié du même arbitrage : au MÊME zoom, mais centrée, il ne se
+    /// passe rien. C'est ce qui interdit à la correction de rendre le fondu
+    /// permanent — une carte à peine plus grande que l'écran n'a pas de bord
+    /// visible, donc pas de vignette.
+    @Test func aMapBarelyLargerThanTheScreenStaysClean() {
+        let pad = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: Self.centred(zoom: 0.68, in: Self.padBounds),
+            zoomScale: 0.68, displayScale: 2
+        )
+        #expect(pad.opacity == 0)
+    }
+
+    /// Le régime que la première rédaction laissait passer : un bord tout juste
+    /// tiré dans la fenêtre.
+    ///
+    /// Dix points de fond découvert, c'est un geste de rien du tout — et c'est
+    /// pourtant un état stable, où l'arête de la carte est à l'écran. Réglée
+    /// sur l'épaisseur de la bande, la rampe n'y opposait que 12 % d'opacité,
+    /// laissant un écart de couleur d'environ 305 là où la recette du chantier
+    /// exige moins de 12.
+    @Test func aBarelyUncoveredEdgeIsAlreadyFullyFaded() {
+        let dragged = MapGeometry.visibleContentRect(
+            bounds: Self.padBounds,
+            contentOffset: CGPoint(x: (2048 - Self.padBounds.width) / 2, y: -10),
+            zoomScale: 1
+        )
+        let pad = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: dragged, zoomScale: 1, displayScale: 2
+        )
+        #expect(pad.opacity == 1)
+    }
+
+    /// La rampe existe, et elle est courte. Quatre points de fond découvert,
+    /// soit la moitié de `fadeCrossing` : à mi-chemin. Ce qu'on vérifie ici
+    /// n'est pas un effet visuel — à cette largeur il n'y a rien à voir — mais
+    /// que le franchissement de zéro est amorti plutôt que brutal, le rebond
+    /// élastique le traversant plusieurs fois par pincement.
+    @Test func theCrossingIsDampedRatherThanAbrupt() {
+        let dragged = MapGeometry.visibleContentRect(
+            bounds: Self.padBounds,
+            contentOffset: CGPoint(x: (2048 - Self.padBounds.width) / 2, y: -4),
+            zoomScale: 1
+        )
+        let pad = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: dragged, zoomScale: 1, displayScale: 2
+        )
+        #expect(abs(pad.opacity - 0.5) < 0.001)
+    }
+
+    /// Le fond découvert sur un côté suffit, même si les trois autres sont
+    /// couverts — un seul calque sert les quatre bords, donc c'est le côté le
+    /// plus découvert qui commande. Ici c'est la DROITE qui déborde.
+    @Test func theMostUncoveredSideCommands() {
+        let dragged = MapGeometry.visibleContentRect(
+            bounds: Self.padBounds,
+            contentOffset: CGPoint(x: 2048 - Self.padBounds.width + 120, y: 336),
+            zoomScale: 1
+        )
+        let pad = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: dragged, zoomScale: 1, displayScale: 2
+        )
+        #expect(pad.opacity == 1)
+    }
+
+    /// Le cœur du chantier : 80 points d'ÉCRAN, à tous les zooms et sur les
+    /// deux appareils. Le test refait le trajet dans l'autre sens — combien de
+    /// points d'écran occupe la bande gravée, sachant l'échelle rendue — plutôt
+    /// que de relire la formule qu'il vérifie. Une implémentation qui poserait
+    /// la bande en points de CONTENU passerait le zoom 1 et échouerait partout
+    /// ailleurs.
+    @Test func theBandMeasuresEightyScreenPointsAtEveryZoom() {
+        for (displayScale, bounds) in [(CGFloat(3), Self.phoneBounds), (CGFloat(2), Self.padBounds)] {
+            let pixels = CGFloat(MapEdgeFadeImage.bandPixels(displayScale: displayScale))
+            for zoom in [bounds.height / 2048, 1.0, 2.5, 3.3, 4.95] as [CGFloat] {
+                let fade = MapGeometry.edgeFade(
+                    contentSize: Self.mapSize,
+                    visibleContentRect: Self.centred(zoom: zoom, in: bounds),
+                    zoomScale: zoom, displayScale: displayScale
+                )
+                let onScreen = pixels / fade.contentsScale * zoom
+                #expect(abs(onScreen - 80) < 0.01, "displayScale \(displayScale), zoom \(zoom)")
+            }
+        }
+    }
+
+    /// Un zoom nul est atteignable — `contentNativeSize` vaut zéro avant le
+    /// premier `layoutSubviews`. Il ne doit produire ni infini ni NaN, et
+    /// surtout pas de calque visible.
+    @Test func aZeroZoomYieldsNothingVisibleRatherThanInfinity() {
+        let fade = MapGeometry.edgeFade(
+            contentSize: Self.mapSize,
+            visibleContentRect: .zero, zoomScale: 0, displayScale: 2
+        )
+        #expect(fade.opacity == 0)
+        #expect(fade.contentsScale > 0)
+        #expect(fade.contentsScale.isFinite)
     }
 }
