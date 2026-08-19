@@ -1,0 +1,27 @@
+{
+  "id": "news_5039f9ad",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Fuite de gameplay avant la présentation officielle",
+    "en": "Gameplay leak surfaces days before official reveal",
+    "es": "Filtración de gameplay antes de la presentación oficial",
+    "it": "Fuga di gameplay prima della presentazione ufficiale",
+    "de": "Gameplay-Leak vor der offiziellen Präsentation"
+  },
+  "body": {
+    "fr": "Des images de jeu et une carte présentée comme complète de la ville ont circulé sur les réseaux sociaux, quelques jours avant une présentation officielle attendue fin août. La presse spécialisée juge plusieurs éléments crédibles, mais l'éditeur a rapidement fait retirer les publications. Le compte à l'origine de la fuite pousse aussi des liens vers un site de cryptomonnaie : mieux vaut les ignorer et attendre la présentation officielle.",
+    "en": "Gameplay footage and an image presented as a full map of the city circulated on social media days before an official showcase expected later this month. Specialist outlets consider several details credible, but the publisher moved quickly to take the posts down. The account behind the leak is also pushing cryptocurrency links, so treat them as a scam and wait for the official reveal.",
+    "es": "Imágenes de juego y una imagen presentada como el mapa completo de la ciudad circularon en redes sociales días antes de una presentación oficial prevista para finales de mes. La prensa especializada considera creíbles varios detalles, pero la editora retiró rápidamente las publicaciones. La cuenta detrás de la filtración también difunde enlaces a un sitio de criptomonedas: mejor ignorarlos y esperar la presentación oficial.",
+    "it": "Immagini di gioco e un'immagine presentata come la mappa completa della città sono circolate sui social pochi giorni prima di una presentazione ufficiale attesa entro fine mese. La stampa specializzata ritiene credibili diversi dettagli, ma l'editore ha fatto rimuovere rapidamente i post. L'account all'origine della fuga di notizie diffonde anche link verso un sito di criptovalute: meglio ignorarli e attendere la presentazione ufficiale.",
+    "de": "Spielszenen und ein Bild, das als vollständige Karte der Stadt präsentiert wurde, kursierten Tage vor einer für Ende des Monats erwarteten offiziellen Präsentation in sozialen Netzwerken. Fachmedien halten mehrere Details für glaubwürdig, doch der Publisher ließ die Beiträge rasch entfernen. Der Account hinter dem Leak verbreitet zudem Links zu einer Kryptowährungs-Seite – diese besser ignorieren und auf die offizielle Präsentation warten."
+  },
+  "publishedAt": "2026-08-18",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-leaked-nine-days-early-scam-and-all-b0ed"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:bed9643219e0",
+  "sourceClaim": "Des extraits de gameplay et une image présentée comme la carte complète de Leonida ont circulé sur les réseaux sociaux neuf jours avant la présentation officielle prévue sur Netflix ; plusieurs éléments semblent authentiques d'après la presse spécialisée, mais l'éditeur a rapidement lancé des retraits pour atteinte au droit d'auteur, et le compte à l'origine de la fuite pousse des liens et QR codes vers un site de cryptomonnaie, signe d'une arnaque à éviter plutôt que d'une source fiable."
+}

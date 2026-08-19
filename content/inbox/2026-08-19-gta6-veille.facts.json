@@ -1,0 +1,52 @@
+{
+  "run": {
+    "date": "2026-08-19",
+    "sources_visited": [
+      "https://www.gtaboom.com/gta-6-leaked-nine-days-early-scam-and-all-b0ed",
+      "https://www.gtaboom.com/gta-4-almost-gave-every-npc-a-home-and-a-job-78a8",
+      "https://www.gtaboom.com/fan-gives-gamecube-the-gta-it-never-got-401b",
+      "https://www.gtaboom.com/one-dev-warns-fans-about-using-gta-6-to-demand-60-fps-03c9",
+      "https://www.gtaboom.com/an-army-unit-is-reportedly-offering-days-off-to-play-gta-6-3bb9",
+      "https://www.gtaboom.com/5-things-the-gta-6-extended-look-on-netflix-probably-wont-show-ca85",
+      "https://www.gtaboom.com/why-gta-6-looks-different-in-the-new-ps5-commercial-b8a9"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Des extraits de gameplay et une image présentée comme la carte complète de Leonida ont circulé sur les réseaux sociaux neuf jours avant la présentation officielle prévue sur Netflix ; plusieurs éléments semblent authentiques d'après la presse spécialisée, mais l'éditeur a rapidement lancé des retraits pour atteinte au droit d'auteur, et le compte à l'origine de la fuite pousse des liens et QR codes vers un site de cryptomonnaie, signe d'une arnaque à éviter plutôt que d'une source fiable.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-leaked-nine-days-early-scam-and-all-b0ed",
+      "source_date": "2026-08-18",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le fondateur d'un studio tiers a publiquement recadré les joueurs qui citent la future sortie du jeu sur une console d'entrée de gamme pour exiger 60 images par seconde dans d'autres productions, rappelant que personne ne sait encore si le jeu lui-même tiendra cette cadence sur ce matériel nettement moins puissant que sa version haut de gamme.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/one-dev-warns-fans-about-using-gta-6-to-demand-60-fps-03c9",
+      "source_date": "2026-08-18",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Un mémo interne circulant en ligne, non authentifié par l'unité concernée ni par l'armée américaine, affirmerait qu'un bataillon du génie basé en Géorgie offrirait quatre jours de permission aux soldats qui se réengagent avant la sortie du jeu, la permission débutant le lendemain du lancement ; ni le bataillon ni l'armée n'ont confirmé le document à ce jour.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/an-army-unit-is-reportedly-offering-days-off-to-play-gta-6-3bb9",
+      "source_date": "2026-08-18",
+      "confidence": "rumor",
+      "processed": true
+    },
+    {
+      "claim": "Une publicité pour une console concurrente diffusée le 17 août ne montre aucune image inédite du jeu : elle réutilise des plans déjà vus dans la deuxième bande-annonce, simplement recadrés en plein écran, éclaircis et accompagnés de nouveaux effets sonores.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/why-gta-6-looks-different-in-the-new-ps5-commercial-b8a9",
+      "source_date": "2026-08-18",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}
