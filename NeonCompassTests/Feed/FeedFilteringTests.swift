@@ -102,25 +102,29 @@ struct FeedFilteringTests {
 
     /// Le groupement suit le TRI, donc la date de mise en ligne.
     ///
-    /// Il ne peut pas en être autrement : grouper sur une date et trier sur une
-    /// autre rendrait les tranches non monotones — une carte sauterait d'une
-    /// section à l'autre au milieu de la liste. La conséquence assumée est
-    /// qu'une carte affichée « 30 juil. » peut se ranger sous « cette semaine »
-    /// si c'est cette semaine qu'elle est apparue.
-    @Test func groupsOnTheDayItWentLiveRatherThanTheDayTheNewsBroke() {
+    /// L'en-tête décrit les dates qu'on lit sous lui, et rien d'autre.
+    ///
+    /// Grouper sur la mise en ligne mettait un mois d'actualité sous « cette
+    /// semaine » : au 2026-08-19, la tranche portait 46 cartes datées du 19
+    /// JUILLET au 18 août, pendant que « ce mois-ci » commençait au 12 août. Les
+    /// deux sections se chevauchaient entièrement, et aucun en-tête n'était vrai.
+    ///
+    /// Même date pour trier et pour grouper, donc — la seule qui soit affichée.
+    @Test func groupsOnTheDayTheNewsBrokeSoTheHeaderDescribesTheDatesUnderIt() {
         let now = date("2026-08-09")
         let items = [
-            item(id: "vieilleInfoNeuveDansLeFil", publishedAt: "2026-06-09", listedAt: "2026-08-09"),
-            item(id: "infoFraicheMiseEnLigneJadis", publishedAt: "2026-08-09", listedAt: "2026-06-09")
+            item(id: "infoFraicheMiseEnLigneJadis", publishedAt: "2026-08-09", listedAt: "2026-06-09"),
+            item(id: "vieilleInfoNeuveDansLeFil", publishedAt: "2026-06-09", listedAt: "2026-08-09")
         ]
         let sections = FeedFiltering.sections(from: items, now: now)
 
         #expect(sections.map(\.period) == [.thisWeek, .earlier])
-        #expect(sections[0].items.map(\.id) == ["vieilleInfoNeuveDansLeFil"])
-        #expect(sections[1].items.map(\.id) == ["infoFraicheMiseEnLigneJadis"])
+        #expect(sections[0].items.map(\.id) == ["infoFraicheMiseEnLigneJadis"])
+        #expect(sections[1].items.map(\.id) == ["vieilleInfoNeuveDansLeFil"])
     }
 
-    /// Sans estampille, le groupement est exactement celui d'avant le champ.
+    /// Sans estampille, le groupement est exactement le même : le champ ne
+    /// participe plus, donc son absence ne change rien.
     @Test func fallsBackToThePublicationDateWhenNothingWasStamped() {
         let sections = FeedFiltering.sections(
             from: [item(id: "a", publishedAt: "2026-08-09"), item(id: "b", publishedAt: "2026-06-09")],

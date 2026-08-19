@@ -81,6 +81,14 @@ enum FeedFiltering {
         }
     }
 
+    /// Sur `publishedDate` — la date que la carte affiche, donc la seule que
+    /// l'en-tête puisse prétendre décrire. Grouper sur la mise en ligne mettait
+    /// un mois d'actualité sous « cette semaine ».
+    ///
+    /// Même date que le tri, et ce n'est pas un détail : grouper sur une date en
+    /// triant sur une autre rend les tranches non monotones, une carte sautant
+    /// d'une section à l'autre au milieu de la liste.
+    ///
     /// Une date illisible retombe sur « plus tôt » plutôt que de faire
     /// disparaître l'entrée : le fil ne doit jamais perdre une carte à cause du
     /// format d'un champ.
@@ -89,7 +97,7 @@ enum FeedFiltering {
     /// et une entrée publiée depuis un autre fuseau peut légitimement être datée
     /// de demain.
     private static func period(of item: NewsItem, now: Date, calendar: Calendar) -> FeedPeriod {
-        guard let date = item.arrivalDate else { return .earlier }
+        guard let date = item.publishedDate else { return .earlier }
         let start = calendar.startOfDay(for: date)
         let today = calendar.startOfDay(for: now)
         guard let days = calendar.dateComponents([.day], from: start, to: today).day else { return .earlier }
@@ -107,19 +115,12 @@ extension NewsItem {
     /// date. La conversion ne concerne que l'affichage et le groupement, et une
     /// chaîne inattendue rend `nil` plutôt que de faire tomber la carte.
     ///
-    /// Celle-ci est la date AFFICHÉE — la carte et la vue de détail. Le
-    /// groupement, lui, passe par `arrivalDate`.
+    /// Elle sert aux trois usages à la fois — l'affichage sur la carte et dans
+    /// la vue de détail, le tri du fil, le calcul des tranches. Une seule date
+    /// pour les trois est ce qui garantit qu'un en-tête décrit bien les dates
+    /// rangées sous lui, et que celles-ci descendent sans jamais remonter.
     var publishedDate: Date? {
         Self.isoFormatter.date(from: publishedAt)
-    }
-
-    /// La date d'apparition dans le fil, sur laquelle les tranches se calculent.
-    ///
-    /// Distincte de `publishedDate` par le champ qu'elle lit, identique par tout
-    /// le reste — même formateur, donc même fuseau, sans quoi les deux dates
-    /// d'une même entrée pourraient tomber de part et d'autre d'un minuit.
-    var arrivalDate: Date? {
-        Self.isoFormatter.date(from: arrivedAt)
     }
 
     private static let isoFormatter: DateFormatter = {
