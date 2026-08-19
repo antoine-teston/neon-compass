@@ -172,10 +172,19 @@ function normalizeTarget(target) {
   return `https://${target.replace(/^\/+/, '')}`;
 }
 
+/** Largeur de colonne des hôtes, CALCULÉE. Elle était écrite `24` en dur en trois
+ *  endroits, et l'alignement a cassé le 2026-08-19 dès qu'un hôte de 27
+ *  caractères est entré au registre. */
+const LARGEUR_HOTE = Math.max(...allowedHosts().map((h) => h.host.length));
+
 async function commandPolicy() {
   console.log('Sources interrogeables :');
-  for (const { host, mode, feed } of allowedHosts()) {
-    console.log(`  ${host.padEnd(24)} ${mode}${feed ? `  flux: ${feed}` : ''}`);
+  for (const { host, mode, feed, topicOnly } of allowedHosts()) {
+    // Le drapeau doit SE VOIR : c'est lui qui décide qu'un article hors sujet est
+    // écarté chez cet hôte, et un registre qui le tait rendrait ce filtrage
+    // inexplicable depuis le compte-rendu de run.
+    const nature = topicOnly ? '  généraliste — articles filtrés sur le sujet' : '';
+    console.log(`  ${host.padEnd(LARGEUR_HOTE)} ${mode}${feed ? `  flux: ${feed}` : ''}${nature}`);
   }
   console.log('\nSources refusées :');
   for (const { host, reason } of forbiddenHosts()) {
@@ -211,10 +220,10 @@ async function commandPreflight() {
     try {
       await fetchWithRetry(url);
       results.push({ host: source.host, ok: true });
-      console.log(`  OK       ${source.host.padEnd(24)} ${url}`);
+      console.log(`  OK       ${source.host.padEnd(LARGEUR_HOTE)} ${url}`);
     } catch (err) {
       results.push({ host: source.host, ok: false, message: err.message });
-      console.log(`  ÉCHEC    ${source.host.padEnd(24)} ${url}`);
+      console.log(`  ÉCHEC    ${source.host.padEnd(LARGEUR_HOTE)} ${url}`);
     }
   }
 
