@@ -39,6 +39,30 @@ enum NCTheme: String, CaseIterable, Identifiable {
     /// interdit.
     var isPro: Bool { self != .classic }
 
+    /// Le fond d'ambiance, nommé dans le catalogue d'assets. Nul pour `classic`,
+    /// qui est précisément l'absence de fond : l'aplat `nightSky`.
+    ///
+    /// C'est LUI le produit, pas l'accent. Sans fond, le Liquid Glass n'a rien à
+    /// réfracter et le matériau ne se voit presque pas ; une nappe lumineuse
+    /// derrière le fait exister sur tous les écrans à la fois, ce qu'une teinte
+    /// de contrôle ne fait pas.
+    var backdropName: String? {
+        guard isPro else { return nil }
+        return "backdrop-\(rawValue)"
+    }
+
+    /// L'icône alternée du catalogue. Nul pour `classic`, qui garde l'icône
+    /// primaire — et `setAlternateIconName(nil)` est justement ce qui l'y
+    /// ramène.
+    ///
+    /// AUCUNE de ces trois icônes n'est encore produite : le nom se résout donc
+    /// dans le vide et UIKit échoue en silence, par son bloc de complétion. Voir
+    /// `docs/ops/2026-08-19-banque-images-prompts-et-themes-pro.md` §5.4.
+    var alternateIconName: String? {
+        guard isPro else { return nil }
+        return "AppIcon-\(rawValue.prefix(1).uppercased() + rawValue.dropFirst())"
+    }
+
     var nameKey: LocalizedStringKey {
         switch self {
         case .classic: "theme.classic"

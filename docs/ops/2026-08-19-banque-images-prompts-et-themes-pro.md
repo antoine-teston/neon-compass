@@ -100,38 +100,47 @@ au franchissement de palier.
 | 1 | Icône d'app primaire | 1:1 | 1024×1024 | PNG **sans alpha** | `Assets.xcassets/AppIcon.appiconset` |
 | 3 | Icônes alternées (cyan, magenta, sunset) | 1:1 | 1024×1024 | PNG sans alpha | `Assets.xcassets/AppIcon-*.appiconset` |
 | 6 | **Emblèmes de palier** (`tourist` → `kingpin`) | 1:1 | 512×512 | PNG **alpha** | `Assets.xcassets/Ranks/` |
-| 6 | En-têtes de rubrique Actu | 16:9 | 1600×900 | HEIC q72 | `Resources/NewsArt/` |
-| 3 | Fonds d'ambiance Pro | 1:1 | 1536×1536 | HEIC q60 | `Resources/Themes/` |
-| 1 | Bandeau hebdo Social | 21:9 | 1680×720 | HEIC q72 | `Resources/SocialArt/` |
+| 6 | En-têtes de rubrique Actu | 16:9 | 1600×900 | HEIC q72 | `Assets.xcassets/NewsArt/` |
+| 3 | Fonds d'ambiance Pro | 1:1 | 1536×1536 | HEIC q60 | `Assets.xcassets/Backdrops/` ✅ *(gabarits en place)* |
+| 1 | Bandeau hebdo Social | 21:9 | 1680×720 | HEIC q72 | `Assets.xcassets/SocialArt/` |
 
 **Phase 2, hors v1** : 8 emblèmes de communauté (256×256 PNG alpha). Jeu fermé,
 **pas d'envoi par l'utilisateur** — un upload ouvre un chantier de modération et
 un risque de refus App Review sur le contenu généré par les utilisateurs.
 
-### Pourquoi HEIC pour les grandes images et PNG pour les petites
+### Tout va au catalogue d'assets — y compris le HEIC
 
-Le catalogue d'assets veut du PNG ; il le recompresse dans son format et gère
-`@2x`/`@3x`. Parfait pour les emblèmes.
+**Révision du 2026-08-19, après mesure.** Ce document recommandait d'abord des
+références de dossier (`type: folder`) pour les grandes images, en supposant
+qu'un catalogue d'assets n'accepte que du PNG. C'est faux : `actool` compile un
+`.heic` posé dans un `imageset` **sans erreur ni avertissement**, la rendition
+est bien dans `Assets.car`, et `UIImage(named:)` la rend à l'exécution — ce
+dernier point est tenu par un test (`everyPaidThemeResolvesItsBackdrop`), parce
+qu'accepter un format à la compilation n'est pas le rendre au lancement.
 
-Il est mauvais pour les grands dégradés : un en-tête 1600×900 issu d'un
-générateur pèse de l'ordre du mégaoctet en PNG, contre quelques dizaines à
-quelques centaines de kilooctets en HEIC q72 — l'écart réel se mesurera sur les
-premières images produites, mais il se compte en mégaoctets sur le lot de six.
-Les grandes images passent donc par une **référence de dossier**, comme
-`MapArt/` le fait déjà.
+Mesuré sur les trois fonds provisoires, en 1536×1536 :
 
-⚠️ **Le piège de `type: folder`**, rappelé par CLAUDE.md : une ressource déclarée
-ainsi n'est **pas recopiée quand son contenu change**. Régénérer une image puis
-reconstruire donne un binaire qui embarque l'ancienne, sans un mot dans le
-journal. Avant toute vérification visuelle :
+| Format | Poids | Rapport |
+|---|---|---|
+| PNG-24 | 1,4 à 2,0 Mo | — |
+| **HEIC q60** | **11 à 14 Ko** | **≈ 127× plus léger** |
 
-```sh
-BUILT=$(xcodebuild -scheme NeonCompass -destination 'platform=iOS Simulator,name=iPhone 17' \
-  -showBuildSettings 2>/dev/null | awk -F' = ' '/ BUILT_PRODUCTS_DIR/{print $2; exit}')
-rm -rf "$BUILT/NeonCompass.app/NewsArt" "$BUILT/NeonCompass.app/Themes" "$BUILT/NeonCompass.app/SocialArt"
-```
+Le catalogue gagne donc sur les deux tableaux, et il fait tomber trois
+inconvénients d'un coup :
 
----
+- **plus de piège de non-recopie.** `type: folder` n'est pas recopié quand son
+  CONTENU change : régénérer une image puis reconstruire donnait un binaire
+  portant l'ancienne, sans un mot dans le journal. Le catalogue, lui, suit ses
+  fichiers. C'est le landmine le plus coûteux de ce dépôt, et les images n'y
+  sont plus exposées ;
+- **plus de chargeur maison.** Pas de `MapArtLoader` bis, pas de décodage à
+  sortir du fil principal, pas de cache à tenir : `UIImage(named:)` s'en charge ;
+- **plus de déclaration dans `project.yml`.** Le catalogue vit sous
+  `NeonCompass/`, déjà un chemin source.
+
+Reste une chose que le catalogue ne fait pas : borner l'empreinte mémoire. Un
+fond de 1536×1536 pèse ≈ 9 Mo décodé, et un seul est vivant à la fois puisque
+`backdropName` ne rend qu'un nom. À surveiller si la taille montait.
 
 ## 5. Les prompts
 
@@ -360,9 +369,14 @@ rm tmp.png
 
 ```sh
 magick raw.png -resize 1536x1536^ -gravity center -extent 1536x1536 tmp.png
-sips -s format heic -s formatOptions 60 tmp.png --out backdrop-magentaDrift.heic
+sips -s format heic -s formatOptions 60 tmp.png \
+  --out NeonCompass/Resources/Assets.xcassets/Backdrops/backdrop-magentaDrift.imageset/backdrop-magentaDrift.heic
 rm tmp.png
 ```
+
+Les trois `imageset` existent déjà, avec leur `Contents.json` : **écraser le
+`.heic` suffit**, rien d'autre à toucher. Les noms sont imposés par
+`NCTheme.backdropName`, et un test échoue si l'un ne se résout plus.
 
 `formatOptions 60` et non 72 : le fond est flou et sera reflouté par le verre.
 Personne ne verra la différence, et c'est 40 % de poids en moins.
@@ -403,26 +417,55 @@ Petit, mais réel. Dans l'ordre.
    simulateur cesse d'afficher une vignette vide — pas pour être publiée. Elle
    est remplacée par la sortie du §5.4.
 
-2. **`project.yml`** : les trois dossiers d'images en `type: folder` (+ leurs
-   `excludes`), et `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: "AppIcon-CyanPulse AppIcon-MagentaDrift AppIcon-SunsetOverdrive"`.
-   Puis `xcodegen generate`.
-3. **`NCTheme`** gagne un cas `classic`, plus `backdropName: String?`,
-   `alternateIconName: String?` et `isPro: Bool`. Le défaut de `ThemeStore`
-   passe à `.classic`, et `theme.classic` entre au catalogue de chaînes en cinq
-   langues.
-4. **`SettingsAppearanceSection`** : réserver les thèmes Pro, et remplacer
-   l'interrupteur d'icône — qui suppose une icône unique `AppIcon-Neon`
-   inexistante — par le suivi du thème choisi.
-5. **`RootView`** : poser le fond d'ambiance sous le `ZStack`, un seul en
-   mémoire, décodé hors du fil principal (reprendre le patron de
-   `MapArtLoader`, y compris `kCGImageSourceShouldCacheImmediately`).
+2. ✅ **`project.yml`** — fait. `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES`
+   nomme les trois icônes alternées *avant* qu'elles existent : vérifié, `actool`
+   retire simplement un nom introuvable du `CFBundleIcons` synthétisé, sans
+   erreur. Déposer les trois images sera donc le seul geste restant. Aucun
+   dossier `type: folder` n'a été ajouté — voir la révision du §4.
+3. ✅ **`NCTheme`** — fait. Cas `classic`, plus `isPro`, `backdropName` et
+   `alternateIconName`. Défaut de `ThemeStore` passé à `.classic`,
+   `theme.classic` ajouté en cinq langues.
+4. ✅ **`SettingsAppearanceSection`** — fait. L'interrupteur d'icône a été
+   RETIRÉ plutôt que réparé : il mentait deux fois, visant `AppIcon-Neon` qui
+   n'a jamais existé, et relisant sa valeur depuis
+   `UIApplication.alternateIconName`, si bien que l'activer le faisait revenir
+   tout seul à l'arrêt. L'icône suit désormais le thème, synchronisée par
+   `RootView` — un thème est un tout, pas deux réglages qui peuvent se
+   contredire. `profile.icon.title` est sorti du catalogue, sans appelant.
+5. ✅ **`RootView`** — fait. Le fond est posé en `.background`, pas dans un
+   `ZStack` : la structure du `Group` a un ordre de branches chargé d'histoire
+   qu'il valait mieux ne pas remanier. **Aucun chargeur maison** : le patron de
+   `MapArtLoader` n'était nécessaire que pour une référence de dossier, et le
+   catalogue rend `UIImage(named:)` suffisant. Vérifié au simulateur, avec un
+   fond prêté à `classic` le temps de la capture : la nappe s'affiche derrière
+   les cartes, le verre a enfin quelque chose à réfracter, et rien n'est
+   illisible.
 6. **`ProfileHeaderView`** : l'emblème de 64 pt, à côté de la capsule existante.
+   *Attend les images.*
 7. **`NewsCard` / `NewsDetailView`** : l'en-tête de rubrique. **Plafonner la
    colonne du fil** à 640/900 comme le fait `SocialScreen` — sans ça un bandeau
    plein cadre devrait couvrir 2 752 px sur iPad Pro 13" en paysage.
+   *Attend les images.*
 
-**À mesurer avant de considérer le fond livré** : images perdues au défilement
-du fil, avec et sans fond, sur iPhone 17 et iPad Pro 13".
+⚠️ **Les trois fonds en place sont PROVISOIRES**, comme l'icône : nappes floues
+composées à l'ImageMagick, conformes au cahier des charges du §5.3 (sans sujet,
+sans horizon, luminance maximale entre 0,10 et 0,17). Ils rendent le chemin
+complet vérifiable — et remplaçables par simple écrasement du `.heic`.
+
+**Ce qui n'est PAS vérifié, et qui reste la seule vraie inconnue** : le coût du
+fond au défilement. Le verre reflouterait la nappe à chaque image, et le
+simulateur amplifie fortement le coût du Liquid Glass — donc seuls des écarts
+RELATIFS sont exploitables. À mesurer avec la sonde `CADisplayLink` (pire
+intervalle et nombre d'intervalles > 33 ms par fenêtre nommée), avec et sans
+fond, sur iPhone 17 et iPad Pro 13", en inversant l'ordre des variantes pour ne
+pas imputer à l'une le coût du premier passage. Chronométrer un appel SwiftUI ne
+dirait rien.
+
+Second angle non vérifié : le rendu du fond **sous un abonnement Pro réel**. La
+configuration StoreKit locale n'est attachée qu'à l'action Run d'Xcode, jamais à
+`xcodebuild`, donc la ligne de commande ne peut pas acheter Pro. La capture
+ci-dessus a contourné le problème en prêtant un fond à `classic` ; le chemin
+`isProEntitled == true` se regarde depuis Xcode.
 
 ---
 

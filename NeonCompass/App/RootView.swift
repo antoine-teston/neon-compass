@@ -65,8 +65,35 @@ struct RootView: View {
     /// `selectedTheme` : sans ça, un abonnement expiré laisserait son habillage
     /// payant en place, la section Apparence ayant disparu des réglages sans
     /// que rien ne reprenne la teinte.
-    private var themeAccent: Color {
-        themeStore.effectiveTheme(isProEntitled: proEntitlementModel.isProEntitled).accent
+    private var effectiveTheme: NCTheme {
+        themeStore.effectiveTheme(isProEntitled: proEntitlementModel.isProEntitled)
+    }
+
+    private var themeAccent: Color { effectiveTheme.accent }
+
+    /// Le fond d'ambiance du thème, ou rien.
+    ///
+    /// `UIImage(named:)` et non `Image(_:)` : le second dessine un carré vide et
+    /// se plaint dans la console quand le nom ne se résout pas, alors qu'ici
+    /// l'absence est un état NORMAL — `classic` n'a pas de fond, et les trois
+    /// autres n'en auront un qu'une fois les images produites. Un `nil` propre
+    /// rend exactement l'app d'aujourd'hui.
+    ///
+    /// `scaledToFill` sur une source carrée : le fond est délibérément sans
+    /// détail ni ligne d'horizon, donc n'importe quel recadrage le laisse juste.
+    /// C'est ce qui permet UNE image pour toutes les tailles et les deux
+    /// orientations, du iPhone à l'iPad en paysage.
+    @ViewBuilder
+    private var themeBackdrop: some View {
+        if let name = effectiveTheme.backdropName, let image = UIImage(named: name) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+                // Il est décoratif au sens strict : il ne porte aucune
+                // information et VoiceOver n'a rien à en dire.
+                .accessibilityHidden(true)
+        }
     }
 
     var body: some View {
@@ -81,6 +108,21 @@ struct RootView: View {
             } else {
                 regularLayout
             }
+        }
+        // Le fond passe DERRIÈRE tout l'écran, et surtout derrière le verre :
+        // c'est lui qui donne au Liquid Glass quelque chose à réfracter. Posé en
+        // `background` et non dans un `ZStack` pour ne pas remanier la structure
+        // du `Group` ci-dessus, dont l'ordre des branches est chargé d'histoire.
+        .background(themeBackdrop)
+        // Suit le thème EFFECTIF, donc l'icône revient d'elle-même à la primaire
+        // quand l'abonnement expire — sans ça, l'habillage payant survivrait sur
+        // l'écran d'accueil, là où il est le plus visible.
+        //
+        // `.task(id:)` et non `.onChange` : celui-ci ne se déclenche pas à la
+        // première apparition, et l'icône resterait donc désynchronisée au
+        // lancement.
+        .task(id: effectiveTheme) {
+            themeStore.setAlternateIcon(named: effectiveTheme.alternateIconName)
         }
         // ATTACHÉE AVANT LES `.environment` CI-DESSOUS, ET C'EST OBLIGATOIRE.
         //

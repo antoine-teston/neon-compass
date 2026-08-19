@@ -68,6 +68,14 @@ targets:
         # sans erreur ni avertissement de build. Elle nomme un jeu du catalogue,
         # pas un fichier.
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # Les trois jeux nommés ici N'EXISTENT PAS ENCORE dans le catalogue, et
+        # c'est sans danger : vérifié empiriquement, `actool` ne fait pas échouer
+        # le build sur un nom d'icône alternée introuvable — il le retire
+        # simplement du CFBundleIcons synthétisé, sans erreur ni avertissement
+        # (cf. docs/ops/2026-07-23-alternate-app-icons.md, section « Correction »).
+        # Le déclarer maintenant fait que déposer les trois images sera le SEUL
+        # geste restant, sans retoucher ce fichier ni régénérer le projet.
+        ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: "AppIcon-CyanPulse AppIcon-MagentaDrift AppIcon-SunsetOverdrive"
         CODE_SIGN_ENTITLEMENTS: NeonCompass/NeonCompass.entitlements
         # GADApplicationIdentifier has no Apple-recognized INFOPLIST_KEY_* mapping, so it can't be
         # synthesized via GENERATE_INFOPLIST_FILE alone (verified: INFOPLIST_KEY_GADApplicationIdentifier

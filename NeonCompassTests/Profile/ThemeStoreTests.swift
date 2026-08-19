@@ -1,6 +1,7 @@
 import Testing
 @testable import NeonCompass
 import Foundation
+import UIKit
 
 @MainActor
 struct ThemeStoreTests {
@@ -83,5 +84,50 @@ struct ThemeStoreTests {
         #expect(store.selectedTheme == .sunsetOverdrive, "le choix stocké a été écrasé")
         #expect(defaults.string(forKey: "selectedTheme") == "sunsetOverdrive")
         #expect(store.effectiveTheme(isProEntitled: true) == .sunsetOverdrive, "le réabonnement n'a pas rendu le thème")
+    }
+
+    // MARK: - Fond d'ambiance et icône
+
+    @Test func classicCarriesNeitherBackdropNorIcon() {
+        #expect(NCTheme.classic.backdropName == nil)
+        #expect(NCTheme.classic.alternateIconName == nil)
+    }
+
+    /// Vérifie que le fond se résout À L'EXÉCUTION, et pas seulement que la
+    /// chaîne est bien formée.
+    ///
+    /// C'est ce qui prouve deux choses d'un coup : que le nom calculé par
+    /// `backdropName` correspond au jeu réellement présent dans le catalogue —
+    /// une faute de frappe donnerait un fond muet, sans erreur — et que le
+    /// **HEIC** compilé par `actool` se décode bien au lancement. Le catalogue
+    /// accepte ce format (constaté le 2026-08-19 : 11 Ko contre 1,4 Mo en PNG),
+    /// mais l'accepter à la compilation n'est pas le rendre à l'exécution.
+    @Test func everyPaidThemeResolvesItsBackdrop() {
+        for theme in NCTheme.allCases where theme.isPro {
+            let name = try! #require(theme.backdropName)
+            #expect(UIImage(named: name) != nil, "fond introuvable pour \(theme.rawValue) : \(name)")
+        }
+    }
+
+    /// Les noms doivent correspondre EXACTEMENT à
+    /// `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` dans `project.yml`.
+    /// UIKit échoue en silence sur un nom inconnu, donc rien ne signalerait une
+    /// divergence : ni le build, ni l'exécution, ni l'utilisateur — qui verrait
+    /// juste son icône ne pas changer.
+    @Test func alternateIconNamesMatchTheBuildSetting() {
+        #expect(NCTheme.cyanPulse.alternateIconName == "AppIcon-CyanPulse")
+        #expect(NCTheme.magentaDrift.alternateIconName == "AppIcon-MagentaDrift")
+        #expect(NCTheme.sunsetOverdrive.alternateIconName == "AppIcon-SunsetOverdrive")
+    }
+
+    /// L'habillage payant doit disparaître EN ENTIER à l'expiration, pas
+    /// seulement dans sa teinte : un fond magenta laissé derrière un accent
+    /// redevenu cyan serait le pire des deux états.
+    @Test func lapsedSubscriptionDropsBackdropAndIcon() {
+        let store = ThemeStore(defaults: makeSuiteDefaults())
+        store.selectTheme(.cyanPulse)
+        let effective = store.effectiveTheme(isProEntitled: false)
+        #expect(effective.backdropName == nil)
+        #expect(effective.alternateIconName == nil)
     }
 }

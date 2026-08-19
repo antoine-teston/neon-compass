@@ -6920,41 +6920,6 @@
         }
       }
     },
-    "profile.icon.title": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App-Symbol"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App Icon"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Icono de la app"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Icône de l'app"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Icona dell'app"
-          }
-        }
-      }
-    },
     "profile.myContributions.empty": {
       "localizations": {
         "de": {
@@ -8171,6 +8136,41 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tourist"
+          }
+        }
+      }
+    },
+    "profile.theme.footer": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ändert auch den Hintergrund der App und ihr Symbol auf dem Home-Bildschirm."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Also changes the app background and its Home Screen icon."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "También cambia el fondo de la app y su icono en la pantalla de inicio."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change aussi le fond de l'app et son icône sur l'écran d'accueil."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia anche lo sfondo dell'app e la sua icona nella schermata Home."
           }
         }
       }
