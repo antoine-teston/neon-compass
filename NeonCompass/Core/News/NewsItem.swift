@@ -83,25 +83,20 @@ struct NewsItem: Codable, Equatable, Identifiable, Sendable {
 
     /// La date de MISE EN LIGNE : le jour où l'entrée est partie au CDN.
     ///
-    /// Les deux ne coïncident pas, et l'écart n'est pas anecdotique : au
-    /// 2026-08-17, cinq actus datées des 10, 11 et 14 août sont parties le même
-    /// matin, dont une avec sept jours de retard. Ordonner le fil sur
-    /// `publishedAt` les faisait naître ENTERRÉES — signalées neuves par le
-    /// repère de nouveauté, mais rangées sous des cartes déjà lues.
+    /// **N'ORDONNE RIEN, et c'est délibéré depuis le 2026-08-19.** Le fil s'est
+    /// trié dessus deux jours durant, pour empêcher qu'une actu récoltée le 10
+    /// et mise en ligne le 17 ne naisse sous des cartes déjà lues. Le remède
+    /// supposait les deux dates proches ; publier un mois d'arriéré d'un coup
+    /// les a écartées de trente jours, et le fil affichant `publishedAt`, ses
+    /// dates se sont mises à remonter quand on descendait la liste. Le mal que
+    /// `listedAt` devait éviter — l'arriéré de brouillons — a disparu le même
+    /// jour, la veille publiant désormais sans intervention humaine.
     ///
-    /// `nil` sur les entrées d'avant le champ, et sur tout fragment qu'un
-    /// pipeline futur servirait sans lui : `arrivedAt` retombe alors sur
-    /// `publishedAt`, ce qui redonne exactement l'ordre d'avant.
+    /// Conservé parce que le pipeline l'écrit et que c'est la seule trace du
+    /// jour où une entrée est réellement partie. `nil` sur les entrées d'avant
+    /// le champ et sur tout fragment servi sans lui — sans conséquence, plus
+    /// rien n'en dépend.
     let listedAt: String?
-
-    /// La date sur laquelle le fil s'ORDONNE et se GROUPE — jamais celle qu'il
-    /// affiche.
-    ///
-    /// Un seul accesseur pour les deux usages, et ce n'est pas de l'économie :
-    /// grouper sur une date en triant sur une autre rendrait les tranches non
-    /// monotones, une carte sautant d'une section à l'autre au milieu de la
-    /// liste. Les deux appelants doivent lire la même chose.
-    var arrivedAt: String { listedAt ?? publishedAt }
 
     /// Absent des entrées publiées avant l'ouverture du fil aux deux jeux :
     /// elles portaient toutes sur celui à venir, d'où le défaut.
