@@ -66,60 +66,63 @@ struct ProfileHeaderStateTests {
         #expect(state.contributor == .invitation)
     }
 
-    @Test func someXPBelowTheFirstThresholdShowsTheXPWithoutAGradeName() {
+    @Test func someXPBelowTheFirstThresholdStillShowsTheXP() {
         let state = makeState(profile: makeProfile(xp: 20, level: 0))
-        #expect(state.contributor == .ranked(gradeNameKey: nil, xp: 20, rank: nil, pending: 0))
+        #expect(state.contributor == .ranked(xp: 20, rank: nil, pending: 0))
     }
 
-    @Test func aRankedContributorCarriesItsGradeRankAndPendingCount() {
+    @Test func aRankedContributorCarriesItsXPRankAndPendingCount() {
         let state = makeState(
             profile: makeProfile(xp: 450, level: 3, rank: 342),
             pendingContributionCount: 3
         )
-        #expect(state.contributor == .ranked(
-            gradeNameKey: "profile.contributorGrade.relay", xp: 450, rank: 342, pending: 3
-        ))
+        #expect(state.contributor == .ranked(xp: 450, rank: 342, pending: 3))
     }
 
     /// Règle existante conservée : pas de rang plutôt qu'un zéro faux.
     @Test func anAbsentRankStaysAbsent() {
         let state = makeState(profile: makeProfile(xp: 450, level: 3, rank: nil))
-        #expect(state.contributor == .ranked(
-            gradeNameKey: "profile.contributorGrade.relay", xp: 450, rank: nil, pending: 0
-        ))
+        #expect(state.contributor == .ranked(xp: 450, rank: nil, pending: 0))
     }
 
-    /// La base peut gagner un palier avant l'app : l'XP et le rang restent
-    /// affichés, seul le nom disparaît.
-    @Test func anUnknownLevelLosesItsNameButKeepsItsNumbers() {
+    /// La contribution n'est plus NOMMÉE depuis le 2026-08-19 : deux échelles
+    /// nommées dans deux registres étrangers l'un à l'autre, à dix points
+    /// d'écart sur la même carte, n'était explicable par rien. Conséquence
+    /// heureuse : un palier que la base connaîtrait avant l'app ne fait plus
+    /// disparaître de nom, puisqu'il n'y en a plus.
+    @Test func aLevelTheAppDoesNotKnowChangesNothing() {
         let state = makeState(profile: makeProfile(xp: 9000, level: 9, rank: 1))
-        #expect(state.contributor == .ranked(gradeNameKey: nil, xp: 9000, rank: 1, pending: 0))
+        #expect(state.contributor == .ranked(xp: 9000, rank: 1, pending: 0))
     }
 
-    // MARK: - La jauge d'exploration
+    // MARK: - L'insigne de rang
 
-    /// Elle est locale : elle vit même sans profil, c'est tout son intérêt.
-    @Test func theExplorerGaugeLivesWithoutAProfile() {
+    /// **L'insigne ne suit PAS la règle « rien de chiffré sans profil », et
+    /// c'est délibéré.** Il est calculé sur `foundCount`, qui est local : un
+    /// déconnecté a donc son palier dès le premier lieu coché. La règle ne parle
+    /// que de l'XP et du rang serveur, les deux seuls nombres qui viennent de la
+    /// base.
+    @Test func theStreetRankLivesWithoutAProfile() {
         let state = makeState(profile: nil, foundCount: 87)
-        #expect(state.explorerGrade == .pathfinder)
+        #expect(state.streetRank == .getawayDriver)
         #expect(state.foundCount == 87)
         #expect(state.remainingToNext == 13)
-        #expect(state.nextGradeNameKey == "profile.explorerGrade.cartographer")
-        #expect(state.explorerProgress != nil)
+        #expect(state.nextRankNameKey == "profile.streetRank.heister")
+        #expect(state.rankProgress != nil)
     }
 
-    @Test func theLastExplorerGradeHasNoBarAndNoNextName() {
+    @Test func theLastRankHasNoBarAndNoNextName() {
         let state = makeState(profile: nil, foundCount: 600)
-        #expect(state.explorerGrade == .neonNomad)
-        #expect(state.explorerProgress == nil)
+        #expect(state.streetRank == .kingpin)
+        #expect(state.rankProgress == nil)
         #expect(state.remainingToNext == nil)
-        #expect(state.nextGradeNameKey == nil)
+        #expect(state.nextRankNameKey == nil)
     }
 
     /// Zéro lieu coché est un vrai départ, pas un vide.
-    @Test func zeroFoundIsAStartingGradeNotAnEmptyState() {
+    @Test func zeroFoundIsAStartingRankNotAnEmptyState() {
         let state = makeState(profile: nil, foundCount: 0)
-        #expect(state.explorerGrade == .drifter)
+        #expect(state.streetRank == .tourist)
         #expect(state.remainingToNext == 10)
     }
 

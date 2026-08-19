@@ -11,7 +11,7 @@ import Testing
 struct FoundStoreTests {
     private func makeContext() -> ModelContext {
         let container = try! ModelContainer(
-            for: FoundEntry.self, PersonalPin.self, TrophyProgress.self,
+            for: FoundEntry.self, PersonalPin.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         return ModelContext(container)
@@ -67,13 +67,13 @@ struct FoundStoreTests {
 
     /// L'invariant central. Aucune relecture, aucun rafraîchissement : ce que la
     /// carte écrit, la progression le voit DÉJÀ. C'est ce qui était faux avec deux
-    /// caches, et ce qui rend possible le `onChange` de `ProgressionSection`.
+    /// caches, et ce qui rend possible le `onChange` de `DiscoverySection`.
     @Test func aMapWriteIsImmediatelyVisibleToProgression() {
         let context = makeContext()
         let store = FoundStore(modelContext: context)
         let map = MapModel(pois: samplePOIs(), modelContext: context, found: store)
         let progression = ProgressionModel(
-            pois: samplePOIs(), collections: [], trophies: [],
+            poisByGame: [.reference: samplePOIs()], collections: [],
             modelContext: context, found: store
         )
 
@@ -93,7 +93,7 @@ struct FoundStoreTests {
         let store = FoundStore(modelContext: context)
         let map = MapModel(pois: samplePOIs(), modelContext: context, found: store)
         let progression = ProgressionModel(
-            pois: samplePOIs(), collections: [sampleCollection()], trophies: [],
+            poisByGame: [.reference: samplePOIs()], collections: [sampleCollection()],
             modelContext: context, found: store
         )
         #expect(progression.overallProgress(for: .reference) == 0)

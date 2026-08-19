@@ -28,4 +28,3 @@ extension Cheat: ContentItem {}
 extension Guide: ContentItem {}
 extension NewsItem: ContentItem {}
 extension OnlineEvent: ContentItem {}
-extension Trophy: ContentItem {}

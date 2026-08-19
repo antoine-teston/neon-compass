@@ -5,7 +5,7 @@ import SwiftData
 @MainActor
 struct ProgressionModelTests {
     private func makeContext() -> ModelContext {
-        let schema = Schema([FoundEntry.self, TrophyProgress.self])
+        let schema = Schema([FoundEntry.self])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try! ModelContainer(for: schema, configurations: [config])
         return ModelContext(container)
@@ -32,20 +32,18 @@ struct ProgressionModelTests {
         [POICollection(id: "marks", game: .reference, title: text("Marks"), isChallenge: true, expectedCount: 3)]
     }
 
-    private func sampleTrophy(id: String) -> Trophy {
-        Trophy(id: id, title: text("Trophy \(id)"), note: nil)
-    }
-
+    /// Les POI de test sont rangés sous la carte de référence par défaut :
+    /// `samplePOIs()` ne porte que des collections `.reference`. Les cas qui
+    /// veulent du volet à venir passent leur propre dictionnaire.
     private func makeModel(
         pois: [POI] = [],
+        poisByGame: [Game: [POI]]? = nil,
         collections: [POICollection]? = nil,
-        trophies: [Trophy] = [],
         context: ModelContext
     ) -> ProgressionModel {
         ProgressionModel(
-            pois: pois,
+            poisByGame: poisByGame ?? [.reference: pois],
             collections: collections ?? sampleCollections(),
-            trophies: trophies,
             modelContext: context
         )
     }
@@ -80,7 +78,6 @@ struct ProgressionModelTests {
         let model = makeModel(pois: samplePOIs(), collections: collections, context: makeContext())
         #expect(model.challenges(for: .reference).map(\.id) == ["marks"])
         #expect(model.challenges(for: .leonida).map(\.id) == ["leo"])
-        #expect(model.gamesWithChallenges == [.leonida, .reference])
     }
 
     @Test func widgetProgressPrefersTheUpcomingGameOnceItHasAKnownTotal() {
@@ -111,16 +108,6 @@ struct ProgressionModelTests {
         #expect(model.overallProgress(for: .leonida) == nil)
     }
 
-    @Test func toggleTrophyPersistsAndIsIdempotent() {
-        let trophy = sampleTrophy(id: "t1")
-        let model = makeModel(trophies: [trophy], context: makeContext())
-        #expect(!model.isTrophyChecked(trophy))
-        model.toggleTrophy(trophy)
-        #expect(model.isTrophyChecked(trophy))
-        model.toggleTrophy(trophy)
-        #expect(!model.isTrophyChecked(trophy))
-    }
-
     @Test func refreshFoundStatePicksUpEntriesInsertedAfterConstruction() {
         let context = makeContext()
         let model = makeModel(pois: samplePOIs(), context: context)
@@ -136,12 +123,45 @@ struct ProgressionModelTests {
         #expect(abs(model.overallProgress - (1.0 / 3.0)) < 0.0001)
     }
 
-    @Test func updatePOIsAndUpdateTrophiesReplaceContent() {
+    @Test func updatePOIsReplacesContent() {
         let model = makeModel(context: makeContext())
-        model.updatePOIs(samplePOIs())
-        model.updateTrophies([sampleTrophy(id: "t1")])
+        model.updatePOIs([.reference: samplePOIs()])
         #expect(model.pois.map(\.id) == ["a", "b", "c"])
-        #expect(model.trophies.map(\.id) == ["t1"])
+    }
+
+    /// LE test que le tableau fusionné faisait échouer. Un POI du volet à venir
+    /// a `collection: nil` par défaut, donc il ne se rattache à AUCUN défi :
+    /// compter par défi rendait le volet éternellement à zéro alors que ses POI
+    /// se cochent déjà sur la carte. Le compte doit venir des POI du jeu.
+    @Test func foundCountPerGameComesFromThePOIsNotTheChallenges() {
+        let context = makeContext()
+        context.insert(FoundEntry(poiID: "a"))
+        context.insert(FoundEntry(poiID: "leo1"))
+        context.insert(FoundEntry(poiID: "leo2"))
+        let uncharted = [
+            POI(id: "leo1", category: .landmark, collection: nil, position: nil, title: text("Leo 1")),
+            POI(id: "leo2", category: .landmark, collection: nil, position: nil, title: text("Leo 2")),
+        ]
+        let model = makeModel(
+            poisByGame: [.leonida: uncharted, .reference: samplePOIs()],
+            context: context
+        )
+        #expect(model.challenges(for: .leonida).isEmpty)
+        #expect(model.foundCount(for: .leonida) == 2)
+        #expect(model.foundCount(for: .reference) == 1)
+    }
+
+    /// L'aplatissement suit l'ordre de `Game` — le volet à venir d'abord — et pas
+    /// celui du dictionnaire, qui n'en a pas.
+    @Test func poisAreFlattenedInGameOrder() {
+        let model = makeModel(
+            poisByGame: [
+                .reference: samplePOIs(),
+                .leonida: [POI(id: "leo1", category: .landmark, collection: nil, position: nil, title: text("Leo 1"))],
+            ],
+            context: makeContext()
+        )
+        #expect(model.pois.map(\.id) == ["leo1", "a", "b", "c"])
     }
 
     @Test func updatePOIsRecomputesChallenges() {
@@ -150,7 +170,7 @@ struct ProgressionModelTests {
         let model = makeModel(context: context)
         #expect(model.challenges.first?.referenced == 0)
 
-        model.updatePOIs(samplePOIs())
+        model.updatePOIs([.reference: samplePOIs()])
         #expect(model.challenges.first?.referenced == 3)
         #expect(model.challenges.first?.found == 1)
     }

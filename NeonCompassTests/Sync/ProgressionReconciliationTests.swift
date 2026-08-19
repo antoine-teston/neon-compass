@@ -56,46 +56,33 @@ struct ProgressionReconciliationTests {
         #expect(!model.isFound(makePOI(id: "poi-1")))
     }
 
-    // MARK: - ProgressionModel / TrophyProgress
+    // MARK: - ProgressionModel
 
     private func makeProgressionContext() throws -> ModelContext {
-        let container = try ModelContainer(for: FoundEntry.self, TrophyProgress.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let container = try ModelContainer(for: FoundEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
         return ModelContext(container)
     }
 
-    @Test func reconcileAppliesANewerRemoteTrophyCheckedState() throws {
+/// Les trois cas trophée qui vivaient ici sont partis avec les trophées le
+    /// 2026-08-19. Ce qui les remplace n'est pas rien : `ProgressionModel.reconcile`
+    /// ne traitait QUE les trophées, donc la progression distante des POI n'était
+    /// tirée que par le chemin de la carte — ouvrir le Profil sans passer par la
+    /// carte ne rapatriait rien. Elle délègue désormais au magasin partagé, et
+    /// c'est ce trou-là que le test suivant ferme.
+    @Test func reconcileFromTheProfilePathAppliesRemotePOIProgress() throws {
         let context = try makeProgressionContext()
-        let model = ProgressionModel(pois: [], trophies: [], modelContext: context)
-        let newer = Date.now
-        model.reconcile(with: [ProgressionSyncItem(itemID: "trophy-1", kind: .trophy, found: true, updatedAt: newer)])
-        #expect(model.checkedTrophyIDs.contains("trophy-1"))
+        let store = FoundStore(modelContext: context)
+        let model = ProgressionModel(poisByGame: [:], modelContext: context, found: store)
+
+        model.reconcile(with: [
+            ProgressionSyncItem(itemID: "poi-1", kind: .poi, found: true, updatedAt: .now),
+        ])
+
+        #expect(store.isFound("poi-1"))
+        #expect(model.foundPOIIDs.contains("poi-1"))
     }
 
-    @Test func reconcileIgnoresAnOlderRemoteTrophyState() throws {
-        let context = try makeProgressionContext()
-        let now = Date.now
-        // See reconcileIgnoresAnOlderRemoteState above for why the insert
-        // happens before model construction.
-        context.insert(TrophyProgress(trophyID: "trophy-1", updatedAt: now))
-        try context.save()
-        let model = ProgressionModel(pois: [], trophies: [], modelContext: context)
-        let older = now.addingTimeInterval(-60)
-        model.reconcile(with: [ProgressionSyncItem(itemID: "trophy-1", kind: .trophy, found: false, updatedAt: older)])
-        #expect(model.checkedTrophyIDs.contains("trophy-1"))
-    }
-
-    @Test func reconcileAppliesANewerRemoteTrophyUncheckedState() throws {
-        let context = try makeProgressionContext()
-        let older = Date.now.addingTimeInterval(-120)
-        context.insert(TrophyProgress(trophyID: "trophy-1", updatedAt: older))
-        try context.save()
-        let model = ProgressionModel(pois: [], trophies: [], modelContext: context)
-        let newer = Date.now
-        model.reconcile(with: [ProgressionSyncItem(itemID: "trophy-1", kind: .trophy, found: false, updatedAt: newer)])
-        #expect(!model.checkedTrophyIDs.contains("trophy-1"))
-    }
-
-    // MARK: - attachSyncIfNeeded (closes the sync-activation race)
+        // MARK: - attachSyncIfNeeded (closes the sync-activation race)
 
     /// Test double standing in for FirestoreProgressionSync. An actor so
     /// mutable call-count bookkeeping stays `Sendable`-safe, matching the
@@ -133,7 +120,7 @@ struct ProgressionReconciliationTests {
 
     @Test func progressionModelAttachSyncIfNeededAttachesWhenNilThenIsANoOpAfter() throws {
         let context = try makeProgressionContext()
-        let model = ProgressionModel(pois: [], trophies: [], modelContext: context)
+        let model = ProgressionModel(poisByGame: [:], modelContext: context)
         let first = FakeSync()
         let second = FakeSync()
 
