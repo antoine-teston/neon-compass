@@ -14,6 +14,17 @@
 //   gta6.gg             *, seuls des chemins WooCommerce    -> autorisé
 //   gta.fandom.com      HTML derrière un défi Cloudflare,
 //                       mais /api.php répond                -> via API
+//
+// Complété le 2026-08-19, robots.txt lus et flux tirés en `ClaudeBot/1.0` :
+//
+//   www.videogameschronicle.com  *, seul /wp-admin/ exclu,
+//                                Crawl-delay: 5, ClaudeBot non nommé  -> autorisé
+//   insider-gaming.com           bloc `User-agent: *` VIDE,
+//                                ClaudeBot non nommé                  -> autorisé
+//   www.eurogamer.net            nomme ClaudeBot dans un groupe de
+//                                crawlers IA                          -> NON AJOUTÉ,
+//                                le groupe demande une lecture entière avant de trancher
+//
 //   www.rockstargames.com  ClaudeBot: Disallow: /           -> INTERDIT
 //   www.reddit.com      User-agent: * / Disallow: /         -> INTERDIT
 //   gtacodes.io         redirige vers un domaine au TLS
@@ -46,6 +57,30 @@ const POLICIES = {
     // `skipped` dans la récolte — une source qui se tait doit se voir.
     feed: 'https://gta6.gg/feed/',
     note: 'robots.txt : seuls des chemins WooCommerce sont exclus',
+  },
+  // Les deux premiers hôtes GÉNÉRALISTES du registre, et le drapeau `topicOnly`
+  // n'est pas un détail : les trois hôtes ci-dessus ne parlent que de cette
+  // franchise, ceux-ci parlent de tout le jeu vidéo. Densité mesurée le 19/08 sur
+  // le flux de VGC : 1 article sur 10 concerne le jeu. Sans filtre, et le plafond
+  // de la récolte se remplissant à tour de rôle par hôte, les neuf autres
+  // ÉVINCERAIENT des articles utiles de gtaboom — la source ajoutée coûterait des
+  // sources au lieu d'en apporter. Voir `recentEntries` (fetch-source.mjs).
+  //
+  // Pourquoi eux : la corroboration à deux hôtes était inatteignable faute d'un
+  // second flux vivant, et VGC a couvert la MÊME fuite que gtaboom le 18/08.
+  // Aucun des deux ne publie de flux thématique — testés, 404 et 403 — donc le
+  // filtre se fait chez nous, il ne peut pas se déléguer à l'URL du flux.
+  'www.videogameschronicle.com': {
+    mode: 'allow',
+    feed: 'https://www.videogameschronicle.com/feed/',
+    topicOnly: true,
+    note: 'robots.txt : seul /wp-admin/ est exclu, Crawl-delay: 5, ClaudeBot non nommé',
+  },
+  'insider-gaming.com': {
+    mode: 'allow',
+    feed: 'https://insider-gaming.com/feed/',
+    topicOnly: true,
+    note: 'robots.txt : bloc `User-agent: *` vide, ClaudeBot non nommé',
   },
   'gta.fandom.com': {
     mode: 'api',
@@ -84,6 +119,8 @@ const HOST_ALIASES = {
   'www.leonidaverse.com': 'leonidaverse.com',
   'www.gta6.gg': 'gta6.gg',
   'www.gtacodes.io': 'gtacodes.io',
+  'videogameschronicle.com': 'www.videogameschronicle.com',
+  'www.insider-gaming.com': 'insider-gaming.com',
 };
 
 const UNKNOWN = {
@@ -142,7 +179,7 @@ export function feedURLFor(url) {
 export function allowedHosts() {
   return Object.entries(POLICIES)
     .filter(([, p]) => p.mode !== 'forbidden')
-    .map(([host, p]) => ({ host, mode: p.mode, feed: p.feed ?? null }));
+    .map(([host, p]) => ({ host, mode: p.mode, feed: p.feed ?? null, topicOnly: p.topicOnly === true }));
 }
 
 export function forbiddenHosts() {

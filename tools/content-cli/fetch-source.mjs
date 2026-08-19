@@ -33,6 +33,10 @@ import {
   allowedHosts,
   forbiddenHosts,
 } from './source-policy.mjs';
+// La même liste qui INTERDIT les marques dans notre prose sert à RECONNAÎTRE les
+// articles qui parlent du jeu chez un généraliste. Une seule autorité pour les
+// deux usages : une marque ajoutée là se propage ici sans qu'on y pense.
+import { TRADEMARKS } from './publishable.mjs';
 
 // Identification honnête plutôt qu'un UA de navigateur emprunté. Les domaines
 // qu'on interroge nous autorisent explicitement — se déguiser n'apporterait
@@ -252,14 +256,34 @@ export function recentEntries(items, { since, today, max }) {
   floor.setUTCDate(floor.getUTCDate() - since);
   const cutoff = floor.toISOString().slice(0, 10);
 
-  const eligible = items
-    .filter((item) => item.date && item.date >= cutoff && item.link)
+  const dated = items.filter((item) => item.date && item.date >= cutoff && item.link);
+
+  // Le filtre de pertinence, et il passe AVANT le plafond — l'ordre compte.
+  // Filtrer après la sélection laisserait un généraliste consommer ses créneaux
+  // avec du hors-sujet puis les rendre vides ; le plafond étant partagé, ce
+  // seraient des articles utiles de gtaboom qui manqueraient.
+  //
+  // Il ne s'applique QU'AUX hôtes marqués `topicOnly` par le registre. La
+  // dissymétrie est volontaire : sur un site qui ne parle que de cette
+  // franchise, « Everything we know about the map » est pertinent sans nommer
+  // aucune marque, et le filtrer perdrait de vrais articles.
+  const dropped = [];
+  const pertinents = [];
+  for (const item of dated) {
+    if (policyFor(item.link).topicOnly === true && !parleDuJeu(item)) {
+      dropped.push({ ...item, raison: 'hors sujet pour un hôte généraliste' });
+    } else {
+      pertinents.push(item);
+    }
+  }
+
+  const eligible = pertinents
     // 0 sur égalité, pas -1 : un comparateur qui ne rend jamais 0 est
     // incohérent, et l'ordre des ex æquo devient celui que V8 veut bien.
     // Stable, les ex æquo gardent l'ordre des flux — donc du registre.
     .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
-  if (eligible.length <= max) return { kept: eligible, dropped: [] };
+  if (eligible.length <= max) return { kept: eligible, dropped };
 
   // Le plafond reste GLOBAL, mais il se remplit à tour de rôle par hôte :
   // trié par seule date, l'hôte qui publie plus vite que la fenêtre prend tout
@@ -289,8 +313,23 @@ export function recentEntries(items, { since, today, max }) {
 
   return {
     kept: eligible.filter((item) => chosen.has(item)),
-    dropped: eligible.filter((item) => !chosen.has(item)),
+    // Chaque rejet porte SA raison. Sans ça, un article écarté pour hors-sujet
+    // serait rapporté « au-delà du plafond » par le compte-rendu de run — un
+    // diagnostic faux, qui ferait relever un plafond au lieu d'ajuster un filtre.
+    dropped: [
+      ...dropped,
+      ...eligible
+        .filter((item) => !chosen.has(item))
+        .map((item) => ({ ...item, raison: `au-delà du plafond de ${max} pages` })),
+    ],
   };
+}
+
+/** Un article de généraliste parle-t-il du jeu ? Titre ET lien : un titre peut
+ *  le désigner sans le nommer (« the next open world »), le slug d'URL porte
+ *  presque toujours la marque. */
+function parleDuJeu(item) {
+  return TRADEMARKS.test(item.title ?? '') || TRADEMARKS.test(item.link ?? '');
 }
 
 /** L'hôte d'un lien, ou le lien lui-même s'il n'est pas une URL : une entrée
@@ -349,7 +388,7 @@ async function commandHarvest({ out, since, max, today }) {
   }
 
   const { kept, dropped } = recentEntries(candidates, { since, today, max });
-  for (const entry of dropped) skipped.push({ url: entry.link, reason: `au-delà du plafond de ${max} pages` });
+  for (const entry of dropped) skipped.push({ url: entry.link, reason: entry.raison });
 
   for (const entry of kept) {
     try {
