@@ -184,6 +184,7 @@ struct MapContentTokenTests {
                 showPersonalPins: true,
                 draftPins: [],
                 placement: MapPlacementPin(position: NormalizedPoint(x: x, y: 0.5), category: category),
+                routeTarget: nil,
                 foundPOIIDs: [],
                 canAdopt: false
             )
