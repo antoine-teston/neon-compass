@@ -716,6 +716,7 @@ struct MapScreen: View {
         RouteModePanel(
             run: run,
             currentTitle: currentRoutePOI(model: model)?.title.resolved(for: Self.currentLanguageCode()),
+            currentNote: nil,
             onValidate: { validateRouteStep(model: model) },
             onSkip: { advanceRoute(model: model) },
             onExit: { routeRun = nil }
