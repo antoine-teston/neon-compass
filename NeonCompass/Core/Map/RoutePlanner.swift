@@ -39,4 +39,21 @@ enum RoutePlanner {
             .filter { $0.position != nil }
             .min { distance(point, $0.position!) < distance(point, $1.position!) }
     }
+
+    /// La tournée telle que le joueur l'a demandée : elle démarre au candidat le
+    /// plus proche du point qu'il a touché, puis suit le glouton.
+    ///
+    /// La règle vit ici et non chez l'appelant parce qu'elle EST la décision —
+    /// « mon parcours commence là où je montre ». Dans une méthode privée de vue,
+    /// elle ne serait prouvée par rien.
+    ///
+    /// Rend un tableau vide si aucun candidat n'a de position : il n'y a alors
+    /// aucune tournée à faire, ce que l'appelant sait déjà présenter.
+    static func route(from candidates: [POI], startingNear point: NormalizedPoint) -> [POI] {
+        guard let start = nearest(to: point, in: candidates) else { return [] }
+        // `greedyRoute` démarre sur le PREMIER élément qu'on lui passe : mettre
+        // l'élu en tête EST la façon de choisir le départ, il n'y a pas d'autre
+        // paramètre.
+        return greedyRoute(from: [start] + candidates.filter { $0.id != start.id })
+    }
 }

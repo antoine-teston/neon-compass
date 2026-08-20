@@ -712,15 +712,8 @@ struct MapScreen: View {
         guard case .pickingStart = routeMode else { return }
         let point = MapGeometry.normalizedPoint(fromCanvasPoint: contentPoint, manifest: manifest)
         let remaining = remainingCollectibles(model: model)
-        guard let start = RoutePlanner.nearest(to: point, in: remaining) else {
-            routeMode = .running(RouteRun(steps: []))
-            return
-        }
-        // `greedyRoute` démarre sur le premier élément qu'on lui passe : mettre
-        // l'élu en tête EST la façon de choisir le départ, il n'y a pas d'autre
-        // paramètre.
-        let ordered = [start] + remaining.filter { $0.id != start.id }
-        routeMode = .running(RouteRun(steps: RoutePlanner.greedyRoute(from: ordered).map(\.id)))
+        let route = RoutePlanner.route(from: remaining, startingNear: point)
+        routeMode = .running(RouteRun(steps: route.map(\.id)))
         focusOnCurrentStep(model: model)
     }
 

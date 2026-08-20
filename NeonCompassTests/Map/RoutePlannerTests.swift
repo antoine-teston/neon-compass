@@ -68,4 +68,46 @@ struct RoutePlannerTests {
         #expect(secondRoute.first?.id == "d")
         #expect(secondRoute.first?.id != firstRoute.first?.id)
     }
+
+    // MARK: - La tournée telle que le joueur l'a demandée
+
+    /// Le point touché est près de "b", ni premier ni dernier du tableau —
+    /// sinon le test passerait avec une implémentation qui démarrerait
+    /// simplement sur le premier ou le dernier candidat.
+    @Test func routeStartsOnTheCandidateNearestTheTouchedPoint() {
+        let candidates = [poi("a", 0, 0), poi("b", 0.9, 0.1), poi("c", 0.1, 0.9), poi("d", 0.9, 0.9)]
+        let route = RoutePlanner.route(from: candidates, startingNear: NormalizedPoint(x: 0.95, y: 0.15))
+        #expect(route.first?.id == "b")
+    }
+
+    /// Le cœur de la fonctionnalité : deux points touchés différents, sur le
+    /// même jeu de candidats, donnent deux départs différents. Une
+    /// implémentation qui ignorerait le point échouerait ici.
+    @Test func routeStartDependsOnWhichPointWasTouched() {
+        let candidates = [poi("a", 0, 0), poi("b", 0.9, 0.1), poi("c", 0.1, 0.9), poi("d", 0.9, 0.9)]
+        let nearA = RoutePlanner.route(from: candidates, startingNear: NormalizedPoint(x: 0.05, y: 0.05))
+        let nearD = RoutePlanner.route(from: candidates, startingNear: NormalizedPoint(x: 0.95, y: 0.95))
+        #expect(nearA.first?.id == "a")
+        #expect(nearD.first?.id == "d")
+        #expect(nearA.first?.id != nearD.first?.id)
+    }
+
+    @Test func routeVisitsEveryPositionedCandidateExactlyOnce() {
+        let candidates = [poi("a", 0, 0), poi("b", 0.9, 0.1), poi("c", 0.1, 0.9), poi("d", 0.9, 0.9)]
+        let route = RoutePlanner.route(from: candidates, startingNear: NormalizedPoint(x: 0.5, y: 0.5))
+        #expect(Set(route.map(\.id)) == Set(candidates.map(\.id)))
+        #expect(route.count == candidates.count)
+    }
+
+    /// Vide en entrée, ou uniquement des candidats sans position — dans les
+    /// deux cas il n'y a aucune tournée à faire, pas un plantage.
+    @Test func routeOfEmptyOrAllUnpositionedCandidatesIsEmpty() {
+        #expect(RoutePlanner.route(from: [], startingNear: NormalizedPoint(x: 0.5, y: 0.5)).isEmpty)
+
+        let unpositioned = [
+            POI(id: "x", category: .collectible, position: nil, title: LocalizedText(en: "x", fr: nil, es: nil, it: nil, de: nil), note: nil),
+            POI(id: "y", category: .collectible, position: nil, title: LocalizedText(en: "y", fr: nil, es: nil, it: nil, de: nil), note: nil),
+        ]
+        #expect(RoutePlanner.route(from: unpositioned, startingNear: NormalizedPoint(x: 0.5, y: 0.5)).isEmpty)
+    }
 }
