@@ -106,6 +106,9 @@ private struct MapContentSwiftUIView: View {
     /// Non nil pendant qu'on pose une proposition. Sa seule présence éteint la
     /// frappe de tout le reste du contenu.
     let placementPin: MapPlacementPin?
+    /// Vrai pendant qu'on désigne le point de départ de la tournée — éteint la
+    /// frappe du contenu, comme `placementPin`, mais ne dessine rien.
+    let isPickingRouteStart: Bool
     /// Le POI courant du mode parcours — dédié, par-dessus la carte, jamais
     /// via le pipeline de groupement : un cluster n'a pas de « point courant ».
     let routeTarget: MapRouteTarget?
@@ -152,7 +155,7 @@ private struct MapContentSwiftUIView: View {
             // ça, viser un toit sur lequel se trouve un POI ouvrirait sa fiche —
             // un bouton SwiftUI répond au relâchement, et `cancelsTouchesInView`
             // arrive parfois trop tard pour l'en empêcher.
-            .allowsHitTesting(placementPin == nil)
+            .allowsHitTesting(placementPin == nil && !isPickingRouteStart)
 
             if let placementPin {
                 ghostPin(placementPin)
@@ -660,9 +663,15 @@ struct TiledMapRepresentable: UIViewRepresentable {
     /// Reçoit un point de CONTENU, comme `onLongPress` : la normalisation
     /// appartient à l'appelant, qui a déjà le manifeste sous la main.
     var onPlacementMoved: ((CGPoint) -> Void)?
+    /// Rend le point touché, en coordonnées de CONTENU — l'appelant le convertit.
+    var onRouteStartPicked: ((CGPoint) -> Void)?
     /// Le POI courant du mode parcours. Se DESSINE seulement — aucun geste,
     /// aucune extinction de frappe, contrairement à `placement`.
     var routeTarget: MapRouteTarget? = nil
+    /// Vrai pendant qu'on désigne le point de départ de la tournée. Arme le tap
+    /// ci-dessous et éteint la frappe du contenu — sans quoi le tap ouvrirait la
+    /// fiche du lieu visé au lieu de choisir un départ.
+    var isPickingRouteStart: Bool = false
     let onLongPress: (CGPoint) -> Void
     let onTapPOI: (POI) -> Void
     let onTapPersonalPin: (PersonalPin) -> Void
@@ -825,6 +834,20 @@ struct TiledMapRepresentable: UIViewRepresentable {
         scrollView.panGestureRecognizer.require(toFail: placementDrag)
         context.coordinator.placementDrag = placementDrag
 
+        // Le tap qui désigne le départ de la tournée. Jumeau de `placementTap` et
+        // non le même : les deux modes ne sont jamais actifs ensemble, mais leur
+        // donner un canal commun ferait dépendre le parcours de l'état du
+        // placement — et c'est le placement qui arme un glisser et dessine une
+        // épingle, pas lui.
+        let routeStartTap = UITapGestureRecognizer(
+            target: context.coordinator,
+            action: #selector(Coordinator.handleRouteStartTap(_:))
+        )
+        routeStartTap.delegate = context.coordinator
+        routeStartTap.isEnabled = false
+        scrollView.addGestureRecognizer(routeStartTap)
+        context.coordinator.routeStartTap = routeStartTap
+
         return scrollView
     }
 
@@ -856,6 +879,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// elle resterait clouée à son point de départ. Même raison que
         /// `draftPins`, qui est là pour ça.
         let placement: MapPlacementPin?
+        /// Désigner un départ ne DESSINE rien, mais éteint la frappe de tout le
+        /// contenu : sans ce champ ici, la vue hébergée ne serait pas mise à
+        /// jour et le tap continuerait d'ouvrir la fiche du lieu visé au lieu
+        /// de choisir un départ.
+        let isPickingRouteStart: Bool
         /// La cible du parcours se DESSINE : sans elle ici, avancer d'une
         /// étape ne repousserait aucun contenu et l'anneau resterait cloué à
         /// la première. Même raison que `placement` juste au-dessus.
@@ -883,6 +911,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             showPersonalPins: showPersonalPins,
             draftPins: draftPins,
             placement: placement,
+            isPickingRouteStart: isPickingRouteStart,
             routeTarget: routeTarget,
             foundPOIIDs: foundPOIIDs,
             canAdopt: onAdopt != nil
@@ -900,6 +929,8 @@ struct TiledMapRepresentable: UIViewRepresentable {
         context.coordinator.onPlacementMoved = onPlacementMoved
         context.coordinator.placementTap?.isEnabled = placement != nil
         context.coordinator.placementDrag?.isEnabled = placement != nil
+        context.coordinator.onRouteStartPicked = onRouteStartPicked
+        context.coordinator.routeStartTap?.isEnabled = isPickingRouteStart
 
         // Lu AVANT le garde-fou du jeton, et c'est tout le sujet : ce garde-fou
         // retourne dès que rien de la carte n'a changé — ce qui est précisément le
@@ -956,6 +987,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             myUnpublishedSpots: myUnpublishedSpots,
             draftPins: draftPins,
             placementPin: placement,
+            isPickingRouteStart: isPickingRouteStart,
             routeTarget: routeTarget,
             poisGeneration: poisGeneration,
             spotsGeneration: spotsGeneration,
@@ -1230,6 +1262,8 @@ struct TiledMapRepresentable: UIViewRepresentable {
         fileprivate var onPlacementMoved: ((CGPoint) -> Void)?
         fileprivate weak var placementTap: UITapGestureRecognizer?
         fileprivate weak var placementDrag: UIPanGestureRecognizer?
+        fileprivate weak var routeStartTap: UITapGestureRecognizer?
+        fileprivate var onRouteStartPicked: ((CGPoint) -> Void)?
         /// Point de départ du glisser en cours. Retenu parce que
         /// `translation(in:)` est cumulée depuis le début du geste, pas depuis
         /// la dernière frame.
@@ -1253,6 +1287,11 @@ struct TiledMapRepresentable: UIViewRepresentable {
         @objc func handlePlacementTap(_ gesture: UITapGestureRecognizer) {
             guard let contentView else { return }
             onPlacementMoved?(gesture.location(in: contentView))
+        }
+
+        @objc func handleRouteStartTap(_ gesture: UITapGestureRecognizer) {
+            guard let contentView else { return }
+            onRouteStartPicked?(gesture.location(in: contentView))
         }
 
         @objc func handlePlacementDrag(_ gesture: UIPanGestureRecognizer) {

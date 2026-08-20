@@ -27,4 +27,16 @@ enum RoutePlanner {
         let dy = a.y - b.y
         return (dx * dx + dy * dy).squareRoot()
     }
+
+    /// Le POI le plus proche d'un point, en distance euclidienne sur les
+    /// coordonnées normalisées. Sert à convertir le tap qui désigne le départ
+    /// de la tournée en un point de la tournée : on ne démarre jamais sur une
+    /// coordonnée nue, toujours sur un POI réel.
+    ///
+    /// Les POI sans position sont ignorés — ils ne sont sur aucune carte.
+    static func nearest(to point: NormalizedPoint, in candidates: [POI]) -> POI? {
+        candidates
+            .filter { $0.position != nil }
+            .min { distance(point, $0.position!) < distance(point, $1.position!) }
+    }
 }
