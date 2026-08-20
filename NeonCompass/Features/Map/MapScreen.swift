@@ -414,7 +414,13 @@ struct MapScreen: View {
         // ces deux observations, un abonné tout neuf attendrait le prochain
         // lancement pour voir son carnet arriver.
         .onChange(of: authModel.userID) { _, _ in attachPinSyncIfNeeded() }
-        .onChange(of: proEntitlementModel.isProEntitled) { _, _ in attachPinSyncIfNeeded() }
+        .onChange(of: proEntitlementModel.isProEntitled) { _, isPro in
+            attachPinSyncIfNeeded()
+            // Le mode parcours est réservé aux abonnés : son bouton d'entrée
+            // l'est déjà. Un abonnement qui expire pendant une tournée laisserait
+            // sinon tourner un mode que le bouton refuse désormais de rouvrir.
+            if !isPro { routeRun = nil }
+        }
         // `initial: true` n'est pas un confort : la demande est posée par l'autre
         // onglet AVANT que cet écran ne devienne visible, donc en régulier — où
         // la `TabView` construit ses onglets à la demande — il n'y aurait aucun
@@ -636,7 +642,15 @@ struct MapScreen: View {
     /// viser — pour un mode que la règle du halo unique et l'ordre de la fente
     /// rendent de toute façon invisible tant que la pose dure.
     private func startRoute(model: MapModel) {
-        guard routeRun == nil, placement == nil else { return }
+        guard placement == nil else { return }
+        // Tournée déjà en cours : le bouton RECADRE au lieu de ne rien faire.
+        // C'est la seule commande de la carte qui sache où est l'étape courante,
+        // et après une exploration à la main — ou un panneau masqué le temps
+        // d'une pose — rien d'autre ne ramène à elle.
+        guard routeRun == nil else {
+            focusOnCurrentStep(model: model)
+            return
+        }
         let remaining = model.pois.filter {
             $0.category == .collectible && $0.position != nil && !model.isFound($0)
         }
