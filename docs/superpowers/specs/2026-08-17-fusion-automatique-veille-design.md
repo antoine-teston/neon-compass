@@ -128,6 +128,28 @@ Fusion en **squash**, comme tout le dépôt (`allow_squash_merge` est le seul mo
 autorisé côté GitHub), et la branche n'est **pas** supprimée : la Routine repart
 de `veille/courante` chaque jour et y ajoute un commit.
 
+> **Corrigé le 2026-08-20 : la fusion se fait en MERGE COMMIT.** Les deux
+> moitiés du paragraphe ci-dessus étaient en contradiction, et la première était
+> fausse. `allow_merge_commit` et `allow_rebase_merge` sont vrais sur ce dépôt —
+> vérifié par l'API, le squash n'a jamais été « le seul mode autorisé ».
+>
+> La contradiction : un squash n'est pas un ancêtre de la branche qu'il aplatit.
+> Sur une branche **qu'on ne supprime pas**, les fichiers qu'elle a créés perdent
+> donc tout ancêtre commun avec leurs jumeaux sur `main`, et dès que
+> `publish-news` les transforme en aval (`status: draft` → `published`, plus
+> `listedAt`), le resync du lendemain les rend en `both added` au lieu d'une
+> modification que git fusionnerait seul. Le run du 2026-08-20 s'est arrêté là,
+> sur quatre actus, et le contrat lui interdisait à juste titre de forcer ; ça se
+> serait reproduit à chaque cycle où une actu est réellement publiée.
+>
+> Le merge commit rend les commits de la branche ancêtres de `main` : le resync
+> suivant est un fast-forward et ne peut plus conflire. Sans effet sur la
+> publication — `publish-news` calcule son périmètre par
+> `git diff <avant> <après> -- content/`, dont le résultat net est le même dans
+> les deux modes. Ce que la branche roulante gagne en propreté, `main` le paie
+> en commits de veille visibles dans son historique : c'est le prix assumé, et
+> il ne concerne que cette PR-là.
+
 ## Ce qui reste à la charge d'un humain
 
 - Relire `main` après coup, et dépublier ce qui ne va pas.
