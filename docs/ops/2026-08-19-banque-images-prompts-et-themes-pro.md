@@ -486,6 +486,125 @@ un titre s'y pose.
 
 ---
 
+### 5.7 Sujets libres : personnages, véhicules, bâtiments — années 90
+
+Ajouté le 2026-08-20. **Ce n'est pas un lot livrable** : aucun emplacement de
+l'app n'attend ces images aujourd'hui, et le §4 reste à 20 fichiers. C'est une
+trousse de prompts, à ouvrir quand un écran en demandera.
+
+#### La ligne à ne pas franchir, et pourquoi elle passe là
+
+Un **style artistique n'est pas protégeable**. Peindre à la manière de, éclairer
+à la manière de, cadrer à la manière de : rien de tout cela n'est réservé. Ce
+qui l'est, ce sont les **œuvres précises** — un personnage nommé, une jaquette
+donnée, un logo, une carrosserie déposée.
+
+D'où la règle de travail : **on ne s'inspire pas du jeu, on remonte à ce dont le
+jeu s'inspire.** Miami et Los Angeles des années 90, le cinéma criminel de
+l'époque, la photographie de bord de route américaine, l'architecture art déco
+défraîchie. Ces sources sont publiques et n'appartiennent à personne. Le
+résultat est du même monde sans être de la même main — et c'est plus précis à
+formuler, donc mieux rendu.
+
+Trois interdits concrets, qui découlent tous du même risque : **qu'on nous prenne
+pour l'officiel.** C'est le vrai danger de cette app, celui que la règle
+positionnelle du 2026-08-08 traite déjà pour le nom.
+
+1. **Ne pas imiter la signature graphique des jaquettes.** Le contour noir épais,
+   l'aplat vectoriel, la composition en vignettes : c'est l'élément le plus
+   reconnaissable, celui qui relève de la présentation commerciale et non du
+   style. On garde notre traitement photographique du §5.0.
+2. **Aucun véhicule réel.** Les carrosseries sont des dessins déposés. On invente
+   des silhouettes d'époque, sans le moindre écusson.
+3. **Aucun personnage existant**, du jeu comme d'ailleurs, et aucun visage de
+   personne réelle.
+
+#### Une règle du §5.1 qui change ici
+
+Le bloc de style interdit « NO faces and NO identifiable individuals ». **Pour
+cette famille seulement, les visages redeviennent possibles**, à condition
+qu'ils soient inventés. Le garde-fou se déplace dans la liste `--no` et dans le
+choix du cadrage : de dos, de loin, à contre-jour, ou de trois quarts sous un
+couvre-chef. Un portrait frontal net d'un visage réaliste n'apporte rien à
+l'app et concentre tout le risque.
+
+#### Le bloc de style « années 90 »
+
+À coller à la suite de chaque prompt de cette section, en remplacement de celui
+du §5.1 :
+
+```
+1990s period photograph, shot on expired 35mm Kodak Gold, warm faded colour,
+slight halation, visible grain, sun bleached, humid Florida light, lived in and
+worn, cinematic location scouting frame
+--raw --s 60 --c 0 --no text letters words numbers signage logos brands
+badges emblems watermark signature smartphones flatscreens LED modern cars
+recent architecture
+```
+
+> La seconde moitié de la liste `--no` est un **anti-anachronisme**, et c'est
+> elle qui fait le plus de travail : le réflexe du modèle est de glisser un
+> téléphone moderne ou un phare à LED dans une scène d'époque, ce qui détruit le
+> registre plus sûrement qu'une erreur de couleur.
+
+#### Personnages — archétypes anonymes
+
+Des rôles, pas des individus. Le cadrage fait la moitié du travail.
+
+| Sujet | Prompt (+ bloc de style) |
+|---|---|
+| Le mécano | `invented anonymous auto mechanic in oil stained coveralls seen from behind wiping hands on a rag, standing in the mouth of a garage bay, harsh noon light outside, face not visible --ar 4:5` |
+| Le voiturier | `invented young valet in a plain burgundy jacket leaning against a stucco wall at dusk, shot from across the street at distance, backlit by a porte cochere lamp, silhouette reading clearly --ar 4:5` |
+| Le patron de bateau | `weathered invented boat captain in a faded cap and open shirt on a marina pontoon at golden hour, three quarter view from behind, face shadowed under the cap brim --ar 4:5` |
+| Le vendeur de rue | `invented street vendor pushing a battered pastel cart along a cracked sidewalk at high noon, seen from far down the block, heat shimmer, palms --ar 16:9` |
+| Le vigile | `invented night security guard silhouetted in the lit doorway of a strip mall unit, seen from the empty parking lot at blue hour, entirely backlit --ar 16:9` |
+| Le skateur | `invented skater mid roll along a beachfront promenade at golden hour, motion blur, shot from low and behind, long shadow, no face visible --ar 16:9` |
+
+#### Véhicules — silhouettes inventées
+
+**Un seul mot compte : `invented`.** Sans lui le modèle produit une voiture
+réelle reconnaissable, ce qui est exactement l'écueil.
+
+| Sujet | Prompt (+ bloc de style) |
+|---|---|
+| Coupé | `invented boxy 1990s American two door coupe with pop up headlights, faded red paint, chrome bumpers, parked alone under a street lamp at night on wet asphalt, no badges or emblems anywhere, blank licence plate --ar 3:2` |
+| Berline fatiguée | `invented beige 1990s four door sedan with mismatched panels and a sagging rear suspension, parked on cracked concrete at high noon, no badges, blank plate --ar 3:2` |
+| Break familial | `invented wood panelled 1990s station wagon covered in salt haze, parked at a deserted beach lot at dawn, roof rack, no badges, blank plate --ar 3:2` |
+| Pick-up de marais | `invented mud caked 1990s pick up truck with a snorkel and roll bar, parked on a dirt levee beside black swamp water under flat storm light, no badges --ar 3:2` |
+| Vedette rapide | `invented low slung 1990s offshore powerboat in faded teal and white, moored at a wooden pontoon at golden hour, no lettering on the hull --ar 3:2` |
+| Moto | `invented 1990s cruiser motorcycle with chrome forks, parked in an empty motel lot at blue hour, sodium light overhead, no badges or tank graphics --ar 3:2` |
+
+#### Bâtiments — l'Amérique de bord de route
+
+C'est la famille la plus sûre du lot : ces typologies sont génériques et
+publiques. Aucun monument, aucune adresse réelle.
+
+| Sujet | Prompt (+ bloc de style) |
+|---|---|
+| Motel | `invented two storey roadside motel with a horseshoe plan around a cracked pool, faded turquoise doors, blank sign board on a tall pole, high noon, no lettering --ar 16:9` |
+| Laverie | `invented corner laundromat at night, fluorescent interior glowing through a plate glass window onto an empty sidewalk, banks of machines inside, nobody there --ar 16:9` |
+| Immeuble art déco | `invented four storey art deco apartment block in faded pastel pink and mint, rounded corner, glass block stairwell, air conditioning units in every window, golden hour --ar 4:5` |
+| Station-service | `invented isolated gas station under a wide flat canopy on a swamp highway at blue hour, fluorescent tubes buzzing, blank price board, cypress treeline behind --ar 16:9` |
+| Centre commercial | `invented low strip mall with a continuous concrete awning and blank signage boards above each unit, vast empty parking lot, dusty palm row, high noon heat shimmer --ar 16:9` |
+| Cabane de marais | `invented corrugated tin fishing shack raised on stilts over black water, airboat tied beneath, cypress and hanging moss, flat pewter storm light --ar 16:9` |
+
+#### Contrôle avant de garder une image de cette section
+
+Trois questions, dans cet ordre :
+
+1. **Un écusson, un logo, une lettre quelque part ?** Relancer. C'est l'échec le
+   plus fréquent et le plus disqualifiant.
+2. **Un anachronisme ?** Écran plat, phare à LED, téléphone moderne, jante
+   récente. Relancer en renforçant le `--no`.
+3. **Est-ce que ça ressemble à quelque chose de précis** — une voiture qu'on
+   pourrait nommer, un visage qu'on croit reconnaître, une jaquette connue ?
+   Relancer. C'est la seule des trois qui demande un jugement, et c'est celle
+   qui compte.
+
+Toute image conservée passe au §8 comme les autres, avec son Job ID.
+
+---
+
 ## 6. Post-traitement — les commandes
 
 ImageMagick, `sips`, `potrace` et `cwebp` sont tous installés sur la machine.
