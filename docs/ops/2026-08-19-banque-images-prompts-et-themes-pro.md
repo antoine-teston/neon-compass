@@ -235,6 +235,12 @@ fond de 1536×1536 pèse ≈ 9 Mo décodé, et un seul est vivant à la fois pui
 
 ## 5. Les prompts
 
+> **Pour produire, suivre `2026-08-20-feuille-de-prompts-midjourney.md`** : les
+> mêmes prompts, dans l'ordre de génération, sans le raisonnement. Cette
+> section-ci porte le *pourquoi* ; la feuille porte ce qui se colle. Les deux
+> bougent ensemble.
+
+
 ### 5.0 Direction visuelle — élargie le 2026-08-20
 
 **Deux versions abandonnées, pour deux raisons différentes.**
@@ -673,16 +679,28 @@ feuilles. Reste ceci, vérifié dans le code le 2026-08-20 :
 
 | Emplacement | État aujourd'hui | Valeur |
 |---|---|---|
-| **`PaywallView`** (111 lignes) | **Aucune image** — que des `Label` et des symboles SF | **Le meilleur emplacement du lot.** C'est l'écran qui doit convaincre, et il le fait actuellement avec une liste à puces. Un bandeau d'ancrage en tête change sa nature. |
-| **`DisclaimerView`** (30 lignes) | Texte seul | Premier écran vu de l'app. C'est là que le ton se donne, et il ne se donne pas aujourd'hui. |
+| **`PaywallView`** | **Câblé le 2026-08-20** — bannière 150 pt en tête, gabarit provisoire en place | Le meilleur emplacement du lot : le seul écran où une image se paie littéralement. |
+| **`DisclaimerView`** | **Câblé le 2026-08-20** — bannière 140 pt, repli sur le symbole `sun.horizon.fill` | Premier écran vu de l'app, c'est là que le ton se donne. |
 | Fonds d'ambiance Pro | **Livré** (§7) | La DA est déjà derrière tout le verre, pour les abonnés. |
 | En-têtes d'actu | Planifié (§5.3) | Six images, six registres : c'est le lot qui fera le plus pour la cohérence perçue. |
 | Emblèmes de palier | Planifié (§5.2) | Petits mais vus souvent. |
 | `ContentUnavailableView` | Deux usages seulement (`RoutePlannerSheet`, `PersonalPinBookView`) | Faible rendement — deux écrans rarement atteints. À laisser de côté. |
 
-**L'ordre à suivre si on ne fait qu'une chose** : le paywall. Il est vide, il
-est court, il a un travail à faire, et c'est le seul écran où une image se paie
-littéralement.
+#### Ce qui est câblé, et ce qu'il reste à faire
+
+Les deux emplacements sont **livrés avec des gabarits provisoires** (2026-08-20).
+Déposer l'image définitive est désormais le seul geste : remplacer le `.heic`
+dans `Assets.xcassets/Artwork/`, sans toucher au code.
+
+- `Core/DesignSystem/NCArtwork.swift` — l'énumération des emplacements et la vue
+  `NCArtworkBanner`. L'absence d'image est un état normal : l'emplacement
+  disparaît, ou retombe sur son repli, sans trou dans l'écran.
+- `PaywallView` a gagné un `ScrollView` au passage. Il en avait besoin
+  indépendamment de la bannière : neuf lignes de fonctionnalités, un titre, un
+  sous-titre et deux boutons dans une pile fixe débordaient déjà en silence.
+- `NCArtworkTests` — trois tests, dont un qui **mesure la luminance moyenne** de
+  chaque illustration et refuse au-delà de 0,35. C'est le filet de l'étape
+  d'étalonnage du §6, vérifié capable d'échouer (0,853 sur une image brute).
 
 #### Ce qui ferait rater la charte
 
@@ -759,10 +777,24 @@ remonte parce qu'assombrir désature : sans elle la scène vire au gris.
 **Le contrôle, à passer sur chaque en-tête :**
 
 ```sh
-magick banner.png -colorspace Gray -format 'ensemble  max=%[fx:maxima] moy=%[fx:mean]\n' info:
-magick banner.png -gravity south -crop 1600x300+0+0 +repage \
+magick banner.png -alpha off -colorspace Gray \
+       -format 'ensemble  max=%[fx:maxima] moy=%[fx:mean]\n' info:
+magick banner.png -alpha off -gravity south -crop 1600x300+0+0 +repage \
        -colorspace Gray -format 'tiers bas max=%[fx:maxima] moy=%[fx:mean]\n' info:
 ```
+
+> **`-alpha off` n'est pas décoratif, et l'oublier fait mentir la mesure.**
+> `%[fx:mean]` moyenne *toutes* les couches, alpha compris — et l'étape du voile
+> ajoute justement une couche alpha. Sans lui, une image opaque et sombre est
+> rapportée à `max=1` avec une moyenne exactement à mi-chemin entre sa vraie
+> valeur et 1. Constaté le 2026-08-20 en fabriquant les gabarits : moy=0,095
+> lue comme 0,55, soit un contrôle qui refuse une image parfaitement bonne — et
+> qui, dans l'autre sens, en accepterait une mauvaise.
+
+Vérification croisée du seuil : le test `noArtworkIsBrightEnoughToBlowOutTheInterface`
+mesure la même chose côté app, par réduction à un pixel via `CGContext`. Sur une
+image volontairement non étalonnée, les deux mesures donnent 0,8535 et 0,85272 —
+elles se valident l'une l'autre.
 
 Seuils, mesurés le 2026-08-20 sur une scène de midi volontairement éclatante
 (max 0,97 / moy 0,85 avant traitement) :
