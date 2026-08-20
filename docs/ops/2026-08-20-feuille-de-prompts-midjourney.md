@@ -22,7 +22,7 @@ jusqu'à ce qu'elle plaise vraiment, puis garder son URL — elle devient le
 `--sref` de toutes les scènes.
 
 ```
-wet empty street at dusk in a humid subtropical American city, a low roadside motel on the left with faded turquoise doors and a blank unlit sign board, an invented boxy 1990s coupe parked under a street lamp, tall palms in silhouette, storm clouds breaking over a magenta and orange sky, chrome and puddles holding the colour, cracked asphalt, power lines, nobody in frame, 35mm film still, cinematic location scouting photograph, fine grain, halation, subtle anamorphic flare, weathered and lived in --ar 16:9 --raw --s 60 --c 0 --no text letters words numbers signage logos brands badges emblems watermark signature people faces smartphones LED
+wet street at dusk in a humid subtropical American city, an invented man in a faded pastel shirt waiting alone at the kerb with his back to us, a low roadside motel behind him with faded turquoise doors and a blank unlit sign board, an invented boxy 1990s coupe parked under a street lamp, tall palms in silhouette, storm clouds breaking over a magenta and orange sky, chrome and puddles holding the colour, cracked asphalt, power lines, 35mm film still, cinematic location scouting photograph, fine grain, halation, subtle anamorphic flare, weathered and lived in --ar 16:9 --raw --s 60 --c 0 --no text letters words numbers signage logos brands badges emblems watermark signature tattoos smartphones LED modern cars 3d render cgi
 ```
 
 > Noter l'URL ici une fois retenue : `ANCRAGE = ________________`
@@ -37,13 +37,13 @@ gabarit provisoire à remplacer. Format 5:2.
 ### `artwork-paywall` — l'écran de vente
 
 ```
-warm dusk over an invented palm lined coastal boulevard, low sun burning orange through haze, chrome and glass catching the last light, deep magenta sky above, empty road, aspirational and cinematic, 35mm film still, fine grain, halation, weathered and lived in --ar 5:2 --raw --s 60 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands badges emblems watermark signature people faces smartphones LED
+warm dusk over an invented palm lined coastal boulevard, an invented woman leaning on the open door of a parked coupe watching the sun go down, seen from behind, low sun burning orange through haze, chrome and glass catching the last light, deep magenta sky above, empty road, aspirational and cinematic, 35mm film still, fine grain, halation, weathered and lived in --ar 5:2 --raw --s 60 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands badges emblems watermark signature tattoos smartphones LED modern cars 3d render cgi
 ```
 
 ### `artwork-disclaimer` — le premier écran
 
 ```
-calm dawn over invented subtropical wetlands, low mist on still water, pale rose and grey sky, distant palm silhouettes, quiet and unhurried, nothing man made in frame, 35mm film still, fine grain, halation --ar 5:2 --raw --s 60 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands badges emblems watermark signature people faces smartphones LED
+calm dawn over invented subtropical wetlands, low mist on still water, pale rose and grey sky, distant palm silhouettes, quiet and unhurried, nothing man made in frame, nobody in frame, 35mm film still, fine grain, halation --ar 5:2 --raw --s 60 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands badges emblems watermark signature tattoos smartphones LED modern cars 3d render cgi
 ```
 
 **Après génération, pour les deux** — recadrage, étalonnage, voile, HEIC :
@@ -72,17 +72,17 @@ le bloc `--no` commun.
 
 | # | Rubrique | Prompt |
 |---|---|---|
-| 1 | `announcement` | `empty coastal highway at dawn beneath a colossal blank billboard on rusted steel stilts seen from below, pink grey pre sunrise sky, low mist over flat calm water, distant palms, nothing written anywhere, monumental and silent --ar 16:9` |
-| 2 | `patch` | `open roll up door of a roadside repair garage at high noon, blinding white sunlight on cracked concrete outside, cool dark cluttered interior with a hydraulic lift and scattered tools, heat shimmer, oil stains, chain link fence --ar 16:9` |
-| 3 | `event` | `floodlit stadium parking lot at blue hour, tall light masts blazing over rows of parked cars, orange sodium pools on wet asphalt, deep indigo sky, distant anonymous silhouettes far away --ar 16:9` |
-| 4 | `guide` | `lonely junction on a raised swamp causeway under flat pewter storm light, bald cypress and mangrove, standing black water, leaning telegraph poles, blank unmarked direction signs, no horizon glow --ar 16:9` |
-| 5 | `business` | `vast empty strip mall parking lot at high noon, faded painted lines on cracked asphalt, abandoned shopping carts, blank white signage boards with nothing on them, dusty palm row, heat shimmer, utterly deserted --ar 16:9` |
-| 6 | `community` | `beachfront boardwalk at golden hour, long raking shadows across weathered planks, warm orange light through palm fronds, distant anonymous figures far down the promenade, lens flare, chrome railings --ar 16:9` |
+| 1 | `announcement` | `empty coastal highway at dawn beneath a colossal blank billboard on rusted steel stilts seen from below, nobody in frame, pink grey pre sunrise sky, low mist over flat calm water, distant palms, nothing written anywhere, monumental and silent --ar 16:9` |
+| 2 | `patch` | `open roll up door of a roadside repair garage at high noon, an invented mechanic in oil stained coveralls crouched at a wheel arch with his back to us, blinding white sunlight on cracked concrete outside, cool dark cluttered interior with a hydraulic lift and scattered tools, heat shimmer, oil stains, chain link fence --ar 16:9` |
+| 3 | `event` | `floodlit stadium parking lot at blue hour, small groups of invented people walking between the rows of parked cars towards the light, all seen from behind at distance, tall light masts blazing, orange sodium pools on wet asphalt, deep indigo sky --ar 16:9` |
+| 4 | `guide` | `lonely junction on a raised swamp causeway under flat pewter storm light, a lone invented figure standing at the fork looking down one of the two roads, seen from behind at distance, bald cypress and mangrove, standing black water, leaning telegraph poles, blank unmarked direction signs, no horizon glow --ar 16:9` |
+| 5 | `business` | `vast empty strip mall parking lot at high noon, faded painted lines on cracked asphalt, abandoned shopping carts, blank white signage boards with nothing on them, dusty palm row, heat shimmer, utterly deserted, nobody in frame --ar 16:9` |
+| 6 | `community` | `beachfront boardwalk at golden hour, invented people walking and sitting along the promenade and two of them leaning on the chrome railing, seen from behind and in profile at distance, long raking shadows across weathered planks, warm orange light through palm fronds, lens flare --ar 16:9` |
 
 **Bloc commun à coller à la suite de chacun :**
 
 ```
-35mm film still, cinematic location scouting photograph, fine grain, halation, subtle anamorphic flare, weathered and lived in --raw --s 50 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands badges emblems watermark signature people faces smartphones LED
+35mm film still, cinematic location scouting photograph, fine grain, halation, subtle anamorphic flare, weathered and lived in --raw --s 50 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands badges emblems watermark signature tattoos smartphones LED modern cars 3d render cgi
 ```
 
 Post-traitement : même recette qu'à l'étape 1, en `1600x900`. **Le tiers bas doit
@@ -166,7 +166,7 @@ c'est trop chargé — relancer.
 ## Étape 6 — Le bandeau Social (21:9)
 
 ```
-elevated night view along a coastal causeway, chains of warm sodium street lights receding into the distance, dark water on both sides, distant city glow low on the right, deep indigo sky --ar 21:9 --raw --s 50 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands watermark signature people faces
+elevated night view along a coastal causeway, chains of warm sodium street lights receding into the distance, dark water on both sides, distant city glow low on the right, deep indigo sky, nobody in frame --ar 21:9 --raw --s 50 --c 0 --sref ANCRAGE --no text letters words numbers signage logos brands badges emblems watermark signature tattoos smartphones LED modern cars 3d render cgi
 ```
 
 Tiers gauche presque noir, tiers droit la lueur de la ville, **rien au centre** —
