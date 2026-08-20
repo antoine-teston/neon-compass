@@ -26,6 +26,26 @@ avancer.
    dans `MapFilterControls`) entre immédiatement en mode. `RoutePlannerSheet`
    est supprimé. Le panneau du mode affiche « Étape n/N », ce qui rend la
    liste statique redondante.
+
+   **Amendé le 2026-08-20** : le bouton entre d'abord dans une étape de
+   **désignation du départ** — un tap sur la carte choisit le collectible
+   restant le plus proche, et la tournée part de là. Ce qui est supprimé
+   reste supprimé (aucune feuille, aucune liste) ; ce qui change est qu'on ne
+   tombe plus dans la tournée sur un départ arbitraire. Motif : le départ
+   était le premier élément de l'ordre des fichiers de contenu, ce qui ne
+   coûtait rien quand la tournée était une liste, mais coûte un vrai trajet
+   depuis que la caméra y vole. Décision d'Antoine, contre les deux autres
+   options proposées (laisser tel quel ; démarrer au plus près du centre de
+   la vue).
+
+7. **Les instructions du lieu s'affichent dans le panneau** — décidé le
+   2026-08-20. Le champ `POI.note`, que 141 des 152 collectibles renseignent,
+   dit où chercher (« immergée dans la petite baie au nord, elle brille sur le
+   fond »). Sans elle, le mode indique un point sur une carte sans dire quoi y
+   faire. Rendue avec le traitement déjà en place dans la fiche
+   (`ViewThatFits` : hauteur naturelle, ou défilement si la note est longue),
+   l'appelant bornant ce qu'il PROPOSE — les notes vont jusqu'à 440
+   caractères et un panneau non borné avalerait la carte.
 3. **Ordre figé à l'entrée** — le glouton est calculé une fois. Pas de
    recalcul dynamique : un « Passer » suivi d'un recalcul re-proposerait
    immédiatement le point passé (il reste le plus proche), ce qui rendrait le
@@ -45,9 +65,13 @@ avancer.
 
 ```
 bouton itinéraire (Pro)
-  → glouton sur collectibles restants
+  → collectibles restants
       ├─ vide → panneau en état « tout est trouvé » (map.routePlanner.empty), seule sortie : Quitter
-      └─ non vide → mode actif, focus caméra sur l'étape 1
+      └─ non vide → DÉSIGNATION DU DÉPART (amendement du 20/08)
+            invite « Choisissez votre départ », frappe du contenu éteinte
+            tap sur la carte → collectible restant le plus proche du doigt
+                             → glouton depuis ce point → mode actif, focus caméra
+            bouton itinéraire (2e appui) ou Annuler → sortie, aucune tournée
 mode actif, étape n :
   Valider → toggleFound(POI courant) → avance (en sautant les trouvés externes) → focus caméra
   Passer  → avance sans marquer → focus caméra
