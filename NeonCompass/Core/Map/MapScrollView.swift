@@ -1342,8 +1342,14 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// Refuser un reconnaisseur par `shouldReceive` l'exclut de la séquence
         /// de touchers, donc il ne participe pas à l'arbitrage — c'est ce qui
         /// empêche le `require(toFail:)` de retarder le panoramique de la carte.
+        ///
+        /// Ce délégué est PARTAGÉ par tous les reconnaisseurs qui pointent vers
+        /// ce coordinateur : sans la garde d'identité, un geste étranger au
+        /// placement se ferait refuser par une condition qui ne parle même pas
+        /// de lui.
         func gestureRecognizerShouldBegin(_ gesture: UIGestureRecognizer) -> Bool {
-            placementContentPoint != nil
+            guard gesture === placementTap || gesture === placementDrag else { return true }
+            return placementContentPoint != nil
         }
     }
 }
