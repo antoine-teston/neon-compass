@@ -605,6 +605,97 @@ Toute image conservée passe au §8 comme les autres, avec son Job ID.
 
 ---
 
+### 5.8 La DA dans l'app — l'image d'ancrage et ses emplacements
+
+Ajouté le 2026-08-20, à la demande : non pas un écran précis, mais **que le
+parti pris visuel se sente partout dans l'app**.
+
+#### D'abord une correction : la ligne du §5.7 était trop large
+
+Le §5.7 dit « ne pas imiter la signature graphique des jaquettes ». Formulé
+ainsi c'est excessif, et il faut être exact parce que la nuance décide de ce
+qu'on s'autorise.
+
+**La technique n'est pas réservée.** L'aplat vectoriel, le contour noir épais,
+le trait net et la couleur franche sont un procédé d'illustration banal, employé
+par d'innombrables marques ; personne ne le possède, et l'imiter n'est pas une
+faute.
+
+Ce qui pose un risque, c'est **l'impression d'ensemble** — la combinaison qui
+fait qu'un regard distrait croit voir l'officiel : la grille de vignettes de
+personnages, leurs poses et leur attitude, la palette rose-et-bleu associée à ce
+traitement, et bien sûr tout ce qui approche le logotype. C'est la
+*présentation commerciale* qui est en jeu, pas le style.
+
+→ **On peut utiliser le procédé ; on évite le gestalt.** Concrètement : une
+illustration vectorielle contrastée, oui ; une planche de portraits en vignettes
+dans une palette rose et bleu, non.
+
+#### Le vrai levier de cohérence : une image d'ancrage
+
+Une direction artistique ne se tient pas par une liste d'adjectifs répétée dans
+vingt prompts — elle dérive à la troisième image. Elle se tient par **une seule
+image, générée en premier, dont l'URL sert de `--sref` à toutes les autres.**
+C'est le mécanisme le plus efficace de Midjourney, et il transforme la charte en
+objet plutôt qu'en intention.
+
+**Prompt de l'ancrage** — à générer avant tout le reste, en qualité pleine, et à
+itérer jusqu'à ce qu'elle plaise vraiment ; tout le lot en héritera :
+
+```
+wet empty street at dusk in a humid subtropical American city, a low roadside
+motel on the left with faded turquoise doors and a blank unlit sign board, an
+invented boxy 1990s coupe parked under a street lamp, tall palms in silhouette,
+storm clouds breaking over a magenta and orange sky, chrome and puddles holding
+the colour, cracked asphalt, power lines, nobody in frame
+35mm film still, cinematic location scouting photograph, fine grain, halation,
+subtle anamorphic flare, weathered and lived in
+--ar 16:9 --raw --s 60 --c 0 --no text letters words numbers signage logos
+brands badges emblems watermark signature people faces smartphones LED
+```
+
+Elle est composée pour contenir **toute la charte d'un coup** : le ciel porte
+magenta et orange, le lampadaire et l'enseigne portent le cyan et le violet,
+l'asphalte porte le presque-noir, et le chrome, le béton et le sable portent
+les neutres chauds. Un `--sref` sur cette image transmet donc l'étalonnage
+entier, pas seulement une ambiance.
+
+**Ensuite** : `--sref <url de l'ancrage>` sur les scènes du §5.3, du §5.6 et du
+§5.7. Les emblèmes (§5.2) et les icônes (§5.5) en sont **exclus** — ce sont des
+objets graphiques, l'ancrage photographique les abîmerait.
+
+#### Où la DA peut se poser, sans se battre avec le verre
+
+CLAUDE.md pose la règle : Liquid Glass pour tout le chrome, l'ambiance
+**uniquement dans la couche de contenu**, et au plus trois accents lumineux par
+écran. Ça exclut d'emblée la barre d'onglets, les barres d'outils et les
+feuilles. Reste ceci, vérifié dans le code le 2026-08-20 :
+
+| Emplacement | État aujourd'hui | Valeur |
+|---|---|---|
+| **`PaywallView`** (111 lignes) | **Aucune image** — que des `Label` et des symboles SF | **Le meilleur emplacement du lot.** C'est l'écran qui doit convaincre, et il le fait actuellement avec une liste à puces. Un bandeau d'ancrage en tête change sa nature. |
+| **`DisclaimerView`** (30 lignes) | Texte seul | Premier écran vu de l'app. C'est là que le ton se donne, et il ne se donne pas aujourd'hui. |
+| Fonds d'ambiance Pro | **Livré** (§7) | La DA est déjà derrière tout le verre, pour les abonnés. |
+| En-têtes d'actu | Planifié (§5.3) | Six images, six registres : c'est le lot qui fera le plus pour la cohérence perçue. |
+| Emblèmes de palier | Planifié (§5.2) | Petits mais vus souvent. |
+| `ContentUnavailableView` | Deux usages seulement (`RoutePlannerSheet`, `PersonalPinBookView`) | Faible rendement — deux écrans rarement atteints. À laisser de côté. |
+
+**L'ordre à suivre si on ne fait qu'une chose** : le paywall. Il est vide, il
+est court, il a un travail à faire, et c'est le seul écran où une image se paie
+littéralement.
+
+#### Ce qui ferait rater la charte
+
+- **Trop d'images.** Le parti pris de CLAUDE.md est la retenue ; une app où
+  chaque écran porte une illustration ressemble à une brochure, pas à un outil.
+  Quatre ou cinq emplacements bien choisis suffisent à ce qu'on « sente » la DA.
+- **Des images claires.** L'interface est à `#0A081A`. Tout ce qui n'est pas
+  étalonné selon le §6 casse la continuité au lieu de la créer.
+- **Une image par écran, sans parenté.** C'est exactement ce que l'ancrage
+  empêche — et sans lui, vingt images générées séparément forment vingt DA.
+
+---
+
 ## 6. Post-traitement — les commandes
 
 ImageMagick, `sips`, `potrace` et `cwebp` sont tous installés sur la machine.
