@@ -84,7 +84,7 @@ distincts appellent trois outils.
 
 | Besoin | Outil | Pourquoi celui-là | Coût |
 |---|---|---|---|
-| Fonds d'ambiance, en-têtes, bandeau, icônes (14 images) | **Midjourney** | C'est son terrain le plus fort : lumière cinématographique, néon humide, matière photographique. Et `--sref <url>` verrouille un style d'une image à l'autre bien mieux qu'un « same as before » conversationnel — décisif pour deux séries de six. | abonnement mensuel, résiliable après le lot |
+| Fonds d'ambiance, en-têtes, bandeau, icônes (14 images) | **Midjourney** | C'est son terrain le plus fort : lumière cinématographique, néon humide, matière photographique. Et `--sref <url>` verrouille un style d'une image à l'autre bien mieux qu'un « same as before » conversationnel — décisif pour deux séries de six. | palier **Basic**, résiliable après le lot — la propriété des images y survit (voir plus bas) |
 | Six emblèmes de palier | **Recraft** | Seul générateur grand public à sortir du **SVG véritable** (vrais chemins, vrais points d'ancrage), pas un raster vectorisé. Voir la réouverture ci-dessous. | ~10-12 $/mois selon le palier |
 | Itération à volume, brouillons, variantes | **FLUX.2 [klein] 4B en local** (Draw Things) | Gratuit, tourne sur le M1 Pro 16 Go, et **Apache 2.0 vérifié à la source** — aucune ambiguïté sur l'usage commercial. Bon pour dégrossir avant de dépenser des crédits. | 0 € |
 
@@ -105,14 +105,40 @@ pas sa place.
 Le seul chiffre à retenir : **klein-4B, et pas une autre**. Le nom du fichier
 téléchargé fait foi ; `dev` dans le nom vaut refus.
 
-Sur Midjourney, deux points relevés dans les sources secondaires et **non
-vérifiés à la source** — leur page de CGU refuse le chargement automatique
-(403), donc **à relire avant de souscrire** : les générations sont *publiques
-par défaut* (mode privé réservé aux paliers hauts), et les paliers d'entrée
-n'accorderaient que des droits commerciaux limités. Pour notre lot, le
-caractère public est sans conséquence — les prompts ne nomment rien de
-propriétaire et sont de toute façon archivés au §8 — mais les droits
-commerciaux, eux, décident.
+### Midjourney : ce que disent vraiment les CGU
+
+Vérifié le 2026-08-20 dans le texte intégral (version du 27 mai 2026, lue via
+un instantané Wayback — le site refuse le chargement direct, 403). Une version
+antérieure de cette section relayait une source secondaire affirmant que les
+paliers d'entrée n'accordaient que des droits commerciaux « avec attribution ».
+**C'est faux : le mot attribution n'apparaît nulle part dans les CGU.**
+
+> You own all Assets You create with the Services to the fullest extent
+> possible under applicable law.
+
+Aucune distinction de palier. Le **Basic suffit** pour la licence commerciale
+générale. Trois précisions qui, elles, comptent :
+
+- **L'exception du million.** « If you are a company or any employee of a
+  company with more than $1,000,000 USD a year in revenue, you must be
+  subscribed to a "Pro" or "Mega" plan to own Your Assets. » La clause vise
+  *l'employé*, pas seulement l'entreprise, et ne fait aucune exception pour un
+  projet personnel mené en dehors du travail. **À trancher selon la situation
+  de l'auteur avant de souscrire** — c'est la seule chose qui ferait basculer
+  du Basic vers le Pro, et elle n'a rien à voir avec Neon Compass lui-même.
+- **La propriété survit à la résiliation.** « Your ownership of the Assets you
+  created persists even if in subsequent months You downgrade or cancel Your
+  membership. » Le plan « un mois d'abonnement, on génère le lot, on résilie »
+  est donc explicitement prévu par le contrat, pas toléré.
+- **Public par défaut.** Les générations sont visibles et remixables par la
+  communauté ; le mode Stealth est réservé aux paliers Pro et Mega. Sans
+  conséquence pour nous : nos prompts ne nomment rien de propriétaire et sont
+  archivés au §8 de toute façon.
+
+À noter sans que ce soit bloquant : on accorde à Midjourney une licence
+« perpetual, worldwide, non-exclusive, sublicensable, irrevocable » sur les
+images produites, qui survit à la résiliation. Nous ne cherchons pas
+l'exclusivité, mais nos illustrations ne seront jamais exclusives non plus.
 
 ### Contraintes qui ne dépendent pas de l'outil
 
