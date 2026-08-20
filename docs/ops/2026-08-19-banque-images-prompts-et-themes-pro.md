@@ -1,9 +1,9 @@
-# Banque d'images : lot, prompts Gemini, et thèmes Pro
+# Banque d'images : lot, prompts, et thèmes Pro
 
 Tout est embarqué dans l'app (décision du 2026-08-19) : aucune image ne passe
 par le CDN, donc aucune brique de chargement distant à écrire. Les illustrations
-sont produites avec le palier gratuit de Gemini (Google AI Studio), ce qui
-contraint fortement ce qui est produisible — voir §3.
+sont produites par génération d'image ; le choix du générateur a été tranché le
+2026-08-20 et vaut par besoin plutôt qu'en bloc — voir §3.
 
 Ce fichier est aussi l'**archive de prompts** exigée par CLAUDE.md (« prompts +
 sources archivés comme preuve d'originalité »). Tout prompt réellement utilisé
@@ -68,21 +68,86 @@ mémoire**, comme le fait déjà `MapArtLoader`.
 
 ---
 
-## 3. Ce que Gemini gratuit sait et ne sait pas faire
+## 3. Quel générateur — décision du 2026-08-20
+
+**D'abord le point désagréable : l'outil n'était pas seul en cause.** Les
+prompts de la première version de ce document décrivaient de la géométrie
+synthwave abstraite — grilles, soleils à lamelles, dégradés. C'est ce qui a été
+demandé, c'est donc ce qui est sorti, et c'est étranger à l'ambiance visée. Le
+§5 a été entièrement réécrit le 2026-08-19 autour de la bonne filiation
+(photographie nocturne floridienne, affiche de voyage aérographiée des années
+1980, carte postale touristique). **Avant de payer quoi que ce soit, refaire un
+essai avec les nouveaux prompts** : une partie de la déception vient du brief.
+
+Cela dit, tous les modèles ne se valent pas sur ce registre, et trois besoins
+distincts appellent trois outils.
+
+| Besoin | Outil | Pourquoi celui-là | Coût |
+|---|---|---|---|
+| Fonds d'ambiance, en-têtes, bandeau, icônes (14 images) | **Midjourney** | C'est son terrain le plus fort : lumière cinématographique, néon humide, matière photographique. Et `--sref <url>` verrouille un style d'une image à l'autre bien mieux qu'un « same as before » conversationnel — décisif pour deux séries de six. | abonnement mensuel, résiliable après le lot |
+| Six emblèmes de palier | **Recraft** | Seul générateur grand public à sortir du **SVG véritable** (vrais chemins, vrais points d'ancrage), pas un raster vectorisé. Voir la réouverture ci-dessous. | ~10-12 $/mois selon le palier |
+| Itération à volume, brouillons, variantes | **FLUX.2 [klein] 4B en local** (Draw Things) | Gratuit, tourne sur le M1 Pro 16 Go, et **Apache 2.0 vérifié à la source** — aucune ambiguïté sur l'usage commercial. Bon pour dégrossir avant de dépenser des crédits. | 0 € |
+
+### Le piège de licence, à ne pas rater
+
+Un modèle libre d'accès n'est pas un modèle libre d'usage, et la famille FLUX
+mélange les deux dans des noms voisins. L'app est **commerciale** (App Store,
+financée par la publicité) : une image issue d'un modèle non commercial n'y a
+pas sa place.
+
+| Variante | Licence | Utilisable pour Neon Compass |
+|---|---|---|
+| FLUX.2 **[klein] 4B** | **Apache 2.0** — texte intégral relu sur Hugging Face le 2026-08-20, sans avenant | **Oui**, sans réserve |
+| FLUX.2 [klein] 9B | FLUX Non-Commercial License | **Non** |
+| FLUX.2 **[dev]** (32B) | FLUX Non-Commercial License ; poids sous accès restreint | **Non** — et c'est le plus populaire en local, donc le piège |
+| FLUX.2 Pro / Max | Fermé, payant, par paliers (Builder, Professional) | Oui si souscrit |
+
+Le seul chiffre à retenir : **klein-4B, et pas une autre**. Le nom du fichier
+téléchargé fait foi ; `dev` dans le nom vaut refus.
+
+Sur Midjourney, deux points relevés dans les sources secondaires et **non
+vérifiés à la source** — leur page de CGU refuse le chargement automatique
+(403), donc **à relire avant de souscrire** : les générations sont *publiques
+par défaut* (mode privé réservé aux paliers hauts), et les paliers d'entrée
+n'accorderaient que des droits commerciaux limités. Pour notre lot, le
+caractère public est sans conséquence — les prompts ne nomment rien de
+propriétaire et sont de toute façon archivés au §8 — mais les droits
+commerciaux, eux, décident.
+
+### Contraintes qui ne dépendent pas de l'outil
 
 | Contrainte | Conséquence |
 |---|---|
-| Sortie **raster**, pas de SVG | Aucun vectoriel, quel que soit le palier. |
-| Transparence : **à tester** | Le palier gratuit rend des PNG opaques. Un palier payant peut rendre de l'alpha — le vérifier sur le premier emblème. Si oui, le détourage du §6 devient inutile ; sinon il reste la solution, et il est vérifié. |
-| Pas de SVG | **Les insignes de palier ne peuvent pas être des `.symbolset`.** Voir la décision ci-dessous. |
-| Cohérence de série difficile | Générer chaque série **dans une seule conversation**, en enchaînant « même style que l'image précédente, mais… ». C'est le seul levier fiable. |
-| Filigrane SynthID invisible | Sans effet sur le rendu. À savoir, pas à corriger. |
-| **Palier payant (Gemini Pro, confirmé le 2026-08-19)** | Accès au modèle d'image haut de gamme : résolution de sortie plus élevée (donc plus d'agrandissement à faire), choix du rapport d'aspect, et surtout **meilleure tenue d'une série** — c'est le point qui compte le plus pour les six emblèmes et les six en-têtes. |
-| Consigne inchangée malgré le palier | Le « NO text » du préambule reste, même si le modèle sait écrire proprement : la raison n'est pas technique mais de localisation — un mot dans une image imposerait cinq variantes. |
+| **Aucun texte dans les images** | La règle tient même quand le modèle sait écrire proprement : le motif n'est pas technique mais de localisation — un mot dans une image imposerait cinq variantes. |
+| Cohérence de série | Générer chaque série d'un seul tenant : `--sref` sur Midjourney, une conversation unique ailleurs. C'est le seul levier fiable. |
+| Transparence | Ne pas compter dessus. Le détourage du §6 est vérifié et fonctionne sur fond noir plat — c'est pourquoi les prompts d'emblèmes l'imposent. |
+| **Zéro référence à la franchise dans les prompts** | Contrainte IP (CLAUDE.md), et accessoirement contrainte de qualité : les modèles commerciaux dégradent ou refusent sur un nom de franchise. On vise la *filiation*, jamais l'œuvre. |
 
-**Décision sur les insignes de palier.** L'entête Profil affiche aujourd'hui un
-symbole SF de 12 pt (`ProfileHeaderView.swift:139-142`), animé par
-`.symbolEffect(.bounce, value: state.streetRank)` — le seul moment où l'app
+### Réouverture : les emblèmes peuvent redevenir vectoriels
+
+Ce document affirmait qu'aucun insigne ne pouvait être vectoriel, faute de
+générateur produisant du SVG. **C'est faux depuis Recraft**, qui en produit du
+véritable. Le verrou technique saute ; la question de design, elle, reste
+entière, et elle ne penche pas dans le sens qu'on croirait.
+
+- Un **`.symbolset`** serait monochrome et prendrait la teinte du thème. On y
+  gagnerait `.symbolEffect`, on y perdrait l'émail coloré — c'est-à-dire ce qui
+  fait qu'un badge de collection ressemble à un badge de collection.
+- Un **SVG couleur en `imageset`** (Xcode sait le faire, « Preserve Vector
+  Data ») garde la couleur et devient indépendant de la résolution. Mais
+  l'émail et le chrome sont un rendu *spéculaire* : dégradés, reflets, arêtes
+  qui accrochent la lumière. C'est précisément ce que le vectoriel rend mal.
+
+→ **On reste au raster PNG alpha 512×512 pour la v1.** L'emblème n'est affiché
+qu'à une seule taille (64 pt), où le vectoriel n'apporte rien, et 512×512 en
+alpha pèse déjà peu. La piste vectorielle est notée comme **disponible**, pas
+abandonnée : le jour où l'emblème apparaît à une seconde taille — un widget, ou
+une célébration plein écran au franchissement de palier — c'est elle qu'il faut
+reprendre.
+
+**Décision sur la place de l'insigne (inchangée).** L'entête Profil affiche
+aujourd'hui un symbole SF de 12 pt (`ProfileHeaderView.swift:140-159`), animé
+par `.symbolEffect(.bounce, value: state.streetRank)` — le seul moment où l'app
 célèbre quelque chose. Une image générée à 12 pt serait de la bouillie, et un
 raster perdrait le rebond.
 
@@ -144,79 +209,118 @@ fond de 1536×1536 pèse ≈ 9 Mo décodé, et un seul est vivant à la fois pui
 
 ## 5. Les prompts
 
-### 5.0 Préambule — à coller en tête de CHAQUE conversation Gemini
+### 5.0 Direction visuelle — révisée le 2026-08-19
 
-Il pose le style et les interdits une fois pour toutes ; les prompts suivants ne
-répètent que ce qui varie.
+**Première version abandonnée.** Elle demandait du synthwave abstrait : grilles
+en perspective, contours néon, schémas éclatés. C'était la mauvaise cible. Ce
+qu'on veut est photographique et moite — la Floride au bord de la nuit — et un
+générateur à qui on demande une grille vectorielle rend une grille vectorielle.
+Les images décevantes venaient de la consigne autant que de l'outil.
+
+**Sur la filiation.** L'ambiance recherchée ne s'obtient pas en citant un jeu :
+la plupart des modèles commerciaux dégradent ou refusent sur un nom de
+franchise, et CLAUDE.md l'interdit de toute façon. Elle s'obtient en nommant ses
+SOURCES RÉELLES, qui sont publiques et n'appartiennent à personne — *Miami
+Vice*, la photographie nocturne de Michael Mann, les affiches de voyage
+aérographiées des années 80, les cartes postales de Floride. C'est plus précis
+qu'un nom de marque, donc ça rend mieux.
+
+**Une décision de charte à connaître** : les illustrations ont une gamme un peu
+plus large que l'interface. Un coucher de soleil floridien composé des cinq
+seules couleurs de `NCColor` paraît synthétique — il lui faut du sable, de la
+crème, du turquoise profond, du gris chrome. **La palette de l'INTERFACE ne
+bouge pas** ; seules les images gagnent ces neutres chauds, et les cinq teintes
+de la charte doivent y rester dominantes.
+
+#### Le préambule — à coller en tête de CHAQUE conversation
 
 ```
-You are generating original artwork for an independent iOS app with a retro-synthwave
-visual identity. These rules apply to EVERY image in this conversation.
+You are generating original artwork for an independent iOS app. These rules
+apply to EVERY image in this conversation.
 
-STYLE
-- 1980s retro-futurist synthwave / outrun: neon glow, chrome bevels, sunset gradients,
-  perspective grid horizons, subtle scanlines.
-- Flat, graphic, poster-like illustration. NOT photorealistic. NOT glossy 3D render.
-- Very dark overall. The artwork sits on a near-black interface and must never
+STYLE — the aesthetic lineage
+- Sun-drenched South Florida at the edge of night: humid golden-hour and
+  blue-hour light, hot pink and orange sunsets bleeding over the ocean,
+  art-deco facades, neon signage burning against a bruised sky, palm
+  silhouettes, chrome, wet asphalt holding colour.
+- The lineage is Miami Vice, Michael Mann's night photography, 1980s
+  airbrushed travel-poster art, and Florida tourist postcards.
+- PAINTERLY and airbrushed, never photographic. Rich, saturated, cinematic.
+  Soft gradients, glowing highlights, deep shadows that keep their colour.
+- Fine film grain throughout. Warm atmospheric haze. Anamorphic lens flare,
+  sparingly.
+- Dark overall. These images sit on a near-black interface and must never
   brighten it.
 
-PALETTE — use only these five colours and blends between them:
-- near-black background  #0A081A
-- neon magenta           #FF3388
-- electric violet        #8C33F2
-- warm orange            #FF8C40
-- neon cyan              #26F2F2
+PALETTE — anchored, not limited
+These five belong to the app and must dominate every image:
+  near-black    #0A081A
+  neon magenta  #FF3388
+  electric violet #8C33F2
+  warm orange   #FF8C40
+  neon cyan     #26F2F2
+You MAY add, sparingly, the warm neutrals the light requires: sand, cream,
+deep teal water, warm grey chrome. Nothing outside that world.
 
 ABSOLUTE RULES — a violation makes the image unusable:
-- NO text, NO letters, NO numbers, NO words, NO logos, NO signatures, NO watermarks.
-- NO people, NO faces, NO human or humanoid characters.
-- NO real-world brands, trademarks, badges, emblems or insignia that exist.
-- NO imagery from any existing video game, film, TV series or franchise. Invent
-  everything from scratch.
-- NO real cities, NO recognisable landmarks or skylines.
+- NO text, NO letters, NO numbers, NO words, NO signatures, NO watermarks.
+  Neon signage must be reduced to abstract glowing shapes with no glyphs.
+- NO faces and NO identifiable individuals. Distant anonymous silhouettes are
+  allowed; anything closer is not.
+- NO real-world brands, logos or trademarks, and no recognisable real vehicle,
+  building or product design.
+- NO imagery from any existing video game, film or TV series. Invent every
+  location, every sign, every object.
+- NO real cities and NO recognisable landmarks. The place must feel like the
+  Florida coast without ever being a real address.
 
 Confirm you understand, then wait for the first image request.
 ```
 
-> Le « NO text » est le plus important en pratique : les générateurs d'images
-> ajoutent spontanément des lettres déformées. Et un mot dans une image
-> imposerait cinq variantes — l'app est livrée en EN/FR/ES/IT/DE.
-
----
+> **« NO text » reste la règle la plus utile en pratique.** Les modèles ajoutent
+> spontanément des lettres déformées, et une enseigne au néon les y invite. La
+> raison de fond n'est d'ailleurs pas technique : un mot dans une image
+> imposerait cinq variantes, l'app étant livrée en EN/FR/ES/IT/DE.
 
 ### 5.1 Emblèmes de palier — une seule conversation, six images
+
+Six insignes qui doivent former UNE famille. Le registre est celui du **pin's
+émaillé** — émail coloré serti dans un chrome poli, comme un badge de
+collection : c'est ce qui donne le lustre recherché tout en restant lisible à
+64 px, là où une scène floridienne ne serait qu'une bouillie.
 
 **Message d'amorce, après le préambule :**
 
 ```
-We are making a series of SIX rank insignia for a progression ladder. They must
-look like one coherent family: same framing, same lighting, same line weight,
-escalating richness from rank 1 to rank 6.
+A departure from the scenes: these SIX are objects, not places.
+
+We are making six rank insignia for a progression ladder. They must look like
+one family of collectible enamel pin badges: coloured enamel set into polished
+chrome, catching a warm rim light from the upper left. Same framing, same
+lighting, same bezel weight throughout — only the richness escalates from rank
+1 to rank 6.
 
 Rules for all six:
-- Square image, 1:1.
-- The emblem is CENTRED and alone on a PURE FLAT BLACK background (#000000).
-  The background must be absolutely uniform: no gradient, no vignette, no stars,
-  no glow spilling to the edges. It will be removed programmatically.
-- Leave roughly 10% empty margin on all four sides.
-- Front-facing, perfectly symmetrical, no perspective, no drop shadow.
-- It must stay readable when shrunk to 64 pixels: bold shapes, no fine detail.
+- Square, 1:1. The badge is CENTRED and alone.
+- Background: PURE FLAT BLACK (#000000), absolutely uniform — no gradient, no
+  vignette, no glow spilling to the edges. It gets removed programmatically.
+- Roughly 10% empty margin on all four sides.
+- Front-facing, symmetrical, no perspective, no cast shadow.
+- Readable shrunk to 64 pixels: bold shapes, thick forms, no fine detail.
 
 Generate rank 1 of 6 now, and nothing else.
 ```
 
-**Puis, un message par palier** (toujours « same family as before ») :
+**Puis un message par palier** — toujours « same family as before » :
 
 | Palier | Prompt |
 |---|---|
-| 1 `tourist` | `Rank 1 — the newcomer. A single thin circular ring, one continuous line, no fill. Faint cyan neon glow, barely lit. The humblest badge of the six.` |
-| 2 `runner` | `Rank 2 — same family. The ring is now doubled, two concentric circles, with three short diagonal speed dashes cutting through the lower-left arc. Cyan neon, noticeably brighter than rank 1.` |
-| 3 `getawayDriver` | `Rank 3 — same family. The circle becomes a hexagon with a chevron pointing upward at its centre. Cyan outline with a magenta inner glow. A first thin chrome bevel appears on the hexagon edge.` |
-| 4 `heister` | `Rank 4 — same family. A shield outline containing the hexagon from rank 3. Magenta and violet glow, visible polished chrome bevel along the shield edge.` |
-| 5 `lieutenant` | `Rank 5 — same family. The same shield, now with a four-pointed star at its centre and two small angular wings extending from the sides. Violet fading to warm orange, brighter chrome.` |
-| 6 `kingpin` | `Rank 6 — same family, the most ornate of the six. A radiant crown shape sitting above the shield, rendered in gold-orange chrome, with a full magenta-to-violet-to-orange gradient glow and thin light rays fanning out behind it. Maximum neon intensity, still on flat black.` |
-
----
+| 1 `tourist` | `Rank 1 — the newcomer. A plain circular chrome ring with a single crossed pair of palm fronds in pale teal enamel at its centre. Dull, unpolished chrome. The humblest badge of the six.` |
+| 2 `runner` | `Rank 2 — same family. The ring is now brighter chrome, and the palm fronds are joined by three short cyan enamel speed dashes cutting across the lower left. A first hint of polish.` |
+| 3 `getawayDriver` | `Rank 3 — same family. The circle becomes a hexagon in polished chrome, with a chevron of warm orange enamel pointing upward at its centre. A thin magenta enamel inlay follows the bezel.` |
+| 4 `heister` | `Rank 4 — same family. A shield-shaped badge containing the hexagon from rank 3. Deep magenta and violet enamel, chrome bezel now clearly faceted and catching light on every edge.` |
+| 5 `lieutenant` | `Rank 5 — same family. The same shield, now bearing a four-pointed star at its centre and two small chrome wings at its sides. Violet enamel fading into warm orange, brighter and more reflective chrome.` |
+| 6 `kingpin` | `Rank 6 — same family, the most ornate. A radiant crown rising above the shield, rendered in warm gold-toned chrome, with magenta-to-violet-to-orange enamel and thin engraved rays fanning out behind it. Maximum richness — still on flat black, still readable at 64 pixels.` |
 
 ### 5.2 En-têtes de rubrique Actu — 16:9, une conversation, six images
 
@@ -225,23 +329,21 @@ Generate rank 1 of 6 now, and nothing else.
 ```
 Six wide banner illustrations, 16:9, one per news category. They sit behind the
 top of a card in a dark feed, so:
-- The composition must be QUIET: no single loud focal point, no busy centre.
+- The composition must be QUIET: no loud focal point, no busy centre.
 - The bottom third must be the darkest part of the image — text is laid over it.
-- Abstract and symbolic. No objects that could be mistaken for a real product.
+- Atmosphere over subject. These are moods, not scenes with a story.
 
 Generate banner 1 of 6 now, and nothing else.
 ```
 
 | Rubrique | Prompt |
 |---|---|
-| `announcement` | `Banner 1 — "announcement". A wide neon horizon at dusk. A single broad column of light rising from the horizon line into a deep #0A081A sky. Two palm silhouettes at the far left and right edges. Magenta-to-violet gradient sky.` |
-| `patch` | `Banner 2 — same series. "Maintenance". An exploded schematic of abstract geometric parts — rings, plates, bolts, all invented — floating apart in mid-air above a faint cyan perspective grid. Cool cyan and violet.` |
-| `event` | `Banner 3 — same series. "Event". Streaks of coloured light bursting outward from a low point on the horizon, like a firework seen from far away, over a dark perspective grid. Magenta, orange and cyan streaks.` |
-| `guide` | `Banner 4 — same series. "Guide". A single glowing route line winding from the bottom-left corner into a neon horizon in the upper right, drawn as a thick cyan neon stroke over a dark grid plane.` |
-| `business` | `Banner 5 — same series. "Business". A row of tall abstract chrome monoliths of increasing height, silhouetted against a warm magenta-to-orange sunset gradient. No windows, no signage, no recognisable skyline.` |
-| `community` | `Banner 6 — same series. "Community". Many small glowing nodes scattered across the frame, connected by thin luminous lines into an irregular constellation, floating above a dark grid. Cyan nodes, violet lines.` |
-
----
+| `announcement` | `Banner 1 — "announcement". A wide ocean horizon at the exact moment the sun touches the water. Hot pink and orange bleeding upward into a deep indigo sky, a single column of light laid across the water, two palm silhouettes framing the far left and right edges. Empty, still, enormous.` |
+| `patch` | `Banner 2 — same series. "Maintenance". An open garage bay at night, seen from outside. Chrome tools and invented mechanical parts laid out on wet concrete, lit by one cyan work lamp; everything else falls into warm shadow. No vehicle, no brand, no lettering.` |
+| `event` | `Banner 3 — same series. "Event". An empty boardwalk at blue hour seen from a distance along the beach. Strings of coloured bulbs and abstract neon shapes burning above the sand, their reflection smeared across wet ground. Festive but deserted.` |
+| `guide` | `Banner 4 — same series. "Guide". An empty coastal highway curving away toward a distant neon horizon, palms along the verge, the warm glow of unseen headlights spilling across the asphalt. Low camera angle, close to the road surface.` |
+| `business` | `Banner 5 — same series. "Business". A row of art-deco waterfront facades at dusk, pastel walls catching the last orange light, neon signage glowing above them — reduced to pure abstract shapes, absolutely no letters or glyphs. Calm, moneyed, slightly faded.` |
+| `community` | `Banner 6 — same series. "Community". A marina at night seen from above and far away: dozens of small boat lights scattered across dark water, a distant neon shoreline glowing along the top edge. Warm points of light in a large cool darkness.` |
 
 ### 5.3 Fonds d'ambiance Pro — 1:1, trois images
 
@@ -257,8 +359,9 @@ under translucent frosted-glass panels that blur them.
 This changes everything about what makes them good:
 - They must be ALMOST FEATURELESS. No subject, no object, no focal point,
   no horizon line, nothing the eye can lock onto.
-- Everything out of focus, as if photographed through a lens at the wrong
-  distance. Soft bleeding light only.
+- Everything out of focus, as if photographed through a rain-beaded windshield
+  at night. Soft bleeding light only — this is what neon looks like when you
+  are not looking at it.
 - Extremely dark and extremely low contrast. The BRIGHTEST pixel in the image
   should still be dim. Think of neon light bleeding onto a black wall at night,
   seen out of focus.
@@ -288,22 +391,24 @@ CRITICAL: the artwork must reach all four edges. No padding, no rounded corners,
 no transparent border, no drop shadow, no mockup frame. iOS applies its own
 rounded mask, so anything I add here would be cropped or doubled.
 
-Subject: a stylised compass rose, seen perfectly face-on, drawn as a bold neon
-outline, floating above a synthwave perspective grid that recedes to a low
-horizon. A large setting sun disc sits behind the compass.
+Subject: a stylised compass rose in polished chrome, seen perfectly face-on,
+silhouetted against a large setting sun disc that fills most of the square. Two
+small palm silhouettes rise from the bottom edge, flanking the compass. The sky
+above the sun goes deep #0A081A.
 
-It must be readable at 40 pixels: three shapes maximum, thick strokes, no detail.
+It must be readable at 40 pixels: three shapes maximum, thick forms, no detail,
+strong contrast between the compass and the sun behind it.
 No text of any kind.
 
-Icon 1 — the primary: cyan neon compass, magenta-to-orange sun, #0A081A sky.
+Icon 1 — the primary: chrome compass with a cyan glint, magenta-to-orange sun.
 ```
 
 | Icône | Prompt |
 |---|---|
 | primaire | *(ci-dessus)* |
-| `AppIcon-MagentaDrift` | `Icon 2 — identical composition and framing, recoloured: the compass glows magenta, the sun is violet-to-magenta, the grid lines are violet.` |
-| `AppIcon-SunsetOverdrive` | `Icon 3 — identical composition and framing, recoloured: the compass glows warm orange, the sun is orange-to-yellow, the grid lines are deep magenta.` |
-| `AppIcon-CyanPulse` | `Icon 4 — identical composition and framing, recoloured: the compass glows bright cyan, the sun is violet-to-cyan, the grid lines are pale cyan. The coldest of the four.` |
+| `AppIcon-MagentaDrift` | `Icon 2 — identical composition, framing and lighting, recoloured only: the compass takes a magenta glint, the sun runs violet to magenta, the palms are near-black against it.` |
+| `AppIcon-SunsetOverdrive` | `Icon 3 — identical composition, framing and lighting, recoloured only: the compass takes a warm orange glint, the sun runs orange to gold, the sky behind holds a deep magenta band.` |
+| `AppIcon-CyanPulse` | `Icon 4 — identical composition, framing and lighting, recoloured only: the compass glints bright cyan, the sun runs violet to cyan, and the whole image sits in blue hour rather than golden hour. The coldest of the four.` |
 
 > **Contrainte IP absolue et sans exception** : aucune marque Rockstar dans
 > l'icône ni dans l'identifiant de paquet, jamais. La règle positionnelle du
@@ -316,9 +421,10 @@ Icon 1 — the primary: cyan neon compass, magenta-to-orange sun, #0A081A sky.
 
 ```
 One ultra-wide banner, 21:9, for a weekly-highlights card.
-A horizontal sweep of light travelling left to right across a dark grid plane,
-leaving a magenta-to-cyan trail. The left third is nearly black, the right third
-carries the glow. Nothing in the centre — a title sits there.
+A causeway seen from the side at night, stretching across dark water from the
+left edge to the right, its lights receding into a distant magenta glow. The
+left third is nearly black; the right third carries the city glow. Nothing in
+the centre — a title sits there.
 ```
 
 ---
@@ -329,7 +435,8 @@ ImageMagick, `sips`, `potrace` et `cwebp` sont tous installés sur la machine.
 
 ### Emblèmes : noir → transparence
 
-Gemini ne sait pas produire de canal alpha. Pour un néon sur noir pur, la
+Aucun générateur retenu ne rend de canal alpha fiable. Pour un néon sur noir
+pur, la
 **luminance EST l'opacité** : cette recette préserve la lueur, ce qu'un
 détourage classique détruirait.
 
