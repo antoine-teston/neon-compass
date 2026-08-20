@@ -25,8 +25,11 @@ four new languages on real screens needs a manual pass before release.
    naturally and still legally names "Rockstar Games" / "Take-Two
    Interactive" (untranslated proper nouns — confirm they weren't
    accidentally transliterated).
-3. `map.routePlanner.stepFormat` ("Stop %d" / "Étape %d" / etc.) renders
-   the number correctly positioned in each language's route-planner sheet.
+3. `map.routeMode.step %lld %lld` ("Stop 3/12" / "Étape 3/12" / etc.)
+   renders both numbers correctly positioned in the route mode's panel —
+   the two arguments are positional (`%1$lld/%2$lld`), so a language that
+   swapped them would show the total before the current step. Replaces
+   `map.routePlanner.stepFormat`, deleted with the route-planner sheet.
 4. `map.spot.blockConfirmTitle` ("Hide %@'s spots?" / etc.) renders a real
    contributor handle in place of `%@` without broken punctuation around it
    (French/German use different quote-adjacent spacing conventions).

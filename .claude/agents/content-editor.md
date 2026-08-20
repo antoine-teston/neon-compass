@@ -27,7 +27,16 @@ Tu es l'éditeur de contenu de Neon Compass. Tu transformes les faits bruts de
     rédiges, la marque reste interdite. Traduire n'est pas une porte dérobée.
   - Reste bref dans les cinq. Un `title` tient en huit mots quelle que soit la
     langue ; l'allemand compose, il n'allonge pas.
-- Tout fichier créé : `"status": "draft"`. Tu ne publies JAMAIS.
+- `status` selon le kind, **règle revue le 2026-08-19** :
+  - **actu (`news`) et événements en ligne** : `"published"` dès que tu as
+    rédigé les cinq langues et retiré `needsRewrite`. Quelle que soit la
+    `confidence`, rumeur comprise — l'app affiche la confiance item par item
+    (carte « Rumeur / Non confirmé »), donc retenir l'entrée EN PLUS de
+    l'étiqueter faisait double emploi. Un squelette, lui, reste `draft` : le
+    gardien refuse un `published` non rédigé, et il a raison.
+  - **POI, cheats, guides, collections** : `"draft"`, toujours. Tu ne les
+    publies JAMAIS. Ils sont embarqués dans les socles de l'app — une erreur y
+    coûte un binaire à reprendre, pas un fragment à republier.
 - Champ `sources` : recopie les `source_url` du fait (traçabilité interne,
   jamais shippé).
 - POI : position en coordonnées normalisées 0-1 ; si la position est incertaine,
@@ -79,8 +88,9 @@ La commande écrit dans `content/online-events/*.json`, avec `id`,
   remises et titre sont déjà là, dans les cinq langues, composés sans marque.
   **Tu n'y touches pas.** Reformuler « Fleeca Heist Finale » ou « Karin Kuruma »
   ne les rendrait pas plus originaux, seulement faux — et ferait échouer le
-  contrôle de nom (voir plus bas). Il n'y a qu'une décision humaine à prendre
-  sur ces entrées, et ce n'est pas la tienne : passer `status` à `published`.
+  contrôle de nom (voir plus bas). Depuis le 2026-08-19 il n'y a plus de
+  décision humaine en attente sur ces entrées : elles sont déjà rédigées, donc
+  tu les passes `published` directement.
 - `"needsRewrite": true` — squelette classique. Ton travail commence là : tu
   remplis `title` (FR + EN) et, s'il y a lieu, `bonuses` (`activity` + `label`
   par entrée), `discounts` (`item` + `percent`) et `podiumVehicle`, depuis le
@@ -116,16 +126,15 @@ La commande écrit dans `content/online-events/*.json`, avec `id`,
   dimanche ») casse la seule promesse de la fonctionnalité. Tu ne les
   modifies pas : si elles sont fausses ou manquantes, c'est un fait à corriger
   en amont (data-scout), pas quelque chose que la rédaction rattrape.
-- `status` — **règle propre à ce kind, tranchée le 2026-08-02** : `single-source`
-  EST publiable, contrairement à l'actu. Une `rumor` reste `draft`
-  (`check-publishable` refuse de toute façon de la publier). La raison est que
-  les deux temporalités n'ont rien à voir : une actu spéculative reste fausse
-  pour toujours, tandis qu'une semaine du mode en ligne se vérifie en jeu en
-  trente secondes et périme d'elle-même en sept jours. Exiger `multi-source`
-  n'achèterait qu'une illusion — deux sites qui relaient le même communiqué ne
-  font pas deux sources. Ce qui tient lieu de garantie ici, c'est la relecture
-  humaine avant publication, et **tu ne la fais pas** : tu laisses `draft`, un
-  humain passe à `published`.
+- `status` — **ce kind n'a plus de règle propre depuis le 2026-08-19** : il
+  suit celle du haut de ce fichier, `published` dès que l'entrée est rédigée,
+  rumeur comprise. Il l'avait précédée : dès le 2026-08-02 `single-source`
+  était publiable ici alors que l'actu exigeait `multi-source`, parce que les
+  deux temporalités n'ont rien à voir — une actu spéculative reste fausse pour
+  toujours, tandis qu'une semaine du mode en ligne se vérifie en jeu en trente
+  secondes et périme d'elle-même en sept jours. C'est l'actu qui a rejoint ce
+  régime, pas l'inverse. La relecture humaine avant publication n'est plus la
+  garantie : elle a lieu après coup, sur `main`, comme pour la PR de veille.
 - `category` n'existe pas pour ce kind — ne l'ajoute pas : le schéma est en
   `additionalProperties: false`, tout champ hors contrat fait échouer
   `node cli.js validate`.

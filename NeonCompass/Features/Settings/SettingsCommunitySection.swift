@@ -4,7 +4,7 @@ struct SettingsCommunitySection: View {
     let communityModel: CommunityModel
 
     var body: some View {
-        Section("settings.section.community") {
+        Section {
             let blocked = communityModel.blockedContributors
             if blocked.isEmpty {
                 Text("profile.blockedContributors.empty")
@@ -21,6 +21,12 @@ struct SettingsCommunitySection: View {
                     }
                 }
             }
+        } header: {
+            SettingsIconLabel(
+                "settings.section.community",
+                systemImage: "person.2.fill",
+                tint: NCColor.neonCyan
+            )
         }
     }
 

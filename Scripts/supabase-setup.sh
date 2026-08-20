@@ -146,13 +146,13 @@ fi
 # `app-store-notification` est la seule en --no-verify-jwt : Apple l'appelle sans
 # jeton Supabase. Ce qui remplace cette vérification, c'est la signature JWS
 # d'Apple, vérifiée dans la fonction AVANT toute lecture du contenu.
-for fn in delete-account regenerate-handle submit-contribution send-push rebuild-community-bundles; do
+for fn in delete-account submit-contribution send-push rebuild-community-bundles; do
   echo "→ déploiement de $fn"
   supabase functions deploy "$fn" --project-ref "$PROJECT_REF" >/dev/null
 done
 echo "→ déploiement de app-store-notification (sans vérification de JWT)"
 supabase functions deploy app-store-notification --project-ref "$PROJECT_REF" --no-verify-jwt >/dev/null
-done_ "6 Edge Functions déployées"
+done_ "5 Edge Functions déployées"
 
 echo
 echo "Reste à faire à la main, non scriptable :"

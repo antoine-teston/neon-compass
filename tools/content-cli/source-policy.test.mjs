@@ -33,6 +33,29 @@ test('les domaines dont le robots.txt nous autorise passent', () => {
   }
 });
 
+// Les deux premières sources GÉNÉRALISTES du registre, ajoutées le 2026-08-19
+// pour sortir de la mono-source : jusque-là un seul des trois flux déclarés était
+// vivant, ce qui rendait `multi-source` arithmétiquement inatteignable (aucune des
+// 100 actus du dépôt ne l'a jamais porté). VGC a couvert la même fuite que gtaboom
+// le 18/08 — la corroboration existait, le registre ne la voyait pas.
+test('les deux généralistes sont autorisés, et MARQUÉS comme généralistes', () => {
+  for (const url of ['https://www.videogameschronicle.com/news/x', 'https://insider-gaming.com/y']) {
+    const policy = policyFor(url);
+    assert.equal(policy.mode, 'allow', url);
+    // Le drapeau est ce qui déclenche le filtre de pertinence côté récolte. Sans
+    // lui, ces hôtes noieraient le plafond partagé sous des articles hors sujet.
+    assert.equal(policy.topicOnly, true, url);
+  }
+});
+
+test('les hôtes dédiés ne portent PAS le drapeau généraliste', () => {
+  // La dissymétrie est volontaire : sur un site qui ne parle que de cette
+  // franchise, un titre qui ne nomme pas la marque est pertinent quand même.
+  for (const url of ['https://www.gtaboom.com/x', 'https://leonidaverse.com/en/news', 'https://gta6.gg/news/']) {
+    assert.notEqual(policyFor(url).topicOnly, true, url);
+  }
+});
+
 test('rockstargames est INTERDIT : son robots.txt nomme ClaudeBot', () => {
   const policy = policyFor('https://www.rockstargames.com/newswire');
 
@@ -77,6 +100,11 @@ test('assertAllowed lève avec la raison, pour que le refus soit lisible', () =>
 test('une URL malformée est refusée, pas interprétée', () => {
   assert.equal(policyFor('pas une url').mode, 'forbidden');
   assert.throws(() => assertAllowed('pas une url'));
+});
+
+test('les flux des deux généralistes sont déclarés', () => {
+  assert.equal(feedURLFor('https://www.videogameschronicle.com/news/x'), 'https://www.videogameschronicle.com/feed/');
+  assert.equal(feedURLFor('https://insider-gaming.com/y'), 'https://insider-gaming.com/feed/');
 });
 
 test('le flux d’un domaine est connu sans avoir à le deviner', () => {

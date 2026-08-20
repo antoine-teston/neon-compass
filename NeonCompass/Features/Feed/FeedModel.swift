@@ -154,10 +154,30 @@ final class FeedModel {
     }
 
     private static func sortedByMostRecent(_ items: [NewsItem]) -> [NewsItem] {
-        // `arrivedAt` et non `publishedAt` : le fil s'ordonne sur le jour où
-        // l'entrée est APPARUE, pas sur celui où l'information est sortie. Voir
-        // `NewsItem.listedAt` — sans ça, une actu récoltée le 10 et mise en
-        // ligne le 17 naissait sous des cartes déjà lues.
-        items.sorted { $0.arrivedAt > $1.arrivedAt }
+        // `publishedAt` — la date que la carte AFFICHE. Une liste s'ordonne sur
+        // ce qu'elle montre, sinon elle se lit comme cassée.
+        //
+        // Le fil s'est ordonné sur `listedAt` (jour de mise en ligne) du
+        // 2026-08-17 au 2026-08-19. L'intention était bonne : une actu récoltée
+        // le 10 et mise en ligne le 17 ne devait pas naître sous des cartes déjà
+        // lues. Mais elle supposait que les deux dates restent proches, et
+        // publier d'un coup un mois d'arriéré les a écartées de trente jours —
+        // 46 cartes datées du 19 juillet au 18 août rangées sous « cette
+        // semaine », et les dates qui remontent quand on descend la liste.
+        //
+        // Ce qui a tranché : `listedAt` protégeait d'un ARRIÉRÉ DE BROUILLONS,
+        // et cet arriéré n'existe plus — la veille publie le jour même depuis la
+        // même date. Le garde-fou ne protégeait plus de rien et produisait le
+        // désordre qu'il devait empêcher. `listedAt` reste décodé, il n'ordonne
+        // plus rien.
+        //
+        // Départage sur `id`, et il n'est pas cosmétique : `sorted(by:)` n'est
+        // pas stable, et le fil porte régulièrement plusieurs actus du même jour
+        // — trois cartes du 3 août coexistaient au 2026-08-19. Sans critère
+        // total, leur ordre change d'un tri à l'autre, donc la liste se
+        // réordonne sous le doigt après un tirer-pour-rafraîchir sans qu'aucun
+        // contenu ait bougé. Les dates sont en aaaa-mm-jj, donc l'ordre
+        // lexicographique EST l'ordre chronologique.
+        items.sorted { ($0.publishedAt, $0.id) > ($1.publishedAt, $1.id) }
     }
 }

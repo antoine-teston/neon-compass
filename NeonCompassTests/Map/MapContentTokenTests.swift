@@ -184,6 +184,8 @@ struct MapContentTokenTests {
                 showPersonalPins: true,
                 draftPins: [],
                 placement: MapPlacementPin(position: NormalizedPoint(x: x, y: 0.5), category: category),
+                isPickingRouteStart: false,
+                routeTarget: nil,
                 foundPOIIDs: [],
                 canAdopt: false
             )
@@ -201,5 +203,67 @@ struct MapContentTokenTests {
             "une proposition de plus en attente doit repousser le contenu"
         )
         #expect(token(at: 0.4) == token(at: 0.4), "rien n'a bougé : ne pas tout reconstruire")
+    }
+
+    // MARK: - La cible du parcours
+
+    /// Même sentinelle que ci-dessus, pour l'autre valeur portée par le jeton.
+    ///
+    /// Ce test répond à la question que la précédente a posée en cassant : la
+    /// cible du parcours DOIT invalider. Sans elle dans le jeton, avancer d'une
+    /// étape ne repousserait rien — la pastille resterait clouée sur le premier
+    /// point pendant que le panneau annoncerait le deuxième.
+    @Test func advancingTheRouteTargetChangesTheToken() {
+        func token(_ target: MapRouteTarget?) -> TiledMapRepresentable.ContentToken {
+            TiledMapRepresentable.ContentToken(
+                game: .leonida,
+                style: .neon,
+                poisGeneration: 0,
+                spotsGeneration: 0,
+                myUnpublishedGeneration: 0,
+                personalPinsGeneration: 0,
+                showPersonalPins: true,
+                draftPins: [],
+                placement: nil,
+                isPickingRouteStart: false,
+                routeTarget: target,
+                foundPOIIDs: [],
+                canAdopt: false
+            )
+        }
+
+        let first = MapRouteTarget(position: NormalizedPoint(x: 0.2, y: 0.5), category: .collectible)
+        let next = MapRouteTarget(position: NormalizedPoint(x: 0.8, y: 0.5), category: .collectible)
+
+        #expect(token(first) != token(next), "avancer d'une étape doit repousser le contenu")
+        #expect(token(first) != token(nil), "quitter le mode doit retirer la pastille")
+        #expect(token(first) == token(first), "rien n'a bougé : ne pas tout reconstruire")
+    }
+
+    /// Troisième sentinelle. Désigner un départ ne DESSINE rien, mais éteint la
+    /// frappe de tout le contenu : sans ce champ dans le jeton, la vue hébergée
+    /// ne serait pas mise à jour et le tap continuerait d'ouvrir la fiche du lieu
+    /// visé au lieu de choisir un départ.
+    @Test func armingTheRouteStartPickerChangesTheToken() {
+        func token(_ picking: Bool) -> TiledMapRepresentable.ContentToken {
+            TiledMapRepresentable.ContentToken(
+                game: .leonida,
+                style: .neon,
+                poisGeneration: 0,
+                spotsGeneration: 0,
+                myUnpublishedGeneration: 0,
+                personalPinsGeneration: 0,
+                showPersonalPins: true,
+                draftPins: [],
+                placement: nil,
+                isPickingRouteStart: picking,
+                routeTarget: nil,
+                foundPOIIDs: [],
+                canAdopt: false
+            )
+        }
+
+        #expect(token(true) != token(false), "armer la désignation doit repousser le contenu")
+        #expect(token(true) == token(true), "rien n'a bougé : ne pas tout reconstruire")
     }
 }

@@ -62,15 +62,10 @@ final class FakeProfileRepository: ProfileRepository {
 }
 
 final class FakeAccountFunctions: AccountFunctionsCalling {
-    nonisolated(unsafe) var handleToReturn = "NEON-FALCON-88"
     nonisolated(unsafe) private(set) var deleteAccountCallCount = 0
     nonisolated(unsafe) var shouldThrowOnDelete = false
 
     struct Boom: Error {}
-
-    func regenerateHandle() async throws -> String {
-        handleToReturn
-    }
 
     func deleteAccount() async throws {
         deleteAccountCallCount += 1

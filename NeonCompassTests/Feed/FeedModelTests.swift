@@ -43,25 +43,43 @@ struct FeedModelTests {
         #expect(model.newsItems.map(\.id) == ["b", "a"])
     }
 
-    /// LE CAS QUI MOTIVE `listedAt`.
+    /// LE CAS QUI A FAIT TOMBER `listedAt`, le 2026-08-19.
     ///
-    /// Une actu récoltée le 10 et mise en ligne le 17 arrive APRÈS une actu du
-    /// 14 déjà lue. Triée sur la date de l'information, elle naissait enterrée :
-    /// signalée neuve par le repère de nouveauté, mais sous des cartes que le
-    /// lecteur avait déjà vues.
-    @Test func sortsOnTheDayItWentLiveRatherThanTheDayTheNewsBroke() {
+    /// Le fil AFFICHE `publishedAt` sur chaque carte. Tant qu'il s'ordonnait sur
+    /// `listedAt`, une entrée mise en ligne aujourd'hui pour une information
+    /// d'il y a un mois passait devant une information de la semaine — et le
+    /// lecteur voyait les dates remonter en descendant la liste.
+    ///
+    /// Une liste s'ordonne sur la date qu'elle montre, sinon elle se lit comme
+    /// cassée. `listedAt` continue d'être décodé, il n'ordonne plus rien.
+    @Test func ordersOnTheInformationDateEvenWhenListedLater() {
         let scratch = ScratchDefaults()
-        let vieilleInfoMiseEnLigneAujourdhui = sampleItem(id: "retard", publishedAt: "2026-08-10", listedAt: "2026-08-17")
-        let dejaVue = sampleItem(id: "vue", publishedAt: "2026-08-14", listedAt: "2026-08-14")
+        let vieilleInfoMiseEnLigneAujourdhui = sampleItem(id: "retard", publishedAt: "2026-07-19", listedAt: "2026-08-19")
+        let infoDeLaSemaine = sampleItem(id: "fraiche", publishedAt: "2026-08-14", listedAt: "2026-08-14")
         let model = FeedModel(
-            newsItems: [dejaVue, vieilleInfoMiseEnLigneAujourdhui],
+            newsItems: [vieilleInfoMiseEnLigneAujourdhui, infoDeLaSemaine],
             seenStore: FeedSeenStore(defaults: scratch.defaults)
         )
-        #expect(model.newsItems.map(\.id) == ["retard", "vue"])
+        #expect(model.newsItems.map(\.id) == ["fraiche", "retard"])
     }
 
-    /// Le repli, et il porte les 56 entrées d'avant le champ : sans `listedAt`,
-    /// l'ordre doit rester EXACTEMENT celui d'avant.
+    /// La mise en ligne ne rattrape JAMAIS l'information, dans aucun sens : ni
+    /// pour faire monter une vieille actu, ni pour en faire descendre une neuve.
+    /// C'est le même invariant que le test précédent, pris par l'autre bout —
+    /// un tri qui lirait encore `listedAt` en second passerait l'un et pas
+    /// l'autre.
+    @Test func theListingDayNeverOutranksTheInformationDate() {
+        let scratch = ScratchDefaults()
+        let items = [
+            sampleItem(id: "info-neuve-listee-jadis", publishedAt: "2026-08-18", listedAt: "2026-06-09"),
+            sampleItem(id: "info-vieille-listee-ce-matin", publishedAt: "2026-07-19", listedAt: "2026-08-19")
+        ]
+        let model = FeedModel(newsItems: items, seenStore: FeedSeenStore(defaults: scratch.defaults))
+        #expect(model.newsItems.map(\.id) == ["info-neuve-listee-jadis", "info-vieille-listee-ce-matin"])
+    }
+
+    /// Une entrée sans `listedAt` s'ordonne exactement comme une entrée qui en
+    /// porte un : le champ ne participe plus, donc son absence ne change rien.
     @Test func fallsBackToThePublicationDateWhenNothingWasStamped() {
         let scratch = ScratchDefaults()
         let items = [
@@ -72,8 +90,9 @@ struct FeedModelTests {
         #expect(model.newsItems.map(\.id) == ["b", "a"])
     }
 
-    /// Un fil mixte — des entrées reprises et des entrées estampillées — reste
-    /// totalement ordonné. C'est l'état réel du dépôt au 2026-08-17.
+    /// Un fil mixte — des entrées estampillées et des entrées qui ne le sont pas
+    /// — s'ordonne sur la seule date de l'information, sans que l'estampille
+    /// crée deux régimes.
     @Test func mixesStampedAndUnstampedItemsInOneOrder() {
         let scratch = ScratchDefaults()
         let items = [
@@ -82,7 +101,29 @@ struct FeedModelTests {
             sampleItem(id: "vieille", publishedAt: "2026-07-30")
         ]
         let model = FeedModel(newsItems: items, seenStore: FeedSeenStore(defaults: scratch.defaults))
-        #expect(model.newsItems.map(\.id) == ["neuve", "ancienne", "vieille"])
+        #expect(model.newsItems.map(\.id) == ["ancienne", "neuve", "vieille"])
+    }
+
+    /// `sorted(by:)` de Swift N'EST PAS STABLE, et le fil publie régulièrement
+    /// plusieurs actus datées du même jour — trois cartes du 3 août coexistaient
+    /// au 2026-08-19. Sans un dernier critère total, leur ordre relatif change
+    /// d'un tri à l'autre : le fil se réordonne tout seul sous le doigt après un
+    /// tirer-pour-rafraîchir, sans qu'aucun contenu ait bougé.
+    ///
+    /// L'identifiant tranche. Sa valeur n'a aucun sens éditorial, et c'est
+    /// justement ce qu'on lui demande : être arbitraire mais TOUJOURS le même.
+    @Test func breaksTiesOnTheIdentifierSoTheOrderNeverWobbles() {
+        let scratch = ScratchDefaults()
+        let jourIdentique = ["c", "a", "b"].map { sampleItem(id: $0, publishedAt: "2026-08-03") }
+        let model = FeedModel(newsItems: jourIdentique, seenStore: FeedSeenStore(defaults: scratch.defaults))
+        #expect(model.newsItems.map(\.id) == ["c", "b", "a"])
+
+        // Le même lot dans un autre ordre d'arrivée doit rendre le même fil.
+        let autreOrdre = FeedModel(
+            newsItems: ["b", "c", "a"].map { sampleItem(id: $0, publishedAt: "2026-08-03") },
+            seenStore: FeedSeenStore(defaults: ScratchDefaults().defaults)
+        )
+        #expect(autreOrdre.newsItems.map(\.id) == ["c", "b", "a"])
     }
 
     @Test func updateNewsItemsReplacesContentAndResorts() {

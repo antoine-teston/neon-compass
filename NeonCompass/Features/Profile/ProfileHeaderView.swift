@@ -1,17 +1,16 @@
 import SwiftUI
 
-/// Entête du Profil : deux jauges, jamais une.
+/// La carte Identité : qui je suis, où j'en suis.
 ///
-/// La haute est LOCALE — elle compte les lieux cochés, elle vit dès le premier
-/// POI, hors ligne et sans compte. C'est elle qui porte le mot « niveau » au
-/// sens où un joueur l'entend. La basse est SERVEUR, et n'existe que si un
-/// profil a pu être lu.
+/// Une seule échelle nommée depuis le 2026-08-19 — celle de la rue, calculée
+/// sur les lieux cochés, donc locale, donc vivante hors ligne et sans compte.
+/// La contribution garde sa ligne de chiffres sous le trait, et n'a plus de
+/// dénomination : les deux registres se contredisaient à dix points d'écart.
 ///
-/// La jauge haute ne double pas les anneaux de `ProgressionListView` juste
-/// dessous : ceux-ci sont par jeu et en pourcentage d'une collection connue,
-/// celle-ci est globale et en nombre absolu. Et le nombre absolu reste juste
-/// quand `ChallengeProgress.expected` est nul, ce que le pourcentage ne peut
-/// pas.
+/// La jauge ne double pas les anneaux de la Découverte juste dessous : ceux-ci
+/// sont par jeu et en pourcentage d'une collection connue, celle-ci est globale
+/// et en nombre absolu. Et le nombre absolu reste juste quand
+/// `ChallengeProgress.expected` est nul, ce que le pourcentage ne peut pas.
 ///
 /// Cette vue ne décide de rien : tout est dérivé dans `ProfileHeaderState`,
 /// qui est testé. C'est ce qui a fermé le défaut où l'entête se disait anonyme
@@ -20,18 +19,25 @@ struct ProfileHeaderView: View {
     let state: ProfileHeaderState
     let onContribute: () -> Void
 
+    /// Le conteneur de verre a besoin d'un espace de noms pour fondre la
+    /// pastille dans la carte. Sans lui les deux surfaces se superposent sans
+    /// se mêler, et l'insigne a l'air collé dessus.
+    @Namespace private var glass
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            titleRow
-            explorerGauge
-            if let contributor = state.contributor {
-                Divider().overlay(Color.white.opacity(0.08))
-                contributorLine(contributor)
+        GlassEffectContainer(spacing: 14) {
+            VStack(alignment: .leading, spacing: 16) {
+                titleRow
+                rankBlock
+                if let contributor = state.contributor {
+                    Divider().overlay(Color.white.opacity(0.08))
+                    contributorLine(contributor)
+                }
             }
+            .padding(20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .glassEffect(.regular, in: .rect(cornerRadius: 20))
         }
-        .padding(20)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .glassEffect(.regular, in: .rect(cornerRadius: 20))
     }
 
     // MARK: - Titre
@@ -89,27 +95,31 @@ struct ProfileHeaderView: View {
             .minimumScaleFactor(0.6)
     }
 
-    // MARK: - Jauge d'exploration
+    // MARK: - Insigne et jauge de rang
 
-    private var explorerGauge: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(LocalizedStringKey(state.explorerGrade.nameKey))
-                    .font(NCTypography.cardTitle)
-                    .foregroundStyle(.white)
-                    .textCase(.uppercase)
+    private var rankBlock: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .center, spacing: 12) {
+                rankBadge
                 Spacer()
-                Text("profile.explorer.found \(state.foundCount)")
-                    .font(NCTypography.cardMeta)
-                    .foregroundStyle(.white.opacity(0.7))
+                foundCountText
             }
 
-            if let progress = state.explorerProgress {
-                ProgressView(value: progress)
-                    .tint(NCColor.neonCyan)
+            if let progress = state.rankProgress {
+                // `Gauge` et non `ProgressView` : ce n'est pas une tâche qui
+                // avance, c'est une valeur dans une plage. VoiceOver en tire
+                // « 137 sur 250 » au lieu d'un pourcentage nu, et la borne haute
+                // du palier devient une donnée du contrôle plutôt qu'un calcul
+                // enterré dans l'appelant.
+                Gauge(value: progress) {
+                    EmptyView()
+                }
+                .gaugeStyle(.accessoryLinearCapacity)
+                .tint(NCColor.neonCyan)
+                .accessibilityHidden(true)
             }
 
-            if let remaining = state.remainingToNext, let nextKey = state.nextGradeNameKey {
+            if let remaining = state.remainingToNext, let nextKey = state.nextRankNameKey {
                 Text(remainingLine(remaining: remaining, nextKey: nextKey))
                     .font(NCTypography.cardMeta)
                     .foregroundStyle(.white.opacity(0.5))
@@ -117,9 +127,50 @@ struct ProfileHeaderView: View {
         }
         // Une phrase, pas quatre fragments.
         .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text(LocalizedStringKey(state.streetRank.nameKey)))
+        .accessibilityValue(Text("profile.explorer.found \(state.foundCount)"))
     }
 
-    /// `NSLocalizedString` et pas `String(localized:)` : la clé du grade
+    /// L'insigne de rang : du verre TEINTÉ, pas un aplat posé derrière du verre.
+    ///
+    /// Même idiome que `FilterChip` et `CompactTabBar`, et pour la même raison :
+    /// empiler un fond opaque sous du verre revient à payer le verre sans le
+    /// voir. Le glyphe monte avec le palier et rebondit au changement — c'est le
+    /// seul moment où l'app a quelque chose à célébrer.
+    private var rankBadge: some View {
+        HStack(spacing: 6) {
+            Image(systemName: state.streetRank.symbolName)
+                .font(.system(size: 12, weight: .bold))
+                .symbolEffect(.bounce, value: state.streetRank)
+            Text(LocalizedStringKey(state.streetRank.nameKey))
+                .font(NCTypography.cardMeta)
+                .textCase(.uppercase)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+        }
+        .foregroundStyle(.white)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .glassEffect(.regular.tint(NCColor.neonCyan.opacity(0.45)), in: .capsule)
+        .glassEffectID("streetRank", in: glass)
+        // Ciblée sur l'insigne : franchir un palier fait changer la teinte, le
+        // glyphe et le libellé d'un coup, et sans ça les trois sautent.
+        .animation(.snappy(duration: 0.25), value: state.streetRank)
+    }
+
+    private var foundCountText: some View {
+        Text("profile.explorer.found \(state.foundCount)")
+            .font(NCTypography.cardMeta)
+            .foregroundStyle(.white.opacity(0.7))
+            .monospacedDigit()
+            // Cocher un lieu fait rouler le chiffre au lieu de le remplacer
+            // sèchement. `monospacedDigit` va avec : sans lui la largeur du
+            // texte change pendant la transition et la ligne tremble.
+            .contentTransition(.numericText(value: Double(state.foundCount)))
+            .animation(.snappy(duration: 0.2), value: state.foundCount)
+    }
+
+    /// `NSLocalizedString` et pas `String(localized:)` : la clé du palier
     /// suivant est calculée à l'exécution, et `String(localized:)` veut un
     /// littéral. Le catalogue compile toutes ses entrées, référencées
     /// littéralement ou non, donc la résolution est garantie.
@@ -160,28 +211,25 @@ struct ProfileHeaderView: View {
             .buttonStyle(.plain)
             .accessibilityElement(children: .combine)
 
-        case .ranked(let gradeNameKey, let xp, let rank, let pending):
+        case .ranked(let xp, let rank, let pending):
             HStack(spacing: 6) {
                 Image(systemName: "diamond.fill")
                     .font(.caption2)
                     .foregroundStyle(NCColor.neonCyan)
-                Text(rankedSummary(gradeNameKey: gradeNameKey, xp: xp, rank: rank, pending: pending))
+                Text(rankedSummary(xp: xp, rank: rank, pending: pending))
                     .font(NCTypography.cardMeta)
                     .foregroundStyle(.white.opacity(0.7))
+                    .monospacedDigit()
             }
             .accessibilityElement(children: .combine)
         }
     }
 
     /// Composée de fragments déjà traduits plutôt que d'une chaîne de format
-    /// par combinaison : le grade, le rang et l'attente sont indépendamment
-    /// absents, ce qui ferait huit formats à traduire en cinq langues.
-    private func rankedSummary(gradeNameKey: String?, xp: Int, rank: Int?, pending: Int) -> String {
-        var parts: [String] = []
-        if let gradeNameKey {
-            parts.append(NSLocalizedString(gradeNameKey, comment: "").uppercased())
-        }
-        parts.append(String(format: String(localized: "profile.xp.format"), xp))
+    /// par combinaison : le rang et l'attente sont indépendamment absents, ce
+    /// qui ferait quatre formats à traduire en cinq langues.
+    private func rankedSummary(xp: Int, rank: Int?, pending: Int) -> String {
+        var parts: [String] = [String(format: String(localized: "profile.xp.format"), xp)]
         if let rank {
             parts.append(String(format: String(localized: "profile.rank %lld"), rank))
         }

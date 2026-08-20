@@ -31,11 +31,6 @@ final class ProfileModel {
         profile = try? await repository.fetchProfile(uid: uid)
     }
 
-    func regenerateHandle() async throws {
-        let newHandle = try await functions.regenerateHandle()
-        profile?.handle = newHandle
-    }
-
     /// Cascade complète côté serveur — profil, votes, anonymisation des
     /// contributions approuvées.
     func deleteAccount() async throws {

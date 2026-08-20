@@ -141,3 +141,68 @@ test('un hôte épuisé rend ses créneaux aux autres', () => {
     'https://leonidaverse.com/en/news/b1',
   ]);
 });
+
+// Le filtre de pertinence, ajouté le 2026-08-19 avec les deux premières sources
+// GÉNÉRALISTES du registre. Sans lui, ces hôtes cassent la récolte au lieu de
+// l'élargir : leur densité d'articles sur le jeu est d'environ 1 sur 10 (mesuré
+// sur le flux de VGC), et `recentEntries` remplissant le plafond À TOUR DE RÔLE
+// par hôte, neuf articles hors sujet par généraliste ÉVINCENT les articles utiles
+// de gtaboom. Le plafond est partagé : ce qu'un hôte prend, un autre le perd.
+test('un article hors sujet d’un hôte généraliste est écarté', () => {
+  const { kept, dropped } = recentEntries(
+    [
+      { title: 'Tekken 8 game director joins SNK', link: 'https://www.videogameschronicle.com/news/tekken', date: '2026-08-18' },
+      { title: 'GTA 6 gameplay allegedly leaks', link: 'https://www.videogameschronicle.com/news/leak', date: '2026-08-18' },
+    ],
+    { since: 2, today: '2026-08-19', max: 15 },
+  );
+
+  assert.deepEqual(kept.map((i) => i.link), ['https://www.videogameschronicle.com/news/leak']);
+  assert.equal(dropped.length, 1);
+  assert.match(dropped[0].raison ?? String(dropped[0].reason ?? ''), /hors sujet/i);
+});
+
+test('le même article hors sujet d’un hôte dédié est GARDÉ', () => {
+  // La dissymétrie est le cœur du filtre : gtaboom ne parle que de cette
+  // franchise, donc un titre qui ne nomme pas la marque y est quand même
+  // pertinent (« Everything we know about the map »). Filtrer là ferait perdre
+  // de vrais articles — le filtre suit le registre, pas le texte seul.
+  const { kept, dropped } = recentEntries(
+    [{ title: 'Everything we know about the map', link: 'https://www.gtaboom.com/map', date: '2026-08-18' }],
+    { since: 2, today: '2026-08-19', max: 15 },
+  );
+
+  assert.equal(kept.length, 1);
+  assert.deepEqual(dropped, []);
+});
+
+test('le filtre lit aussi l’URL, pas seulement le titre', () => {
+  // Un titre peut nommer le jeu sans la marque (« Everything we know about
+  // Vice City's map ») ; le slug d'URL la porte presque toujours.
+  const { kept } = recentEntries(
+    [{ title: 'Everything we know about the next open world', link: 'https://insider-gaming.com/gta-6-map-details', date: '2026-08-18' }],
+    { since: 2, today: '2026-08-19', max: 15 },
+  );
+
+  assert.equal(kept.length, 1);
+});
+
+test('le filtre s’applique AVANT le plafond, donc il ne gaspille pas de créneau', () => {
+  // Le piège qu'il faut éviter : filtrer après la sélection à tour de rôle
+  // laisserait un généraliste consommer ses créneaux avec du hors-sujet, puis
+  // les rendre vides. Deux articles utiles doivent survivre à un plafond de 2
+  // même noyés dans du bruit.
+  const items = [
+    { title: 'Hors sujet A', link: 'https://www.videogameschronicle.com/a', date: '2026-08-18' },
+    { title: 'Hors sujet B', link: 'https://www.videogameschronicle.com/b', date: '2026-08-18' },
+    { title: 'GTA 6 delayed', link: 'https://www.videogameschronicle.com/c', date: '2026-08-18' },
+    { title: 'Rockstar hires', link: 'https://insider-gaming.com/d', date: '2026-08-18' },
+  ];
+  const { kept } = recentEntries(items, { since: 2, today: '2026-08-19', max: 2 });
+
+  assert.equal(kept.length, 2);
+  assert.deepEqual(
+    kept.map((i) => i.link).sort(),
+    ['https://insider-gaming.com/d', 'https://www.videogameschronicle.com/c'],
+  );
+});

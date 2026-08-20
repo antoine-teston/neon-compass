@@ -1,6 +1,15 @@
 import SwiftUI
 import SwiftData
 
+/// L'état du mode parcours. Un enum et non deux booléens côte à côte :
+/// « en train de désigner son départ » et « tournée en cours » ne doivent pas
+/// pouvoir être vrais ensemble, et un état impossible qu'on ne peut pas
+/// écrire est un état qu'on n'a pas à re-vérifier partout.
+enum RouteMode: Equatable {
+    case pickingStart
+    case running(RouteRun)
+}
+
 struct MapScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -30,7 +39,9 @@ struct MapScreen: View {
     @State private var placement: ContributionPlacement?
     @State private var showSignInToContribute = false
     @State private var communityModel: CommunityModel?
-    @State private var showRoutePlanner = false
+    /// Nil hors mode. Volontairement NON persisté : les validations vivent déjà
+    /// dans la progression, la tournée n'a rien à elle.
+    @State private var routeMode: RouteMode?
     // Volontairement NON persisté : l'app doit rouvrir sur l'habillage Neon
     // Compass, qui est son identité (voir MapStyle).
     @State private var mapStyle: MapStyle = .neon
@@ -109,7 +120,7 @@ struct MapScreen: View {
                         model: model,
                         showPersonalPins: $showPersonalPins,
                         showPersonalPinList: $showPersonalPinList,
-                        showRoutePlanner: $showRoutePlanner
+                        onStartRoute: { startRoute(model: model) }
                     )
                     displayControls
                     basemapCredit
@@ -122,10 +133,22 @@ struct MapScreen: View {
                         // Dégage la tab bar flottante, comme les contrôles
                         // d'affichage juste au-dessus.
                         .padding(.bottom, 76)
+                } else if let mode = routeMode {
+                    routePanel(mode, model: model)
+                        // Même borne, et pour la même raison, que la fiche —
+                        // voir « Borne ce qui est PROPOSÉ » dans `detailPanel` :
+                        // la note du lieu monte à 440 caractères, et le panneau
+                        // ne sait basculer en défilement que si on lui propose
+                        // une hauteur.
+                        .containerRelativeFrame(.vertical, alignment: .bottom) { height, _ in
+                            height * 0.55
+                        }
+                        .padding(.bottom, 76)
                 }
             }
             .animation(.snappy, value: model.selection)
             .animation(.snappy, value: placement == nil)
+            .animation(.snappy, value: routeMode)
             // En compact le carnet reste une FEUILLE, et c'est ce que veut cette
             // largeur : il n'y a pas de place pour une colonne à côté de la carte.
             // La fiche, elle, est un panneau — c'est une décision mesurée, voir le
@@ -164,7 +187,7 @@ struct MapScreen: View {
                         model: model,
                         showPersonalPins: $showPersonalPins,
                         showPersonalPinList: $showPersonalPinList,
-                        showRoutePlanner: $showRoutePlanner
+                        onStartRoute: { startRoute(model: model) }
                     )
                     displayControls
                     basemapCredit
@@ -176,9 +199,10 @@ struct MapScreen: View {
                 // porte un geste en cours, et la seule dont la fermeture perdrait
                 // une saisie.
                 //
-                // Pas de `containerRelativeFrame` ici, contrairement au carnet et
-                // à la fiche : le panneau tient en une hauteur courte et connue,
-                // il n'a rien à faire défiler et rien à borner.
+                // Pas de `containerRelativeFrame` sur la pose seule,
+                // contrairement au carnet, à la fiche et au parcours : ce
+                // panneau-là tient en une hauteur courte et connue, il n'a rien
+                // à faire défiler et rien à borner.
                 if placement != nil {
                     placementPanel
                         .frame(width: 340)
@@ -192,9 +216,20 @@ struct MapScreen: View {
                         .transition(.move(edge: .trailing))
                 } else if let selection = model.selection {
                     detailPanel(selection, model: model, edge: .trailing, width: 340)
+                } else if let mode = routeMode {
+                    routePanel(mode, model: model)
+                        .frame(width: 340)
+                        // Même borne que le carnet juste au-dessus : depuis que
+                        // le panneau porte la note du lieu, sa hauteur n'est plus
+                        // courte ni connue.
+                        .containerRelativeFrame(.vertical, alignment: .center) { height, _ in
+                            height * 0.7
+                        }
+                        .transition(.move(edge: .trailing))
                 }
             }
             .animation(.snappy, value: placement == nil)
+            .animation(.snappy, value: routeMode)
             // `.transition` n'avait jamais joué : rien n'animait la mutation de
             // `selection`, le panneau surgissait et disparaissait d'un coup.
             .animation(.snappy, value: model.selection)
@@ -322,6 +357,26 @@ struct MapScreen: View {
                 onPlacementMoved: { canvasPoint in
                     placement?.position = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
                 },
+                onRouteStartPicked: { canvasPoint in pickRouteStart(at: canvasPoint, model: model) },
+                // Dessinée par le moteur, par-dessus la carte — jamais via le
+                // pipeline de groupement : un cluster n'a pas de « point
+                // courant ». Nil dès que la tournée est finie ou quittée.
+                //
+                // Retirée pendant qu'on pose une proposition : le placement
+                // éteint déjà toute la frappe du contenu, donc le mode est gelé
+                // — et deux halos qui se disputent l'écran pendant qu'on vise un
+                // toit, c'est un accent lumineux de trop. La tournée, elle, est
+                // conservée : le panneau revient quand la pose se termine.
+                routeTarget: placement != nil ? nil : currentRoutePOI(model: model).flatMap { poi in
+                    poi.position.map { MapRouteTarget(position: $0, category: poi.category) }
+                },
+                // Arme le tap de désignation et éteint la frappe du contenu, le
+                // temps que le joueur montre par où commencer. Désarmé pendant
+                // une pose de proposition : le placement possède déjà la
+                // caméra et le tap, et deux canaux de tap armés en même temps
+                // s'arbitrent au hasard — celui censé déplacer l'épingle
+                // pourrait tout aussi bien lancer une tournée.
+                isPickingRouteStart: placement == nil && routeMode == .pickingStart,
                 onLongPress: { canvasPoint in
                     let normalized = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
 #if DEBUG
@@ -391,7 +446,13 @@ struct MapScreen: View {
         // ces deux observations, un abonné tout neuf attendrait le prochain
         // lancement pour voir son carnet arriver.
         .onChange(of: authModel.userID) { _, _ in attachPinSyncIfNeeded() }
-        .onChange(of: proEntitlementModel.isProEntitled) { _, _ in attachPinSyncIfNeeded() }
+        .onChange(of: proEntitlementModel.isProEntitled) { _, isPro in
+            attachPinSyncIfNeeded()
+            // Le mode parcours est réservé aux abonnés : son bouton d'entrée
+            // l'est déjà. Un abonnement qui expire pendant une tournée laisserait
+            // sinon tourner un mode que le bouton refuse désormais de rouvrir.
+            if !isPro { routeMode = nil }
+        }
         // `initial: true` n'est pas un confort : la demande est posée par l'autre
         // onglet AVANT que cet écran ne devienne visible, donc en régulier — où
         // la `TabView` construit ses onglets à la demande — il n'y aurait aucun
@@ -409,9 +470,14 @@ struct MapScreen: View {
             editorModel.mapChanged(to: newGame)
 #endif
             // Les deux cartes ont des jeux de POI disjoints : changer de carte
-            // change la source, pas seulement l'image de fond.
+            // change la source, pas seulement l'image de fond. La tournée part
+            // avec la sélection, et pour la même raison : ses étapes sont des
+            // identifiants de l'AUTRE carte. La garder afficherait « Étape 3/12 »
+            // au-dessus d'un titre vide, halo éteint, et « Valider » ne
+            // marquerait rien en avançant dans un parcours fantôme.
             model.updatePOIs(pois(for: newGame))
             model.selection = nil
+            routeMode = nil
         }
         // Le mur du plafond. Il DIT ce qui bloque avant de proposer l'achat : une
         // feuille d'achat qui surgirait sans explication passerait pour une panne,
@@ -423,18 +489,6 @@ struct MapScreen: View {
             Text("map.pins.full.message")
         }
         .sheet(isPresented: $showPaywall) { PaywallView() }
-        .sheet(isPresented: $showRoutePlanner) {
-            RoutePlannerSheet(
-                route: RoutePlanner.greedyRoute(
-                    // Deliberately computed from the full, unfiltered `pois`
-                    // array rather than `filteredPOIs` — the route planner
-                    // must never be silently narrowed by the map's category
-                    // chips or search text (see plan 6b-2 final-review fix).
-                    from: model.pois.filter { $0.category == .collectible && $0.position != nil && !model.isFound($0) }
-                ),
-                languageCode: Self.currentLanguageCode()
-            )
-        }
         .confirmationDialog("map.longPress.menuTitle", isPresented: $showLongPressMenu, titleVisibility: .visible) {
             Button("map.longPress.addPersonalPin") {
                 guard let location = pendingPinLocation else { return }
@@ -605,6 +659,137 @@ struct MapScreen: View {
                 }
             )
             .accessibilityAddTraits(.isModal)
+        }
+    }
+
+    // MARK: - Mode parcours
+
+    /// Le bouton d'itinéraire, trois comportements selon l'état du mode.
+    ///
+    /// Refusé pendant une pose de proposition : celle-ci possède la caméra, et
+    /// entrer en mode la déplacerait loin de l'épingle qu'on est en train de
+    /// viser — pour un mode que la règle du halo unique et l'ordre de la fente
+    /// rendent de toute façon invisible tant que la pose dure.
+    private func startRoute(model: MapModel) {
+        guard placement == nil else { return }
+        switch routeMode {
+        case .running:
+            // Tournée en cours : le bouton RECADRE. C'est la seule commande de la
+            // carte qui sache où est l'étape courante, et après une exploration à
+            // la main — ou un panneau masqué le temps d'une pose — rien d'autre
+            // ne ramène à elle.
+            focusOnCurrentStep(model: model)
+        case .pickingStart:
+            // Deuxième appui pendant la désignation : on annule. Un bouton qui ne
+            // ferait rien serait indiscernable d'une panne.
+            routeMode = nil
+        case .none:
+            let remaining = remainingCollectibles(model: model)
+            // La fente est partagée : une fiche ou le carnet resté ouvert
+            // cacherait le panneau qu'on vient de demander — que ce soit la
+            // désignation du départ ou le panneau « tout est trouvé » de la
+            // tournée vide. Le carnet est une colonne de cette même fente en
+            // régulier, servie avant le parcours ; en compact il est une
+            // feuille, et cette ligne n'y coûte rien. Doit s'exécuter avant le
+            // guard qui suit : les deux branches ouvrent un panneau dans cette
+            // fente.
+            model.selection = nil
+            showPersonalPinList = false
+            // Plus rien à parcourir : inutile de demander un départ qui n'existe
+            // pas — on entre droit dans l'état « tournée vide », que le panneau
+            // sait dire.
+            guard !remaining.isEmpty else {
+                routeMode = .running(RouteRun(steps: []))
+                return
+            }
+            routeMode = .pickingStart
+        }
+    }
+
+    /// Le périmètre de la tournée : sur `pois` COMPLET, jamais `filteredPOIs` —
+    /// les puces de catégorie et la recherche ne doivent pas rétrécir la tournée
+    /// en silence (décision de la spec, déjà celle du plan 6b-2).
+    private func remainingCollectibles(model: MapModel) -> [POI] {
+        model.pois.filter { $0.category == .collectible && $0.position != nil && !model.isFound($0) }
+    }
+
+    /// Le tap a désigné un POINT, la tournée démarre sur un LIEU : on prend le
+    /// collectible restant le plus proche. Viser une pastille précise serait
+    /// ingrat — elles se groupent dès qu'on dézoome, et le doigt couvre la cible.
+    private func pickRouteStart(at contentPoint: CGPoint, model: MapModel) {
+        guard case .pickingStart = routeMode else { return }
+        let point = MapGeometry.normalizedPoint(fromCanvasPoint: contentPoint, manifest: manifest)
+        let remaining = remainingCollectibles(model: model)
+        let route = RoutePlanner.route(from: remaining, startingNear: point)
+        routeMode = .running(RouteRun(steps: route.map(\.id)))
+        focusOnCurrentStep(model: model)
+    }
+
+    /// Le POI vivant de l'étape courante — relu à chaque évaluation plutôt que
+    /// copié dans la tournée, pour que titre, note et état trouvé ne se périment
+    /// pas.
+    private func currentRoutePOI(model: MapModel) -> POI? {
+        guard case .running(let run) = routeMode, let id = run.currentStepID else { return nil }
+        return model.pois.first { $0.id == id }
+    }
+
+    private func focusOnCurrentStep(model: MapModel) {
+        guard let position = currentRoutePOI(model: model)?.position else { return }
+        // `.place` et non `.reveal` : même cadrage que la pose d'épingle —
+        // assez près pour viser, et le point dans le HAUT de l'écran, au-dessus
+        // du panneau qui occupe le bas.
+        focusRequest = MapFocusRequest(position: position, intent: .place)
+    }
+
+    private func validateRouteStep(model: MapModel) {
+        // `toggleFound` BASCULE : sans cette garde, valider une étape déjà
+        // cochée depuis sa fiche la DÉ-trouverait.
+        if let poi = currentRoutePOI(model: model), !model.isFound(poi) {
+            model.toggleFound(poi)
+        }
+        advanceRoute(model: model)
+    }
+
+    private func advanceRoute(model: MapModel) {
+        guard case .running(var run) = routeMode else { return }
+        run.advance(found: model.foundPOIIDs)
+        routeMode = .running(run)
+        if run.isFinished {
+            // Tournée terminée : l'état se montre ~1 s, puis sortie
+            // automatique. Comparé à la valeur capturée : si l'utilisateur a
+            // quitté puis relancé une tournée pendant la seconde, on ne
+            // referme pas la sienne.
+            Task {
+                try? await Task.sleep(for: .seconds(1))
+                // La seconde doit avoir été ATTENDUE. `try?` avale une
+                // annulation et tomberait droit sur la sortie, escamotant
+                // l'état terminé. Rien n'annule cette tâche aujourd'hui : la
+                // garde dit l'intention plutôt que de l'emprunter à l'absence
+                // d'annulateur.
+                guard !Task.isCancelled else { return }
+                if routeMode == .running(run) { routeMode = nil }
+            }
+        } else {
+            focusOnCurrentStep(model: model)
+        }
+    }
+
+    /// Une fente, deux panneaux : la désignation du départ précède la tournée,
+    /// elle ne la double pas.
+    @ViewBuilder
+    private func routePanel(_ mode: RouteMode, model: MapModel) -> some View {
+        switch mode {
+        case .pickingStart:
+            RouteStartPickPanel(onCancel: { routeMode = nil })
+        case .running(let run):
+            RouteModePanel(
+                run: run,
+                currentTitle: currentRoutePOI(model: model)?.title.resolved(for: Self.currentLanguageCode()),
+                currentNote: currentRoutePOI(model: model)?.note?.resolved(for: Self.currentLanguageCode()),
+                onValidate: { validateRouteStep(model: model) },
+                onSkip: { advanceRoute(model: model) },
+                onExit: { routeMode = nil }
+            )
         }
     }
 

@@ -36,9 +36,11 @@ struct PaywallView: View {
         var features: [(LocalizedStringKey, String)] = [
             ("paywall.feature.ads", "nosign"),
             ("paywall.feature.sync", "icloud"),
+            ("paywall.feature.unlimited", "pin"),
             ("paywall.feature.route", "map"),
-            ("paywall.feature.remaining", "checklist"),
-            ("paywall.feature.widgets", "square.grid.2x2"),
+            ("paywall.feature.hideFound", "eye.slash"),
+            ("paywall.feature.widget", "square.grid.2x2"),
+            ("paywall.feature.lockScreen", "lock"),
         ]
         if serverFeatures.isEnabled {
             features.append(("paywall.feature.notifications", "bell"))
@@ -51,53 +53,61 @@ struct PaywallView: View {
         NavigationStack {
             ZStack {
                 NCColor.nightSky.ignoresSafeArea()
-                VStack(spacing: 24) {
-                    // Le dégradé de marque : cet écran vend Pro, et Pro est
-                    // désormais de la famille chaude — cf. le badge de l'entête
-                    // du Profil. Le bouton d'achat était déjà en magenta.
-                    if let reason {
-                        Text(reason)
-                            .font(NCTypography.cardMeta)
-                            .foregroundStyle(NCColor.sunsetOrange)
-                            .multilineTextAlignment(.center)
+                // Défilement obligatoire depuis l'arrivée de la bannière : la
+                // pile faisait déjà neuf lignes de fonctionnalités, un titre,
+                // un sous-titre et deux boutons. Fixe, elle débordait sans rien
+                // dire — SwiftUI comprime puis tronque en silence.
+                ScrollView {
+                    VStack(spacing: 24) {
+                        NCArtworkBanner(artwork: .paywall, height: 150)
+
+                        // Le dégradé de marque : cet écran vend Pro, et Pro est
+                        // désormais de la famille chaude — cf. le badge de l'entête
+                        // du Profil. Le bouton d'achat était déjà en magenta.
+                        if let reason {
+                            Text(reason)
+                                .font(NCTypography.cardMeta)
+                                .foregroundStyle(NCColor.sunsetOrange)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        Text("paywall.title")
+                            .font(NCTypography.displayTitle)
+                            .foregroundStyle(NCColor.sunset)
                             .frame(maxWidth: .infinity, alignment: .center)
-                    }
-                    Text("paywall.title")
-                        .font(NCTypography.displayTitle)
-                        .foregroundStyle(NCColor.sunset)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    Text("paywall.subtitle")
-                        .font(NCTypography.body)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                        Text("paywall.subtitle")
+                            .font(NCTypography.body)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .center)
 
-                    VStack(alignment: .leading, spacing: 12) {
-                        ForEach(features, id: \.1) { feature in
-                            Label(feature.0, systemImage: feature.1)
-                                .foregroundStyle(.white)
+                        VStack(alignment: .leading, spacing: 12) {
+                            ForEach(features, id: \.1) { feature in
+                                Label(feature.0, systemImage: feature.1)
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                        .labelStyle(FixedIconLabelStyle())
+                        .padding(20)
+                        .glassEffect(.regular, in: .rect(cornerRadius: 16))
+
+                        if proEntitlementModel.isProEntitled {
+                            Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
+                                .labelStyle(FixedIconLabelStyle())
+                                .foregroundStyle(NCColor.sunsetOrange)
+                        } else {
+                            Button("paywall.buy") {
+                                Task { await proEntitlementModel.purchase() }
+                            }
+                            .buttonStyle(.glassProminent)
+                            .tint(NCColor.sunsetMagenta)
+
+                            Button("paywall.restore") {
+                                Task { await proEntitlementModel.restorePurchases() }
+                            }
                         }
                     }
-                    .labelStyle(FixedIconLabelStyle())
-                    .padding(20)
-                    .glassEffect(.regular, in: .rect(cornerRadius: 16))
-
-                    if proEntitlementModel.isProEntitled {
-                        Label("profile.pro.badge", systemImage: "checkmark.seal.fill")
-                            .labelStyle(FixedIconLabelStyle())
-                            .foregroundStyle(NCColor.sunsetOrange)
-                    } else {
-                        Button("paywall.buy") {
-                            Task { await proEntitlementModel.purchase() }
-                        }
-                        .buttonStyle(.glassProminent)
-                        .tint(NCColor.sunsetMagenta)
-
-                        Button("paywall.restore") {
-                            Task { await proEntitlementModel.restorePurchases() }
-                        }
-                    }
+                    .padding(24)
                 }
-                .padding(24)
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

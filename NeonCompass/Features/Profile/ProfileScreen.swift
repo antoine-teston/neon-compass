@@ -12,7 +12,7 @@ struct ProfileScreen: View {
     @Environment(ServerFeaturesModel.self) private var serverFeatures
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
     /// La jauge d'exploration est LOCALE : elle se lit ici, pas dans le
-    /// profil serveur. `ProgressionSection` a déjà cette dépendance.
+    /// profil serveur. `DiscoverySection` a déjà cette dépendance.
     @Environment(FoundStore.self) private var foundStore
     @Environment(AppModel.self) private var appModel
     @State private var showContributeHint = false
@@ -34,7 +34,7 @@ struct ProfileScreen: View {
                         onContribute: { showContributeHint = true }
                     )
 
-                    ProgressionSection()
+                    DiscoverySection()
 
                     if authModel.userID != nil, serverFeatures.isEnabled, let communityModel {
                         myContributionsSection(communityModel)
@@ -60,7 +60,7 @@ struct ProfileScreen: View {
                 .font(NCTypography.body)
                 .foregroundStyle(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
-            Button("profile.signIn.openSettings") { appModel.showsSettings = true }
+            Button("profile.signIn.open") { appModel.showsSignIn = true }
         }
         .padding(20)
         .frame(maxWidth: .infinity)

@@ -4,7 +4,8 @@ struct MapFilterControls: View {
     @Bindable var model: MapModel
     @Binding var showPersonalPins: Bool
     @Binding var showPersonalPinList: Bool
-    @Binding var showRoutePlanner: Bool
+    /// Entrée DIRECTE en mode parcours — plus de feuille intermédiaire.
+    let onStartRoute: () -> Void
     @State private var showFilters = false
     @Environment(ProEntitlementModel.self) private var proEntitlementModel
 
@@ -53,7 +54,7 @@ struct MapFilterControls: View {
 
     private var routePlannerButton: some View {
         Button {
-            showRoutePlanner = true
+            onStartRoute()
         } label: {
             Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
                 .font(.system(size: 20))
@@ -61,6 +62,7 @@ struct MapFilterControls: View {
                 .frame(width: 44, height: 44)
         }
         .glassEffect(.regular.interactive(), in: .circle)
+        .accessibilityLabel(Text("map.routePlanner.title"))
     }
 
     private var filterToggleButton: some View {
