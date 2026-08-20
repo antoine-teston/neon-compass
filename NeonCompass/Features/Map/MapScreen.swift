@@ -30,7 +30,9 @@ struct MapScreen: View {
     @State private var placement: ContributionPlacement?
     @State private var showSignInToContribute = false
     @State private var communityModel: CommunityModel?
-    @State private var showRoutePlanner = false
+    /// La tournée en cours — nil hors mode. Volontairement NON persistée : les
+    /// validations vivent déjà dans la progression, la tournée n'a rien à elle.
+    @State private var routeRun: RouteRun?
     // Volontairement NON persisté : l'app doit rouvrir sur l'habillage Neon
     // Compass, qui est son identité (voir MapStyle).
     @State private var mapStyle: MapStyle = .neon
@@ -109,7 +111,7 @@ struct MapScreen: View {
                         model: model,
                         showPersonalPins: $showPersonalPins,
                         showPersonalPinList: $showPersonalPinList,
-                        showRoutePlanner: $showRoutePlanner
+                        onStartRoute: { startRoute(model: model) }
                     )
                     displayControls
                     basemapCredit
@@ -122,10 +124,14 @@ struct MapScreen: View {
                         // Dégage la tab bar flottante, comme les contrôles
                         // d'affichage juste au-dessus.
                         .padding(.bottom, 76)
+                } else if let run = routeRun {
+                    routePanel(run, model: model)
+                        .padding(.bottom, 76)
                 }
             }
             .animation(.snappy, value: model.selection)
             .animation(.snappy, value: placement == nil)
+            .animation(.snappy, value: routeRun)
             // En compact le carnet reste une FEUILLE, et c'est ce que veut cette
             // largeur : il n'y a pas de place pour une colonne à côté de la carte.
             // La fiche, elle, est un panneau — c'est une décision mesurée, voir le
@@ -164,7 +170,7 @@ struct MapScreen: View {
                         model: model,
                         showPersonalPins: $showPersonalPins,
                         showPersonalPinList: $showPersonalPinList,
-                        showRoutePlanner: $showRoutePlanner
+                        onStartRoute: { startRoute(model: model) }
                     )
                     displayControls
                     basemapCredit
@@ -192,9 +198,14 @@ struct MapScreen: View {
                         .transition(.move(edge: .trailing))
                 } else if let selection = model.selection {
                     detailPanel(selection, model: model, edge: .trailing, width: 340)
+                } else if let run = routeRun {
+                    routePanel(run, model: model)
+                        .frame(width: 340)
+                        .transition(.move(edge: .trailing))
                 }
             }
             .animation(.snappy, value: placement == nil)
+            .animation(.snappy, value: routeRun)
             // `.transition` n'avait jamais joué : rien n'animait la mutation de
             // `selection`, le panneau surgissait et disparaissait d'un coup.
             .animation(.snappy, value: model.selection)
@@ -322,6 +333,18 @@ struct MapScreen: View {
                 onPlacementMoved: { canvasPoint in
                     placement?.position = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
                 },
+                // Dessinée par le moteur, par-dessus la carte — jamais via le
+                // pipeline de groupement : un cluster n'a pas de « point
+                // courant ». Nil dès que la tournée est finie ou quittée.
+                //
+                // Retirée pendant qu'on pose une proposition : le placement
+                // éteint déjà toute la frappe du contenu, donc le mode est gelé
+                // — et deux halos qui se disputent l'écran pendant qu'on vise un
+                // toit, c'est un accent lumineux de trop. La tournée, elle, est
+                // conservée : le panneau revient quand la pose se termine.
+                routeTarget: placement != nil ? nil : currentRoutePOI(model: model).flatMap { poi in
+                    poi.position.map { MapRouteTarget(position: $0, category: poi.category) }
+                },
                 onLongPress: { canvasPoint in
                     let normalized = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
 #if DEBUG
@@ -423,18 +446,6 @@ struct MapScreen: View {
             Text("map.pins.full.message")
         }
         .sheet(isPresented: $showPaywall) { PaywallView() }
-        .sheet(isPresented: $showRoutePlanner) {
-            RoutePlannerSheet(
-                route: RoutePlanner.greedyRoute(
-                    // Deliberately computed from the full, unfiltered `pois`
-                    // array rather than `filteredPOIs` — the route planner
-                    // must never be silently narrowed by the map's category
-                    // chips or search text (see plan 6b-2 final-review fix).
-                    from: model.pois.filter { $0.category == .collectible && $0.position != nil && !model.isFound($0) }
-                ),
-                languageCode: Self.currentLanguageCode()
-            )
-        }
         .confirmationDialog("map.longPress.menuTitle", isPresented: $showLongPressMenu, titleVisibility: .visible) {
             Button("map.longPress.addPersonalPin") {
                 guard let location = pendingPinLocation else { return }
@@ -606,6 +617,75 @@ struct MapScreen: View {
             )
             .accessibilityAddTraits(.isModal)
         }
+    }
+
+    // MARK: - Mode parcours
+
+    /// Entre en mode : glouton calculé UNE fois — ordre figé, décision 3 de la
+    /// spec — sur `pois` COMPLET, jamais `filteredPOIs` : les puces de
+    /// catégorie et la recherche ne rétrécissent pas la tournée en silence
+    /// (décision du plan 6b-2, revalidée par la spec).
+    private func startRoute(model: MapModel) {
+        guard routeRun == nil else { return }
+        let remaining = model.pois.filter {
+            $0.category == .collectible && $0.position != nil && !model.isFound($0)
+        }
+        routeRun = RouteRun(steps: RoutePlanner.greedyRoute(from: remaining).map(\.id))
+        // La fente est partagée : une fiche restée ouverte cacherait le
+        // panneau du mode qu'on vient de demander.
+        model.selection = nil
+        focusOnCurrentStep(model: model)
+    }
+
+    /// Le POI vivant de l'étape courante — relu à chaque évaluation plutôt que
+    /// copié dans la tournée, pour que titre et état trouvé ne se périment pas.
+    private func currentRoutePOI(model: MapModel) -> POI? {
+        guard let id = routeRun?.currentStepID else { return nil }
+        return model.pois.first { $0.id == id }
+    }
+
+    private func focusOnCurrentStep(model: MapModel) {
+        guard let position = currentRoutePOI(model: model)?.position else { return }
+        // `.place` et non `.reveal` : même cadrage que la pose d'épingle —
+        // assez près pour viser, et le point dans le HAUT de l'écran, au-dessus
+        // du panneau qui occupe le bas.
+        focusRequest = MapFocusRequest(position: position, intent: .place)
+    }
+
+    private func validateRouteStep(model: MapModel) {
+        // `toggleFound` BASCULE : sans cette garde, valider une étape déjà
+        // cochée depuis sa fiche la DÉ-trouverait.
+        if let poi = currentRoutePOI(model: model), !model.isFound(poi) {
+            model.toggleFound(poi)
+        }
+        advanceRoute(model: model)
+    }
+
+    private func advanceRoute(model: MapModel) {
+        routeRun?.advance(found: model.foundPOIIDs)
+        if let run = routeRun, run.isFinished {
+            // Tournée terminée : l'état se montre ~1 s, puis sortie
+            // automatique. Comparé à la valeur capturée : si l'utilisateur a
+            // quitté puis relancé une tournée pendant la seconde, on ne
+            // referme pas la sienne.
+            Task {
+                try? await Task.sleep(for: .seconds(1))
+                if routeRun == run { routeRun = nil }
+            }
+        } else {
+            focusOnCurrentStep(model: model)
+        }
+    }
+
+    @ViewBuilder
+    private func routePanel(_ run: RouteRun, model: MapModel) -> some View {
+        RouteModePanel(
+            run: run,
+            currentTitle: currentRoutePOI(model: model)?.title.resolved(for: Self.currentLanguageCode()),
+            onValidate: { validateRouteStep(model: model) },
+            onSkip: { advanceRoute(model: model) },
+            onExit: { routeRun = nil }
+        )
     }
 
     /// Relit MES propositions, celles que la carte dessine en attente.
