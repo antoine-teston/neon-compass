@@ -235,223 +235,254 @@ fond de 1536×1536 pèse ≈ 9 Mo décodé, et un seul est vivant à la fois pui
 
 ## 5. Les prompts
 
-### 5.0 Direction visuelle — révisée le 2026-08-19
+### 5.0 Direction visuelle — élargie le 2026-08-20
 
-**Première version abandonnée.** Elle demandait du synthwave abstrait : grilles
-en perspective, contours néon, schémas éclatés. C'était la mauvaise cible. Ce
-qu'on veut est photographique et moite — la Floride au bord de la nuit — et un
-générateur à qui on demande une grille vectorielle rend une grille vectorielle.
-Les images décevantes venaient de la consigne autant que de l'outil.
+**Deux versions abandonnées, pour deux raisons différentes.**
 
-**Sur la filiation.** L'ambiance recherchée ne s'obtient pas en citant un jeu :
-la plupart des modèles commerciaux dégradent ou refusent sur un nom de
-franchise, et CLAUDE.md l'interdit de toute façon. Elle s'obtient en nommant ses
-SOURCES RÉELLES, qui sont publiques et n'appartiennent à personne — *Miami
-Vice*, la photographie nocturne de Michael Mann, les affiches de voyage
-aérographiées des années 80, les cartes postales de Floride. C'est plus précis
-qu'un nom de marque, donc ça rend mieux.
+La première demandait du synthwave abstrait — grilles en perspective, contours
+néon, schémas éclatés. Mauvaise cible : on obtient une grille vectorielle quand
+on demande une grille vectorielle.
 
-**Une décision de charte à connaître** : les illustrations ont une gamme un peu
-plus large que l'interface. Un coucher de soleil floridien composé des cinq
-seules couleurs de `NCColor` paraît synthétique — il lui faut du sable, de la
-crème, du turquoise profond, du gris chrome. **La palette de l'INTERFACE ne
-bouge pas** ; seules les images gagnent ces neutres chauds, et les cinq teintes
-de la charte doivent y rester dominantes.
+La seconde, qui la corrigeait, est tombée dans l'excès inverse : **tout se
+passait au bord de la nuit, tout brillait au néon.** C'est la carte postale
+Miami Vice, et c'est un seul registre sur six. L'ambiance recherchée tient
+autant au **soleil de midi qui écrase une aire de parking** qu'à une enseigne
+qui bave sur l'asphalte mouillé — et c'est même la banalité américaine en plein
+jour qui la caractérise le mieux, parce que personne ne la met sur une affiche.
 
-#### Le préambule — à coller en tête de CHAQUE conversation
+#### Les six registres
 
-```
-You are generating original artwork for an independent iOS app. These rules
-apply to EVERY image in this conversation.
+Chaque image en choisit **un seul**, et le lot doit les couvrir tous.
 
-STYLE — the aesthetic lineage
-- Sun-drenched South Florida at the edge of night: humid golden-hour and
-  blue-hour light, hot pink and orange sunsets bleeding over the ocean,
-  art-deco facades, neon signage burning against a bruised sky, palm
-  silhouettes, chrome, wet asphalt holding colour.
-- The lineage is Miami Vice, Michael Mann's night photography, 1980s
-  airbrushed travel-poster art, and Florida tourist postcards.
-- PAINTERLY and airbrushed, never photographic. Rich, saturated, cinematic.
-  Soft gradients, glowing highlights, deep shadows that keep their colour.
-- Fine film grain throughout. Warm atmospheric haze. Anamorphic lens flare,
-  sparingly.
-- Dark overall. These images sit on a near-black interface and must never
-  brighten it.
+| Registre | Lumière | Ce qu'on y trouve |
+|---|---|---|
+| **Midi écrasant** | Soleil vertical, blanc, sans pitié. Ombres courtes et dures, voile de chaleur. | Aires de parking fendillées, centres commerciaux de bord de route, stations-service, grillages, chariots abandonnés, palmiers poussiéreux. |
+| **Marécage** | Ciel de plomb avant l'orage, lumière plate, sans ombre. | Cyprès, mangrove, chaussée sur pilotis, eau stagnante, poteaux télégraphiques, cabanes de tôle, hydroglisseurs. |
+| **Heure dorée** | Soleil rasant, orange épais, ombres longues. | Front de mer, planches, lampadaires pas encore allumés, silhouettes lointaines, reflets sur le chrome. |
+| **Heure bleue** | Ciel indigo, premières lumières artificielles — sodium orange, pas néon. | Mâts d'éclairage, parkings de stade, marinas, stations-service isolées, phares. |
+| **Nuit néon** | Noir, enseignes, asphalte mouillé qui garde la couleur. | Façades art déco, palmiers en contre-jour, flaques colorées. *Un registre parmi six, plus le registre par défaut.* |
+| **Aube** | Rose-gris, brume basse, calme plat, aucune ombre marquée. | Panneaux d'affichage vides, autoroutes désertes, ponts, ports, grues. |
 
-PALETTE — anchored, not limited
-These five belong to the app and must dominate every image:
-  near-black    #0A081A
-  neon magenta  #FF3388
-  electric violet #8C33F2
-  warm orange   #FF8C40
-  neon cyan     #26F2F2
-You MAY add, sparingly, the warm neutrals the light requires: sand, cream,
-deep teal water, warm grey chrome. Nothing outside that world.
+#### Ce qui rend le registre juste, quel que soit l'éclairage
 
-ABSOLUTE RULES — a violation makes the image unusable:
-- NO text, NO letters, NO numbers, NO words, NO signatures, NO watermarks.
-  Neon signage must be reduced to abstract glowing shapes with no glyphs.
-- NO faces and NO identifiable individuals. Distant anonymous silhouettes are
-  allowed; anything closer is not.
-- NO real-world brands, logos or trademarks, and no recognisable real vehicle,
-  building or product design.
-- NO imagery from any existing video game, film or TV series. Invent every
-  location, every sign, every object.
-- NO real cities and NO recognisable landmarks. The place must feel like the
-  Florida coast without ever being a real address.
+- **La banalité assumée.** Un laverie, une bretelle d'autoroute, un mur de
+  parpaings. Le sujet n'est jamais héroïque ; c'est le traitement qui l'est.
+- **L'usure.** Peinture délavée, rouille, herbe dans les fissures, plastique
+  cuit par le soleil. Rien de neuf, rien de propre.
+- **L'échelle humaine sans humains.** Des lieux faits pour des gens, vides ou
+  presque. C'est ce qui donne le calme un peu inquiétant.
+- **Le grain.** 35 mm, halation dans les hautes lumières, léger flare.
 
-Confirm you understand, then wait for the first image request.
-```
+#### Un changement de parti pris : photographique, plus aérographié
 
-> **« NO text » reste la règle la plus utile en pratique.** Les modèles ajoutent
-> spontanément des lettres déformées, et une enseigne au néon les y invite. La
-> raison de fond n'est d'ailleurs pas technique : un mot dans une image
-> imposerait cinq variantes, l'app étant livrée en EN/FR/ES/IT/DE.
+La version précédente imposait « PAINTERLY and airbrushed, never photographic ».
+**On inverse pour les scènes.** Le registre recherché est celui d'une photo de
+repérage cinéma : réaliste, contrastée, étalonnée chaud. C'est aussi ce que
+Midjourney fait de mieux avec `--raw`. L'aérographe reste, mais seulement pour
+les **objets** — emblèmes et icônes, §5.2 et §5.5 — où il est le bon outil.
 
-### 5.1 Emblèmes de palier — une seule conversation, six images
+#### Sur la filiation
 
-Six insignes qui doivent former UNE famille. Le registre est celui du **pin's
-émaillé** — émail coloré serti dans un chrome poli, comme un badge de
-collection : c'est ce qui donne le lustre recherché tout en restant lisible à
-64 px, là où une scène floridienne ne serait qu'une bouillie.
+L'ambiance ne s'obtient pas en citant un jeu : les modèles commerciaux dégradent
+ou refusent sur un nom de franchise, et CLAUDE.md l'interdit de toute façon.
+Elle s'obtient en nommant les **sources réelles**, publiques et qui
+n'appartiennent à personne — la photographie de Michael Mann, les repérages
+floridiens, les cartes postales touristiques, l'Amérique de bord de route de
+Stephen Shore et William Eggleston. C'est plus précis qu'un nom de marque, donc
+ça rend mieux.
 
-**Message d'amorce, après le préambule :**
+#### La palette
 
-```
-A departure from the scenes: these SIX are objects, not places.
+Les illustrations ont une gamme plus large que l'interface. **La palette de
+l'INTERFACE ne bouge pas** ; les images gagnent les neutres que la lumière
+exige — sable, crème, turquoise profond, gris chrome, ocre, vert marécage — et
+les cinq teintes de la charte doivent y rester présentes sans forcément dominer
+en plein jour.
 
-We are making six rank insignia for a progression ladder. They must look like
-one family of collectible enamel pin badges: coloured enamel set into polished
-chrome, catching a warm rim light from the upper left. Same framing, same
-lighting, same bezel weight throughout — only the richness escalates from rank
-1 to rank 6.
+#### La contrainte qui n'a pas bougé : ça doit rester sombre
 
-Rules for all six:
-- Square, 1:1. The badge is CENTRED and alone.
-- Background: PURE FLAT BLACK (#000000), absolutely uniform — no gradient, no
-  vignette, no glow spilling to the edges. It gets removed programmatically.
-- Roughly 10% empty margin on all four sides.
-- Front-facing, symmetrical, no perspective, no cast shadow.
-- Readable shrunk to 64 pixels: bold shapes, thick forms, no fine detail.
-
-Generate rank 1 of 6 now, and nothing else.
-```
-
-**Puis un message par palier** — toujours « same family as before » :
-
-| Palier | Prompt |
-|---|---|
-| 1 `tourist` | `Rank 1 — the newcomer. A plain circular chrome ring with a single crossed pair of palm fronds in pale teal enamel at its centre. Dull, unpolished chrome. The humblest badge of the six.` |
-| 2 `runner` | `Rank 2 — same family. The ring is now brighter chrome, and the palm fronds are joined by three short cyan enamel speed dashes cutting across the lower left. A first hint of polish.` |
-| 3 `getawayDriver` | `Rank 3 — same family. The circle becomes a hexagon in polished chrome, with a chevron of warm orange enamel pointing upward at its centre. A thin magenta enamel inlay follows the bezel.` |
-| 4 `heister` | `Rank 4 — same family. A shield-shaped badge containing the hexagon from rank 3. Deep magenta and violet enamel, chrome bezel now clearly faceted and catching light on every edge.` |
-| 5 `lieutenant` | `Rank 5 — same family. The same shield, now bearing a four-pointed star at its centre and two small chrome wings at its sides. Violet enamel fading into warm orange, brighter and more reflective chrome.` |
-| 6 `kingpin` | `Rank 6 — same family, the most ornate. A radiant crown rising above the shield, rendered in warm gold-toned chrome, with magenta-to-violet-to-orange enamel and thin engraved rays fanning out behind it. Maximum richness — still on flat black, still readable at 64 pixels.` |
-
-### 5.2 En-têtes de rubrique Actu — 16:9, une conversation, six images
-
-**Amorce :**
-
-```
-Six wide banner illustrations, 16:9, one per news category. They sit behind the
-top of a card in a dark feed, so:
-- The composition must be QUIET: no loud focal point, no busy centre.
-- The bottom third must be the darkest part of the image — text is laid over it.
-- Atmosphere over subject. These are moods, not scenes with a story.
-
-Generate banner 1 of 6 now, and nothing else.
-```
-
-| Rubrique | Prompt |
-|---|---|
-| `announcement` | `Banner 1 — "announcement". A wide ocean horizon at the exact moment the sun touches the water. Hot pink and orange bleeding upward into a deep indigo sky, a single column of light laid across the water, two palm silhouettes framing the far left and right edges. Empty, still, enormous.` |
-| `patch` | `Banner 2 — same series. "Maintenance". An open garage bay at night, seen from outside. Chrome tools and invented mechanical parts laid out on wet concrete, lit by one cyan work lamp; everything else falls into warm shadow. No vehicle, no brand, no lettering.` |
-| `event` | `Banner 3 — same series. "Event". An empty boardwalk at blue hour seen from a distance along the beach. Strings of coloured bulbs and abstract neon shapes burning above the sand, their reflection smeared across wet ground. Festive but deserted.` |
-| `guide` | `Banner 4 — same series. "Guide". An empty coastal highway curving away toward a distant neon horizon, palms along the verge, the warm glow of unseen headlights spilling across the asphalt. Low camera angle, close to the road surface.` |
-| `business` | `Banner 5 — same series. "Business". A row of art-deco waterfront facades at dusk, pastel walls catching the last orange light, neon signage glowing above them — reduced to pure abstract shapes, absolutely no letters or glyphs. Calm, moneyed, slightly faded.` |
-| `community` | `Banner 6 — same series. "Community". A marina at night seen from above and far away: dozens of small boat lights scattered across dark water, a distant neon shoreline glowing along the top edge. Warm points of light in a large cool darkness.` |
-
-### 5.3 Fonds d'ambiance Pro — 1:1, trois images
-
-Ce sont les plus difficiles à obtenir : le réflexe du modèle est de composer une
-belle scène, et une belle scène derrière l'interface est illisible.
-
-**Amorce :**
-
-```
-Three full-screen background images. They sit BEHIND the entire user interface,
-under translucent frosted-glass panels that blur them.
-
-This changes everything about what makes them good:
-- They must be ALMOST FEATURELESS. No subject, no object, no focal point,
-  no horizon line, nothing the eye can lock onto.
-- Everything out of focus, as if photographed through a rain-beaded windshield
-  at night. Soft bleeding light only — this is what neon looks like when you
-  are not looking at it.
-- Extremely dark and extremely low contrast. The BRIGHTEST pixel in the image
-  should still be dim. Think of neon light bleeding onto a black wall at night,
-  seen out of focus.
-- Square, 1:1.
-
-If you find yourself drawing something recognisable, you have gone too far.
-Generate background 1 of 3 now.
-```
-
-| Fond | Prompt |
-|---|---|
-| `magentaDrift` | `Background 1 — "magenta drift". A soft magenta glow bleeding in from the top-right corner, a deep violet wash pooling in the bottom-left, and a barely-perceptible perspective grid ghosted into the lower third — so faint it is almost invisible. Everything else is near-black #0A081A.` |
-| `sunsetOverdrive` | `Background 2 — same treatment, same darkness. A warm orange glow rising from the bottom edge, a magenta haze at the top, meeting in a muddy dark band across the middle. No grid this time. Even softer and more out of focus than the first.` |
-| `cyanPulse` | `Background 3 — same treatment, same darkness. A cold cyan glow pooling in the top-left, a deep violet wash across the bottom-right, and the faintest possible horizontal band of light across the middle third. The coolest and dimmest of the three.` |
-
-**Contrôle avant de garder un fond** : le réduire à 100 px de large. S'il reste
-lisible comme une « image », il est trop chargé — relancer.
+L'interface est à `#0A081A`. Une image de midi est par nature lumineuse, et
+c'est la tension réelle de ce lot. **Elle se résout au post-traitement, pas au
+prompt** : on génère la scène avec sa vraie lumière, puis on l'assombrit et on
+lui pose un voile dégradé, en mesurant le résultat (§6). Demander « dark » à un
+prompt de plein midi ne produit pas une scène sombre, il produit une scène
+sale.
 
 ---
 
-### 5.4 Icônes d'app — 1:1, quatre images
+### 5.1 Comment Midjourney tient une série
 
-```
-Four app icons, square, full bleed.
+**Le document supposait une conversation qui se souvient. Midjourney n'en a
+pas** : chaque prompt est indépendant et doit être autonome. La cohérence passe
+par trois leviers, pas par « same style as before ».
 
-CRITICAL: the artwork must reach all four edges. No padding, no rounded corners,
-no transparent border, no drop shadow, no mockup frame. iOS applies its own
-rounded mask, so anything I add here would be cropped or doubled.
-
-Subject: a stylised compass rose in polished chrome, seen perfectly face-on,
-silhouetted against a large setting sun disc that fills most of the square. Two
-small palm silhouettes rise from the bottom edge, flanking the compass. The sky
-above the sun goes deep #0A081A.
-
-It must be readable at 40 pixels: three shapes maximum, thick forms, no detail,
-strong contrast between the compass and the sun behind it.
-No text of any kind.
-
-Icon 1 — the primary: chrome compass with a cyan glint, magenta-to-orange sun.
-```
-
-| Icône | Prompt |
+| Levier | Usage |
 |---|---|
-| primaire | *(ci-dessus)* |
-| `AppIcon-MagentaDrift` | `Icon 2 — identical composition, framing and lighting, recoloured only: the compass takes a magenta glint, the sun runs violet to magenta, the palms are near-black against it.` |
-| `AppIcon-SunsetOverdrive` | `Icon 3 — identical composition, framing and lighting, recoloured only: the compass takes a warm orange glint, the sun runs orange to gold, the sky behind holds a deep magenta band.` |
-| `AppIcon-CyanPulse` | `Icon 4 — identical composition, framing and lighting, recoloured only: the compass glints bright cyan, the sun runs violet to cyan, and the whole image sits in blue hour rather than golden hour. The coldest of the four.` |
+| `--sref <url>` | **Le principal.** Générer une image d'ancrage, la publier, coller son URL dans toutes les suivantes. Verrouille lumière, grain, étalonnage. |
+| `--profile` / `--p` | Un moodboard réutilisable, si le lot devait s'agrandir. Inutile pour 20 images. |
+| `--seed` | Fige l'aléa pour comparer deux variantes d'un même prompt. Outil de test, pas de série. |
+
+**Hygiène des paramètres** (documentation Midjourney) : toujours **à la fin** du
+prompt, un **espace** avant les tirets, et **aucune ponctuation** à l'intérieur
+— d'où les listes `--no` séparées par des espaces et non par des virgules.
+
+**Paramètres retenus pour ce lot :**
+
+- `--raw` — mode brut, moins d'interprétation esthétique maison. Indispensable
+  pour le rendu photographique des scènes.
+- `--s 50` — stylisation basse. On veut la scène décrite, pas la scène rêvée.
+- `--c 0` — aucun chaos, pour que la série reste une série.
+- `--draft` — moitié moins cher en GPU. **Tout le dégrossissage se fait ainsi**,
+  on ne repasse en qualité pleine que sur la composition retenue.
+- `--no ...` — la liste d'exclusion, identique partout.
+
+**Le bloc à répéter dans chaque prompt de scène** (remplace le préambule) :
+
+```
+35mm film still, cinematic location scouting photograph, fine grain, halation,
+subtle anamorphic flare, weathered and lived-in, no people in frame
+--raw --s 50 --c 0 --no text letters words numbers signage logos brands faces
+people crowds watermark signature frame border
+```
+
+> **`--no text` reste la règle la plus utile.** Les modèles ajoutent
+> spontanément des lettres déformées, et une enseigne les y invite. La raison de
+> fond n'est pas technique : un mot dans une image imposerait cinq variantes,
+> l'app étant livrée en EN/FR/ES/IT/DE. Tout panneau doit rester **vierge**.
+
+---
+
+### 5.2 Emblèmes de palier — six objets, pas six lieux
+
+Registre à part : ce sont des **pin's émaillés**, chrome poli et émail coloré,
+lisibles à 64 px. Pas de `--raw` ici, et une stylisation plus haute.
+
+**Ancrage** — générer d'abord celui-ci, garder son URL pour `--sref` :
+
+```
+collectible enamel pin badge, polished chrome bezel with coloured enamel inlay,
+warm rim light from upper left, centred and alone, front facing, perfectly
+symmetrical, no perspective, no cast shadow, bold thick shapes readable when
+tiny, product photograph on a pure flat black background
+:: a plain circular chrome ring enclosing a single pair of crossed palm fronds
+in pale teal enamel, dull unpolished chrome, the humblest badge of a set
+--ar 1:1 --s 250 --c 0 --no text letters words numbers logos faces people
+background gradient vignette glow reflections scenery
+```
+
+Puis les cinq suivants, **avec `--sref <url de l'ancrage>` ajouté** :
+
+| Palier | Sujet (le reste du prompt est identique) |
+|---|---|
+| 1 `tourist` | *(l'ancrage ci-dessus)* |
+| 2 `runner` | `brighter chrome ring enclosing crossed palm fronds with three short cyan enamel speed dashes across the lower left, a first hint of polish` |
+| 3 `getawayDriver` | `polished chrome hexagon enclosing an upward chevron in warm orange enamel, thin magenta enamel inlay following the bezel` |
+| 4 `heister` | `faceted chrome shield enclosing a hexagon, deep magenta and violet enamel, every edge catching light` |
+| 5 `lieutenant` | `chrome shield bearing a four pointed star with two small chrome wings at its sides, violet enamel fading into warm orange, highly reflective` |
+| 6 `kingpin` | `ornate chrome shield with a radiant crown rising above it in warm gold toned chrome, magenta to violet to orange enamel, thin engraved rays fanning out behind` |
+
+**Le fond noir plat est une exigence technique**, pas esthétique : le détourage
+du §6 en dépend. `--no background gradient vignette glow` est ce qui l'obtient.
+
+---
+
+### 5.3 En-têtes de rubrique Actu — 16:9, six registres différents
+
+**C'est ici que l'élargissement se voit.** Six rubriques, six lumières, une
+seule au néon. Chaque prompt est autonome ; ajouter `--sref <url>` d'une image
+retenue si la série part dans tous les sens.
+
+Le tiers inférieur doit rester le plus sombre — le titre s'y pose.
+
+| Rubrique | Registre | Prompt |
+|---|---|---|
+| `announcement` | Aube | `empty coastal highway at dawn beneath a colossal blank billboard on rusted steel stilts seen from below, pink grey pre sunrise sky, low mist over flat calm water, distant palms, nothing written anywhere, monumental and silent --ar 16:9` |
+| `patch` | Midi écrasant | `open roll up door of a roadside repair garage at high noon, blinding white sunlight on cracked concrete outside, cool dark cluttered interior with a hydraulic lift and scattered tools, heat shimmer, oil stains, chain link fence --ar 16:9` |
+| `event` | Heure bleue | `floodlit stadium parking lot at blue hour, tall light masts blazing over rows of parked cars, orange sodium pools on wet asphalt, deep indigo sky, distant anonymous silhouettes far away --ar 16:9` |
+| `guide` | Marécage | `lonely junction on a raised swamp causeway under flat pewter storm light, bald cypress and mangrove, standing black water, leaning telegraph poles, blank unmarked direction signs, no horizon glow --ar 16:9` |
+| `business` | Midi écrasant | `vast empty strip mall parking lot at high noon, faded painted lines on cracked asphalt, abandoned shopping carts, blank white signage boards with nothing on them, dusty palm row, heat shimmer, utterly deserted --ar 16:9` |
+| `community` | Heure dorée | `beachfront boardwalk at golden hour, long raking shadows across weathered planks, warm orange light through palm fronds, distant anonymous figures far down the promenade, lens flare, chrome railings --ar 16:9` |
+
+Coller le bloc de style du §5.1 à la suite de chacun.
+
+**Contrôle avant de garder** : l'image doit survivre à l'assombrissement du §6.
+Une scène de midi correctement exposée descend bien ; une scène déjà grise
+devient de la boue.
+
+---
+
+### 5.4 Fonds d'ambiance Pro — 1:1, trois images
+
+Les plus difficiles du lot : le réflexe du modèle est de composer une belle
+scène, et une belle scène derrière l'interface est illisible. Ce sont des
+**lieux vus hors mise au point**, pas des dégradés — mais si flous qu'aucun
+sujet ne se lit.
+
+Le bloc de style du §5.1 ne s'applique PAS ici (pas de grain, pas de netteté) :
+
+```
+extreme bokeh, completely out of focus, no subject, no focal point, no horizon,
+soft bleeding light only, very dark and very low contrast, the brightest pixel
+still dim, near black
+--ar 1:1 --raw --s 40 --c 0 --no text letters sharp focus detail subject
+horizon people faces objects
+```
+
+| Fond | Sujet, entièrement défocalisé |
+|---|---|
+| `magentaDrift` | `the underside of a concrete overpass at night in heavy rain, distant magenta signage bleeding through the downpour, deep violet shadow pooling below` |
+| `sunsetOverdrive` | `the last ten minutes of dusk over an open swamp, dying warm orange along the bottom edge fading up into deep indigo, cypress shapes dissolved into nothing` |
+| `cyanPulse` | `an empty swimming pool lit from underwater at night, cold cyan light rippling upward, deep violet darkness all around` |
+
+**Contrôle** : réduire à 100 px de large. S'il reste lisible comme une
+« image », c'est trop chargé — relancer. La mesure de luminance du §6 fait foi.
+
+---
+
+### 5.5 Icônes d'app — 1:1, quatre images
+
+Registre graphique, pas photographique. Lisible à 40 px : trois formes, pas
+plus.
+
+```
+flat vector app icon, bold graphic emblem, thick clean strokes, high contrast,
+centred symmetrical composition, full bleed artwork reaching all four edges
+:: a stylised chrome compass rose seen perfectly face on, silhouetted against a
+large setting sun disc, two palm silhouettes flanking it low in the frame
+--ar 1:1 --s 300 --c 0 --no text letters numbers photorealism detail clutter
+rounded corners padding border frame drop shadow mockup transparency
+```
+
+| Icône | Variante de couleur (le reste identique) |
+|---|---|
+| primaire | `cyan compass, magenta to orange sun, near black #0A081A sky` |
+| `AppIcon-MagentaDrift` | `magenta compass, violet to magenta sun, violet palms` |
+| `AppIcon-SunsetOverdrive` | `warm orange compass, orange to yellow sun, deep magenta palms` |
+| `AppIcon-CyanPulse` | `bright cyan compass, violet to cyan sun, pale cyan palms — the coldest of the four` |
+
+**Le plein bord est critique** : iOS applique son propre masque arrondi, donc
+tout coin arrondi, marge ou ombre portée présent dans l'image serait rogné ou
+doublé. D'où la liste `--no` très fournie.
 
 > **Contrainte IP absolue et sans exception** : aucune marque Rockstar dans
 > l'icône ni dans l'identifiant de paquet, jamais. La règle positionnelle du
 > 2026-08-08 qui autorise « GTA 6 Companion » **en suffixe du nom App Store** ne
-> s'applique PAS ici. La boussole néon ne référence rien : c'est le but.
+> s'étend pas ici.
 
 ---
 
-### 5.5 Bandeau hebdo Social — 21:9, une image
+### 5.6 Bandeau hebdo Social — 21:9, une image
 
 ```
-One ultra-wide banner, 21:9, for a weekly-highlights card.
-A causeway seen from the side at night, stretching across dark water from the
-left edge to the right, its lights receding into a distant magenta glow. The
-left third is nearly black; the right third carries the city glow. Nothing in
-the centre — a title sits there.
+elevated night view along a coastal causeway, chains of warm sodium street
+lights receding into the distance, dark water on both sides, distant city glow
+low on the right, deep indigo sky
+--ar 21:9
 ```
+
+Plus le bloc de style du §5.1. **Composition imposée** : le tiers gauche
+presque noir, le tiers droit porte la lueur de la ville, **rien au centre** —
+un titre s'y pose.
 
 ---
 
@@ -490,13 +521,50 @@ Contrôle : ouvrir le PNG sur un fond clair. Si un halo gris rectangulaire
 apparaît, le fond généré n'était pas un noir pur — relancer la génération, pas
 la commande.
 
-### En-têtes et bandeaux : recadrage + HEIC
+### En-têtes et bandeaux : recadrage, assombrissement, voile, HEIC
+
+**L'étape d'assombrissement n'est pas cosmétique.** Depuis l'élargissement du
+§5.0, deux des six en-têtes sont des scènes de plein midi : correctement
+exposées, elles sont éclatantes, et posées telles quelles sur une interface à
+`#0A081A` elles la crèvent. On génère la scène avec sa vraie lumière — c'est ce
+qui la rend juste — puis on l'étalonne ici.
 
 ```sh
-magick raw.png -resize 1600x900^ -gravity center -extent 1600x900 tmp.png
+# 1. recadrage
+magick raw.png -resize 1600x900^ -gravity center -extent 1600x900 \
+       -modulate 58,115,100 base.png
+
+# 2. voile dégradé, transparent en haut, presque opaque en bas
+magick -size 1600x900 gradient:'rgba(10,8,26,0)-rgba(10,8,26,0.92)' scrim.png
+magick base.png scrim.png -compose over -composite tmp.png
+
+# 3. HEIC
 sips -s format heic -s formatOptions 72 tmp.png --out news-announcement.heic
-rm tmp.png
+rm base.png scrim.png tmp.png
 ```
+
+`-modulate 58,115,100` = luminosité à 58 %, saturation à 115 %. La saturation
+remonte parce qu'assombrir désature : sans elle la scène vire au gris.
+
+**Le contrôle, à passer sur chaque en-tête :**
+
+```sh
+magick banner.png -colorspace Gray -format 'ensemble  max=%[fx:maxima] moy=%[fx:mean]\n' info:
+magick banner.png -gravity south -crop 1600x300+0+0 +repage \
+       -colorspace Gray -format 'tiers bas max=%[fx:maxima] moy=%[fx:mean]\n' info:
+```
+
+Seuils, mesurés le 2026-08-20 sur une scène de midi volontairement éclatante
+(max 0,97 / moy 0,85 avant traitement) :
+
+| Zone | Après recette | Seuil à respecter |
+|---|---|---|
+| Ensemble | max 0,72 · moy 0,28 | max ≤ 0,75 |
+| Tiers bas | max 0,32 · **moy 0,16** | moy ≤ 0,20 |
+
+C'est la moyenne du tiers bas qui décide : c'est là que le titre blanc se pose.
+Au-dessus de 0,20, remonter l'opacité du voile plutôt que rabaisser
+`-modulate`, sinon toute l'image devient boueuse.
 
 ### Fonds d'ambiance
 
@@ -606,9 +674,15 @@ ci-dessus a contourné le problème en prêtant un fond à `classic` ; le chemin
 
 Exigence de CLAUDE.md. Pour chaque image conservée, consigner ici :
 
-| Fichier | Prompt (§) | Modèle | Date | Retouches |
-|---|---|---|---|---|
-| *(à remplir au fil de la production)* | | | | |
+| Fichier | Prompt (§) | Modèle | Job ID | Date | Retouches |
+|---|---|---|---|---|---|
+| *(à remplir au fil de la production)* | | | | | |
+
+**Relever le Job ID de Midjourney** pour chaque image conservée : il est
+horodaté chez l'éditeur et rattaché au compte, ce qui en fait une preuve de
+provenance autrement plus solide qu'une ligne de tableau que nous écrivons
+nous-mêmes. Pour les images produites localement (FLUX klein-4B), c'est la
+graine (`--seed`) et le nom exact du modèle qui jouent ce rôle.
 
 Les prompts ci-dessus ne citent ni GTA, ni Rockstar, ni aucun personnage, ni
 aucune œuvre existante — c'est ce que cette archive doit pouvoir démontrer.
