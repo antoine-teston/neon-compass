@@ -106,6 +106,9 @@ private struct MapContentSwiftUIView: View {
     /// Non nil pendant qu'on pose une proposition. Sa seule présence éteint la
     /// frappe de tout le reste du contenu.
     let placementPin: MapPlacementPin?
+    /// Le POI courant du mode parcours — dédié, par-dessus la carte, jamais
+    /// via le pipeline de groupement : un cluster n'a pas de « point courant ».
+    let routeTarget: MapRouteTarget?
     /// Clés d'invalidation de `MapClusterCache`, portées par les modèles
     /// propriétaires des deux collections. Voir `MapClusterCache`.
     let poisGeneration: Int
@@ -153,6 +156,9 @@ private struct MapContentSwiftUIView: View {
 
             if let placementPin {
                 ghostPin(placementPin)
+            }
+            if let routeTarget {
+                routeTargetPin(routeTarget)
             }
         }
         .frame(width: fullSize, height: fullSize)
@@ -248,6 +254,53 @@ private struct MapContentSwiftUIView: View {
             .animation(.snappy(duration: 0.18), value: pin.position)
             .allowsHitTesting(false)
             .accessibilityHidden(true)
+    }
+
+    /// Le POI courant du parcours. Même vocabulaire visuel que `ghostPin` —
+    /// 44 pt, sujet de l'écran — mais anneau PLEIN (le point existe, rien
+    /// n'est en train d'être posé) et halo pulsant dans la teinte de sa
+    /// catégorie. Insensible aux gestes : le POI réel, en dessous, garde sa
+    /// frappe — ouvrir sa fiche pendant le mode reste permis.
+    private func routeTargetPin(_ target: MapRouteTarget) -> some View {
+        let tint = POIPinPalette.color(for: target.category, style: style)
+        return Image(systemName: POIPinPalette.symbol(for: target.category))
+            .font(.system(size: 20, weight: .bold))
+            .foregroundStyle(tint)
+            .frame(width: 44, height: 44)
+            .background(
+                Circle()
+                    .fill(POIPinPalette.core(for: style).opacity(0.9))
+                    .overlay(Circle().strokeBorder(tint, lineWidth: 2.5))
+                    .shadow(color: tint.opacity(0.7), radius: 6)
+            )
+            .background(RouteTargetHalo(tint: tint))
+            .scaleEffect(pinScale)
+            .position(MapGeometry.contentPoint(for: target.position, manifest: manifest))
+            // L'avancement se SUIT des yeux : la pastille glisse vers l'étape
+            // suivante pendant que la caméra s'y rend.
+            .animation(.snappy(duration: 0.25), value: target.position)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+    }
+
+    /// L'anneau qui respire autour de la cible. Une vue à part pour porter le
+    /// `@State` de la pulsation : `MapContentSwiftUIView` est reconstruite à
+    /// chaque poussée de contenu, l'identité structurelle de cette sous-vue
+    /// préserve l'animation en cours.
+    private struct RouteTargetHalo: View {
+        let tint: Color
+        @State private var pulsing = false
+
+        var body: some View {
+            Circle()
+                .stroke(tint.opacity(pulsing ? 0.0 : 0.6), lineWidth: 3)
+                .scaleEffect(pulsing ? 1.9 : 1.0)
+                .onAppear {
+                    withAnimation(.easeOut(duration: 1.4).repeatForever(autoreverses: false)) {
+                        pulsing = true
+                    }
+                }
+        }
     }
 
     private func communityBubble(_ cluster: ContributionCluster) -> some View {
@@ -547,6 +600,17 @@ struct MapPlacementPin: Equatable, Sendable {
     var category: POICategory
 }
 
+/// Le POI courant du mode parcours — position et catégorie, rien d'autre.
+///
+/// Un type distinct de `MapPlacementPin` malgré les mêmes champs : la présence
+/// du placement ARME des reconnaisseurs et éteint la frappe du contenu, celle
+/// de la cible de parcours ne fait que dessiner. Les confondre inviterait à
+/// brancher l'un sur les effets de l'autre.
+struct MapRouteTarget: Equatable, Sendable {
+    var position: NormalizedPoint
+    var category: POICategory
+}
+
 struct MapFocusRequest: Equatable {
     /// Ce pour quoi on vise — et donc comment on cadre.
     enum Intent: Equatable {
@@ -596,6 +660,9 @@ struct TiledMapRepresentable: UIViewRepresentable {
     /// Reçoit un point de CONTENU, comme `onLongPress` : la normalisation
     /// appartient à l'appelant, qui a déjà le manifeste sous la main.
     var onPlacementMoved: ((CGPoint) -> Void)?
+    /// Le POI courant du mode parcours. Se DESSINE seulement — aucun geste,
+    /// aucune extinction de frappe, contrairement à `placement`.
+    var routeTarget: MapRouteTarget? = nil
     let onLongPress: (CGPoint) -> Void
     let onTapPOI: (POI) -> Void
     let onTapPersonalPin: (PersonalPin) -> Void
@@ -789,6 +856,10 @@ struct TiledMapRepresentable: UIViewRepresentable {
         /// elle resterait clouée à son point de départ. Même raison que
         /// `draftPins`, qui est là pour ça.
         let placement: MapPlacementPin?
+        /// La cible du parcours se DESSINE : sans elle ici, avancer d'une
+        /// étape ne repousserait aucun contenu et l'anneau resterait cloué à
+        /// la première. Même raison que `placement` juste au-dessus.
+        let routeTarget: MapRouteTarget?
         /// Comparé en entier, et c'est le point : marquer un lieu « trouvé » ne
         /// change NI la composition des groupes ni la liste filtrée (sauf sous
         /// « masquer les trouvés »), donc plus rien ne fait avancer la génération
@@ -812,6 +883,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             showPersonalPins: showPersonalPins,
             draftPins: draftPins,
             placement: placement,
+            routeTarget: routeTarget,
             foundPOIIDs: foundPOIIDs,
             canAdopt: onAdopt != nil
         )
@@ -884,6 +956,7 @@ struct TiledMapRepresentable: UIViewRepresentable {
             myUnpublishedSpots: myUnpublishedSpots,
             draftPins: draftPins,
             placementPin: placement,
+            routeTarget: routeTarget,
             poisGeneration: poisGeneration,
             spotsGeneration: spotsGeneration,
             foundPOIIDs: foundPOIIDs,
