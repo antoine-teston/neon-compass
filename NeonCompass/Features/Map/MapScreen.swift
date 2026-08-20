@@ -371,8 +371,12 @@ struct MapScreen: View {
                     poi.position.map { MapRouteTarget(position: $0, category: poi.category) }
                 },
                 // Arme le tap de désignation et éteint la frappe du contenu, le
-                // temps que le joueur montre par où commencer.
-                isPickingRouteStart: routeMode == .pickingStart,
+                // temps que le joueur montre par où commencer. Désarmé pendant
+                // une pose de proposition : le placement possède déjà la
+                // caméra et le tap, et deux canaux de tap armés en même temps
+                // s'arbitrent au hasard — celui censé déplacer l'épingle
+                // pourrait tout aussi bien lancer une tournée.
+                isPickingRouteStart: placement == nil && routeMode == .pickingStart,
                 onLongPress: { canvasPoint in
                     let normalized = MapGeometry.normalizedPoint(fromCanvasPoint: canvasPoint, manifest: manifest)
 #if DEBUG
@@ -681,6 +685,16 @@ struct MapScreen: View {
             routeMode = nil
         case .none:
             let remaining = remainingCollectibles(model: model)
+            // La fente est partagée : une fiche ou le carnet resté ouvert
+            // cacherait le panneau qu'on vient de demander — que ce soit la
+            // désignation du départ ou le panneau « tout est trouvé » de la
+            // tournée vide. Le carnet est une colonne de cette même fente en
+            // régulier, servie avant le parcours ; en compact il est une
+            // feuille, et cette ligne n'y coûte rien. Doit s'exécuter avant le
+            // guard qui suit : les deux branches ouvrent un panneau dans cette
+            // fente.
+            model.selection = nil
+            showPersonalPinList = false
             // Plus rien à parcourir : inutile de demander un départ qui n'existe
             // pas — on entre droit dans l'état « tournée vide », que le panneau
             // sait dire.
@@ -688,12 +702,6 @@ struct MapScreen: View {
                 routeMode = .running(RouteRun(steps: []))
                 return
             }
-            // La fente est partagée : une fiche ou le carnet resté ouvert
-            // cacherait le panneau qu'on vient de demander. Le carnet est une
-            // colonne de cette même fente en régulier, servie avant le parcours ;
-            // en compact il est une feuille, et cette ligne n'y coûte rien.
-            model.selection = nil
-            showPersonalPinList = false
             routeMode = .pickingStart
         }
     }
