@@ -1,6 +1,17 @@
 import SwiftUI
-import UIKit
 
+/// Le choix d'habillage. Réservé aux Pro par son SITE D'APPEL — `SettingsScreen`
+/// n'insère cette section que si l'abonnement est ouvert — et non par une garde
+/// interne, ce qui explique qu'on ne trouve ici aucune mention de
+/// `ProEntitlementModel`.
+///
+/// L'interrupteur d'icône alternée a disparu le 2026-08-19. Il mentait deux
+/// fois : il visait `AppIcon-Neon`, qui n'a jamais existé dans aucun catalogue,
+/// et sa valeur se relisait depuis `UIApplication.alternateIconName` — donc
+/// l'activer le faisait revenir tout seul à l'arrêt sous les yeux de
+/// l'utilisateur. L'icône suit désormais le thème, synchronisée par `RootView`,
+/// et n'a plus de commande propre : un thème est un tout, pas deux réglages qui
+/// peuvent se contredire.
 struct SettingsAppearanceSection: View {
     @Environment(ThemeStore.self) private var themeStore
 
@@ -17,19 +28,6 @@ struct SettingsAppearanceSection: View {
                 Text("profile.theme.title")
             }
             .pickerStyle(.menu)
-
-            // La ligne n'apparaît QUE si l'app déclare des icônes alternatives.
-            // Aucune n'est déclarée aujourd'hui (`AppIcon-Neon` reste à
-            // produire, cf. docs/ops/2026-07-23-alternate-app-icons.md), et la
-            // bascule no-oppait donc en silence — un `Toggle` qui revient tout
-            // seul, ce qu'un `Form` rend encore plus visible. Elle réapparaîtra
-            // d'elle-même le jour où l'asset est livré : rien à recoder.
-            if UIApplication.shared.supportsAlternateIcons {
-                Toggle("profile.icon.title", isOn: Binding(
-                    get: { UIApplication.shared.alternateIconName != nil },
-                    set: { themeStore.setAlternateIcon(named: $0 ? Self.neonIconName : nil) }
-                ))
-            }
         } header: {
             // Le violet de la rampe, la seule note froide de la famille chaude :
             // la charte n'a pas de bleu, et emprunter celui du système pour une
@@ -39,8 +37,11 @@ struct SettingsAppearanceSection: View {
                 systemImage: "paintpalette.fill",
                 tint: NCColor.sunsetViolet
             )
+        } footer: {
+            // Sans cette ligne, rien ne dit que le choix porte au-delà de la
+            // teinte des contrôles — or c'est le fond, et lui seul, qui fait
+            // exister le verre.
+            Text("profile.theme.footer")
         }
     }
-
-    private static let neonIconName = "AppIcon-Neon"
 }
