@@ -432,9 +432,14 @@ struct MapScreen: View {
             editorModel.mapChanged(to: newGame)
 #endif
             // Les deux cartes ont des jeux de POI disjoints : changer de carte
-            // change la source, pas seulement l'image de fond.
+            // change la source, pas seulement l'image de fond. La tournée part
+            // avec la sélection, et pour la même raison : ses étapes sont des
+            // identifiants de l'AUTRE carte. La garder afficherait « Étape 3/12 »
+            // au-dessus d'un titre vide, halo éteint, et « Valider » ne
+            // marquerait rien en avançant dans un parcours fantôme.
             model.updatePOIs(pois(for: newGame))
             model.selection = nil
+            routeRun = nil
         }
         // Le mur du plafond. Il DIT ce qui bloque avant de proposer l'achat : une
         // feuille d'achat qui surgirait sans explication passerait pour une panne,
@@ -625,15 +630,24 @@ struct MapScreen: View {
     /// spec — sur `pois` COMPLET, jamais `filteredPOIs` : les puces de
     /// catégorie et la recherche ne rétrécissent pas la tournée en silence
     /// (décision du plan 6b-2, revalidée par la spec).
+    ///
+    /// Refusé pendant une pose de proposition : celle-ci possède la caméra, et
+    /// entrer en mode la déplacerait loin de l'épingle qu'on est en train de
+    /// viser — pour un mode que la règle du halo unique et l'ordre de la fente
+    /// rendent de toute façon invisible tant que la pose dure.
     private func startRoute(model: MapModel) {
-        guard routeRun == nil else { return }
+        guard routeRun == nil, placement == nil else { return }
         let remaining = model.pois.filter {
             $0.category == .collectible && $0.position != nil && !model.isFound($0)
         }
         routeRun = RouteRun(steps: RoutePlanner.greedyRoute(from: remaining).map(\.id))
         // La fente est partagée : une fiche restée ouverte cacherait le
-        // panneau du mode qu'on vient de demander.
+        // panneau du mode qu'on vient de demander. Le carnet aussi, en
+        // régulier — il y est une colonne dans cette même fente, servie avant
+        // le parcours, et son bouton reste à portée à côté du sien. En compact
+        // il est une feuille, et cette ligne n'y coûte rien.
         model.selection = nil
+        showPersonalPinList = false
         focusOnCurrentStep(model: model)
     }
 
@@ -670,6 +684,12 @@ struct MapScreen: View {
             // referme pas la sienne.
             Task {
                 try? await Task.sleep(for: .seconds(1))
+                // La seconde doit avoir été ATTENDUE. `try?` avale une
+                // annulation et tomberait droit sur la sortie, escamotant
+                // l'état terminé. Rien n'annule cette tâche aujourd'hui : la
+                // garde dit l'intention plutôt que de l'emprunter à l'absence
+                // d'annulateur.
+                guard !Task.isCancelled else { return }
                 if routeRun == run { routeRun = nil }
             }
         } else {
