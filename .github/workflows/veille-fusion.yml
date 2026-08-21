@@ -129,7 +129,31 @@ jobs:
           echo "fusionner=oui" >> "$GITHUB_OUTPUT"
           echo "numero=$NUM" >> "$GITHUB_OUTPUT"
 
-      # Squash, comme tout le dépôt — c'est le seul mode que GitHub y autorise.
+      # MERGE COMMIT, et non squash — exception assumée à l'habitude du dépôt,
+      # posée le 2026-08-20 après un run bloqué. Le commentaire qui tenait cette
+      # place affirmait que le squash était « le seul mode que GitHub y
+      # autorise » : c'est faux, `allow_merge_commit` est vrai sur ce dépôt.
+      #
+      # La raison tient à la ligne d'après : la branche N'EST PAS supprimée.
+      # `veille/courante` est ROULANTE — la Routine la retrouve chaque jour et y
+      # ajoute un commit, parce que les faits d'hier non encore fusionnés
+      # n'existent que là. Or un squash n'est pas un ancêtre de la branche qu'il
+      # aplatit : les fichiers que celle-ci a créés perdent tout ancêtre commun
+      # avec leurs jumeaux sur `main`. Dès que `publish-news` les transforme en
+      # aval (`status: draft` → `published`, plus `listedAt`), le resync du
+      # lendemain les rend en `both added` — un conflit d'ajout concurrent — au
+      # lieu d'une modification ordinaire que git fusionnerait seul.
+      #
+      # Ce n'est pas une hypothèse : le run du 2026-08-20 s'est arrêté là, sur
+      # quatre actus, et le contrat lui interdisait à juste titre de forcer. Ça se
+      # serait reproduit à chaque cycle où une actu est réellement publiée.
+      #
+      # Le merge commit rend les commits de la branche ancêtres de `main` : le
+      # resync suivant devient un fast-forward, et ne peut plus conflire.
+      #
+      # Sans effet sur la publication : `publish-news` calcule son périmètre par
+      # `git diff <avant> <après> -- content/`, dont le résultat net est le même
+      # dans les deux modes.
       #
       # La branche N'EST PAS supprimée : la Routine repart de `veille/courante`
       # chaque jour et y ajoute un commit. La supprimer la forcerait à la recréer,
@@ -142,7 +166,7 @@ jobs:
           NUM: ${{ steps.decision.outputs.numero }}
         run: |
           set -euo pipefail
-          gh pr merge "$NUM" --repo "$DEPOT" --squash
+          gh pr merge "$NUM" --repo "$DEPOT" --merge
           {
             echo '### Fusion automatique : oui'
             echo
