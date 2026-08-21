@@ -1,0 +1,27 @@
+{
+  "id": "news_025c7944",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "L'Australie exigera une vérification d'âge pour le jeu",
+    "en": "Australia to require age scans for the game",
+    "es": "Australia exigirá verificación de edad para el juego",
+    "it": "L'Australia richiederà una verifica dell'età per il gioco",
+    "de": "Australien verlangt künftig Altersprüfung für das Spiel"
+  },
+  "body": {
+    "fr": "En Australie, les comptes PlayStation devront passer une vérification d'âge par pièce d'identité ou par estimation faciale avant d'ajouter un titre classé adultes, ce qui concernera ce jeu dès sa sortie. Une exigence similaire avait déjà été mise en place sur la console concurrente quelques semaines plus tôt.",
+    "en": "PlayStation accounts in Australia will need to pass an ID or facial age check before adding adults-only titles, which will include this game at launch. Xbox rolled out a similar requirement a few weeks earlier.",
+    "es": "En Australia, las cuentas de PlayStation deberán superar una verificación de edad mediante identificación o estimación facial antes de añadir un título clasificado para adultos, lo que incluirá este juego en su lanzamiento. Una exigencia similar ya se había implantado en la consola rival semanas antes.",
+    "it": "In Australia, gli account PlayStation dovranno superare una verifica dell'età tramite documento o stima facciale prima di aggiungere un titolo vietato ai minori, il che riguarderà questo gioco al lancio. Un requisito simile era già stato introdotto sulla console rivale poche settimane prima.",
+    "de": "In Australien müssen PlayStation-Konten künftig eine Altersprüfung per Ausweis oder Gesichtsscan bestehen, bevor sie Inhalte ab 18 hinzufügen können – das wird bei Erscheinen auch dieses Spiel betreffen. Eine ähnliche Vorgabe war wenige Wochen zuvor bereits bei der Konkurrenzkonsole eingeführt worden."
+  },
+  "publishedAt": "2026-08-20",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/australians-may-have-to-scan-their-face-to-buy-gta-6-707b"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:1a0736d282f6",
+  "sourceClaim": "En Australie, les comptes PlayStation doivent désormais franchir une vérification d'âge par pièce d'identité ou par estimation faciale avant de pouvoir ajouter un contenu classé adultes à leur bibliothèque, ce qui concernera le jeu à sa sortie ; Xbox avait mis en place une exigence similaire quelques semaines plus tôt."
+}

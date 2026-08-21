@@ -1,0 +1,27 @@
+{
+  "id": "news_159fed97",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Une carte cadeau réduit le prix du jeu",
+    "en": "Retailer's gift card deal cuts game's price",
+    "es": "Tarjeta regalo de una tienda reduce el precio",
+    "it": "Una carta regalo del negozio riduce il prezzo",
+    "de": "Geschenkkarten-Aktion senkt den Preis des Spiels"
+  },
+  "body": {
+    "fr": "Une enseigne américaine d'électronique vend le 22 août, pour une seule journée, une carte cadeau de 100 dollars à 60 dollars, utilisable pour acheter le jeu. Cela retire de fait 40 dollars sur l'édition la plus chère, ou laisse un reliquat de 20 dollars si l'on choisit l'édition standard.",
+    "en": "A US electronics retailer is selling a $100 gift card for $60 for one day, August 22, which can be spent on the game. That effectively knocks $40 off the priciest edition, or leaves $20 in credit if you buy the standard edition instead.",
+    "es": "Una cadena estadounidense de electrónica vende el 22 de agosto, por un solo día, una tarjeta regalo de 100 dólares por 60, utilizable para comprar el juego. Eso resta de hecho 40 dólares a la edición más cara, o deja un saldo de 20 dólares si se elige la edición estándar.",
+    "it": "Una catena statunitense di elettronica vende il 22 agosto, per un solo giorno, una carta regalo da 100 dollari a 60, utilizzabile per acquistare il gioco. Ciò toglie di fatto 40 dollari dall'edizione più costosa, oppure lascia un credito di 20 dollari scegliendo l'edizione standard.",
+    "de": "Eine US-Elektronikkette verkauft am 22. August für nur einen Tag eine Geschenkkarte im Wert von 100 Dollar für 60 Dollar, die für den Kauf des Spiels genutzt werden kann. Das senkt den Preis der teuersten Edition effektiv um 40 Dollar oder lässt bei der Standard-Edition ein Guthaben von 20 Dollar übrig."
+  },
+  "publishedAt": "2026-08-20",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/best-buy-is-letting-you-buy-gta-6-ultimate-edition-for-only-60-on-august-22-ee5b"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:74f511d63251",
+  "sourceClaim": "Une enseigne américaine propose le 22 août une carte cadeau de 100 dollars pour 60 dollars, utilisable pour l'achat du jeu : de quoi obtenir l'édition Ultimate à son prix normal moins 40 dollars, ou l'édition standard avec un reliquat de 20 dollars."
+}

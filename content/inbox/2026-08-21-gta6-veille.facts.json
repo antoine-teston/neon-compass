@@ -1,0 +1,93 @@
+{
+  "run": {
+    "date": "2026-08-21",
+    "sources_visited": [
+      "https://www.gtaboom.com/gta-online-brand-wars-event-august-weekly-event-2026",
+      "https://www.gtaboom.com/best-buy-is-letting-you-buy-gta-6-ultimate-edition-for-only-60-on-august-22-ee5b",
+      "https://www.gtaboom.com/psa-do-not-download-the-latest-gta-6-leak-f1e8",
+      "https://www.gtaboom.com/rockstar-responds-to-the-gta-6-leak-with-ads-and-takedowns-b02e",
+      "https://www.gtaboom.com/australians-may-have-to-scan-their-face-to-buy-gta-6-707b",
+      "https://www.gtaboom.com/even-the-united-states-government-is-memeing-gta-6-leaks-now-5b90",
+      "https://www.gtaboom.com/this-is-every-gta-character-who-could-return-in-gta-6-e97e",
+      "https://www.gtaboom.com/even-stop-killing-games-is-disowning-the-gta-6-leaker-03d8",
+      "https://www.gtaboom.com/gta-6-leak-has-biggest-streamers-running-scared-39a2",
+      "https://www.gtaboom.com/gta-6-xbox-pre-orders-just-passed-a-million-1706",
+      "https://www.gtaboom.com/the-gta-6-leaker-picked-a-losing-fight-against-the-wrong-opponent-f697",
+      "https://www.gtaboom.com/the-gta-6-leakers-issued-demands-and-they-arent-wrong-6c51"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "L'événement hebdomadaire « Brand Wars » du mode en ligne se déroule du 20 au 26 août : en liant son compte Twitch à son compte du studio et en regardant les diffusions dédiées, un joueur choisit un camp entre deux marques de sodas rivales et reçoit une tenue ainsi que jusqu'à 2 000 000 de dollars en jeu.",
+      "kind": "news",
+      "game": "gtav",
+      "source_url": "https://www.gtaboom.com/gta-online-brand-wars-event-august-weekly-event-2026",
+      "source_date": "2026-08-20",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Une enseigne américaine propose le 22 août une carte cadeau de 100 dollars pour 60 dollars, utilisable pour l'achat du jeu : de quoi obtenir l'édition Ultimate à son prix normal moins 40 dollars, ou l'édition standard avec un reliquat de 20 dollars.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/best-buy-is-letting-you-buy-gta-6-ultimate-edition-for-only-60-on-august-22-ee5b",
+      "source_date": "2026-08-20",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "À la suite de la fuite de vidéos de gameplay, des sites et serveurs de discussion proposent de vendre une version jouable du jeu à télécharger ; aucune version jouable n'a réellement fuité, seulement des extraits vidéo, et ces offres de téléchargement sont des logiciels malveillants.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/psa-do-not-download-the-latest-gta-6-leak-f1e8",
+      "source_date": "2026-08-20",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Plutôt que de commenter la fuite de vidéos de gameplay survenue le 18 août, le studio et son éditeur restent publiquement silencieux : ils multiplient les retraits pour atteinte au droit d'auteur contre les republications des extraits volés, tout en lançant des publicités payantes pour la présentation officielle du jeu diffusée sur Netflix le 27 août.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-responds-to-the-gta-6-leak-with-ads-and-takedowns-b02e",
+      "source_date": "2026-08-20",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "En Australie, les comptes PlayStation doivent désormais franchir une vérification d'âge par pièce d'identité ou par estimation faciale avant de pouvoir ajouter un contenu classé adultes à leur bibliothèque, ce qui concernera le jeu à sa sortie ; Xbox avait mis en place une exigence similaire quelques semaines plus tôt.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/australians-may-have-to-scan-their-face-to-buy-gta-6-707b",
+      "source_date": "2026-08-20",
+      "confidence": "confirmed-official",
+      "processed": true
+    },
+    {
+      "claim": "Un mouvement de défense des joueurs connu pour ses actions en faveur de la préservation des jeux vidéo a publiquement pris ses distances avec le groupe à l'origine de la fuite de vidéos du 18 août, qualifiant son geste de destructeur alors même que ce groupe se réclamait de sa cause dans sa liste de revendications.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/even-stop-killing-games-is-disowning-the-gta-6-leaker-03d8",
+      "source_date": "2026-08-19",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Selon des estimations d'un cabinet d'analyse tierce et non des chiffres officiels de l'éditeur, les précommandes sur consoles auraient franchi 4,38 millions au 18 août, dont un peu plus d'un million sur la console concurrente de celle bénéficiant du partenariat marketing exclusif du studio, soit environ 23 % du total.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/gta-6-xbox-pre-orders-just-passed-a-million-1706",
+      "source_date": "2026-08-19",
+      "confidence": "single-source",
+      "processed": true
+    },
+    {
+      "claim": "Le groupe à l'origine de la fuite de vidéos et d'une image présentée comme la carte du jeu, qui finance sa démarche via une cryptomonnaie créée pour l'occasion, a publié trois revendications adressées à l'éditeur : la fin des ventes avant la sortie et les tests indépendants, l'interdiction de facturer séparément du contenu déjà présent sur le disque, et un mode hors-ligne garanti pour le solo si les serveurs venaient à fermer.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/the-gta-6-leakers-issued-demands-and-they-arent-wrong-6c51",
+      "source_date": "2026-08-18",
+      "confidence": "single-source",
+      "processed": true
+    }
+  ]
+}

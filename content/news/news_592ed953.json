@@ -1,0 +1,27 @@
+{
+  "id": "news_592ed953",
+  "category": "event",
+  "game": "gtav",
+  "title": {
+    "fr": "L'événement en ligne récompense un choix de camp",
+    "en": "Online event rewards picking a soda side",
+    "es": "Evento en línea premia elegir un bando",
+    "it": "Evento online premia la scelta di una fazione",
+    "de": "Online-Event belohnt die Wahl einer Limo-Seite"
+  },
+  "body": {
+    "fr": "Le mode multijoueur en ligne du jeu propose jusqu'au 26 août un événement opposant deux marques de sodas rivales. Lier son compte de diffusion en direct et regarder des émissions sélectionnées rapporte une tenue et jusqu'à 2 000 000 de dollars de monnaie en jeu pour avoir choisi un camp.",
+    "en": "The game's online multiplayer mode is running a rival soda-brand event through August 26. Linking a streaming account and watching select broadcasts earns an outfit plus up to $2,000,000 in in-game currency for backing one side.",
+    "es": "El modo multijugador en línea del juego celebra hasta el 26 de agosto un evento entre dos marcas de refrescos rivales. Vincular una cuenta de streaming y ver las emisiones seleccionadas otorga un atuendo y hasta 2.000.000 de dólares de la moneda del juego por elegir un bando.",
+    "it": "La modalità multigiocatore online del gioco propone fino al 26 agosto un evento tra due marchi di bibite rivali. Collegare un account di streaming e guardare le trasmissioni selezionate garantisce un outfit e fino a 2.000.000 di dollari di valuta di gioco per aver scelto una fazione.",
+    "de": "Der Online-Mehrspielermodus des Spiels veranstaltet bis zum 26. August ein Event zwischen zwei rivalisierenden Limonadenmarken. Wer ein Streaming-Konto verknüpft und ausgewählte Übertragungen ansieht, erhält ein Outfit sowie bis zu 2.000.000 Dollar Spielwährung für die Wahl einer Seite."
+  },
+  "publishedAt": "2026-08-20",
+  "status": "published",
+  "sources": [
+    "https://www.gtaboom.com/gta-online-brand-wars-event-august-weekly-event-2026"
+  ],
+  "confidence": "confirmed-official",
+  "processedFrom": "inbox:news:fb6a74846a15",
+  "sourceClaim": "L'événement hebdomadaire « Brand Wars » du mode en ligne se déroule du 20 au 26 août : en liant son compte Twitch à son compte du studio et en regardant les diffusions dédiées, un joueur choisit un camp entre deux marques de sodas rivales et reçoit une tenue ainsi que jusqu'à 2 000 000 de dollars en jeu."
+}
