@@ -275,9 +275,45 @@ Chaque image en choisit **un seul**, et le lot doit les couvrir tous.
   parpaings. Le sujet n'est jamais héroïque ; c'est le traitement qui l'est.
 - **L'usure.** Peinture délavée, rouille, herbe dans les fissures, plastique
   cuit par le soleil. Rien de neuf, rien de propre.
-- **L'échelle humaine sans humains.** Des lieux faits pour des gens, vides ou
-  presque. C'est ce qui donne le calme un peu inquiétant.
+- **L'échelle humaine, habitée.** Des lieux faits pour des gens, où l'on voit
+  des gens — mais des habitants, jamais des héros. Quelqu'un qui attend, qui
+  travaille, qui traverse. Personne ne pose.
 - **Le grain.** 35 mm, halation dans les hautes lumières, léger flare.
+
+#### Les personnages entrent dans les scènes — décision du 2026-08-20
+
+Ce document interdisait les personnages partout : le bloc de style du §5.1
+portait « no people in frame » et la liste `--no` commune excluait `faces people
+crowds`. Le §5.7 était l'unique exception, et il n'était même pas livrable.
+**On inverse.** Les personnages font partie du lot.
+
+Ce qui ne change pas, et qui est tout l'enjeu : **le registre.** Les gens de ces
+images sont des habitants, pas des protagonistes. Ils attendent, travaillent,
+traversent, regardent ailleurs. Aucun ne pose, aucun ne nous regarde, aucun
+n'est au centre du cadre. La banalité et l'usure du registre valent pour eux
+comme pour les lieux — sinon on retombe sur la carte postale, avec un figurant
+en plus.
+
+**Quatre garde-fous, qui découlent du §5.7 :**
+
+1. **`invented`**, le même mot qui sauve les véhicules. Sans lui, le modèle
+   produit quelqu'un de reconnaissable, ce qui est exactement l'écueil.
+2. **Le cadrage fait la moitié du travail** : de dos, de loin, à contre-jour, de
+   trois quarts. Le gros plan a ses propres conditions, au §5.7.
+3. **L'anti-anachronisme devient obligatoire partout.** Il ne l'était qu'au
+   §5.7 ; un personnage implique des vêtements et une posture que le modèle
+   modernise spontanément, plus sûrement encore qu'un décor. `modern cars` et
+   `tattoos` rejoignent donc la liste `--no` commune — un tatouage identifie une
+   personne, et certains sont eux-mêmes protégés.
+4. **Le vide reste un choix, quand il dit quelque chose.** Un lot où chaque
+   image est peuplée est aussi monotone qu'un lot désert. Deux des six en-têtes
+   du §5.3 restent vides, et pour une raison nommée.
+
+Conséquence technique : le vide ne se demande plus par `--no people`, il
+s'écrit **positivement dans le prompt** (`nobody in frame`, `utterly
+deserted`). C'est plus fiable — Midjourney tient mieux une consigne de
+composition qu'une négation — et c'est la seule façon de garder une liste `--no`
+unique pour tout le lot.
 
 #### Un changement de parti pris : photographique, plus aérographié
 
@@ -346,10 +382,16 @@ prompt, un **espace** avant les tirets, et **aucune ponctuation** à l'intérieu
 
 ```
 35mm film still, cinematic location scouting photograph, fine grain, halation,
-subtle anamorphic flare, weathered and lived-in, no people in frame
---raw --s 50 --c 0 --no text letters words numbers signage logos brands faces
-people crowds watermark signature frame border
+subtle anamorphic flare, weathered and lived-in
+--raw --s 50 --c 0 --no text letters words numbers signage logos brands badges
+emblems watermark signature frame border tattoos smartphones LED modern cars
+3d render cgi
 ```
+
+> **`faces people crowds` a quitté cette liste le 2026-08-20** (§5.0), et
+> `3d render cgi` l'a rejointe : c'est ce qui empêche le rendu « moteur de
+> jeu », qui est le pire des deux mondes — ni photo, ni illustration, et
+> exactement ce qu'on ne veut pas se voir attribuer.
 
 > **`--no text` reste la règle la plus utile.** Les modèles ajoutent
 > spontanément des lettres déformées, et une enseigne les y invite. La raison de
@@ -402,14 +444,21 @@ Le tiers inférieur doit rester le plus sombre — le titre s'y pose.
 
 | Rubrique | Registre | Prompt |
 |---|---|---|
-| `announcement` | Aube | `empty coastal highway at dawn beneath a colossal blank billboard on rusted steel stilts seen from below, pink grey pre sunrise sky, low mist over flat calm water, distant palms, nothing written anywhere, monumental and silent --ar 16:9` |
-| `patch` | Midi écrasant | `open roll up door of a roadside repair garage at high noon, blinding white sunlight on cracked concrete outside, cool dark cluttered interior with a hydraulic lift and scattered tools, heat shimmer, oil stains, chain link fence --ar 16:9` |
-| `event` | Heure bleue | `floodlit stadium parking lot at blue hour, tall light masts blazing over rows of parked cars, orange sodium pools on wet asphalt, deep indigo sky, distant anonymous silhouettes far away --ar 16:9` |
-| `guide` | Marécage | `lonely junction on a raised swamp causeway under flat pewter storm light, bald cypress and mangrove, standing black water, leaning telegraph poles, blank unmarked direction signs, no horizon glow --ar 16:9` |
-| `business` | Midi écrasant | `vast empty strip mall parking lot at high noon, faded painted lines on cracked asphalt, abandoned shopping carts, blank white signage boards with nothing on them, dusty palm row, heat shimmer, utterly deserted --ar 16:9` |
-| `community` | Heure dorée | `beachfront boardwalk at golden hour, long raking shadows across weathered planks, warm orange light through palm fronds, distant anonymous figures far down the promenade, lens flare, chrome railings --ar 16:9` |
+| `announcement` | Aube | **Vide, et c'est le sujet.** `empty coastal highway at dawn beneath a colossal blank billboard on rusted steel stilts seen from below, nobody in frame, pink grey pre sunrise sky, low mist over flat calm water, distant palms, nothing written anywhere, monumental and silent --ar 16:9` |
+| `patch` | Midi écrasant | `open roll up door of a roadside repair garage at high noon, an invented mechanic in oil stained coveralls crouched at a wheel arch with his back to us, blinding white sunlight on cracked concrete outside, cool dark cluttered interior with a hydraulic lift and scattered tools, heat shimmer, oil stains, chain link fence --ar 16:9` |
+| `event` | Heure bleue | `floodlit stadium parking lot at blue hour, small groups of invented people walking between the rows of parked cars towards the light, all seen from behind at distance, tall light masts blazing, orange sodium pools on wet asphalt, deep indigo sky --ar 16:9` |
+| `guide` | Marécage | `lonely junction on a raised swamp causeway under flat pewter storm light, a lone invented figure standing at the fork looking down one of the two roads, seen from behind at distance, bald cypress and mangrove, standing black water, leaning telegraph poles, blank unmarked direction signs, no horizon glow --ar 16:9` |
+| `business` | Midi écrasant | **Vide, et c'est le sujet.** `vast empty strip mall parking lot at high noon, faded painted lines on cracked asphalt, abandoned shopping carts, blank white signage boards with nothing on them, dusty palm row, heat shimmer, utterly deserted, nobody in frame --ar 16:9` |
+| `community` | Heure dorée | `beachfront boardwalk at golden hour, invented people walking and sitting along the promenade and two of them leaning on the chrome railing, seen from behind and in profile at distance, long raking shadows across weathered planks, warm orange light through palm fronds, lens flare --ar 16:9` |
 
 Coller le bloc de style du §5.1 à la suite de chacun.
+
+**Quatre en-têtes sur six portent des personnages**, et chacun pour une raison
+de rubrique : le mécano *est* le correctif, la foule qui converge *est*
+l'événement, la silhouette à l'embranchement *est* le guide, la promenade
+peuplée *est* la communauté. Les deux autres restent vides parce que le vide y
+dit quelque chose — l'annonce qui n'est pas encore faite, le commerce qui n'a
+pas ouvert. Si les six étaient peuplés, aucun ne signifierait rien.
 
 **Contrôle avant de garder** : l'image doit survivre à l'assombrissement du §6.
 Une scène de midi correctement exposée descend bien ; une scène déjà grise
@@ -525,14 +574,37 @@ positionnelle du 2026-08-08 traite déjà pour le nom.
 3. **Aucun personnage existant**, du jeu comme d'ailleurs, et aucun visage de
    personne réelle.
 
-#### Une règle du §5.1 qui change ici
+#### Une règle qui a changé deux fois
 
-Le bloc de style interdit « NO faces and NO identifiable individuals ». **Pour
-cette famille seulement, les visages redeviennent possibles**, à condition
-qu'ils soient inventés. Le garde-fou se déplace dans la liste `--no` et dans le
-choix du cadrage : de dos, de loin, à contre-jour, ou de trois quarts sous un
-couvre-chef. Un portrait frontal net d'un visage réaliste n'apporte rien à
-l'app et concentre tout le risque.
+Le bloc du §5.1 interdisait les visages partout, et cette section en était
+l'unique exception. **Depuis le 2026-08-20, c'est l'inverse** : les personnages
+sont dans tout le lot (§5.0). Il ne reste donc ici qu'une règle propre à cette
+famille — celle du **gros plan**.
+
+Le gros plan concentre le risque de la question de contrôle n° 3 (« un visage
+qu'on croit reconnaître »), parce que le visage occupe le cadre : sur un prompt
+« Floride, années 90 », le réflexe du modèle est de converger vers des acteurs
+connus. Il reste autorisé, sous trois conditions.
+
+1. **Jamais frontal ni symétrique.** Trois quarts, profil, ou regard hors champ.
+   Un cadrage frontal centré dit « portrait de quelqu'un » ; un cadrage de trois
+   quarts dit « une scène où il y a quelqu'un ». La nuance est tout.
+2. **Quelque chose occulte.** Lunettes noires qui reflètent la rue, visière de
+   casquette, fumée, vitre de voiture. Le reflet est le meilleur des quatre : il
+   met le *lieu* dans le *portrait*, donc raccroche l'image au reste du lot.
+3. **Ni magenta ni cyan sur la peau.** Lumière sodium orange, ou blanc de midi.
+   C'est ce qui évite le gestalt du §5.8 — la planche de portraits en vignettes
+   dans une palette rose et bleu. Et jamais deux portraits côte à côte.
+
+**Le test, une fois l'image sortie** : masquer tout sauf le visage. Si on peut
+lui donner un nom, ou si on pense à un acteur, on relance.
+
+> **`--cref` est une décision séparée, à ne pas prendre par accident.** Le
+> paramètre fait revenir le même personnage inventé d'une image à l'autre. C'est
+> un actif de marque puissant et c'est aussi le geste le plus proche de « on
+> nous prend pour l'officiel » qu'on puisse faire : une app non officielle avec
+> son protagoniste récurrent. Réutiliser une URL de portrait comme `--cref` sans
+> y penser reviendrait à la prendre.
 
 #### Le bloc de style « années 90 »
 
@@ -551,7 +623,9 @@ recent architecture
 > La seconde moitié de la liste `--no` est un **anti-anachronisme**, et c'est
 > elle qui fait le plus de travail : le réflexe du modèle est de glisser un
 > téléphone moderne ou un phare à LED dans une scène d'époque, ce qui détruit le
-> registre plus sûrement qu'une erreur de couleur.
+> registre plus sûrement qu'une erreur de couleur. **Elle a été reprise dans le
+> bloc commun du §5.1 le 2026-08-20** — dès lors que tout le lot porte des
+> personnages, elle vaut partout et non plus seulement ici.
 
 #### Personnages — archétypes anonymes
 
@@ -565,6 +639,22 @@ Des rôles, pas des individus. Le cadrage fait la moitié du travail.
 | Le vendeur de rue | `invented street vendor pushing a battered pastel cart along a cracked sidewalk at high noon, seen from far down the block, heat shimmer, palms --ar 16:9` |
 | Le vigile | `invented night security guard silhouetted in the lit doorway of a strip mall unit, seen from the empty parking lot at blue hour, entirely backlit --ar 16:9` |
 | Le skateur | `invented skater mid roll along a beachfront promenade at golden hour, motion blur, shot from low and behind, long shadow, no face visible --ar 16:9` |
+
+#### Gros plans — trois cadrages qui tiennent la règle
+
+Ajouté le 2026-08-20. Ils se génèrent **après** l'ancrage, avec son `--sref` :
+un gros plan qui n'hérite pas de la lumière du lot fait une image orpheline.
+
+| Sujet | Prompt (+ bloc de style) |
+|---|---|
+| Le reflet | `close up of an invented anonymous man in his forties in a humid subtropical American city at dusk, three quarter view turned away from the lens, dark aviator sunglasses reflecting a wet street with palms and a blank unlit motel sign board, weathered skin, stubble, open collar of a faded pastel shirt, sodium street light raking from the left, nobody else in frame --ar 4:5` |
+| Le contre-jour | `close up of an invented anonymous woman in her thirties on a marina pontoon at golden hour, seen in profile against the low sun, face rimmed in orange light and mostly in shadow, wind moved hair, plain faded tank top, chrome railings and masts soft behind, nobody else in frame --ar 4:5` |
+| Les mains | `close up of the hands of an invented driver on the cracked steering wheel of a 1990s coupe at night, chipped nail varnish and a plain steel ring, dashboard glow from below, wet windscreen holding street light colour, no badges or lettering anywhere on the wheel or dashboard, nobody visible above the wrists --ar 4:5` |
+
+**Le reflet est le meilleur des trois** : il met le lieu dans le portrait. **Les
+mains sont le plus sûr** — un gros plan qui *est* un personnage, sans visage,
+donc sans aucun des trois risques ci-dessus. À préférer partout où le visage
+n'apporte rien, et notamment en 5:2 sur un bandeau.
 
 #### Véhicules — silhouettes inventées
 
@@ -649,15 +739,17 @@ objet plutôt qu'en intention.
 itérer jusqu'à ce qu'elle plaise vraiment ; tout le lot en héritera :
 
 ```
-wet empty street at dusk in a humid subtropical American city, a low roadside
-motel on the left with faded turquoise doors and a blank unlit sign board, an
+wet street at dusk in a humid subtropical American city, an invented man in a
+faded pastel shirt waiting alone at the kerb with his back to us, a low roadside
+motel behind him with faded turquoise doors and a blank unlit sign board, an
 invented boxy 1990s coupe parked under a street lamp, tall palms in silhouette,
 storm clouds breaking over a magenta and orange sky, chrome and puddles holding
-the colour, cracked asphalt, power lines, nobody in frame
+the colour, cracked asphalt, power lines
 35mm film still, cinematic location scouting photograph, fine grain, halation,
 subtle anamorphic flare, weathered and lived in
 --ar 16:9 --raw --s 60 --c 0 --no text letters words numbers signage logos
-brands badges emblems watermark signature people faces smartphones LED
+brands badges emblems watermark signature tattoos smartphones LED modern cars
+3d render cgi
 ```
 
 Elle est composée pour contenir **toute la charte d'un coup** : le ciel porte
@@ -926,5 +1018,5 @@ provenance autrement plus solide qu'une ligne de tableau que nous écrivons
 nous-mêmes. Pour les images produites localement (FLUX klein-4B), c'est la
 graine (`--seed`) et le nom exact du modèle qui jouent ce rôle.
 
-Les prompts ci-dessus ne citent ni GTA, ni Rockstar, ni aucun personnage, ni
-aucune œuvre existante — c'est ce que cette archive doit pouvoir démontrer.
+Les prompts ci-dessus ne citent ni GTA, ni Rockstar, ni aucun personnage
+existant, ni aucune œuvre existante — c'est ce que cette archive doit pouvoir démontrer.
