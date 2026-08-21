@@ -1,0 +1,27 @@
+{
+  "id": "news_1a05662f",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Aucune version jouable n'existe, prudence conseillée",
+    "en": "No playable leak exists, downloads are scams",
+    "es": "No existe versión jugable, cuidado con descargas",
+    "it": "Nessuna versione giocabile è trapelata, attenzione",
+    "de": "Keine spielbare Version geleakt, Vorsicht bei Downloads"
+  },
+  "body": {
+    "fr": "À la suite d'une récente fuite de vidéos, certains sites et serveurs de discussion prétendent vendre une version jouable du jeu. Aucune version jouable n'existe encore, seulement des extraits fuités, donc tout ce qui se présente comme un téléchargement est un logiciel malveillant.",
+    "en": "Following a recent video leak, some websites and chat servers claim to sell a playable build of the game. No playable version exists yet, only leaked clips, so anything offered as a download is malware.",
+    "es": "Tras una reciente filtración de vídeos, algunos sitios y servidores de chat afirman vender una versión jugable del juego. Todavía no existe ninguna versión jugable, solo clips filtrados, así que cualquier cosa ofrecida como descarga es malware.",
+    "it": "In seguito a una recente fuga di video, alcuni siti e server di chat affermano di vendere una versione giocabile del gioco. Non esiste ancora alcuna versione giocabile, solo clip trapelate, quindi qualsiasi cosa offerta come download è malware.",
+    "de": "Nach einem kürzlichen Video-Leak behaupten einige Websites und Chat-Server, eine spielbare Version des Spiels zu verkaufen. Es existiert noch keine spielbare Version, nur geleakte Clips – alles, was als Download angeboten wird, ist Schadsoftware."
+  },
+  "publishedAt": "2026-08-20",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/psa-do-not-download-the-latest-gta-6-leak-f1e8"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:ab124d8fa5fe",
+  "sourceClaim": "À la suite de la fuite de vidéos de gameplay, des sites et serveurs de discussion proposent de vendre une version jouable du jeu à télécharger ; aucune version jouable n'a réellement fuité, seulement des extraits vidéo, et ces offres de téléchargement sont des logiciels malveillants."
+}

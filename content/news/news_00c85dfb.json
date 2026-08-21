@@ -1,0 +1,27 @@
+{
+  "id": "news_00c85dfb",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Les précommandes console dépassent le million estimé",
+    "en": "Console pre-orders top a million, tracker says",
+    "es": "Las reservas de consola superan el millón estimado",
+    "it": "I preordini console superano il milione stimato",
+    "de": "Konsolen-Vorbestellungen knacken laut Schätzung eine Million"
+  },
+  "body": {
+    "fr": "Selon un cabinet d'analyse tiers, le total des précommandes du jeu atteindrait environ 4,38 millions au 18 août, dont un peu plus d'un million sur la console qui n'est pas liée au partenariat marketing exclusif du lancement, soit environ 23 % du total. Il s'agit d'estimations indépendantes, non de chiffres de vente officiels.",
+    "en": "A third-party analytics firm estimates total pre-orders for the game reached about 4.38 million by August 18, with just over a million on the console that isn't part of the launch's exclusive marketing deal — around 23% of the total. These are independent estimates, not official sales figures.",
+    "es": "Según una firma de análisis independiente, el total de reservas del juego habría alcanzado unos 4,38 millones al 18 de agosto, de los cuales poco más de un millón corresponden a la consola que no forma parte del acuerdo de marketing exclusivo del lanzamiento, en torno al 23 % del total. Se trata de estimaciones independientes, no de cifras de ventas oficiales.",
+    "it": "Secondo una società di analisi indipendente, i preordini totali del gioco avrebbero raggiunto circa 4,38 milioni entro il 18 agosto, di cui poco più di un milione sulla console non coinvolta nell'accordo di marketing esclusivo del lancio, circa il 23% del totale. Si tratta di stime indipendenti, non di cifre di vendita ufficiali.",
+    "de": "Laut einem unabhängigen Analyseunternehmen erreichten die Gesamtvorbestellungen des Spiels bis zum 18. August rund 4,38 Millionen, davon etwas mehr als eine Million auf der Konsole, die nicht Teil der exklusiven Marketingpartnerschaft zum Launch ist – etwa 23 Prozent des Gesamtwerts. Es handelt sich um unabhängige Schätzungen, keine offiziellen Verkaufszahlen."
+  },
+  "publishedAt": "2026-08-19",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/gta-6-xbox-pre-orders-just-passed-a-million-1706"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:9862aeacd596",
+  "sourceClaim": "Selon des estimations d'un cabinet d'analyse tierce et non des chiffres officiels de l'éditeur, les précommandes sur consoles auraient franchi 4,38 millions au 18 août, dont un peu plus d'un million sur la console concurrente de celle bénéficiant du partenariat marketing exclusif du studio, soit environ 23 % du total."
+}

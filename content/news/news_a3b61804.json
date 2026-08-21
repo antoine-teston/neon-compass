@@ -1,0 +1,27 @@
+{
+  "id": "news_a3b61804",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Les fuiteurs publient trois revendications à l'éditeur",
+    "en": "Leak group publishes three demands to publisher",
+    "es": "Los filtradores publican tres exigencias al editor",
+    "it": "I responsabili della fuga pubblicano tre richieste",
+    "de": "Leak-Gruppe veröffentlicht drei Forderungen an Verlag"
+  },
+  "body": {
+    "fr": "Le groupe à l'origine de la fuite de vidéos et d'une image présentée comme la carte du jeu, qui finance sa démarche via une cryptomonnaie créée pour l'occasion, a publié trois revendications adressées à l'éditeur. Il réclame la fin des ventes avant la sortie sans tests indépendants, l'interdiction de facturer séparément du contenu déjà présent sur le disque, et un mode hors-ligne garanti pour le solo en cas de fermeture des serveurs.",
+    "en": "The group behind this month's gameplay and map leak, which is funding itself with a cryptocurrency it created, has published three demands aimed at the publisher. They call for an end to pre-release sales without independent reviews, no separately-charged content already on the disc, and a guaranteed offline fallback for single-player if servers ever shut down.",
+    "es": "El grupo responsable de la filtración de vídeos y de una imagen presentada como el mapa del juego, que financia su acción con una criptomoneda creada para la ocasión, ha publicado tres exigencias dirigidas al editor. Reclaman el fin de las ventas antes del lanzamiento sin pruebas independientes, la prohibición de cobrar por separado contenido ya presente en el disco, y un modo sin conexión garantizado para un jugador en caso de que los servidores cierren.",
+    "it": "Il gruppo responsabile della fuga di video e di un'immagine presentata come la mappa del gioco, che finanzia la propria azione con una criptovaluta creata per l'occasione, ha pubblicato tre richieste rivolte all'editore. Chiedono la fine delle vendite prima dell'uscita senza recensioni indipendenti, il divieto di far pagare separatamente contenuti già presenti sul disco, e una modalità offline garantita per il giocatore singolo in caso di chiusura dei server.",
+    "de": "Die Gruppe hinter dem Video- und Kartenleak dieses Monats, die sich über eine eigens geschaffene Kryptowährung finanziert, hat drei Forderungen an den Verlag veröffentlicht. Sie verlangen ein Ende der Vorabverkäufe ohne unabhängige Tests, ein Verbot, bereits auf dem Datenträger vorhandene Inhalte separat zu berechnen, sowie einen garantierten Offline-Modus für den Einzelspieler, falls die Server jemals abgeschaltet werden."
+  },
+  "publishedAt": "2026-08-18",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/the-gta-6-leakers-issued-demands-and-they-arent-wrong-6c51"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:99b99fcfa38e",
+  "sourceClaim": "Le groupe à l'origine de la fuite de vidéos et d'une image présentée comme la carte du jeu, qui finance sa démarche via une cryptomonnaie créée pour l'occasion, a publié trois revendications adressées à l'éditeur : la fin des ventes avant la sortie et les tests indépendants, l'interdiction de facturer séparément du contenu déjà présent sur le disque, et un mode hors-ligne garanti pour le solo si les serveurs venaient à fermer."
+}

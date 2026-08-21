@@ -1,0 +1,27 @@
+{
+  "id": "news_dc98b771",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Un mouvement de préservation se désolidarise du fuiteur",
+    "en": "Preservation group distances itself from leaker",
+    "es": "Un movimiento de preservación se distancia del filtrador",
+    "it": "Un movimento per la conservazione prende le distanze",
+    "de": "Bewahrungs-Bewegung distanziert sich vom Leaker"
+  },
+  "body": {
+    "fr": "Un mouvement de défense des joueurs connu pour ses actions en faveur de la préservation des jeux vidéo a publiquement pris ses distances avec le groupe à l'origine de la fuite de vidéos de ce mois-ci, qualifiant son geste de destructeur. Les auteurs de la fuite invoquaient pourtant la cause du mouvement dans leur liste de revendications, ce que celui-ci a explicitement rejeté.",
+    "en": "A well-known game-preservation advocacy group has publicly distanced itself from the group behind this month's gameplay leak, calling the leak destructive. The leakers had invoked the movement's cause in their list of demands, which the advocacy group explicitly rejected.",
+    "es": "Un conocido movimiento en defensa de la preservación de videojuegos se ha distanciado públicamente del grupo responsable de la filtración de vídeos de este mes, calificando la fuga de destructiva. Los responsables de la filtración habían invocado la causa del movimiento en su lista de reivindicaciones, algo que este rechazó explícitamente.",
+    "it": "Un noto movimento a favore della conservazione dei videogiochi ha preso pubblicamente le distanze dal gruppo responsabile della fuga di video di questo mese, definendo il gesto distruttivo. Gli autori della fuga avevano invocato la causa del movimento nel loro elenco di rivendicazioni, cosa che quest'ultimo ha esplicitamente respinto.",
+    "de": "Eine bekannte Bewegung für den Erhalt von Videospielen hat sich öffentlich von der Gruppe distanziert, die hinter dem Video-Leak dieses Monats steckt, und die Aktion als destruktiv bezeichnet. Die Leaker hatten sich in ihrer Forderungsliste auf das Anliegen der Bewegung berufen, was diese ausdrücklich zurückwies."
+  },
+  "publishedAt": "2026-08-19",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/even-stop-killing-games-is-disowning-the-gta-6-leaker-03d8"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:7e8809dbcca9",
+  "sourceClaim": "Un mouvement de défense des joueurs connu pour ses actions en faveur de la préservation des jeux vidéo a publiquement pris ses distances avec le groupe à l'origine de la fuite de vidéos du 18 août, qualifiant son geste de destructeur alors même que ce groupe se réclamait de sa cause dans sa liste de revendications."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "news_feecd030",
+  "category": "announcement",
+  "game": "leonida",
+  "title": {
+    "fr": "Le studio reste silencieux, mise sur la publicité",
+    "en": "Studio stays silent on leak, runs ads instead",
+    "es": "El estudio calla y apuesta por la publicidad",
+    "it": "Lo studio tace e punta sulla pubblicità",
+    "de": "Studio schweigt zum Leak und setzt auf Werbung"
+  },
+  "body": {
+    "fr": "Plutôt que de commenter la fuite de vidéos de ce mois-ci, le studio et son éditeur restent publiquement silencieux. Ils multiplient les retraits pour atteinte au droit d'auteur contre les republications, tout en lançant des publicités payantes pour la présentation officielle du jeu, diffusée le 27 août sur Netflix.",
+    "en": "Rather than comment on this month's gameplay leak, the studio and its publisher are staying publicly quiet. They're issuing copyright takedowns against reposted clips while running paid ads for the game's official reveal, streaming on Netflix August 27.",
+    "es": "En lugar de comentar la filtración de vídeos de este mes, el estudio y su editor guardan silencio público. Están emitiendo retiradas por derechos de autor contra las republicaciones mientras lanzan anuncios pagados para la presentación oficial del juego, que se transmitirá en Netflix el 27 de agosto.",
+    "it": "Invece di commentare la fuga di video di questo mese, lo studio e il suo editore restano pubblicamente in silenzio. Stanno emettendo richieste di rimozione per violazione del copyright contro le ripubblicazioni, mentre lanciano annunci a pagamento per la presentazione ufficiale del gioco, in streaming su Netflix il 27 agosto.",
+    "de": "Statt sich zum Video-Leak dieses Monats zu äußern, schweigen Studio und Publisher öffentlich. Sie lassen erneut hochgeladene Clips per Urheberrechtsbeschwerde entfernen und schalten gleichzeitig bezahlte Anzeigen für die offizielle Vorstellung des Spiels, die am 27. August auf Netflix übertragen wird."
+  },
+  "publishedAt": "2026-08-20",
+  "status": "draft",
+  "sources": [
+    "https://www.gtaboom.com/rockstar-responds-to-the-gta-6-leak-with-ads-and-takedowns-b02e"
+  ],
+  "confidence": "single-source",
+  "processedFrom": "inbox:news:893746116fda",
+  "sourceClaim": "Plutôt que de commenter la fuite de vidéos de gameplay survenue le 18 août, le studio et son éditeur restent publiquement silencieux : ils multiplient les retraits pour atteinte au droit d'auteur contre les republications des extraits volés, tout en lançant des publicités payantes pour la présentation officielle du jeu diffusée sur Netflix le 27 août."
+}
