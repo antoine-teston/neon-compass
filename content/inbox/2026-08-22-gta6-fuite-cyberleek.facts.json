@@ -1,0 +1,42 @@
+{
+  "run": {
+    "date": "2026-08-22",
+    "sources_visited": [
+      "https://insider-gaming.com/take-two-subpoenas-microsoft-discord-gta-6-leaks/",
+      "https://www.gtaboom.com/take-two-is-now-coming-for-the-gta-6-leaker-cyberleeker-9072",
+      "https://www.videogameschronicle.com/news/take-two-files-subpoenas-to-microsoft-and-discord-in-hunt-for-gta-6-leaker/",
+      "https://www.gtaboom.com/rockstar-will-not-delay-netflix-premiere-after-gta-6-leak-c064",
+      "https://insider-gaming.com/rockstar-has-not-identified-gta-6-leaker/",
+      "https://insider-gaming.com/xbox-helping-rockstar-protect-gta-6-ip/"
+    ]
+  },
+  "facts": [
+    {
+      "claim": "Un tribunal fédéral de New York a validé les citations à comparaître que l'éditeur a fait délivrer à Microsoft (comptes GitHub et OneDrive compris) et à Discord, pour obtenir les données permettant d'identifier la ou les personnes derrière le pseudonyme CyberLeek à l'origine des fuites de vidéos de gameplay diffusées mi-août ; la date limite de réponse est fixée au 4 septembre 2026, et le directeur technique de Xbox a publiquement affirmé que son entreprise soutient cette démarche de protection de la propriété intellectuelle du studio.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://insider-gaming.com/take-two-subpoenas-microsoft-discord-gta-6-leaks/",
+      "source_date": "2026-08-22",
+      "confidence": "multi-source",
+      "sources": [
+        "https://insider-gaming.com/take-two-subpoenas-microsoft-discord-gta-6-leaks/",
+        "https://www.gtaboom.com/take-two-is-now-coming-for-the-gta-6-leaker-cyberleeker-9072",
+        "https://www.videogameschronicle.com/news/take-two-files-subpoenas-to-microsoft-and-discord-in-hunt-for-gta-6-leaker/"
+      ],
+      "processed": true
+    },
+    {
+      "claim": "Selon un article de Bloomberg citant des sources internes au studio, ni la présentation étendue prévue sur Netflix le 27 août ni la sortie du jeu le 19 novembre ne seront décalées à cause des fuites de vidéos de gameplay survenues mi-août, même si la personne à l'origine de ces fuites n'a toujours pas été identifiée.",
+      "kind": "news",
+      "game": "leonida",
+      "source_url": "https://www.gtaboom.com/rockstar-will-not-delay-netflix-premiere-after-gta-6-leak-c064",
+      "source_date": "2026-08-21",
+      "confidence": "multi-source",
+      "sources": [
+        "https://www.gtaboom.com/rockstar-will-not-delay-netflix-premiere-after-gta-6-leak-c064",
+        "https://insider-gaming.com/rockstar-has-not-identified-gta-6-leaker/"
+      ],
+      "processed": true
+    }
+  ]
+}
